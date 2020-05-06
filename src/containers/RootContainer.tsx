@@ -13,8 +13,18 @@ import LoginContainer from 'containers/LoginContainer';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 
-const theme = createMuiTheme();
-
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#00CFFF' },
+    secondary: { main: '#011A5E' },
+    background: {
+      default: '#4D6EC5',
+    },
+  },
+  typography: {
+    fontFamily: 'Andika New Basic',
+  },
+});
 const RootContainer = () => {
   const [startupEnd, setStartupEnd] = useState(false);
   const [user, setUser] = useState<User | null>(null);

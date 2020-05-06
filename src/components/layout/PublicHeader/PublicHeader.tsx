@@ -31,7 +31,7 @@ const PublicHeader = () => {
     <div className={classes.headerRoot}>
       <ul className={classes.headerSection}>
         {links.map((e) => (
-          <li className={classes.linkContainer}>
+          <li key={e.path} className={classes.linkContainer}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>

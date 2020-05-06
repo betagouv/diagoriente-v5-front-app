@@ -26,7 +26,7 @@ const Sidebar = () => {
       <img src={logo} alt="diagoriente_logo" height={66} />
       <List className={classes.root}>
         {links.map((e) => (
-          <li className={classes.linkContainer}>
+          <li key={e.path} className={classes.linkContainer}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>

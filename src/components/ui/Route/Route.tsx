@@ -39,10 +39,10 @@ const Route = ({
       <div className={classes.container}>
         {protectedProp ? <PrivateHeader /> : <PublicHeader />}
         {protectedProp ? <PrivateDrawer /> : <PublicDrawer />}
-        <Footer />
         <div>
           <BaseRoute {...rest} />
         </div>
+        <Footer />
       </div>
     </DrawerContext.Provider>
   );

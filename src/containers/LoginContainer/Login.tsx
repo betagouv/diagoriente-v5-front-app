@@ -1,17 +1,19 @@
 import React, { useContext, useEffect } from 'react';
-import TextField from '@material-ui/core/TextField/TextField';
-import Button from '@material-ui/core/Button/Button';
+import Input from 'components/inputs/Select/input/input';
+import Button from 'components/button/Button';
+import Grid from '@material-ui/core/Grid';
 import localforage from 'localforage';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
-import { validateEmail, validatePassword } from 'utils/validation';
+import {
+ validateEmail, validatePassword, hasUppercase, hasLowercase, hasNumber, hasSpecial,
+} from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
 
 import { setAuthorizationBearer } from 'requests/client';
 import { useLogin } from 'requests/auth';
-
 import useStyles from './styles';
 
 const Login = ({ location }: RouteComponentProps) => {
@@ -48,28 +50,51 @@ const Login = ({ location }: RouteComponentProps) => {
     const { from } = decodeUri(location.search);
     return <Redirect to={from || '/'} />;
   }
-
   return (
-    <form className={classes.container} onSubmit={onSubmit}>
-      <TextField
-        className={classes.field}
-        variant="outlined"
-        name="email"
-        value={state.values.email}
-        onChange={actions.handleChange}
-      />
-      <span className={classes.errorText}>{state.touched.email && state.errors.email}</span>
-
-      <TextField
-        className={classes.field}
-        variant="outlined"
-        name="password"
-        value={state.values.password}
-        onChange={actions.handleChange}
-      />
-      <span className={classes.errorText}>{state.touched.password && state.errors.password}</span>
-      <Button>Connecter</Button>
-    </form>
+    <div className={classes.root}>
+      <div className={classes.loginContainer}>
+        <form className={classes.container} onSubmit={onSubmit}>
+          <Input
+            label="Ton email* : "
+            name="email"
+            placeholder="exmaple@gmail.com"
+            value={state.values.email}
+            onChange={actions.handleChange}
+            error={state.touched.email && state.errors.email !== ''}
+            errorText={state.touched.email ? state.errors.email : ''}
+          />
+          <Input
+            label="Ton mot de passe* : "
+            name="password"
+            placeholder="*******"
+            type="password"
+            value={state.values.password}
+            onChange={actions.handleChange}
+            error={
+              state.touched.password
+              && state.errors.password !== ''
+              && hasUppercase(state.values.password)
+              && hasLowercase(state.values.password)
+              && hasNumber(state.values.password)
+              && hasSpecial(state.values.password)
+            }
+            errorText={state.touched.password ? state.errors.password : ''}
+          />
+          <div className={classes.btnContainer}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={5} md={4}>
+                <div className={classes.emptyDiv} />
+              </Grid>
+              <Grid item xs={12} sm={7} md={8}>
+                <Button className={classes.btn} type="submit">
+                  <div className={classes.btnLabel}>Je me connecte</div>
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

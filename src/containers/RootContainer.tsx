@@ -10,6 +10,7 @@ import Route from 'components/ui/Route/Route';
 
 import HomeContainer from 'containers/HomeContainer';
 import LoginContainer from 'containers/LoginContainer';
+import RegisterContainer from 'containers/RegisterContainer';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 
@@ -44,6 +45,7 @@ const RootContainer = () => {
         <Switch>
           <Route protected exact path="/" component={HomeContainer} />
           <Route path="/login" exact component={LoginContainer} />
+          <Route path="/register" exact component={RegisterContainer} />
           <Route component={NotFoundPage} />
         </Switch>
       </UserContext.Provider>

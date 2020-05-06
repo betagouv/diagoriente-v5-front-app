@@ -7,7 +7,7 @@ export function setAuthorizationBearer(nextToken: string) {
 }
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:5551/graphql',
+  uri: 'http://localhost:3000/graphql',
   request: (operation) => {
     operation.setContext({
       headers: {

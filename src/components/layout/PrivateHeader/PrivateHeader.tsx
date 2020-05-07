@@ -23,7 +23,7 @@ const PrivateHeader = () => {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
-          <img src={open ? menu : close} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
+          <img src={open ? close : menu} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
           <img src={logo} alt="diagoriente_logo" height={44} />
         </div>
         <div className={classes.flexCenter}>

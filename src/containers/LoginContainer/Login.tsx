@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Input from 'components/inputs/Select/input/input';
+import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import localforage from 'localforage';
@@ -7,7 +7,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import {
- validateEmail, validatePassword, hasUppercase, hasLowercase, hasNumber, hasSpecial,
+ validateEmail, validatePassword, hasLowercase, hasNumber, hasSpecial, hasUppercase,
 } from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
@@ -60,8 +60,7 @@ const Login = ({ location }: RouteComponentProps) => {
             placeholder="exmaple@gmail.com"
             value={state.values.email}
             onChange={actions.handleChange}
-            error={state.touched.email && state.errors.email !== ''}
-            errorText={state.touched.email ? state.errors.email : ''}
+            errorText={state.touched.email && state.errors.email}
           />
           <Input
             label="Ton mot de passe* : "
@@ -70,15 +69,7 @@ const Login = ({ location }: RouteComponentProps) => {
             type="password"
             value={state.values.password}
             onChange={actions.handleChange}
-            error={
-              state.touched.password
-              && state.errors.password !== ''
-              && hasUppercase(state.values.password)
-              && hasLowercase(state.values.password)
-              && hasNumber(state.values.password)
-              && hasSpecial(state.values.password)
-            }
-            errorText={state.touched.password ? state.errors.password : ''}
+            errorText={state.touched.password && state.errors.password}
           />
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>

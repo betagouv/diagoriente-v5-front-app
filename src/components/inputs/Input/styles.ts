@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles((theme: Theme) => ({
+export default makeStyles<Theme, { error: boolean }>((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -11,7 +11,7 @@ export default makeStyles((theme: Theme) => ({
     alignItems: 'center',
     position: 'relative',
   },
-  'MuiFormControl-root': {
+  inputRoot: {
     '& .MuiOutlinedInput-adornedStart': {
       paddingLeft: 4,
     },
@@ -19,11 +19,23 @@ export default makeStyles((theme: Theme) => ({
       height: 35,
       width: 229,
       background: '#FFFFFF',
-      border: '1px solid #C9C9C7',
+      border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7'}`,
       borderRadius: 5,
       margin: '9px 0px',
-      overflow: 'hidden',
+      color: '#424242',
+      '&:hover:not(:focus-within)': {
+        borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A'),
+      },
+      '&:focus-within': {
+        borderColor: (props) => (props.error ? theme.palette.error.main : theme.palette.primary.main),
+      },
       '& .MuiInputBase-input': {
+        padding: 0,
+        flex: '1 1 0%',
+        height: 'auto',
+        fontSize: 14,
+        borderRadius: 5,
+
         '&::placeholder': {
           color: '#C9C9C7',
           fontSize: 14,
@@ -38,23 +50,21 @@ export default makeStyles((theme: Theme) => ({
       '& .MuiOutlinedInput-notchedOutline': {
         borderWidth: 0,
       },
-      '&:hover': {
-        borderColor: '#6B6B6A',
-        borderRadius: 5,
-      },
-      '&:active': {
-        borderColor: '#6B6B6A',
-        borderRadius: 5,
-      },
     },
     '& .MuiInputAdornment-positionStart': {
       marginRight: 5,
       marginLeft: 5,
     },
+    ' &:-webkit-autofill': {
+      animationName: '$autofill !important',
+      animationFillMode: 'both',
+      animationDuration: 1,
+    },
   },
-  autoFill: {
-    '&:-webkit-autofill-selected': {
-      backgroundColor: 'white !important',
+  '@keyframes autofill': {
+    to: {
+      color: '#424242',
+      backgroundColor: '#fff',
     },
   },
   labelContainer: {
@@ -83,14 +93,9 @@ export default makeStyles((theme: Theme) => ({
     color: '#424242',
   },
 
-  error: {
-    '& .MuiInputBase-root': {
-      borderColor: '#FF0060',
-    },
-  },
   validation: {
     '& .MuiInputBase-root': {
-      borderColor: '#00CFFF',
+      borderColor: theme.palette.primary.main,
     },
   },
   logo: {
@@ -104,6 +109,6 @@ export default makeStyles((theme: Theme) => ({
   },
   errorCondition: {
     fontSize: 12,
-    color: '#FF0060',
+    color: theme.palette.error.main,
   },
 }));

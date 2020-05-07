@@ -1,10 +1,11 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 import DrawerContext from 'contexts/DrawerContext';
 
+import { useListener } from 'hooks/useListener';
 import useStyles from './styles';
 
 export const links = [
@@ -20,46 +21,45 @@ export const links = [
 
 const PrivateDrawer = () => {
   const classes = useStyles();
+  const [variant, setVariant] = useState<'persistent' | 'temporary'>(
+    window.innerWidth < 768 ? 'temporary' : 'persistent',
+  );
   const { open, setOpen } = useContext(DrawerContext);
-  const navRef = useRef<HTMLElement | null>(null);
+
+  useListener('resize', () => {
+    const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
+    if (nextVariant !== variant) setVariant(nextVariant);
+  });
+
   const onClose = () => {
     setOpen(false);
   };
 
-  const test = window.innerWidth < 768 ? 'temporary' : 'persistent';
-
-  const drawer = (
-    <>
+  return (
+    <Drawer
+      variant={variant}
+      anchor="top"
+      open={open}
+      classes={{
+        paper: classes.drawerPaper,
+        root: classes.root,
+      }}
+      ModalProps={{
+        keepMounted: true,
+      }}
+      onClose={onClose}
+    >
       <div className={classes.toolbar} />
       <List className={classes.root}>
         {links.map((e) => (
-          <li className={classes.linkContainer}>
+          <li key={e.text} className={classes.linkContainer}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>
           </li>
         ))}
       </List>
-    </>
-  );
-  return (
-    <nav aria-label="mailbox folders" className={classes.drawerPaper} ref={navRef}>
-      <Drawer
-        variant={test}
-        anchor="top"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-          root: classes.root,
-        }}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        onClose={onClose}
-      >
-        {drawer}
-      </Drawer>
-    </nav>
+    </Drawer>
   );
 };
 export default PrivateDrawer;

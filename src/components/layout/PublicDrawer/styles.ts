@@ -15,7 +15,6 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: '100%',
     maxWidth: 360,
     flex: '1 0 auto',
     [theme.breakpoints.up('md')]: { display: 'none' },

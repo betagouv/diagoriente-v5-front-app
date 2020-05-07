@@ -21,6 +21,9 @@ const theme = createMuiTheme({
     background: {
       default: '#4D6EC5',
     },
+    error: {
+      main: '#FF0060',
+    },
   },
   typography: {
     fontFamily: 'Andika New Basic',
@@ -43,9 +46,9 @@ const RootContainer = () => {
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
-          <Route protected exact path="/" component={HomeContainer} />
-          <Route path="/login" exact component={LoginContainer} />
-          <Route path="/register" exact component={RegisterContainer} />
+          <Route protected footer exact path="/" component={HomeContainer} />
+          <Route footer path="/login" exact component={LoginContainer} />
+          <Route footer path="/register" exact component={RegisterContainer} />
           <Route component={NotFoundPage} />
         </Switch>
       </UserContext.Provider>

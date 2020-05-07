@@ -7,11 +7,10 @@ export default makeStyles((theme: Theme) => ({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-    paddingBottom: 40,
-    marginTop: 110,
+    paddingBottom: 80,
+    paddingTop: 125,
   },
   registerContainer: {
-    marginTop: 60,
     maxWidth: 757,
     width: '100%',
   },

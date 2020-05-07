@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+
 import List from '@material-ui/core/List';
 import { links } from 'components/layout/PublicHeader/PublicHeader';
 import { Link } from 'react-router-dom';
@@ -21,8 +21,20 @@ const Sidebar = () => {
     setOpen(false);
   };
 
-  const drawer = (
-    <>
+  return (
+    <Drawer
+      variant="temporary"
+      anchor="left"
+      open={open}
+      classes={{
+        paper: classes.drawerPaper,
+        root: classes.root,
+      }}
+      ModalProps={{
+        keepMounted: true,
+      }}
+      onClose={onClose}
+    >
       <img src={logo} alt="diagoriente_logo" height={66} />
       <List className={classes.root}>
         {links.map((e) => (
@@ -41,28 +53,7 @@ const Sidebar = () => {
           <img src={betaGouv} alt="menu" width={100} className={classes.betaGov} />
         </div>
       </List>
-    </>
-  );
-  return (
-    <nav aria-label="mailbox folders" className={classes.drawerPaper}>
-      <Hidden xsDown implementation="css">
-        <Drawer
-          variant="temporary"
-          anchor="left"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-            root: classes.root,
-          }}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          onClose={onClose}
-        >
-          {drawer}
-        </Drawer>
-      </Hidden>
-    </nav>
+    </Drawer>
   );
 };
 export default Sidebar;

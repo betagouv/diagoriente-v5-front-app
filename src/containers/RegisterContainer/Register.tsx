@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Input from 'components/inputs/Select/input/input';
+import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
-import CheckBox from 'components/inputs/Select/checkBox/checkBox';
+import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import { useForm } from 'hooks/useInputs';
 import { useRegister } from 'requests/auth';
 import {
@@ -16,7 +16,7 @@ import {
   hasSpecial,
 } from 'utils/validation';
 import classNames from 'utils/classNames';
-import useStyles from './style';
+import useStyles from './styles';
 
 const Register = ({ history }: RouteComponentProps) => {
   const [error, setError] = useState('');
@@ -85,8 +85,7 @@ const Register = ({ history }: RouteComponentProps) => {
   }, [values.acceptCondition]);
   const onClickCondition = () => {
     if (checkBoxRef.current) {
-      console.log(checkBoxRef.current);
-      //(checkBoxRef.current as any)?.onclick();
+      // (checkBoxRef.current as any)?.onclick();
     }
   };
   return (

@@ -7,7 +7,7 @@ import LogoRose from 'assets/form/Vector.png';
 import LogoCheked from 'assets/form/check.png';
 import LogoLocation from 'assets/form/location.png';
 
-import useStyles from './style';
+import useStyles from './styles';
 
 interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   label: string;
@@ -19,7 +19,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
 const Input = ({
  label, errorText, subTitle, inputProps, name, value, errorForm, ...rest
 }: IProps) => {
-  const classes = useStyles();
+  const classes = useStyles({ error: !!(errorText || errorForm) });
   return (
     <div className={classes.root}>
       <Grid container spacing={0}>
@@ -33,14 +33,11 @@ const Input = ({
           <div>
             <div className={classes.wrapperInput}>
               <TextField
-                className={classNames(
-                  classes['MuiFormControl-root'],
-                  (errorText || errorForm) && classes.error,
-                  value && !errorText && classes.validation,
-                )}
+                className={classes.inputRoot}
                 name={name}
+                error={!!(errorText || errorForm)}
                 InputProps={{
-                  classes: { input: classNames(classes['MuiFormControl-root'], classes.autoFill) },
+                  classes: { input: classNames(classes.inputRoot) },
                   startAdornment: (
                     <InputAdornment position="start">
                       {name === 'location' && <img src={LogoLocation} alt="location" />}

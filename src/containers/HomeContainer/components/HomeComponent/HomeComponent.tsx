@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
+import React from 'react';
 
 const HomeComponent = () => <h1>Home Component Text</h1>;
 

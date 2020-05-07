@@ -20,6 +20,7 @@ import useStyles from './styles';
 
 const Register = ({ history }: RouteComponentProps) => {
   const [error, setError] = useState('');
+  const [showPasswordState, setShowPasswoed] = useState(false);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -88,6 +89,9 @@ const Register = ({ history }: RouteComponentProps) => {
       // (checkBoxRef.current as any)?.onclick();
     }
   };
+  const onShowPassword = () => {
+    setShowPasswoed(!showPasswordState);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
@@ -102,45 +106,50 @@ const Register = ({ history }: RouteComponentProps) => {
           <form onSubmit={onSubmit}>
             <Input
               name="firstName"
-              label="Ton prénom* : "
+              label="Ton prénom"
               onChange={actions.handleChange}
               value={values.firstName}
               placeholder="prénom"
+              required
               error={touched.firstName && errors.firstName !== ''}
               errorText={touched.firstName ? errors.firstName : ''}
             />
             <Input
-              label="Ton nom de famille* :"
+              label="Ton nom de famille"
               onChange={actions.handleChange}
               value={values.lastName}
               name="lastName"
+              required
               placeholder="nom"
               error={touched.lastName && (errors.lastName !== '' || errorFormObject.key === 'lastName')}
               errorText={touched.lastName ? errors.lastName : ''}
             />
             <Input
-              label="Ton image de profil : "
+              label="Ton image de profil"
               subTitle="Choisis un avatar"
               onChange={actions.handleChange}
               value={values.logo}
               name="logo"
             />
             <Input
-              label="Ton email* : "
+              label="Ton email*"
               onChange={actions.handleChange}
               value={values.email}
               name="email"
+              required
               placeholder="exmaple@gmail.com"
               error={touched.email && (errors.email !== '' || errorFormObject.key === 'email')}
               errorText={touched.email ? errors.email : ''}
               errorForm={errorFormObject.key === 'email' ? errorFormObject.value : ''}
             />
             <Input
-              label="Ton mot de passe* : "
+              label="Ton mot de passe"
               onChange={actions.handleChange}
               value={values.password}
               name="password"
-              type="password"
+              required
+              type={!showPasswordState ? 'password' : ''}
+              showPassword={() => onShowPassword()}
               placeholder="*******"
               autoComplete="off"
               error={
@@ -200,7 +209,7 @@ const Register = ({ history }: RouteComponentProps) => {
               </Grid>
             </div>
             <Input
-              label="Ton emplacement géographique : "
+              label="Ton emplacement géographique"
               onChange={actions.handleChange}
               value={values.location}
               name="location"
@@ -209,7 +218,7 @@ const Register = ({ history }: RouteComponentProps) => {
               errorText={touched.location ? errors.location : ''}
             />
             <Input
-              label="Instituation : "
+              label="Instituation"
               onChange={actions.handleChange}
               value={values.institution}
               name="institution"
@@ -217,7 +226,7 @@ const Register = ({ history }: RouteComponentProps) => {
               errorText={touched.institution ? errors.institution : ''}
             />
             <Input
-              label="Code groupe : "
+              label="Code groupe"
               onChange={actions.handleChange}
               value={values.codeGroupe}
               name="codeGroupe"

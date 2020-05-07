@@ -5,6 +5,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     margin: '5px 0px 0px 0px',
+    width: '100%',
   },
   wrapperInput: {
     display: 'flex',
@@ -72,7 +73,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-end',
     height: '100%',
-    width: 260,
+    // width: 260,
     justifyContent: 'space-evenly',
     [theme.breakpoints.down('xs')]: {
       alignItems: 'flex-start',
@@ -110,5 +111,11 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   errorCondition: {
     fontSize: 12,
     color: theme.palette.error.main,
+  },
+  requiredInput: {
+    color: theme.palette.primary.main,
+  },
+  showPasswordImage: {
+    cursor: 'pointer',
   },
 }));

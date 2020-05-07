@@ -10,8 +10,15 @@ export default makeStyles((theme) => ({
     paddingBottom: 40,
     alignItems: 'center',
   },
+  title: {
+    fontFamily: 'ocean',
+    fontWeight: 900,
+    fontSize: 42,
+    textAlign: 'center',
+    color: theme.palette.secondary.main,
+    marginBottom: 60,
+  },
   loginContainer: {
-    marginTop: 60,
     maxWidth: 757,
     width: '100%',
   },
@@ -19,6 +26,7 @@ export default makeStyles((theme) => ({
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 20,
       width: '95%',
@@ -35,7 +43,7 @@ export default makeStyles((theme) => ({
     marginTop: 30,
   },
   btn: {
-    backgroundColor: '#011A5E',
+    backgroundColor: theme.palette.secondary.main,
     height: 50,
     width: 'max-content',
 
@@ -53,5 +61,21 @@ export default makeStyles((theme) => ({
   },
   emptyDiv: {
     width: 260,
+  },
+  groupTextContainer: {
+    display: 'flex',
+    width: '100%',
+  },
+  containerCheckbox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 14,
+  },
+  conditionText: {
+    fontSize: 14,
+    color: '#424242',
+    marginLeft: 8,
+    width: '95%',
+    cursor: 'pointer',
   },
 }));

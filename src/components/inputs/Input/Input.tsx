@@ -31,7 +31,6 @@ const Input = ({
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
-  console.log("showPassword",showPassword)
   return (
     <div className={classes.root}>
       <Grid container spacing={0}>

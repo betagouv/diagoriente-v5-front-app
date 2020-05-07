@@ -46,7 +46,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     height: 50,
     width: 'max-content',
-
+    padding: '0px 25px',
     '&:hover': {
       backgroundColor: '#223A7A',
       borderRadius: 10,
@@ -61,21 +61,5 @@ export default makeStyles((theme) => ({
   },
   emptyDiv: {
     width: 260,
-  },
-  groupTextContainer: {
-    display: 'flex',
-    width: '100%',
-  },
-  containerCheckbox: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 14,
-  },
-  conditionText: {
-    fontSize: 14,
-    color: '#424242',
-    marginLeft: 8,
-    width: '95%',
-    cursor: 'pointer',
   },
 }));

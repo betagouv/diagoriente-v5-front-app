@@ -15,8 +15,6 @@ export const registerMutation = gql`
     $location: String!
     $institution: String
     $codeGroupe: String
-    
-    
   ) {
     register(
       email: $email
@@ -66,8 +64,11 @@ export const loginMutation = gql`
       user {
         id
         email
-        firstName
-        lastName
+        profile {
+          firstName
+          lastName
+          institution
+        }
       }
       token {
         tokenType

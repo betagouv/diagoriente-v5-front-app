@@ -21,14 +21,14 @@ const HomeComponent = () => {
       </p>
       <div className={classes.root}>
         <div className={classes.circleContainer}>
-          <Avatar title="Ajouter une" size={200} marginTop="41px" marginBottom="16px" />
+          <Avatar title="Ajouter une" size={200} titleclassName={classes.marginTitle}/>
           <Button className={classes.btnperso} type="submit">
             <div className={classes.btnLabel}>Expérience perso </div>
           </Button>
         </div>
         <div>
           <div className={classes.circleContainer}>
-            <Avatar title="Ajouter une" size={200} marginTop="41px" marginBottom="16px" />
+            <Avatar title="Ajouter une" size={200} titleclassName={classes.marginTitle} />
             <Button className={classes.btnpro} type="submit">
               <div className={classes.btnLabel}>Expérience pro</div>
             </Button>

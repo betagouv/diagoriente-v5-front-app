@@ -17,6 +17,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      paddingTop: 54,
     },
 
     circleContainer: {
@@ -35,6 +36,7 @@ export default makeStyles((theme: Theme) =>
     circle: {
       width: '12.5%',
       minWidth: 130,
+      marginBottom: 62,
     },
 
     title: {
@@ -42,5 +44,9 @@ export default makeStyles((theme: Theme) =>
       fontSize: 42,
       fontFamily: 'Ocean',
       color: '#223A7A',
+    },
+
+    marginTitle: {
+      margin: '0 15px',
     },
   }));

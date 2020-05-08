@@ -73,4 +73,9 @@ export default makeStyles((theme: Theme) =>
       justifyContent: 'flex-end',
       paddingRight: 22,
     },
+
+    marginTitle: {
+      marginTop: 41,
+      marginBottom: 16,
+    },
   }));

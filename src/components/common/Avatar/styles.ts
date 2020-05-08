@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { size: number; marginTop: string; marginBottom: string }>(() => ({
+export default makeStyles<Theme, { size: number }>(() => ({
   square: {
     height: (props) => props.size,
     width: (props) => props.size,
@@ -18,8 +18,6 @@ export default makeStyles<Theme, { size: number; marginTop: string; marginBottom
   title: {
     width: '100%',
     textAlign: 'center',
-    marginTop: (props) => props.marginTop,
-    marginBottom: (props) => props.marginBottom,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },

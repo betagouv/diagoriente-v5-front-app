@@ -5,23 +5,20 @@ import useStyles from './styles';
 interface Props {
   title: string;
   size: number;
-  marginTop: string;
-  marginBottom: string;
   className?: string;
+  titleclassName?: string;
 }
 
 const Circle = ({
- title, size, marginTop, marginBottom, className,
+ title, size, className, titleclassName,
 }: Props) => {
   const classes = useStyles({
     size,
-    marginTop,
-    marginBottom,
   });
   return (
     <div className={classNames(classes.squareContainer, className)}>
       <div className={classes.square} />
-      <p className={classes.title}>{title}</p>
+      <p className={classNames(classes.title, titleclassName)}>{title}</p>
     </div>
   );
 };

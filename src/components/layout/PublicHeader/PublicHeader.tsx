@@ -38,7 +38,9 @@ const PublicHeader = () => {
           </li>
         ))}
       </ul>
-      <Select />
+      <div className={classes.select}>
+        <Select />
+      </div>
     </div>
   );
   return (

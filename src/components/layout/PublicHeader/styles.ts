@@ -20,6 +20,10 @@ export default makeStyles((theme: Theme) =>
         paddingRight: 20,
         paddingLeft: 20,
       },
+      [theme.breakpoints.down('md')]: {
+        paddingRight: 40,
+        paddingLeft: 40,
+      },
     },
 
     flexCenter: {
@@ -90,6 +94,11 @@ export default makeStyles((theme: Theme) =>
       display: 'none',
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
+      },
+    },
+    select: {
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
       },
     },
   }));

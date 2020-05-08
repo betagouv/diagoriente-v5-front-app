@@ -27,9 +27,7 @@ const PrivateHeader = () => {
           <img src={logo} alt="diagoriente_logo" height={44} />
         </div>
         <div className={classes.flexCenter}>
-          <Typography variant="h6" noWrap className={classes.typography}>
-            Lena M
-          </Typography>
+          <span className={classes.typography}>Lena M</span>
           <img src={userLogo} alt="user_logo" height={39} />
         </div>
       </Toolbar>

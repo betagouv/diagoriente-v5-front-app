@@ -21,7 +21,7 @@ const ExperiencePerso = () => {
         </Typography>
         <div className={classes.circleContainer}>
           {data?.themes.data.map((e) => {
-           return <Avatar key={e.id} title={e.title} size={55} titleclassName={classes.marginTitle} className={classes.circle} />;
+           return <Avatar key={e.id} title={e.title} size={55} titleClassName={classes.marginTitle} className={classes.circle} />;
           })}
         </div>
       </div>

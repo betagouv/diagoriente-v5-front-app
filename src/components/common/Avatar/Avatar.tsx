@@ -6,11 +6,11 @@ interface Props {
   title: string;
   size: number;
   className?: string;
-  titleclassName?: string;
+  titleClassName?: string;
 }
 
 const Circle = ({
- title, size, className, titleclassName,
+ title, size, className, titleClassName,
 }: Props) => {
   const classes = useStyles({
     size,
@@ -18,7 +18,7 @@ const Circle = ({
   return (
     <div className={classNames(classes.squareContainer, className)}>
       <div className={classes.square} />
-      <p className={classNames(classes.title, titleclassName)}>{title}</p>
+      <p className={classNames(classes.title, titleClassName)}>{title}</p>
     </div>
   );
 };

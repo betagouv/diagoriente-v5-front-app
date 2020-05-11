@@ -18,6 +18,11 @@ export default makeStyles((theme) => ({
     color: theme.palette.info.main,
     marginBottom: 60,
   },
+  subTitle: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 40,
+  },
   loginContainer: {
     maxWidth: 757,
     width: '100%',

@@ -29,6 +29,7 @@ const Login = () => {
     <div className={classes.root}>
       <div className={classes.loginContainer}>
         <div className={classes.title}>MOT DE PASSE OUBLIé</div>
+        <div className={classes.subTitle}>Entre l’email que tu utilises pour te connecter afin de réinitialiser ton mot de passe :</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
             label="Ton email"

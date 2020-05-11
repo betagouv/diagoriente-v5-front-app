@@ -17,6 +17,7 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.info.main,
     marginBottom: 60,
+    marginTop: 40,
   },
   loginContainer: {
     maxWidth: 757,
@@ -77,5 +78,11 @@ export default makeStyles((theme) => ({
     marginLeft: 8,
     width: '95%',
     cursor: 'pointer',
+  },
+  forgotText: {
+    color: '#00B2DB',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 40,
   },
 }));

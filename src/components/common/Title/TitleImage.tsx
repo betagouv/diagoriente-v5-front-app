@@ -5,13 +5,21 @@ interface Props {
   title: string;
   image: string;
   color: string;
-  height?:string;
+  height?: string;
+  size?: number;
+  font?: string;
+  width?: number;
 }
 
 const TitleImage = ({
- title, image, color, height,
+ title, image, color, height, size, font, width,
 }: Props) => {
-  const classes = useStyles({ color });
+  const classes = useStyles({
+    color,
+    size,
+    font,
+    width,
+  });
   return (
     <div className={classes.container}>
       <div className={classes.imageContainer}>

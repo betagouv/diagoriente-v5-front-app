@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string }>(() => ({
+export default makeStyles<Theme, { color: string; size?: number; font?: string; width?: number }>(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -11,14 +11,17 @@ export default makeStyles<Theme, { color: string }>(() => ({
   imageContainer: {
     height: 'auto',
   },
-  image: {},
+  image: {
+    width: (props) => (props.width || 320),
+    height: 'auto',
+  },
   titleContainer: {
     position: 'absolute',
   },
   title: {
     fontWeight: 900,
-    fontSize: 62,
-    fontFamily: 'Ocean',
+    fontSize: (props) => (props.size ? props.size : 62),
+    fontFamily: (props) => (props.size ? props.font : 'Ocean'),
     color: (props) => props.color,
   },
 }));

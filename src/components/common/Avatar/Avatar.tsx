@@ -3,7 +3,7 @@ import classNames from 'utils/classNames';
 import useStyles from './styles';
 
 interface Props {
-  title: string;
+  title?: string;
   size: number;
   className?: string;
   titleClassName?: string;

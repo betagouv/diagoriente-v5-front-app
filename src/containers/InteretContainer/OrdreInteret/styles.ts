@@ -3,7 +3,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   container: {
     width: '100%',
-    height: `100%`,
     display: 'flex',
     justifyContent: 'center',
   },
@@ -15,11 +14,11 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
   },
   header: {
+    height: 50,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: 'auto',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-end',
@@ -37,48 +36,51 @@ export default makeStyles<Theme>((theme) => ({
   wrapper: {
     backgroundColor: '#E5E5E5',
     width: '100%',
-    height: 'calc(100% - 166px)',
+    height: '100%',
     position: 'relative',
-    marginBottom: 89,
+    paddingBottom: 10,
+    marginBottom: 20,
   },
-  loadingContainer: {
-    width: '100%',
-    height: 'calc(100vh - 166px)',
-    backgroundColor: '#E5E5E5',
+  subTitle: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#424242',
+    marginTop: 50,
   },
-  circleContainer: {
+  listSelected: {
     display: 'flex',
-    width: '100%',
+    justifyContent: 'center',
+    marginTop: 50,
     flexWrap: 'wrap',
-    padding: '50px 135px',
-    [theme.breakpoints.down('xs')]: {
-      justifyContent: 'center',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: 30,
-    },
   },
-  footer: {
-    position: 'fixed',
-    bottom: 0,
-    height: 156,
-    backgroundColor: theme.palette.secondary.main,
+  item: {
+    width: 140,
+  },
+  circle: {
+    width: 77,
+    height: 77,
+    borderRadius: '50%',
+    backgroundColor: 'red',
+  },
+  disable: {
+    opacity: 0.5,
+  },
+  orderSelected: {
+    marginTop: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+  },
+  btnContainer: {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    padding: 10,
-    [theme.breakpoints.down('xs')]: {
-      padding: 10,
-      overflow: 'scroll',
-    },
-  },
-  footerContent: {
-    maxWidth: 1080,
-    width: '100%',
-    display: 'flex',
+    position: 'absolute',
+    bottom: -20,
   },
   btn: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.success.main,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
     },

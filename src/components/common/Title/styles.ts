@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string; size?: number; font?: string; width?: number }>(() => ({
+export default makeStyles<Theme, { color: string; size?: number; font?: string; width?: number }>((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -23,5 +23,8 @@ export default makeStyles<Theme, { color: string; size?: number; font?: string; 
     fontSize: (props) => (props.size ? props.size : 62),
     fontFamily: (props) => (props.size ? props.font : 'Ocean'),
     color: (props) => props.color,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: (props) => (props.size ? props.size : 50),
+    },
   },
 }));

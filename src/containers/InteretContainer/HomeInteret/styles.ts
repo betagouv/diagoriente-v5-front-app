@@ -39,9 +39,6 @@ export default makeStyles<Theme>((theme) => ({
       backgroundColor: theme.palette.primary.main,
       borderRadius: 10,
     },
-    '& a:-webkit-any-link': {
-      textDecoration: 'none',
-    },
   },
   btnLabel: {
     color: '#fff',
@@ -49,6 +46,5 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
-    textDecoration: 'none',
   },
 }));

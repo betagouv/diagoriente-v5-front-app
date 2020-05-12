@@ -11,3 +11,8 @@ export interface Token {
   refreshToken: string;
   expiresIn: string;
 }
+export interface Interests {
+  id: string;
+  nom: string;
+  rank: number;
+}

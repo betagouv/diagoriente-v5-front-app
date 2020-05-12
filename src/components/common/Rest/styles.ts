@@ -1,11 +1,14 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string }>(() => ({
+export default makeStyles<Theme, { color: string }>((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
     width: 'auto',
     cursor: 'pointer',
+    [theme.breakpoints.down('xs')]: {
+      justifySelf: 'flex-end',
+    },
   },
   root: {
     width: 32,

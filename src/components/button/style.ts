@@ -6,5 +6,7 @@ export default makeStyles(() => ({
   },
   labelContainer: {
     margin: '3px 20px 3px 19px',
+    textTransform: 'none',
+    fontFamily: 'Andika New Basic',
   },
 }));

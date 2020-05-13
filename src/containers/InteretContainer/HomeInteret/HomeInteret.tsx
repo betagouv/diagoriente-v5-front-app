@@ -1,6 +1,6 @@
 import React from 'react';
 import Trait from 'assets/images/trait_violet.png';
-import TitleImage from 'components/common/Title/TitleImage';
+import TitleImage from 'components/common/TitleImage/TitleImage';
 import AvatarImage from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';

@@ -12,17 +12,15 @@ export default makeStyles<Theme, { color: string; size?: number; font?: string; 
     height: 'auto',
   },
   image: {
-    width: (props) => (props.width || 320),
+    width: (props) => props.width || 320,
     height: 'auto',
-  },
-  titleContainer: {
-    position: 'absolute',
   },
   title: {
     fontWeight: 900,
     fontSize: (props) => (props.size ? props.size : 62),
-    fontFamily: (props) => (props.size ? props.font : 'Ocean'),
-    color: (props) => props.color,
+    fontFamily: (props) => (props.font ? props.font : 'Ocean'),
+    color: theme.palette.primary.main,
+    margin: 0,
     [theme.breakpoints.down('xs')]: {
       fontSize: (props) => (props.size ? props.size : 50),
     },

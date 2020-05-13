@@ -29,7 +29,6 @@ const Login = ({ location }: RouteComponentProps) => {
     initialValues: { email: '', password: '', stayConnected: false },
     validation: {
       email: validateEmail,
-      password: validatePassword,
     },
   });
 

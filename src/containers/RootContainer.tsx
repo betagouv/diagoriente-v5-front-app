@@ -15,7 +15,7 @@ import InteretContainer from 'containers/InteretContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
-import ExperienceComponent from './ExperienceContainer/components/ExperiencePerso/ExperiencePerso';
+import ExperienceComponent from 'containers/ExperienceContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -55,7 +55,7 @@ const RootContainer = () => {
           <Route footer path="/register" exact component={RegisterContainer} />
           <Route protected path="/interet" component={InteretContainer} />
           <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
-          <Route path="/experience" exact component={ExperienceComponent} />
+          <Route protected path="/experience" component={ExperienceComponent} />
           <Route component={NotFoundPage} />
         </Switch>
       </UserContext.Provider>

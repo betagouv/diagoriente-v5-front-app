@@ -78,4 +78,8 @@ export default makeStyles((theme: Theme) =>
       marginTop: 41,
       marginBottom: 16,
     },
+
+    hideLine: {
+      textDecoration: 'none',
+    },
   }));

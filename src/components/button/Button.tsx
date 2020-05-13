@@ -7,16 +7,17 @@ import useStyles from './style';
 interface IProps extends ButtonProps {
   children?: React.ReactChild;
   className?: string;
+  childrenClassName?: string;
   fetching?: boolean;
 }
 
 const Button = ({
- children, className, fetching, ...rest
+ children, className, childrenClassName, fetching, ...rest
 }: IProps) => {
   const classes = useStyles();
   return (
     <MuiButton className={classNames(className, classes.root)} {...rest}>
-      <div className={classes.labelContainer}>
+      <div className={classNames(childrenClassName, classes.labelContainer)}>
         {children}
         {fetching && (
           <div className="button_loader flex_center">

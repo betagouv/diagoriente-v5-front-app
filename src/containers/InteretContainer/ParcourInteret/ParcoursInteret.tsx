@@ -5,7 +5,7 @@ import { Interests } from 'requests/types';
 import { Link } from 'react-router-dom';
 import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
-import TitleImage from 'components/common/Title/TitleImage';
+import TitleImage from 'components/common/TitleImage/TitleImage';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Trait from 'assets/images/trait_violet.png';
 import Arrow from 'assets/svg/arrow';

@@ -19,39 +19,31 @@ export default makeStyles((theme: Theme) =>
 
     themeContainer: {
       position: 'relative',
-      width: '100%',
       backgroundColor: '#F3F2F4',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 54,
-      paddingBottom: 77,
-    },
-
-    gridContainer: {
-      padding: '50px 115px',
-      [theme.breakpoints.down('md')]: {
-        padding: '20px 30px',
-      },
     },
 
     circleContainer: {
       display: 'flex',
       width: '100%',
-      alignItems: 'stretch',
+      flexWrap: 'wrap',
+      padding: '50px 135px',
+      justifyContent: 'center',
+      [theme.breakpoints.down('xs')]: {
+        justifyContent: 'center',
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: 30,
+      },
     },
 
     circle: {
-      width: '100%',
+      width: '12.5%',
       minWidth: 130,
-    },
-
-    title: {
-      fontWeight: 900,
-      fontSize: 42,
-      fontFamily: 'Ocean',
-      color: '#223A7A',
-      marginTop: 50,
+      marginBottom: 62,
     },
 
     marginTitle: {
@@ -69,6 +61,15 @@ export default makeStyles((theme: Theme) =>
         backgroundColor: '#00B2DB ',
         borderRadius: 10,
       },
+    },
+
+    btnpreced: {
+      color: '#6B6B6A',
+      height: 50,
+      marginTop: 33,
+      fontSize: 14,
+      textAlign: 'center',
+      textDecoration: 'underline',
     },
 
     header: {
@@ -102,6 +103,45 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       maxHeight: '100%',
       maxWidth: '100%',
+    },
+
+    title: {
+      textAlign: 'center',
+    },
+
+    activityContainer: {
+      paddingBottom: 54,
+    },
+
+    activity: {
+      borderRadius: 30,
+      border: '1px solid #00CFFF',
+      padding: 10,
+      margin: 20,
+      '&:hover': {
+        backgroundColor: 'rgba(122, 230, 255, 0.2)',
+      },
+    },
+
+    activitySelected: {
+      borderRadius: 30,
+      border: '1px solid #7AE6FF',
+      marginTop: 15,
+      background: '#7AE6FF',
+      '&:hover': {
+        backgroundColor: '#7AE6FF',
+      },
+    },
+
+    selected: {
+      width: '100%',
+    },
+
+    selectedActivity: {
+      backgroundColor: '#7AE6FF',
+      '&:hover': {
+        backgroundColor: '#7AE6FF',
+      },
     },
 
     themeRoot: {

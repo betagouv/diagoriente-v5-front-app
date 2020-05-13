@@ -11,7 +11,9 @@ body {
   margin: 0;
   font-family: 'Andika New Basic';
 }
-
+a {
+  text-decoration: 'none' !important;
+}
 * {
   box-sizing: border-box;
   flex: 0 0 auto;

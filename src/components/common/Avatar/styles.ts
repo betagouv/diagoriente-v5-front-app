@@ -1,11 +1,15 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { size: number }>(() => ({
-  square: {
+export default makeStyles<Theme, { size: number; avatarCircleBackground?: string }>(() => ({
+  circle: {
     height: (props) => props.size,
     width: (props) => props.size,
     borderRadius: '50%',
-    backgroundColor: '#C9C9C7',
+    backgroundColor: (props) => (props.avatarCircleBackground ? props.avatarCircleBackground : '#C9C9C7'),
+    padding: 5,
+    display: 'flex',
+    alignItem: 'center',
+    justifyContent: 'center',
   },
 
   squareContainer: {

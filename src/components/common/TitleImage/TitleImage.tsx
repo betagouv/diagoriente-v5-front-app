@@ -1,5 +1,6 @@
 import React from 'react';
 import useStyles from './styles';
+import Title from '../Title/Title';
 
 interface Props {
   title: string;
@@ -25,9 +26,7 @@ const TitleImage = ({
       <div className={classes.imageContainer}>
         <img src={image} alt="trait" className={classes.image} height={height} />
       </div>
-      <div className={classes.titleContainer}>
-        <div className={classes.title}>{title}</div>
-      </div>
+      <Title title={title} color={color} size={size} font={font} className={classes.position} />
     </div>
   );
 };

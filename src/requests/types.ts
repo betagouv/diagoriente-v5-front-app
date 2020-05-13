@@ -16,3 +16,17 @@ export interface Interests {
   nom: string;
   rank: number;
 }
+export interface Activity {
+  id: string;
+  title: string;
+}
+export interface Competence {
+  id: string;
+  title: string;
+}
+export interface Selection {
+  id: string;
+  title: string;
+  icon: string;
+  background: string;
+}

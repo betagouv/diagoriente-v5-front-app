@@ -4,7 +4,7 @@ import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import InterestContext from 'contexts/InterestSelected';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import HomeInteret from './HomeInteret';
 import ParcoursInteret from './ParcourInteret';
 import OrdreInteret from './OrdreInteret/OrderInteret';
@@ -23,7 +23,7 @@ const theme = createMuiTheme({
 });
 
 const Interet = () => {
-  const [selectedInterest, setInterest] = useState<Interests[] | null>(null);
+  const [selectedInterest, setInterest] = useState<Families[] | null>(null);
   return (
     <ThemeProvider theme={theme}>
       <InterestContext.Provider value={{ selectedInterest, setInterest }}>

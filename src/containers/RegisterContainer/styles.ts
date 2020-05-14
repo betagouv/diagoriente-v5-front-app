@@ -37,7 +37,17 @@ export default makeStyles((theme: Theme) => ({
     marginTop: 30,
     display: 'flex',
     flexDirection: 'column',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: 50,
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 50,
+      paddingLeft: 0,
+    },
     [theme.breakpoints.down('sm')]: {
+      paddingLeft: 60,
+    },
+    [theme.breakpoints.down('xs')]: {
       paddingLeft: 20,
       width: '95%',
     },

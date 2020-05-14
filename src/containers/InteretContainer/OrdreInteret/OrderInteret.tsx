@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
@@ -17,7 +17,7 @@ import useStyles from './styles';
 const OrderInteret = () => {
   const { selectedInterest } = useContext(interestContext);
   const classes = useStyles();
-  const [orderedArray, setOrderedArray] = useState([] as Interests[]);
+  const [orderedArray, setOrderedArray] = useState([] as Families[]);
   const heights = [230, 210, 190, 170, 154];
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
@@ -28,7 +28,7 @@ const OrderInteret = () => {
   };
   const isChecked = (id?: string): boolean => !!orderedArray.find((elem) => elem.id === id);
   const handelClick = (item: any) => {
-    let copySelected: Interests[] = [...orderedArray];
+    let copySelected: Families[] = [...orderedArray];
     if (isChecked(item.id)) {
       copySelected = orderedArray.filter((ele) => ele.id !== item?.id);
     } else if (orderedArray.length < 5) {

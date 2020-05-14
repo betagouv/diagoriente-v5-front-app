@@ -11,10 +11,10 @@ export interface Token {
   refreshToken: string;
   expiresIn: string;
 }
-export interface Interests {
+export interface Families {
   id: string;
   nom: string;
-  rank: number;
+  category: string;
 }
 
 export interface Theme {

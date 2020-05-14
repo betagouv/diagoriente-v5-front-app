@@ -1,5 +1,5 @@
 import React from 'react';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import Placeholder from '../placeholderInterest/Placeholder';
 import useStyles from './styles';
 
@@ -7,7 +7,7 @@ interface IProps {
   index: number;
   height: number;
   full?: boolean;
-  famille?: Interests;
+  famille?: Families;
 }
 const InterestContainer = ({
  index, height, full, famille,

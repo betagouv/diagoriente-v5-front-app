@@ -28,7 +28,17 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: 50,
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 50,
+      paddingLeft: 0,
+    },
     [theme.breakpoints.down('sm')]: {
+      paddingLeft: 60,
+    },
+    [theme.breakpoints.down('xs')]: {
       paddingLeft: 20,
       width: '95%',
     },
@@ -49,7 +59,7 @@ export default makeStyles((theme) => ({
     width: 'max-content',
 
     '&:hover': {
-      backgroundColor: '#223A7A',
+      backgroundColor: theme.palette.info.main,
       borderRadius: 10,
     },
   },
@@ -84,5 +94,10 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 40,
+  },
+  errorCondition: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+    fontSize: 12,
   },
 }));

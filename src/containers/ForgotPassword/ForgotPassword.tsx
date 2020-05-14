@@ -29,7 +29,9 @@ const Login = () => {
     <div className={classes.root}>
       <div className={classes.loginContainer}>
         <div className={classes.title}>MOT DE PASSE OUBLIé</div>
-        <div className={classes.subTitle}>Entre l’email que tu utilises pour te connecter afin de réinitialiser ton mot de passe :</div>
+        <div className={classes.subTitle}>
+          Entre l’email que tu utilises pour te connecter afin de réinitialiser ton mot de passe :
+        </div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
             label="Ton email"
@@ -42,10 +44,10 @@ const Login = () => {
           />
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Button className={classes.btn} type="submit">
                   <div className={classes.btnLabel}>Envoyer</div>
                 </Button>

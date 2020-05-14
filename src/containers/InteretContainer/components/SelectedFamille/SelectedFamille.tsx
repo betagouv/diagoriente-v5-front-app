@@ -1,9 +1,9 @@
 import React from 'react';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import useStyles from './styles';
 
 interface IProps {
-  famille: Interests;
+  famille: Families;
   handleClick: (id: number) => void;
   index: number;
   direction: 'vertical' | 'horizontal';

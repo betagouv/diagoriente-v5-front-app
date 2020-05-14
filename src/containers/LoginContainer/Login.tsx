@@ -19,7 +19,9 @@ import useStyles from './styles';
 
 const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const [showPasswordState, setShowPasswoed] = useState(false);
+  const [showPasswordState, setShowPassword] = useState(false);
+  const [errorForm, setErrorForm] = useState<string>('');
+  const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
   const checkBoxRef = useRef(null);
 
   const { user, setUser } = useContext(UserContext);
@@ -41,7 +43,13 @@ const Login = ({ location }: RouteComponentProps) => {
       setUser(loginState.data.login.user);
     }
   }, [loginState.data, setUser, state.values.stayConnected]);
-
+  useEffect(() => {
+    if (loginState.error?.graphQLErrors.length !== 0) {
+      if (loginState.error?.graphQLErrors[0].message) {
+        return setErrorForm(loginState.error?.graphQLErrors[0].message);
+      }
+    }
+  }, [loginState.error]);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
@@ -61,12 +69,14 @@ const Login = ({ location }: RouteComponentProps) => {
     }
   };
   const onShowPassword = () => {
-    setShowPasswoed(!showPasswordState);
+    setShowPassword(!showPasswordState);
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.title}>connexion</div>
+        <div className={classes.title}>CONNEXION</div>
+        <div className={classes.errorCondition}>{errorForm}</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
             label="Ton email"
@@ -90,10 +100,10 @@ const Login = ({ location }: RouteComponentProps) => {
           />
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
+              <Grid item xs={12} sm={4} md={5} lg={4}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
+              <Grid item xs={12} sm={8} md={7} lg={8}>
                 <Link to="/forgotPassword">
                   <div className={classes.forgotText}>J’ai oublié mon mot de passe</div>
                 </Link>
@@ -102,10 +112,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
+              <Grid item xs={12} sm={4} md={5} lg={4}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
+              <Grid item xs={12} sm={8} md={7} lg={8}>
                 <div className={classes.containerCheckbox}>
                   <CheckBox
                     ref={checkBoxRef}
@@ -122,10 +132,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
+              <Grid item xs={12} sm={4} md={5} lg={4}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
+              <Grid item xs={12} sm={8} md={7} lg={8}>
                 <Button className={classes.btn} type="submit">
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>

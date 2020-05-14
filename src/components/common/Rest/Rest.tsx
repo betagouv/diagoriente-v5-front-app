@@ -5,11 +5,12 @@ import useStyles from './styles';
 interface Props {
   color: string;
   label?: string;
+  onClick?: () => void;
 }
-const RestLogo = ({ color, label }: Props) => {
+const RestLogo = ({ color, label, onClick }: Props) => {
   const classes = useStyles({ color });
   return (
-    <div className={classes.container}>
+    <div className={classes.container} onClick={onClick}>
       <div className={classes.subTitle}>{label}</div>
       <div className={classes.root}>
         <img src={Close} alt="close" />

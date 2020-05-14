@@ -22,6 +22,6 @@ export default makeStyles<Theme, { color: string }>((theme) => ({
   subTitle: {
     paddingRight: 12,
     fontSize: 12,
-    color: '#420FAB',
+    color: (props) => props.color,
   },
 }));

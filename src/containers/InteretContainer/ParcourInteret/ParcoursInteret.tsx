@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { useInterests } from 'requests/interests';
+import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import { Link } from 'react-router-dom';
 import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
@@ -18,8 +18,8 @@ import useStyles from './styles';
 const ParcoursInteret = () => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
-  const [selectedInterests, setSelectedInterest] = useState([] as Interests[]);
-  const { data, loading } = useInterests();
+  const [selectedInterests, setSelectedInterest] = useState([] as Families[]);
+  const { data, loading } = useFamilies();
   /* const familles = data?.interests.data;
     useEffect(() => {
     if (familles?.length !== 0 && prevFamily && !updatedFamille.current) {
@@ -49,8 +49,8 @@ const ParcoursInteret = () => {
     }
     return false;
   }); */
-  const handleClick = (e: Interests) => {
-    let copySelected: Interests[] = [...selectedInterests];
+  const handleClick = (e: Families) => {
+    let copySelected: Families[] = [...selectedInterests];
     if (isChecked(e.id)) {
       copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
     } else if (selectedInterests.length < 5) {
@@ -61,7 +61,7 @@ const ParcoursInteret = () => {
   };
   const deleteFamille = (id: number) => {
     const familleSelected = selectedInterests[id];
-    let copySelected: Interests[] = [...selectedInterests];
+    let copySelected: Families[] = [...selectedInterests];
     if (isChecked(familleSelected?.id)) {
       copySelected = selectedInterests.filter((ele) => ele.id !== familleSelected.id);
     } else if (selectedInterests.length < 5) {
@@ -70,6 +70,7 @@ const ParcoursInteret = () => {
 
     setSelectedInterest(copySelected);
   };
+  console.log('data', data);
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -95,7 +96,7 @@ const ParcoursInteret = () => {
           />
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
-            {data?.interests.data.map((e) => (
+            {data?.families.data.map((e) => (
               <div key={e.id} onClick={() => handleClick(e)}>
                 <Avatar title={e.nom} size={85} titleClassName={classes.marginTitle} className={classes.circle} />
               </div>

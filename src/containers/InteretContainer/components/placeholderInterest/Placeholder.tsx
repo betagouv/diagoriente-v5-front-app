@@ -1,12 +1,12 @@
 import React from 'react';
-import { Interests } from 'requests/types';
+import { Families } from 'requests/types';
 import useStyles from './styles';
 
 interface IProps {
   index?: number;
   direction: 'horizontal' | 'vertical';
   size?: number;
-  famille?: Interests;
+  famille?: Families;
 }
 
 const Placeholder = ({

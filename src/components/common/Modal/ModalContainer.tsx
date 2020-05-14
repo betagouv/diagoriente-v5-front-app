@@ -7,16 +7,27 @@ interface IProps {
   open: boolean;
   handleClose: () => void;
   children: React.ReactElement;
+  backdropColor: string;
+  colorIcon: string;
 }
 
-const ModalContainer = ({ open, handleClose, children }: IProps) => {
-  const classes = useStyles();
+const ModalContainer = ({
+ open, handleClose, backdropColor, colorIcon, children,
+}: IProps) => {
+  const classes = useStyles({ backdropColor });
   return (
-    <Modal open={open} onClose={handleClose} disablePortal disableEnforceFocus disableAutoFocus>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      disablePortal
+      disableEnforceFocus
+      disableAutoFocus
+      BackdropProps={{ className: classes.backdrop }}
+    >
       <div className={classes.modalContainer}>
         <div className={classes.modal}>
           <div className={classes.header}>
-            <Reset color="#420FAB" label="Annuler" />
+            <Reset color={colorIcon} label="Fermer" onClick={handleClose} />
           </div>
           {children}
         </div>

@@ -53,4 +53,54 @@ export default makeStyles<Theme>((theme) => ({
   info: {
     textAlign: 'center',
   },
+  modalBody: {},
+  titleModal: {
+    fontFamily: 'ocean',
+    fontSize: 32,
+    textAlign: 'center',
+    color: theme.palette.primary.main,
+    textTransform: 'uppercase',
+  },
+  descriptionModal: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#424242',
+    marginTop: 40,
+  },
+  subTitle: {
+    fontSize: 14,
+  },
+
+  experienceContainer: {
+    width: '100%',
+    display: 'flex',
+    marginTop: 34,
+  },
+  expPerso: {
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    height: 150,
+  },
+  titlePerso: {
+    color: '#00B2DB',
+    fontWeight: 900,
+    fontSize: 18,
+  },
+  expPro: {
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    height: 150,
+  },
+  titlePro: {
+    color: '#223A7A',
+    fontWeight: 900,
+    fontSize: 18,
+  },
+  btnContainerModal: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
 }));

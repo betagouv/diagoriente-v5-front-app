@@ -14,6 +14,8 @@ const ResultInterest = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const id = localStorage.getItem('theme');
+  console.log(id)
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -34,8 +36,28 @@ const ResultInterest = () => {
         </div>
         <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
       </div>
-      <ModalContainer open={open} handleClose={handleClose}>
-        <div style={{ width: 300, height: 300 }}>tetst</div>
+      <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#420FAB">
+        <div className={classes.modalBody}>
+          <div className={classes.titleModal}>Encore une petite chose !</div>
+          <div className={classes.descriptionModal}>
+            <div>Pour nous aider à te proposer des domaines professionnels,</div>
+            <div>coche ce qui compte le plus pour toi dans tes expériences :</div>
+            <div className={classes.subTitle}>(Plusieurs choix possibles)</div>
+          </div>
+          <div className={classes.experienceContainer}>
+            <div className={classes.expPerso}>
+              <div className={classes.titlePerso}>Mes expériences perso</div>
+            </div>
+            <div className={classes.expPro}>
+              <div className={classes.titlePro}>Mes expériences pro</div>
+            </div>
+          </div>
+          <div className={classes.btnContainerModal}>
+            <Button className={classes.btn} onClick={()=>{}}>
+              <div className={classes.btnLabel}>Valider</div>
+            </Button>
+          </div>
+        </div>
       </ModalContainer>
     </div>
   );

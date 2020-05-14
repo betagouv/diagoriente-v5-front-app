@@ -3,6 +3,8 @@ import RestLogo from 'components/common/Rest/Rest';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Button from 'components/button/Button';
+import Avatar from 'components/common/Avatar/Avatar';
+import InterestLogo from 'assets/svg/interest.svg';
 import { Interests } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
@@ -19,7 +21,7 @@ const OrderInteret = () => {
   const heights = [230, 210, 190, 170, 154];
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
-    for (let i = orderedArray.length + 1; i <= 5; i += 1) {
+    for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || []); i += 1) {
       array.push(<InterestContainer index={i} key={i} height={heights[i - 1]} />);
     }
     return array;
@@ -39,7 +41,12 @@ const OrderInteret = () => {
     <div className={classes.container}>
       <div className={classes.content}>
         <div className={classes.header}>
-          <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+          <div className={classes.titleContainer}>
+            <Avatar size={50} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
+              <img src={InterestLogo} alt="interest" />
+            </Avatar>
+            <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+          </div>
           <RestLogo color="#420FAB" label="Annuler" />
         </div>
         <div className={classes.wrapper}>

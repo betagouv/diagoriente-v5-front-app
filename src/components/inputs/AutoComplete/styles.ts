@@ -1,10 +1,18 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<Theme, { error: boolean }>((theme) => ({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '5px 0px 0px 0px',
+    width: '100%',
+  },
   input: {
     '& .MuiOutlinedInput-adornedStart': {
       paddingLeft: 4,
     },
+    width: 229,
     '& .MuiInputBase-root': {
       height: 35,
       width: 229,

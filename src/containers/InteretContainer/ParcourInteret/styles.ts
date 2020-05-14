@@ -20,15 +20,24 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     width: '100%',
     height: 'auto',
+    marginBottom:10,
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-end',
+    },
+  },
+  titleContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      alignSelf: 'center !important',
     },
   },
   title: {
     fontSize: 42,
     color: theme.palette.primary.main,
     fontFamily: 'ocean',
+    marginLeft: 24,
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'center !important',
     },

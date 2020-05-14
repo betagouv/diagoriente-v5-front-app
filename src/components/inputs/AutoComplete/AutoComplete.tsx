@@ -35,13 +35,13 @@ const AutoComplete = ({
   return (
     <div className={classes.container}>
       <Grid container spacing={0}>
-        <Grid item xs={12} sm={5} md={4} lg={6}>
+        <Grid item xs={12} sm={4} md={5} lg={5}>
           <div className={classes.labelContainer}>
             <div className={classes.label}>{label}</div>
           </div>
         </Grid>
-        <Grid item xs={12} sm={7} md={8} lg={6}>
-          <div>
+        <Grid item xs={12} sm={8} md={7} lg={7}>
+          <div style={{ width: 229 }}>
             <Autocomplete
               freeSolo
               openOnFocus={false}

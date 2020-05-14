@@ -1,6 +1,7 @@
 import React from 'react';
 import Trait from 'assets/images/trait_violet.png';
 import TitleImage from 'components/common/TitleImage/TitleImage';
+import InterestLogo from 'assets/svg/interest.svg';
 import AvatarImage from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
@@ -13,6 +14,12 @@ const HomeInteret = () => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
+        <div className={classes.interestContainerLogo}>
+          <AvatarImage size={104} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
+            <img src={InterestLogo} alt="interest" />
+          </AvatarImage>
+        </div>
+
         <TitleImage title="MES CENTRES D’INTERET" color="#420FAB" image={Trait} />
         <div className={classes.subTitleContainer}>
           <div className={classes.subTitle}>
@@ -25,11 +32,13 @@ const HomeInteret = () => {
         </div>
         <div className={classes.avatarContainer}>
           <AvatarImage size={206} />
-          <Link to="/interet/parcours">
-            <Button className={classes.btn} type="submit">
-              <div className={classes.btnLabel}>C’est parti !</div>
-            </Button>
-          </Link>
+          <div className={classes.btnContainer}>
+            <Link to="/interet/parcours">
+              <Button className={classes.btn} type="submit">
+                <div className={classes.btnLabel}>C’est parti !</div>
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

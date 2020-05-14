@@ -4,6 +4,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     margin: '5px 0px 0px 0px',
     width: '100%',
   },

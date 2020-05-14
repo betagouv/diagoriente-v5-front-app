@@ -104,6 +104,7 @@ const Register = ({ history }: RouteComponentProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
+        <div className={classes.title}>Inscription</div>
         <div className={classes.descriptionContainer}>
           <div className={classes.description}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id malesuada erat. Proin vel ipsum non
@@ -173,10 +174,10 @@ const Register = ({ history }: RouteComponentProps) => {
             />
             <div>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div>
                     <div className={classes.optionItem}>
                       Ton mot de passe doit avoir 6 caractères minimum, dont au moins:
@@ -247,10 +248,10 @@ const Register = ({ history }: RouteComponentProps) => {
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.groupText}>
                     Si tu es dans un groupe, renseigne ici le code qui t&lsquo;a été remis.
                   </div>
@@ -259,10 +260,10 @@ const Register = ({ history }: RouteComponentProps) => {
             </div>
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.containerCheckbox}>
                     <CheckBox
                       ref={checkBoxRef}
@@ -284,10 +285,10 @@ const Register = ({ history }: RouteComponentProps) => {
             </div>
             <div className={classes.btnContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <Button className={classes.btn} type="submit">
                     <div className={classes.btnLabel}>Je m’inscris</div>
                   </Button>
@@ -296,10 +297,10 @@ const Register = ({ history }: RouteComponentProps) => {
             </div>
             <div className={classes.btnContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.conditionText}>* Champs obligatoires</div>
                 </Grid>
               </Grid>

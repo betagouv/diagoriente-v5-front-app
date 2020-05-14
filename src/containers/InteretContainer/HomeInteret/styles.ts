@@ -11,6 +11,10 @@ export default makeStyles<Theme>((theme) => ({
   content: {
     maxWidth: 1080,
   },
+  interestContainerLogo: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   subTitleContainer: {
     textAlign: 'center',
   },
@@ -29,7 +33,7 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 40,
   },
   btn: {
     backgroundColor: theme.palette.secondary.main,

@@ -2,10 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
+import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
 import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import { useForm } from 'hooks/useInputs';
 import { useRegister } from 'requests/auth';
+import { useLocation } from 'requests/location';
 import {
   validateEmail,
   validatePassword,
@@ -19,7 +21,8 @@ import classNames from 'utils/classNames';
 import useStyles from './styles';
 
 const Register = ({ history }: RouteComponentProps) => {
-  const [error, setError] = useState('');
+  const [errorCondition, setErrorCondition] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
@@ -50,15 +53,18 @@ const Register = ({ history }: RouteComponentProps) => {
   });
   const { values, errors, touched } = state;
   const [registerCall, registerState] = useRegister();
+  const { data, loading } = useLocation({ variables: { search: values.location } });
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
+        const res = { ...values, location: selectedLocation };
         registerCall({
-          variables: values,
+          variables: res,
         });
       } else {
-        setError("Veuillez accepter les conditions générales d'utilisation");
+        setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
     } else {
       actions.setAllTouched(true);
@@ -81,7 +87,7 @@ const Register = ({ history }: RouteComponentProps) => {
   }, [registerState.data, registerState.error, history]);
   useEffect(() => {
     if (values.acceptCondition) {
-      setError('');
+      setErrorCondition('');
     }
   }, [values.acceptCondition]);
   const onClickCondition = () => {
@@ -91,6 +97,9 @@ const Register = ({ history }: RouteComponentProps) => {
   };
   const onShowPassword = () => {
     setShowPasswoed(!showPasswordState);
+  };
+  const onSelect = (e: string | null) => {
+    if (e) setSelectedLocation(e);
   };
   return (
     <div className={classes.root}>
@@ -208,12 +217,14 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
               </Grid>
             </div>
-            <Input
+            <AutoComplete
               label="Ton emplacement géographique"
               onChange={actions.handleChange}
+              onSelectText={onSelect}
               value={values.location}
               name="location"
               placeholder="paris"
+              options={!loading && data ? data.location : []}
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
             />
@@ -267,7 +278,7 @@ const Register = ({ history }: RouteComponentProps) => {
                       de Diagoriente*
                     </div>
                   </div>
-                  <div className={classes.errorCondition}>{error}</div>
+                  <div className={classes.errorCondition}>{errorCondition}</div>
                 </Grid>
               </Grid>
             </div>

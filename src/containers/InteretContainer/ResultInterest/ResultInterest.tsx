@@ -1,9 +1,19 @@
 import React from 'react';
+import ModalContainer from 'components/common/Modal/ModalContainer';
 import Button from 'components/button/Button';
 import useStyles from './styles';
 
 const ResultInterest = () => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -18,12 +28,13 @@ const ResultInterest = () => {
           <div className={classes.text}>allons maintenant te proposer des métiers qui peuvent te plaire.</div>
         </div>
         <div className={classes.btnContainer}>
-          <Button className={classes.btn}>
+          <Button className={classes.btn} onClick={() => handleOpen()}>
             <div className={classes.btnLabel}>Voir mes pistes métiers</div>
           </Button>
         </div>
         <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
       </div>
+      <ModalContainer open={open} handleClose={handleClose} />
     </div>
   );
 };

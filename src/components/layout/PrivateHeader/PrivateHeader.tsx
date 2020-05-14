@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-
 import logo from 'assets/svg/diagoriente_logo.svg';
 import userLogo from 'assets/images/user_icon.png';
 import DrawerContext from 'contexts/DrawerContext';

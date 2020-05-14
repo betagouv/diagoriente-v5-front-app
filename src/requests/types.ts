@@ -30,3 +30,6 @@ export interface Selection {
   icon: string;
   background: string;
 }
+export interface Location {
+  label: string;
+}

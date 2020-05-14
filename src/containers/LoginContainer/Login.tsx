@@ -40,7 +40,7 @@ const Login = ({ location }: RouteComponentProps) => {
       }
       setUser(loginState.data.login.user);
     }
-  }, [loginState.data, setUser]);
+  }, [loginState.data, setUser, state.values.stayConnected]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

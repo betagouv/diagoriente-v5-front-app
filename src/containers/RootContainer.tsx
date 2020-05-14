@@ -50,7 +50,7 @@ const RootContainer = () => {
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
-          <Route footer exact path="/" component={HomeContainer} />
+          <Route protected footer exact path="/" component={HomeContainer} />
           <Route footer path="/login" exact component={LoginContainer} />
           <Route footer path="/register" exact component={RegisterContainer} />
           <Route protected path="/interet" component={InteretContainer} />

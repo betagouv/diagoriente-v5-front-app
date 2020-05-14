@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useDidMount } from 'hooks/useLifeCycle';
 import { useCompetence } from 'requests/competences';
-import { Activity, Competence } from 'requests/types';
+import { Competence } from 'requests/types';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Button from 'components/button/Button';
-import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 
 import classNames from 'utils/classNames';
 
@@ -20,29 +18,22 @@ import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
 
-const ExperienceCompetence = ({ match }: RouteComponentProps<{ themeId: string }>) => {
+interface Props extends RouteComponentProps<{ themeId: string }> {
+  competences: Competence[];
+  setCompetences: (Competences: Competence[]) => void;
+}
+
+const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => {
   const classes = useStyles();
-  const [competence, setCompetence] = useState([] as Competence[]);
-  const [activity, setActivity] = useState([] as Activity[]);
 
   const { data, loading } = useCompetence();
 
-  useDidMount(() => {
-    const d = localStorage.getItem('activity');
-    if (d) {
-      const activityData = JSON.parse(d);
-      if (activityData.theme === match.params.themeId) {
-        setActivity(activityData.activity);
-      }
-    }
-  });
-
   const addCompetence = (id: string, title: string) => {
-    setCompetence([...competence, { id, title }]);
+    setCompetences([...competences, { id, title }]);
   };
 
   const deleteCompetence = (id: string) => {
-    setCompetence(competence.filter((comp) => comp.id !== id));
+    setCompetences(competences.filter((comp) => comp.id !== id));
   };
 
   return (
@@ -61,13 +52,13 @@ const ExperienceCompetence = ({ match }: RouteComponentProps<{ themeId: string }
           <Grid className={classes.circleContainer} container spacing={3}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
 
-            {data?.competences.data.map((comp: any) => {
-              const selected = competence.find((e) => e.id === comp.id);
+            {data?.competences.data.map((comp) => {
+              const selected = competences.find((e) => e.id === comp.id);
 
               return (
-                <Grid item xs={12} md={6}>
+                <Grid key={comp.id} item xs={12} md={6}>
                   <Button
-                    key={comp.id}
+                    childrenClassName={classes.margin}
                     className={classNames(classes.competences, selected && classes.selectedCompetence)}
                     onClick={() => (!selected ? addCompetence(comp.id, comp.title) : deleteCompetence(comp.id))}
                   >
@@ -88,32 +79,11 @@ const ExperienceCompetence = ({ match }: RouteComponentProps<{ themeId: string }
           </Button>
         </div>
 
-        <Link to={`/experience/perso/${match.params.themeId}/activities`} className={classes.btnpreced}>
+        <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" />
           Precedent
         </Link>
       </div>
-      <Selection>
-        <div className={classes.themeRoot}>
-          {activity ? (
-            <div className={classes.activityContainer}>
-              <p className={classes.titleSelection}>Activité(s)</p>
-              {activity.map((e) => (
-                <Button
-                  variant="outlined"
-                  key={e.id}
-                  className={classes.activitySelected}
-                  childrenClassName={classes.selected}
-                >
-                  {e.title}
-                </Button>
-              ))}
-            </div>
-          ) : (
-            <div />
-          )}
-        </div>
-      </Selection>
     </div>
   );
 };

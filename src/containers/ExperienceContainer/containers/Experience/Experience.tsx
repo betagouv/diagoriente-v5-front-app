@@ -25,7 +25,7 @@ const Experience = () => {
           <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
 
           <Button className={classes.btnperso} type="submit">
-            <Link to="/experience/perso">
+            <Link to="/experience/theme">
               <div className={classes.btnLabel}>Expérience perso </div>
             </Link>
           </Button>
@@ -35,7 +35,7 @@ const Experience = () => {
             <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
 
             <Button className={classes.btnpro} type="submit">
-              <Link to="/experience/pro" className={classes.hideLine}>
+              <Link to="/experience/theme?type=professional" className={classes.hideLine}>
                 <div className={classes.btnLabel}>Expérience pro</div>
               </Link>
             </Button>

@@ -17,7 +17,7 @@ const Button = ({
   const classes = useStyles();
   return (
     <MuiButton className={classNames(className, classes.root)} {...rest}>
-      <div className={classNames(childrenClassName, classes.labelContainer)}>
+      <div className={classNames(classes.labelContainer, childrenClassName)}>
         {children}
         {fetching && (
           <div className="button_loader flex_center">

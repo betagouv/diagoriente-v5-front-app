@@ -11,6 +11,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       padding: '50px 120px',
+
       width: '100%',
       [theme.breakpoints.down('sm')]: {
         padding: '40px',
@@ -31,6 +32,7 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       flexWrap: 'wrap',
       padding: '50px 135px',
+      paddingBottom: 107,
       justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
@@ -111,9 +113,11 @@ export default makeStyles((theme: Theme) =>
 
     competences: {
       width: '100%',
+      margin: 0,
       border: '1px solid #4D6EC5',
       padding: 10,
-      margin: 20,
+      fontSize: 18,
+      color: '#424242',
       '&:hover': {
         backgroundColor: ' rgba(77, 110, 197, 0.2);',
       },
@@ -167,13 +171,17 @@ export default makeStyles((theme: Theme) =>
 
     selectedCompetence: {
       backgroundColor: '#4D6EC5',
+      color: '#fff',
       '&:hover': {
         backgroundColor: '#4D6EC5',
       },
     },
-    
+
     contentBtn: {
       display: 'flex',
       alignItems: 'center',
+    },
+    margin: {
+      margin: 0,
     },
   }));

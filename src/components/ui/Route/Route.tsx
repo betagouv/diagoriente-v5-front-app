@@ -12,7 +12,7 @@ import PrivateDrawer from 'components/layout/PrivateDrawer/PrivateDrawer';
 
 import Footer from 'components/layout/Footer/Footer';
 
-import classNames from "utils/classNames"
+import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
@@ -20,12 +20,13 @@ export interface RouteProps extends BaseRouteProps {
   protected?: boolean;
   sidebar?: boolean;
   footer?: boolean;
+  header?: boolean;
 }
 
 // u can add extra props to customise/add headers/footers/sidebars...
 
 const Route = ({
- protected: protectedProp, footer, sidebar, ...rest
+ protected: protectedProp, footer, sidebar, header, ...rest
 }: RouteProps) => {
   const [open, setOpen] = useState(false);
 
@@ -39,8 +40,8 @@ const Route = ({
   return (
     <DrawerContext.Provider value={{ open, setOpen }}>
       <div className={classNames(classes.container, classes.column)}>
-        {protectedProp ? <PrivateHeader /> : <PublicHeader />}
-        {protectedProp ? <PrivateDrawer /> : <PublicDrawer />}
+        {header && protectedProp ? <PrivateHeader /> : <PublicHeader />}
+        {header && protectedProp ? <PrivateDrawer /> : <PublicDrawer />}
         <div className={classNames(classes.page, classes.column)}>
           <BaseRoute {...rest} />
         </div>
@@ -50,5 +51,8 @@ const Route = ({
   );
 };
 
+Route.defaultProps = {
+  header: true,
+};
 
 export default Route;

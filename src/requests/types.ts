@@ -16,6 +16,18 @@ export interface Interests {
   nom: string;
   rank: number;
 }
+
+export interface Theme {
+  id: string;
+  title: string;
+  resources?: { icon: string; backgroundColor: string };
+  activities: {
+    id: string;
+    title: string;
+    description: string;
+  }[];
+}
+
 export interface Activity {
   id: string;
   title: string;

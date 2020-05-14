@@ -3,6 +3,8 @@ import gql from 'graphql-tag';
 import { QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalQuery } from 'hooks/apollo';
 
+import { Theme } from './types';
+
 export const themesQuery = gql`
   query Themes($type: String) {
     themes(type: $type) {
@@ -24,11 +26,7 @@ export interface ThemesArguments {
 
 export interface ThemesResponse {
   themes: {
-    data: {
-      id: string;
-      title: string;
-      resources?: { icon: string; backgroundColor: string };
-    }[];
+    data: Omit<Theme, 'activities'>[];
   };
 }
 
@@ -54,16 +52,7 @@ export const themeQuery = gql`
 `;
 
 export interface ThemeResponse {
-  theme: {
-    id: string;
-    title: string;
-    resources?: { icon: string; backgroundColor: string };
-    activities: {
-      id: string;
-      title: string;
-      description: string;
-    }[];
-  };
+  theme: Theme;
 }
 
 export interface ThemeArguments {

@@ -7,7 +7,6 @@ export default makeStyles((theme) =>
       paddingBottom: 80,
       background: theme.palette.secondary.main,
       display: 'flex',
-      width: '100vw',
       overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'center',

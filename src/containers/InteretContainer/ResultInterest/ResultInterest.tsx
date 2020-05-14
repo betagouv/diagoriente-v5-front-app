@@ -34,7 +34,9 @@ const ResultInterest = () => {
         </div>
         <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
       </div>
-      <ModalContainer open={open} handleClose={handleClose} />
+      <ModalContainer open={open} handleClose={handleClose}>
+        <div style={{ width: 300, height: 300 }}>tetst</div>
+      </ModalContainer>
     </div>
   );
 };

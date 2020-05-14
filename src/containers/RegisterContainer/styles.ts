@@ -8,11 +8,19 @@ export default makeStyles((theme: Theme) => ({
     width: '100%',
     height: '100%',
     paddingBottom: 80,
-    paddingTop: 125,
+    paddingTop: 60,
   },
   registerContainer: {
     maxWidth: 757,
     width: '100%',
+  },
+  title: {
+    fontFamily: 'ocean',
+    fontWeight: 900,
+    fontSize: 42,
+    textAlign: 'center',
+    color: theme.palette.info.main,
+    marginBottom: 40,
   },
   descriptionContainer: {
     width: '95%',

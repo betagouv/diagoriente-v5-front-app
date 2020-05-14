@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
 import TitleImage from 'components/common/TitleImage/TitleImage';
+import InterestLogo from 'assets/svg/interest.svg';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Trait from 'assets/images/trait_violet.png';
 import Arrow from 'assets/svg/arrow';
@@ -16,7 +17,7 @@ import useStyles from './styles';
 
 const ParcoursInteret = () => {
   const classes = useStyles();
-  const { setInterest } = useContext(interestContext);
+  const { setInterest, selectedInterest } = useContext(interestContext);
   const [selectedInterests, setSelectedInterest] = useState([] as Interests[]);
   const { data, loading } = useInterests();
   /* const familles = data?.interests.data;
@@ -73,7 +74,13 @@ const ParcoursInteret = () => {
     <div className={classes.container}>
       <div className={classes.content}>
         <div className={classes.header}>
-          <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+          <div className={classes.titleContainer}>
+            <Avatar size={60} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
+              <img src={InterestLogo} alt="interest" />
+            </Avatar>
+            <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+          </div>
+
           <RestLogo color="#420FAB" label="Annuler" />
         </div>
         <div className={classes.wrapper}>
@@ -98,7 +105,7 @@ const ParcoursInteret = () => {
         <div className={classes.footer}>
           <div className={classes.footerContent}>
             {loading && renderAllPlaceholder()}
-            {selectedInterests.map((el, i) => (
+            {(selectedInterest || selectedInterests).map((el, i) => (
               <FamileSelected
                 key={el.id}
                 handleClick={() => deleteFamille(i)}

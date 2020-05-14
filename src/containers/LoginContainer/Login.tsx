@@ -9,7 +9,7 @@ import localforage from 'localforage';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
-import { validateEmail, validatePassword } from 'utils/validation';
+import { validateEmail } from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
 
@@ -90,10 +90,10 @@ const Login = ({ location }: RouteComponentProps) => {
           />
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4} lg={6}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8} lg={6}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Link to="/forgotPassword">
                   <div className={classes.forgotText}>J’ai oublié mon mot de passe</div>
                 </Link>
@@ -102,10 +102,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4} lg={6}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8} lg={6}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <div className={classes.containerCheckbox}>
                   <CheckBox
                     ref={checkBoxRef}
@@ -122,10 +122,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Button className={classes.btn} type="submit">
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>

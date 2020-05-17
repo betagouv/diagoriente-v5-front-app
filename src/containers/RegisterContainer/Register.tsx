@@ -266,7 +266,6 @@ const Register = ({ history }: RouteComponentProps) => {
                 <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.containerCheckbox}>
                     <CheckBox
-                      ref={checkBoxRef}
                       onChange={actions.handleChange}
                       checked={values.acceptCondition}
                       name="acceptCondition"

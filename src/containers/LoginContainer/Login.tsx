@@ -118,7 +118,6 @@ const Login = ({ location }: RouteComponentProps) => {
               <Grid item xs={12} sm={8} md={7} lg={8}>
                 <div className={classes.containerCheckbox}>
                   <CheckBox
-                    ref={checkBoxRef}
                     onChange={actions.handleChange}
                     checked={state.values.stayConnected}
                     name="stayConnected"

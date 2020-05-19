@@ -40,6 +40,8 @@ export default makeStyles<Theme>((theme) => ({
     marginLeft: 24,
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'center !important',
+      fontSize: 41,
+      marginLeft: 15,
     },
   },
 
@@ -66,6 +68,11 @@ export default makeStyles<Theme>((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       padding: 30,
+      paddingBottom: 80,
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: 30,
+      paddingBottom: 80,
     },
   },
   footer: {

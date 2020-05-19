@@ -3,7 +3,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   root: {
     width: '100% !important',
-    position: 'initial',
+    [theme.breakpoints.down('xs')]: {
+      height: 'max-content !important',
+    },
   },
   sliderContainer: {
     width: '100%',
@@ -48,6 +50,9 @@ export default makeStyles<Theme>((theme) => ({
   wrapperBtn: {
     display: 'flex',
     position: 'absolute',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   nextWrap: { right: -25 },
   prevWrap: { left: -25 },

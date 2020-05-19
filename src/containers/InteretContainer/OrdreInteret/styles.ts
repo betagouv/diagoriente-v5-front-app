@@ -47,7 +47,7 @@ export default makeStyles<Theme>((theme) => ({
     height: '100%',
     position: 'relative',
     paddingBottom: 10,
-    marginBottom: 20,
+    marginBottom: 50,
   },
   subTitle: {
     fontSize: 18,

@@ -10,14 +10,22 @@ interface IProps {
   data: { title: string; data: Families[] }[];
   handleClick: (e: any) => void;
 }
-const App = ({ data, handleClick }: IProps) => {
+const Slider = ({ data, handleClick }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
     <Carousel
       renderCenterLeftControls={({ previousSlide }) => (
         <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
-          <button onClick={previousSlide} className={classNames(classes.containerBtn, classes.rotatedArrow)}>
+          <button
+            onClick={() => {
+              if (currentIndex !== 0) {
+                previousSlide();
+                setCurrentIndex(currentIndex - 1);
+              }
+            }}
+            className={classNames(classes.containerBtn, classes.rotatedArrow)}
+          >
             <Arrow width="16" height="25" color="#fff" />
           </button>
           <div className={classes.titleContainerArrow}>
@@ -34,16 +42,20 @@ const App = ({ data, handleClick }: IProps) => {
             <div className={classes.topTitleArrow}>Travailler...</div>
             <div className={classes.bottomTitleArrow}>{data && data[currentIndex + 1]?.title}</div>
           </div>
-          <button onClick={nextSlide} className={classes.containerBtn}>
+          <button
+            onClick={() => {
+              if (currentIndex !== data.length - 1) {
+                nextSlide();
+                setCurrentIndex(currentIndex + 1);
+              }
+            }}
+            className={classes.containerBtn}
+          >
             <Arrow width="16" height="25" color="#fff" />
           </button>
         </div>
       )}
       renderBottomCenterControls={null}
-      renderTopCenterControls={({ currentSlide }) => {
-        setCurrentIndex(currentSlide);
-        return <div />;
-      }}
       className={classes.root}
     >
       {data.map((el) => (
@@ -66,4 +78,4 @@ const App = ({ data, handleClick }: IProps) => {
   );
 };
 
-export default App;
+export default Slider;

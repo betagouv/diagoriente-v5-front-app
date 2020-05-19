@@ -50,3 +50,14 @@ export interface Selection {
 export interface Location {
   label: string;
 }
+
+export interface UserParcour {
+  id: string;
+  played: boolean;
+  families: { id: string; nom: string }[];
+  skills: {
+    theme: { title: string; type: string; id: string };
+    activities: { id: string; title: string; description: string };
+    competences: { _id: string; value: number };
+  }[];
+}

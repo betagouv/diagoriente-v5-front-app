@@ -1,5 +1,10 @@
 import {
- useMutation, useQuery, MutationHookOptions, QueryHookOptions,
+  useMutation,
+  useQuery,
+  MutationHookOptions,
+  QueryHookOptions,
+  useLazyQuery,
+  LazyQueryHookOptions,
 } from '@apollo/react-hooks';
 import {
  OperationVariables, MutationFunctionOptions, ExecutionResult, MutationResult,
@@ -15,4 +20,11 @@ export function useLocalMutation<T = any, V = OperationVariables>(
 
 export function useLocalQuery<T = any, V = OperationVariables>(query: DocumentNode, options: QueryHookOptions<T, V>) {
   return useQuery(query, { onError: () => {}, ...options });
+}
+
+export function useLocalLazyQuery<T = any, V = OperationVariables>(
+  query: DocumentNode,
+  options: LazyQueryHookOptions<T, V>,
+) {
+  return useLazyQuery(query, { onError: () => {}, ...options });
 }

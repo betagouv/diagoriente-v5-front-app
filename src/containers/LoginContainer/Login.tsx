@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import localforage from 'localforage';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
+import ParcourContext from 'contexts/ParcourContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
 
@@ -15,16 +16,20 @@ import { useForm } from 'hooks/useInputs';
 
 import { setAuthorizationBearer } from 'requests/client';
 import { useLogin } from 'requests/auth';
+import { useGetUserParcour } from 'requests/parcours';
+
 import useStyles from './styles';
 
 const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const [showPasswordState, setShowPassword] = useState(false);
+  const [getUserParcour, getUserParcourState] = useGetUserParcour();
   const [errorForm, setErrorForm] = useState<string>('');
-  const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
   const checkBoxRef = useRef(null);
 
   const { user, setUser } = useContext(UserContext);
+  const { setParcours } = useContext(ParcourContext);
+
   const [loginCall, loginState] = useLogin();
 
   const [state, actions] = useForm({
@@ -35,21 +40,32 @@ const Login = ({ location }: RouteComponentProps) => {
   });
 
   useEffect(() => {
-    if (loginState.data) {
+    if (loginState.data && !getUserParcourState.data) {
       setAuthorizationBearer(loginState.data.login.token.accessToken);
+      getUserParcour();
+    } else if (loginState.data && getUserParcourState.data) {
+      setParcours(getUserParcourState.data.getUserParcour);
       if (state.values.stayConnected) {
         localforage.setItem('auth', JSON.stringify(loginState.data.login));
       }
       setUser(loginState.data.login.user);
     }
-  }, [loginState.data, setUser, state.values.stayConnected]);
+  }, [loginState.data, getUserParcourState.data, setParcours, getUserParcour, setUser, state.values.stayConnected]);
+
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (loginState.error?.graphQLErrors[0].message) {
-        return setErrorForm(loginState.error?.graphQLErrors[0].message);
+        setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
     }
-  }, [loginState.error]);
+
+    if (getUserParcourState.error && getUserParcourState.error.graphQLErrors.length) {
+      if (getUserParcourState.error.graphQLErrors[0].message) {
+        setErrorForm(getUserParcourState.error.graphQLErrors[0].message);
+      }
+    }
+  }, [loginState.error, getUserParcourState.error]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
@@ -63,6 +79,7 @@ const Login = ({ location }: RouteComponentProps) => {
     const { from } = decodeUri(location.search);
     return <Redirect to={from || '/'} />;
   }
+
   const onClickCondition = () => {
     if (checkBoxRef.current) {
       // (checkBoxRef.current as any)?.onclick();
@@ -117,11 +134,7 @@ const Login = ({ location }: RouteComponentProps) => {
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={8}>
                 <div className={classes.containerCheckbox}>
-                  <CheckBox
-                    onChange={actions.handleChange}
-                    checked={state.values.stayConnected}
-                    name="stayConnected"
-                  />
+                  <CheckBox onChange={actions.handleChange} checked={state.values.stayConnected} name="stayConnected" />
                   <div className={classes.conditionText} onClick={onClickCondition}>
                     Rester connectée
                   </div>

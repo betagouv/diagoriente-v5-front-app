@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { User } from 'requests/types';
+import { User, UserParcour } from 'requests/types';
 import { useDidMount } from 'hooks/useLifeCycle';
 import startup from 'utils/startup';
 
@@ -16,6 +16,7 @@ import ForgotPasswordContainer from 'containers/ForgotPassword';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 import ExperienceComponent from 'containers/ExperienceContainer';
+import ParcourContext from 'contexts/ParcourContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,10 +37,14 @@ const theme = createMuiTheme({
 const RootContainer = () => {
   const [startupEnd, setStartupEnd] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-
+  const [parcours, setParcours] = useState<UserParcour | null>(null);
+  console.log(parcours);
   useDidMount(() => {
-    startup().then((nextUser) => {
-      if (nextUser) setUser(nextUser);
+    startup().then((data) => {
+      if (data) {
+        setUser(data.user);
+        setParcours(data.parcours);
+      }
       setStartupEnd(true);
     });
   });
@@ -49,15 +54,17 @@ const RootContainer = () => {
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={{ user, setUser }}>
-        <Switch>
-          <Route protected footer exact path="/" component={HomeContainer} />
-          <Route footer path="/login" exact component={LoginContainer} />
-          <Route footer path="/register" exact component={RegisterContainer} />
-          <Route protected path="/interet" component={InteretContainer} />
-          <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
-          <Route protected path="/experience" component={ExperienceComponent} />
-          <Route component={NotFoundPage} />
-        </Switch>
+        <ParcourContext.Provider value={{ parcours, setParcours }}>
+          <Switch>
+            <Route protected footer exact path="/" component={HomeContainer} />
+            <Route footer path="/login" exact component={LoginContainer} />
+            <Route footer path="/register" exact component={RegisterContainer} />
+            <Route protected path="/interet" component={InteretContainer} />
+            <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
+            <Route protected path="/experience" component={ExperienceComponent} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </ParcourContext.Provider>
       </UserContext.Provider>
     </ThemeProvider>
   );

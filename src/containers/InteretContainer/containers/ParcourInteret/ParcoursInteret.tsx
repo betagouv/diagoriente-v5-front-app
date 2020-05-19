@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
@@ -14,7 +14,7 @@ import interestContext from 'contexts/InterestSelected';
 import { groupBy } from 'lodash';
 import Slider from 'components/Slider/Slider';
 
-import FamileSelected from '../components/SelectedFamille/SelectedFamille';
+import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
 const ParcoursInteret = () => {
@@ -22,11 +22,15 @@ const ParcoursInteret = () => {
   const { setInterest, selectedInterest } = useContext(interestContext);
   const [selectedInterests, setSelectedInterest] = useState([] as Families[]);
   const { data, loading } = useFamilies();
-  const filtredArray = groupBy(data?.families.data, 'category');
-  const formattedData: { title: string; data: Families[] }[] = Object.entries(filtredArray).map((el) => ({
-    title: el[0],
-    data: el[1],
-  }));
+
+  const formattedData: { title: string; data: Families[] }[] = useMemo(
+    () =>
+      Object.entries(groupBy(data?.families.data, 'category')).map((el) => ({
+        title: el[0],
+        data: el[1],
+      })),
+    [data],
+  );
 
   /* const familles = data?.interests.data;
     useEffect(() => {
@@ -104,7 +108,6 @@ const ParcoursInteret = () => {
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
             <Slider data={formattedData} handleClick={handleClick} />
-            {' '}
           </div>
         </div>
         <div className={classes.footer}>

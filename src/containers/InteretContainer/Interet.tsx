@@ -5,10 +5,10 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import InterestContext from 'contexts/InterestSelected';
 import { Families } from 'requests/types';
-import HomeInteret from './HomeInteret';
-import ParcoursInteret from './ParcourInteret';
-import OrdreInteret from './OrdreInteret/OrderInteret';
-import ResultInteret from './ResultInterest/ResultInterest';
+import HomeInteret from './containers/HomeInteret';
+import ParcoursInteret from './containers/ParcourInteret';
+import OrdreInteret from './containers/OrdreInteret/OrderInteret';
+import ResultInteret from './containers/ResultInterest/ResultInterest';
 
 const theme = createMuiTheme({
   palette: {

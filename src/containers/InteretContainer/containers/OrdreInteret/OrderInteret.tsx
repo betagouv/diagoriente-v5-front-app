@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import RestLogo from 'components/common/Rest/Rest';
 import { Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
@@ -9,8 +9,8 @@ import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
-import InterestContainer from '../components/InterestContainer/InterestContainer';
-import FamileSelected from '../components/SelectedFamille/SelectedFamille';
+import InterestContainer from '../../components/InterestContainer/InterestContainer';
+import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 
 import useStyles from './styles';
 
@@ -21,7 +21,7 @@ const OrderInteret = () => {
   const heights = [230, 210, 190, 170, 154];
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
-    for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || []); i += 1) {
+    for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || 0); i += 1) {
       array.push(<InterestContainer index={i} key={i} height={heights[i - 1]} />);
     }
     return array;
@@ -37,6 +37,9 @@ const OrderInteret = () => {
 
     setOrderedArray(copySelected);
   };
+
+  if (!selectedInterest) return <Redirect to="/interet/parcours" />;
+
   return (
     <div className={classes.container}>
       <div className={classes.content}>

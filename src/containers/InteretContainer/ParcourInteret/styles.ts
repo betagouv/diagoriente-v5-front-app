@@ -20,7 +20,7 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     width: '100%',
     height: 'auto',
-    marginBottom:10,
+    marginBottom: 10,
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-end',
@@ -46,7 +46,7 @@ export default makeStyles<Theme>((theme) => ({
   wrapper: {
     backgroundColor: '#E5E5E5',
     width: '100%',
-    height: 'calc(100% - 166px)',
+    height: '85%',
     position: 'relative',
     marginBottom: 89,
   },
@@ -56,10 +56,11 @@ export default makeStyles<Theme>((theme) => ({
     backgroundColor: '#E5E5E5',
   },
   circleContainer: {
+    position: 'relative',
     display: 'flex',
     width: '100%',
     flexWrap: 'wrap',
-    padding: '50px 135px',
+    padding: '22px 0px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
     },

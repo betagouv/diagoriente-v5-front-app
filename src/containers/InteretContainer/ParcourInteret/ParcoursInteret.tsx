@@ -11,8 +11,10 @@ import PlaceHolder from 'containers/InteretContainer/components/placeholderInter
 import Trait from 'assets/images/trait_violet.png';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
-import FamileSelected from '../components/SelectedFamille/SelectedFamille';
+import { groupBy } from 'lodash';
+import Slider from 'components/Slider/Slider';
 
+import FamileSelected from '../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
 const ParcoursInteret = () => {
@@ -20,6 +22,12 @@ const ParcoursInteret = () => {
   const { setInterest, selectedInterest } = useContext(interestContext);
   const [selectedInterests, setSelectedInterest] = useState([] as Families[]);
   const { data, loading } = useFamilies();
+  const filtredArray = groupBy(data?.families.data, 'category');
+  const formattedData: { title: string; data: Families[] }[] = Object.entries(filtredArray).map((el) => ({
+    title: el[0],
+    data: el[1],
+  }));
+
   /* const familles = data?.interests.data;
     useEffect(() => {
     if (familles?.length !== 0 && prevFamily && !updatedFamille.current) {
@@ -70,7 +78,6 @@ const ParcoursInteret = () => {
 
     setSelectedInterest(copySelected);
   };
-  console.log('data', data);
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -96,11 +103,8 @@ const ParcoursInteret = () => {
           />
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
-            {data?.families.data.map((e) => (
-              <div key={e.id} onClick={() => handleClick(e)}>
-                <Avatar title={e.nom} size={85} titleClassName={classes.marginTitle} className={classes.circle} />
-              </div>
-            ))}
+            <Slider data={formattedData} handleClick={handleClick} />
+            {' '}
           </div>
         </div>
         <div className={classes.footer}>

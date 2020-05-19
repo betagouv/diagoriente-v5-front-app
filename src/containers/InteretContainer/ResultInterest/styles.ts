@@ -52,6 +52,11 @@ export default makeStyles<Theme>((theme) => ({
 
   info: {
     textAlign: 'center',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    color: '#424242',
+    fontSize: 14,
+    fontWeight: 900,
   },
   modalBody: {},
   titleModal: {
@@ -102,5 +107,10 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: 30,
+  },
+  link: {
+    color: '#424242',
+    fontSize: 14,
+    fontWeight: 900,
   },
 }));

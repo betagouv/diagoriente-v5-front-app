@@ -1,6 +1,7 @@
 import React from 'react';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Button from 'components/button/Button';
+import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
 const ResultInterest = () => {
@@ -14,8 +15,6 @@ const ResultInterest = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const id = localStorage.getItem('theme');
-  console.log(id)
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -34,7 +33,9 @@ const ResultInterest = () => {
             <div className={classes.btnLabel}>Voir mes pistes métiers</div>
           </Button>
         </div>
-        <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
+        <Link to="/experience" className={classes.link}>
+          <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
+        </Link>
       </div>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#420FAB">
         <div className={classes.modalBody}>
@@ -53,7 +54,7 @@ const ResultInterest = () => {
             </div>
           </div>
           <div className={classes.btnContainerModal}>
-            <Button className={classes.btn} onClick={()=>{}}>
+            <Button className={classes.btn} onClick={() => {}}>
               <div className={classes.btnLabel}>Valider</div>
             </Button>
           </div>

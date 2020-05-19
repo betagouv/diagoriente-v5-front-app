@@ -1,91 +1,69 @@
-import React, { useRef, useState } from 'react';
-import Flicking from '@egjs/react-flicking';
-import { ChangeEvent } from '@egjs/flicking';
+import React, { useState } from 'react';
+import Carousel from 'nuka-carousel';
+import Avatar from 'components/common/Avatar/Avatar';
+import { Families } from 'requests/types';
+import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import useStyles from './styles';
 
-const a = [
-  {
-    text:
-      'Une jeune m’a répondu qu’elle avait1 découvert des compétences qu’elle ne soupçonnait pas avoir, elle a adoré !',
-    user: {
-      firstName: 'Valérie 1',
-      lastName: 'K',
-    },
-  },
-  {
-    text:
-      'Une jeune m’a répondu qu’elle avait2 découvert des compétences qu’elle ne soupçonnait pas avoir, elle a adoré !',
-    user: {
-      firstName: 'Valérie 2',
-      lastName: 'K',
-    },
-  },
-  {
-    text:
-      'Une jeune m’a répondu qu’elle avait3 découvert des compétences qu’elle ne soupçonnait pas avoir, elle a adoré !',
-    user: {
-      firstName: 'Valérie 3',
-      lastName: 'K',
-    },
-  },
-  {
-    text:
-      'Une jeune m’a répondu qu’elle avait4 découvert des compétences qu’elle ne soupçonnait pas avoir, elle a adoré !',
-    user: {
-      firstName: 'Valérie 4',
-      lastName: 'K',
-    },
-  },
-];
-
-const Slider = () => {
+interface IProps {
+  data: { title: string; data: Families[] }[];
+  handleClick: (e: any) => void;
+}
+const App = ({ data, handleClick }: IProps) => {
   const classes = useStyles();
-  const slider = useRef(null);
-  const [currentItem, setCurentItem] = useState(0);
-
-  const goToNext = () => {
-    if (slider.current) {
-      (slider.current as any)?.next();
-    }
-  };
-  const goToPrevious = () => {
-    if (slider.current) {
-      (slider.current as any)?.prev();
-    }
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
   return (
-    <div className={classes.sliderContainer}>
-      <div className={classes.content}>
-        <div onClick={goToPrevious} className={classes.prevArrow}>
-          {'<'}
+    <Carousel
+      renderCenterLeftControls={({ previousSlide }) => (
+        <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
+          <button onClick={previousSlide} className={classNames(classes.containerBtn, classes.rotatedArrow)}>
+            <Arrow width="16" height="25" color="#fff" />
+          </button>
+          <div className={classes.titleContainerArrow}>
+            <div className={classes.topTitleArrow}>Travailler...</div>
+            <div className={classes.bottomTitleArrow}>{data && data[currentIndex - 1]?.title}</div>
+          </div>
         </div>
+      )}
+      renderCenterRightControls={({ nextSlide }) => (
+        <div
+          className={classNames(currentIndex === data.length - 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
+        >
+          <div className={classes.titleContainerArrow}>
+            <div className={classes.topTitleArrow}>Travailler...</div>
+            <div className={classes.bottomTitleArrow}>{data && data[currentIndex + 1]?.title}</div>
+          </div>
+          <button onClick={nextSlide} className={classes.containerBtn}>
+            <Arrow width="16" height="25" color="#fff" />
+          </button>
+        </div>
+      )}
+      renderBottomCenterControls={null}
+      renderTopCenterControls={({ currentSlide }) => {
+        setCurrentIndex(currentSlide);
+        return <div />;
+      }}
+      className={classes.root}
+    >
+      {data.map((el) => (
+        <div key={el.title} className={classes.item}>
+          <div className={classes.titleContainer}>
+            <div className={classes.topTitle}>Travailler...</div>
+            <div className={classes.bottomTitle}>{el.title}</div>
+          </div>
 
-        <div className={classes.sliderWrapper}>
-          <Flicking
-            ref={slider}
-            onChange={(e: ChangeEvent) => {
-              setCurentItem(e.index);
-            }}
-            gap={40}
-            circular
-            duration={100}
-          >
-            {a.map((el, i: number) => {
-              return (
-                <div key={el.user.firstName} className={classes.item}>
-                  test
-                </div>
-              );
-            })}
-          </Flicking>
+          <div className={classes.avatarContainer}>
+            {el.data.map((e) => (
+              <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
+                <Avatar title={e.nom} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div onClick={goToNext} className="next_arrow">
-          {'>'}
-        </div>
-      </div>
-    </div>
+      ))}
+    </Carousel>
   );
 };
-export default Slider;
+
+export default App;

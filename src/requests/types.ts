@@ -56,7 +56,7 @@ export interface UserParcour {
   played: boolean;
   families: { id: string; nom: string }[];
   skills: {
-    theme: { title: string; type: string; id: string };
+    theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
     activities: { id: string; title: string; description: string };
     competences: { _id: string; value: number };
   }[];

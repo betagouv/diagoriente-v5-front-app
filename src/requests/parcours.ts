@@ -19,6 +19,10 @@ export const getUserParcourQuery = gql`
           title
           id
           type
+          resources {
+            icon
+            backgroundColor
+          }
         }
         activities {
           title

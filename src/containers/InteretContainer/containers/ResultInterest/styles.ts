@@ -81,27 +81,44 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     marginTop: 34,
   },
-  expPerso: {
+  expContainer: {
     width: '50%',
     display: 'flex',
-    justifyContent: 'center',
-    height: 150,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   titlePerso: {
     color: '#00B2DB',
     fontWeight: 900,
     fontSize: 18,
   },
-  expPro: {
-    width: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    height: 150,
-  },
   titlePro: {
     color: '#223A7A',
     fontWeight: 900,
     fontSize: 18,
+  },
+  avatarStyle: {
+    position: 'relative',
+    maxHeight: '100%',
+    maxWidth: '100%',
+  },
+  themesContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+  },
+  themeContainer: {
+    width: 100,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: 10,
+  },
+  themeTitle: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#424242',
+    marginBottom: 3,
   },
   btnContainerModal: {
     display: 'flex',

@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { backdropColor: string }>((theme) => ({
+export default makeStyles<Theme, { backdropColor: string; size?: number }>((theme) => ({
   modalContainer: {
     width: '100%',
     height: '100%',
@@ -16,7 +16,13 @@ export default makeStyles<Theme, { backdropColor: string }>((theme) => ({
     backgroundColor: '#fff',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: 15,
-    width: '60%',
+    width: (props) => `${props.size ? props.size : 60}%`,
+    height: '80%',
+    overflow: 'scroll',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',
   },
   header: {
     display: 'flex',

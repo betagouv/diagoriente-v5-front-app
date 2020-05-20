@@ -8,13 +8,17 @@ interface Props {
   onChange: (e: any) => void;
   className?: string;
   name: string;
+  color?: string;
 }
-const CheckBox = ({ checked, onChange, name }: Props) => {
-  const classes = useStyles();
+const CheckBox = ({
+ checked, onChange, name, color,
+}: Props) => {
+  const classes = useStyles({ color });
+
   return (
     <label className={classes.container}>
       <input type="checkbox" checked={checked} onChange={onChange} name={name} />
-      <span className={classes.checkmark} />
+      <div className={classes.checkmark} />
       {checked && <img src={Icon} alt="checked" className={classes.icon} />}
     </label>
   );

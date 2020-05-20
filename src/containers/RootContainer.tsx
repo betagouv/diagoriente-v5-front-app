@@ -38,7 +38,6 @@ const RootContainer = () => {
   const [startupEnd, setStartupEnd] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [parcours, setParcours] = useState<UserParcour | null>(null);
-  console.log(parcours);
   useDidMount(() => {
     startup().then((data) => {
       if (data) {

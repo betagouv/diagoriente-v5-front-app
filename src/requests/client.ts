@@ -50,7 +50,7 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: 'https://api-ql-dev.diagoriente.beta.gouv.fr/graphql',
+      uri: 'http://localhost:3000/graphql',
     }),
   ]),
   cache: new InMemoryCache(),

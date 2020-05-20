@@ -9,12 +9,13 @@ interface IProps {
   children: React.ReactElement;
   backdropColor: string;
   colorIcon: string;
+  size?: number;
 }
 
 const ModalContainer = ({
- open, handleClose, backdropColor, colorIcon, children,
+ open, handleClose, backdropColor, colorIcon, children, size,
 }: IProps) => {
-  const classes = useStyles({ backdropColor });
+  const classes = useStyles({ backdropColor, size });
   return (
     <Modal
       open={open}

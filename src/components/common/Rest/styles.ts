@@ -11,8 +11,8 @@ export default makeStyles<Theme, { color: string }>((theme) => ({
     },
   },
   root: {
-    width: 32,
-    height: 32,
+    width: 33,
+    height: 33,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

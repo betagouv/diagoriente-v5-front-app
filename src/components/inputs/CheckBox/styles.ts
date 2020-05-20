@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+export default makeStyles<Theme, { color?: string }>(() => ({
   container: {
     display: 'block',
     position: 'relative',
@@ -17,7 +17,8 @@ export default makeStyles(() => ({
       width: 0,
       '&:checked': {
         '& ~ $checkmark': {
-          backgroundColor: '#00CFFF',
+          backgroundColor: '#4D6EC5',
+          border: 0,
           '&:after': {
             display: 'none',
           },
@@ -31,8 +32,6 @@ export default makeStyles(() => ({
         top: '2px',
         width: '5px',
         height: '10px',
-        border: 'solid white',
-        borderWidth: '0 3px 3px 0',
         transform: 'rotate(45deg)',
       },
     },
@@ -53,6 +52,7 @@ export default makeStyles(() => ({
     height: 20,
     backgroundColor: '#fff',
     borderRadius: 5,
+    border: '1px solid #C9C9C7',
     '&:after': {
       content: '""',
       position: 'absolute',

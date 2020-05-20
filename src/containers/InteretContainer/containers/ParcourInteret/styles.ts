@@ -93,6 +93,7 @@ export default makeStyles<Theme>((theme) => ({
     maxWidth: 1080,
     width: '100%',
     display: 'flex',
+    overflow: 'scroll',
   },
   btn: {
     backgroundColor: theme.palette.primary.main,

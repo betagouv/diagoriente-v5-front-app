@@ -21,3 +21,6 @@ a {
 a {
   text-decoration: none;
 }
+li {
+  outline: none;
+}

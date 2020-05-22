@@ -5,7 +5,7 @@ export default makeStyles((theme) =>
     footerContainer: {
       paddingTop: 80,
       paddingBottom: 80,
-      background: theme.palette.secondary.main,
+      background: '#011A5E',
       display: 'flex',
       overflow: 'hidden',
       alignItems: 'center',
@@ -100,11 +100,11 @@ export default makeStyles((theme) =>
     },
 
     circleLinkedin: {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: '#4D6EC5',
     },
 
     circleTwitter: {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: '#00CFFF',
     },
 
     textTop: {

@@ -12,6 +12,7 @@ import HomeContainer from 'containers/HomeContainer';
 import LoginContainer from 'containers/LoginContainer';
 import RegisterContainer from 'containers/RegisterContainer';
 import InteretContainer from 'containers/InteretContainer';
+import jobsContainer from 'containers/JobsContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
@@ -61,6 +62,7 @@ const RootContainer = () => {
             <Route protected path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
             <Route protected path="/experience" component={ExperienceComponent} />
+            <Route protected path="/jobs" component={jobsContainer} />
             <Route component={NotFoundPage} />
           </Switch>
         </ParcourContext.Provider>

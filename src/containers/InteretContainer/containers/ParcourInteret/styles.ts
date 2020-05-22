@@ -86,14 +86,22 @@ export default makeStyles<Theme>((theme) => ({
     padding: 10,
     [theme.breakpoints.down('xs')]: {
       padding: 10,
-      overflow: 'scroll',
+      overflow: 'overlay',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+      '-ms-overflow-style': 'none',
     },
   },
   footerContent: {
     maxWidth: 1080,
     width: '100%',
     display: 'flex',
-    overflow: 'scroll',
+    overflow: 'overlay',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',
   },
   btn: {
     backgroundColor: theme.palette.primary.main,

@@ -33,13 +33,16 @@ export default makeStyles((theme: Theme) => ({
     color: '#424242',
     lineHeight: 1.8,
   },
+  formContainer: {
+    [theme.breakpoints.up('lg')]: {
+      paddingRight: 50,
+    },
+  },
   form: {
     marginTop: 30,
     display: 'flex',
     flexDirection: 'column',
-    [theme.breakpoints.down('lg')]: {
-      paddingLeft: 50,
-    },
+
     [theme.breakpoints.down('md')]: {
       paddingRight: 50,
       paddingLeft: 0,

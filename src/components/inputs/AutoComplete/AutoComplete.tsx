@@ -16,7 +16,7 @@ interface IProps {
   placeholder: string;
   error?: boolean;
   errorText: string;
-  options: Location[];
+  options: any[];
 }
 
 const AutoComplete = ({

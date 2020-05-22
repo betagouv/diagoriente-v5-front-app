@@ -3,13 +3,15 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import parcoursContext from 'contexts/ParcourContext';
+import { useUpdateSkillsParcour } from 'requests/parcours';
 import useStyles from './styles';
 
 const ResultInterest = () => {
   const classes = useStyles();
   const { parcours } = useContext(parcoursContext);
+  const [updateCall, updateState] = useUpdateSkillsParcour();
   const [open, setOpen] = React.useState(false);
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const handleOpen = () => {
@@ -31,6 +33,12 @@ const ResultInterest = () => {
       setSelectedThemes(array);
     }
   };
+  const onValide = () => {
+    updateCall({ variables: { skillsAlgo: selectedThemes } });
+  };
+  if (updateState.data && !updateState.error) {
+    return <Redirect to="/jobs" />;
+  }
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -109,7 +117,7 @@ const ResultInterest = () => {
             </div>
           </div>
           <div className={classes.btnContainerModal}>
-            <Button className={classes.btn} onClick={() => {}}>
+            <Button className={classes.btn} onClick={onValide}>
               <div className={classes.btnLabel}>Valider</div>
             </Button>
           </div>

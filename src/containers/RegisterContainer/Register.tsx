@@ -113,7 +113,7 @@ const Register = ({ history }: RouteComponentProps) => {
         </div>
         <div className={classes.form}>
           <div className={classes.errorCondition}>{errorForm}</div>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className={classes.formContainer}>
             <Input
               name="firstName"
               label="Ton prénom"

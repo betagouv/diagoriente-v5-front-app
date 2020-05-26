@@ -54,7 +54,15 @@ const Login = ({ location }: RouteComponentProps) => {
 
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
-      if (loginState.error?.graphQLErrors[0].message) {
+      if (
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'object'
+      ) {
+        setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
+      } else if (
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'string'
+      ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
     }
@@ -88,7 +96,7 @@ const Login = ({ location }: RouteComponentProps) => {
   const onShowPassword = () => {
     setShowPassword(!showPasswordState);
   };
-
+  console.log('errorForm', errorForm);
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>

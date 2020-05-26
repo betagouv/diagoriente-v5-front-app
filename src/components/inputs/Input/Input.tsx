@@ -52,7 +52,7 @@ const Input = ({
               name={name}
               error={!!(errorText || errorForm)}
               InputProps={{
-                classes: { input: classNames(classes.inputRoot) },
+                classes: { input: classNames(classes.inputRoot), root: classes.inputBase },
                 startAdornment: (
                   <InputAdornment position="start">
                     {name === 'location' && <img src={LogoLocation} alt="location" />}

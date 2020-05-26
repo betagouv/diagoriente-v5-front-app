@@ -28,8 +28,11 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.down('xl')]: {
+      paddingRight: 50,
+    },
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: 50,
+      paddingRight: 50,
     },
     [theme.breakpoints.down('md')]: {
       paddingRight: 50,
@@ -99,5 +102,6 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.error.main,
     fontSize: 12,
+    paddingLeft: 10,
   },
 }));

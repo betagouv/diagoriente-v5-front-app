@@ -13,6 +13,9 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     alignItems: 'center',
     position: 'relative',
   },
+  inputBase: {
+    height: 35,
+  },
   inputRoot: {
     '& .MuiOutlinedInput-adornedStart': {
       paddingLeft: 4,
@@ -25,6 +28,9 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
       borderRadius: 5,
       margin: '9px 0px',
       color: '#424242',
+      '& .MuiOutlinedInput-input': {
+        padding: '0px !important',
+      },
       '&:hover:not(:focus-within)': {
         borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A'),
       },
@@ -43,11 +49,12 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
           fontSize: 14,
         },
         '& .MuiOutlinedInput-input': {
-          paddingLeft: '5px',
+          padding: '0px 0px 0px 5px !important',
+          backgroundColor: 'red',
         },
       },
       '& .MuiOutlinedInput-input:-webkit-autofill': {
-        padding: '7px 0px',
+        padding: '0px 0px',
       },
       '& .MuiOutlinedInput-notchedOutline': {
         borderWidth: 0,

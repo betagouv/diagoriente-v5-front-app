@@ -117,10 +117,10 @@ const Login = ({ location }: RouteComponentProps) => {
           />
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={8}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Link to="/forgotPassword">
                   <div className={classes.forgotText}>J’ai oublié mon mot de passe</div>
                 </Link>
@@ -129,10 +129,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={8}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <div className={classes.containerCheckbox}>
                   <CheckBox onChange={actions.handleChange} checked={state.values.stayConnected} name="stayConnected" />
                   <div className={classes.conditionText} onClick={onClickCondition}>
@@ -144,10 +144,10 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={8}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Button className={classes.btn} type="submit">
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>

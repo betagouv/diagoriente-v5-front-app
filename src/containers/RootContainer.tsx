@@ -14,6 +14,7 @@ import RegisterContainer from 'containers/RegisterContainer';
 import InteretContainer from 'containers/InteretContainer';
 import jobsContainer from 'containers/JobsContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
+import RenewPasswordContainer from 'containers/RenewPassword';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 import ExperienceComponent from 'containers/ExperienceContainer';
@@ -61,6 +62,7 @@ const RootContainer = () => {
             <Route footer path="/register" exact component={RegisterContainer} />
             <Route protected path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
+            <Route footer path="/renew" exact component={RenewPasswordContainer} />
             <Route protected path="/experience" component={ExperienceComponent} />
             <Route protected path="/jobs" component={jobsContainer} />
             <Route component={NotFoundPage} />

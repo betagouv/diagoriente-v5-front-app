@@ -2,18 +2,19 @@ import React from 'react';
 import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
-import { validateEmail } from 'utils/validation';
+import { validatePassword } from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
-import useStyles from './styles';
+import useStyles from '../ForgotPassword/styles';
 
-const ForgotPassword = () => {
+const RenewPassword = () => {
   const classes = useStyles();
 
   const [state, actions] = useForm({
-    initialValues: { email: '' },
+    initialValues: { password: '', confirmPassword: '' },
     validation: {
-      email: validateEmail,
+      password: validatePassword,
+      confirmPassword: validatePassword,
     },
   });
 
@@ -29,18 +30,25 @@ const ForgotPassword = () => {
     <div className={classes.root}>
       <div className={classes.loginContainer}>
         <div className={classes.title}>MOT DE PASSE OUBLIé</div>
-        <div className={classes.subTitle}>
-          Entre l’email que tu utilises pour te connecter afin de réinitialiser ton mot de passe :
-        </div>
+        <div className={classes.subTitle}>Entre votre nouvelle password :</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
-            label="Ton email"
+            label="Nouvelle mot de pass"
             name="email"
             required
             placeholder="exmaple@gmail.com"
-            value={state.values.email}
+            value={state.values.password}
             onChange={actions.handleChange}
-            errorText={state.touched.email && state.errors.email}
+            errorText={state.touched.password && state.errors.password}
+          />
+          <Input
+            label="Confirmer votre mot de pass"
+            name="email"
+            required
+            placeholder="exmaple@gmail.com"
+            value={state.values.confirmPassword}
+            onChange={actions.handleChange}
+            errorText={state.touched.confirmPassword && state.errors.confirmPassword}
           />
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
@@ -49,7 +57,7 @@ const ForgotPassword = () => {
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Button className={classes.btn} type="submit">
-                  <div className={classes.btnLabel}>Envoyer</div>
+                  <div className={classes.btnLabel}>Confirmer</div>
                 </Button>
               </Grid>
             </Grid>
@@ -60,4 +68,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default RenewPassword;

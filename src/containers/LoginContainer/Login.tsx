@@ -96,7 +96,6 @@ const Login = ({ location }: RouteComponentProps) => {
   const onShowPassword = () => {
     setShowPassword(!showPasswordState);
   };
-  console.log('errorForm', errorForm);
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>

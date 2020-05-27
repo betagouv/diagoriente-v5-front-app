@@ -77,7 +77,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       setParcours(addSkillState.data.addSkill);
       history.push(`/experience/skill/${match.params.themeId}/success`);
     }
-  }, [addSkillState, setParcours, history, match]);
+  }, [addSkillState.data, addSkillState.called]);
 
   if (loading) {
     return <div>...loading</div>;

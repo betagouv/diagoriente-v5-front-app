@@ -82,15 +82,14 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
               );
             })}
           </Grid>
-
-          <Button disabled={!competences.length} className={classes.btnperso} type="submit">
-            <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
+          <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
+            <Button disabled={!competences.length} className={classes.btnperso} type="submit">
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
                 <Arrow color="#223A7A" width="12" height="12" />
               </div>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>

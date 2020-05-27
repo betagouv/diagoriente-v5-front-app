@@ -5,7 +5,7 @@ import { useDidMount } from 'hooks/useLifeCycle';
 import startup from 'utils/startup';
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Switch,Route as BaseRoute } from 'react-router-dom';
+import { Switch, Route as BaseRoute } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 
 import HomeContainer from 'containers/HomeContainer';
@@ -15,7 +15,7 @@ import InteretContainer from 'containers/InteretContainer';
 import jobsContainer from 'containers/JobsContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
 import RenewPasswordContainer from 'containers/RenewPassword';
-
+import ConfiramtionContainer from 'containers/Confirmation';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 import ExperienceComponent from 'containers/ExperienceContainer';
@@ -61,6 +61,7 @@ const RootContainer = () => {
             <BaseRoute protected exact path="/" component={HomeContainer} />
             <Route footer path="/login" exact component={LoginContainer} />
             <Route footer path="/register" exact component={RegisterContainer} />
+            <Route footer path="/confirmation" exact component={ConfiramtionContainer} />
             <BaseRoute protected path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
             <Route footer path="/renew" exact component={RenewPasswordContainer} />

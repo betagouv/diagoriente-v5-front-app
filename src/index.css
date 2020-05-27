@@ -21,6 +21,10 @@ a {
 a {
   text-decoration: none;
 }
+ul {
+  padding: 0px;
+}
 li {
   outline: none;
+  list-style: none;
 }

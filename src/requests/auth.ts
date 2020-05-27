@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 
 import { User, Token } from './types';
 
@@ -110,3 +110,28 @@ export interface RefreshArguments {
 
 export const useRefresh = (options: MutationHookOptions<Token, RefreshArguments> = {}) =>
   useLocalMutation<Token, RefreshArguments>(loginMutation, options);
+
+export const AvatarQuery = gql`
+  {
+    avatars {
+      data {
+        id
+        url
+      }
+    }
+  }
+`;
+export interface AvatarsResponse {
+ 
+    avatars: {
+      data: [
+        {
+          id: string;
+          url: string;
+        },
+      ];
+    };
+  
+}
+export const useAvatars = (options: QueryHookOptions<AvatarsResponse> = {}) =>
+  useLocalQuery<AvatarsResponse>(AvatarQuery, options);

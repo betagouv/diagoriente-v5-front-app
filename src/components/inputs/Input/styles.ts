@@ -92,6 +92,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   },
   label: {
     marginRight: 14,
+    color: '#424242',
   },
   subTitle: {
     fontSize: 12,

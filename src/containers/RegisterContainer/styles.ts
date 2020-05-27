@@ -55,6 +55,40 @@ export default makeStyles((theme: Theme) => ({
       width: '95%',
     },
   },
+  avatarsWrapper: {
+    margin: '9px 0px',
+  },
+  avatarsContainer: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  labelConatiner: {
+    textAlign: 'right',
+    marginRight: 20,
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'left',
+      marginRight: 0,
+      marginBottom: 5,
+    },
+  },
+  label: {
+    fontSize: 14,
+    color: '#424242',
+  },
+  subLabel: {
+    fontSize: 12,
+    color: '#424242',
+  },
+  avatarCircle: {
+    padding: '0px !important',
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    cursor: 'pointer',
+  },
   btnContainer: {
     marginTop: 15,
   },

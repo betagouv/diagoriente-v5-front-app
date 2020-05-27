@@ -5,8 +5,9 @@ import Input from 'components/inputs/Input/Input';
 import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
 import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
+import Spinner from 'components/Spinner/Spinner';
 import { useForm } from 'hooks/useInputs';
-import { useRegister } from 'requests/auth';
+import { useRegister, useAvatars } from 'requests/auth';
 import { useLocation } from 'requests/location';
 import {
   validateEmail,
@@ -53,8 +54,8 @@ const Register = ({ history }: RouteComponentProps) => {
   });
   const { values, errors, touched } = state;
   const [registerCall, registerState] = useRegister();
+  const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const { data, loading } = useLocation({ variables: { search: values.location } });
-
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
@@ -101,6 +102,11 @@ const Register = ({ history }: RouteComponentProps) => {
   const onSelect = (e: string | null) => {
     if (e) setSelectedLocation(e);
   };
+  const onAvatarClick = (url: string) => {
+    actions.setValues({
+      logo: url,
+    });
+  };
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
@@ -134,13 +140,26 @@ const Register = ({ history }: RouteComponentProps) => {
               error={touched.lastName && (errors.lastName !== '' || errorFormObject.key === 'lastName')}
               errorText={touched.lastName ? errors.lastName : ''}
             />
-            <Input
-              label="Ton image de profil"
-              subTitle="Choisis un avatar"
-              onChange={actions.handleChange}
-              value={values.logo}
-              name="logo"
-            />
+            <div className={classes.avatarsWrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelConatiner}>
+                    <div className={classes.label}>Ton image de profil </div>
+                    <div className={classes.subLabel}>Choisis un avatar</div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <div className={classes.avatarsContainer}>
+                    {loadingAvatar && <Spinner />}
+                    {avatarData?.avatars.data.map((el) => (
+                      <div key={el.id} style={{ margin: '0px 7px' }} onClick={() => onAvatarClick(el.url)}>
+                        <img src={el.url} alt="" className={classes.avatar} />
+                      </div>
+                    ))}
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
             <Input
               label="Ton email*"
               onChange={actions.handleChange}
@@ -265,11 +284,7 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.containerCheckbox}>
-                    <CheckBox
-                      onChange={actions.handleChange}
-                      checked={values.acceptCondition}
-                      name="acceptCondition"
-                    />
+                    <CheckBox onChange={actions.handleChange} checked={values.acceptCondition} name="acceptCondition" />
                     <div className={classes.conditionText} onClick={onClickCondition}>
                       J&lsquo;accepte les
                       {' '}

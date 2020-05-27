@@ -24,6 +24,7 @@ import useStyles from './styles';
 const Register = ({ history }: RouteComponentProps) => {
   const [errorCondition, setErrorCondition] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedAvatar, setSelectedAvatar] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
@@ -103,10 +104,20 @@ const Register = ({ history }: RouteComponentProps) => {
     if (e) setSelectedLocation(e);
   };
   const onAvatarClick = (url: string) => {
-    actions.setValues({
-      logo: url,
-    });
+    console.log('test', selectedAvatar === url);
+    if (selectedAvatar === url) {
+      actions.setValues({
+        logo: '',
+      });
+      setSelectedAvatar('');
+    } else {
+      actions.setValues({
+        logo: url,
+      });
+      setSelectedAvatar(url);
+    }
   };
+  console.log('selectedAvatar', selectedAvatar);
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
@@ -153,7 +164,11 @@ const Register = ({ history }: RouteComponentProps) => {
                     {loadingAvatar && <Spinner />}
                     {avatarData?.avatars.data.map((el) => (
                       <div key={el.id} style={{ margin: '0px 7px' }} onClick={() => onAvatarClick(el.url)}>
-                        <img src={el.url} alt="" className={classes.avatar} />
+                        <img
+                          src={el.url}
+                          alt=""
+                          className={classNames(classes.avatar, selectedAvatar === el.url && classes.selectedAvatar)}
+                        />
                       </div>
                     ))}
                   </div>

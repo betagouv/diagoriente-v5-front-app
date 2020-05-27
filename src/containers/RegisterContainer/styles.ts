@@ -89,6 +89,10 @@ export default makeStyles((theme: Theme) => ({
     height: 70,
     cursor: 'pointer',
   },
+  selectedAvatar: {
+    border: `2px solid ${theme.palette.primary.main}`,
+    borderRadius: '50%',
+  },
   btnContainer: {
     marginTop: 15,
   },

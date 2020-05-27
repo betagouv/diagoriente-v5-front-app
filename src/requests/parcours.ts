@@ -15,6 +15,7 @@ export const getUserParcourQuery = gql`
         nom
       }
       skills {
+        id
         theme {
           title
           id

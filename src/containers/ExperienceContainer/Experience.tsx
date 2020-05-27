@@ -18,6 +18,27 @@ const theme = createMuiTheme({
       default: '#4D6EC5',
     },
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        backgroundColor: '#fff',
+        color: '#424242',
+        fontFamily: 'Andika New Basic',
+        fontSize: 14,
+        padding: 25,
+        borderRadius: 23,
+        boxShadow:
+          '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
+      },
+      arrow: {
+        color: '#fff',
+        fontSize: 12,
+      },
+      popper: {
+        margin: '0px 10px',
+      },
+    },
+  },
 });
 
 const Experience = () => {

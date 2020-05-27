@@ -16,6 +16,8 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   subTitle?: string;
   errorForm?: string;
   showPassword?: () => void;
+  className?: string;
+  inputClassName?: string;
 }
 
 const Input = ({
@@ -28,11 +30,13 @@ const Input = ({
   value,
   errorForm,
   required,
+  className,
+  inputClassName,
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
   return (
-    <div className={classes.root}>
+    <div className={classNames(classes.root, className)}>
       <Grid container spacing={0}>
         {label && (
           <Grid item xs={12} sm={4} md={5} lg={5}>
@@ -52,7 +56,7 @@ const Input = ({
               name={name}
               error={!!(errorText || errorForm)}
               InputProps={{
-                classes: { input: classNames(classes.inputRoot), root: classes.inputBase },
+                classes: { input: classNames(classes.inputRoot, inputClassName), root: classes.inputBase },
                 startAdornment: (
                   <InputAdornment position="start">
                     {name === 'location' && <img src={LogoLocation} alt="location" />}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, Ref } from 'react';
 import MuiButton, { ButtonProps } from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import classNames from 'utils/classNames';
@@ -11,7 +11,7 @@ interface IProps extends ButtonProps {
   fetching?: boolean;
 }
 
-const Button = ({
+const Button = forwardRef(({
  children, className, childrenClassName, fetching, ...rest
 }: IProps) => {
   const classes = useStyles();
@@ -27,6 +27,5 @@ const Button = ({
       </div>
     </MuiButton>
   );
-};
-
+});
 export default Button;

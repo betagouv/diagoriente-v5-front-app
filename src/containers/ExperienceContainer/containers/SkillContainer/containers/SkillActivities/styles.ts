@@ -30,7 +30,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: '50px 135px',
+      padding: '78px 135px',
       justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
@@ -70,6 +70,10 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       textAlign: 'center',
       textDecoration: 'underline',
+    },
+
+    arrowpreced: {
+      marginRight: 13,
     },
 
     header: {

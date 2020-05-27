@@ -32,7 +32,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
     if (theme || activities.length) {
       setOpen(true);
     }
-  }, [theme, activities]);
+  }, [theme, activities.length]);
 
   return (
     <div className={classes.appBar}>

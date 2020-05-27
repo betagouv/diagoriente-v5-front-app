@@ -31,7 +31,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: '50px 135px',
+      padding: '78px 135px',
       paddingBottom: 107,
       justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
@@ -72,6 +72,10 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       textAlign: 'center',
       textDecoration: 'underline',
+    },
+
+    arrowpreced: {
+      marginRight: 13,
     },
 
     header: {
@@ -175,6 +179,10 @@ export default makeStyles((theme: Theme) =>
       '&:hover': {
         backgroundColor: '#4D6EC5',
       },
+    },
+
+    tooltip:{
+      background:'#4D6EC5'
     },
 
     contentBtn: {

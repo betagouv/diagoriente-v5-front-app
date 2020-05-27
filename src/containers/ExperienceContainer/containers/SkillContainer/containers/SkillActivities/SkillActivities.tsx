@@ -3,6 +3,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { Activity, Theme } from 'requests/types';
+import { Tooltip } from '@material-ui/core';
 
 import classNames from 'utils/classNames';
 
@@ -10,6 +11,7 @@ import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import Button from 'components/button/Button';
 import RestLogo from 'components/common/Rest/Rest';
+import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
 import Arrow from 'assets/svg/arrow';
@@ -26,8 +28,8 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
   const classes = useStyles();
 
-  const addActivity = (id: string, title: string) => {
-    setActivities([...activities, { id, title }]);
+  const addActivity = (activite: Activity) => {
+    setActivities([...activities, activite]);
   };
 
   const deleteActivity = (id: string) => {
@@ -46,7 +48,11 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
         <div className={classes.themeContainer}>
           <TitleImage title="2" image={blueline} color="#223A7A" height="80px" />
           <p className={classes.title}>
-            Peux-tu nous en dire un peu plus sur les activités que tu pratiques ?
+            Peux-tu nous en dire un peu plus sur
+            <br />
+            <strong>les activités</strong>
+            que tu pratiques ?
+            <br />
             <small>(Plusieurs choix possibles)</small>
           </p>
           <div className={classes.circleContainer}>
@@ -55,14 +61,21 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
             {data?.theme.activities.map((act) => {
               const selected = activities.find((e) => e.id === act.id);
               return (
-                <Button
-                  variant="outlined"
+                <Tooltip
+                  open={!act.description ? false : undefined}
                   key={act.id}
-                  className={classNames(classes.activity, selected && classes.selectedActivity)}
-                  onClick={() => (!selected ? addActivity(act.id, act.title) : deleteActivity(act.id))}
+                  title={<Child>{act.description}</Child>}
+                  arrow
+                  placement="right"
                 >
-                  {act.title}
-                </Button>
+                  <Button
+                    variant="outlined"
+                    className={classNames(classes.activity, selected && classes.selectedActivity)}
+                    onClick={() => (!selected ? addActivity(act) : deleteActivity(act.id))}
+                  >
+                    {act.title}
+                  </Button>
+                </Tooltip>
               );
             })}
           </div>
@@ -77,7 +90,7 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
           </Button>
         </div>
         <Link to="/experience/theme" className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" />
+          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
           Precedent
         </Link>
       </div>

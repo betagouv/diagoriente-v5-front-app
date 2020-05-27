@@ -25,6 +25,7 @@ export const registerMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
+      
     ) {
       user {
         id

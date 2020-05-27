@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useCompetence } from 'requests/competences';
@@ -9,6 +10,7 @@ import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Button from 'components/button/Button';
+import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import classNames from 'utils/classNames';
 
@@ -28,8 +30,8 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
 
   const { data, loading } = useCompetence();
 
-  const addCompetence = (id: string, title: string) => {
-    setCompetences([...competences, { id, title }]);
+  const addCompetence = (competence: Competence) => {
+    setCompetences([...competences, competence]);
   };
 
   const deleteCompetence = (id: string) => {
@@ -46,7 +48,11 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
         <div className={classes.themeContainer}>
           <TitleImage title="3" image={blueline} color="#223A7A" height="80px" />
           <p className={classes.title}>
-            En rapport avec ces activités, quelles sont les compétences que tu mets en oeuvre ?
+            En rapport avec ces activités, quelles sont
+            <br />
+            <strong>les compétences </strong>
+            que tu mets en oeuvre ?
+            <br />
             <small>(4 choix maximum) </small>
           </p>
           <Grid className={classes.circleContainer} container spacing={3}>
@@ -57,20 +63,28 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
 
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
-                  <Button
-                    childrenClassName={classes.margin}
-                    className={classNames(classes.competences, selected && classes.selectedCompetence)}
-                    onClick={() => (!selected ? addCompetence(comp.id, comp.title) : deleteCompetence(comp.id))}
+                  <Tooltip
+                    title={comp.niveau.map((e) => (
+                      <Child>{e.title}</Child>
+                    ))}
+                    arrow
+                    placement="left"
                   >
-                    {comp.title}
-                  </Button>
+                    <Button
+                      childrenClassName={classes.margin}
+                      className={classNames(classes.competences, selected && classes.selectedCompetence)}
+                      onClick={() => (!selected ? addCompetence(comp) : deleteCompetence(comp.id))}
+                    >
+                      {comp.title}
+                    </Button>
+                  </Tooltip>
                 </Grid>
               );
             })}
           </Grid>
 
-          <Button className={classes.btnperso} type="submit">
-            <Link to="/experience/perso/comp" className={classes.hideLine}>
+          <Button disabled={!competences.length} className={classes.btnperso} type="submit">
+            <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
                 <Arrow color="#223A7A" width="12" height="12" />
@@ -80,7 +94,7 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" />
+          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
           Precedent
         </Link>
       </div>

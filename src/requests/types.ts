@@ -39,10 +39,19 @@ export interface Theme {
 export interface Activity {
   id: string;
   title: string;
+  description: string;
 }
 export interface Competence {
   id: string;
   title: string;
+  niveau: {
+    title: string;
+    sub_title: string;
+  }[];
+}
+export interface CompetenceValues {
+  id: string;
+  value: number;
 }
 export interface Selection {
   id: string;

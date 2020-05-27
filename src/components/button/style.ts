@@ -8,5 +8,15 @@ export default makeStyles(() => ({
     margin: '3px 20px 3px 19px',
     textTransform: 'none',
     fontFamily: 'Andika New Basic',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  loaderContainer: {
+    marginLeft: 7,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  colorPrimaryLoader: {
+    color: '#fff',
   },
 }));

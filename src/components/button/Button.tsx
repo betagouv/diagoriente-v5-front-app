@@ -20,8 +20,8 @@ const Button = ({
       <div className={classNames(classes.labelContainer, childrenClassName)}>
         {children}
         {fetching && (
-          <div className="button_loader flex_center">
-            <CircularProgress color="inherit" size={24} />
+          <div className={classes.loaderContainer}>
+            <CircularProgress classes={{ colorPrimary: classes.colorPrimaryLoader }} size={24} />
           </div>
         )}
       </div>

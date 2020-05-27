@@ -155,7 +155,7 @@ const Login = ({ location }: RouteComponentProps) => {
                 <div className={classes.emptyDiv} />
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={7}>
-                <Button className={classes.btn} type="submit">
+                <Button className={classes.btn} type="submit" fetching={loginState.loading}>
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>
               </Grid>

@@ -65,6 +65,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     fontSize: 18,
     fontWeight: 'bold',
+    cursor: 'pointer',
     '&:hover': {
       backgroundColor: '#00B2DB',
     },

@@ -64,8 +64,8 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
                   <Tooltip
-                    title={comp.niveau.map((e) => (
-                      <Child>{e.title}</Child>
+                    title={comp.niveau.map((e, index) => (
+                      <Child key={index}>{e.title}</Child>
                     ))}
                     arrow
                     placement="left"

@@ -106,13 +106,14 @@ const SkillCompetencesValues = ({
                       />
                       {echelonValue.map((value, index) => (
                         <Tooltip
+                          key={value}
                           title={(
                             <Child className={classes.tooltipContainer}>
                               <strong>{echelon[index]}</strong>
 
                               <div className={classes.tooltipPointContainer}>
                                 {[...Array(value)].map(() => (
-                                  <div className={classes.tooltipPoint} />
+                                  <div key={value} className={classes.tooltipPoint} />
                                 ))}
                               </div>
                               <strong>{competence.niveau[index].title}</strong>
@@ -122,7 +123,7 @@ const SkillCompetencesValues = ({
                           arrow
                           placement="right"
                         >
-                          <div key={value} className={classes.pointContainer}>
+                          <Child className={classes.pointContainer}>
                             <div
                               onClick={() => pointClick(competence.id, value)}
                               className={classNames(
@@ -136,7 +137,7 @@ const SkillCompetencesValues = ({
                                 }
                               }}
                             />
-                          </div>
+                          </Child>
                         </Tooltip>
                       ))}
                     </div>

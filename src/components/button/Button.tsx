@@ -11,21 +11,23 @@ interface IProps extends ButtonProps {
   fetching?: boolean;
 }
 
-const Button = forwardRef(({
+const Button = forwardRef(
+  ({
  children, className, childrenClassName, fetching, ...rest
-}: IProps) => {
-  const classes = useStyles();
-  return (
-    <MuiButton className={classNames(className, classes.root)} {...rest}>
-      <div className={classNames(classes.labelContainer, childrenClassName)}>
-        {children}
-        {fetching && (
-          <div className={classes.loaderContainer}>
-            <CircularProgress classes={{ colorPrimary: classes.colorPrimaryLoader }} size={24} />
-          </div>
-        )}
-      </div>
-    </MuiButton>
-  );
-});
+}: IProps, ref: Ref<HTMLButtonElement>) => {
+    const classes = useStyles();
+    return (
+      <MuiButton ref={ref} className={classNames(className, classes.root)} {...rest}>
+        <div className={classNames(classes.labelContainer, childrenClassName)}>
+          {children}
+          {fetching && (
+            <div className={classes.loaderContainer}>
+              <CircularProgress classes={{ colorPrimary: classes.colorPrimaryLoader }} size={24} />
+            </div>
+          )}
+        </div>
+      </MuiButton>
+    );
+  },
+);
 export default Button;

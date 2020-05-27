@@ -104,7 +104,6 @@ const Register = ({ history }: RouteComponentProps) => {
     if (e) setSelectedLocation(e);
   };
   const onAvatarClick = (url: string) => {
-    console.log('test', selectedAvatar === url);
     if (selectedAvatar === url) {
       actions.setValues({
         logo: '',
@@ -117,7 +116,6 @@ const Register = ({ history }: RouteComponentProps) => {
       setSelectedAvatar(url);
     }
   };
-  console.log('selectedAvatar', selectedAvatar);
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>

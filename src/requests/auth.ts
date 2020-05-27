@@ -64,6 +64,7 @@ export const loginMutation = gql`
       user {
         id
         email
+        logo
         profile {
           firstName
           lastName
@@ -122,16 +123,14 @@ export const AvatarQuery = gql`
   }
 `;
 export interface AvatarsResponse {
- 
-    avatars: {
-      data: [
-        {
-          id: string;
-          url: string;
-        },
-      ];
-    };
-  
+  avatars: {
+    data: [
+      {
+        id: string;
+        url: string;
+      },
+    ];
+  };
 }
 export const useAvatars = (options: QueryHookOptions<AvatarsResponse> = {}) =>
   useLocalQuery<AvatarsResponse>(AvatarQuery, options);

@@ -1,4 +1,4 @@
 import createLazyComponent from 'utils/createLazyComponent';
 
 // all containers should exported with lazy
-export default createLazyComponent(() => import('./Home'));
+export default createLazyComponent(() => import('./HomePage'));

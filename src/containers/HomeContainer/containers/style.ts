@@ -20,8 +20,15 @@ export default makeStyles((theme) => ({
     left: 0,
     right: 0,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
+  },
+  boxWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  types: {
+    width: 340,
   },
   content: {},
   titleContainer: {

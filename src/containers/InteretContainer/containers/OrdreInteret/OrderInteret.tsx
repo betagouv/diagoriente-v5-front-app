@@ -79,7 +79,7 @@ const OrderInteret = () => {
             {renderPlaceholder()}
           </div>
           <div className={classes.btnContainer}>
-            <Button className={classes.btn} onClick={onUpdate}>
+            <Button className={classes.btn} fetching={updateState.loading} onClick={onUpdate}>
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
                 <Arrow color="#fff" width="12" height="12" />

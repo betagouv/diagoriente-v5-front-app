@@ -8,6 +8,7 @@ export default makeStyles<Theme>((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 80,
+    paddingTop: 40,
   },
   content: {
     maxWidth: 1080,

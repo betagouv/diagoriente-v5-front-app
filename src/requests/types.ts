@@ -5,6 +5,8 @@ export interface User {
     firstName: string;
     lastName: string;
   };
+  played: boolean;
+  isActive: boolean;
   logo: string;
 }
 
@@ -66,6 +68,7 @@ export interface Location {
 export interface UserParcour {
   id: string;
   played: boolean;
+  completed: boolean;
   families: { id: string; nom: string }[];
   skills: {
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };

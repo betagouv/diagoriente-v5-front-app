@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string }>((theme) => ({
+export default makeStyles<Theme, { color: string; colorText: string }>((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -21,7 +21,7 @@ export default makeStyles<Theme, { color: string }>((theme) => ({
     fontWeight: 900,
     fontSize: 45,
     marginTop: 20,
-    color: theme.palette.secondary.main,
+    color: (props) => props.colorText,
   },
   subTitleBox: {
     fontSize: 18,

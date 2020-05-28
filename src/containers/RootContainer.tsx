@@ -16,6 +16,7 @@ import jobsContainer from 'containers/JobsContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
 import RenewPasswordContainer from 'containers/RenewPassword';
 import ConfiramtionContainer from 'containers/Confirmation';
+import GameContainer from 'containers/GameContainer';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 import ExperienceComponent from 'containers/ExperienceContainer';
@@ -67,6 +68,7 @@ const RootContainer = () => {
             <Route footer path="/renew" exact component={RenewPasswordContainer} />
             <Route protected path="/experience" component={ExperienceComponent} />
             <BaseRoute protected path="/jobs" component={jobsContainer} />
+            <BaseRoute protected path="/game" component={GameContainer} />
             <Route component={NotFoundPage} />
           </Switch>
         </ParcourContext.Provider>

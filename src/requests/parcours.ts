@@ -3,13 +3,14 @@ import gql from 'graphql-tag';
 import { LazyQueryHookOptions, MutationHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery, useLocalMutation } from 'hooks/apollo';
 
-import { UserParcour, Families } from './types';
+import { UserParcour } from './types';
 
 export const getUserParcourQuery = gql`
   {
     getUserParcour {
       id
       played
+      completed
       families {
         id
         nom
@@ -84,3 +85,16 @@ export interface UpdateSkillsArgument {
 export const useUpdateSkillsParcour = (
   options: MutationHookOptions<{ updateParcour: UpdateSkillsData }, UpdateSkillsArgument> = {},
 ) => useLocalMutation(updateSkillsParcours, options);
+
+export const updatePlayParcours = gql`
+  mutation UpdatePlayParcous($played: Boolean!) {
+    updateParcour(played: $played) {
+      played
+    }
+  }
+`;
+export interface UpdatePlayData {
+  played: boolean;
+}
+export const useUpdatePlayParcour = (options: MutationHookOptions<{ updateParcour: UpdatePlayData }> = {}) =>
+  useLocalMutation(updatePlayParcours, options);

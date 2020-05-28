@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { setAuthorizationBearer } from 'requests/client';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
 import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
@@ -7,6 +8,7 @@ import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Spinner from 'components/Spinner/Spinner';
 import { useForm } from 'hooks/useInputs';
+import UserContext from 'contexts/UserContext';
 import { useRegister, useAvatars } from 'requests/auth';
 import { useLocation } from 'requests/location';
 import {
@@ -26,6 +28,7 @@ const Register = ({ history }: RouteComponentProps) => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
+  const { setUser } = useContext(UserContext);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -74,7 +77,10 @@ const Register = ({ history }: RouteComponentProps) => {
   };
   useEffect(() => {
     if (registerState.data && !registerState.error) {
-      history.push('/');
+      /* setAuthorizationBearer(loginState.data.login.token.accessToken);
+      setUser(loginState.data.login.user); */
+
+      history.push('/confirmation');
     } else {
       if (typeof registerState.error?.graphQLErrors[0].message === 'string') {
         setErrorForm(registerState.error?.graphQLErrors[0].message);

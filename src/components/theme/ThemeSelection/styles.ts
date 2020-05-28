@@ -36,8 +36,11 @@ export default makeStyles((theme: Theme) =>
       fontSize: 18,
       color: '#FFFFFF',
     },
+
     childrenSelection: {
       background: '#FFFFFF',
+      overflow: 'auto',
+      maxHeight: '50vh',
     },
 
     header: {

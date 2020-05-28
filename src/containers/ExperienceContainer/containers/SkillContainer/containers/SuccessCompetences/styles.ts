@@ -236,4 +236,9 @@ export default makeStyles((theme) => ({
     width: '100%',
     resize: 'none',
   },
+
+  defaultValue: {
+    fontSize: 14,
+    color: '#6B6B6A',
+  },
 }));

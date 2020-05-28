@@ -68,8 +68,34 @@ export interface UserParcour {
   played: boolean;
   families: { id: string; nom: string }[];
   skills: {
+    id:string,
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
     activities: { id: string; title: string; description: string };
     competences: { _id: string; value: number };
   }[];
+}
+
+export interface Skill {
+  id: string;
+  parcourId: string;
+  type: string;
+
+  theme: {
+    id: string;
+    title: string;
+    type: string;
+    verified: string;
+    resources?: { icon: string; color: string; backgroundColor: string };
+    tooltips: { competenceId: string; tooltip: string }[];
+  };
+  activities: {
+    id: string;
+    title: string;
+    type: string;
+    description: string;
+    interests: string[];
+    verified: boolean;
+  }[];
+  competences: { _id: string; value: number }[];
+  comment: { firstName: string; lastName: string; email: string; text: string; status: string }[];
 }

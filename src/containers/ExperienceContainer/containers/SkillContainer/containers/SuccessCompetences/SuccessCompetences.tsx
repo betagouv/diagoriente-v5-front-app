@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { TextField } from '@material-ui/core';
 import { Theme } from 'requests/types';
 import { useForm } from 'hooks/useInputs';
 
 import { validateEmail } from 'utils/validation';
+import { useAddSkillComment } from 'requests/skillComment';
 
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Input from 'components/inputs/Input/Input';
+import ParcourContext from 'contexts/ParcourContext';
 
 import msg from 'assets/svg/msg.svg';
 import arrowleft from 'assets/svg/arrowLeft.svg';
@@ -20,25 +22,32 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
 }
 
-const ResultCompetences = ({ theme }: Props) => {
+const ResultCompetences = ({ theme, match }: Props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
+  const [addSkillCommentCall, addSkillCommentState] = useAddSkillComment();
+  const { parcours } = useContext(ParcourContext);
 
   const [state, actions] = useForm({
-    initialValues: { email: '', firstName: '', lastName: '' },
+    initialValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      comment: '',
+    },
     validation: {
       email: validateEmail,
     },
+    required: ['firstName', 'lastName', 'email', 'comment'],
   });
 
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleSecondOpen = () => {
-    if (!state.values.email) {
+    if (!state.values.email && !state.values.firstName && !state.values.firstName) {
       actions.setAllTouched(true);
       setSecondOpen(false);
     } else {
@@ -46,11 +55,30 @@ const ResultCompetences = ({ theme }: Props) => {
       setSecondOpen(true);
     }
   };
+  const valueSkill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
 
   const handleThirdOpen = () => {
-    setOpen(false);
-    setSecondOpen(false);
-    setThirdOpen(true);
+    if (!state.values.comment) {
+      actions.setAllTouched(true);
+      setThirdOpen(false);
+    } else {
+      setOpen(false);
+      if (valueSkill) {
+        addSkillCommentCall({
+          variables: {
+            id: valueSkill.id,
+            firstName: state.values.firstName,
+            lastName: state.values.lastName,
+            email: state.values.email,
+            text: state.values.comment,
+          },
+        });
+      }
+
+      setSecondOpen(false);
+
+      setThirdOpen(true);
+    }
   };
 
   const handlePreced = () => {
@@ -71,14 +99,14 @@ const ResultCompetences = ({ theme }: Props) => {
     setThirdOpen(false);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (actions.validateForm()) {
-      console.log('helloo');
-    } else {
-      actions.setAllTouched(true);
+  useEffect(() => {
+    if (secondOpen) {
+      actions.setValues({
+        comment:
+          "Bonjour Marie Dupont, Lena M a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,",
+      });
     }
-  };
+  }, [secondOpen]);
 
   return (
     <div className={classes.root}>
@@ -116,9 +144,9 @@ const ResultCompetences = ({ theme }: Props) => {
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
           <div className={classes.descriptionModal}>Je souhaite demander une recommandation à</div>
-          <form className={classes.formContainer} onSubmit={onSubmit}>
+          <form className={classes.formContainer}>
             <Input
-              label="Nom:"
+              label="Nom* :"
               name="firstName"
               value={state.values.firstName}
               onChange={actions.handleChange}
@@ -128,7 +156,7 @@ const ResultCompetences = ({ theme }: Props) => {
               inputClassName={classes.fontInput}
             />
             <Input
-              label="Prénom:"
+              label="Prénom* :"
               name="lastName"
               value={state.values.lastName}
               onChange={actions.handleChange}
@@ -139,9 +167,8 @@ const ResultCompetences = ({ theme }: Props) => {
             />
 
             <Input
-              label="Email"
+              label="Email* :"
               name="email"
-              required
               placeholder="ex : mail@exemple.com "
               value={state.values.email}
               onChange={actions.handleChange}
@@ -163,9 +190,29 @@ const ResultCompetences = ({ theme }: Props) => {
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
-          <div className={classes.descriptionModal}>Le message pour Marie Dupont (marie.dupont@mail.com)</div>
+          <div className={classes.descriptionModal}>
+            Le message pour
+            {`${state.values.firstName} ${state.values.lastName}`}
+            (
+            {state.values.email}
+            )
+          </div>
           <form className={classes.experienceContainer}>
-            <TextField rows={6} multiline className={classes.textArea} variant="outlined" />
+            <TextField
+              name="comment"
+              value={state.values.comment}
+              onChange={actions.handleChange}
+              InputProps={{
+                classes: {
+                  input: classes.defaultValue,
+                },
+              }}
+              rows={6}
+              multiline
+              className={classes.textArea}
+              variant="outlined"
+              error={state.touched.comment && state.errors.comment}
+            />
             <div className={classes.message}>
               Attention : Tu peux modifier ou compléter ce message avant de l'envoyer !
             </div>
@@ -189,10 +236,13 @@ const ResultCompetences = ({ theme }: Props) => {
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
 
-          <img src={msg} height={90} className={classes.iconBackground} />
+          <img src={msg} height={90} className={classes.iconBackground} alt=" " />
 
           <div className={classes.descriptionModalContainer}>
-            Le message a bien été envoyé à Marie Dupont. Sa recommandation
+            Le message a bien été envoyé à
+            {' '}
+            {`${state.values.firstName} ${state.values.lastName}`}
+            . Sa recommandation
             <br />
             apparaîtra dans ta carte de compétences.
           </div>

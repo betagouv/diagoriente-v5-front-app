@@ -79,15 +79,14 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
               );
             })}
           </div>
-
-          <Button disabled={!activities.length} className={classes.btnperso} type="submit">
-            <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.hideLine}>
+          <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.hideLine}>
+            <Button disabled={!activities.length} className={classes.btnperso} type="submit">
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
                 <Arrow color="#223A7A" width="12" height="12" />
               </div>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
         <Link to="/experience/theme" className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />

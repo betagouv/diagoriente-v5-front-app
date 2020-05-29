@@ -9,7 +9,10 @@ import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Spinner from 'components/Spinner/Spinner';
 import { useForm } from 'hooks/useInputs';
 import UserContext from 'contexts/UserContext';
+import { useGetUserParcour } from 'requests/parcours';
 import { useRegister, useAvatars } from 'requests/auth';
+import ParcourContext from 'contexts/ParcourContext';
+
 import { useLocation } from 'requests/location';
 import {
   validateEmail,
@@ -28,6 +31,7 @@ const Register = ({ history }: RouteComponentProps) => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
+  const { setParcours } = useContext(ParcourContext);
   const { setUser } = useContext(UserContext);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
@@ -58,6 +62,7 @@ const Register = ({ history }: RouteComponentProps) => {
   });
   const { values, errors, touched } = state;
   const [registerCall, registerState] = useRegister();
+  const [getUserParcour, getUserParcourState] = useGetUserParcour();
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const { data, loading } = useLocation({ variables: { search: values.location } });
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -72,15 +77,16 @@ const Register = ({ history }: RouteComponentProps) => {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
     } else {
+      if (selectedAvatar === '') {
+        setErrorForm('Choisir un avatar');
+      }
       actions.setAllTouched(true);
     }
   };
   useEffect(() => {
     if (registerState.data && !registerState.error) {
-      /* setAuthorizationBearer(loginState.data.login.token.accessToken);
-      setUser(loginState.data.login.user); */
-
-      history.push('/confirmation');
+      setAuthorizationBearer(registerState.data.register.token.accessToken);
+      getUserParcour();
     } else {
       if (typeof registerState.error?.graphQLErrors[0].message === 'string') {
         setErrorForm(registerState.error?.graphQLErrors[0].message);
@@ -92,7 +98,16 @@ const Register = ({ history }: RouteComponentProps) => {
         setErrorFormObject({ key, value });
       }
     }
-  }, [registerState.data, registerState.error, history]);
+  }, [registerState.data, registerState.error, values.email, values.password, registerState, getUserParcour, setUser]);
+
+  useEffect(() => {
+    if (getUserParcourState.data) {
+      setParcours(getUserParcourState?.data?.getUserParcour);
+      setUser(registerState.data?.register.user || null);
+      history.push('/confirmation');
+    }
+  }, [setParcours, getUserParcourState, registerState, history, setUser]);
+
   useEffect(() => {
     if (values.acceptCondition) {
       setErrorCondition('');
@@ -119,6 +134,7 @@ const Register = ({ history }: RouteComponentProps) => {
       actions.setValues({
         logo: url,
       });
+      setErrorForm('');
       setSelectedAvatar(url);
     }
   };
@@ -133,7 +149,16 @@ const Register = ({ history }: RouteComponentProps) => {
           </div>
         </div>
         <div className={classes.form}>
-          <div className={classes.errorCondition}>{errorForm}</div>
+          <div className={classes.btnContainer}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
+                <div className={classes.emptyDiv} />
+              </Grid>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <div className={classes.errorCondition}>{errorForm}</div>
+              </Grid>
+            </Grid>
+          </div>
           <form onSubmit={onSubmit} className={classes.formContainer}>
             <Input
               name="firstName"
@@ -201,12 +226,12 @@ const Register = ({ history }: RouteComponentProps) => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password
-                && errors.password !== ''
-                && hasUppercase(values.password)
-                && hasLowercase(values.password)
-                && hasNumber(values.password)
-                && hasSpecial(values.password)
+                touched.password &&
+                errors.password !== '' &&
+                hasUppercase(values.password) &&
+                hasLowercase(values.password) &&
+                hasNumber(values.password) &&
+                hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -306,9 +331,7 @@ const Register = ({ history }: RouteComponentProps) => {
                     <CheckBox onChange={actions.handleChange} checked={values.acceptCondition} name="acceptCondition" />
                     <div className={classes.conditionText} onClick={onClickCondition}>
                       J&lsquo;accepte les
-                      {' '}
                       <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-                      {' '}
                       de Diagoriente*
                     </div>
                   </div>

@@ -65,7 +65,7 @@ const RootContainer = () => {
             <Route footer path="/confirmation" exact component={ConfiramtionContainer} />
             <BaseRoute protected path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
-            <Route footer path="/renew" exact component={RenewPasswordContainer} />
+            <Route footer path="/reset" exact component={RenewPasswordContainer} />
             <Route protected path="/experience" component={ExperienceComponent} />
             <BaseRoute protected path="/jobs" component={jobsContainer} />
             <BaseRoute protected path="/game" component={GameContainer} />

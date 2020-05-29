@@ -3,13 +3,14 @@ import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import { validateEmail } from 'utils/validation';
+import { useForgot } from 'requests/auth';
 
 import { useForm } from 'hooks/useInputs';
 import useStyles from './styles';
 
 const ForgotPassword = () => {
   const classes = useStyles();
-
+  const [forgotCall, forgotState] = useForgot();
   const [state, actions] = useForm({
     initialValues: { email: '' },
     validation: {
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
-      // call api
+      forgotCall({ variables: { email: state.values.email } });
     } else {
       actions.setAllTouched(true);
     }
@@ -48,7 +49,7 @@ const ForgotPassword = () => {
                 <div className={classes.emptyDiv} />
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={7}>
-                <Button className={classes.btn} type="submit">
+                <Button className={classes.btn} type="submit" fetching={forgotState.loading}>
                   <div className={classes.btnLabel}>Envoyer</div>
                 </Button>
               </Grid>

@@ -25,7 +25,6 @@ export const registerMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
-      
     ) {
       user {
         id
@@ -38,6 +37,12 @@ export const registerMutation = gql`
         codeGroupe
         location
         logo
+      }
+      token {
+        tokenType
+        accessToken
+        refreshToken
+        expiresIn
       }
     }
   }
@@ -94,6 +99,22 @@ export interface LoginData {
 export const useLogin = (options: MutationHookOptions<{ login: LoginData }, LoginArguments> = {}) =>
   useLocalMutation(loginMutation, options);
 
+export const forgotMutation = gql`
+  mutation Forgot($email: String!) {
+    forgot(email: $email)
+  }
+`;
+
+export interface ForgotArguments {
+  email: string;
+}
+export interface ForgotData {
+  user: User;
+}
+
+export const useForgot = (options: MutationHookOptions<{ forgot: ForgotData }, ForgotArguments> = {}) =>
+  useLocalMutation(forgotMutation, options);
+
 export const refreshMutation = gql`
   mutation Refresh($email: String!, $refreshToken: String!) {
     refresh(email: $email, refreshToken: $refreshToken) {
@@ -135,3 +156,38 @@ export interface AvatarsResponse {
 }
 export const useAvatars = (options: QueryHookOptions<AvatarsResponse> = {}) =>
   useLocalQuery<AvatarsResponse>(AvatarQuery, options);
+
+export const resetMutation = gql`
+  mutation Reset($password: String!, $token: String!) {
+    reset(password: $password, token: $token) {
+      user {
+        id
+        email
+        logo
+        profile {
+          firstName
+          lastName
+          institution
+        }
+      }
+      token {
+        tokenType
+        accessToken
+        refreshToken
+        expiresIn
+      }
+    }
+  }
+`;
+
+export interface ResetArguments {
+  password: string;
+  token: string;
+}
+export interface ResetData {
+  user: User;
+  token: Token;
+}
+
+export const useReset = (options: MutationHookOptions<{ reset: ResetData }, ResetArguments> = {}) =>
+  useLocalMutation(forgotMutation, options);

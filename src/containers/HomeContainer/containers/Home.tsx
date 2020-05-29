@@ -73,7 +73,7 @@ const FirstDashboard = () => {
           </div>
         </div>
       </div>
-      {!user?.played && (
+      {user?.played && (
         <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
           <GameContainer />
         </ModalContainer>

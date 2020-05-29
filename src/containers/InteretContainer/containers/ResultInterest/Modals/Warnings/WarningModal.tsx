@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'components/button/Button';
+import { Link } from 'react-router-dom';
 import useStyles from './style';
 
 const WarningModal = () => {
@@ -15,9 +16,11 @@ const WarningModal = () => {
         </div>
       </div>
       <div className={classes.btnContainerModal}>
-        <Button className={classes.btn}>
-          <div className={classes.btnLabel}>Compris !</div>
-        </Button>
+        <Link to="/">
+          <Button className={classes.btn}>
+            <div className={classes.btnLabel}>Compris !</div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

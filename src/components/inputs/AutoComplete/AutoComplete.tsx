@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import LogoRose from 'assets/form/Vector.png';
 import LogoCheked from 'assets/form/check.png';
-import { Location } from 'requests/types';
 import useStyles from './styles';
 
 interface IProps {

@@ -1,16 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
+import { setAuthorizationBearer } from 'requests/client';
+import UserContext from 'contexts/UserContext';
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 import { validatePassword } from 'utils/validation';
 import { useReset } from 'requests/auth';
 import { useForm } from 'hooks/useInputs';
+import ParcourContext from 'contexts/ParcourContext';
+import { useGetUserParcour } from 'requests/parcours';
+
 import useStyles from '../ForgotPassword/styles';
 
 const RenewPassword = ({ history }: RouteComponentProps) => {
   const classes = useStyles();
   const token = useLocation().search.slice(7);
+  const { setUser } = useContext(UserContext);
+  const { setParcours } = useContext(ParcourContext);
+  const [getUserParcour, getUserParcourState] = useGetUserParcour();
   const [state, actions] = useForm({
     initialValues: { password: '', confirmPassword: '' },
     validation: {
@@ -32,9 +40,18 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
   };
   useEffect(() => {
     if (resetState.data && !resetState.error) {
-      history.push('/login');
+      setAuthorizationBearer(resetState.data.reset.token.accessToken);
+      getUserParcour();
     }
   });
+  useEffect(() => {
+    if (getUserParcourState.data) {
+      setParcours(getUserParcourState?.data?.getUserParcour);
+      setUser(resetState.data?.reset.user || null);
+      history.push('/');
+    }
+  }, [setParcours, getUserParcourState, resetState, history, setUser]);
+
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>

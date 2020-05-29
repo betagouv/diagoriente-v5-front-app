@@ -190,4 +190,4 @@ export interface ResetData {
 }
 
 export const useReset = (options: MutationHookOptions<{ reset: ResetData }, ResetArguments> = {}) =>
-  useLocalMutation(forgotMutation, options);
+  useLocalMutation(resetMutation, options);

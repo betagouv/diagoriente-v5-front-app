@@ -93,8 +93,29 @@ export const updatePlayParcours = gql`
     }
   }
 `;
+export interface UpdatePlayArgument {
+  played: boolean;
+}
 export interface UpdatePlayData {
   played: boolean;
 }
-export const useUpdatePlayParcour = (options: MutationHookOptions<{ updateParcour: UpdatePlayData }> = {}) =>
-  useLocalMutation(updatePlayParcours, options);
+export const useUpdatePlayParcour = (
+  options: MutationHookOptions<{ updateParcour: UpdatePlayData }, UpdatePlayArgument> = {},
+) => useLocalMutation(updatePlayParcours, options);
+
+export const updateCompletedParcours = gql`
+  mutation UpdateCompletedParcous($completed: Boolean!) {
+    updateParcour(completed: $completed) {
+      completed
+    }
+  }
+`;
+export interface UpdateCompletedArgument {
+  completed: boolean;
+}
+export interface UpdateCompletedData {
+  completed: boolean;
+}
+export const useUpdateCompletedParcour = (
+  options: MutationHookOptions<{ updateParcour: UpdateCompletedData }, UpdateCompletedArgument> = {},
+) => useLocalMutation(updateCompletedParcours, options);

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import Logo from 'assets/svg/logoHome.svg';
-import UserContext from 'contexts/UserContext';
 import ParcoursContext from 'contexts/ParcourContext';
 import logoInterest from 'assets/svg/interest.svg';
 import logoJobs from 'assets/svg/logoJobs.svg';
@@ -12,7 +11,6 @@ import useStyles from './style';
 
 const FirstDashboard = () => {
   const classes = useStyles();
-  const { user } = useContext(UserContext);
   const { parcours } = useContext(ParcoursContext);
 
   const [open, setOpen] = useState(true);
@@ -73,7 +71,7 @@ const FirstDashboard = () => {
           </div>
         </div>
       </div>
-      {user?.played && (
+      {!parcours?.played && (
         <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
           <GameContainer />
         </ModalContainer>

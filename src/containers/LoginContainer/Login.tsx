@@ -1,6 +1,4 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
@@ -20,7 +18,7 @@ import { useGetUserParcour } from 'requests/parcours';
 
 import useStyles from './styles';
 
-const Login = ({ location }: RouteComponentProps) => {
+const Login = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
   const [showPasswordState, setShowPassword] = useState(false);
   const [getUserParcour, getUserParcourState] = useGetUserParcour();
@@ -49,19 +47,21 @@ const Login = ({ location }: RouteComponentProps) => {
         localforage.setItem('auth', JSON.stringify(loginState.data.login));
       }
       setUser(loginState.data.login.user);
+      const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
+      history.push(path);
     }
-  }, [loginState.data, getUserParcourState.data, setParcours, getUserParcour, setUser, state.values.stayConnected]);
+  }, [loginState.data, getUserParcourState.data, setParcours, getUserParcour, setUser, state.values.stayConnected, history]);
 
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'object'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'object'
       ) {
         setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
       } else if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'string'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'string'
       ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
@@ -85,7 +85,8 @@ const Login = ({ location }: RouteComponentProps) => {
 
   if (user) {
     const { from } = decodeUri(location.search);
-    return <Redirect to={from || '/'} />;
+    const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
+    return <Redirect to={from || path} />;
   }
 
   const onClickCondition = () => {

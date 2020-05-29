@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/Title/Title';
+import ParcoursContext from 'contexts/ParcourContext';
+import { useDidMount } from 'hooks/useLifeCycle';
+import { useUpdateCompletedParcour } from 'requests/parcours';
 import useStyles from './styles';
 
 const JobsContainer = () => {
   const classes = useStyles();
+  const { parcours } = useContext(ParcoursContext);
+  const [updateCompleteCall, updateCompletState] = useUpdateCompletedParcour();
+  useDidMount(() => {
+    if (!parcours?.completed) {
+      updateCompleteCall({ variables: { completed: true } });
+    }
+  });
+  console.log('updateCompletState', updateCompletState);
   return (
     <div>
       <div className={classes.titleContainer}>

@@ -10,6 +10,7 @@ import { useReset } from 'requests/auth';
 import { useForm } from 'hooks/useInputs';
 import ParcourContext from 'contexts/ParcourContext';
 import { useGetUserParcour } from 'requests/parcours';
+import localforage from 'localforage';
 
 import useStyles from '../ForgotPassword/styles';
 
@@ -48,6 +49,7 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
     if (getUserParcourState.data) {
       setParcours(getUserParcourState?.data?.getUserParcour);
       setUser(resetState.data?.reset.user || null);
+      localforage.setItem('auth', JSON.stringify(resetState.data?.reset));
       history.push('/');
     }
   }, [setParcours, getUserParcourState, resetState, history, setUser]);

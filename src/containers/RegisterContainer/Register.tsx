@@ -12,6 +12,7 @@ import UserContext from 'contexts/UserContext';
 import { useGetUserParcour } from 'requests/parcours';
 import { useRegister, useAvatars } from 'requests/auth';
 import ParcourContext from 'contexts/ParcourContext';
+import localforage from 'localforage';
 
 import { useLocation } from 'requests/location';
 import {
@@ -104,6 +105,7 @@ const Register = ({ history }: RouteComponentProps) => {
     if (getUserParcourState.data) {
       setParcours(getUserParcourState?.data?.getUserParcour);
       setUser(registerState.data?.register.user || null);
+      localforage.setItem('auth', JSON.stringify(registerState.data?.register));
       history.push('/confirmation');
     }
   }, [setParcours, getUserParcourState, registerState, history, setUser]);

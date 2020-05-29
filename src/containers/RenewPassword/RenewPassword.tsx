@@ -43,7 +43,8 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
             label="Nouvelle mot de passe"
-            name="email"
+            name="password"
+            type="password"
             required
             placeholder="exmaple@gmail.com"
             value={state.values.password}
@@ -52,8 +53,9 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
           />
           <Input
             label="Confirmer votre mot de passe"
-            name="email"
+            name="confirmPassword"
             required
+            type="password"
             placeholder="exmaple@gmail.com"
             value={state.values.confirmPassword}
             onChange={actions.handleChange}

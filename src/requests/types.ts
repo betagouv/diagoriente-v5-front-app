@@ -36,6 +36,10 @@ export interface Theme {
     title: string;
     description: string;
   }[];
+  tooltips: {
+    competenceId: string;
+    tooltip: string;
+  }[];
 }
 
 export interface Activity {

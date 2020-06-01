@@ -40,7 +40,6 @@ const SkillCompetencesValues = ({
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
   const arrowRef = useRef(null as HTMLDivElement | null);
   const [fixRef, setFixRef] = useState(0);
-
   const pointClick = (id: string, value: number) => {
     const nextCompetenceValues = [...competencesValues];
     const index = nextCompetenceValues.findIndex((v) => v.id === id);

@@ -84,7 +84,9 @@ export default makeStyles((theme) => ({
     backgroundColor: '#7533FF',
     fontSize: 18,
     fontWeight: 'bold',
-    '&:hover': {},
+    '&:hover': {
+      backgroundColor: '#420FAB',
+    },
   },
 
   btnLabelFirstUse: {

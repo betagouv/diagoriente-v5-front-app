@@ -108,7 +108,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         <Route
           render={(props) => {
             if (!activities.length) return <Redirect to={path.join(match.url, '/activities')} />;
-            return <SkillCompetences {...props} competences={competences} setCompetences={setCompetences} />;
+            return <SkillCompetences {...props} competences={competences} setCompetences={setCompetences} theme={data.theme} />;
           }}
           path={`${match.path}/competences`}
           exact

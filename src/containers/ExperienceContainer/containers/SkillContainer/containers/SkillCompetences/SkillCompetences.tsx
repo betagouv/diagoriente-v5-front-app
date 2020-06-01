@@ -3,7 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useCompetence } from 'requests/competences';
-import { Competence } from 'requests/types';
+import { Competence, Theme } from 'requests/types';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
@@ -23,11 +23,13 @@ import useStyles from './styles';
 interface Props extends RouteComponentProps<{ themeId: string }> {
   competences: Competence[];
   setCompetences: (Competences: Competence[]) => void;
+  theme: Theme | null;
 }
 
-const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => {
+const ExperienceCompetence = ({
+ match, competences, setCompetences, theme,
+}: Props) => {
   const classes = useStyles();
-
   const { data, loading } = useCompetence();
 
   const addCompetence = (competence: Competence) => {
@@ -58,18 +60,13 @@ const ExperienceCompetence = ({ match, competences, setCompetences }: Props) => 
           <Grid className={classes.circleContainer} container spacing={3}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
 
-            {data?.competences.data.map((comp) => {
+            {data?.competences.data.map((comp, index) => {
               const selected = competences.find((e) => e.id === comp.id);
+              const tooltip = theme?.tooltips.find((e) => e.competenceId === comp.id);
 
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
-                  <Tooltip
-                    title={comp.niveau.map((e, index) => (
-                      <Child key={index}>{e.title}</Child>
-                    ))}
-                    arrow
-                    placement="left"
-                  >
+                  <Tooltip title={<Child key={index}>{tooltip && tooltip.tooltip}</Child>} arrow placement="left">
                     <Button
                       childrenClassName={classes.margin}
                       className={classNames(classes.competences, selected && classes.selectedCompetence)}

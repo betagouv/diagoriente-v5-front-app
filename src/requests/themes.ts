@@ -47,6 +47,10 @@ export const themeQuery = gql`
         title
         description
       }
+      tooltips {
+        competenceId
+        tooltip
+      }
     }
   }
 `;

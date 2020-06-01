@@ -36,6 +36,10 @@ export interface Theme {
     title: string;
     description: string;
   }[];
+  tooltips: {
+    competenceId: string;
+    tooltip: string;
+  }[];
 }
 
 export interface Activity {
@@ -71,7 +75,7 @@ export interface UserParcour {
   completed: boolean;
   families: { id: string; nom: string }[];
   skills: {
-    id:string,
+    id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
     activities: { id: string; title: string; description: string };
     competences: { _id: string; value: number };

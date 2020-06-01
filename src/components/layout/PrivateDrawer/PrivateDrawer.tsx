@@ -3,7 +3,10 @@ import React, { useContext, useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
+import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
+import parcoursContext from 'contexts/ParcourContext';
+import userContext from 'contexts/UserContext';
 
 import { useListener } from 'hooks/useListener';
 import useStyles from './styles';
@@ -17,6 +20,7 @@ export const links = [
   { text: 'MES DEMARCHES', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
+  { text: 'DECONEXION', path: '/' },
 ];
 
 const PrivateDrawer = () => {
@@ -25,7 +29,14 @@ const PrivateDrawer = () => {
     window.innerWidth < 768 ? 'temporary' : 'persistent',
   );
   const { open, setOpen } = useContext(DrawerContext);
+  const { setParcours } = useContext(parcoursContext);
+  const { setUser } = useContext(userContext);
 
+  const logout = () => {
+    localforage.setItem('auth', '');
+    setParcours(null);
+    setUser(null);
+  };
   useListener('resize', () => {
     const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
     if (nextVariant !== variant) setVariant(nextVariant);
@@ -52,7 +63,7 @@ const PrivateDrawer = () => {
       <div className={classes.toolbar} />
       <List className={classes.root}>
         {links.map((e) => (
-          <li key={e.text} className={classes.linkContainer}>
+          <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DECONEXION' ? logout : () => {}}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>

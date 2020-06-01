@@ -10,18 +10,21 @@ interface IProps {
   color: string;
   colorText: string;
   link: string;
-  isCompleted: boolean | undefined;
+  played: boolean | undefined;
   openModal: (state: boolean) => void;
 }
 
-const Box = ({ title, logo, subTitle, color, link, colorText, isCompleted, openModal }: IProps) => {
+const Box = ({
+  title, logo, subTitle, color, link, colorText, played, openModal,
+}: IProps) => {
   const history = useHistory();
   const classes = useStyles({ color, colorText });
   const onNavigate = () => {
-    if (link === '/experience' && isCompleted === false) {
+    if (link === '/experience' && played === false) {
       openModal(true);
+    } else {
+      history.push(link);
     }
-    history.push(link);
   };
   return (
     <div className={classes.root}>

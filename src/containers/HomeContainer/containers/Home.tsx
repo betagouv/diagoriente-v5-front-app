@@ -71,7 +71,7 @@ const FirstDashboard = () => {
               link={dataToShow.link}
               logo={dataToShow.logo}
               colorText={dataToShow.colorText}
-              isCompleted={parcours?.completed}
+              played={parcours?.played}
               openModal={openModal}
             />
             <div className={classes.types} />

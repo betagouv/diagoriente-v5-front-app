@@ -79,7 +79,7 @@ export default makeStyles<Theme>((theme) => ({
   footer: {
     position: 'fixed',
     bottom: 0,
-    height: 156,
+    height: '19%',
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     display: 'flex',

@@ -14,7 +14,6 @@ export default makeStyles<Theme>((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: 15,
-
   },
   header: {
     display: 'flex',
@@ -99,6 +98,7 @@ export default makeStyles<Theme>((theme) => ({
     maxWidth: 1080,
     width: '100%',
     display: 'flex',
+    justifyContent: 'space-between',
     overflow: 'overlay',
     '&::-webkit-scrollbar': {
       display: 'none',

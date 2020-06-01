@@ -20,9 +20,8 @@ import useStyles from './styles';
 const ParcoursInteret = () => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
-  const [selectedInterests, setSelectedInterest] = useState([] as Families[]);
+  const [selectedInterests, setSelectedInterest] = useState(selectedInterest || ([] as Families[]));
   const { data, loading } = useFamilies();
-
   const formattedData: { title: string; data: Families[] }[] = useMemo(
     () =>
       Object.entries(groupBy(data?.families.data, 'category')).map((el) => ({
@@ -31,14 +30,6 @@ const ParcoursInteret = () => {
       })),
     [data],
   );
-
-  /* const familles = data?.interests.data;
-    useEffect(() => {
-    if (familles?.length !== 0 && prevFamily && !updatedFamille.current) {
-      changeSelectedFamily(addPrevFamily(familles, prevFamily));
-      updatedFamille.current = true;
-    }
-  }, [familles]); */
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = selectedInterests.length + 1; i <= 5; i += 1) {
@@ -55,12 +46,6 @@ const ParcoursInteret = () => {
   };
 
   const isChecked = (id?: string): boolean => !!selectedInterests.find((elem) => elem.id === id);
-  /* const flitredFamille = familles?.filter((element: any) => {
-    if (element.resources) {
-      return element.resources.length !== 0;
-    }
-    return false;
-  }); */
   const handleClick = (e: Families) => {
     let copySelected: Families[] = [...selectedInterests];
     if (isChecked(e.id)) {
@@ -76,8 +61,6 @@ const ParcoursInteret = () => {
     let copySelected: Families[] = [...selectedInterests];
     if (isChecked(familleSelected?.id)) {
       copySelected = selectedInterests.filter((ele) => ele.id !== familleSelected.id);
-    } else if (selectedInterests.length < 5) {
-      copySelected.push(familleSelected);
     }
 
     setSelectedInterest(copySelected);
@@ -113,7 +96,7 @@ const ParcoursInteret = () => {
         <div className={classes.footer}>
           <div className={classes.footerContent}>
             {loading && renderAllPlaceholder()}
-            {(selectedInterest || selectedInterests).map((el, i) => (
+            {selectedInterests.map((el, i) => (
               <FamileSelected
                 key={el.id}
                 handleClick={() => deleteFamille(i)}

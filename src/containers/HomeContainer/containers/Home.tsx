@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Logo from 'assets/svg/logoHome.svg';
+import { Redirect } from 'react-router-dom';
 import ParcoursContext from 'contexts/ParcourContext';
 import logoInterest from 'assets/svg/interest.svg';
 import logoJobs from 'assets/svg/logoJobs.svg';
@@ -45,6 +46,9 @@ const FirstDashboard = () => {
       link: '/jobs',
       colorText: '#DB8F00',
     };
+  }
+  if (parcours?.completed) {
+    return <Redirect to="/profile" />;
   }
   return (
     <div className={classes.root}>

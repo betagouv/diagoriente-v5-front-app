@@ -13,6 +13,8 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 15,
+
   },
   header: {
     display: 'flex',

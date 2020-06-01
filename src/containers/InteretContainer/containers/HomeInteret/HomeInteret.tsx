@@ -25,7 +25,7 @@ const HomeInteret = () => {
           <div className={classes.subTitle}>
             <div>Nous allons te présenter différents centres d&lsquo;intérêts.</div>
             <div>
-              <b>Choisis les 5 qui te parlent le plus</b>
+              <b>Choisis les 5 qui te parlent le plus </b>
               dans un contexte professionnel.
             </div>
           </div>

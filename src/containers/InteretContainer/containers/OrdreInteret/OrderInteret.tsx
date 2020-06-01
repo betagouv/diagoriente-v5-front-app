@@ -41,7 +41,7 @@ const OrderInteret = () => {
 
   if (!selectedInterest) return <Redirect to="/interet/parcours" />;
   const onUpdate = () => {
-    const dataToSend = orderedArray.map((el) => el.id);
+    const dataToSend = orderedArray.map((el) => el.id) || selectedInterest;
     updateCall({ variables: { families: dataToSend } });
   };
 

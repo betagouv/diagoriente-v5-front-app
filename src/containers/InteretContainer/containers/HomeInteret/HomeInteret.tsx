@@ -1,7 +1,7 @@
 import React from 'react';
 import Trait from 'assets/images/trait_violet.png';
 import TitleImage from 'components/common/TitleImage/TitleImage';
-import InterestLogo from 'assets/svg/interest.svg';
+import InterestLogo from 'assets/svg/interetHome.svg';
 import AvatarImage from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
@@ -15,9 +15,7 @@ const HomeInteret = () => {
     <div className={classes.container}>
       <div className={classes.content}>
         <div className={classes.interestContainerLogo}>
-          <AvatarImage size={104} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
-            <img src={InterestLogo} alt="interest" />
-          </AvatarImage>
+          <img src={InterestLogo} alt="interest" width="104" height="104" />
         </div>
 
         <TitleImage title="MES CENTRES D’INTERET" color="#420FAB" image={Trait} />

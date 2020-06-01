@@ -11,6 +11,7 @@ import PlaceHolder from 'containers/InteretContainer/components/placeholderInter
 import Trait from 'assets/images/trait_violet.png';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
+import parcoursContext from 'contexts/ParcourContext';
 import { groupBy } from 'lodash';
 import Slider from 'components/Slider/Slider';
 
@@ -20,7 +21,11 @@ import useStyles from './styles';
 const ParcoursInteret = () => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
-  const [selectedInterests, setSelectedInterest] = useState(selectedInterest || ([] as Families[]));
+  const { parcours } = useContext(parcoursContext);
+
+  const [selectedInterests, setSelectedInterest] = useState(
+    selectedInterest || parcours?.families || ([] as Families[]),
+  );
   const { data, loading } = useFamilies();
   const formattedData: { title: string; data: Families[] }[] = useMemo(
     () =>

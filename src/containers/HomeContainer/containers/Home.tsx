@@ -14,7 +14,8 @@ const FirstDashboard = () => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+  const openModal = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const hasExp = parcours?.skills.length !== 0;
@@ -70,6 +71,8 @@ const FirstDashboard = () => {
               link={dataToShow.link}
               logo={dataToShow.logo}
               colorText={dataToShow.colorText}
+              isCompleted={parcours?.completed}
+              openModal={openModal}
             />
             <div className={classes.types} />
           </div>

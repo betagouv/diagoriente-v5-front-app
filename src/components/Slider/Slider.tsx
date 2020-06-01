@@ -15,6 +15,7 @@ const Slider = ({ data, handleClick }: IProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
     <Carousel
+      dragging={false}
       renderCenterLeftControls={({ previousSlide }) => (
         <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
           <button

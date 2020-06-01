@@ -7,6 +7,7 @@ import DrawerContext from 'contexts/DrawerContext';
 import UserContext from 'contexts/UserContext';
 import menu from 'assets/images/menu.png';
 import close from 'assets/svg/close.svg';
+import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
 const PrivateHeader = () => {
@@ -23,12 +24,13 @@ const PrivateHeader = () => {
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={open ? close : menu} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
-          <img src={logo} alt="diagoriente_logo" height={44} />
+          <Link to="/" className={classes.logoLink}>
+            <img src={logo} alt="diagoriente_logo" height={44} />
+          </Link>
         </div>
         <div className={classes.flexCenter}>
           <span className={classes.typography}>
             {user?.profile.firstName}
-            {' '}
             {user?.profile.lastName}
           </span>
           <img src={user?.logo} alt="" height={39} />

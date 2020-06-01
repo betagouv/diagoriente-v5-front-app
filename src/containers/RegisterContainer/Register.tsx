@@ -308,8 +308,9 @@ const Register = ({ history }: RouteComponentProps) => {
               value={values.codeGroupe}
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
-              error={touched.codeGroupe && errors.codeGroupe !== ''}
+              error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
               errorText={touched.codeGroupe ? errors.codeGroupe : ''}
+              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>

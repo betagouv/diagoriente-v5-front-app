@@ -66,6 +66,10 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
     outline: 'none',
+    borderStyle: 'hidden',
+    '&:active': {
+      borderStyle: 'hidden',
+    },
   },
   rotatedArrow: {
     transform: 'rotate(180deg)',

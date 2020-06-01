@@ -14,6 +14,7 @@ export const getUserParcourQuery = gql`
       families {
         id
         nom
+        category
       }
       skills {
         id
@@ -50,15 +51,40 @@ export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData>
 export const updateFamiliesParcours = gql`
   mutation UpdateFamiliesParcous($families: [ID]!) {
     updateParcour(families: $families) {
+      id
+      played
+      completed
       families {
         id
         nom
+        category
+      }
+      skills {
+        id
+        theme {
+          title
+          id
+          type
+          resources {
+            icon
+            backgroundColor
+          }
+        }
+        activities {
+          title
+          description
+          id
+        }
+        competences {
+          _id
+          value
+        }
       }
     }
   }
 `;
 export interface UpdateData {
-  families: string[];
+  parcoursUpdated: UserParcour;
 }
 export interface UpdateFamiliesArgument {
   families: string[];
@@ -89,7 +115,35 @@ export const useUpdateSkillsParcour = (
 export const updatePlayParcours = gql`
   mutation UpdatePlayParcous($played: Boolean!) {
     updateParcour(played: $played) {
+      id
       played
+      completed
+      families {
+        id
+        nom
+        category
+      }
+      skills {
+        id
+        theme {
+          title
+          id
+          type
+          resources {
+            icon
+            backgroundColor
+          }
+        }
+        activities {
+          title
+          description
+          id
+        }
+        competences {
+          _id
+          value
+        }
+      }
     }
   }
 `;
@@ -97,7 +151,7 @@ export interface UpdatePlayArgument {
   played: boolean;
 }
 export interface UpdatePlayData {
-  played: boolean;
+  parcoursUpdated: UserParcour;
 }
 export const useUpdatePlayParcour = (
   options: MutationHookOptions<{ updateParcour: UpdatePlayData }, UpdatePlayArgument> = {},
@@ -106,7 +160,35 @@ export const useUpdatePlayParcour = (
 export const updateCompletedParcours = gql`
   mutation UpdateCompletedParcous($completed: Boolean!) {
     updateParcour(completed: $completed) {
+      id
+      played
       completed
+      families {
+        id
+        nom
+        category
+      }
+      skills {
+        id
+        theme {
+          title
+          id
+          type
+          resources {
+            icon
+            backgroundColor
+          }
+        }
+        activities {
+          title
+          description
+          id
+        }
+        competences {
+          _id
+          value
+        }
+      }
     }
   }
 `;
@@ -114,7 +196,7 @@ export interface UpdateCompletedArgument {
   completed: boolean;
 }
 export interface UpdateCompletedData {
-  completed: boolean;
+  parcoursUpdated: UserParcour;
 }
 export const useUpdateCompletedParcour = (
   options: MutationHookOptions<{ updateParcour: UpdateCompletedData }, UpdateCompletedArgument> = {},

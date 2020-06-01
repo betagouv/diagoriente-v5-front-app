@@ -31,7 +31,7 @@ const ResultCompetences = ({ theme }: Props) => {
           <img src={theme.resources?.icon} alt="" />
         </Avatar>
 
-        {!parcours?.completed ? (
+        {parcours?.completed ? (
           <div className={classes.btnskillContainer}>
             <div className={classes.btnContainer}>
               <Link to="/experience">

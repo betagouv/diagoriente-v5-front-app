@@ -10,6 +10,7 @@ import { useUpdateFamiliesParcour } from 'requests/parcours';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
+import ParcourContext from 'contexts/ParcourContext';
 import InterestContainer from '../../components/InterestContainer/InterestContainer';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
@@ -17,6 +18,7 @@ import useStyles from './styles';
 const OrderInteret = () => {
   const [updateCall, updateState] = useUpdateFamiliesParcour();
   const { selectedInterest } = useContext(interestContext);
+  const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
   const [orderedArray, setOrderedArray] = useState([] as Families[]);
   const heights = [230, 210, 190, 170, 154];
@@ -46,6 +48,7 @@ const OrderInteret = () => {
   };
 
   if (updateState.data && !updateState.error) {
+    setParcours(updateState.data.updateParcour.parcoursUpdated);
     return <Redirect to="/interet/result" />;
   }
   return (

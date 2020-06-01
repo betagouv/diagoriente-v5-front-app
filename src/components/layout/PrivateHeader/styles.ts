@@ -31,4 +31,9 @@ export default makeStyles((theme: Theme) =>
       alignItems: 'center',
       color: '#ffff',
     },
-  }));
+    logoLink: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  }),
+);

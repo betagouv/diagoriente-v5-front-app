@@ -1,17 +1,11 @@
 import React from 'react';
-import { useUpdatePlayParcour } from 'requests/parcours';
-import { useDidMount } from 'hooks/useLifeCycle';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
 import useStyles from './style';
 
 const GameContainer = () => {
   const classes = useStyles();
-  const [updateCall] = useUpdatePlayParcour();
 
-  useDidMount(() => {
-    updateCall({ variables: { played: true } });
-  });
   return (
     <div className={classes.root}>
       <div className={classes.frameContainer}>

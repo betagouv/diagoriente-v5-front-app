@@ -8,6 +8,7 @@ export const addSkillMutation = gql`
   mutation AddSkill($theme: ID!, $activities: [ID]!, $competences: [skillCompetenceType]!) {
     addSkill(theme: $theme, activities: $activities, competences: $competences) {
       id
+      completed
       played
       families {
         id

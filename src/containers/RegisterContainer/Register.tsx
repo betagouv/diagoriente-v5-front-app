@@ -293,9 +293,11 @@ const Register = ({ history }: RouteComponentProps) => {
               options={!loading && data ? data.location : []}
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
+              errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
+
             />
             <Input
-              label="Instituation"
+              label="Institution"
               onChange={actions.handleChange}
               value={values.institution}
               name="institution"

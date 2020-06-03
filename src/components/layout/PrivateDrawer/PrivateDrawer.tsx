@@ -33,7 +33,7 @@ const PrivateDrawer = () => {
   const { setUser } = useContext(userContext);
 
   const logout = () => {
-    localforage.setItem('auth', {});
+    localforage.removeItem('auth');
     setParcours(null);
     setUser(null);
   };

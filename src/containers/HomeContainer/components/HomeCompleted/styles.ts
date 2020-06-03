@@ -63,6 +63,8 @@ export default makeStyles({
   },
   itemLink: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
   },
   itemButton: {
     color: '#424242',

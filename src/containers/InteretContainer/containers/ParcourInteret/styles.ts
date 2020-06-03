@@ -13,6 +13,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 15,
   },
   header: {
     display: 'flex',
@@ -78,7 +79,7 @@ export default makeStyles<Theme>((theme) => ({
   footer: {
     position: 'fixed',
     bottom: 0,
-    height: 156,
+    height: '19%',
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     display: 'flex',
@@ -97,6 +98,7 @@ export default makeStyles<Theme>((theme) => ({
     maxWidth: 1080,
     width: '100%',
     display: 'flex',
+    justifyContent: 'space-between',
     overflow: 'overlay',
     '&::-webkit-scrollbar': {
       display: 'none',

@@ -101,4 +101,8 @@ export default makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    logoLink: {
+      display: 'flex',
+      alignItems: 'center',
+    },
   }));

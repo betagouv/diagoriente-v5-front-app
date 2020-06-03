@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from 'assets/svg/diagoriente_logo.svg';
@@ -31,13 +32,14 @@ const PrivateHeader = ({
   const toggle = () => {
     setOpen(!open);
   };
-
   return (
     <AppBar position="fixed" className={classNames(classes.appBar, className)}>
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
-          <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
+          <Link to="/">
+            <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
+          </Link>
         </div>
         {showUser && (
           <div className={classes.flexCenter}>

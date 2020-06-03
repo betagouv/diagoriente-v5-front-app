@@ -30,6 +30,10 @@ export default makeStyles((theme) => ({
     color: '#FF0060',
   },
 
+  titleClassName: {
+    whiteSpace: 'nowrap',
+  },
+
   description: {
     marginTop: 45,
     marginBottom: 50,
@@ -159,7 +163,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 63,
+    marginBottom: 40,
     paddingLeft: 91,
     paddingRight: 107,
   },

@@ -60,7 +60,6 @@ const Login = ({ location, history }: RouteComponentProps) => {
     state.values.stayConnected,
     history,
   ]);
-
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
@@ -74,6 +73,9 @@ const Login = ({ location, history }: RouteComponentProps) => {
       ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
+    }
+    if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
+      setErrorForm(loginState.error?.message);
     }
 
     if (getUserParcourState.error && getUserParcourState.error.graphQLErrors.length) {

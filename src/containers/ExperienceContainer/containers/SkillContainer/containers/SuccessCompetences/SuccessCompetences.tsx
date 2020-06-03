@@ -11,7 +11,10 @@ import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Input from 'components/inputs/Input/Input';
+
+import NameFormator from 'utils/NameFormator';
 import ParcourContext from 'contexts/ParcourContext';
+import UserContext from 'contexts/UserContext';
 
 import msg from 'assets/svg/msg.svg';
 import arrowleft from 'assets/svg/arrowLeft.svg';
@@ -29,6 +32,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
   const [thirdOpen, setThirdOpen] = React.useState(false);
   const [addSkillCommentCall, addSkillCommentState] = useAddSkillComment();
   const { parcours } = useContext(ParcourContext);
+  const { user } = useContext(UserContext);
 
   const [state, actions] = useForm({
     initialValues: {
@@ -102,8 +106,11 @@ const ResultCompetences = ({ theme, match }: Props) => {
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment:
-          "Bonjour Marie Dupont, Lena M a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,",
+        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},  ${user
+          && NameFormator(user?.profile.firstName)} ${user
+          && NameFormator(
+            user?.profile.lastName,
+          )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
       });
     }
   }, [secondOpen]);
@@ -139,7 +146,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
       </div>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
         <div className={classes.modalContainer}>
-          <Avatar title={theme.title} size={94}>
+          <Avatar title={theme.title} size={94} titleClassName={classes.titleClassName}>
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
@@ -186,16 +193,16 @@ const ResultCompetences = ({ theme, match }: Props) => {
       </ModalContainer>
       <ModalContainer open={secondOpen} handleClose={handleSecondClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
         <div className={classes.modalContainer}>
-          <Avatar title={theme.title} size={94}>
+          <Avatar title={theme.title} size={94} titleClassName={classes.titleClassName}>
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
           <div className={classes.descriptionModal}>
             Le message pour
-            {`${state.values.firstName} ${state.values.lastName}`}
-            (
-            {state.values.email}
-            )
+            {' '}
+            {`${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`}
+            {' '}
+            ({`${state.values.email}`})
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -231,7 +238,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
       </ModalContainer>
       <ModalContainer open={thirdOpen} handleClose={handleThirdClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
         <div className={classes.modalContainer}>
-          <Avatar title={theme.title} size={94}>
+          <Avatar title={theme.title} size={94} titleClassName={classes.titleClassName}>
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
@@ -241,7 +248,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
           <div className={classes.descriptionModalContainer}>
             Le message a bien été envoyé à
             {' '}
-            {`${state.values.firstName} ${state.values.lastName}`}
+            {`${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`}
             . Sa recommandation
             <br />
             apparaîtra dans ta carte de compétences.

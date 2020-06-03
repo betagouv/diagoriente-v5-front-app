@@ -15,7 +15,6 @@ const JobsContainer = () => {
       updateCompleteCall({ variables: { completed: true } });
     }
   });
-  console.log('updateCompletState', updateCompletState);
   return (
     <div>
       <div className={classes.titleContainer}>

@@ -228,12 +228,12 @@ const Register = ({ history }: RouteComponentProps) => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password &&
-                errors.password !== '' &&
-                hasUppercase(values.password) &&
-                hasLowercase(values.password) &&
-                hasNumber(values.password) &&
-                hasSpecial(values.password)
+                touched.password
+                && errors.password !== ''
+                && hasUppercase(values.password)
+                && hasLowercase(values.password)
+                && hasNumber(values.password)
+                && hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -293,9 +293,11 @@ const Register = ({ history }: RouteComponentProps) => {
               options={!loading && data ? data.location : []}
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
+              errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
+
             />
             <Input
-              label="Instituation"
+              label="Institution"
               onChange={actions.handleChange}
               value={values.institution}
               name="institution"
@@ -308,8 +310,9 @@ const Register = ({ history }: RouteComponentProps) => {
               value={values.codeGroupe}
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
-              error={touched.codeGroupe && errors.codeGroupe !== ''}
+              error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
               errorText={touched.codeGroupe ? errors.codeGroupe : ''}
+              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>

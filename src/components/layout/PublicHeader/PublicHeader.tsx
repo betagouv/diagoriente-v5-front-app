@@ -9,7 +9,6 @@ import logo from 'assets/svg/diagoriente_logo.svg';
 import beta from 'assets/images/marianne.png';
 import betaGouv from 'assets/images/beta_gov.png';
 import menu from 'assets/images/menu.png';
-
 import useStyles from './styles';
 
 export const links = [
@@ -48,7 +47,9 @@ const PublicHeader = () => {
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={menu} alt="menu" height={26} className={classes.menuIcon} onClick={toggle} />
-          <img src={logo} alt="diagoriente_logo" height={66} />
+          <Link to="/" className={classes.logoLink}>
+            <img src={logo} alt="diagoriente_logo" height={66} />
+          </Link>
           <div className={classes.imageWrapper}>
             <div className={classes.square}>
               <img src={beta} alt="menu" height={35} width={72} />

@@ -31,8 +31,8 @@ export default makeStyles((theme) => ({
   },
 
   description: {
-    marginTop: 45,
-    marginBottom: 50,
+    marginTop: 40,
+    marginBottom: 30,
     width: 500,
     alignItems: 'center',
     fontSize: 42,
@@ -45,8 +45,17 @@ export default makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
   },
-  avatar: {
-    paddingBottom: 100,
+  avatar: {},
+
+  btnskillContainer: {
+    paddingTop: 100,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  btnskillFirstUser: {
+    paddingTop: 50,
+    paddingBottom: 50,
   },
 
   btnContainer: {
@@ -69,6 +78,19 @@ export default makeStyles((theme) => ({
     fontSize: 18,
     fontWeight: 'bold',
     '&:hover': {},
+  },
+
+  btnFirstUse: {
+    backgroundColor: '#7533FF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#420FAB',
+    },
+  },
+
+  btnLabelFirstUse: {
+    color: '#fff',
   },
 
   btnSkillCard: {

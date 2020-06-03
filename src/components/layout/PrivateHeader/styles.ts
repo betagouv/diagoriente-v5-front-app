@@ -14,6 +14,7 @@ export default makeStyles((theme: Theme) =>
     toolbarContainer: {
       display: 'flex',
       justifyContent: 'space-between',
+      minHeight: 'auto !important',
     },
 
     flexCenter: {

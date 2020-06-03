@@ -5,7 +5,7 @@ import DrawerContext from 'contexts/DrawerContext';
 import { encodeUri } from 'utils/url';
 import { Route as BaseRoute, Redirect, RouteProps as BaseRouteProps } from 'react-router-dom';
 import PublicHeader from 'components/layout/PublicHeader/PublicHeader';
-import PrivateHeader from 'components/layout/PrivateHeader/PrivateHeader';
+import PrivateHeader, { Props as PrivateHeaderProps } from 'components/layout/PrivateHeader/PrivateHeader';
 
 import PublicDrawer from 'components/layout/PublicDrawer/PublicDrawer';
 import PrivateDrawer from 'components/layout/PrivateDrawer/PrivateDrawer';
@@ -21,12 +21,13 @@ export interface RouteProps extends BaseRouteProps {
   sidebar?: boolean;
   footer?: boolean;
   header?: boolean;
+  privateHeaderProps?: Partial<PrivateHeaderProps>;
 }
 
 // u can add extra props to customise/add headers/footers/sidebars...
 
 const Route = ({
- protected: protectedProp, footer, sidebar, header, ...rest
+ protected: protectedProp, footer, sidebar, header, privateHeaderProps, ...rest
 }: RouteProps) => {
   const [open, setOpen] = useState(false);
 
@@ -40,7 +41,7 @@ const Route = ({
   return (
     <DrawerContext.Provider value={{ open, setOpen }}>
       <div className={classNames(classes.container, classes.column)}>
-        {header && protectedProp ? <PrivateHeader /> : <PublicHeader />}
+        {header && protectedProp ? <PrivateHeader {...privateHeaderProps} /> : <PublicHeader />}
         {header && protectedProp ? <PrivateDrawer /> : <PublicDrawer />}
         <div className={classNames(classes.page, classes.column)}>
           <BaseRoute {...rest} />
@@ -53,6 +54,7 @@ const Route = ({
 
 Route.defaultProps = {
   header: true,
+  privateHeaderProps: {},
 };
 
 export default Route;

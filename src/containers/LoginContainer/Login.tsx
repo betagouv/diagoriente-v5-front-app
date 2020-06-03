@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+ useContext, useEffect, useRef, useState,
+} from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
@@ -47,21 +49,28 @@ const Login = ({ location, history }: RouteComponentProps) => {
         localforage.setItem('auth', JSON.stringify(loginState.data.login));
       }
       setUser(loginState.data.login.user);
-      const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
-      history.push(path);
+      history.push('/');
     }
-  }, [loginState.data, getUserParcourState.data, setParcours, getUserParcour, setUser, state.values.stayConnected, history]);
+  }, [
+    loginState.data,
+    getUserParcourState.data,
+    setParcours,
+    getUserParcour,
+    setUser,
+    state.values.stayConnected,
+    history,
+  ]);
 
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
-        loginState.error?.graphQLErrors[0].message &&
-        typeof loginState.error?.graphQLErrors[0].message === 'object'
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'object'
       ) {
         setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
       } else if (
-        loginState.error?.graphQLErrors[0].message &&
-        typeof loginState.error?.graphQLErrors[0].message === 'string'
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'string'
       ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
@@ -85,8 +94,8 @@ const Login = ({ location, history }: RouteComponentProps) => {
 
   if (user) {
     const { from } = decodeUri(location.search);
-    const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
-    return <Redirect to={from || path} />;
+
+    return <Redirect to={from || '/'} />;
   }
 
   const onClickCondition = () => {

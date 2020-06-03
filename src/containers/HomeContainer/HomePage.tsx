@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import NotFoundPage from 'components/layout/NotFoundPage';
+import logo from 'assets/images/diagoriente_logo_bg_transparent.png';
+import open from 'assets/svg/menu_close.svg';
+import ParcourContext from 'contexts/ParcourContext';
 import Home from './containers/Home';
+
+import useStyles from './styles';
+
+import HomeCompleted from './components/HomeCompleted';
 
 const theme = createMuiTheme({
   palette: {
@@ -16,13 +22,30 @@ const theme = createMuiTheme({
   },
 });
 
-const HomePage = () => (
-  <ThemeProvider theme={theme}>
-    <Switch>
-      <Route protected exact path="/" component={Home} />
-      <Route component={NotFoundPage} />
-    </Switch>
-  </ThemeProvider>
-);
+const HomeContainer = () => {
+  const classes = useStyles();
+  const { parcours } = useContext(ParcourContext);
 
-export default HomePage;
+  return (
+    <ThemeProvider theme={theme}>
+      <Switch>
+        <Route
+          protected
+          component={parcours?.completed ? HomeCompleted : Home}
+          privateHeaderProps={
+            parcours?.completed
+              ? {
+                  closeLogoIcon: logo,
+                  openIcon: open,
+                  className: classes.header,
+                  showUser: false,
+                }
+              : {}
+          }
+        />
+      </Switch>
+    </ThemeProvider>
+  );
+};
+
+export default HomeContainer;

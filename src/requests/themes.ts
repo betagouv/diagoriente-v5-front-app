@@ -38,6 +38,7 @@ export const themeQuery = gql`
     theme(id: $id) {
       id
       title
+      type
       resources {
         icon
         backgroundColor

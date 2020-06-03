@@ -30,6 +30,7 @@ export interface Families {
 export interface Theme {
   id: string;
   title: string;
+  type: string;
   resources?: { icon: string; backgroundColor: string };
   activities: {
     id: string;

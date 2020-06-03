@@ -35,6 +35,7 @@ const SkillCompetencesValues = ({
   competences,
   addSkill,
   addSkillState,
+  history,
 }: Props) => {
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
@@ -57,12 +58,19 @@ const SkillCompetencesValues = ({
     }
   }, []);
 
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
           <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
-          <RestLogo color="#4D6EC5" label="Annuler" />
+          <RestLogo
+            onClick={() => {
+              history.replace('/experience');
+            }}
+            color="#4D6EC5"
+            label="Annuler"
+          />
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="4" image={blueline} color="#223A7A" height="80px" />
@@ -89,10 +97,9 @@ const SkillCompetencesValues = ({
                   const circle = circleRef.current[valueCompetence.value - 1];
 
                   if (circle) {
-                    width = circle.getBoundingClientRect().left - arrowRef.current.getBoundingClientRect().left;
+                    width = circle.getBoundingClientRect().left - arrowRef.current.getBoundingClientRect().left + 9;
                   }
                 }
-
                 return (
                   <div key={competence.id} className={classes.competencesValues}>
                     <p className={classes.competenceTitle}>{competence.title}</p>
@@ -105,6 +112,7 @@ const SkillCompetencesValues = ({
                       />
                       {echelonValue.map((value, index) => (
                         <Tooltip
+                          open={!competence.niveau[index].sub_title ? false : undefined}
                           key={value}
                           title={(
                             <Child className={classes.tooltipContainer}>
@@ -147,7 +155,7 @@ const SkillCompetencesValues = ({
           </div>
           <Button
             fetching={addSkillState}
-            disabled={!competencesValues.length}
+            disabled={!(competencesValues.length === competences.length)}
             className={classes.btnperso}
             type="submit"
             onClick={addSkill}

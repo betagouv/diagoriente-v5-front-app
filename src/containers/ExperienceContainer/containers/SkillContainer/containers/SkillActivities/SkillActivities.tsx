@@ -25,7 +25,9 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   setActivities: (activities: Activity[]) => void;
 }
 
-const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
+const ExperienceActivity = ({
+ match, activities, setActivities, history,
+}: Props) => {
   const classes = useStyles();
 
   const addActivity = (activite: Activity) => {
@@ -43,7 +45,13 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
-          <RestLogo color="#4D6EC5" label="Annuler" />
+          <RestLogo
+            onClick={() => {
+              history.replace('/experience');
+            }}
+            color="#4D6EC5"
+            label="Annuler"
+          />
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="2" image={blueline} color="#223A7A" height="80px" />
@@ -88,7 +96,7 @@ const ExperienceActivity = ({ match, activities, setActivities }: Props) => {
             </Button>
           </Link>
         </div>
-        <Link to="/experience/theme" className={classes.btnpreced}>
+        <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
           Precedent
         </Link>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
-import Grid from '@material-ui/core/Grid';
 import { validateEmail } from 'utils/validation';
+import { Link } from 'react-router-dom';
 import { useForgot } from 'requests/auth';
 
 import { useForm } from 'hooks/useInputs';
@@ -10,6 +10,7 @@ import useStyles from './styles';
 
 const ForgotPassword = () => {
   const classes = useStyles();
+  const [sent, setSend] = useState(false);
   const [forgotCall, forgotState] = useForgot();
   const [state, actions] = useForm({
     initialValues: { email: '' },
@@ -26,34 +27,50 @@ const ForgotPassword = () => {
       actions.setAllTouched(true);
     }
   };
+  useEffect(() => {
+    if (forgotState.data && !forgotState.error) {
+      setSend(true);
+    }
+  }, [forgotState.data, forgotState.error]);
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.title}>MOT DE PASSE OUBLIé</div>
-        <div className={classes.subTitle}>
-          Entre l’email que tu utilises pour te connecter afin de réinitialiser ton mot de passe :
-        </div>
+        <div className={classes.title}>MOT DE PASSE OUBLIÉ</div>
+        {sent ? (
+          <>
+            <div className={classes.subTitleSent}>Nous t’avons envoyé un mail pour réinitialiser ton mot de passe.</div>
+            <div className={classes.subTitleSent}>Si tu n’as rien reçu, vérifie tes courriers indésirables.</div>
+          </>
+        ) : (
+          <div className={classes.subTitle}>
+            Tu as perdu ton mot de passe ? Rien de plus simple ! Entre ton adresse e-mail rattachée à ton compte :
+          </div>
+        )}
         <form className={classes.container} onSubmit={onSubmit}>
-          <Input
-            label="Ton email"
-            name="email"
-            required
-            placeholder="exmaple@gmail.com"
-            value={state.values.email}
-            onChange={actions.handleChange}
-            errorText={state.touched.email && state.errors.email}
-          />
+          {!sent && (
+            <Input
+              label="Ton adresse e-mail"
+              name="email"
+              required
+              placeholder="exmaple@gmail.com"
+              value={state.values.email}
+              onChange={actions.handleChange}
+              errorText={state.touched.email && state.errors.email}
+            />
+          )}
           <div className={classes.btnContainer}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
-                <div className={classes.emptyDiv} />
-              </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
-                <Button className={classes.btn} type="submit" fetching={forgotState.loading}>
-                  <div className={classes.btnLabel}>Envoyer</div>
+            {sent ? (
+              <Link to="/login">
+                {' '}
+                <Button className={classes.btn} fetching={forgotState.loading}>
+                  <div className={classes.btnLabel}>Retour à l’accueil</div>
                 </Button>
-              </Grid>
-            </Grid>
+              </Link>
+            ) : (
+              <Button className={classes.btn} type="submit" fetching={forgotState.loading}>
+                <div className={classes.btnLabel}>Je réinitialise mon mot de passe</div>
+              </Button>
+            )}
           </div>
         </form>
       </div>

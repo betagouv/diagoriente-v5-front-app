@@ -106,3 +106,19 @@ export interface Skill {
   competences: { _id: string; value: number }[];
   comment: { firstName: string; lastName: string; email: string; text: string; status: string }[];
 }
+export interface Jobs {
+  title: string;
+  description: string;
+  search: string;
+  link: string;
+  salaire: string;
+  accessibility: string;
+  rome_codes: string;
+  secteur: string[];
+  niveau: string[];
+  interests: { _id: string; weight: number }[];
+  competences: { _id: string; weight: number }[];
+  formations: string[];
+  environments: string[];
+  questionJobs: { _id: string; label: string }[];
+}

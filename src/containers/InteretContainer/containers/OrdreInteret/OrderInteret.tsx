@@ -48,7 +48,7 @@ const OrderInteret = () => {
   };
 
   if (updateState.data && !updateState.error) {
-    setParcours(updateState.data.updateParcour.parcoursUpdated);
+    setParcours(updateState.data.updateParcour);
     return <Redirect to="/interet/result" />;
   }
   return (

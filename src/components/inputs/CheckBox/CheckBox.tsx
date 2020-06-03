@@ -10,10 +10,8 @@ interface Props {
   name: string;
   color?: string;
 }
-const CheckBox = ({
- checked, onChange, name, color,
-}: Props) => {
-  const classes = useStyles({ color });
+const CheckBox = ({ checked, onChange, name, color }: Props) => {
+  const classes = useStyles({ color, checked });
 
   return (
     <label className={classes.container}>

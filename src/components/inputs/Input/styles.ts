@@ -5,7 +5,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '5px 0px 0px 0px',
+    margin: '0px 0px 0px 0px',
     width: '100%',
   },
   wrapperInput: {
@@ -93,6 +93,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   label: {
     marginRight: 14,
     color: '#424242',
+    fontWeight: 'bold',
   },
   subTitle: {
     fontSize: 12,

@@ -22,6 +22,12 @@ export default makeStyles((theme) => ({
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 40,
+    color: '#424242',
+  },
+  subTitleSent: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#424242',
   },
   loginContainer: {
     maxWidth: 757,

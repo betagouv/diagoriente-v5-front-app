@@ -1,4 +1,4 @@
-import React, { ReactElement, MouseEvent } from 'react';
+import React, { ReactElement } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -36,7 +36,6 @@ const AutoComplete = ({
   onSelectText,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
-  console.log('options', options);
   return (
     <div className={classes.container}>
       <Grid container spacing={0}>
@@ -58,29 +57,6 @@ const AutoComplete = ({
               fullWidth={false}
               className={className}
               autoComplete={false}
-              /*   ListboxComponent={() => (
-                <ul className={classes.dropDown}>
-                  {options.map((option) => (
-                    <div
-                      key={option.label}
-                      style={{
-                        display: 'flex',
-                        width: 228,
-                        cursor: 'pointer',
-                        margin: '3px 0px',
-                      }}
-                      onClick={(event: any) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                        onSelectText(option);
-                      }}
-                    >
-                      <div style={{ width: 20, height: 20 }}>{icon}</div>
-                      <span style={{ wordBreak: 'break-word', width: 200 }}>{option.label}</span>
-                    </div>
-                  ))}
-                </ul>
-              )} */
               renderInput={(params) => (
                 <div className={classes.wrapperInput}>
                   <TextField

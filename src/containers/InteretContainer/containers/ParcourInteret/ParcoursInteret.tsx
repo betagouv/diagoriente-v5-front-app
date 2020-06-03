@@ -22,10 +22,11 @@ const ParcoursInteret = () => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
   const { parcours } = useContext(parcoursContext);
-
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
   );
+  setInterest(selectedInterests);
+
   const { data, loading } = useFamilies();
   const formattedData: { title: string; data: Families[] }[] = useMemo(
     () =>

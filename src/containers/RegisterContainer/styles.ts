@@ -96,11 +96,14 @@ export default makeStyles((theme: Theme) => ({
   btnContainer: {
     marginTop: 15,
   },
+  paddingBtn: {
+    paddingLeft: 30,
+  },
   btn: {
-    backgroundColor: '#011A5E',
+    backgroundColor: theme.palette.secondary.main,
     height: 50,
     '&:hover': {
-      backgroundColor: '#223A7A',
+      backgroundColor: theme.palette.info.main,
       borderRadius: 10,
     },
   },
@@ -134,7 +137,7 @@ export default makeStyles((theme: Theme) => ({
     marginTop: 14,
   },
   conditionColorText: {
-    color: '#00CFFF',
+    color: theme.palette.success.main,
     cursor: 'pointer',
   },
   optionWrapper: {
@@ -149,11 +152,28 @@ export default makeStyles((theme: Theme) => ({
     color: '#424242',
   },
   checkOption: {
-    color: '#00CFFF',
+    color: theme.palette.success.main,
     textDecoration: 'line-through',
   },
   errorCondition: {
-    color: '#FF0060',
+    color: theme.palette.error.main,
     fontSize: 12,
+  },
+  start: {
+    color: theme.palette.success.main,
+  },
+  required: {
+    color: '#424242',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+
+  registerLabel: {
+    color: theme.palette.success.main,
+    fontWeight: 'bold',
+    fontSize: 14,
+    textDecoration: 'underline',
+    marginTop: 30,
+    textAlign: 'center',
   },
 }));

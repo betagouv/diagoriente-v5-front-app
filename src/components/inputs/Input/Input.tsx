@@ -18,6 +18,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   showPassword?: () => void;
   className?: string;
   inputClassName?: string;
+  withOutIcons?: boolean;
 }
 
 const Input = ({
@@ -31,6 +32,7 @@ const Input = ({
   errorForm,
   required,
   className,
+  withOutIcons,
   inputClassName,
   ...rest
 }: IProps) => {
@@ -74,7 +76,9 @@ const Input = ({
               variant="outlined"
             />
             {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-            {value && !errorText && !errorForm && <img src={LogoCheked} className={classes.logo} alt="check" />}
+            {value && !errorText && !errorForm && !withOutIcons && (
+              <img src={LogoCheked} className={classes.logo} alt="check" />
+            )}
           </div>
           <div className={classes.errorCondition}>{errorForm}</div>
         </Grid>

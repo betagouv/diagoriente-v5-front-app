@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { setAuthorizationBearer } from 'requests/client';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -143,13 +143,7 @@ const Register = ({ history }: RouteComponentProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
-        <div className={classes.title}>Inscription</div>
-        <div className={classes.descriptionContainer}>
-          <div className={classes.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id malesuada erat. Proin vel ipsum non
-            dolor interdum laoreet sit amet nec massa.
-          </div>
-        </div>
+        <div className={classes.title}>INSCRIPTION</div>
         <div className={classes.form}>
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
@@ -207,7 +201,7 @@ const Register = ({ history }: RouteComponentProps) => {
               </Grid>
             </div>
             <Input
-              label="Ton email*"
+              label="Ton e-mail*"
               onChange={actions.handleChange}
               value={values.email}
               name="email"
@@ -245,7 +239,7 @@ const Register = ({ history }: RouteComponentProps) => {
                 <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div>
                     <div className={classes.optionItem}>
-                      Ton mot de passe doit avoir 6 caractères minimum, dont au moins:
+                      Ton mot de passe doit comporter 6 caractères minimum, dont au moins :
                     </div>
                     <div className={classes.option}>
                       <div className={classes.optionWrapper}>
@@ -297,14 +291,6 @@ const Register = ({ history }: RouteComponentProps) => {
 
             />
             <Input
-              label="Institution"
-              onChange={actions.handleChange}
-              value={values.institution}
-              name="institution"
-              error={touched.institution && errors.institution !== ''}
-              errorText={touched.institution ? errors.institution : ''}
-            />
-            <Input
               label="Code groupe"
               onChange={actions.handleChange}
               value={values.codeGroupe}
@@ -333,18 +319,26 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.containerCheckbox}>
-                    <CheckBox onChange={actions.handleChange} checked={values.acceptCondition} name="acceptCondition" />
+                    <CheckBox
+                      onChange={actions.handleChange}
+                      checked={values.acceptCondition}
+                      name="acceptCondition"
+                      color="#011A5E"
+                    />
                     <div className={classes.conditionText} onClick={onClickCondition}>
                       J&lsquo;accepte les
+                      {' '}
                       <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-                      de Diagoriente*
+                      {' '}
+                      de Diagoriente
+                      <span className={classes.start}>*</span>
                     </div>
                   </div>
                   <div className={classes.errorCondition}>{errorCondition}</div>
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.btnContainer}>
+            <div className={classNames(classes.btnContainer, classes.paddingBtn)}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
@@ -356,17 +350,18 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.btnContainer}>
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={4} md={5} lg={5}>
-                  <div className={classes.emptyDiv} />
-                </Grid>
-                <Grid item xs={12} sm={8} md={7} lg={7}>
-                  <div className={classes.conditionText}>* Champs obligatoires</div>
-                </Grid>
-              </Grid>
-            </div>
           </form>
+          <div className={classes.btnContainer}>
+            <div className={classes.required}>
+              <span className={classes.start}>*</span>
+              Champs obligatoires
+            </div>
+          </div>
+          <div className={classes.btnContainer}>
+            <Link to="/login">
+              <div className={classes.registerLabel}>J’ai déjà un compte</div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

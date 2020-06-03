@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color?: string }>(() => ({
+export default makeStyles<Theme, { color?: string; checked?: boolean }>(() => ({
   container: {
     display: 'block',
     position: 'relative',
@@ -15,15 +15,6 @@ export default makeStyles<Theme, { color?: string }>(() => ({
       cursor: 'pointer',
       height: 0,
       width: 0,
-      '&:checked': {
-        '& ~ $checkmark': {
-          backgroundColor: '#4D6EC5',
-          border: 0,
-          '&:after': {
-            display: 'none',
-          },
-        },
-      },
     },
 
     '& $checkmark': {
@@ -35,13 +26,6 @@ export default makeStyles<Theme, { color?: string }>(() => ({
         transform: 'rotate(45deg)',
       },
     },
-    '&:hover': {
-      '& input': {
-        '& ~ $checkmark': {
-          backgroundColor: '#fff',
-        },
-      },
-    },
   },
 
   checkmark: {
@@ -50,7 +34,7 @@ export default makeStyles<Theme, { color?: string }>(() => ({
     left: 0,
     width: 19,
     height: 20,
-    backgroundColor: '#fff',
+    backgroundColor: (props) => (props.checked ? props.color : '#fff'),
     borderRadius: 5,
     border: '1px solid #C9C9C7',
     '&:after': {

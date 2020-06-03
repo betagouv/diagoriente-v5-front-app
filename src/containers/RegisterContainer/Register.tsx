@@ -228,12 +228,12 @@ const Register = ({ history }: RouteComponentProps) => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password &&
-                errors.password !== '' &&
-                hasUppercase(values.password) &&
-                hasLowercase(values.password) &&
-                hasNumber(values.password) &&
-                hasSpecial(values.password)
+                touched.password
+                && errors.password !== ''
+                && hasUppercase(values.password)
+                && hasLowercase(values.password)
+                && hasNumber(values.password)
+                && hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />

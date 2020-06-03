@@ -50,8 +50,15 @@ const Login = ({ location, history }: RouteComponentProps) => {
       const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
       history.push(path);
     }
-  }, [loginState.data, getUserParcourState.data, setParcours, getUserParcour, setUser, state.values.stayConnected, history]);
-
+  }, [
+    loginState.data,
+    getUserParcourState.data,
+    setParcours,
+    getUserParcour,
+    setUser,
+    state.values.stayConnected,
+    history,
+  ]);
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
@@ -65,6 +72,9 @@ const Login = ({ location, history }: RouteComponentProps) => {
       ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
+    }
+    if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
+      setErrorForm(loginState.error?.message);
     }
 
     if (getUserParcourState.error && getUserParcourState.error.graphQLErrors.length) {

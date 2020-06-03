@@ -18,7 +18,6 @@ const PrivateHeader = () => {
   const toggle = () => {
     setOpen(!open);
   };
-
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbarContainer}>

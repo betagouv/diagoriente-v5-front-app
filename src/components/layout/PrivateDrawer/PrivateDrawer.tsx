@@ -25,9 +25,9 @@ export const links = [
 
 const PrivateDrawer = () => {
   const classes = useStyles();
-  const [variant, setVariant] = useState<'persistent' | 'temporary'>(
+  /* const [variant, setVariant] = useState<'persistent' | 'temporary'>(
     window.innerWidth < 768 ? 'temporary' : 'persistent',
-  );
+  ); */
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours } = useContext(parcoursContext);
   const { setUser } = useContext(userContext);
@@ -37,18 +37,18 @@ const PrivateDrawer = () => {
     setParcours(null);
     setUser(null);
   };
-  useListener('resize', () => {
+  /* useListener('resize', () => {
     const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
     if (nextVariant !== variant) setVariant(nextVariant);
   });
-
+*/
   const onClose = () => {
     setOpen(false);
   };
 
   return (
     <Drawer
-      variant={variant}
+      variant="temporary"
       anchor="top"
       open={open}
       classes={{

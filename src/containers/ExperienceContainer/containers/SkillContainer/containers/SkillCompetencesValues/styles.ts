@@ -85,7 +85,6 @@ export default makeStyles((theme: Theme) =>
     competencesContainer: {
       display: 'flex',
       flexDirection: 'column',
-      border: '1px solid #FF0060',
     },
 
     competencesValues: {
@@ -170,8 +169,8 @@ export default makeStyles((theme: Theme) =>
     pointSelected: {
       background: '#FFFFFF',
       border: '4px solid #00B2DB',
-      width: 14,
-      height: 14,
+      width: 18,
+      height: 18,
       pointerEvents: 'none',
     },
 

@@ -57,8 +57,20 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [match.params.themeId]);
 
   useEffect(() => {
+    const d = localStorage.getItem('competencesValues');
+    if (d) {
+      const competencesData = JSON.parse(d);
+      setCompetencesValues(competencesData.theme === match.params.themeId ? competencesData.competencesValues : []);
+    }
+  }, [match.params.themeId]);
+
+  useEffect(() => {
     localStorage.setItem('competences', JSON.stringify({ theme: match.params.themeId, competences }));
   }, [competences, match.params.themeId]);
+
+  useEffect(() => {
+    localStorage.setItem('competencesValues', JSON.stringify({ theme: match.params.themeId, competencesValues }));
+  }, [competencesValues, match.params.themeId]);
 
   const addSkill = () => {
     if (data) {
@@ -76,6 +88,10 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     if (addSkillState.called && addSkillState.data) {
       setParcours(addSkillState.data.addSkill);
       history.push(`/experience/skill/${match.params.themeId}/success`);
+      localStorage.removeItem('theme');
+      localStorage.removeItem('activities');
+      localStorage.removeItem('competences');
+      localStorage.removeItem('competencesValues');
     }
   }, [addSkillState.data, addSkillState.called]);
 
@@ -108,7 +124,14 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         <Route
           render={(props) => {
             if (!activities.length) return <Redirect to={path.join(match.url, '/activities')} />;
-            return <SkillCompetences {...props} competences={competences} setCompetences={setCompetences} theme={data.theme} />;
+            return (
+              <SkillCompetences
+                {...props}
+                competences={competences}
+                setCompetences={setCompetences}
+                theme={data.theme}
+              />
+            );
           }}
           path={`${match.path}/competences`}
           exact

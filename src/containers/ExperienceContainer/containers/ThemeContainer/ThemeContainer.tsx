@@ -18,7 +18,7 @@ import { decodeUri } from 'utils/url';
 import { Theme } from 'requests/types';
 import useStyles from './styles';
 
-const ThemeContainer = ({ location }: RouteComponentProps) => {
+const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
@@ -49,7 +49,13 @@ const ThemeContainer = ({ location }: RouteComponentProps) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={42} />
-          <RestLogo color="#4D6EC5" label="Annuler" />
+          <RestLogo
+            onClick={() => {
+              history.replace('/experience');
+            }}
+            color="#4D6EC5"
+            label="Annuler"
+          />
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1" image={blueline} color="#223A7A" height="80px" />

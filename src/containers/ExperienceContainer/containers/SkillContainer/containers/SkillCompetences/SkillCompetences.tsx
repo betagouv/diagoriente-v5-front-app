@@ -27,7 +27,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 }
 
 const ExperienceCompetence = ({
- match, competences, setCompetences, theme,
+ match, competences, setCompetences, theme, history,
 }: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetence();
@@ -45,7 +45,13 @@ const ExperienceCompetence = ({
       <div className={classes.container}>
         <div className={classes.header}>
           <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
-          <RestLogo color="#4D6EC5" label="Annuler" />
+          <RestLogo
+            onClick={() => {
+              history.replace('/experience');
+            }}
+            color="#4D6EC5"
+            label="Annuler"
+          />
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="3" image={blueline} color="#223A7A" height="80px" />
@@ -66,7 +72,12 @@ const ExperienceCompetence = ({
 
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
-                  <Tooltip title={<Child key={index}>{tooltip && tooltip.tooltip}</Child>} arrow placement="left">
+                  <Tooltip
+                    open={!tooltip?.tooltip ? false : undefined}
+                    title={<Child key={index}>{tooltip && tooltip.tooltip}</Child>}
+                    arrow
+                    placement="left"
+                  >
                     <Button
                       childrenClassName={classes.margin}
                       className={classNames(classes.competences, selected && classes.selectedCompetence)}

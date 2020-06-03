@@ -1,5 +1,5 @@
 import React, {
-  useContext, useEffect, useRef, useState,
+ useContext, useEffect, useRef, useState,
 } from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
@@ -49,8 +49,7 @@ const Login = ({ location, history }: RouteComponentProps) => {
         localforage.setItem('auth', JSON.stringify(loginState.data.login));
       }
       setUser(loginState.data.login.user);
-      const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
-      history.push(path);
+      history.push('/');
     }
   }, [
     loginState.data,
@@ -97,8 +96,8 @@ const Login = ({ location, history }: RouteComponentProps) => {
 
   if (user) {
     const { from } = decodeUri(location.search);
-    const path = getUserParcourState.data?.getUserParcour.completed ? '/profile' : '/';
-    return <Redirect to={from || path} />;
+
+    return <Redirect to={from || '/'} />;
   }
 
   const onClickCondition = () => {

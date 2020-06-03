@@ -93,7 +93,7 @@ export default makeStyles((theme) => ({
     cursor: 'pointer',
   },
   forgotText: {
-    color: '#00B2DB',
+    color: theme.palette.success.main,
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 40,
@@ -103,5 +103,11 @@ export default makeStyles((theme) => ({
     color: theme.palette.error.main,
     fontSize: 12,
     paddingLeft: 10,
+  },
+  registerLabel: {
+    color: theme.palette.success.main,
+    fontWeight: 'bold',
+    fontSize: 14,
+    textDecoration: 'underline',
   },
 }));

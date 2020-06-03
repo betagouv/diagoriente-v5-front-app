@@ -83,14 +83,11 @@ export const updateFamiliesParcours = gql`
     }
   }
 `;
-export interface UpdateData {
-  parcoursUpdated: UserParcour;
-}
 export interface UpdateFamiliesArgument {
   families: string[];
 }
 export const useUpdateFamiliesParcour = (
-  options: MutationHookOptions<{ updateParcour: UpdateData }, UpdateFamiliesArgument> = {},
+  options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateFamiliesArgument> = {},
 ) => useLocalMutation(updateFamiliesParcours, options);
 
 export const updateSkillsParcours = gql`

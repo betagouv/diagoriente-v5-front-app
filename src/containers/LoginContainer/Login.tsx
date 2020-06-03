@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
@@ -62,13 +64,13 @@ const Login = ({ location, history }: RouteComponentProps) => {
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
-        loginState.error?.graphQLErrors[0].message &&
-        typeof loginState.error?.graphQLErrors[0].message === 'object'
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'object'
       ) {
         setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
       } else if (
-        loginState.error?.graphQLErrors[0].message &&
-        typeof loginState.error?.graphQLErrors[0].message === 'string'
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'string'
       ) {
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
@@ -114,7 +116,7 @@ const Login = ({ location, history }: RouteComponentProps) => {
         <div className={classes.errorCondition}>{errorForm}</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
-            label="Ton email"
+            label="Ton adresse e-mail"
             name="email"
             required
             placeholder="exmaple@gmail.com"
@@ -140,7 +142,7 @@ const Login = ({ location, history }: RouteComponentProps) => {
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Link to="/forgotPassword">
-                  <div className={classes.forgotText}>J’ai oublié mon mot de passe</div>
+                  <div className={classes.forgotText}>Mot de passe oublié ?</div>
                 </Link>
               </Grid>
             </Grid>
@@ -152,9 +154,14 @@ const Login = ({ location, history }: RouteComponentProps) => {
               </Grid>
               <Grid item xs={12} sm={8} md={7} lg={7}>
                 <div className={classes.containerCheckbox}>
-                  <CheckBox onChange={actions.handleChange} checked={state.values.stayConnected} name="stayConnected" />
+                  <CheckBox
+                    onChange={actions.handleChange}
+                    checked={state.values.stayConnected}
+                    name="stayConnected"
+                    color="#00B2DB"
+                  />
                   <div className={classes.conditionText} onClick={onClickCondition}>
-                    Rester connectée
+                    Garder ma session active
                   </div>
                 </div>
               </Grid>
@@ -169,6 +176,18 @@ const Login = ({ location, history }: RouteComponentProps) => {
                 <Button className={classes.btn} type="submit" fetching={loginState.loading}>
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>
+              </Grid>
+            </Grid>
+          </div>
+          <div className={classes.btnContainer}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
+                <div className={classes.emptyDiv} />
+              </Grid>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <Link to="/register">
+                  <div className={classes.registerLabel}>Je n’ai pas encore de compte</div>
+                </Link>
               </Grid>
             </Grid>
           </div>

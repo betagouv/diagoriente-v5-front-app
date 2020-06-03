@@ -1,65 +1,66 @@
-import React from 'react';
-import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Loupe from 'assets/svg/loupe.svg';
+import React, { ReactElement } from 'react';
 import Arrow from 'assets/svg/arrow';
-import {
- createStyles, makeStyles, withStyles, Theme,
-} from '@material-ui/core/styles';
+import Menu from 'assets/svg/Group.svg';
+import OptionList from '../optionsList/OptionsList';
 
 import useStyles from './styles';
 
-const SelectJobs = () => {
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
-  };
-  const BootstrapInput = withStyles((theme: Theme) =>
-    createStyles({
-      root: {
-        'label + &': {
-          marginTop: theme.spacing(3),
-        },
-      },
-      input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 26px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-      },
-    }))(InputBase);
+interface IProps {
+  label?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onSelectText: (e: string | undefined) => void;
+  value: string;
+  name: string;
+  placeholder: string;
+  error?: boolean;
+  errorText?: string;
+  options: any[] | undefined;
+  icon?: ReactElement;
+  className?: string;
+  errorForm?: string;
+  open?: boolean;
+  onClick: () => void;
+  fullSelect?: boolean;
+  loading?: boolean;
+}
+
+const SelectJobs = ({
+  onChange,
+  value,
+  name,
+  placeholder,
+  options,
+  open,
+  onSelectText,
+  onClick,
+  fullSelect,
+}: IProps) => {
+  const classes = useStyles({ fullSelect, open });
   return (
-    <div style={{ border: `1px solid red`, width: 228 }}>
-      <Select
-        value={age}
-        onChange={handleChange}
-        input={(
-          <BootstrapInput
-            startAdornment={(
-              <InputAdornment position="start">
-                <img src={Loupe} alt="location" />
-              </InputAdornment>
-            )}
-            endAdornment={(
-              <InputAdornment position="start">
-                <Arrow width="20" height="20" color="red" />
-              </InputAdornment>
-            )}
-          />
+    <div onClick={onClick} className={classes.content}>
+      <div className={classes.inputWrapper}>
+        {fullSelect && (
+          <div className={classes.menu}>
+            <img src={Menu} alt="menu" />
+          </div>
         )}
-        inputProps={{ className: classes.selectRoot }}
-        MenuProps={{ classes: { paper: classes.select } }}
-        // IconComponent={() => <Arrow width="20" height="20" color="red" />}
-      >
-        <div>Ten</div>
-        <div>Twenty</div>
-        <div>Thirty</div>
-      </Select>
+        <input
+          onChange={onChange}
+          value={value}
+          name={name}
+          placeholder={placeholder}
+          className={classes.inputContainer}
+          disabled
+        />
+        <div className={classes.logoContainer}>
+          <Arrow color="#DB8F00" width="9" height="14" className={open ? classes.rotatedBase : classes.rotated} />
+        </div>
+      </div>
+      {open && (
+        <div className={classes.optionsContainer}>
+          {fullSelect ? <div /> : <OptionList options={options} onSelectText={onSelectText} selected={value} />}
+        </div>
+      )}
     </div>
   );
 };

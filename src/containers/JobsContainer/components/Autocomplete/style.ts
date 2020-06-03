@@ -1,31 +1,16 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean }>((theme) => ({
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '5px 0px 0px 0px',
-    width: '100%',
+export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
+  root: {
+    height: 35,
   },
-
-  dropDown: {
-    padding: '0px !important',
-    height: 300,
-    width: 228,
-    overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-    '-ms-overflow-style': 'none',
+  inputBase: {
+    height: 35,
+    background: '#FFFFFF',
   },
-  input: {
+  inputRoot: {
     '& .MuiOutlinedInput-adornedStart': {
       paddingLeft: 4,
-    },
-    width: 229,
-    '& .MuiAutocomplete-listbox': {
-      backgroundColor: 'red !important',
     },
     '& .MuiInputBase-root': {
       height: 35,
@@ -35,7 +20,9 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
       borderRadius: 5,
       margin: '9px 0px',
       color: '#424242',
-      padding: '0px 5px 0px 5px',
+      '& .MuiOutlinedInput-input': {
+        padding: '0px !important',
+      },
       '&:hover:not(:focus-within)': {
         borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A'),
       },
@@ -54,11 +41,12 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
           fontSize: 14,
         },
         '& .MuiOutlinedInput-input': {
-          paddingLeft: '5px',
+          padding: '0px 0px 0px 5px !important',
+          backgroundColor: 'red',
         },
       },
       '& .MuiOutlinedInput-input:-webkit-autofill': {
-        padding: '7px 0px',
+        padding: '0px 0px',
       },
       '& .MuiOutlinedInput-notchedOutline': {
         borderWidth: 0,
@@ -74,30 +62,12 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
       animationDuration: 1,
     },
   },
-  labelContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    height: '100%',
-    justifyContent: 'space-evenly',
-    [theme.breakpoints.down('xs')]: {
-      alignItems: 'flex-start',
-    },
-    [theme.breakpoints.up('sm')]: {
-      alignItems: 'flex-end',
-    },
-  },
-  label: {
-    marginRight: 14,
-    color: '#424242',
-    fontWeight: 'bold',
-  },
-  wrapperInput: {
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  logo: {
-    paddingLeft: 15,
+  optionsContainer: {
+    width: 224,
+    background: '#FFFFFF',
+    border: '1px solid #C9C9C7',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
+    borderRadius: 5,
+    position: 'absolute',
   },
 }));

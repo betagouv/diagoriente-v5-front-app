@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -8,7 +8,6 @@ import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
 import userContext from 'contexts/UserContext';
 
-import { useListener } from 'hooks/useListener';
 import useStyles from './styles';
 
 export const links = [

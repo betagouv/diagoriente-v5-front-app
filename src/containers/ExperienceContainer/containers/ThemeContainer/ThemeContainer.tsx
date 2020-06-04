@@ -58,8 +58,8 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="1" image={blueline} color="#223A7A" height="80px" />
-          <Typography>
+          <TitleImage title="1" image={blueline} color="#223A7A" width={180} />
+          <Typography className={classes.themeTitle}>
             Choisis un
             <strong> thème :</strong>
           </Typography>
@@ -72,7 +72,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                   <Avatar
                     title={theme.title}
                     size={60}
-                    titleClassName={classes.marginTitle}
+                    titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
                     className={classes.circle}
                     onClick={() => showAvatar(theme)}
                     avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
@@ -89,7 +89,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
             <Button disabled={!selectedTheme} className={classes.btnperso} type="submit">
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant </div>
-                <Arrow color="#223A7A" width="12" height="12" />
+                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
               </div>
             </Button>
           </Link>

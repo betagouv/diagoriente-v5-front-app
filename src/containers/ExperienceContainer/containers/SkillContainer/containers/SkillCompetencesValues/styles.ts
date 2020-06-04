@@ -34,18 +34,22 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      paddingTop: 34,
     },
 
     title: {
       textAlign: 'center',
-      paddingBottom: 78,
+      paddingBottom: 58,
+      color: '#424242',
+      fontSize: 18,
+      margin: 0,
     },
 
     echelonContainer: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
-      marginBottom: 125,
+      marginBottom: 100,
       alignSelf: 'flex-start',
       marginLeft: 80,
     },
@@ -80,6 +84,8 @@ export default makeStyles((theme: Theme) =>
       margin: 0,
       paddingRight: 30,
       width: 245,
+      color: '#424242',
+      fontSize: 18,
     },
 
     competencesContainer: {
@@ -115,6 +121,10 @@ export default makeStyles((theme: Theme) =>
       top: 0,
       left: 0,
       bottom: 0,
+    },
+
+    arrow: {
+      paddingTop: 6,
     },
 
     pointContainer: {
@@ -200,6 +210,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       textAlign: 'center',
       textDecoration: 'underline',
+      fontWeight: 'bold',
     },
 
     arrowpreced: {
@@ -223,4 +234,5 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-  }));
+  }),
+);

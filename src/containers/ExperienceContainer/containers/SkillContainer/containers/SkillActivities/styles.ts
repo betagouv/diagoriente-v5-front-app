@@ -23,7 +23,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      paddingTop: 54,
+      paddingTop: 34,
     },
 
     circleContainer: {
@@ -70,6 +70,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       textAlign: 'center',
       textDecoration: 'underline',
+      fontWeight: 'bold',
     },
 
     arrowpreced: {
@@ -91,6 +92,10 @@ export default makeStyles((theme: Theme) =>
       fontSize: 18,
       textAlign: 'center',
       marginRight: 10,
+    },
+
+    arrow: {
+      paddingTop: 6,
     },
 
     hideLine: {
@@ -122,6 +127,7 @@ export default makeStyles((theme: Theme) =>
       border: '1px solid #00CFFF',
       padding: 10,
       margin: 20,
+      fontSize: 18,
       '&:hover': {
         backgroundColor: 'rgba(122, 230, 255, 0.2)',
       },
@@ -143,6 +149,9 @@ export default makeStyles((theme: Theme) =>
 
     selectedActivity: {
       backgroundColor: '#7AE6FF',
+      color: '#424242',
+      fontWeight: 'bold',
+      fontSize: 18,
       '&:hover': {
         backgroundColor: '#7AE6FF',
       },
@@ -180,4 +189,5 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-  }));
+  }),
+);

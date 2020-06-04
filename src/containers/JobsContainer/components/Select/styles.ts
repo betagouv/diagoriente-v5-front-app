@@ -14,7 +14,6 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     border: (props) => `1px solid  ${props.open ? theme.palette.success.main : '#C9C9C7'}`,
     borderRadius: 5,
     margin: '9px 0px',
-    color: '#424242',
     background: '#fff',
     paddingLeft: (props) => (props.fullSelect ? 30 : 5),
     outline: 0,

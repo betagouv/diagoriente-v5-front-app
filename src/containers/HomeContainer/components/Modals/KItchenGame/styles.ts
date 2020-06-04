@@ -22,7 +22,6 @@ export default makeStyles((theme) => ({
   },
   subTitle: {
     fontSize: 18,
-    color: '#424242',
     textAlign: 'center',
     width: '70%',
   },

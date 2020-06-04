@@ -201,7 +201,7 @@ const Register = ({ history }: RouteComponentProps) => {
               </Grid>
             </div>
             <Input
-              label="Ton e-mail*"
+              label="Ton e-mail"
               onChange={actions.handleChange}
               value={values.email}
               name="email"

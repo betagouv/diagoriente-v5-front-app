@@ -22,5 +22,11 @@ export default makeStyles<Theme, { height: number; full?: boolean }>((theme) => 
     alignItems: 'center',
     justifyContent: 'center',
     opacity: (props) => (props.full ? 1 : 0.5),
+    position: 'relative',
+  },
+  resetLogo: {
+    position: 'absolute',
+    top: -12,
+    right: -12,
   },
 }));

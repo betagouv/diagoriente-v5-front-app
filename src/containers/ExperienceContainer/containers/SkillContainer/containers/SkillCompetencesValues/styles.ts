@@ -67,7 +67,6 @@ export default makeStyles((theme: Theme) =>
     },
 
     echelonTitle: {
-      color: '#424242',
       fontSize: 14,
       flex: '1 1 0%',
       display: 'flex',

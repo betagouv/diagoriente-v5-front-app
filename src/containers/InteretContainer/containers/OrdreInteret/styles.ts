@@ -52,7 +52,6 @@ export default makeStyles<Theme>((theme) => ({
   subTitle: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#424242',
     marginTop: 50,
   },
   listSelected: {

@@ -44,7 +44,6 @@ export default makeStyles({
     fontSize: 14,
   },
   contentChildBlack: {
-    color: '#424242',
   },
   bold: {
     fontWeight: 900,
@@ -67,7 +66,6 @@ export default makeStyles({
     justifyContent: 'center',
   },
   itemButton: {
-    color: '#424242',
     backgroundColor: '#fff',
     width: '90%',
     fontSize: '1.7vw',

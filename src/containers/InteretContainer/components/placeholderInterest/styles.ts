@@ -6,7 +6,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: 
     flexDirection: (props) => (props.direction === 'horizontal' ? 'row' : 'column'),
     alignItems: 'center',
     margin: (props) => (props.direction === 'horizontal' ? '5px 36px 5px 0px' : 0),
-    width: (props) => (props.direction === 'vertical' ? '100%' : "auto"),
+    width: (props) => (props.direction === 'vertical' ? '100%' : 'auto'),
   },
   circle: {
     width: (props) => props.size || 77,
@@ -48,6 +48,6 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: 
   textFamille: {
     fontSize: 12,
     textAlign: 'center',
-    color: '#000',
+    color: theme.palette.primary.main,
   },
 }));

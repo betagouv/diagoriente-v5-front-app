@@ -30,7 +30,6 @@ export default makeStyles<Theme>((theme) => ({
   },
   text: {
     fontSize: 18,
-    color: '#424242',
     width: '100%',
     textAlign: 'center',
   },
@@ -54,7 +53,6 @@ export default makeStyles<Theme>((theme) => ({
     textAlign: 'center',
     textDecoration: 'underline',
     cursor: 'pointer',
-    color: '#424242',
     fontSize: 14,
     fontWeight: 900,
   },

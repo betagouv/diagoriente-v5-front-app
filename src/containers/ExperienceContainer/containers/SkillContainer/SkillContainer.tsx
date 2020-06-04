@@ -92,7 +92,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
       localStorage.removeItem('competencesValues');
-    }
+    } // eslint-disable-next-line
   }, [addSkillState.data, addSkillState.called]);
 
   if (loading) {

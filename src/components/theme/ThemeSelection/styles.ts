@@ -117,9 +117,11 @@ export default makeStyles((theme: Theme) =>
       paddingLeft: 2,
       fontSize: 14,
       flex: 1,
+      color: '#424242',
     },
 
     themeAvatar: {
       paddingRight: 2,
     },
-  }));
+  }),
+);

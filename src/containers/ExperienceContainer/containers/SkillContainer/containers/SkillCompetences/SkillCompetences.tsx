@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -11,12 +11,15 @@ import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Button from 'components/button/Button';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
+import Popup from 'components/common/Popup/Popup';
 
-import classNames from 'utils/classNames';
+import { Typography } from '@material-ui/core';
 
 import blueline from 'assets/svg/blueline.svg';
 import Arrow from 'assets/svg/arrow';
 import arrowleft from 'assets/svg/arrowLeft.svg';
+
+import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
@@ -26,20 +29,25 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme | null;
 }
 
-const ExperienceCompetence = ({
- match, competences, setCompetences, theme, history,
-}: Props) => {
+const ExperienceCompetence = ({ match, competences, setCompetences, theme, history }: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetence();
+  const [open, setOpen] = React.useState(false);
 
   const addCompetence = (competence: Competence) => {
-    setCompetences([...competences, competence]);
+    if (competences.length < 4) {
+      setCompetences([...competences, competence]);
+    } else {
+      setOpen(true);
+    }
   };
 
   const deleteCompetence = (id: string) => {
     setCompetences(competences.filter((comp) => comp.id !== id));
   };
-
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -54,7 +62,7 @@ const ExperienceCompetence = ({
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="3" image={blueline} color="#223A7A" height="80px" />
+          <TitleImage title="3" image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             En rapport avec ces activités, quelles sont
             <br />
@@ -91,10 +99,10 @@ const ExperienceCompetence = ({
             })}
           </Grid>
           <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
-            <Button disabled={!competences.length} className={classes.btnperso} type="submit">
+            <Button disabled={!competences.length || competences.length > 4} className={classes.btnperso} type="submit">
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
-                <Arrow color="#223A7A" width="12" height="12" />
+                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
               </div>
             </Button>
           </Link>
@@ -102,9 +110,19 @@ const ExperienceCompetence = ({
 
         <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
-          Precedent
+          Précedent
         </Link>
       </div>
+      <Popup open={open} handleClose={handleClose} iconClassName={classes.iconClassName}>
+        <div className={classes.popupContainer}>
+          <Typography className={classes.popupDescription}>
+            Tu dois choisir au minimum une compétence !<br /> /Tu as déjà choisi 4 compétences
+          </Typography>
+          <Button className={classes.incluse} onClick={handleClose}>
+            compris
+          </Button>
+        </div>
+      </Popup>
     </div>
   );
 };

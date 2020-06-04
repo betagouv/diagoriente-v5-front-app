@@ -24,7 +24,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      paddingTop: 54,
+      paddingTop: 34,
     },
 
     circleContainer: {
@@ -72,6 +72,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       textAlign: 'center',
       textDecoration: 'underline',
+      fontWeight: 'bold',
     },
 
     arrowpreced: {
@@ -93,6 +94,10 @@ export default makeStyles((theme: Theme) =>
       fontSize: 18,
       textAlign: 'center',
       marginRight: 10,
+    },
+
+    arrow: {
+      paddingTop: 6,
     },
 
     hideLine: {
@@ -176,20 +181,47 @@ export default makeStyles((theme: Theme) =>
     selectedCompetence: {
       backgroundColor: '#4D6EC5',
       color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
       '&:hover': {
         backgroundColor: '#4D6EC5',
       },
     },
 
-    tooltip:{
-      background:'#4D6EC5'
+    tooltip: {
+      background: '#4D6EC5',
     },
 
     contentBtn: {
       display: 'flex',
       alignItems: 'center',
     },
+
     margin: {
       margin: 0,
     },
-  }));
+
+    incluse: {
+      backgroundColor: '#FF0060',
+      color: '#fff',
+      fontSize: 18,
+      '&:hover': {
+        backgroundColor: '#D60051',
+      },
+    },
+    popupContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      alignItems: 'center',
+      flex: '1 1 0%',
+      justifyContent: 'space-between',
+    },
+    iconClassName: {
+      marginBottom: 31,
+    },
+    popupDescription: {
+      textAlign: 'center',
+    },
+  }),
+);

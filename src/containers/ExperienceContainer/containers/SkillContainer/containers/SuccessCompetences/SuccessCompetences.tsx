@@ -11,6 +11,7 @@ import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Input from 'components/inputs/Input/Input';
+import Popup from 'components/common/Popup/Popup';
 
 import NameFormator from 'utils/NameFormator';
 import ParcourContext from 'contexts/ParcourContext';
@@ -30,7 +31,9 @@ const ResultCompetences = ({ theme, match }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
-  const [addSkillCommentCall, addSkillCommentState] = useAddSkillComment();
+  const [openPopup, setOpenPopup] = React.useState(false);
+
+  const [addSkillCommentCall] = useAddSkillComment();
   const { parcours } = useContext(ParcourContext);
   const { user } = useContext(UserContext);
 
@@ -103,6 +106,9 @@ const ResultCompetences = ({ theme, match }: Props) => {
     setThirdOpen(false);
   };
 
+  const reset = () => {
+    setOpenPopup(true);
+  };
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
@@ -110,9 +116,11 @@ const ResultCompetences = ({ theme, match }: Props) => {
           && NameFormator(user?.profile.firstName)} ${user
           && NameFormator(
             user?.profile.lastName,
+            // eslint-disable-next-line
           )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
       });
     }
+    // eslint-disable-next-line
   }, [secondOpen]);
 
   return (
@@ -191,7 +199,13 @@ const ResultCompetences = ({ theme, match }: Props) => {
           </div>
         </div>
       </ModalContainer>
-      <ModalContainer open={secondOpen} handleClose={handleSecondClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
+      <ModalContainer
+        onReset={reset}
+        open={secondOpen}
+        handleClose={handleSecondClose}
+        backdropColor="#011A5E"
+        colorIcon="#4D6EC5"
+      >
         <div className={classes.modalContainer}>
           <Avatar title={theme.title} size={94} titleClassName={classes.titleClassName}>
             <img src={theme.resources?.icon} alt="" />
@@ -199,10 +213,10 @@ const ResultCompetences = ({ theme, match }: Props) => {
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
           <div className={classes.descriptionModal}>
             Le message pour
-            {' '}
-            {`${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`}
-            {' '}
-            ({`${state.values.email}`})
+            {/* eslint-disable-next-line */}
+            {`${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
+            {`${state.values.email}`}
+            )
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -221,18 +235,18 @@ const ResultCompetences = ({ theme, match }: Props) => {
               error={state.touched.comment && state.errors.comment}
             />
             <div className={classes.message}>
-              Attention : Tu peux modifier ou compléter ce message avant de l'envoyer !
+              Attention : Tu peux modifier ou compléter ce message avant de l&apos;envoyer !
             </div>
           </form>
 
           <div className={classes.btnSuccModal}>
-            <Button className={classes.btn} onClick={() => handleThirdOpen()}>
+            <Button className={classes.btn} onClick={handleThirdOpen}>
               <div className={classes.btnLabel}>Suivant</div>
             </Button>
           </div>
-          <div className={classes.precedbutton} onClick={() => handlePreced()}>
+          <div className={classes.precedbutton} onClick={handlePreced}>
             <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
-            <p>Precedent</p>
+            Précedent
           </div>
         </div>
       </ModalContainer>
@@ -263,6 +277,25 @@ const ResultCompetences = ({ theme, match }: Props) => {
           </div>
         </div>
       </ModalContainer>
+
+      <Popup open={openPopup} handleClose={handleClose}>
+        <div className={classes.popupContainer}>
+          <p className={classes.popupDescription}>
+            Veux-tu vraiment quitter ? Tes modifications ne seront pas enregistrées.
+          </p>
+          <Button
+            className={classes.incluse}
+            onClick={() => {
+              setOpenPopup(false);
+            }}
+          >
+            Non, continuer
+          </Button>
+          <Link to="/" className={classes.linkHome}>
+            Oui, abandonner et revenir à l’accueil
+          </Link>
+        </div>
+      </Popup>
     </div>
   );
 };

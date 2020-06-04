@@ -6,15 +6,14 @@ import useStyles from './styles';
 interface IProps {
   open: boolean;
   handleClose: () => void;
+  onReset?: () => void;
   children: React.ReactElement;
   backdropColor: string;
   colorIcon: string;
   size?: number;
 }
 
-const ModalContainer = ({
- open, handleClose, backdropColor, colorIcon, children, size,
-}: IProps) => {
+const ModalContainer = ({ open, handleClose, backdropColor, colorIcon, children, size, onReset }: IProps) => {
   const classes = useStyles({ backdropColor, size });
   return (
     <Modal
@@ -28,7 +27,7 @@ const ModalContainer = ({
       <div className={classes.modalContainer}>
         <div className={classes.modal}>
           <div className={classes.header}>
-            <Reset color={colorIcon} label="Fermer" onClick={handleClose} />
+            <Reset color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
           </div>
           {children}
         </div>

@@ -22,7 +22,7 @@ const Experience = () => {
       </p>
       <div className={classes.root}>
         <div className={classes.circleContainer}>
-          <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
+          <Avatar title="Ajouter une" size={180} titleClassName={classes.marginTitle} />
           <Link to="/experience/theme">
             <Button className={classes.btnperso} type="submit">
               <div className={classes.btnLabel}>Expérience perso </div>
@@ -31,7 +31,7 @@ const Experience = () => {
         </div>
         <div>
           <div className={classes.circleContainer}>
-            <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
+            <Avatar title="Ajouter une" size={180} titleClassName={classes.marginTitle} />
             <Link to="/experience/theme?type=professional" className={classes.hideLine}>
               <Button className={classes.btnpro} type="submit">
                 <div className={classes.btnLabel}>Expérience pro</div>

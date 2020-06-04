@@ -25,9 +25,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   setActivities: (activities: Activity[]) => void;
 }
 
-const ExperienceActivity = ({
- match, activities, setActivities, history,
-}: Props) => {
+const ExperienceActivity = ({ match, activities, setActivities, history }: Props) => {
   const classes = useStyles();
 
   const addActivity = (activite: Activity) => {
@@ -54,7 +52,7 @@ const ExperienceActivity = ({
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="2" image={blueline} color="#223A7A" height="80px" />
+          <TitleImage title="2" image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             Peux-tu nous en dire un peu plus sur
             <br />
@@ -91,14 +89,14 @@ const ExperienceActivity = ({
             <Button disabled={!activities.length} className={classes.btnperso} type="submit">
               <div className={classes.contentBtn}>
                 <div className={classes.btnLabel}>Suivant</div>
-                <Arrow color="#223A7A" width="12" height="12" />
+                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
               </div>
             </Button>
           </Link>
         </div>
         <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
-          Precedent
+          Précedent
         </Link>
       </div>
     </div>

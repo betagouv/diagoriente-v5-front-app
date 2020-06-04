@@ -10,6 +10,7 @@ import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Button from 'components/button/Button';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
+import Typography from '@material-ui/core/Typography/Typography';
 
 import classNames from 'utils/classNames';
 
@@ -40,6 +41,7 @@ const SkillCompetencesValues = ({
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
   const arrowRef = useRef(null as HTMLDivElement | null);
+  // eslint-disable-next-line
   const [fixRef, setFixRef] = useState(0);
   const pointClick = (id: string, value: number) => {
     const nextCompetenceValues = [...competencesValues];
@@ -58,6 +60,10 @@ const SkillCompetencesValues = ({
     }
   }, []);
 
+  useEffect(() => {
+    setCompetencesValues(competencesValues.filter((comp) => competences.find((id) => comp.id === id.id)));
+    // eslint-disable-next-line
+  }, [competences]);
 
   return (
     <div className={classes.root}>
@@ -73,12 +79,12 @@ const SkillCompetencesValues = ({
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="4" image={blueline} color="#223A7A" height="80px" />
-          <p className={classes.title}>
+          <TitleImage title="4" image={blueline} color="#223A7A" width={180} />
+          <Typography className={classes.title}>
             Et enfin, pour chacune de ces compétences
             <br />
             que tu as choisies, comment te sens-tu ?
-          </p>
+          </Typography>
           <div className={classes.echelonContainer}>
             <div className={classes.echelon}>
               <div className={classes.empty} />
@@ -119,8 +125,9 @@ const SkillCompetencesValues = ({
                               <strong>{echelon[index]}</strong>
 
                               <div className={classes.tooltipPointContainer}>
-                                {[...Array(value)].map(() => (
-                                  <div key={value} className={classes.tooltipPoint} />
+                                {[...Array(value)].map((e, point) => (
+                                  // eslint-disable-next-line
+                                  <div key={point} className={classes.tooltipPoint} />
                                 ))}
                               </div>
                               <strong>{competence.niveau[index].title}</strong>
@@ -162,14 +169,14 @@ const SkillCompetencesValues = ({
           >
             <div className={classes.contentBtn}>
               <div className={classes.btnLabel}>Suivant</div>
-              {!addSkillState && <Arrow color="#223A7A" width="12" height="12" />}
+              {!addSkillState && <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />}
             </div>
           </Button>
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.btnpreced}>
           <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
-          Precedent
+          Précedent
         </Link>
       </div>
     </div>

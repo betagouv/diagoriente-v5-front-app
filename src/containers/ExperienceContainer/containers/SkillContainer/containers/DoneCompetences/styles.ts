@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    marginTop: 60,
+    marginTop: 45,
   },
 
   title: {
@@ -31,8 +31,8 @@ export default makeStyles((theme) => ({
   },
 
   description: {
-    marginTop: 40,
-    marginBottom: 30,
+    marginTop: 30,
+    marginBottom: 20,
     width: 500,
     alignItems: 'center',
     fontSize: 42,
@@ -48,29 +48,28 @@ export default makeStyles((theme) => ({
   avatar: {},
 
   btnskillContainer: {
-    paddingTop: 100,
+    paddingTop: 30,
     display: 'flex',
     flexDirection: 'column',
   },
 
   btnskillFirstUser: {
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
 
   btnContainer: {
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 15,
   },
 
   btnSkillCardContainer: {
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    marginBottom: 173,
-    marginTop: 30,
+    marginTop: 40,
   },
 
   btn: {
@@ -108,7 +107,7 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     textDecoration: 'underline',
     fontSize: 14,
-    paddingBottom: 130,
+    paddingBottom: 50,
     cursor: 'pointer',
     color: '#424242',
     fontWeight: 'bold',
@@ -126,7 +125,7 @@ export default makeStyles((theme) => ({
     fontSize: 18,
     textAlign: 'center',
     color: '#424242',
-    marginTop: 40,
+    marginTop: 30,
   },
 
   subTitle: {

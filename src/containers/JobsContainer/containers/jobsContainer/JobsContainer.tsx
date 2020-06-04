@@ -8,7 +8,7 @@ import { useUpdateCompletedParcour } from 'requests/parcours';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
 import { useJobs } from 'requests/jobs';
-import Autocomplete from '../../components/autoComplete/AutoCompleteJob';
+import Autocomplete from '../../components/AutoComplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
 import useStyles from './styles';

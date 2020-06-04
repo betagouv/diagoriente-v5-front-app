@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, {
+  useEffect, useState, useRef, useContext,
+} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { setAuthorizationBearer } from 'requests/client';
 import Grid from '@material-ui/core/Grid';

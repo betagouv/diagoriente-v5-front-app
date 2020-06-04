@@ -12,7 +12,6 @@ export default makeStyles<Theme>((theme) => ({
   descriptionModal: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#424242',
     marginTop: 40,
   },
   subTitle: {
@@ -60,7 +59,6 @@ export default makeStyles<Theme>((theme) => ({
   themeTitle: {
     textAlign: 'center',
     fontSize: 14,
-    color: '#424242',
     marginBottom: 3,
   },
   btnContainerModal: {
@@ -69,7 +67,6 @@ export default makeStyles<Theme>((theme) => ({
     marginBottom: 30,
   },
   link: {
-    color: '#424242',
     fontSize: 14,
     fontWeight: 900,
   },

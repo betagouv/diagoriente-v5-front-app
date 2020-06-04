@@ -34,7 +34,6 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
       border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7'}`,
       borderRadius: 5,
       margin: '9px 0px',
-      color: '#424242',
       padding: '0px 5px 0px 5px',
       '&:hover:not(:focus-within)': {
         borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A'),
@@ -89,7 +88,6 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   },
   label: {
     marginRight: 14,
-    color: '#424242',
     fontWeight: 'bold',
   },
   wrapperInput: {

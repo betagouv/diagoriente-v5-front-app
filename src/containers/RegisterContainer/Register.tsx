@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, {
+  useEffect, useState, useRef, useContext,
+} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { setAuthorizationBearer } from 'requests/client';
 import Grid from '@material-ui/core/Grid';
@@ -201,7 +203,7 @@ const Register = ({ history }: RouteComponentProps) => {
               </Grid>
             </div>
             <Input
-              label="Ton e-mail*"
+              label="Ton e-mail"
               onChange={actions.handleChange}
               value={values.email}
               name="email"

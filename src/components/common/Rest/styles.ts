@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string }>((theme) => ({
+export default makeStyles<Theme, { color: string; size?: number }>((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -11,8 +11,8 @@ export default makeStyles<Theme, { color: string }>((theme) => ({
     },
   },
   root: {
-    width: 33,
-    height: 33,
+    width: (props) => (props.size ? props.size : 33),
+    height: (props) => (props.size ? props.size : 33),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

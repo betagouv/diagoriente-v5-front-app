@@ -67,11 +67,15 @@ const Slider = ({ data, handleClick }: IProps) => {
           </div>
 
           <div className={classes.avatarContainer}>
-            {el.data.map((e) => (
-              <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
-                <Avatar title={e.nom} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
-              </div>
-            ))}
+            {el.data.map((e) => {
+              const { nom } = e;
+              const res = nom.replace(/\//g, '');
+              return (
+                <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
+                  <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}

@@ -16,13 +16,11 @@ export default makeStyles<Theme, { selected: string }>((theme) => ({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: '#424242',
     textAlign: 'center',
     height: 90,
   },
   description: {
     fontSize: 14,
-    color: '#424242',
     height: 70,
     overflow: 'hidden',
     width: '100%',

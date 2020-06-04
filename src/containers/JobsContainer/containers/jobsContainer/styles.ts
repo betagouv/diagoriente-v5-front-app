@@ -35,7 +35,6 @@ export default makeStyles<Theme>((theme) => ({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 900,
-    color: '#424242',
     marginBottom: 30,
   },
   filterTitleContainer: {

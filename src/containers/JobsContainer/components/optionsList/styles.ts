@@ -20,7 +20,6 @@ export default makeStyles<Theme>(() => ({
   },
   itemText: {
     fontSize: 14,
-    color: '#424242',
     paddingLeft: 10,
   },
 }));

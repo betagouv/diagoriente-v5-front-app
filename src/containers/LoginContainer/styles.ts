@@ -87,7 +87,6 @@ export default makeStyles((theme) => ({
   },
   conditionText: {
     fontSize: 14,
-    color: '#424242',
     marginLeft: 8,
     width: '95%',
     cursor: 'pointer',

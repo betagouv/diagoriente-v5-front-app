@@ -19,7 +19,6 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
       border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7'}`,
       borderRadius: 5,
       margin: '9px 0px',
-      color: '#424242',
       '& .MuiOutlinedInput-input': {
         padding: '0px !important',
       },

@@ -22,7 +22,6 @@ export default makeStyles<Theme>((theme) => ({
   },
   subTitle: {
     fontSize: 18,
-    color: '#424242',
   },
   avatarContainer: {
     width: '100%',

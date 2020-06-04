@@ -30,7 +30,6 @@ export default makeStyles((theme: Theme) => ({
   },
   description: {
     fontSize: 14,
-    color: '#424242',
     lineHeight: 1.8,
   },
   formContainer: {
@@ -75,11 +74,10 @@ export default makeStyles((theme: Theme) => ({
   },
   label: {
     fontSize: 14,
-    color: '#424242',
+    fontWeight: 'bold',
   },
   subLabel: {
     fontSize: 12,
-    color: '#424242',
   },
   avatarCircle: {
     padding: '0px !important',
@@ -122,11 +120,9 @@ export default makeStyles((theme: Theme) => ({
   },
   groupText: {
     fontSize: 12,
-    color: '#424242',
   },
   conditionText: {
     fontSize: 14,
-    color: '#424242',
     marginLeft: 8,
     width: '95%',
     cursor: 'pointer',
@@ -149,7 +145,6 @@ export default makeStyles((theme: Theme) => ({
   },
   optionItem: {
     fontSize: 12,
-    color: '#424242',
   },
   checkOption: {
     color: theme.palette.success.main,
@@ -163,7 +158,6 @@ export default makeStyles((theme: Theme) => ({
     color: theme.palette.success.main,
   },
   required: {
-    color: '#424242',
     fontSize: 14,
     textAlign: 'center',
   },

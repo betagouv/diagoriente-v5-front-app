@@ -17,7 +17,6 @@ export default makeStyles<Theme>((theme) => ({
   description: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#424242',
     width: '70%',
   },
   subTitle: {
@@ -30,7 +29,6 @@ export default makeStyles<Theme>((theme) => ({
     marginTop: 130,
   },
   link: {
-    color: '#424242',
     fontSize: 14,
     fontWeight: 900,
   },

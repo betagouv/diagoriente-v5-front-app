@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import RestLogo from 'components/common/Rest/Rest';
-import { Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
@@ -21,7 +20,7 @@ const OrderInteret = () => {
   const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
   const [orderedArray, setOrderedArray] = useState([] as Families[]);
-  const heights = [230, 210, 190, 170, 154];
+  const heights = [226, 216, 206, 196, 186];
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || 0); i += 1) {
@@ -30,7 +29,8 @@ const OrderInteret = () => {
     return array;
   };
   const isChecked = (id?: string): boolean => !!orderedArray.find((elem) => elem.id === id);
-  const handelClick = (item: any) => {
+
+  const handelClick = (item?: any) => {
     let copySelected: Families[] = [...orderedArray];
     if (isChecked(item.id)) {
       copySelected = orderedArray.filter((ele) => ele.id !== item?.id);
@@ -65,8 +65,8 @@ const OrderInteret = () => {
         </div>
         <div className={classes.wrapper}>
           <div className={classes.subTitle}>
-            <Typography>Bravo ! Tu as sélectionné tes 5 centres d&lsquo;intérêts.</Typography>
-            <Typography>Maintenant choisis celui qui est le plus important pour toi :</Typography>
+            <div>Bravo ! Tu as sélectionné tes 5 centres d&lsquo;intérêts.</div>
+            <div>Maintenant choisis celui qui est le plus important pour toi :</div>
           </div>
           <div className={classes.listSelected}>
             {selectedInterest?.map((ele, index) => (
@@ -77,7 +77,14 @@ const OrderInteret = () => {
           </div>
           <div className={classes.orderSelected}>
             {orderedArray.map((el, i) => (
-              <InterestContainer index={i + 1} key={el.id} height={heights[i]} full famille={el} />
+              <InterestContainer
+                index={i + 1}
+                key={el.id}
+                height={heights[i]}
+                full
+                famille={el}
+                handleClick={handelClick}
+              />
             ))}
             {renderPlaceholder()}
           </div>

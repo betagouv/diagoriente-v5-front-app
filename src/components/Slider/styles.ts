@@ -39,7 +39,7 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 900,
     fontSize: 24,
     color: theme.palette.primary.main,
-    position: "absolute",
+    position: 'absolute',
     zIndex: 5,
   },
   descLogo: {
@@ -59,6 +59,9 @@ export default makeStyles<Theme>((theme) => ({
   subitem: {
     width: 170,
     margin: '10px 15px',
+  },
+  selected: {
+    opacity: 0.5,
   },
   wrapperBtn: {
     display: 'flex',

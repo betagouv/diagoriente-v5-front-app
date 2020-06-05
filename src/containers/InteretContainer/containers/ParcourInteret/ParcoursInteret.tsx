@@ -89,7 +89,7 @@ const ParcoursInteret = () => {
         <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
-            <Slider data={formattedData} handleClick={handleClick} />
+            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
           </div>
         </div>
         <div className={classes.footer}>

@@ -5,10 +5,8 @@ import { Families } from 'requests/types';
 import { Link } from 'react-router-dom';
 import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
-import TitleImage from 'components/common/TitleImage/TitleImage';
 import InterestLogo from 'assets/svg/interest.svg';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
-import Trait from 'assets/images/trait_violet.png';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
@@ -79,21 +77,16 @@ const ParcoursInteret = () => {
             <Avatar size={60} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
               <img src={InterestLogo} alt="interest" />
             </Avatar>
-            <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
+            <div className={classes.titlesWrapper}>
+              {' '}
+              <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
+              <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
+            </div>
           </div>
 
           <RestLogo color="#420FAB" label="Annuler" />
         </div>
         <div className={classes.wrapper}>
-          <TitleImage
-            title="Sélectionne 5 centres d’intérêts"
-            color="#424242"
-            height="150px"
-            image={Trait}
-            size={18}
-            font="Andika New Basic"
-            width={190}
-          />
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
             <Slider data={formattedData} handleClick={handleClick} />

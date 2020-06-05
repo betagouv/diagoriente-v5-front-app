@@ -7,6 +7,7 @@ import { useDidMount } from 'hooks/useLifeCycle';
 import { useUpdateCompletedParcour } from 'requests/parcours';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
+import Spinner from 'components/Spinner/Spinner';
 import { useJobs } from 'requests/jobs';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
@@ -30,7 +31,7 @@ const JobsContainer = () => {
   const [selectedJob, setSelectJob] = useState('');
 
   const [updateCompleteCall] = useUpdateCompletedParcour();
-  const { data } = useJobs();
+  const { data, loading } = useJobs();
   const { data: listAccData, loading: listAccLoading } = useAccessibility();
   const { data: listTypeData, loading: listTypeLoading } = useTypeJob();
 
@@ -121,6 +122,7 @@ const JobsContainer = () => {
           />
         </div>
         <div className={classes.boxsContainer}>
+          {loading && <Spinner />}
           {data?.jobs.data.map((el) => (
             <JobCard
               key={el.id}

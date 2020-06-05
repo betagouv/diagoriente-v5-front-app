@@ -4,6 +4,7 @@ import Avatar from 'components/common/Avatar/Avatar';
 import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
+import Trait from 'assets/images/trait_violet.png';
 import useStyles from './styles';
 
 interface IProps {
@@ -63,7 +64,10 @@ const Slider = ({ data, handleClick }: IProps) => {
         <div key={el.title} className={classes.item}>
           <div className={classes.titleContainer}>
             <div className={classes.topTitle}>Travailler...</div>
-            <div className={classes.bottomTitle}>{el.title}</div>
+            <div className={classes.descLogo}>
+              <div className={classes.bottomTitle}>{el.title}</div>
+              <img src={Trait} alt="" className={classes.traitLogo} width={170} height={80} />
+            </div>
           </div>
 
           <div className={classes.avatarContainer}>

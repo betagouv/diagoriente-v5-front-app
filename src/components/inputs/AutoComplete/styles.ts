@@ -98,4 +98,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   logo: {
     paddingLeft: 15,
   },
+  requiredInput: {
+    color: theme.palette.success.main,
+  },
 }));

@@ -42,7 +42,10 @@ const AutoComplete = ({
         {label && (
           <Grid item xs={12} sm={4} md={5} lg={5}>
             <div className={classes.labelContainer}>
-              <div className={classes.label}>{label}</div>
+              <div className={classes.label}>
+                {label}
+                <span className={classes.requiredInput}>*</span>
+              </div>
             </div>
           </Grid>
         )}

@@ -44,7 +44,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
         borderRadius: 5,
 
         '&::placeholder': {
-          color: '#C9C9C7',
+          color: '#A9A9A9',
           fontSize: 14,
         },
         '& .MuiOutlinedInput-input': {
@@ -80,7 +80,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     alignItems: 'flex-end',
     height: '100%',
     // width: 260,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     [theme.breakpoints.down('xs')]: {
       alignItems: 'flex-start',
     },

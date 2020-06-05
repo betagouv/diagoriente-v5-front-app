@@ -118,7 +118,7 @@ const Login = ({ location, history }: RouteComponentProps) => {
             label="Ton adresse e-mail"
             name="email"
             required
-            placeholder="exmaple@gmail.com"
+            placeholder="email@gmail.com"
             value={state.values.email}
             onChange={actions.handleChange}
             errorText={state.touched.email && state.errors.email}

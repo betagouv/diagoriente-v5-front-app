@@ -24,8 +24,13 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      paddingTop: 54,
+      paddingTop: 34,
       paddingBottom: 77,
+    },
+
+    themeTitle: {
+      color: '#424242',
+      fontSize: 18,
     },
 
     gridContainer: {
@@ -56,6 +61,19 @@ export default makeStyles((theme: Theme) =>
 
     marginTitle: {
       margin: '0 15px',
+      color: '#424242',
+      fontSize: 14,
+    },
+
+    textSelected: {
+      margin: '0 15px',
+      fontWeight: 'bold',
+      fontSize: 14,
+      color: '#424242',
+    },
+    
+    text: {
+      fontWeight: 'normal',
     },
 
     btnperso: {
@@ -86,6 +104,10 @@ export default makeStyles((theme: Theme) =>
       fontSize: 18,
       textAlign: 'center',
       marginRight: 10,
+    },
+
+    arrow: {
+      paddingTop: 6,
     },
 
     hideLine: {
@@ -136,4 +158,5 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-  }));
+  }),
+);

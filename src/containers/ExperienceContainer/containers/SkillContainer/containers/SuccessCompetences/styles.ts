@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    marginTop: 60,
+    marginTop: 30,
   },
 
   title: {
@@ -35,8 +35,8 @@ export default makeStyles((theme) => ({
   },
 
   description: {
-    marginTop: 45,
-    marginBottom: 50,
+    marginTop: 20,
+    marginBottom: 20,
     width: 500,
     alignItems: 'center',
     fontSize: 42,
@@ -44,7 +44,7 @@ export default makeStyles((theme) => ({
   },
 
   textDescription: {
-    marginTop: 70,
+    marginTop: 20,
     marginBottom: 30,
     width: 500,
     alignItems: 'center',
@@ -56,6 +56,7 @@ export default makeStyles((theme) => ({
     color: '#424242',
     width: '100%',
     textAlign: 'center',
+    margin: 10,
   },
 
   btnContainer: {
@@ -83,7 +84,6 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     textDecoration: 'underline',
     fontSize: 14,
-    paddingBottom: 130,
     cursor: 'pointer',
     color: '#424242',
     fontWeight: 'bold',
@@ -94,7 +94,6 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 53,
   },
 
   titleModal: {
@@ -103,22 +102,22 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.primary.main,
     textTransform: 'uppercase',
-    marginTop: 23,
+    marginTop: 10,
   },
 
   descriptionModal: {
     fontSize: 18,
     textAlign: 'center',
     color: '#424242',
-    marginTop: 25,
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 10,
   },
 
   descriptionModalContainer: {
     fontSize: 18,
     textAlign: 'center',
     color: '#424242',
-    marginTop: 25,
+    marginTop: 20,
     marginBottom: 50,
   },
 
@@ -155,7 +154,7 @@ export default makeStyles((theme) => ({
     alignItems: 'flex-start',
     paddingLeft: 91,
     paddingRight: 107,
-    marginBottom: 30,
+    marginBottom: 15,
   },
 
   formContainer: {
@@ -163,7 +162,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 28,
     paddingLeft: 91,
     paddingRight: 107,
   },
@@ -174,7 +173,7 @@ export default makeStyles((theme) => ({
 
   iconBackground: {
     background: '#ffff',
-    marginTop: 41,
+    marginTop: 30,
   },
 
   message: {
@@ -244,5 +243,37 @@ export default makeStyles((theme) => ({
   defaultValue: {
     fontSize: 14,
     color: '#6B6B6A',
+  },
+
+  popupContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'center',
+    flex: '1 1 0%',
+    justifyContent: 'space-between',
+  },
+
+  popupDescription: {
+    textAlign: 'center',
+    color: '#424242',
+  },
+
+  incluse: {
+    backgroundColor: '#FF0060',
+    color: '#fff',
+    fontSize: 18,
+    marginTop: 25,
+    '&:hover': {
+      backgroundColor: '#D60051',
+    },
+  },
+
+  linkHome: {
+    color: '#00B2DB',
+    fontSize: 14,
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    marginTop: 14,
   },
 }));

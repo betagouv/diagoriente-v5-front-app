@@ -7,8 +7,7 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       overflow: 'auto',
-      paddingTop: 104,
-      paddingBottom: 155,
+      paddingTop: 30,
     },
 
     textColor: {
@@ -20,12 +19,12 @@ export default makeStyles((theme: Theme) =>
       width: 600,
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: 60,
+      marginTop: 20,
     },
 
     square: {
-      height: 200,
-      width: 200,
+      height: 140,
+      width: 140,
       borderRadius: '50%',
       backgroundColor: '#C9C9C7',
     },
@@ -37,7 +36,7 @@ export default makeStyles((theme: Theme) =>
     },
 
     btnpro: {
-      backgroundColor: '#011A5E',
+      backgroundColor: '#4D6EC5',
       height: 50,
 
       '&:hover': {
@@ -47,10 +46,10 @@ export default makeStyles((theme: Theme) =>
     },
 
     btnperso: {
-      backgroundColor: '#00CFFF',
+      backgroundColor: '#4D6EC5',
       height: 50,
       '&:hover': {
-        backgroundColor: '#00B2DB ',
+        backgroundColor: '#223A7A ',
         borderRadius: 10,
       },
     },
@@ -65,6 +64,8 @@ export default makeStyles((theme: Theme) =>
 
     title: {
       textAlign: 'center',
+      color: '#424242',
+      fontSize: 18,
     },
 
     help: {
@@ -77,9 +78,12 @@ export default makeStyles((theme: Theme) =>
     marginTitle: {
       marginTop: 41,
       marginBottom: 16,
+      color: '#424242',
+      fontSize: 18,
     },
 
     hideLine: {
       textDecoration: 'none',
     },
-  }));
+  }),
+);

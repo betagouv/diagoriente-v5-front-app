@@ -29,7 +29,7 @@ const HomeInteret = () => {
           </div>
         </div>
         <div className={classes.avatarContainer}>
-          <AvatarImage size={206} />
+          <AvatarImage size={168} />
           <div className={classes.btnContainer}>
             <Link to="/interet/parcours">
               <Button className={classes.btn} type="submit">

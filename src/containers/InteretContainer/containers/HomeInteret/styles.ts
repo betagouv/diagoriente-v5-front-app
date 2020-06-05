@@ -8,7 +8,7 @@ export default makeStyles<Theme>((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 80,
-    paddingTop: 40,
+    paddingTop: 30,
   },
   content: {
     maxWidth: 1080,
@@ -28,7 +28,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 30,
   },
   btnContainer: {
     width: '100%',

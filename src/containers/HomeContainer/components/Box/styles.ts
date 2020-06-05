@@ -25,7 +25,6 @@ export default makeStyles<Theme, { color: string; colorText: string }>((theme) =
   },
   subTitleBox: {
     fontSize: 18,
-    color: theme.palette.primary.main,
     width: '70%',
     textAlign: 'center',
     marginTop: 20,

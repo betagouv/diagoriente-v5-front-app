@@ -79,7 +79,7 @@ const ParcoursInteret = () => {
             <Avatar size={60} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
               <img src={InterestLogo} alt="interest" />
             </Avatar>
-            <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+            <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
           </div>
 
           <RestLogo color="#420FAB" label="Annuler" />

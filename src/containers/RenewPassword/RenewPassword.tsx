@@ -57,7 +57,7 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.title}>MOT DE PASSE OUBLIé</div>
+        <div className={classes.title}>MOT DE PASSE OUBLIÉ</div>
         <div className={classes.subTitle}>Entre votre nouvelle password :</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input

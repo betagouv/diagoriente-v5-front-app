@@ -86,6 +86,9 @@ export default makeStyles((theme: Theme) => ({
     width: 70,
     height: 70,
     cursor: 'pointer',
+    '&:hover': {
+      opacity: 0.8,
+    },
   },
   selectedAvatar: {
     border: `2px solid ${theme.palette.primary.main}`,

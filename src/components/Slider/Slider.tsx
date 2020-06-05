@@ -10,8 +10,9 @@ import useStyles from './styles';
 interface IProps {
   data: { title: string; data: Families[] }[];
   handleClick: (e: any) => void;
+  isChecked: any;
 }
-const Slider = ({ data, handleClick }: IProps) => {
+const Slider = ({ data, handleClick, isChecked }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
@@ -74,9 +75,13 @@ const Slider = ({ data, handleClick }: IProps) => {
             {el.data.map((e) => {
               const { nom } = e;
               const res = nom.replace(/\//g, '');
+             const selected = isChecked(e.id);
+             console.log('selectzd', selected)
               return (
                 <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
-                  <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                  <div className={classNames(selected ? classes.selected : '')}>
+                    <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                  </div>
                 </div>
               );
             })}

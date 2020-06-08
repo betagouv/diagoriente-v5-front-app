@@ -246,7 +246,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
           </div>
           <div className={classes.precedbutton} onClick={handlePreced}>
             <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
-            Précedent
+            <span> Précedent</span>
           </div>
         </div>
       </ModalContainer>
@@ -281,7 +281,10 @@ const ResultCompetences = ({ theme, match }: Props) => {
       <Popup open={openPopup} handleClose={handleClose}>
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
-            Veux-tu vraiment quitter ? Tes modifications ne seront pas enregistrées.
+            Veux-tu vraiment quitter ?
+            <br />
+            {' '}
+            Tes modifications ne seront pas enregistrées.
           </p>
           <Button
             className={classes.incluse}

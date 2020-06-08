@@ -1,7 +1,13 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<Theme>((theme) => ({
-  modalBody: {},
+  modalBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   titleModal: {
     fontFamily: 'ocean',
     fontSize: 32,

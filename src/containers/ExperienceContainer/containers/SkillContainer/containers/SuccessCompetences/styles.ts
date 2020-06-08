@@ -94,6 +94,7 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
 
   titleModal: {
@@ -194,6 +195,7 @@ export default makeStyles((theme) => ({
 
   arrowpreced: {
     marginRight: 13,
+    marginTop: 4,
   },
 
   btnContainerModal: {
@@ -209,6 +211,10 @@ export default makeStyles((theme) => ({
 
   precedbutton: {
     display: 'flex',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    justifyContent: 'center',
+    alignItems: 'centet',
     '&:hover': {
       backgroundColor: 'none',
     },

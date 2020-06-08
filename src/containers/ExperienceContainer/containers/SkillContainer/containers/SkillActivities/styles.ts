@@ -31,7 +31,6 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       flexWrap: 'wrap',
       padding: '78px 135px',
-      justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
@@ -48,19 +47,6 @@ export default makeStyles((theme: Theme) =>
 
     marginTitle: {
       margin: '0 15px',
-    },
-
-    btnperso: {
-      position: 'absolute',
-      backgroundColor: '#00CFFF',
-      bottom: -25,
-      left: '50%',
-      transform: 'translate(-50%,0)',
-      height: 50,
-      '&:hover': {
-        backgroundColor: '#00B2DB ',
-        borderRadius: 10,
-      },
     },
 
     btnpreced: {
@@ -83,19 +69,6 @@ export default makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       width: '100%',
-    },
-
-    btnLabel: {
-      color: '#223A7A',
-      textTransform: 'none',
-      fontWeight: 'bold',
-      fontSize: 18,
-      textAlign: 'center',
-      marginRight: 10,
-    },
-
-    arrow: {
-      paddingTop: 6,
     },
 
     hideLine: {
@@ -125,21 +98,12 @@ export default makeStyles((theme: Theme) =>
     activity: {
       borderRadius: 30,
       border: '1px solid #00CFFF',
-      padding: 10,
-      margin: 20,
-      fontSize: 18,
+      padding: 5,
+      margin: 10,
+      fontSize: 14,
+      maxWidth: '100%',
       '&:hover': {
         backgroundColor: 'rgba(122, 230, 255, 0.2)',
-      },
-    },
-
-    activitySelected: {
-      borderRadius: 30,
-      border: '1px solid #7AE6FF',
-      marginTop: 15,
-      background: '#7AE6FF',
-      '&:hover': {
-        backgroundColor: '#7AE6FF',
       },
     },
 
@@ -151,7 +115,7 @@ export default makeStyles((theme: Theme) =>
       backgroundColor: '#7AE6FF',
       color: '#424242',
       fontWeight: 'bold',
-      fontSize: 18,
+      fontSize: 14,
       '&:hover': {
         backgroundColor: '#7AE6FF',
       },
@@ -185,9 +149,9 @@ export default makeStyles((theme: Theme) =>
       paddingRight: 2,
     },
 
-    contentBtn: {
+    childrenClassName: {
       display: 'flex',
-      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
     },
-  }),
-);
+  }));

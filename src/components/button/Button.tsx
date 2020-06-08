@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import classNames from 'utils/classNames';
 import useStyles from './style';
 
-interface IProps extends ButtonProps {
+export interface IProps extends ButtonProps {
   children?: React.ReactChild;
   className?: string;
   childrenClassName?: string;

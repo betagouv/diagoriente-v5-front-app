@@ -13,6 +13,8 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
     opacity: 0.5,
   },
   modal: {
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: '#fff',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: 15,

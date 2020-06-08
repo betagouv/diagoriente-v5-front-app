@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme as RequestTheme } from 'requests/types';
 
-export default makeStyles((theme: Theme) =>
+export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | null }>((theme: Theme) =>
   createStyles({
     appBar: {
       position: 'fixed',
@@ -71,16 +72,18 @@ export default makeStyles((theme: Theme) =>
     },
 
     activitySelected: {
-      borderRadius: 30,
-      border: '1px solid #7AE6FF !important',
       marginTop: 15,
-      background: '#7AE6FF',
       width: '100%',
+      textAlign: 'left',
+      fontSize: 14,
       '&:hover': {
         backgroundColor: '#7AE6FF',
       },
       '&:disabled': {
-        color: 'currentColor',
+        border: 'none',
+        color: '#00B2DB',
+        padding: 0,
+        fontWeight: 'bold',
       },
     },
 
@@ -96,7 +99,7 @@ export default makeStyles((theme: Theme) =>
     },
 
     themeRoot: {
-      padding: '0 40px',
+      padding: (props) => (props.theme ? '0 40px' : 0),
     },
 
     activityTitleSelection: {
@@ -110,7 +113,6 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       paddingTop: 15,
       alignItems: 'center',
-      paddingBottom: 25,
     },
 
     themeTile: {
@@ -120,8 +122,16 @@ export default makeStyles((theme: Theme) =>
       color: '#424242',
     },
 
+    emptyChildren: {
+      paddingTop: 60,
+      paddingBottom: 60,
+      paddingLeft: 45,
+      paddingRight: 25,
+      color: '#424242',
+      fontSize: 14,
+    },
+
     themeAvatar: {
       paddingRight: 2,
     },
-  }),
-);
+  }));

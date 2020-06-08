@@ -20,12 +20,10 @@ interface Props {
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {
-  const classes = useStyles();
+  const classes = useStyles({ theme });
   const { open, setOpen } = useContext(SelectionContext);
   const toggle = () => {
-    if (theme) {
-      setOpen(!open);
-    }
+    setOpen(!open);
   };
 
   useDidUpdate(() => {
@@ -45,23 +43,28 @@ const PrivateHeader = ({ theme, activities }: Props) => {
           className={classNames(classes.menuIcon, !open ? classes.menuIconClosed : undefined)}
         />
       </div>
-      {theme && open && (
+
+      {open && (
         <div className={classes.childrenSelection}>
           <div className={classes.themeRoot}>
-            <p className={classes.activityTitleSelection}>Thème</p>
-            <div className={classes.themeSelection}>
-              <Avatar
-                size={60}
-                className={classes.themeAvatar}
-                avatarCircleBackground={theme.resources?.backgroundColor}
-              >
-                <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
-              </Avatar>
-              <p className={classes.themeTile}>{theme.title}</p>
-            </div>
+            {theme ? (
+              <>
+                <div className={classes.themeSelection}>
+                  <Avatar
+                    size={60}
+                    className={classes.themeAvatar}
+                    avatarCircleBackground={theme.resources?.backgroundColor}
+                  >
+                    <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
+                  </Avatar>
+                  <p className={classes.themeTile}>{theme.title}</p>
+                </div>
+              </>
+            ) : (
+              <div className={classes.emptyChildren}>Tu n’as pas encore choisi de thème</div>
+            )}
             {activities.length ? (
               <div className={classes.activityContainer}>
-                <p className={classes.activityTitleSelection}>Activité(s)</p>
                 {activities.map((e) => (
                   <Button
                     variant="outlined"

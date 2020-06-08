@@ -38,7 +38,7 @@ export default makeStyles((theme: Theme) =>
         justifyContent: 'center',
       },
       [theme.breakpoints.down('md')]: {
-        padding: 30,
+        padding: 50,
       },
     },
 
@@ -50,19 +50,6 @@ export default makeStyles((theme: Theme) =>
 
     marginTitle: {
       margin: '0 15px',
-    },
-
-    btnperso: {
-      position: 'absolute',
-      backgroundColor: '#00CFFF',
-      bottom: -25,
-      left: '50%',
-      transform: 'translate(-50%,0)',
-      height: 50,
-      '&:hover': {
-        backgroundColor: '#00B2DB ',
-        borderRadius: 10,
-      },
     },
 
     btnpreced: {
@@ -87,19 +74,6 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
     },
 
-    btnLabel: {
-      color: '#223A7A',
-      textTransform: 'none',
-      fontWeight: 'bold',
-      fontSize: 18,
-      textAlign: 'center',
-      marginRight: 10,
-    },
-
-    arrow: {
-      paddingTop: 6,
-    },
-
     hideLine: {
       textDecoration: 'none',
     },
@@ -117,7 +91,9 @@ export default makeStyles((theme: Theme) =>
     },
 
     title: {
+      color: '#424242',
       textAlign: 'center',
+      fontSize: 14,
     },
 
     competences: {
@@ -160,16 +136,6 @@ export default makeStyles((theme: Theme) =>
       paddingRight: 2,
     },
 
-    activitySelected: {
-      borderRadius: 30,
-      border: '1px solid #7AE6FF',
-      marginTop: 15,
-      background: '#7AE6FF',
-      '&:hover': {
-        backgroundColor: '#7AE6FF',
-      },
-    },
-
     selected: {
       width: '100%',
     },
@@ -190,11 +156,6 @@ export default makeStyles((theme: Theme) =>
 
     tooltip: {
       background: '#4D6EC5',
-    },
-
-    contentBtn: {
-      display: 'flex',
-      alignItems: 'center',
     },
 
     margin: {
@@ -223,5 +184,4 @@ export default makeStyles((theme: Theme) =>
     popupDescription: {
       textAlign: 'center',
     },
-  }),
-);
+  }));

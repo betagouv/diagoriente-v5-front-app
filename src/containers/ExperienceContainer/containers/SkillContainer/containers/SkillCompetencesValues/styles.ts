@@ -168,13 +168,20 @@ export default makeStyles((theme: Theme) =>
 
     tooltipPoint: {
       display: 'flex',
-      background: '#00B2DB',
+      background: '#00CFFF',
       borderRadius: '50%',
       width: 10,
       height: 10,
       marginRight: 12,
     },
-
+    tooltip: {
+      display: 'flex',
+      background: '#7AE6FF',
+      borderRadius: '50%',
+      width: 10,
+      height: 10,
+      marginRight: 12,
+    },
     pointSelected: {
       background: '#FFFFFF',
       border: '4px solid #00B2DB',
@@ -187,19 +194,6 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       borderRadius: '50%',
       background: '#7AE6FF',
-    },
-
-    btnperso: {
-      position: 'absolute',
-      backgroundColor: '#00CFFF',
-      bottom: -25,
-      left: '50%',
-      transform: 'translate(-50%,0)',
-      height: 50,
-      '&:hover': {
-        backgroundColor: '#00B2DB ',
-        borderRadius: 10,
-      },
     },
 
     btnpreced: {
@@ -216,22 +210,8 @@ export default makeStyles((theme: Theme) =>
       marginRight: 13,
     },
 
-    btnLabel: {
-      color: '#223A7A',
-      textTransform: 'none',
-      fontWeight: 'bold',
-      fontSize: 18,
-      textAlign: 'center',
-      marginRight: 10,
-    },
-
     hideLine: {
       textDecoration: 'none',
     },
 
-    contentBtn: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  }),
-);
+  }));

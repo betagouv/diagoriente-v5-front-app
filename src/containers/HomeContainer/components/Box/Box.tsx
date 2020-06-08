@@ -35,7 +35,7 @@ const Box = ({
       <div className={classes.subTitleBox}>{subTitle}</div>
 
       <Button className={classes.btn} onClick={onNavigate}>
-        <span className={classes.btnLabel}>C&lsquo;est parti</span>
+        <span className={classes.btnLabel}>C&rsquo;est parti</span>
       </Button>
     </div>
   );

@@ -49,7 +49,6 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
           height: 'auto',
           fontSize: 14,
           borderRadius: 5,
-
           '&::placeholder': {
             color: '#A9A9A9',
             fontSize: 14,
@@ -80,6 +79,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     flex: '1 1 0%',
     fontSize: 14,
     padding: 0,
+    color: (props) => (props.error ? theme.palette.error.main : '#424242'),
     '&::placeholder': {
       color: '#C9C9C7 !important',
       fontSize: 14,

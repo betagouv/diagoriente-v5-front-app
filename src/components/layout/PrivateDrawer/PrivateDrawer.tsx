@@ -12,11 +12,6 @@ import useStyles from './styles';
 
 export const links = [
   { text: 'MON DASHBOARD', path: '/' },
-  { text: 'MES EXPERIENCES', path: '/experience' },
-  { text: "MES CENTRES D'INTERETS", path: '/interet' },
-  { text: 'MES PISTES METIERS', path: '/jobs' },
-  { text: 'MA CARTE DE COMPETENCE', path: '/' },
-  { text: 'MES DEMARCHES', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
   { text: 'DECONEXION', path: '/' },
@@ -35,6 +30,7 @@ const PrivateDrawer = () => {
     localforage.removeItem('auth');
     setParcours(null);
     setUser(null);
+    localStorage.clear();
   };
   /* useListener('resize', () => {
     const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';

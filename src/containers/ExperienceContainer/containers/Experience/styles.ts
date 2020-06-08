@@ -8,6 +8,7 @@ export default makeStyles((theme: Theme) =>
       alignItems: 'center',
       overflow: 'auto',
       paddingTop: 30,
+      paddingBottom: 20,
     },
 
     textColor: {
@@ -85,5 +86,8 @@ export default makeStyles((theme: Theme) =>
     hideLine: {
       textDecoration: 'none',
     },
-  }),
-);
+
+    margin: {
+      margin: '3px 20px 6px 20px',
+    },
+  }));

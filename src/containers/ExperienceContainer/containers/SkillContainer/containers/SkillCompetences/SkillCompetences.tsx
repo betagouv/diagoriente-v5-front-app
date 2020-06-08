@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -9,14 +9,15 @@ import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
+import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
+
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Popup from 'components/common/Popup/Popup';
 
 import { Typography } from '@material-ui/core';
 
 import blueline from 'assets/svg/blueline.svg';
-import Arrow from 'assets/svg/arrow';
 import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import classNames from 'utils/classNames';
@@ -29,7 +30,9 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme | null;
 }
 
-const ExperienceCompetence = ({ match, competences, setCompetences, theme, history }: Props) => {
+const ExperienceCompetence = ({
+ match, competences, setCompetences, theme, history,
+}: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetence();
   const [open, setOpen] = React.useState(false);
@@ -99,12 +102,7 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
             })}
           </Grid>
           <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
-            <Button disabled={!competences.length || competences.length > 4} className={classes.btnperso} type="submit">
-              <div className={classes.contentBtn}>
-                <div className={classes.btnLabel}>Suivant</div>
-                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
-              </div>
-            </Button>
+            <NextButton disabled={!competences.length || competences.length > 4} />
           </Link>
         </div>
 
@@ -116,7 +114,10 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
       <Popup open={open} handleClose={handleClose} iconClassName={classes.iconClassName}>
         <div className={classes.popupContainer}>
           <Typography className={classes.popupDescription}>
-            Tu dois choisir au minimum une compétence !<br /> /Tu as déjà choisi 4 compétences
+            Tu dois choisir au minimum une compétence !
+            <br />
+            {' '}
+            /Tu as déjà choisi 4 compétences
           </Typography>
           <Button className={classes.incluse} onClick={handleClose}>
             compris

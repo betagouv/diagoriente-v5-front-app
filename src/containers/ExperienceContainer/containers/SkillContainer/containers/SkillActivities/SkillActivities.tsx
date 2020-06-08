@@ -9,12 +9,13 @@ import classNames from 'utils/classNames';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
+import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
+
 import RestLogo from 'components/common/Rest/Rest';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
-import Arrow from 'assets/svg/arrow';
 import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
@@ -25,7 +26,9 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   setActivities: (activities: Activity[]) => void;
 }
 
-const ExperienceActivity = ({ match, activities, setActivities, history }: Props) => {
+const ExperienceActivity = ({
+ match, activities, setActivities, history,
+}: Props) => {
   const classes = useStyles();
 
   const addActivity = (activite: Activity) => {
@@ -64,34 +67,32 @@ const ExperienceActivity = ({ match, activities, setActivities, history }: Props
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
 
-            {data?.theme.activities.map((act) => {
-              const selected = activities.find((e) => e.id === act.id);
-              return (
-                <Tooltip
-                  open={!act.description ? false : undefined}
-                  key={act.id}
-                  title={<Child>{act.description}</Child>}
-                  arrow
-                  placement="right"
-                >
-                  <Button
-                    variant="outlined"
-                    className={classNames(classes.activity, selected && classes.selectedActivity)}
-                    onClick={() => (!selected ? addActivity(act) : deleteActivity(act.id))}
+            {data?.theme.activities
+              .sort((a, b) => a.title.toLowerCase().charCodeAt(0) - b.title.toLowerCase().charCodeAt(0))
+              .map((act) => {
+                const selected = activities.find((e) => e.id === act.id);
+                return (
+                  <Tooltip
+                    open={!act.description ? false : undefined}
+                    key={act.id}
+                    title={<Child>{act.description}</Child>}
+                    arrow
+                    placement="right"
                   >
-                    {act.title}
-                  </Button>
-                </Tooltip>
-              );
-            })}
+                    <Button
+                      variant="outlined"
+                      className={classNames(classes.activity, selected && classes.selectedActivity)}
+                      onClick={() => (!selected ? addActivity(act) : deleteActivity(act.id))}
+                      childrenClassName={classes.childrenClassName}
+                    >
+                      {act.title}
+                    </Button>
+                  </Tooltip>
+                );
+              })}
           </div>
           <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.hideLine}>
-            <Button disabled={!activities.length} className={classes.btnperso} type="submit">
-              <div className={classes.contentBtn}>
-                <div className={classes.btnLabel}>Suivant</div>
-                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
-              </div>
-            </Button>
+            <NextButton disabled={!activities.length} />
           </Link>
         </div>
         <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>

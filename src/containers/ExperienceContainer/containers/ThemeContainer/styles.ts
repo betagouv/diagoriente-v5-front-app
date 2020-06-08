@@ -30,7 +30,7 @@ export default makeStyles((theme: Theme) =>
 
     themeTitle: {
       color: '#424242',
-      fontSize: 18,
+      fontSize: 14,
     },
 
     gridContainer: {
@@ -71,22 +71,9 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       color: '#424242',
     },
-    
+
     text: {
       fontWeight: 'normal',
-    },
-
-    btnperso: {
-      position: 'absolute',
-      backgroundColor: '#00CFFF',
-      bottom: -25,
-      left: '50%',
-      transform: 'translate(-50%,0)',
-      height: 50,
-      '&:hover': {
-        backgroundColor: '#00B2DB ',
-        borderRadius: 10,
-      },
     },
 
     header: {
@@ -95,19 +82,6 @@ export default makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       width: '100%',
-    },
-
-    btnLabel: {
-      color: '#223A7A',
-      textTransform: 'none',
-      fontWeight: 'bold',
-      fontSize: 18,
-      textAlign: 'center',
-      marginRight: 10,
-    },
-
-    arrow: {
-      paddingTop: 6,
     },
 
     hideLine: {
@@ -137,6 +111,10 @@ export default makeStyles((theme: Theme) =>
       margin: 0,
     },
 
+    themeText: {
+      fontWeight: 600,
+    },
+
     themeSelection: {
       display: 'flex',
       paddingTop: 15,
@@ -154,9 +132,7 @@ export default makeStyles((theme: Theme) =>
       paddingRight: 2,
     },
 
-    contentBtn: {
-      display: 'flex',
-      alignItems: 'center',
+    margin: {
+      margin: '0px 20px',
     },
-  }),
-);
+  }));

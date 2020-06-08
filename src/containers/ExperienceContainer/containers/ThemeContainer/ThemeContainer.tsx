@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/Avatar/Avatar';
 import Title from 'components/common/Title/Title';
 
 import { useThemes } from 'requests/themes';
 import Typography from '@material-ui/core/Typography/Typography';
-import Button from 'components/button/Button';
+import Button from 'components/nextButton/nextButton';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
+import parcoursContext from 'contexts/ParcourContext';
 
 import blueline from 'assets/svg/blueline.svg';
-import Arrow from 'assets/svg/arrow';
 
 import { decodeUri } from 'utils/url';
 import { Theme } from 'requests/types';
@@ -29,6 +29,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
     setSelectedTheme(theme);
   };
   const { data, loading } = useThemes({ variables: { type: type === 'professional' ? 'professional' : 'personal' } });
+  const { parcours } = useContext(parcoursContext);
 
   useEffect(() => {
     if (data) {
@@ -61,37 +62,34 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           <TitleImage title="1" image={blueline} color="#223A7A" width={180} />
           <Typography className={classes.themeTitle}>
             Choisis un
-            <strong> thème :</strong>
+            <span className={classes.themeText}> thème :</span>
           </Typography>
           <div className={classes.gridContainer}>
             <Grid className={classes.circleContainer} container spacing={5}>
               {loading && <div className={classes.loadingContainer}>...loading</div>}
 
-              {data?.themes.data.map((theme) => (
-                <Grid key={theme.id} item xs={12} sm={3} md={2}>
-                  <Avatar
-                    title={theme.title}
-                    size={60}
-                    titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
-                    className={classes.circle}
-                    onClick={() => showAvatar(theme)}
-                    avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
-                  >
-                    {selectedTheme?.id === theme.id && (
-                      <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} />
-                    )}
-                  </Avatar>
-                </Grid>
-              ))}
+              {data?.themes.data
+                .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
+                .map((theme) => (
+                  <Grid key={theme.id} item xs={12} sm={3} md={2}>
+                    <Avatar
+                      title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
+                      size={60}
+                      titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
+                      className={classes.circle}
+                      onClick={() => showAvatar(theme)}
+                      avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                    >
+                      {selectedTheme?.id === theme.id && (
+                        <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} />
+                      )}
+                    </Avatar>
+                  </Grid>
+                ))}
             </Grid>
           </div>
           <Link to={selectedTheme ? `/experience/skill/${selectedTheme.id}` : ''} className={classes.hideLine}>
-            <Button disabled={!selectedTheme} className={classes.btnperso} type="submit">
-              <div className={classes.contentBtn}>
-                <div className={classes.btnLabel}>Suivant </div>
-                <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />
-              </div>
-            </Button>
+            <Button disabled={!selectedTheme} />
           </Link>
         </div>
       </div>

@@ -23,6 +23,6 @@ export default makeStyles<Theme, { size: number; avatarCircleBackground?: string
     width: '100%',
     textAlign: 'center',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    whiteSpace: 'pre-wrap',
   },
 }));

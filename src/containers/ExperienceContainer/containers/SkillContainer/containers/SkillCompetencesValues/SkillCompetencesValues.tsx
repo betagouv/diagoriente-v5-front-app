@@ -8,14 +8,13 @@ import { CompetenceValues, Competence } from 'requests/types';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
-import Button from 'components/button/Button';
+import Button from 'components/nextButton/nextButton';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Typography from '@material-ui/core/Typography/Typography';
 
 import classNames from 'utils/classNames';
 
 import blueline from 'assets/svg/blueline.svg';
-import Arrow from 'assets/svg/arrow';
 import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
@@ -129,6 +128,10 @@ const SkillCompetencesValues = ({
                                   // eslint-disable-next-line
                                   <div key={point} className={classes.tooltipPoint} />
                                 ))}
+                                {[...Array(4 - value)].map((e, point) => (
+                                  // eslint-disable-next-line
+                                  <div key={point} className={classes.tooltip} />
+                                ))}
                               </div>
                               <strong>{competence.niveau[index].title}</strong>
                               {competence.niveau[index].sub_title}
@@ -163,15 +166,8 @@ const SkillCompetencesValues = ({
           <Button
             fetching={addSkillState}
             disabled={!(competencesValues.length === competences.length)}
-            className={classes.btnperso}
-            type="submit"
             onClick={addSkill}
-          >
-            <div className={classes.contentBtn}>
-              <div className={classes.btnLabel}>Suivant</div>
-              {!addSkillState && <Arrow color="#223A7A" width="12" height="12" className={classes.arrow} />}
-            </div>
-          </Button>
+          />
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.btnpreced}>

@@ -21,8 +21,14 @@ export default makeStyles<Theme>((theme) => ({
     height: '100%',
   },
   titleContainer: {
-    textAlign: 'center',
     marginBottom: 30,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  traitLogo: {
+    position: 'absolute',
+    top: -16,
+    left: -22,
   },
   topTitle: {
     fontWeight: 900,
@@ -33,6 +39,13 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 900,
     fontSize: 24,
     color: theme.palette.primary.main,
+    position: 'absolute',
+    zIndex: 5,
+  },
+  descLogo: {
+    position: 'relative',
+    width: 270,
+    height: 80,
   },
   avatarContainer: {
     display: 'flex',
@@ -46,6 +59,9 @@ export default makeStyles<Theme>((theme) => ({
   subitem: {
     width: 170,
     margin: '10px 15px',
+  },
+  selected: {
+    opacity: 0.5,
   },
   wrapperBtn: {
     display: 'flex',

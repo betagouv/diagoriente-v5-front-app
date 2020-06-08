@@ -11,9 +11,7 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   avatarCircleBackground?: string;
 }
 
-const Avatar = ({
- title, size, className, titleClassName, children, avatarCircleBackground, ...rest
-}: Props) => {
+const Avatar = ({ title, size, className, titleClassName, children, avatarCircleBackground, ...rest }: Props) => {
   const classes = useStyles({
     size,
     avatarCircleBackground,
@@ -21,7 +19,11 @@ const Avatar = ({
   return (
     <div className={classNames(classes.squareContainer, className)} {...rest}>
       <div className={classes.circle}>{children}</div>
-      {title && <p className={classNames(classes.title, titleClassName)}>{title}</p>}
+      {title && (
+        <p className={classNames(classes.title, titleClassName)}>
+          <div className={classes.titleSize}>{title}</div>
+        </p>
+      )}
     </div>
   );
 };

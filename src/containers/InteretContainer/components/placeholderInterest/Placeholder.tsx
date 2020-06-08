@@ -1,5 +1,7 @@
 import React from 'react';
 import { Families } from 'requests/types';
+import Dotdotdot from 'react-dotdotdot';
+
 import useStyles from './styles';
 
 interface IProps {
@@ -21,7 +23,9 @@ const Placeholder = ({
         <div className={classes.number}>{index || null}</div>
       </div>
       {famille ? (
-        <div className={classes.textFamille}>{res}</div>
+        <div className={classes.textFamille}>
+          <Dotdotdot clamp={5}>{res}</Dotdotdot>
+        </div>
       ) : (
         <div className={classes.elements}>
           <div className={classes.bigElement} />

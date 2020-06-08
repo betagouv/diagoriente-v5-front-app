@@ -4,13 +4,15 @@ import Avatar from 'components/common/Avatar/Avatar';
 import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
+import Trait from 'assets/images/trait_violet.png';
 import useStyles from './styles';
 
 interface IProps {
   data: { title: string; data: Families[] }[];
   handleClick: (e: any) => void;
+  isChecked: any;
 }
-const Slider = ({ data, handleClick }: IProps) => {
+const Slider = ({ data, handleClick, isChecked }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
@@ -63,16 +65,23 @@ const Slider = ({ data, handleClick }: IProps) => {
         <div key={el.title} className={classes.item}>
           <div className={classes.titleContainer}>
             <div className={classes.topTitle}>Travailler...</div>
-            <div className={classes.bottomTitle}>{el.title}</div>
+            <div className={classes.descLogo}>
+              <div className={classes.bottomTitle}>{el.title}</div>
+              <img src={Trait} alt="" className={classes.traitLogo} width={170} height={80} />
+            </div>
           </div>
 
           <div className={classes.avatarContainer}>
             {el.data.map((e) => {
               const { nom } = e;
               const res = nom.replace(/\//g, '');
+             const selected = isChecked(e.id);
+             console.log('selectzd', selected)
               return (
                 <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
-                  <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                  <div className={classNames(selected ? classes.selected : '')}>
+                    <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                  </div>
                 </div>
               );
             })}

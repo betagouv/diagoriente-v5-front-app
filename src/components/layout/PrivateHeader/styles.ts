@@ -31,6 +31,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       alignItems: 'center',
       color: '#ffff',
+      fontWeight: 'bold',
     },
     logoLink: {
       display: 'flex',

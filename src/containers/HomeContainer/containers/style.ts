@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   types: {
-    width: 340,
+    width: 390,
   },
   content: {},
   titleContainer: {

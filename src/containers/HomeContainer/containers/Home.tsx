@@ -22,7 +22,7 @@ const FirstDashboard = () => {
   const hasFamilies = parcours?.families.length !== 0;
   let dataToShow: { title: string; subTitle: string; logo?: string; color: string; link: string; colorText: string } = {
     title: 'MES EXPERIENCES',
-    subTitle: 'Commence par complèter tes expériences, pros et/ou persos.',
+    subTitle: 'Commence par compléter tes expériences, pros et/ou persos',
     logo: '',
     color: '#223A7A',
     link: '/experience',
@@ -31,7 +31,7 @@ const FirstDashboard = () => {
   if (hasExp) {
     dataToShow = {
       title: 'MES CENTRES D’INTERET',
-      subTitle: 'Complète maintenant ce que tu aimes faire',
+      subTitle: 'Renseigne maintenant ce que tu aimes faire dans la vie',
       logo: logoInterest,
       color: '#420FAB',
       link: '/interet',
@@ -41,7 +41,7 @@ const FirstDashboard = () => {
   if (hasExp && hasFamilies) {
     dataToShow = {
       title: 'MES PISTES METIER',
-      subTitle: 'Découvre maintenant les métiers que nous avons sélectionné pour toi',
+      subTitle: 'Découvre les métiers que nous avons sélectionnés pour toi',
       logo: logoJobs,
       color: '#DB8F00',
       link: '/jobs',

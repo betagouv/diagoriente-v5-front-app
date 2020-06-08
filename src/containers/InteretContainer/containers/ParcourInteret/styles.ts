@@ -34,18 +34,32 @@ export default makeStyles<Theme>((theme) => ({
       alignSelf: 'center !important',
     },
   },
+  titlesWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'baseline',
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  },
   title: {
     fontSize: 42,
     color: theme.palette.primary.main,
     fontFamily: 'ocean',
-    marginLeft: 24,
+    marginLeft: 15,
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'center !important',
       fontSize: 41,
       marginLeft: 15,
     },
   },
-
+  descriptionTitle: {
+    fontSize: 18,
+    marginLeft: 15,
+    fontWeight: 'bold',
+  },
   wrapper: {
     backgroundColor: '#E5E5E5',
     width: '100%',
@@ -84,6 +98,7 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
+    boxShadow: '4px -4px 4px rgba(0, 0, 0, 0.25)',
     padding: 10,
     [theme.breakpoints.down('xs')]: {
       padding: 10,

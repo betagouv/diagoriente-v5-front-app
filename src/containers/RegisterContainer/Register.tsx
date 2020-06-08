@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useState, useRef, useContext,
-} from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { setAuthorizationBearer } from 'requests/client';
 import Grid from '@material-ui/core/Grid';
@@ -15,7 +13,7 @@ import { useGetUserParcour } from 'requests/parcours';
 import { useRegister, useAvatars } from 'requests/auth';
 import ParcourContext from 'contexts/ParcourContext';
 import localforage from 'localforage';
-
+import Attention from 'assets/svg/attention.svg';
 import { useLocation } from 'requests/location';
 import {
   validateEmail,
@@ -102,7 +100,6 @@ const Register = ({ history }: RouteComponentProps) => {
       }
     }
   }, [registerState.data, registerState.error, values.email, values.password, registerState, getUserParcour, setUser]);
-
   useEffect(() => {
     if (getUserParcourState.data) {
       setParcours(getUserParcourState?.data?.getUserParcour);
@@ -147,16 +144,6 @@ const Register = ({ history }: RouteComponentProps) => {
       <div className={classes.registerContainer}>
         <div className={classes.title}>INSCRIPTION</div>
         <div className={classes.form}>
-          <div className={classes.btnContainer}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
-                <div className={classes.emptyDiv} />
-              </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
-                <div className={classes.errorCondition}>{errorForm}</div>
-              </Grid>
-            </Grid>
-          </div>
           <form onSubmit={onSubmit} className={classes.formContainer}>
             <Input
               name="firstName"
@@ -181,8 +168,11 @@ const Register = ({ history }: RouteComponentProps) => {
             <div className={classes.avatarsWrapper}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
-                  <div className={classes.labelConatiner}>
-                    <div className={classes.label}>Ton image de profil </div>
+                  <div className={classes.labelContainer}>
+                    <div className={classes.label}>
+                      Ton image de profil
+                      <span className={classes.requiredInput}>*</span>
+                    </div>
                     <div className={classes.subLabel}>Choisis un avatar</div>
                   </div>
                 </Grid>
@@ -208,7 +198,7 @@ const Register = ({ history }: RouteComponentProps) => {
               value={values.email}
               name="email"
               required
-              placeholder="exmaple@gmail.com"
+              placeholder="email@gmail.com"
               error={touched.email && (errors.email !== '' || errorFormObject.key === 'email')}
               errorText={touched.email ? errors.email : ''}
               errorForm={errorFormObject.key === 'email' ? errorFormObject.value : ''}
@@ -224,12 +214,12 @@ const Register = ({ history }: RouteComponentProps) => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password
-                && errors.password !== ''
-                && hasUppercase(values.password)
-                && hasLowercase(values.password)
-                && hasNumber(values.password)
-                && hasSpecial(values.password)
+                touched.password &&
+                errors.password !== '' &&
+                hasUppercase(values.password) &&
+                hasLowercase(values.password) &&
+                hasNumber(values.password) &&
+                hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -290,7 +280,6 @@ const Register = ({ history }: RouteComponentProps) => {
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
               errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
-
             />
             <Input
               label="Code groupe"
@@ -328,17 +317,20 @@ const Register = ({ history }: RouteComponentProps) => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les
-                      {' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-                      {' '}
-                      de Diagoriente
+                      J&lsquo;accepte les{' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
                       <span className={classes.start}>*</span>
                     </div>
                   </div>
-                  <div className={classes.errorCondition}>{errorCondition}</div>
+                  <div className={classes.errorText}>{errorCondition}</div>
                 </Grid>
               </Grid>
+            </div>
+            <div className={classes.btnContainer}>
+              <div className={classes.errorCondition}>
+                {errorForm && <img src={Attention} alt="err" width="16" height="16" />}
+                <div className={classes.errorTextForm}>{errorForm || errorFormObject.value}</div>
+              </div>
             </div>
             <div className={classNames(classes.btnContainer, classes.paddingBtn)}>
               <Grid container spacing={0}>
@@ -352,13 +344,14 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
               </Grid>
             </div>
-          </form>
-          <div className={classes.btnContainer}>
-            <div className={classes.required}>
-              <span className={classes.start}>*</span>
-              Champs obligatoires
+            <div className={classes.btnContainer}>
+              <div className={classes.required}>
+                <span className={classes.start}>*</span>
+                Champs obligatoires
+              </div>
             </div>
-          </div>
+          </form>
+
           <div className={classes.btnContainer}>
             <Link to="/login">
               <div className={classes.registerLabel}>J’ai déjà un compte</div>

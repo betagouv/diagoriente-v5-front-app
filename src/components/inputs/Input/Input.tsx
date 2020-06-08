@@ -37,6 +37,8 @@ const Input = ({
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
+
+
   return (
     <div className={classNames(classes.root, className)}>
       <Grid container spacing={0}>
@@ -85,7 +87,7 @@ const Input = ({
               <img src={LogoCheked} className={classes.logo} alt="check" />
             )}
           </div>
-          <div className={classes.errorCondition}>{errorForm}</div>
+          {/* <div className={classes.errorCondition}>{errorForm}</div> */}
         </Grid>
       </Grid>
     </div>

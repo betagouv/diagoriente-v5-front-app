@@ -27,7 +27,7 @@ const Game = () => {
       <div className={classes.titleContainer}>
         <div className={classes.title}>PANIQUE EN CUISINE</div>
         <div className={classes.subTitle}>
-          Pour t&lsquo;aider à identifier tes compétences, tu peux commencer par jouer à un petit jeu. Tu verras que
+          Pour t&apos;aider à identifier tes compétences, tu peux commencer par jouer à un petit jeu. Tu verras que
           chaque compétences compte !
         </div>
       </div>

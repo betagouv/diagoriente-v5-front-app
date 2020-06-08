@@ -29,7 +29,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 30,
   },
   btnContainer: {
     width: '100%',

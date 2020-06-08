@@ -25,4 +25,7 @@ export default makeStyles<Theme, { size: number; avatarCircleBackground?: string
     overflow: 'hidden',
     whiteSpace: 'pre-wrap',
   },
+  titleSize: {
+    fontSize: 12,
+  },
 }));

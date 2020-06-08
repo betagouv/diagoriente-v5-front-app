@@ -1,6 +1,4 @@
-import React, {
- useContext, useState, useMemo, useCallback,
-} from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
 import { Link } from 'react-router-dom';
 
@@ -54,12 +52,7 @@ const HomeCompleted = () => {
         image: experienceImage,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes
-            {' '}
-            <span className={classes.bold}>compétences</span>
-            {' '}
-            et explorer mes
-            {' '}
+            Identifier mes <span className={classes.bold}>compétences</span> et explorer mes{' '}
             <span className={classes.bold}>intérêts</span>
           </div>
         ),
@@ -84,12 +77,7 @@ const HomeCompleted = () => {
         background: '#FFA600',
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.contentChildBlack)}>
-            Découvrir des
-            {' '}
-            <span className={classes.bold}>métiers</span>
-            {' '}
-            et identifier mon
-            {' '}
+            Découvrir des <span className={classes.bold}>métiers</span> et identifier mon{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -105,15 +93,8 @@ const HomeCompleted = () => {
         background: '#D60051',
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes
-            {' '}
-            <span className={classes.bold}>choix</span>
-            {' '}
-            et identifier des
-            {' '}
-            <span className={classes.bold}>entreprises</span>
-            {' '}
-            à contacter
+            Faire mes <span className={classes.bold}>choix</span> et identifier des{' '}
+            <span className={classes.bold}>entreprises</span> à contacter
           </div>
         ),
         openChildren: renderContentItem('MES DEMARCHES', 'Gère tes démarches avec les entreprises'),
@@ -125,7 +106,14 @@ const HomeCompleted = () => {
   return (
     <div className={classes.container}>
       <div className={classes.profileHeader}>MON PROFILE</div>
-      <Avatar className={classes.logo} src={user?.logo} />
+      <Avatar
+        className={classes.logo}
+        src={
+          user?.logo
+            ? user?.logo
+            : 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg'
+        }
+      />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>
       <Link className={classes.link} to="/profile">
         Voir mon profil

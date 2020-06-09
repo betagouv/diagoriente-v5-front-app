@@ -7,7 +7,7 @@ import { UserParcour } from './types';
 
 export const getUserParcourQuery = gql`
   {
-    getUserParcour {
+    userParcour {
       id
       played
       completed
@@ -42,7 +42,7 @@ export const getUserParcourQuery = gql`
 `;
 
 export interface UserParcourData {
-  getUserParcour: UserParcour;
+  userParcour: UserParcour;
 }
 
 export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData> = {}) =>

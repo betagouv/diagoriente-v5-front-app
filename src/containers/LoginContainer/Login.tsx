@@ -5,33 +5,21 @@ import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
-import localforage from 'localforage';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
-import ParcourContext from 'contexts/ParcourContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
 
-import { setAuthorizationBearer } from 'requests/client';
 import { useLogin } from 'requests/auth';
-import { useGetUserParcour } from 'requests/parcours';
 
+import useAuth from 'hooks/useAuth';
 import useStyles from './styles';
 
-const Login = ({ location, history }: RouteComponentProps) => {
+const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const [showPasswordState, setShowPassword] = useState(false);
-  const [getUserParcour, getUserParcourState] = useGetUserParcour();
-  const [errorForm, setErrorForm] = useState<string>('');
-  const checkBoxRef = useRef(null);
-
-  const { user, setUser } = useContext(UserContext);
-  const { setParcours } = useContext(ParcourContext);
-
-  const [loginCall, loginState] = useLogin();
-
   const [state, actions] = useForm({
     initialValues: { email: '', password: '', stayConnected: false },
     validation: {
@@ -39,27 +27,13 @@ const Login = ({ location, history }: RouteComponentProps) => {
     },
   });
 
-  useEffect(() => {
-    if (loginState.data && !getUserParcourState.data) {
-      setAuthorizationBearer(loginState.data.login.token.accessToken);
-      getUserParcour();
-    } else if (loginState.data && getUserParcourState.data) {
-      setParcours(getUserParcourState.data.getUserParcour);
-      if (state.values.stayConnected) {
-        localforage.setItem('auth', JSON.stringify(loginState.data.login));
-      }
-      setUser(loginState.data.login.user);
-      history.push('/');
-    }
-  }, [
-    loginState.data,
-    getUserParcourState.data,
-    setParcours,
-    getUserParcour,
-    setUser,
-    state.values.stayConnected,
-    history,
-  ]);
+  const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
+
+  const [errorForm, setErrorForm] = useState<string>('');
+  const checkBoxRef = useRef(null);
+
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
@@ -77,13 +51,7 @@ const Login = ({ location, history }: RouteComponentProps) => {
     if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
       setErrorForm(loginState.error?.message);
     }
-
-    if (getUserParcourState.error && getUserParcourState.error.graphQLErrors.length) {
-      if (getUserParcourState.error.graphQLErrors[0].message) {
-        setErrorForm(getUserParcourState.error.graphQLErrors[0].message);
-      }
-    }
-  }, [loginState.error, getUserParcourState.error]);
+  }, [loginState.error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

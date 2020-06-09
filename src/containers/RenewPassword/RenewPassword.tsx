@@ -1,25 +1,22 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import Input from 'components/inputs/Input/Input';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
-import { setAuthorizationBearer } from 'requests/client';
 import UserContext from 'contexts/UserContext';
-import { RouteComponentProps, useLocation } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { validatePassword } from 'utils/validation';
 import { useReset } from 'requests/auth';
 import { useForm } from 'hooks/useInputs';
-import ParcourContext from 'contexts/ParcourContext';
-import { useGetUserParcour } from 'requests/parcours';
-import localforage from 'localforage';
 
+import useAuth from 'hooks/useAuth';
+import { decodeUri } from 'utils/url';
 import useStyles from '../ForgotPassword/styles';
 
-const RenewPassword = ({ history }: RouteComponentProps) => {
+const RenewPassword = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const token = useLocation().search.slice(7);
-  const { setUser } = useContext(UserContext);
-  const { setParcours } = useContext(ParcourContext);
-  const [getUserParcour, getUserParcourState] = useGetUserParcour();
+  const { token } = decodeUri(location.search);
+  const [resetCall, resetState] = useAuth(useReset);
+  const { user } = useContext(UserContext);
   const [state, actions] = useForm({
     initialValues: { password: '', confirmPassword: '' },
     validation: {
@@ -27,8 +24,6 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
       confirmPassword: validatePassword,
     },
   });
-  const [resetCall, resetState] = useReset();
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
@@ -39,20 +34,10 @@ const RenewPassword = ({ history }: RouteComponentProps) => {
       actions.setAllTouched(true);
     }
   };
-  useEffect(() => {
-    if (resetState.data && !resetState.error) {
-      setAuthorizationBearer(resetState.data.reset.token.accessToken);
-      getUserParcour();
-    }
-  });
-  useEffect(() => {
-    if (getUserParcourState.data) {
-      setParcours(getUserParcourState?.data?.getUserParcour);
-      setUser(resetState.data?.reset.user || null);
-      localforage.setItem('auth', JSON.stringify(resetState.data?.reset));
-      history.push('/');
-    }
-  }, [setParcours, getUserParcourState, resetState, history, setUser]);
+
+  if (user) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.root}>

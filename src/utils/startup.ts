@@ -22,7 +22,7 @@ export default async function startup(): Promise<{ user: User; parcours: UserPar
         localforage.setItem('auth', JSON.stringify({ user, token: nextToken.data.refresh }));
         const parcours = await client.query({ query: getUserParcourQuery });
         if (parcours.data) {
-          return { user, parcours: parcours.data.getUserParcour };
+          return { user, parcours: parcours.data.userParcour };
         }
       }
     }

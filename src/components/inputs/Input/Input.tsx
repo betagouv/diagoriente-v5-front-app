@@ -18,6 +18,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   showPassword?: () => void;
   className?: string;
   inputClassName?: string;
+  inputBaseClassName?: string;
   withOutIcons?: boolean;
 }
 
@@ -34,10 +35,10 @@ const Input = ({
   className,
   withOutIcons,
   inputClassName,
+  inputBaseClassName,
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
-
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -56,6 +57,7 @@ const Input = ({
         <Grid item xs={12} sm={8} md={7} lg={7}>
           <div className={classes.wrapperInput}>
             <TextField
+              value={value}
               className={classes.inputRoot}
               name={name}
               error={!!(errorText || errorForm)}
@@ -64,7 +66,7 @@ const Input = ({
                   inputAdornedStart: classes.adornedPositionStart,
                   adornedStart: classes.adornedStart,
                   input: classNames(classes.input, inputClassName),
-                  root: classes.inputBase,
+                  root: classNames(classes.inputBase, inputBaseClassName),
                 },
                 startAdornment: (
                   <InputAdornment position="start">

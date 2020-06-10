@@ -10,6 +10,7 @@ import PrivateHeader, { Props as PrivateHeaderProps } from 'components/layout/Pr
 import PublicDrawer from 'components/layout/PublicDrawer/PublicDrawer';
 import PrivateDrawer from 'components/layout/PrivateDrawer/PrivateDrawer';
 
+import SecondFooter from 'components/layout/SecondFooter/SecondFooter';
 import Footer from 'components/layout/Footer/Footer';
 
 import classNames from 'utils/classNames';
@@ -46,6 +47,7 @@ const Route = ({
         <div className={classNames(classes.page, classes.column)}>
           <BaseRoute {...rest} />
         </div>
+        {footer && <SecondFooter />}
         {footer && <Footer />}
       </div>
     </DrawerContext.Provider>

@@ -3,10 +3,11 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) =>
   createStyles({
     footerContainer: {
-      paddingTop: 80,
+      paddingTop: 65,
       paddingBottom: 80,
       background: '#011A5E',
       display: 'flex',
+      flexDirection: 'column',
       overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'center',
@@ -85,14 +86,12 @@ export default makeStyles((theme) =>
       },
     },
 
-    circleDot: {
-      height: 6,
-      width: 6,
+    gridContainer: {
+      marginTop: 33,
     },
-
     circle: {
-      height: 31,
-      width: 31,
+      height: 40,
+      width: 40,
       borderRadius: '50%',
       display: 'flex',
       alignItems: 'center',
@@ -109,6 +108,13 @@ export default makeStyles((theme) =>
 
     textTop: {
       alignSelf: 'flex-start',
+      color: '#F3F2F4',
+      fontSize: 14,
+      lineHeight: '201%',
+      margin: 0,
+      [theme.breakpoints.down('xs')]: {
+        textAlign: 'center',
+      },
     },
 
     textBottom: {
@@ -121,20 +127,93 @@ export default makeStyles((theme) =>
       },
     },
 
-    text: {
-      margin: '0 30px',
-      color: 'rgba(255,255,255,0.7)',
+    marginIcons: {
+      marginLeft: 11,
+      marginRight: 11,
       [theme.breakpoints.down('sm')]: {
-        margin: 10,
-        fontSize: 12,
+        marginLeft: 10,
       },
     },
 
-    marginIcons: {
-      marginRight: 16,
-      marginLeft: 30,
+    firstContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+
+    secondContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      paddingTop: 0,
+    },
+
+    iconContainer: {
+      display: 'flex',
+      alignSelf: 'flex-start',
+      width: '100%',
+      [theme.breakpoints.down('xs')]: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
+    },
+
+    text: {
+      color: '#F3F2F4',
+      fontSize: 14,
+    },
+
+    textStyle: {
+      textAlign: 'center',
+      width: 244,
+    },
+
+    input: {
+      marginTop: 12,
+      marginBottom: 2,
+    },
+
+    btn: {
+      backgroundColor: theme.palette.primary.main,
+      height: 50,
+      width: 'max-content',
+
+      '&:hover': {
+        backgroundColor: theme.palette.success.main,
+        borderRadius: 10,
+      },
+    },
+
+    contact: {
+      backgroundColor: theme.palette.error.main,
+      height: 50,
+      width: 244,
+      marginTop: 24,
+      '&:hover': {
+        backgroundColor: '#D60051',
+        borderRadius: 10,
+        width: 244,
+      },
+    },
+
+    width: {
+      width: 170,
+    },
+
+    newsteller: {
+      [theme.breakpoints.down('xs')]: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
+    },
+
+    contactContainer: {
+      justifyContent: 'flex-end',
+      display: 'flex',
       [theme.breakpoints.down('sm')]: {
-        marginLeft: 10,
+        justifyContent: 'flex-end',
+      },
+      [theme.breakpoints.down('xs')]: {
+        display: 'flex',
+        justifyContent: 'center',
       },
     },
   }));

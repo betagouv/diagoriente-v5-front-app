@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { selected: string }>((theme) => ({
+export default makeStyles<Theme, { selected: boolean }>((theme) => ({
   root: {
     backgroundColor: (props) => (props.selected ? theme.palette.secondary.main : '#F3F2F4'),
     borderRadius: 10,

@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
   root: {
     height: 35,
+    position: 'relative',
   },
   inputBase: {
     height: 35,
@@ -62,11 +63,29 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     },
   },
   optionsContainer: {
-    width: 224,
+    width: 235,
     background: '#FFFFFF',
     border: '1px solid #C9C9C7',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
     borderRadius: 5,
     position: 'absolute',
+    padding: 9,
+    top: 37,
+    height: 300,
+    overflow: 'scroll',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',
+  },
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    margin: '5px 0px',
+  },
+  itemWrapper: {
+    width: '100%',
+    paddingLeft: 12,
   },
 }));

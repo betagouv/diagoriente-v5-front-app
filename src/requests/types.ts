@@ -108,6 +108,7 @@ export interface Skill {
   comment: { firstName: string; lastName: string; email: string; text: string; status: string }[];
 }
 export interface Jobs {
+  id: string;
   title: string;
   description: string;
   search: string;

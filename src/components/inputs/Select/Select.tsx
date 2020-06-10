@@ -9,9 +9,8 @@ const tabs = [
     value: 'public',
     label: 'Votre public',
   },
- 
 ];
-// const obj: any = { IconComponent: <img src={arrow} alt="arrow" /> };
+
 const Select = () => {
   const classes = useStyles();
   return (
@@ -21,12 +20,15 @@ const Select = () => {
       value="public"
       variant="outlined"
       SelectProps={{
+        classes: {
+          root: classes.select,
+        },
         IconComponent: () => <img src={arrow} alt="arrow" />,
         className: classes.selectContainer,
       }}
     >
       {tabs.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
+        <MenuItem key={option.value} value={option.value} className={classes.select}>
           {option.label}
         </MenuItem>
       ))}

@@ -54,7 +54,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
     setOpen(true);
   };
   const handleSecondOpen = () => {
-    if (!state.values.email && !state.values.firstName && !state.values.firstName) {
+    if (!state.values.email || !state.values.firstName || !state.values.lastName) {
       actions.setAllTouched(true);
       setSecondOpen(false);
     } else {
@@ -122,7 +122,6 @@ const ResultCompetences = ({ theme, match }: Props) => {
     }
     // eslint-disable-next-line
   }, [secondOpen]);
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -214,7 +213,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
           <div className={classes.descriptionModal}>
             Le message pour
             {/* eslint-disable-next-line */}
-            {`${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
+            {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
             {`${state.values.email}`}
             )
           </div>

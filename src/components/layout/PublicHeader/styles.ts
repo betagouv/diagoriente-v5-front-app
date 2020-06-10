@@ -1,14 +1,20 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 export const HEADER_HEIGHT = 135;
+export const HEADER_SMALL_HEIGHT = 47;
+
 export default makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       height: HEADER_HEIGHT,
+
       background: theme.palette.background.default,
       display: 'flex',
       justifyContent: 'center',
       overflow: 'auto',
+      [theme.breakpoints.down('md')]: {
+        height: HEADER_SMALL_HEIGHT,
+      },
     },
 
     toolbarContainer: {
@@ -19,10 +25,12 @@ export default makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         paddingRight: 20,
         paddingLeft: 20,
+        justifyContent: 'flex-start',
       },
       [theme.breakpoints.down('md')]: {
         paddingRight: 40,
         paddingLeft: 40,
+        justifyContent: 'center',
       },
     },
 
@@ -32,7 +40,6 @@ export default makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
         width: '100%',
-        justifyContent: 'space-between',
       },
     },
 
@@ -40,7 +47,7 @@ export default makeStyles((theme: Theme) =>
       marginRight: 10,
       fontSize: 14,
     },
-    square: {
+    beta: {
       width: '80px',
       height: '50px',
       background: '#ffff',
@@ -96,13 +103,25 @@ export default makeStyles((theme: Theme) =>
         display: 'flex',
       },
     },
+
     select: {
-      [theme.breakpoints.down('md')]: {
-        display: 'none',
-      },
+      [theme.breakpoints.down('md')]: {},
     },
+
     logoLink: {
       display: 'flex',
       alignItems: 'center',
+    },
+
+    smallbeta: {
+      marginLeft: 20,
+      marginRight: 30,
+    },
+
+    logoIcon: {
+      height: 66,
+      [theme.breakpoints.down('md')]: {
+        height: 45,
+      },
     },
   }));

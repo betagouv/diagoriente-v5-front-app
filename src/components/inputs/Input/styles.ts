@@ -22,11 +22,11 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     '& fieldset': {
-      border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7 !important'}`,
+      border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7'}`,
       borderWidth: 1,
     },
     '&:hover:not(:focus-within) fieldset': {
-      borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A !important'),
+      borderColor: (props) => (props.error ? theme.palette.error.main : '#6B6B6A'),
       '& .MuiInputBase-root': {
         height: 35,
         width: 229,

@@ -113,12 +113,12 @@ const ExperienceCompetence = ({
       </div>
       <Popup open={open} handleClose={handleClose} iconClassName={classes.iconClassName}>
         <div className={classes.popupContainer}>
-          <Typography className={classes.popupDescription}>
+          <p className={classes.popupDescription}>
             Tu dois choisir au minimum une compétence !
             <br />
             {' '}
             /Tu as déjà choisi 4 compétences
-          </Typography>
+          </p>
           <Button className={classes.incluse} onClick={handleClose}>
             compris
           </Button>

@@ -1,4 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +31,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: '78px 135px',
+      padding: CONTAINER_PADDING,
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
@@ -99,7 +100,7 @@ export default makeStyles((theme: Theme) =>
       borderRadius: 30,
       border: '1px solid #00CFFF',
       padding: 5,
-      margin: 10,
+      margin: 8,
       fontSize: 14,
       maxWidth: '100%',
       '&:hover': {
@@ -153,5 +154,6 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       width: '100%',
+      margin: '0px 10px',
     },
   }));

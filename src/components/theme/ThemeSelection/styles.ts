@@ -41,7 +41,8 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     childrenSelection: {
       background: '#FFFFFF',
       overflow: 'auto',
-      maxHeight: '50vh',
+      maxHeight: 'calc(100vh - 120px)',
+
     },
 
     header: {
@@ -111,7 +112,8 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
 
     themeSelection: {
       display: 'flex',
-      paddingTop: 15,
+      paddingTop: 31,
+      paddingBottom: 30,
       alignItems: 'center',
     },
 
@@ -123,8 +125,8 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     },
 
     emptyChildren: {
-      paddingTop: 60,
-      paddingBottom: 60,
+      paddingTop: 50,
+      paddingBottom: 50,
       paddingLeft: 45,
       paddingRight: 25,
       color: '#424242',

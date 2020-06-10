@@ -9,6 +9,8 @@ import ExperienceComponent from './containers/Experience/Experience';
 import ThemeContainer from './containers/ThemeContainer';
 import SkillContainer from './containers/SkillContainer';
 
+export const CONTAINER_PADDING = '30px 70px 90px 70px';
+
 const theme = createMuiTheme({
   palette: {
     primary: { main: '#223A7A' },

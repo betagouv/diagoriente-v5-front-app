@@ -60,12 +60,12 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1" image={blueline} color="#223A7A" width={180} />
-          <Typography className={classes.themeTitle}>
+          <p className={classes.themeTitle}>
             Choisis un
             <span className={classes.themeText}> thème :</span>
-          </Typography>
+          </p>
           <div className={classes.gridContainer}>
-            <Grid className={classes.circleContainer} container spacing={5}>
+            <Grid className={classes.circleContainer} container spacing={2}>
               {loading && <div className={classes.loadingContainer}>...loading</div>}
 
               {data?.themes.data

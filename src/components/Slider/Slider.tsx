@@ -75,8 +75,7 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
             {el.data.map((e) => {
               const { nom } = e;
               const res = nom.replace(/\//g, '');
-             const selected = isChecked(e.id);
-             console.log('selectzd', selected)
+              const selected = isChecked(e.id);
               return (
                 <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
                   <div className={classNames(selected ? classes.selected : '')}>

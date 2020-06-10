@@ -1,4 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -31,8 +32,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: '78px 135px',
-      paddingBottom: 107,
+      padding: CONTAINER_PADDING,
       justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',

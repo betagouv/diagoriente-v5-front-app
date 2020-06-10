@@ -79,11 +79,11 @@ const SkillCompetencesValues = ({
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="4" image={blueline} color="#223A7A" width={180} />
-          <Typography className={classes.title}>
+          <p className={classes.title}>
             Et enfin, pour chacune de ces compétences
             <br />
             que tu as choisies, comment te sens-tu ?
-          </Typography>
+          </p>
           <div className={classes.echelonContainer}>
             <div className={classes.echelon}>
               <div className={classes.empty} />

@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import bluearrow from 'assets/svg/bluearrow.svg';
 import darkbluearrow from 'assets/svg/darkbluearrow.svg';
+import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -39,19 +40,16 @@ export default makeStyles((theme: Theme) =>
 
     title: {
       textAlign: 'center',
-      paddingBottom: 58,
       color: '#424242',
       fontSize: 18,
-      margin: 0,
     },
 
     echelonContainer: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
-      marginBottom: 100,
       alignSelf: 'flex-start',
-      marginLeft: 80,
+      padding: CONTAINER_PADDING,
     },
 
     empty: {
@@ -213,5 +211,4 @@ export default makeStyles((theme: Theme) =>
     hideLine: {
       textDecoration: 'none',
     },
-
   }));

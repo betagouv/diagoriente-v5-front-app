@@ -1,30 +1,43 @@
 import gql from 'graphql-tag';
 
-import { QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalQuery } from 'hooks/apollo';
+import { LazyQueryHookOptions } from '@apollo/react-hooks';
+import { useLocalLazyQuery } from 'hooks/apollo';
+import { Jobs } from 'requests/types';
 
 export const jobsQuery = gql`
-  {
-    jobs {
-      data {
+  query myJobs($environments: [String], $niveau: [String], $secteur: [String], $accessibility: [String]) {
+    myJobs(environments: $environments, niveau: $niveau, secteur: $secteur, accessibility: $accessibility) {
+      id
+      title
+      description
+      search
+      link
+      salaire
+      accessibility
+      rome_codes
+      secteur {
         id
         title
-        description
-        accessibility
+      }
+      niveau {
+        id
+      }
+
+      formations {
+        id
+      }
+      environments {
+        id
+      }
+      questionJobs {
+        id
       }
     }
   }
 `;
 
 export interface JobsResponse {
-  jobs: {
-    data: {
-      id: string;
-      title: string;
-      description: string;
-      accessibility: string;
-    }[];
-  };
+  myJobs: Jobs[];
 }
-export const useJobs = (options: QueryHookOptions<JobsResponse> = {}) =>
-  useLocalQuery<JobsResponse>(jobsQuery, options);
+export const useJobs = (options: LazyQueryHookOptions<JobsResponse> = {}) =>
+  useLocalLazyQuery<JobsResponse>(jobsQuery, options);

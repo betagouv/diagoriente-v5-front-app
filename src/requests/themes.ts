@@ -65,3 +65,31 @@ export interface ThemeArguments {
 }
 export const useTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
   useLocalQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
+
+  export const secteurQuery = gql`
+  query Themes($type: String) {
+    themes(type: $type) {
+      data {
+        id
+        title
+        resources {
+          icon
+          backgroundColor
+        }
+      }
+    }
+  }
+`;
+
+export interface SecteurArguments {
+  type?: 'secteur';
+}
+
+export interface SectureResponse {
+  themes: {
+    data: any;
+  };
+}
+
+export const useSecteurs = (options: QueryHookOptions<SectureResponse, SecteurArguments> = {}) =>
+  useLocalQuery<SectureResponse, SecteurArguments>(secteurQuery, options);

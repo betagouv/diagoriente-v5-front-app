@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Button from 'components/button/Button';
-import outLineHeart from 'assets/svg/outlineHeart.svg';
 import fullHeart from 'assets/svg/fullHeart.svg';
 import useStyles from './style';
 
@@ -8,14 +7,15 @@ interface IProps {
   title: string;
   description: string;
   accessibility: string;
-  selected: string;
-  onClick: () => void;
 }
-const CardJob = ({ title, description, accessibility, onClick, selected }: IProps) => {
+const CardJob = ({ title, description, accessibility }: IProps) => {
+  const [selected, setSelected] = useState(false);
+  const onHover = () => setSelected(true);
+  const onLeave = () => setSelected(false);
   const classes = useStyles({ selected });
 
   return (
-    <div className={classes.root} onClick={onClick}>
+    <div className={classes.root} onMouseEnter={onHover} onMouseLeave={onLeave}>
       <div className={classes.title}>{title}</div>
       <div className={classes.description}>{description}</div>
       {selected && (
@@ -27,7 +27,7 @@ const CardJob = ({ title, description, accessibility, onClick, selected }: IProp
       )}
       <div className={classes.footerCard}>
         {accessibility && !selected && <div className={classes.accessibility}>{accessibility}</div>}
-        {!selected && <img src={outLineHeart} alt="heart" />}
+        {!selected && <img src={fullHeart} alt="heart" />}
       </div>
     </div>
   );

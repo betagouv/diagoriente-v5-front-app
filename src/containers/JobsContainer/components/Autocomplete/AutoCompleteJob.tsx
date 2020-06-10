@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import TextField from 'components/inputs/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LogoLoupe from 'assets/svg/loupe.svg';
+import LogoLoupeComponent from 'assets/svg/loupe';
 import LogoLoupeOrange from 'assets/svg/loupeOrange.svg';
 import classNames from 'utils/classNames';
 
@@ -16,7 +17,7 @@ interface IProps {
   placeholder: string;
   error?: boolean;
   errorText?: string;
-  options: any[];
+  options: any;
   icon?: ReactElement;
   className?: string;
   errorForm?: string;
@@ -40,7 +41,7 @@ const AutoCompleteJob = ({
     <div className={classes.root}>
       <TextField
         onChange={onChange}
-        value={value}
+        value={value || ''}
         placeholder={placeholder}
         label={label}
         name={name}
@@ -56,9 +57,27 @@ const AutoCompleteJob = ({
       />
       {open && (
         <div className={classes.optionsContainer}>
-          {options.map((el) => (
-            <div onClick={() => onSelectText(el)}>{el.label}</div>
-          ))}
+          {options.map((el: any) => {
+            const t = el.title.toLowerCase().split(value.toLowerCase());
+            for (let i = 0; i < t.length; i += 1) {
+              return (
+                <div
+                  key={el.id}
+                  onClick={() => {
+                    onSelectText(el.title);
+                  }}
+                  className={classes.item}
+                >
+                  <LogoLoupeComponent color="#424242" width="19" height="19" />
+                  <div className={classes.itemWrapper}>
+                    <span>{t[i]}</span>
+                    <span style={{ fontWeight: 'bold' }}>{value}</span>
+                    {t[i + 1] && <span>{t[i + 1]}</span>}
+                  </div>
+                </div>
+              );
+            }
+          })}
         </div>
       )}
     </div>

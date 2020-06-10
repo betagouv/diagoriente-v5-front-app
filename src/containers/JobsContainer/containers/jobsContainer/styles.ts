@@ -24,7 +24,7 @@ export default makeStyles<Theme>((theme) => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   logoContainer: {
     width: 56,
@@ -36,6 +36,7 @@ export default makeStyles<Theme>((theme) => ({
     fontSize: 18,
     fontWeight: 900,
     marginBottom: 30,
+    marginTop: -20,
   },
   filterTitleContainer: {
     height: 35,

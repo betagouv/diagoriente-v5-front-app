@@ -38,7 +38,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
   menu: {
     position: 'absolute',
     left: 9,
-    top: 13,
+    top: 16,
     zIndex: 3,
   },
 
@@ -51,5 +51,31 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     transform: 'rotate(270deg)',
     transition: '0.5s ease',
     cursor: 'pointer',
+  },
+  secteurContainer: {
+    background: '#FFFFFF',
+    border: '1px solid #C9C9C7',
+    boxSizing: 'border-box',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
+    borderRadius: 5,
+    position: 'absolute',
+    top: 46,
+    width: 599,
+    height: 448,
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '20px 30px',
+    overflow: 'scroll',
+  },
+  itemSecteur: {
+    margin: 15,
+    width: 230,
+    cursor: 'pointer',
+    '&:hover': {
+      color: '#FFA600',
+    },
+  },
+  selected: {
+    color: '#FFA600',
   },
 }));

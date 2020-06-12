@@ -17,6 +17,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-upload-client": "^13.0.0",
     "axios": "^0.19.2",
+    "env-cmd": "^10.1.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "graphql-to-json-schema": "^1.0.0",
@@ -63,7 +64,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:staging": "env-cmd -f .env.staging yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"

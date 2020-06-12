@@ -1,9 +1,10 @@
 import localforage from 'localforage';
 import { refreshMutation, RefreshArguments } from 'requests/auth';
 import { client, setAuthorizationBearer } from 'requests/client';
-import { User, Token } from 'requests/types';
+import { User, Token, UserParcour } from 'requests/types';
+import { getUserParcourQuery } from 'requests/parcours';
 
-export default async function startup(): Promise<User | null> {
+export default async function startup(): Promise<{ user: User; parcours: UserParcour } | null> {
   try {
     const authString = await localforage.getItem<string | null>('auth');
 
@@ -17,8 +18,12 @@ export default async function startup(): Promise<User | null> {
       });
       if (nextToken.data) {
         setAuthorizationBearer(nextToken.data.refresh.accessToken);
+
         localforage.setItem('auth', JSON.stringify({ user, token: nextToken.data.refresh }));
-        return user;
+        const parcours = await client.query({ query: getUserParcourQuery });
+        if (parcours.data) {
+          return { user, parcours: parcours.data.userParcour };
+        }
       }
     }
     return null;

@@ -1,38 +1,71 @@
 import React, { useContext } from 'react';
 
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-
 import logo from 'assets/svg/diagoriente_logo.svg';
-import userLogo from 'assets/images/user_icon.png';
 import DrawerContext from 'contexts/DrawerContext';
+import UserContext from 'contexts/UserContext';
 import menu from 'assets/images/menu.png';
 import close from 'assets/svg/close.svg';
+
+import classNames from 'utils/classNames';
+
 import useStyles from './styles';
 
-const PrivateHeader = () => {
+export interface Props {
+  openLogoIcon: string;
+  closeLogoIcon: string;
+  openIcon: string;
+  closeIcon: string;
+  className?: string;
+  showUser: boolean;
+}
+
+const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
+  const { user } = useContext(UserContext);
 
   const toggle = () => {
     setOpen(!open);
   };
-
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <AppBar position="fixed" className={classNames(classes.appBar, className)}>
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
-          <img src={open ? close : menu} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
-          <img src={logo} alt="diagoriente_logo" height={44} />
+          <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
+          <Link to="/">
+            <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
+          </Link>
         </div>
-        <div className={classes.flexCenter}>
-          <span className={classes.typography}>Lena M</span>
-          <img src={userLogo} alt="user_logo" height={39} />
-        </div>
+        {showUser && (
+          <div className={classes.flexCenter}>
+            <span className={classes.typography}>
+              {user?.profile.firstName} {user?.profile.lastName}
+            </span>
+            <img
+              src={
+                user?.logo
+                  ? user?.logo
+                  : 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg'
+              }
+              alt=""
+              height={39}
+            />
+          </div>
+        )}
       </Toolbar>
     </AppBar>
   );
+};
+
+PrivateHeader.defaultProps = {
+  openLogoIcon: logo,
+  closeLogoIcon: logo,
+  openIcon: menu,
+  closeIcon: close,
+  showUser: true,
 };
 
 export default PrivateHeader;

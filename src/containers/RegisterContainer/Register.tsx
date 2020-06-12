@@ -1,11 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, {
+ useEffect, useState, useRef, useContext,
+} from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
+import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
 import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
+import Spinner from 'components/Spinner/Spinner';
 import { useForm } from 'hooks/useInputs';
-import { useRegister } from 'requests/auth';
+import { useRegister, useAvatars } from 'requests/auth';
+import Attention from 'assets/svg/attention.svg';
+import { useLocation } from 'requests/location';
 import {
   validateEmail,
   validatePassword,
@@ -16,11 +22,16 @@ import {
   hasSpecial,
 } from 'utils/validation';
 import classNames from 'utils/classNames';
+import useAuth from 'hooks/useAuth';
+import UserContext from 'contexts/UserContext';
 import useStyles from './styles';
 
-const Register = ({ history }: RouteComponentProps) => {
-  const [error, setError] = useState('');
+const Register = () => {
+  const { user } = useContext(UserContext);
+  const [errorCondition, setErrorCondition] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
+  const [registerCall, registerState] = useAuth(useRegister);
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -49,39 +60,45 @@ const Register = ({ history }: RouteComponentProps) => {
     required: ['firstName', 'lastName', 'email', 'password', 'logo', 'location'],
   });
   const { values, errors, touched } = state;
-  const [registerCall, registerState] = useRegister();
+
+  const { loading: loadingAvatar, data: avatarData } = useAvatars();
+  const { data, loading } = useLocation({ variables: { search: values.location } });
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
+        const res = { ...values, location: selectedLocation };
         registerCall({
-          variables: values,
+          variables: res,
         });
       } else {
-        setError("Veuillez accepter les conditions générales d'utilisation");
+        setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
     } else {
+      if (!values.logo) {
+        setErrorForm('Choisir un avatar');
+      }
       actions.setAllTouched(true);
     }
   };
   useEffect(() => {
-    if (registerState.data && !registerState.error) {
-      history.push('/');
-    } else {
-      if (typeof registerState.error?.graphQLErrors[0].message === 'string') {
-        setErrorForm(registerState.error?.graphQLErrors[0].message);
-      }
-      if (typeof registerState.error?.graphQLErrors[0].message === 'object') {
-        const t = registerState.error?.graphQLErrors[0].message;
+    if (registerState.error) {
+      if (!registerState.error.graphQLErrors.length) {
+        setErrorForm(registerState.error.message);
+      } else if (typeof registerState.error.graphQLErrors[0].message === 'string') {
+        setErrorForm(registerState.error.graphQLErrors[0].message);
+      } else if (typeof registerState.error.graphQLErrors[0].message === 'object') {
+        const t = registerState.error.graphQLErrors[0].message;
         const key = Object.keys((t as any).originalError)[0];
         const value: any = Object.values((t as any).originalError)[0];
         setErrorFormObject({ key, value });
       }
     }
-  }, [registerState.data, registerState.error, history]);
+  }, [registerState.error]);
+
   useEffect(() => {
     if (values.acceptCondition) {
-      setError('');
+      setErrorCondition('');
     }
   }, [values.acceptCondition]);
   const onClickCondition = () => {
@@ -92,18 +109,32 @@ const Register = ({ history }: RouteComponentProps) => {
   const onShowPassword = () => {
     setShowPasswoed(!showPasswordState);
   };
+  const onSelect = (e: string | null) => {
+    if (e) setSelectedLocation(e);
+  };
+  const onAvatarClick = (url: string) => {
+    if (values.logo === url) {
+      actions.setValues({
+        logo: '',
+      });
+    } else {
+      actions.setValues({
+        logo: url,
+      });
+      setErrorForm('');
+    }
+  };
+
+  if (user) {
+    return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
-        <div className={classes.descriptionContainer}>
-          <div className={classes.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id malesuada erat. Proin vel ipsum non
-            dolor interdum laoreet sit amet nec massa.
-          </div>
-        </div>
+        <div className={classes.title}>INSCRIPTION</div>
         <div className={classes.form}>
-          <div className={classes.errorCondition}>{errorForm}</div>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className={classes.formContainer}>
             <Input
               name="firstName"
               label="Ton prénom"
@@ -124,20 +155,40 @@ const Register = ({ history }: RouteComponentProps) => {
               error={touched.lastName && (errors.lastName !== '' || errorFormObject.key === 'lastName')}
               errorText={touched.lastName ? errors.lastName : ''}
             />
+            <div className={classes.avatarsWrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <div className={classes.label}>
+                      Ton image de profil
+                      <span className={classes.requiredInput}>*</span>
+                    </div>
+                    <div className={classes.subLabel}>Choisis un avatar</div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <div className={classes.avatarsContainer}>
+                    {loadingAvatar && <Spinner />}
+                    {avatarData?.avatars.data.map((el) => (
+                      <div key={el.id} style={{ margin: '0px 7px' }} onClick={() => onAvatarClick(el.url)}>
+                        <img
+                          src={el.url}
+                          alt=""
+                          className={classNames(classes.avatar, values.logo === el.url && classes.selectedAvatar)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
             <Input
-              label="Ton image de profil"
-              subTitle="Choisis un avatar"
-              onChange={actions.handleChange}
-              value={values.logo}
-              name="logo"
-            />
-            <Input
-              label="Ton email*"
+              label="Ton e-mail"
               onChange={actions.handleChange}
               value={values.email}
               name="email"
               required
-              placeholder="exmaple@gmail.com"
+              placeholder="email@gmail.com"
               error={touched.email && (errors.email !== '' || errorFormObject.key === 'email')}
               errorText={touched.email ? errors.email : ''}
               errorForm={errorFormObject.key === 'email' ? errorFormObject.value : ''}
@@ -164,13 +215,13 @@ const Register = ({ history }: RouteComponentProps) => {
             />
             <div>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div>
                     <div className={classes.optionItem}>
-                      Ton mot de passe doit avoir 6 caractères minimum, dont au moins:
+                      Ton mot de passe doit comporter 6 caractères minimum, dont au moins :
                     </div>
                     <div className={classes.option}>
                       <div className={classes.optionWrapper}>
@@ -208,22 +259,17 @@ const Register = ({ history }: RouteComponentProps) => {
                 </Grid>
               </Grid>
             </div>
-            <Input
+            <AutoComplete
               label="Ton emplacement géographique"
               onChange={actions.handleChange}
+              onSelectText={onSelect}
               value={values.location}
               name="location"
               placeholder="paris"
+              options={!loading && data ? data.location : []}
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
-            />
-            <Input
-              label="Instituation"
-              onChange={actions.handleChange}
-              value={values.institution}
-              name="institution"
-              error={touched.institution && errors.institution !== ''}
-              errorText={touched.institution ? errors.institution : ''}
+              errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
             />
             <Input
               label="Code groupe"
@@ -231,15 +277,16 @@ const Register = ({ history }: RouteComponentProps) => {
               value={values.codeGroupe}
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
-              error={touched.codeGroupe && errors.codeGroupe !== ''}
+              error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
               errorText={touched.codeGroupe ? errors.codeGroupe : ''}
+              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.groupText}>
                     Si tu es dans un groupe, renseigne ici le code qui t&lsquo;a été remis.
                   </div>
@@ -248,35 +295,42 @@ const Register = ({ history }: RouteComponentProps) => {
             </div>
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <div className={classes.containerCheckbox}>
                     <CheckBox
-                      ref={checkBoxRef}
                       onChange={actions.handleChange}
                       checked={values.acceptCondition}
                       name="acceptCondition"
+                      color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
                       J&lsquo;accepte les
                       {' '}
                       <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
                       {' '}
-                      de Diagoriente*
+                      de Diagoriente
+                      <span className={classes.start}>*</span>
                     </div>
                   </div>
-                  <div className={classes.errorCondition}>{error}</div>
+                  <div className={classes.errorText}>{errorCondition}</div>
                 </Grid>
               </Grid>
             </div>
             <div className={classes.btnContainer}>
+              <div className={classes.errorCondition}>
+                {errorForm && <img src={Attention} alt="err" width="16" height="16" />}
+                <div className={classes.errorTextForm}>{errorForm || errorFormObject.value}</div>
+              </div>
+            </div>
+            <div className={classNames(classes.btnContainer, classes.paddingBtn)}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.emptyDiv} />
                 </Grid>
-                <Grid item xs={12} sm={7} md={8}>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
                   <Button className={classes.btn} type="submit">
                     <div className={classes.btnLabel}>Je m’inscris</div>
                   </Button>
@@ -284,16 +338,18 @@ const Register = ({ history }: RouteComponentProps) => {
               </Grid>
             </div>
             <div className={classes.btnContainer}>
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={5} md={4}>
-                  <div className={classes.emptyDiv} />
-                </Grid>
-                <Grid item xs={12} sm={7} md={8}>
-                  <div className={classes.conditionText}>* Champs obligatoires</div>
-                </Grid>
-              </Grid>
+              <div className={classes.required}>
+                <span className={classes.start}>*</span>
+                Champs obligatoires
+              </div>
             </div>
           </form>
+
+          <div className={classes.btnContainer}>
+            <Link to="/login">
+              <div className={classes.registerLabel}>J’ai déjà un compte</div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

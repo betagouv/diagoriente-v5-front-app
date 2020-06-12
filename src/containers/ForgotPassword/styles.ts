@@ -23,6 +23,10 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     marginBottom: 40,
   },
+  subTitleSent: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
   loginContainer: {
     maxWidth: 757,
     width: '100%',

@@ -3,27 +3,27 @@ import gql from 'graphql-tag';
 import { MutationHookOptions } from '@apollo/react-hooks';
 import { useLocalQuery } from 'hooks/apollo';
 
-export const interestQuery = gql`
-  query Interest {
-    interests {
+export const familiesQuery = gql`
+  query Families {
+    families {
       data {
         id
         nom
-        rank
+        category
       }
     }
   }
 `;
 
-export interface InterestsArguments {}
-export interface InterestsResponse {
-  interests: {
+export interface FamiliesArguments {}
+export interface FamiliesResponse {
+  families: {
     data: {
       id: string;
       nom: string;
-      rank: number;
+      category: string;
     }[];
   };
 }
-export const useInterests = (options: MutationHookOptions<InterestsResponse, InterestsArguments> = {}) =>
-  useLocalQuery<InterestsResponse, InterestsArguments>(interestQuery, options);
+export const useFamilies = (options: MutationHookOptions<FamiliesResponse, FamiliesArguments> = {}) =>
+  useLocalQuery<FamiliesResponse, FamiliesArguments>(familiesQuery, options);

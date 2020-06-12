@@ -34,7 +34,7 @@ export function hasNumber(s: string) {
   return /[0-9]/g.test(s);
 }
 export function hasSpecial(s: string) {
-  return /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g.test(s);
+  return /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/g.test(s);
 }
 export function validatePassword(password: string) {
   if (!password) return 'Mot de passe vide';

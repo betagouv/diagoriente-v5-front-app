@@ -14,6 +14,7 @@ export default makeStyles((theme: Theme) =>
     toolbarContainer: {
       display: 'flex',
       justifyContent: 'space-between',
+      minHeight: 'auto !important',
     },
 
     flexCenter: {
@@ -30,5 +31,11 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       alignItems: 'center',
       color: '#ffff',
+      fontWeight: 'bold',
     },
-  }));
+    logoLink: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  }),
+);

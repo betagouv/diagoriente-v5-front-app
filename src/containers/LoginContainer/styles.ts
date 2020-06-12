@@ -28,7 +28,20 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.down('xl')]: {
+      paddingRight: 50,
+    },
+    [theme.breakpoints.down('lg')]: {
+      paddingRight: 50,
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 50,
+      paddingLeft: 0,
+    },
     [theme.breakpoints.down('sm')]: {
+      paddingLeft: 60,
+    },
+    [theme.breakpoints.down('xs')]: {
       paddingLeft: 20,
       width: '95%',
     },
@@ -49,7 +62,7 @@ export default makeStyles((theme) => ({
     width: 'max-content',
 
     '&:hover': {
-      backgroundColor: '#223A7A',
+      backgroundColor: theme.palette.info.main,
       borderRadius: 10,
     },
   },
@@ -74,15 +87,26 @@ export default makeStyles((theme) => ({
   },
   conditionText: {
     fontSize: 14,
-    color: '#424242',
     marginLeft: 8,
     width: '95%',
     cursor: 'pointer',
   },
   forgotText: {
-    color: '#00B2DB',
+    color: theme.palette.success.main,
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 40,
+  },
+  errorCondition: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+    fontSize: 12,
+    paddingLeft: 10,
+  },
+  registerLabel: {
+    color: theme.palette.success.main,
+    fontWeight: 'bold',
+    fontSize: 14,
+    textDecoration: 'underline',
   },
 }));

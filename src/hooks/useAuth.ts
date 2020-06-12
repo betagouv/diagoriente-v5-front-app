@@ -36,9 +36,10 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
     if (parcourState.data && state.data) {
       setParcours(parcourState.data.userParcour);
       const result = extractAuth(state.data);
-      if (stayConnected) {
-        localforage.setItem('auth', JSON.stringify(result));
+      if (!stayConnected) {
+        delete result.token.refreshToken;
       }
+      localforage.setItem('auth', JSON.stringify(result));
       setUser(result.user);
     }
     // eslint-disable-next-line

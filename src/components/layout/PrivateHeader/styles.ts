@@ -24,6 +24,7 @@ export default makeStyles((theme: Theme) =>
 
     menuIcon: {
       marginRight: 8,
+      cursor: 'pointer',
     },
 
     typography: {
@@ -37,5 +38,4 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-  }),
-);
+  }));

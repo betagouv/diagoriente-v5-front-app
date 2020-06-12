@@ -11,11 +11,15 @@ import PasswordEye from 'assets/form/password.svg';
 import useStyles from './styles';
 
 interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
-  label: string;
+  label?: string;
   errorText?: string;
   subTitle?: string;
   errorForm?: string;
   showPassword?: () => void;
+  className?: string;
+  inputClassName?: string;
+  inputBaseClassName?: string;
+  withOutIcons?: boolean;
 }
 
 const Input = ({
@@ -28,56 +32,64 @@ const Input = ({
   value,
   errorForm,
   required,
+  className,
+  withOutIcons,
+  inputClassName,
+  inputBaseClassName,
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
+
   return (
-    <div className={classes.root}>
+    <div className={classNames(classes.root, className)}>
       <Grid container spacing={0}>
-        <Grid item xs={12} sm={5} md={4} lg={6}>
-          <div className={classes.labelContainer}>
-            <div className={classes.label}>
-              {label}
-              {required ? <span className={classes.requiredInput}>*</span> : null}
+        {label && (
+          <Grid item xs={12} sm={4} md={5} lg={5}>
+            <div className={classes.labelContainer}>
+              <div className={classes.label}>
+                {label}
+                {required ? <span className={classes.requiredInput}>*</span> : null}
+              </div>
+              <div className={classes.subTitle}>{subTitle}</div>
             </div>
-            <div className={classes.subTitle}>{subTitle}</div>
+          </Grid>
+        )}
+        <Grid item xs={12} sm={8} md={7} lg={7}>
+          <div className={classes.wrapperInput}>
+            <TextField
+              value={value}
+              className={classes.inputRoot}
+              name={name}
+              error={!!(errorText || errorForm)}
+              InputProps={{
+                classes: {
+                  inputAdornedStart: classes.adornedPositionStart,
+                  adornedStart: classes.adornedStart,
+                  input: classNames(classes.input, inputClassName),
+                  root: classNames(classes.inputBase, inputBaseClassName),
+                },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    {name === 'location' && <img src={LogoLocation} alt="location" />}
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="start">
+                    {name === 'password' && (
+                      <img src={PasswordEye} alt="view" onClick={showPassword} className={classes.showPasswordImage} />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+              {...rest}
+              variant="outlined"
+            />
+            {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
+            {value && !errorText && !errorForm && !withOutIcons && (
+              <img src={LogoCheked} className={classes.logo} alt="check" />
+            )}
           </div>
-        </Grid>
-        <Grid item xs={12} sm={7} md={8} lg={6}>
-          <div>
-            <div className={classes.wrapperInput}>
-              <TextField
-                className={classes.inputRoot}
-                name={name}
-                error={!!(errorText || errorForm)}
-                InputProps={{
-                  classes: { input: classNames(classes.inputRoot) },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      {name === 'location' && <img src={LogoLocation} alt="location" />}
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      {name === 'password' && (
-                        <img
-                          src={PasswordEye}
-                          alt="view"
-                          onClick={showPassword}
-                          className={classes.showPasswordImage}
-                        />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-                {...rest}
-                variant="outlined"
-              />
-              {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-              {value && !errorText && !errorForm && <img src={LogoCheked} className={classes.logo} alt="check" />}
-            </div>
-            <div className={classes.errorCondition}>{errorForm}</div>
-          </div>
+          {/* <div className={classes.errorCondition}>{errorForm}</div> */}
         </Grid>
       </Grid>
     </div>

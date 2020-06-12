@@ -1,15 +1,18 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color: string }>(() => ({
+export default makeStyles<Theme, { color: string; size?: number }>((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
     width: 'auto',
     cursor: 'pointer',
+    [theme.breakpoints.down('xs')]: {
+      justifySelf: 'flex-end',
+    },
   },
   root: {
-    width: 32,
-    height: 32,
+    width: (props) => (props.size ? props.size : 33),
+    height: (props) => (props.size ? props.size : 33),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -19,6 +22,6 @@ export default makeStyles<Theme, { color: string }>(() => ({
   subTitle: {
     paddingRight: 12,
     fontSize: 12,
-    color: '#420FAB',
+    color: (props) => props.color,
   },
 }));

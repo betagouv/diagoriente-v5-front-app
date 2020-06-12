@@ -5,43 +5,53 @@ import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
-import localforage from 'localforage';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
-import { validateEmail, validatePassword } from 'utils/validation';
+import { validateEmail } from 'utils/validation';
 
 import { useForm } from 'hooks/useInputs';
 
-import { setAuthorizationBearer } from 'requests/client';
 import { useLogin } from 'requests/auth';
+
+import useAuth from 'hooks/useAuth';
 import useStyles from './styles';
 
 const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const [showPasswordState, setShowPasswoed] = useState(false);
-  const checkBoxRef = useRef(null);
-
-  const { user, setUser } = useContext(UserContext);
-  const [loginCall, loginState] = useLogin();
-
+  const [showPasswordState, setShowPassword] = useState(false);
   const [state, actions] = useForm({
     initialValues: { email: '', password: '', stayConnected: false },
     validation: {
       email: validateEmail,
-      password: validatePassword,
     },
   });
 
+  const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
+
+  const [errorForm, setErrorForm] = useState<string>('');
+  const checkBoxRef = useRef(null);
+
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
-    if (loginState.data) {
-      setAuthorizationBearer(loginState.data.login.token.accessToken);
-      if (state.values.stayConnected) {
-        localforage.setItem('auth', JSON.stringify(loginState.data.login));
+    if (loginState.error?.graphQLErrors.length !== 0) {
+      if (
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'object'
+      ) {
+        setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
+      } else if (
+        loginState.error?.graphQLErrors[0].message
+        && typeof loginState.error?.graphQLErrors[0].message === 'string'
+      ) {
+        setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
-      setUser(loginState.data.login.user);
     }
-  }, [loginState.data, setUser]);
+    if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
+      setErrorForm(loginState.error?.message);
+    }
+  }, [loginState.error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,26 +64,29 @@ const Login = ({ location }: RouteComponentProps) => {
 
   if (user) {
     const { from } = decodeUri(location.search);
+
     return <Redirect to={from || '/'} />;
   }
+
   const onClickCondition = () => {
     if (checkBoxRef.current) {
       // (checkBoxRef.current as any)?.onclick();
     }
   };
   const onShowPassword = () => {
-    setShowPasswoed(!showPasswordState);
+    setShowPassword(!showPasswordState);
   };
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.title}>connexion</div>
+        <div className={classes.title}>CONNEXION</div>
+        <div className={classes.errorCondition}>{errorForm}</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
-            label="Ton email"
+            label="Ton adresse e-mail"
             name="email"
             required
-            placeholder="exmaple@gmail.com"
+            placeholder="email@gmail.com"
             value={state.values.email}
             onChange={actions.handleChange}
             errorText={state.touched.email && state.errors.email}
@@ -91,31 +104,31 @@ const Login = ({ location }: RouteComponentProps) => {
           />
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4} lg={6}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8} lg={6}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <Link to="/forgotPassword">
-                  <div className={classes.forgotText}>J’ai oublié mon mot de passe</div>
+                  <div className={classes.forgotText}>Mot de passe oublié ?</div>
                 </Link>
               </Grid>
             </Grid>
           </div>
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4} lg={6}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8} lg={6}>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
                 <div className={classes.containerCheckbox}>
                   <CheckBox
-                    ref={checkBoxRef}
                     onChange={actions.handleChange}
                     checked={state.values.stayConnected}
                     name="stayConnected"
+                    color="#00B2DB"
                   />
                   <div className={classes.conditionText} onClick={onClickCondition}>
-                    Rester connectée
+                    Garder ma session active
                   </div>
                 </div>
               </Grid>
@@ -123,13 +136,25 @@ const Login = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.btnContainer}>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={5} md={4}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.emptyDiv} />
               </Grid>
-              <Grid item xs={12} sm={7} md={8}>
-                <Button className={classes.btn} type="submit">
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <Button className={classes.btn} type="submit" fetching={loginState.loading}>
                   <div className={classes.btnLabel}>Je me connecte</div>
                 </Button>
+              </Grid>
+            </Grid>
+          </div>
+          <div className={classes.btnContainer}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
+                <div className={classes.emptyDiv} />
+              </Grid>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <Link to="/register">
+                  <div className={classes.registerLabel}>Je n’ai pas encore de compte</div>
+                </Link>
               </Grid>
             </Grid>
           </div>

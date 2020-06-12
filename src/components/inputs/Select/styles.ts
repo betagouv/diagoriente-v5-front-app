@@ -21,4 +21,7 @@ export default makeStyles(() => ({
       color: '',
     },
   },
+  select: {
+    paddingRight: '12px !important',
+  },
 }));

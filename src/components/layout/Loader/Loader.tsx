@@ -1,5 +1,10 @@
 import React from 'react';
 
-const Loader = () => <div>Loading...</div>;
+import useStyles from './styles';
+
+const Loader = () => {
+  const classes = useStyles();
+  return <div className={classes.loading}>Loading...</div>;
+};
 
 export default Loader;

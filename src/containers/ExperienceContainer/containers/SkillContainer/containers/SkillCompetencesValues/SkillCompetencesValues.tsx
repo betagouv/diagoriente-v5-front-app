@@ -5,17 +5,19 @@ import { Tooltip } from '@material-ui/core';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { CompetenceValues, Competence } from 'requests/types';
 
+import { echelon, echelonValue } from 'utils/generic';
+
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Button from 'components/nextButton/nextButton';
+import CancelButton from 'components/cancelButton/CancelButton';
+
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
-import Typography from '@material-ui/core/Typography/Typography';
 
 import classNames from 'utils/classNames';
 
 import blueline from 'assets/svg/blueline.svg';
-import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
 
@@ -26,8 +28,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   addSkill: () => void;
   addSkillState: boolean;
 }
-const echelonValue = [1, 2, 3, 4];
-const echelon = ['Débutant.e', "Plutôt à l'aise", "A l'aise", 'Expert.e'];
+
 const SkillCompetencesValues = ({
   match,
   competencesValues,
@@ -171,7 +172,7 @@ const SkillCompetencesValues = ({
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
+          <CancelButton />
           Précedent
         </Link>
       </div>

@@ -26,7 +26,6 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 34,
-      paddingBottom: 77,
     },
 
     themeTitle: {

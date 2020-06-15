@@ -175,6 +175,9 @@ export default makeStyles((theme) =>
       backgroundColor: theme.palette.primary.main,
       height: 50,
       width: 'max-content',
+      color: '#011A5E',
+      fontSize: 18,
+      fontWeight: 'bold',
 
       '&:hover': {
         backgroundColor: theme.palette.success.main,
@@ -187,6 +190,9 @@ export default makeStyles((theme) =>
       height: 50,
       width: 244,
       marginTop: 24,
+      color: '#FFFFFF',
+      fontSize: 18,
+      fontWeight: 'bold',
       '&:hover': {
         backgroundColor: '#D60051',
         borderRadius: 10,

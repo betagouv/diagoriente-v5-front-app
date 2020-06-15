@@ -4,11 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import LogoRose from 'assets/form/Vector.png';
 import LogoCheked from 'assets/form/check.png';
+import classNames from 'utils/classNames';
+
 import useStyles from './styles';
 
 interface IProps {
   label?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSelectText: (e: string | null) => void;
   value: string;
   name: string;
@@ -19,6 +21,7 @@ interface IProps {
   icon?: ReactElement;
   className?: string;
   errorForm?: string;
+  containerClassName?:string,
 }
 
 const AutoComplete = ({
@@ -33,11 +36,12 @@ const AutoComplete = ({
   icon,
   className,
   errorForm,
+  containerClassName,
   onSelectText,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
   return (
-    <div className={classes.container}>
+    <div className={classNames(classes.container, containerClassName)}>
       <Grid container spacing={0}>
         {label && (
           <Grid item xs={12} sm={4} md={5} lg={5}>

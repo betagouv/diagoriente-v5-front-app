@@ -22,6 +22,9 @@ const WarningModal = () => {
           </Button>
         </Link>
       </div>
+      <div className={classes.aide}>
+        <div className={classes.aideText}>?</div>
+      </div>
     </div>
   );
 };

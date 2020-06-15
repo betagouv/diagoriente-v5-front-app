@@ -15,8 +15,6 @@ import Button from 'components/button/Button';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Popup from 'components/common/Popup/Popup';
 
-import { Typography } from '@material-ui/core';
-
 import blueline from 'assets/svg/blueline.svg';
 import arrowleft from 'assets/svg/arrowLeft.svg';
 

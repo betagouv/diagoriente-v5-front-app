@@ -56,4 +56,7 @@ export default makeStyles<Theme>((theme) => ({
     fontSize: 14,
     fontWeight: 900,
   },
+  link: {
+    color: '#424242',
+  },
 }));

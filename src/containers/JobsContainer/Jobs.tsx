@@ -5,6 +5,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import NotFoundPage from 'components/layout/NotFoundPage';
 import JobsContainer from './containers/jobsContainer';
+import JobContainer from './containers/jobContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,10 +21,11 @@ const theme = createMuiTheme({
 const Jobs = () => (
   <ThemeProvider theme={theme}>
     <Switch>
-      <Route protected footer exact path="/jobs" component={JobsContainer} />
+      <Route protected exact path="/jobs" component={JobsContainer} />
+      <Route protected path="/:id" component={JobContainer} />
       <Route component={NotFoundPage} />
     </Switch>
   </ThemeProvider>
-  );
+);
 
 export default Jobs;

@@ -45,7 +45,8 @@ export const client = new ApolloClient({
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path }) =>
-          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+        );
       }
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
@@ -53,5 +54,10 @@ export const client = new ApolloClient({
       uri: 'https://api-ql-dev.diagoriente.beta.gouv.fr/graphql',
     }),
   ]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: (o: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      o.id ? `${o.__typename}-${o.id}` : `${o.__typename}-${o.cursor}`;
+    },
+  } as any),
 });

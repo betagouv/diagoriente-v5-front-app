@@ -35,9 +35,37 @@ export const jobsQuery = gql`
     }
   }
 `;
-
 export interface JobsResponse {
   myJobs: Jobs[];
 }
 export const useJobs = (options: LazyQueryHookOptions<JobsResponse> = {}) =>
   useLocalLazyQuery<JobsResponse>(jobsQuery, options);
+
+export const jobQuery = gql`
+  query Job($id: ID!) {
+    job(id: $id) {
+      id
+      title
+      description
+      accessibility
+      interests {
+        _id {
+          nom
+          id
+        }
+        __typename
+      }
+    }
+  }
+`;
+
+export interface JobResponse {
+  job: {
+    id: string;
+    title: string;
+    description: string;
+    accessibility: string;
+    interests: { _id: { nom: string; id: string }; __typename: string }[];
+  };
+}
+export const useJob = (options: LazyQueryHookOptions<JobResponse> = {}) => useLocalLazyQuery<JobResponse>(jobQuery, options);

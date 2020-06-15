@@ -134,7 +134,7 @@ const JobsContainer = () => {
             name="search"
             placeholder="Rechercher"
             className={classes.containerAutoComp}
-            open={open}
+            /* open={open} */
           />
           <Select
             options={listSecteurData?.themes.data}
@@ -172,9 +172,14 @@ const JobsContainer = () => {
           />
         </div>
         <div className={classes.boxsContainer}>
-          {loading && <Spinner />}
-          {filtredJob?.map((el) => (
-            <JobCard key={el.id} title={el.title} description={el.description} accessibility={el.accessibility} />
+          {(filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
+            <JobCard
+              key={el.id}
+              id={el.id}
+              title={el.title}
+              description={el.description}
+              accessibility={el.accessibility}
+            />
           ))}
         </div>
       </div>

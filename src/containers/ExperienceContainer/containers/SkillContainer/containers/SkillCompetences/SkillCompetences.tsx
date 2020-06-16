@@ -11,12 +11,12 @@ import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
+import CancelButton from 'components/cancelButton/CancelButton';
 
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Popup from 'components/common/Popup/Popup';
 
 import blueline from 'assets/svg/blueline.svg';
-import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import classNames from 'utils/classNames';
 
@@ -105,7 +105,7 @@ const ExperienceCompetence = ({
         </div>
 
         <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
+          <CancelButton />
           Précedent
         </Link>
       </div>

@@ -94,11 +94,20 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
+    '& .MuiFormControl-root-269': {
+      '& .MuiOutlinedInput-root': {
+        padding: '0 important',
+      },
+    },
   },
   logo: {
     paddingLeft: 15,
   },
   requiredInput: {
     color: theme.palette.success.main,
+  },
+  inputRoot: {
+    height: 37,
+    padding: '0px 0px 2px 15px !important',
   },
 }));

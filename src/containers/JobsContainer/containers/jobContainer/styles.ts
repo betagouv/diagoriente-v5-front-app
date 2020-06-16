@@ -23,6 +23,7 @@ export default makeStyles<Theme>((theme) => ({
     maxWidth: '1080px',
     width: '100%',
     marginTop: 30,
+    padding: 20,
   },
   headerInfo: {
     display: 'flex',
@@ -51,6 +52,7 @@ export default makeStyles<Theme>((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 60,
+    padding: 20,
   },
   jobDescription: {
     maxWidth: 500,
@@ -116,6 +118,7 @@ export default makeStyles<Theme>((theme) => ({
   wrapInterest: {
     maxWidth: '1080px',
     width: '100%',
+    padding: 20,
   },
   interestTitleContainer: {
     display: 'flex',
@@ -181,5 +184,6 @@ export default makeStyles<Theme>((theme) => ({
   competenceContainer: {
     width: '100%',
     maxWidth: 1080,
+    padding: 20,
   },
 }));

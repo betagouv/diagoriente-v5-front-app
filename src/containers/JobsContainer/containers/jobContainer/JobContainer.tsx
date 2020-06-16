@@ -13,7 +13,7 @@ import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import ModalContainerInfo from '../Modals/JobInfo';
-
+import AutoCompleteJ from 'components/inputs/AutoComplete/AutoComplete';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
 import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
 import Select from '../../components/Select/Select';

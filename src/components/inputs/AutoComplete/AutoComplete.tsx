@@ -1,8 +1,9 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import LogoRose from 'assets/form/Vector.png';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import LogoCheked from 'assets/form/check.png';
 import classNames from 'utils/classNames';
 
@@ -18,10 +19,10 @@ interface IProps {
   error?: boolean;
   errorText?: string;
   options: any[];
-  icon?: ReactElement;
+  icon?: string;
   className?: string;
   errorForm?: string;
-  containerClassName?:string,
+  containerClassName?: string;
 }
 
 const AutoComplete = ({
@@ -64,6 +65,8 @@ const AutoComplete = ({
               fullWidth={false}
               className={className}
               autoComplete={false}
+              classes={{ inputRoot: classes.inputRoot }}
+              closeIcon={<div />}
               renderInput={(params) => (
                 <div className={classes.wrapperInput}>
                   <TextField
@@ -77,6 +80,11 @@ const AutoComplete = ({
                     error={error}
                     InputProps={{
                       ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          {name === 'location' && <img src={icon} alt="location" />}
+                        </InputAdornment>
+                      ),
                       type: 'search',
                       autoComplete: 'off',
                     }}

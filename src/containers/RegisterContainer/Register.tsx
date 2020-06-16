@@ -11,6 +11,7 @@ import Spinner from 'components/Spinner/Spinner';
 import { useForm } from 'hooks/useInputs';
 import { useRegister, useAvatars } from 'requests/auth';
 import Attention from 'assets/svg/attention.svg';
+import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
 import {
   validateEmail,
@@ -270,6 +271,7 @@ const Register = () => {
               error={touched.location && errors.location !== ''}
               errorText={touched.location ? errors.location : ''}
               errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
+              icon={LogoLocation}
             />
             <Input
               label="Code groupe"

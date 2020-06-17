@@ -8,6 +8,14 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     display: 'flex',
     position: 'relative',
   },
+  mask: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1200,
+  },
   inputContainer: {
     height: 35,
     width: 235,

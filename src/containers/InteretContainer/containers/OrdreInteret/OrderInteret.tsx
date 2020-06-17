@@ -19,7 +19,7 @@ const OrderInteret = () => {
   const { selectedInterest } = useContext(interestContext);
   const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
-  const [orderedArray, setOrderedArray] = useState((selectedInterest || []) as Families[]);
+  const [orderedArray, setOrderedArray] = useState([] as Families[]);
 
   const heights = [226, 216, 206, 196, 186];
 

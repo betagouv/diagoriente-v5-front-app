@@ -40,20 +40,20 @@ const SelectJobs = ({
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
   return (
-    <div className={classes.content}>
-      <div className={classes.inputWrapper}>
+    <div className={classes.content} ref={reference}>
+      <div className={classes.inputWrapper} onClick={onClick}>
         {fullSelect && (
           <div className={classes.menu}>
             <img src={Menu} alt="menu" />
           </div>
         )}
         <input onChange={onChange} name={name} placeholder={placeholder} className={classes.inputContainer} disabled />
-        <div className={classes.logoContainer} onClick={onClick}>
+        <div className={classes.logoContainer}>
           <Arrow color="#DB8F00" width="9" height="14" className={open ? classes.rotatedBase : classes.rotated} />
         </div>
       </div>
       {open && (
-        <div className={classes.optionsContainer} ref={reference}>
+        <div className={classes.optionsContainer}>
           {fullSelect ? (
             <div className={classes.secteurContainer}>
               {options?.map((el) => (

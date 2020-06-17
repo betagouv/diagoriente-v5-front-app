@@ -1,4 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  useContext, useState, useEffect, useRef,
+} from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
@@ -52,7 +54,11 @@ const JobsContainer = () => {
   const [filtredJob, setFiltredJobs] = useState<Jobs[] | undefined>([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
 
-  useOnclickOutside(divDomaine, () => setOpenDomain(false));
+  useOnclickOutside(divDomaine, () => {
+    if (openDomain) {
+      setOpenDomain(false);
+    }
+  });
   useOnclickOutside(divType, () => setOpenType(false));
   useOnclickOutside(divAcc, () => setOpenAcc(false));
 

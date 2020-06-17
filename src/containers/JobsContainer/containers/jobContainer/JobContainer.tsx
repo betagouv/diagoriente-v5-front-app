@@ -7,7 +7,6 @@ import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import Spinner from 'components/Spinner/Spinner';
 import useOnclickOutside from 'hooks/useOnclickOutside';
-
 import HeartOutLine from 'assets/svg/outlineHeart.svg';
 import userContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -35,10 +34,17 @@ const JobContainer = ({ location }: RouteComponentProps) => {
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
-  const competences: any = [];
+  const competences: { _id: string; value: number }[] = [];
   parcours?.skills.map((el) => {
     el.competences.map((c) => {
-      competences.push(c);
+      const t = competences.find((o) => o._id === c._id);
+      if (!t) {
+        competences.push(c);
+      } else {
+        if (c.value > t.value) {
+          t.value = c.value;
+        }
+      }
     });
   });
 
@@ -163,7 +169,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             <span className={classes.interestTitle}>Compétences</span>
             <span className={classes.descriptionTitle}>Voici les compétences associées à ce métier :</span>
           </div>
-          <Graph competencesrequises={data?.job.competences} />
+          <Graph competencesrequises={data?.job.competences} competenceUser={competences} />
           <div className={classes.headerInfo}>
             <Link to="/jobs">
               <div className={classes.back}>

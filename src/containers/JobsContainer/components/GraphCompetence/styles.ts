@@ -1,6 +1,8 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Yellowarrow from 'assets/svg/fleche_jaune-claire.svg';
 import darkYellowrrow from 'assets/svg/fleche_jaune.svg';
+import bluearrow from 'assets/svg/bluearrow.svg';
+import darkbluearrow from 'assets/svg/darkbluearrow.svg';
 
 export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
   root: {
@@ -91,7 +93,16 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
       paddingBottom: 36,
     },
   },
-
+  competencesValuesNotExist: {
+    display: 'flex',
+    width: '100%',
+    paddingBottom: 10,
+    paddingLeft: 30,
+    '&:last-child': {
+      paddingBottom: 36,
+    },
+    opacity: 0.5,
+  },
   arrowEchelon: {
     position: 'relative',
     display: 'flex',
@@ -117,5 +128,27 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
 
   arrow: {
     paddingTop: 6,
+  },
+  arrowEchelonBlue: {
+    position: 'relative',
+    display: 'flex',
+    backgroundImage: `url(${bluearrow})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    alignItems: 'center',
+    width: 645,
+    height: 67,
+    cursor: 'pointer',
+  },
+
+  darkArrowEchelonBlue: {
+    position: 'absolute',
+    backgroundImage: `url(${darkbluearrow})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    height: 85,
   },
 }));

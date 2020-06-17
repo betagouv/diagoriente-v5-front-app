@@ -85,7 +85,7 @@ export default makeStyles<Theme>((theme) => ({
   immersion: {
     width: 285,
     height: 243,
-    background: theme.palette.secondary.main,
+    background: "#ffe9c3",
     borderRadius: 15,
     position: 'relative',
     padding: 30,

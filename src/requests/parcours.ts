@@ -192,9 +192,6 @@ export const updateCompletedParcours = gql`
 export interface UpdateCompletedArgument {
   completed: boolean;
 }
-export interface UpdateCompletedData {
-  parcoursUpdated: UserParcour;
-}
 export const useUpdateCompletedParcour = (
-  options: MutationHookOptions<{ updateParcour: UpdateCompletedData }, UpdateCompletedArgument> = {},
+  options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateCompletedArgument> = {},
 ) => useLocalMutation(updateCompletedParcours, options);

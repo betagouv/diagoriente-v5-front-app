@@ -29,6 +29,7 @@ export default makeStyles<Theme>((theme) => ({
     position: 'absolute',
     top: -16,
     left: -22,
+    zIndex: 3,
   },
   topTitle: {
     fontWeight: 900,
@@ -39,26 +40,26 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 900,
     fontSize: 24,
     color: theme.palette.primary.main,
-    position: 'absolute',
+    position: 'relative',
     zIndex: 5,
   },
   descLogo: {
     position: 'relative',
-    width: 270,
     height: 80,
   },
   avatarContainer: {
     display: 'flex',
     justifyContent: 'space-evenly',
     flexWrap: 'wrap',
-    padding: '0px 100px',
+    padding: '0px 150px',
   },
   circle: {
     width: '100%',
   },
   subitem: {
-    width: 170,
-    margin: '10px 15px',
+    minWidth: 170,
+    padding: '10px 3px',
+    width: '25%',
   },
   selected: {
     opacity: 0.5,

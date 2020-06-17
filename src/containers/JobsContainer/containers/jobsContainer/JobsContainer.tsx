@@ -1,6 +1,4 @@
-import React, {
-  useContext, useState, useEffect, useRef,
-} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
@@ -26,9 +24,9 @@ const JobsContainer = () => {
   const divType = useRef<HTMLDivElement>(null);
   const divAcc = useRef<HTMLDivElement>(null);
 
-  const { parcours } = useContext(ParcoursContext);
+  const { parcours, setParcours } = useContext(ParcoursContext);
 
-  const [updateCompleteCall] = useUpdateCompletedParcour();
+  const [updateCompleteCall, updateCompeteState] = useUpdateCompletedParcour();
 
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
   const [search, setSearch] = useState<string | undefined>('');
@@ -122,6 +120,11 @@ const JobsContainer = () => {
     }
     loadJobs();
   });
+  useEffect(() => {
+    if (updateCompeteState.data) {
+      setParcours(updateCompeteState.data.updateParcour);
+    }
+  }, [updateCompeteState.data, setParcours]);
   return (
     <div className={classes.root}>
       <div className={classes.content}>

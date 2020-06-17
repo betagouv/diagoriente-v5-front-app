@@ -7,6 +7,8 @@ import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
 import userContext from 'contexts/UserContext';
+import { setAuthorizationBearer } from 'requests/client';
+import { client } from 'requests/client';
 
 import useStyles from './styles';
 
@@ -28,9 +30,11 @@ const PrivateDrawer = () => {
 
   const logout = () => {
     localforage.removeItem('auth');
+    setAuthorizationBearer('');
     setParcours(null);
     setUser(null);
     localStorage.clear();
+    client.clearStore();
   };
   /* useListener('resize', () => {
     const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';

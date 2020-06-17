@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import ParcoursContext from 'contexts/ParcourContext';
 
 import Button from 'components/button/Button';
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 
 import { Theme } from 'requests/types';
 
@@ -27,7 +27,7 @@ const ResultCompetences = ({ theme }: Props) => {
             Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
-        <Avatar title={theme.title} size={170} className={classes.avatar}>
+        <Avatar titleClassName={classes.size} title={theme.title} size={170} className={classes.avatar} checked>
           <img src={theme.resources?.icon} alt="" />
         </Avatar>
 

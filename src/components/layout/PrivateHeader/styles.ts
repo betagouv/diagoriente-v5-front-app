@@ -22,6 +22,11 @@ export default makeStyles((theme: Theme) =>
       alignItems: 'center',
     },
 
+    logoContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+
     menuIcon: {
       marginRight: 8,
       cursor: 'pointer',

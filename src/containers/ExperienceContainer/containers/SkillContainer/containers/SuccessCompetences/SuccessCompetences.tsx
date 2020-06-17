@@ -7,7 +7,7 @@ import { useForm } from 'hooks/useInputs';
 import { validateEmail } from 'utils/validation';
 import { useAddSkillComment } from 'requests/skillComment';
 
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Input from 'components/inputs/Input/Input';
 import Popup from 'components/common/Popup/Popup';
@@ -134,7 +134,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
             Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
-        <Avatar title={theme.title} size={170}>
+        <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked>
           <img src={theme.resources?.icon} alt="" />
         </Avatar>
 

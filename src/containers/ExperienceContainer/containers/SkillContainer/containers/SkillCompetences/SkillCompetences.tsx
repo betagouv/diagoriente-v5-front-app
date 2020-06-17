@@ -114,7 +114,6 @@ const ExperienceCompetence = ({
           <p className={classes.popupDescription}>
             Tu dois choisir au minimum une compétence !
             <br />
-            {' '}
             /Tu as déjà choisi 4 compétences
           </p>
           <Button className={classes.incluse} onClick={handleClose}>

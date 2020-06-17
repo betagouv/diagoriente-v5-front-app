@@ -14,7 +14,7 @@ export const links = [
   { text: 'MON DASHBOARD', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
-  { text: 'DECONEXION', path: '/' },
+  { text: 'DÉCONNEXION', path: '/' },
 ];
 
 const PrivateDrawer = () => {
@@ -58,7 +58,7 @@ const PrivateDrawer = () => {
       <div className={classes.toolbar} />
       <List className={classes.root}>
         {links.map((e) => (
-          <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DECONEXION' ? logout : () => {}}>
+          <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>

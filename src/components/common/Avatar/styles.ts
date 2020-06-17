@@ -8,7 +8,7 @@ export default makeStyles<Theme, { size: number; avatarCircleBackground?: string
     backgroundColor: (props) => (props.avatarCircleBackground ? props.avatarCircleBackground : '#C9C9C7'),
     padding: 5,
     display: 'flex',
-    alignItem: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
 
@@ -24,8 +24,10 @@ export default makeStyles<Theme, { size: number; avatarCircleBackground?: string
     textAlign: 'center',
     overflow: 'hidden',
     whiteSpace: 'pre-wrap',
-  },
-  titleSize: {
     fontSize: 12,
+  },
+
+  checked: {
+    marginLeft: 10,
   },
 }));

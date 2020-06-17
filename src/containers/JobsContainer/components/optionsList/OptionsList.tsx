@@ -17,8 +17,17 @@ const OptionsList = ({ options, onSelectText, selected }: Props) => {
     <div className={classes.root}>
       {formattedData.map((el) => {
         return (
-          <div key={el.label} className={classes.item} onClick={() => onSelectText(el.id)}>
-            <CheckBox name={el.label} checked={isInclude(el.id)} onChange={() => {}} color="#FFD382" />
+          <div
+            key={el.label}
+            className={classes.item}
+            onClick={() => onSelectText(el.id)}
+          >
+            <CheckBox
+              name={el.label}
+              checked={isInclude(el.id)}
+              onChange={() => {}}
+              color="#FFD382"
+            />
             <div className={classes.itemText}>{el.label}</div>
           </div>
         );

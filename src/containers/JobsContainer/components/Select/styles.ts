@@ -66,6 +66,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     flexWrap: 'wrap',
     padding: '20px 30px',
     overflow: 'scroll',
+    zIndex: 5,
   },
   itemSecteur: {
     margin: 15,

@@ -22,6 +22,7 @@ interface IProps {
   onClick: () => void;
   fullSelect?: boolean;
   loading?: boolean;
+  reference: any;
 }
 
 const SelectJobs = ({
@@ -34,11 +35,12 @@ const SelectJobs = ({
   onSelectText,
   onClick,
   fullSelect,
+  reference,
 }: IProps) => {
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
   return (
-    <div onClick={onClick} className={classes.content}>
+    <div className={classes.content}>
       <div className={classes.inputWrapper}>
         {fullSelect && (
           <div className={classes.menu}>
@@ -46,12 +48,12 @@ const SelectJobs = ({
           </div>
         )}
         <input onChange={onChange} name={name} placeholder={placeholder} className={classes.inputContainer} disabled />
-        <div className={classes.logoContainer}>
+        <div className={classes.logoContainer} onClick={onClick}>
           <Arrow color="#DB8F00" width="9" height="14" className={open ? classes.rotatedBase : classes.rotated} />
         </div>
       </div>
       {open && (
-        <div className={classes.optionsContainer}>
+        <div className={classes.optionsContainer} ref={reference}>
           {fullSelect ? (
             <div className={classes.secteurContainer}>
               {options?.map((el) => (

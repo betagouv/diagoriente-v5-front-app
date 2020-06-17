@@ -1,10 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
-
+import React, {
+  useContext, useState, useEffect, useRef,
+} from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { useUpdateCompletedParcour } from 'requests/parcours';
+import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
 import { useJobs } from 'requests/jobs';
@@ -20,6 +22,10 @@ import useStyles from './styles';
 
 const JobsContainer = () => {
   const classes = useStyles();
+  const divDomaine = useRef<HTMLDivElement>(null);
+  const divType = useRef<HTMLDivElement>(null);
+  const divAcc = useRef<HTMLDivElement>(null);
+
   const { parcours } = useContext(ParcoursContext);
 
   const [updateCompleteCall] = useUpdateCompletedParcour();
@@ -29,8 +35,8 @@ const JobsContainer = () => {
   const [environments, setJob] = useState<string[] | undefined>([]);
   const [accessibility, setAccessibility] = useState<string[] | undefined>([]);
 
-  const variables: { search?: string; accessibility?: string[]; environments?: string[]; secteur?: string[] } = {};
-  if (accessibility?.length !== 0) variables.accessibility = accessibility;
+  const variables: { search?: string; niveau?: string[]; environments?: string[]; secteur?: string[] } = {};
+  if (accessibility?.length !== 0) variables.niveau = accessibility;
   if (environments?.length !== 0) variables.environments = environments;
   if (domaine?.length !== 0) variables.secteur = domaine;
   if (search) variables.search = search;
@@ -41,12 +47,16 @@ const JobsContainer = () => {
   const { data: listTypeData, loading: listTypeLoading } = useTypeJob();
   const { data: listSecteurData, loading: listSecteurLoading } = useSecteurs({ variables: { type: 'secteur' } });
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [openType, setOpenType] = useState(false);
   const [openDomain, setOpenDomain] = useState(false);
   const [openAcc, setOpenAcc] = useState(false);
   const [filtredJob, setFiltredJobs] = useState<Jobs[] | undefined>([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+
+  useOnclickOutside(divDomaine, () => setOpenDomain(false));
+  useOnclickOutside(divType, () => setOpenType(false));
+  useOnclickOutside(divAcc, () => setOpenAcc(false));
 
   useEffect(() => {
     if (data?.myJobs) {
@@ -61,14 +71,14 @@ const JobsContainer = () => {
 
   const onSelect = (label?: string) => {
     setSearch(label);
-    setOpen(false);
+    // setOpen(false);
   };
 
   const onChangeSelect = (e: any) => {
     const v = e.target.value;
     setSearch(v);
     setFiltredArray(data?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(v.toLowerCase()) !== -1));
-    setOpen(true);
+    // setOpen(true);
   };
   const onSelectDomaine = (label?: string) => {
     if (label) {
@@ -147,6 +157,7 @@ const JobsContainer = () => {
             fullSelect
             onClick={() => setOpenDomain(!openDomain)}
             loading={listSecteurLoading}
+            reference={divDomaine}
           />
           <Select
             options={listTypeData?.environments.data}
@@ -158,6 +169,7 @@ const JobsContainer = () => {
             open={openType}
             onClick={() => setOpenType(!openType)}
             loading={listTypeLoading}
+            reference={divType}
           />
           <Select
             options={listAccData?.accessibilities.data}
@@ -169,10 +181,11 @@ const JobsContainer = () => {
             open={openAcc}
             onClick={() => setOpenAcc(!openAcc)}
             loading={listAccLoading}
+            reference={divAcc}
           />
         </div>
         {loading ? (
-          <div>
+          <div className={classes.spinnerContainer}>
             <Spinner />
           </div>
         ) : (

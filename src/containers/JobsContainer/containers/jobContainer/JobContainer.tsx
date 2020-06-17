@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
@@ -6,6 +6,8 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import Spinner from 'components/Spinner/Spinner';
+import useOnclickOutside from 'hooks/useOnclickOutside';
+
 import HeartOutLine from 'assets/svg/outlineHeart.svg';
 import userContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -22,6 +24,7 @@ import useStyles from './styles';
 
 const JobContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
+  const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
   const param = location.pathname.substr(6);
@@ -32,7 +35,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
-  const competences:any = [];
+  const competences: any = [];
   parcours?.skills.map((el) => {
     el.competences.map((c) => {
       competences.push(c);
@@ -40,6 +43,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   });
 
   const d: any = [];
+  useOnclickOutside(divRef, () => {});
 
   if (data?.job && parcours?.families) {
     parcours?.families.map((item) => {
@@ -101,6 +105,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               onClick={() => {}}
               onSelectText={() => {}}
               options={[]}
+              reference={divRef}
             />
             <AutoComplete
               onChange={() => {}}
@@ -144,8 +149,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>
-                {' '}
+                </span>{' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>

@@ -9,6 +9,7 @@ export default makeStyles<Theme>(() => ({
     borderRadius: 5,
     position: 'absolute',
     top: 47,
+    zIndex: 5,
   },
   item: {
     height: 46,

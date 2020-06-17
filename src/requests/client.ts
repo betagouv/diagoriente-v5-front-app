@@ -13,7 +13,7 @@ export function setAuthorizationBearer(nextToken: string) {
 const request = async (operation: Operation) => {
   operation.setContext({
     headers: {
-      authorization: token ? `Bearer ${token}` : '',
+      Authorization: token ? `Bearer ${token}` : '',
     },
   });
 };

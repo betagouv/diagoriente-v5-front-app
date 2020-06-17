@@ -13,7 +13,6 @@ import useStyles from './style';
 const FirstDashboard = () => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
-  console.log('parcours', parcours);
 
   const [open, setOpen] = useState(false);
   const openModal = () => setOpen(true);

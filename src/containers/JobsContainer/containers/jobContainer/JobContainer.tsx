@@ -144,7 +144,8 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>{' '}
+                </span>
+                {' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>

@@ -36,7 +36,7 @@ export default makeStyles((theme: Theme) =>
     gridContainer: {
       padding: CONTAINER_PADDING,
       [theme.breakpoints.down('md')]: {
-        padding: '20px 30px',
+        padding: '30px 30px',
       },
     },
 
@@ -98,6 +98,9 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       maxHeight: '100%',
       maxWidth: '100%',
+      '&:hover': {
+        opacity: 0.5,
+      },
     },
 
     themeRoot: {
@@ -134,5 +137,10 @@ export default makeStyles((theme: Theme) =>
 
     margin: {
       margin: '0px 20px',
+    },
+    selectedImg: {
+      '&:not(.nohover):hover': {
+        opacity: 1,
+      },
     },
   }));

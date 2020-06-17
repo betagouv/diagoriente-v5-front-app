@@ -1,5 +1,4 @@
 import React from 'react';
-import { Jobs } from 'requests/types';
 import timeLogo from 'assets/svg/time.svg';
 import reseauLogo from 'assets/svg/reseau.svg';
 import Chart from 'components/Graph/PieChart';

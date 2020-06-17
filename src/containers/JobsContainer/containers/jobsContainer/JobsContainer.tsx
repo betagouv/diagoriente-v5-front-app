@@ -7,11 +7,11 @@ import { useDidMount } from 'hooks/useLifeCycle';
 import { useUpdateCompletedParcour } from 'requests/parcours';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
-import Spinner from 'components/Spinner/Spinner';
 import { useJobs } from 'requests/jobs';
 import { Jobs } from 'requests/types';
 import { useSecteurs } from 'requests/themes';
 import Trait from 'assets/images/trait_jaune.svg';
+import Spinner from 'components/Spinner/Spinner';
 import { isEmpty } from 'lodash';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
@@ -171,17 +171,23 @@ const JobsContainer = () => {
             loading={listAccLoading}
           />
         </div>
-        <div className={classes.boxsContainer}>
-          {(filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
-            <JobCard
-              key={el.id}
-              id={el.id}
-              title={el.title}
-              description={el.description}
-              accessibility={el.accessibility}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div>
+            <Spinner />
+          </div>
+        ) : (
+          <div className={classes.boxsContainer}>
+            {(filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
+              <JobCard
+                key={el.id}
+                id={el.id}
+                title={el.title}
+                description={el.description}
+                accessibility={el.accessibility}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -51,9 +51,10 @@ const PrivateHeader = ({ theme, activities }: Props) => {
               <>
                 <div className={classes.themeSelection}>
                   <Avatar
-                    size={60}
+                    size={90}
                     className={classes.themeAvatar}
                     avatarCircleBackground={theme.resources?.backgroundColor}
+                    circleClassName={classes.circleClassName}
                   >
                     <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
                   </Avatar>

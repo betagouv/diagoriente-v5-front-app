@@ -38,7 +38,7 @@ export default makeStyles<Theme>((theme) => ({
     marginTop: 40,
   },
   btn: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.success.main,
     height: 50,
     width: 'max-content',
     '&:hover': {

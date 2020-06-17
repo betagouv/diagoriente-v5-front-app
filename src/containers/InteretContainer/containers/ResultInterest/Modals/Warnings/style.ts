@@ -23,7 +23,6 @@ export default makeStyles<Theme>((theme) => ({
   description: {
     fontSize: 18,
     textAlign: 'center',
-    width: '70%',
   },
   subTitle: {
     fontSize: 14,

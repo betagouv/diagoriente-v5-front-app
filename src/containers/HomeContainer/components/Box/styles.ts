@@ -25,9 +25,9 @@ export default makeStyles<Theme, { color: string; colorText: string }>((theme) =
   },
   subTitleBox: {
     fontSize: 18,
-    width: '70%',
     textAlign: 'center',
     marginTop: 20,
+    whiteSpace: 'pre-wrap',
   },
   btn: {
     backgroundColor: (props) => props.color,

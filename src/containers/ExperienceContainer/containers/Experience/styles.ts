@@ -80,7 +80,7 @@ export default makeStyles((theme: Theme) =>
       marginTop: 41,
       marginBottom: 16,
       color: '#424242',
-      fontSize: 18,
+      fontSize: 14,
     },
 
     hideLine: {

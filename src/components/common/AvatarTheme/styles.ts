@@ -30,4 +30,7 @@ export default makeStyles<Theme, { size: number; avatarCircleBackground?: string
   titleSize: {
     fontSize: 12,
   },
+  checked: {
+    marginLeft: 10,
+  },
 }));

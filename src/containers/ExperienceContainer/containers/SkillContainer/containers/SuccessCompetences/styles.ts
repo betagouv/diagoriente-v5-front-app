@@ -32,8 +32,12 @@ export default makeStyles((theme) => ({
 
   titleClassName: {
     whiteSpace: 'nowrap',
+    fontSize: 14,
   },
 
+  classNameTitle: {
+    fontSize: 18,
+  },
   description: {
     marginTop: 20,
     marginBottom: 20,

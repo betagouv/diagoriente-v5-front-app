@@ -20,7 +20,7 @@ const GameContainer = () => {
         <div className={classes.btnContainer}>
           <Link to="/experience">
             <Button className={classes.btn}>
-              <div className={classes.btnLabel}>Commencer à ajouter mes expériences</div>
+              <div className={classes.btnLabel}>Je commence à ajouter mes expériences</div>
             </Button>
           </Link>
         </div>

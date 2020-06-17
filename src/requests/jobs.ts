@@ -48,6 +48,13 @@ export const jobQuery = gql`
       title
       description
       accessibility
+      competences {
+        _id {
+          id
+          title
+        }
+        weight
+      }
       interests {
         _id {
           nom
@@ -65,7 +72,9 @@ export interface JobResponse {
     title: string;
     description: string;
     accessibility: string;
+    competences: { _id: { id: string; title: string }; weight: number }[];
     interests: { _id: { nom: string; id: string }; __typename: string }[];
   };
 }
-export const useJob = (options: LazyQueryHookOptions<JobResponse> = {}) => useLocalLazyQuery<JobResponse>(jobQuery, options);
+export const useJob = (options: LazyQueryHookOptions<JobResponse> = {}) =>
+  useLocalLazyQuery<JobResponse>(jobQuery, options);

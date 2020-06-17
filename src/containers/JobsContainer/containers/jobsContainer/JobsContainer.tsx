@@ -124,7 +124,7 @@ const JobsContainer = () => {
         <div className={classes.subTitle}>Sélectionnés en fonction de tes réponses</div>
         <div className={classes.filtersContainer}>
           <div className={classes.filterTitleContainer}>
-            <div className={classes.titleFilter}>Filter :</div>
+            <div className={classes.titleFilter}>FILTRER :</div>
           </div>
           <Autocomplete
             options={filteredArray}

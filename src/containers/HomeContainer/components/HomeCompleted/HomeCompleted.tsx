@@ -1,6 +1,7 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
 import { Link } from 'react-router-dom';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
@@ -111,7 +112,7 @@ const HomeCompleted = () => {
         src={
           user?.logo
             ? user?.logo
-            : 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg'
+            : defaultAvatar
         }
       />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>

@@ -12,12 +12,12 @@ import parcoursContext from 'contexts/ParcourContext';
 import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
+
 import ModalContainerInfo from '../Modals/JobInfo';
-import AutoCompleteJ from 'components/inputs/AutoComplete/AutoComplete';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
 import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
 import Select from '../../components/Select/Select';
-
 import useStyles from './styles';
 
 const JobContainer = ({ location }: RouteComponentProps) => {
@@ -32,6 +32,13 @@ const JobContainer = ({ location }: RouteComponentProps) => {
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
+  const competences:any = [];
+  parcours?.skills.map((el) => {
+    el.competences.map((c) => {
+      competences.push(c);
+    });
+  });
+
   const d: any = [];
 
   if (data?.job && parcours?.families) {
@@ -47,7 +54,6 @@ const JobContainer = ({ location }: RouteComponentProps) => {
     setInfo(false);
     setOpenTest(false);
   };
-  const defaultLogo = 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg';
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>
@@ -133,7 +139,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             </div>
             <div className={classes.infoInterst}>
               <div className={classes.logo}>
-                <img src={user?.logo || defaultLogo} alt="" />
+                <img src={user?.logo || defaultAvatar} alt="" />
               </div>
               <div>
                 <span className={classes.infoInterestPurpleText}>
@@ -152,7 +158,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             <span className={classes.interestTitle}>Compétences</span>
             <span className={classes.descriptionTitle}>Voici les compétences associées à ce métier :</span>
           </div>
-          <Graph />
+          <Graph competencesrequises={data?.job.competences} />
           <div className={classes.headerInfo}>
             <Link to="/jobs">
               <div className={classes.back}>

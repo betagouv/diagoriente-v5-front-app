@@ -79,7 +79,7 @@ export interface UserParcour {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
     activities: { id: string; title: string; description: string };
-    competences: { _id: string; value: number };
+    competences: { _id: string; value: number }[];
   }[];
 }
 

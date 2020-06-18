@@ -138,9 +138,9 @@ const JobsContainer = () => {
           <div className={classes.logoContainer}>
             <img src={Logo} alt="log" />
           </div>
-          <Title title="MON TOP METIER" font="ocean" size={42} width={220} color="#DB8F00" image={Trait} />
+          <Title title="MON TOP METIERS" font="ocean" size={42} width={220} color="#DB8F00" image={Trait} />
         </div>
-        <div className={classes.subTitle}>Sélectionnés en fonction de tes réponses</div>
+        <div className={classes.subTitle}>Sélectionné en fonction de tes réponses</div>
         <div className={classes.filtersContainer}>
           <div className={classes.filterTitleContainer}>
             <div className={classes.titleFilter}>FILTRER :</div>

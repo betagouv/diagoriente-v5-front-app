@@ -1,0 +1,96 @@
+import React, { useContext, useState } from 'react';
+import parcoursContext from 'contexts/ParcourContext';
+import { useUpdateSkillsParcour } from 'requests/parcours';
+import { Redirect } from 'react-router-dom';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
+import CheckBox from 'components/inputs/CheckBox/CheckBox';
+import Button from 'components/button/Button';
+import useStyles from './style';
+
+const SelectModal = () => {
+  const classes = useStyles();
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const { parcours } = useContext(parcoursContext);
+  const [updateCall, updateState] = useUpdateSkillsParcour();
+  const isChecked = (id: string) => selectedThemes.includes(id);
+
+  const addTheme = (id: string) => {
+    const array = [...selectedThemes];
+    if (isChecked(id)) {
+      const index = array.indexOf(id);
+      array.splice(index, 1);
+      setSelectedThemes(array);
+    } else {
+      array.push(id);
+      setSelectedThemes(array);
+    }
+  };
+  const onValide = () => {
+    updateCall({ variables: { skillsAlgo: selectedThemes } });
+  };
+  if (updateState.data && !updateState.error) {
+    return <Redirect to="/jobs" />;
+  }
+  return (
+    <div className={classes.modalBody}>
+      <div className={classes.titleModal}>Encore une petite chose !</div>
+      <div className={classes.descriptionModal}>
+        <div>Pour nous aider à te proposer des domaines professionnels,</div>
+        <div>coche ce qui compte le plus pour toi dans tes expériences:</div>
+        <div className={classes.subTitle}>(Plusieurs choix possibles)</div>
+      </div>
+      <div className={classes.experienceContainer}>
+        <div className={classes.expContainer}>
+          <div className={classes.titlePerso}>Mes expériences perso</div>
+          <div className={classes.themesContainer}>
+            {parcours?.skills
+              .filter((p) => p.theme.type === 'personal')
+              .map((pr) => (
+                <div key={pr.theme.id} className={classes.themeContainer}>
+                  <Avatar size={65}>
+                    <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
+                  </Avatar>
+                  <div className={classes.themeTitle}>{pr.theme.title}</div>
+                  <CheckBox
+                    onChange={() => addTheme(pr.theme.id)}
+                    name={pr.theme.title}
+                    color="#00CFFF"
+                    checked={isChecked(pr.theme.id)}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className={classes.expContainer}>
+          <div className={classes.titlePro}>Mes expériences pro</div>
+          <div className={classes.themesContainer}>
+            {parcours?.skills
+              .filter((p) => p.theme.type === 'professional')
+              .map((pr) => (
+                <div key={pr.theme.id} className={classes.themeContainer}>
+                  <Avatar size={65} />
+                  <div className={classes.themeTitle}>{pr.theme.title}</div>
+                  <CheckBox
+                    onChange={() => addTheme(pr.theme.id)}
+                    name={pr.theme.title}
+                    color="#4D6EC5"
+                    checked={isChecked(pr.theme.id)}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+      <div className={classes.btnContainerModal}>
+        <Button className={classes.btn} onClick={onValide} fetching={updateState.loading}>
+          <div className={classes.btnLabel}>Valider</div>
+        </Button>
+      </div>
+      <div className={classes.aide}>
+        <div className={classes.aideText}>?</div>
+      </div>
+    </div>
+  );
+};
+
+export default SelectModal;

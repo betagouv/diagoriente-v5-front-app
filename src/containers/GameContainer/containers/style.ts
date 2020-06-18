@@ -13,6 +13,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    overflow: 'hidden',
   },
   frameOverlayContainer: {
     width: 1041,
@@ -22,13 +23,13 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   frame: {
     width: '100%',
     height: '100%',
   },
-  btnContainer: {
-  },
+  btnContainer: {},
   btn: {
     backgroundColor: '#00CFFF',
     '&:hover': {

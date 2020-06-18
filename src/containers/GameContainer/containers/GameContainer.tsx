@@ -14,7 +14,7 @@ const GameContainer = () => {
             title="game"
             className={classes.frame}
             frameBorder="0"
-            src="https://monbilansnu.beta.gouv.fr/game-diagoriente/"
+            src="https://diagoriente.beta.gouv.fr/new-game-diagoriente/"
           />
         </div>
         <div className={classes.btnContainer}>

@@ -81,6 +81,12 @@ export interface UserParcour {
     activities: { id: string; title: string; description: string };
     competences: { _id: Competence; value: number }[];
   }[];
+  globalCompetences: {
+    id: string;
+    title: string;
+    value: number;
+    count: number;
+  }[];
 }
 
 export interface Skill {

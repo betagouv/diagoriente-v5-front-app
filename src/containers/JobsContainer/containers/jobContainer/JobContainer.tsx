@@ -16,6 +16,7 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 
 import ModalContainerInfo from '../Modals/JobInfo';
+import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
 import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
 import Select from '../../components/Select/Select';
@@ -35,18 +36,16 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
   const competences: { _id: string; value: number }[] = [];
-  parcours?.skills.map((el) => {
+/*   parcours?.skills.map((el) => {
     el.competences.map((c) => {
-      const t = competences.find((o) => o._id === c._id);
+      const t = competences.find((o) => o._id === c._id.id);
       if (!t) {
         competences.push(c);
-      } else {
-        if (c.value > t.value) {
-          t.value = c.value;
-        }
+      } else if (c.value > t.value) {
+        t.value = c.value;
       }
     });
-  });
+  }); */
 
   const d: any = [];
   useOnclickOutside(divRef, () => {});
@@ -93,7 +92,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               <div className={classes.testContainer}>
                 <img src={TestImage} alt="" className={classes.testLogo} />
                 <div className={classes.textTest} onClick={() => setOpenTest(true)}>
-                  Es tu prêt.e ? Fais le test !
+                  Ce métier est-il fait pour toi ? Fais le test !
                 </div>
               </div>
             </div>
@@ -122,9 +121,11 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               placeholder="à Paris, Dijon, Lille..."
             />
             <div className={classes.btnImersionContainer}>
-              <Button className={classes.btnImersion}>
-                <div className={classes.btnLabel}>Chercher</div>
-              </Button>
+              <Link to={`/jobs/immersion/${param}`}>
+                <Button className={classes.btnImersion}>
+                  <div className={classes.btnLabel}>Chercher</div>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -142,7 +143,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
                 const res = nom && nom.replace(/\//g, '');
                 return (
                   <div className={classes.infoInterstDescription} key={el._id.id}>
-                    <div className={classes.gifInterest}></div>
+                    <div className={classes.gifInterest} />
                     <div className={classes.titleInterest}>{res}</div>
                   </div>
                 );
@@ -150,7 +151,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             </div>
             <div className={classes.infoInterst}>
               <div className={classes.logo}>
-                <img src={user?.logo || defaultAvatar} alt="" />
+                <img src={user?.logo || defaultAvatar} alt="" width={69} height={61} />
               </div>
               <div>
                 <span className={classes.infoInterestPurpleText}>
@@ -169,7 +170,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             <span className={classes.interestTitle}>Compétences</span>
             <span className={classes.descriptionTitle}>Voici les compétences associées à ce métier :</span>
           </div>
-          <Graph competencesrequises={data?.job.competences} competenceUser={competences} />
+          {/* <Graph competencesrequises={data?.job.competences} competenceUser={competences} /> */}
           <div className={classes.headerInfo}>
             <Link to="/jobs">
               <div className={classes.back}>
@@ -187,7 +188,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openInfo ? <ModalContainerInfo job={data?.job} /> : <div />}
+        {openInfo ? <ModalContainerInfo job={data?.job} /> : <ModalQuestion job={data?.job} />}
       </ModalContainer>
     </div>
   );

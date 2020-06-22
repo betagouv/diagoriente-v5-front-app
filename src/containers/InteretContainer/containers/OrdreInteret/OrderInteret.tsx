@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import RestLogo from 'components/common/Rest/Rest';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
@@ -20,7 +20,9 @@ const OrderInteret = () => {
   const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
   const [orderedArray, setOrderedArray] = useState([] as Families[]);
+
   const heights = [226, 216, 206, 196, 186];
+
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || 0); i += 1) {
@@ -61,7 +63,9 @@ const OrderInteret = () => {
             </Avatar>
             <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
           </div>
-          <RestLogo color="#420FAB" label="Annuler" />
+          <Link to="/interet">
+            <RestLogo color="#420FAB" label="Annuler" />
+          </Link>
         </div>
         <div className={classes.wrapper}>
           <div className={classes.subTitle}>

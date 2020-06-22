@@ -13,7 +13,7 @@ export function setAuthorizationBearer(nextToken: string) {
 const request = async (operation: Operation) => {
   operation.setContext({
     headers: {
-      authorization: token ? `Bearer ${token}` : '',
+      Authorization: token ? `Bearer ${token}` : '',
     },
   });
 };
@@ -45,7 +45,8 @@ export const client = new ApolloClient({
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path }) =>
-          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+        );
       }
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
@@ -53,5 +54,10 @@ export const client = new ApolloClient({
       uri: process.env.REACT_APP_BACKEND_URL,
     }),
   ]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: (o: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      o.id ? `${o.__typename}-${o.id}` : `${o.__typename}-${o.cursor}`;
+    },
+  } as any),
 });

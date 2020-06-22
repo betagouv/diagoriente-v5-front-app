@@ -19,6 +19,7 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     width: '100%',
     marginBottom: 10,
+    marginTop: 20,
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-end',

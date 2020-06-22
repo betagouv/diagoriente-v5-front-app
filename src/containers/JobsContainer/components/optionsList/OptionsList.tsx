@@ -9,18 +9,15 @@ interface Props {
   selected: string[] | undefined;
 }
 
-const OptionsList = ({ options, onSelectText, selected, name }: Props) => {
+const OptionsList = ({ options, onSelectText, selected }: Props) => {
   const classes = useStyles();
   const formattedData = options?.map((el: any) => ({ label: el && (el.title || el.name), id: el.id })) || [];
   const isInclude = (id: string) => selected && selected.includes(id);
   return (
     <div className={classes.root}>
       {formattedData.map((el) => (
-        <div
-          key={el.label}
-          className={classes.item}
-          onClick={() => onSelectText(name === 'accessibility' ? el.label : el.id)}
-        >
+        <div key={el.label} className={classes.item} onClick={() => onSelectText(el.id)}>
+          <div className={classes.mask} />
           <CheckBox name={el.label} checked={isInclude(el.id)} onChange={() => {}} color="#FFD382" />
           <div className={classes.itemText}>{el.label}</div>
         </div>

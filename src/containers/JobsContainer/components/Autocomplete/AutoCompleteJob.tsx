@@ -14,7 +14,7 @@ interface IProps {
   onSelectText: (e: string | undefined) => void;
   value: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   error?: boolean;
   errorText?: string;
   options: any;

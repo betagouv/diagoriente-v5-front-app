@@ -83,8 +83,9 @@ const ParcoursInteret = () => {
               <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
             </div>
           </div>
-
-          <RestLogo color="#420FAB" label="Annuler" />
+          <Link to="/interet">
+            <RestLogo color="#420FAB" label="Annuler" />
+          </Link>
         </div>
         <div className={classes.wrapper}>
           <div className={classes.circleContainer}>

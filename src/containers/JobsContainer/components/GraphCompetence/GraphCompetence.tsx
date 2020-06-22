@@ -1,0 +1,125 @@
+/* eslint-disable default-case */
+import React, { useState, useRef } from 'react';
+import { echelon } from 'utils/generic';
+import { useCompetence } from 'requests/competences';
+import Point from 'assets/svg/point.svg';
+import useStyles from './styles';
+
+interface Iprops {
+  competencesrequises: { _id: { id: string; title: string }; weight: number }[] | undefined;
+  competenceUser: { _id: string; value: number }[];
+}
+
+const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
+  const [select, setSelect] = useState('jobCompetence');
+
+  const classes = useStyles({ select });
+  const arrowRef = useRef(null as HTMLDivElement | null);
+  const { data: competences } = useCompetence();
+  const isExist = (id: string) => {
+    const res = competenceUser.some((el) => el._id === id);
+    return res;
+  };
+  let widthBlue = 0;
+
+  const getWidth = (id: string) => {
+    competenceUser.map((el) => {
+      if (el.value === 1 && el._id === id) widthBlue = 70.5;
+      if (el.value === 2 && el._id === id) widthBlue = 510 / 2 - 36;
+      if (el.value === 3 && el._id === id) widthBlue = 510 / 2 + 645 / 4 - 51.25;
+      if (el.value === 4 && el._id === id) widthBlue = 510 / 1;
+    });
+    return widthBlue;
+  };
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.header}>
+        <div className={classes.titleJobCompetence} onClick={() => setSelect('jobCompetence')}>
+          Les compétences requises pour ce métier
+        </div>
+        <div className={classes.titleParcoursCompetence} onClick={() => setSelect('parcoursCompetence')}>
+          Tes meilleures compétences pour ce métier
+        </div>
+      </div>
+      <div>
+        <div className={classes.echelonContainer}>
+          <div className={classes.echelon}>
+            <div className={classes.empty} />
+            {echelon.map((value) => (
+              <strong key={value} className={classes.echelonTitle}>
+                {value}
+              </strong>
+            ))}
+          </div>
+        </div>
+        <div className={classes.competencesContainer}>
+          {competences?.competences.data.map((competence) => {
+            let width = 0;
+            if (competencesrequises && competencesrequises?.length !== 0) {
+              const valueCompetence = competencesrequises.find((selected) => selected._id.id === competence.id);
+              if (valueCompetence) {
+                switch (valueCompetence.weight) {
+                  case 1:
+                    width = 70.5;
+                    break;
+                  case 2:
+                    width = 510 / 2 - 36;
+                    break;
+                  case 3:
+                    width = 510 / 2 + 645 / 4 - 51.25;
+                    break;
+                  case 4:
+                    width = 510 / 1;
+                    break;
+                }
+              }
+            }
+            return (
+              <div
+                key={competence.id}
+                className={
+                  select === 'parcoursCompetence' && !isExist(competence.id)
+                    ? classes.competencesValuesNotExist
+                    : classes.competencesValues
+                }
+              >
+                <p className={classes.competenceTitle}>{competence.title}</p>
+                <div
+                  className={
+                    select === 'parcoursCompetence' && isExist(competence.id)
+                      ? classes.arrowEchelonBlue
+                      : classes.arrowEchelon
+                  }
+                  ref={arrowRef}
+                >
+                  <div
+                    className={
+                      select === 'parcoursCompetence' && isExist(competence.id)
+                        ? classes.darkArrowEchelonBlue
+                        : classes.darkArrowEchelon
+                    }
+                    style={{
+                      width: `${
+                        select === 'parcoursCompetence' && isExist(competence.id) ? getWidth(competence.id) : width
+                      }px`,
+                    }}
+                  />
+                  {select === 'parcoursCompetence' && isExist(competence.id) && (
+                    <img
+                      src={Point}
+                      alt=""
+                      style={{ position: 'absolute', left: getWidth(competence.id) - 15, top: 24 }}
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default GraphCompetence;

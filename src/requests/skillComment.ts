@@ -30,7 +30,11 @@ export const addSkillCommentlMutation = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }

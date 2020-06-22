@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 import { MutationHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation } from 'hooks/apollo';
-import { UserParcour } from './types';
+import { UserParcour, Competence } from './types';
 
 export const addSkillMutation = gql`
   mutation AddSkill($theme: ID!, $activities: [ID]!, $competences: [skillCompetenceType]!) {
@@ -30,7 +30,11 @@ export const addSkillMutation = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }
@@ -41,7 +45,7 @@ export interface addSkillArguments {
   theme: string;
   activities: string[];
   competences: {
-    _id: string;
+    _id: Competence;
     value: number;
   }[];
 }

@@ -33,7 +33,11 @@ export const getUserParcourQuery = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }
@@ -76,7 +80,11 @@ export const updateFamiliesParcours = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }
@@ -137,7 +145,11 @@ export const updatePlayParcours = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }
@@ -182,7 +194,11 @@ export const updateCompletedParcours = gql`
           id
         }
         competences {
-          _id
+          _id {
+            title
+            rank
+            id
+          }
           value
         }
       }

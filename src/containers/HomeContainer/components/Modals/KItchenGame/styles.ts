@@ -23,7 +23,6 @@ export default makeStyles((theme) => ({
   subTitle: {
     fontSize: 18,
     textAlign: 'center',
-    width: '70%',
   },
   imageContainer: {
     marginTop: 15,

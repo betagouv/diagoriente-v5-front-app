@@ -8,6 +8,7 @@ import DrawerContext from 'contexts/DrawerContext';
 import UserContext from 'contexts/UserContext';
 import menu from 'assets/images/menu.png';
 import close from 'assets/svg/close.svg';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 
 import classNames from 'utils/classNames';
 
@@ -22,7 +23,9 @@ export interface Props {
   showUser: boolean;
 }
 
-const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
+const PrivateHeader = ({
+ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser,
+}: Props) => {
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
   const { user } = useContext(UserContext);
@@ -35,24 +38,18 @@ const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, class
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
-          <Link to="/">
+          <Link to="/" className={classes.logoContainer}>
             <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
           </Link>
         </div>
         {showUser && (
           <div className={classes.flexCenter}>
             <span className={classes.typography}>
-              {user?.profile.firstName} {user?.profile.lastName}
+              {user?.profile.firstName}
+              {' '}
+              {user?.profile.lastName}
             </span>
-            <img
-              src={
-                user?.logo
-                  ? user?.logo
-                  : 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg'
-              }
-              alt=""
-              height={39}
-            />
+            <img src={user?.logo ? user?.logo : defaultAvatar} alt="" height={39} />
           </div>
         )}
       </Toolbar>

@@ -22,6 +22,7 @@ export default makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       paddingLeft: 180,
       paddingRight: 180,
+      minHeight: 'auto !important',
       [theme.breakpoints.down('sm')]: {
         paddingRight: 20,
         paddingLeft: 20,

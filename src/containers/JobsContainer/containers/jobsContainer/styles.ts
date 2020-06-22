@@ -65,5 +65,13 @@ export default makeStyles<Theme>((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 40,
+    minHeight: 550,
+  },
+  spinnerContainer: {
+    minHeight: 550,
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 30,
+    width: '100%',
   },
 }));

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import parcoursContext from 'contexts/ParcourContext';
 import { useUpdateSkillsParcour } from 'requests/parcours';
 import { Redirect } from 'react-router-dom';
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import useStyles from './style';
@@ -47,13 +47,8 @@ const SelectModal = () => {
               .filter((p) => p.theme.type === 'personal')
               .map((pr) => (
                 <div key={pr.theme.id} className={classes.themeContainer}>
-                  <Avatar
-                    size={65}
-                    avatarCircleBackground={isChecked(pr.theme.id) ? pr.theme.resources?.backgroundColor : ''}
-                  >
-                    {isChecked(pr.theme.id) && (
-                      <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
-                    )}
+                  <Avatar size={65}>
+                    <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
                   </Avatar>
                   <div className={classes.themeTitle}>{pr.theme.title}</div>
                   <CheckBox
@@ -90,6 +85,9 @@ const SelectModal = () => {
         <Button className={classes.btn} onClick={onValide} fetching={updateState.loading}>
           <div className={classes.btnLabel}>Valider</div>
         </Button>
+      </div>
+      <div className={classes.aide}>
+        <div className={classes.aideText}>?</div>
       </div>
     </div>
   );

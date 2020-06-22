@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
 
 import { useThemes } from 'requests/themes';
-import Typography from '@material-ui/core/Typography/Typography';
 import Button from 'components/nextButton/nextButton';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import RestLogo from 'components/common/Rest/Rest';
@@ -13,7 +12,7 @@ import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import parcoursContext from 'contexts/ParcourContext';
 
 import blueline from 'assets/svg/blueline.svg';
-
+import classNames from 'utils/classNames';
 import { decodeUri } from 'utils/url';
 import { Theme } from 'requests/types';
 import useStyles from './styles';
@@ -74,15 +73,17 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                   <Grid key={theme.id} item xs={12} sm={3} md={2}>
                     <Avatar
                       title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-                      size={60}
+                      size={62}
                       titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
                       className={classes.circle}
                       onClick={() => showAvatar(theme)}
                       avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
                     >
-                      {selectedTheme?.id === theme.id && (
-                        <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} />
-                      )}
+                      <img
+                        src={theme.resources?.icon}
+                        alt=""
+                        className={classNames(classes.avatarStyle, selectedTheme?.id === theme.id && classes.selectedImg)}
+                      />
                     </Avatar>
                   </Grid>
                 ))}

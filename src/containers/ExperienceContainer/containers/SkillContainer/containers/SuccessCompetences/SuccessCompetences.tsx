@@ -7,11 +7,12 @@ import { useForm } from 'hooks/useInputs';
 import { validateEmail } from 'utils/validation';
 import { useAddSkillComment } from 'requests/skillComment';
 
-import Button from 'components/button/Button';
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Input from 'components/inputs/Input/Input';
 import Popup from 'components/common/Popup/Popup';
+import Button from 'components/button/Button';
+import CancelButton from 'components/cancelButton/CancelButton';
 
 import NameFormator from 'utils/NameFormator';
 import ParcourContext from 'contexts/ParcourContext';
@@ -133,7 +134,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
             Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
-        <Avatar title={theme.title} size={170}>
+        <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked>
           <img src={theme.resources?.icon} alt="" />
         </Avatar>
 
@@ -244,7 +245,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
             </Button>
           </div>
           <div className={classes.precedbutton} onClick={handlePreced}>
-            <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
+            <CancelButton />
             <span> Précedent</span>
           </div>
         </div>

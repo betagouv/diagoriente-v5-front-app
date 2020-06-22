@@ -11,7 +11,7 @@ interface IProps {
   onSelectText: (e: string | undefined) => void;
   value?: string[] | undefined;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   error?: boolean;
   errorText?: string;
   options: any[] | undefined;
@@ -22,6 +22,7 @@ interface IProps {
   onClick: () => void;
   fullSelect?: boolean;
   loading?: boolean;
+  reference: any;
 }
 
 const SelectJobs = ({
@@ -34,12 +35,13 @@ const SelectJobs = ({
   onSelectText,
   onClick,
   fullSelect,
+  reference,
 }: IProps) => {
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
   return (
-    <div onClick={onClick} className={classes.content}>
-      <div className={classes.inputWrapper}>
+    <div className={classes.content} ref={reference}>
+      <div className={classes.inputWrapper} onClick={onClick}>
         {fullSelect && (
           <div className={classes.menu}>
             <img src={Menu} alt="menu" />

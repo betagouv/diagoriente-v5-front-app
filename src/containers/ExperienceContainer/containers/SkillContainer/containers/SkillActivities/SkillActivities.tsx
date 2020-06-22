@@ -11,12 +11,12 @@ import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
+import CancelButton from 'components/cancelButton/CancelButton';
 
 import RestLogo from 'components/common/Rest/Rest';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
-import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
 
@@ -96,7 +96,7 @@ const ExperienceActivity = ({
           </Link>
         </div>
         <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
+          <CancelButton />
           Précedent
         </Link>
       </div>

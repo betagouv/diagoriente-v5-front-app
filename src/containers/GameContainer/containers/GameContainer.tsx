@@ -14,13 +14,13 @@ const GameContainer = () => {
             title="game"
             className={classes.frame}
             frameBorder="0"
-            src="https://monbilansnu.beta.gouv.fr/game-diagoriente/"
+            src="https://diagoriente.beta.gouv.fr/new-game-diagoriente/"
           />
         </div>
         <div className={classes.btnContainer}>
           <Link to="/experience">
             <Button className={classes.btn}>
-              <div className={classes.btnLabel}>Commencer à ajouter mes expériences</div>
+              <div className={classes.btnLabel}>Je commence à ajouter mes expériences</div>
             </Button>
           </Link>
         </div>

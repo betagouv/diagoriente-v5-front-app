@@ -131,4 +131,8 @@ export default makeStyles((theme) => ({
   subTitle: {
     fontSize: 14,
   },
+
+  size: {
+    fontSize: 18,
+  },
 }));

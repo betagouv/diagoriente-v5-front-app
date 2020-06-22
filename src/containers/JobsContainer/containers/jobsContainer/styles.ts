@@ -74,4 +74,40 @@ export default makeStyles<Theme>((theme) => ({
     marginTop: 30,
     width: '100%',
   },
+  messages: {
+    backgroundColor: '#fff1f6',
+    width: '100%',
+    height: 110,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  contentMessage: {
+    maxWidth: 1080,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  clearMessage: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  text: {
+    fontSize: 18,
+    width: '50%',
+    flex: 1,
+  },
+  clearText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    color: '#D60051',
+    paddingRight: 18,
+  },
+  clearTextBold: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#D60051',
+    textDecorationLine: 'underline',
+  },
 }));

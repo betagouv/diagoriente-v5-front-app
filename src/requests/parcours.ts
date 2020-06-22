@@ -202,6 +202,12 @@ export const updateCompletedParcours = gql`
           value
         }
       }
+      globalCompetences {
+        id
+        title
+        value
+        count
+      }
     }
   }
 `;

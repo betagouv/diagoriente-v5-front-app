@@ -174,7 +174,7 @@ export default makeStyles<Theme>((theme) => ({
   logo: {
     position: 'absolute',
     top: -40,
-    right: 105,
+    right: 112,
   },
   competenceInfo: {
     width: '100%',

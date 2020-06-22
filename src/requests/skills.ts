@@ -45,7 +45,7 @@ export interface addSkillArguments {
   theme: string;
   activities: string[];
   competences: {
-    _id: Competence;
+    _id: string;
     value: number;
   }[];
 }

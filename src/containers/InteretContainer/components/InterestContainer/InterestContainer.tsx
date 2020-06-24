@@ -53,6 +53,8 @@ const InterestContainer = ({
           marginTop={marginTop}
           circleClassName={circleClassName}
           textFamilleClassName={textFamilleClassName}
+          full={full}
+          footer
         />
       </div>
     </div>

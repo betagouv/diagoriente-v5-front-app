@@ -7,7 +7,7 @@ import useStyles from './styles';
 
 interface Iprops {
   competencesrequises: { _id: { id: string; title: string }; weight: number }[] | undefined;
-  competenceUser: { _id: string; value: number }[];
+  competenceUser: { id: string; value: number; count: number; title: string }[] | undefined;
 }
 
 const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
@@ -17,17 +17,24 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
   const arrowRef = useRef(null as HTMLDivElement | null);
   const { data: competences } = useCompetence();
   const isExist = (id: string) => {
-    const res = competenceUser.some((el) => el._id === id);
+    let res = false;
+    if (competenceUser?.length) {
+      competenceUser.map((el) => {
+        if (el.id === id && el.value !== 0) {
+          res = true;
+        }
+      });
+    }
     return res;
   };
   let widthBlue = 0;
 
   const getWidth = (id: string) => {
-    competenceUser.map((el) => {
-      if (el.value === 1 && el._id === id) widthBlue = 70.5;
-      if (el.value === 2 && el._id === id) widthBlue = 510 / 2 - 36;
-      if (el.value === 3 && el._id === id) widthBlue = 510 / 2 + 645 / 4 - 51.25;
-      if (el.value === 4 && el._id === id) widthBlue = 510 / 1;
+    competenceUser?.map((el) => {
+      if (el.value === 1 && el.id === id) widthBlue = 70.5;
+      if (el.value === 2 && el.id === id) widthBlue = 510 / 2 - 36;
+      if (el.value === 3 && el.id === id) widthBlue = 510 / 2 + 645 / 4 - 51.25;
+      if (el.value === 4 && el.id === id) widthBlue = 510 / 1;
     });
     return widthBlue;
   };

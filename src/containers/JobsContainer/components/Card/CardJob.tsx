@@ -33,7 +33,7 @@ const CardJob = ({
       )}
       <div className={classes.footerCard}>
         {accessibility && !selected && <div className={classes.accessibility}>{accessibility}</div>}
-        {!selected && <img src={fullHeart} alt="heart" />}
+        {!selected && <img src={fullHeart} className={classes.heartLogo} alt="heart" />}
       </div>
     </div>
   );

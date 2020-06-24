@@ -3,11 +3,13 @@ import useStyles from './styles';
 
 interface IProps {
   label: string;
-  checked: boolean;
+  checked?: boolean;
   onClick: () => void;
+  value?: string;
 }
 
-const CheckBox = ({ label, checked, onClick }: IProps) => {
+const CheckBox = ({ label, onClick, value }: IProps) => {
+  const checked = value === label;
   const classes = useStyles({ checked });
   return (
     <div className={classes.root} onClick={onClick}>

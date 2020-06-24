@@ -43,12 +43,31 @@ export default makeStyles<Theme>((theme) => ({
     padding: '27px 30px',
     marginTop: 10,
   },
+  switchMask: {
+    display: 'flex',
+  },
+  maskTitle: {
+    marginLeft: 13,
+  },
   bar: {
     color: '#C9C9C7',
   },
   filterMainTitle: {
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  filterTitle: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  TrierContainer: {
+    marginTop: 30,
+  },
+  distanceContainer: {
+    marginTop: 30,
+  },
+  tailleContainer: {
+    marginTop: 35,
   },
   boxSearch: {
     width: 286,

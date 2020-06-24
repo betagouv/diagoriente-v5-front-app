@@ -20,7 +20,7 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
       dragging={false}
       renderCenterLeftControls={({ previousSlide }) => (
         <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
-          <button
+          <div
             onClick={() => {
               if (currentIndex !== 0) {
                 previousSlide();
@@ -29,11 +29,11 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
             }}
             className={classNames(classes.containerBtn, classes.rotatedArrow)}
           >
-            <Arrow width="16" height="25" color="#fff" />
-          </button>
+            <Arrow width="15" height="24" color="#fff" className={classes.arrowCon} />
+          </div>
           <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleArrow}>Travailler...</div>
-            <div className={classes.bottomTitleArrow}>{data && data[currentIndex - 1]?.title}</div>
+            <div className={classes.topTitleLeftArrow}>Travailler...</div>
+            <div className={classes.bottomTitleLeftArrow}>{data && data[currentIndex - 1]?.title}</div>
           </div>
         </div>
       )}
@@ -42,10 +42,10 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
           className={classNames(currentIndex === data.length - 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
         >
           <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleArrow}>Travailler...</div>
-            <div className={classes.bottomTitleArrow}>{data && data[currentIndex + 1]?.title}</div>
+            <div className={classes.topTitleRightArrow}>Travailler...</div>
+            <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex + 1]?.title}</div>
           </div>
-          <button
+          <div
             onClick={() => {
               if (currentIndex !== data.length - 1) {
                 nextSlide();
@@ -54,8 +54,8 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
             }}
             className={classes.containerBtn}
           >
-            <Arrow width="16" height="25" color="#fff" />
-          </button>
+            <Arrow width="16" height="25" color="#fff" className={classes.arrowCon}  />
+          </div>
         </div>
       )}
       renderBottomCenterControls={null}

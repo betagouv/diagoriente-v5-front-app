@@ -1,12 +1,19 @@
 import React from 'react';
 import Button, { IProps } from 'components/button/Button';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import classNames from 'utils/classNames';
 
 import Arrow from 'assets/svg/arrow';
 
 import useStyles from './style';
 
-const NextButton = ({ className, ...props }: IProps) => {
+interface Props {
+  classNameTitle?: string;
+  ArrowColor?: string;
+  fetching?: boolean;
+}
+
+const NextButton = ({ className, classNameTitle, ArrowColor, fetching, ...props }: IProps & Props) => {
   const classes = useStyles();
   return (
     <Button
@@ -16,8 +23,13 @@ const NextButton = ({ className, ...props }: IProps) => {
       {...props}
     >
       <div className={classes.contentBtn}>
-        <div className={classes.btnLabel}>Suivant</div>
-        <Arrow color="#223A7A" width="12" height="12" />
+        <div className={classNames(classes.btnLabel, classNameTitle)}>Suivant</div>
+        <Arrow color={ArrowColor || '#223A7A'} width="12" height="12" />
+        {fetching && (
+          <div className={classes.loaderContainer}>
+            <CircularProgress classes={{ colorPrimary: classes.colorPrimaryLoader }} size={24} />
+          </div>
+        )}
       </div>
     </Button>
   );

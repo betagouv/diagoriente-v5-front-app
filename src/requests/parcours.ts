@@ -41,6 +41,12 @@ export const getUserParcourQuery = gql`
           value
         }
       }
+      globalCompetences {
+        id
+        title
+        value
+        count
+      }
     }
   }
 `;
@@ -201,12 +207,6 @@ export const updateCompletedParcours = gql`
           }
           value
         }
-      }
-      globalCompetences {
-        id
-        title
-        value
-        count
       }
     }
   }

@@ -24,7 +24,7 @@ const InterestContainer = ({
             <RestLogo color="#420FAB" size={20} />
           </div>
         )}
-        <Placeholder direction="vertical" size={36} famille={famille} />
+        <Placeholder direction="vertical" size={36} famille={famille} full={full} footer />
       </div>
     </div>
   );

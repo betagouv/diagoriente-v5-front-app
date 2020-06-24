@@ -19,7 +19,6 @@ export default makeStyles(() => ({
     alignItems: 'center',
   },
 
-
   btnLabel: {
     color: '#223A7A',
     textTransform: 'none',
@@ -32,5 +31,13 @@ export default makeStyles(() => ({
 
   margin: {
     margin: '0px 20px',
+  },
+  loaderContainer: {
+    marginLeft: 7,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  colorPrimaryLoader: {
+    color: '#fff',
   },
 }));

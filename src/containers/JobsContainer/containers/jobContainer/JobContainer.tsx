@@ -35,17 +35,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
-  const competences: { _id: string; value: number }[] = [];
-/*   parcours?.skills.map((el) => {
-    el.competences.map((c) => {
-      const t = competences.find((o) => o._id === c._id.id);
-      if (!t) {
-        competences.push(c);
-      } else if (c.value > t.value) {
-        t.value = c.value;
-      }
-    });
-  }); */
+  const competences = parcours?.globalCompetences;
 
   const d: any = [];
   useOnclickOutside(divRef, () => {});
@@ -171,7 +161,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
             <span className={classes.interestTitle}>Compétences</span>
             <span className={classes.descriptionTitle}>Voici les compétences associées à ce métier :</span>
           </div>
-          {/* <Graph competencesrequises={data?.job.competences} competenceUser={competences} /> */}
+          <Graph competencesrequises={data?.job.competences} competenceUser={competences} />
           <div className={classes.headerInfo}>
             <Link to="/jobs">
               <div className={classes.back}>

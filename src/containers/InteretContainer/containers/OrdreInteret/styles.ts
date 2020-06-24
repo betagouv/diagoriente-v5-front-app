@@ -85,13 +85,14 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: -20,
+    bottom: 0,
   },
   btn: {
     backgroundColor: theme.palette.success.main,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
     },
+    color: '#fff',
   },
   contentBtn: {
     display: 'flex',
@@ -102,6 +103,5 @@ export default makeStyles<Theme>((theme) => ({
   },
   btnLabel: {
     color: '#fff',
-    marginRight: 10,
   },
 }));

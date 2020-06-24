@@ -14,6 +14,8 @@ interface IProps {
   textFamilleClassName?: string;
   className?: string;
   marginTop?: number;
+  full?: boolean;
+  footer?: boolean;
 }
 
 const Placeholder = ({
@@ -25,8 +27,12 @@ const Placeholder = ({
   circleClassName,
   marginTop,
   textFamilleClassName,
+  full,
+  footer,
 }: IProps) => {
-  const classes = useStyles({ direction, size, marginTop });
+  const classes = useStyles({
+ direction, size, marginTop, full, footer,
+});
   const nom = famille?.nom;
   const res = nom && nom.replace(/\//g, '');
   return (

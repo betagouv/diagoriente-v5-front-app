@@ -10,6 +10,7 @@ import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
 import ParcourContext from 'contexts/ParcourContext';
+import NextButton from 'components/nextButton/nextButton';
 import InterestContainer from '../../components/InterestContainer/InterestContainer';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
@@ -93,12 +94,12 @@ const OrderInteret = () => {
             {renderPlaceholder()}
           </div>
           <div className={classes.btnContainer}>
-            <Button className={classes.btn} fetching={updateState.loading} onClick={onUpdate}>
-              <div className={classes.contentBtn}>
-                <div className={classes.btnLabel}>Suivant</div>
-                <Arrow color="#fff" width="12" height="12" />
-              </div>
-            </Button>
+            <NextButton
+              fetching={updateState.loading}
+              onClick={onUpdate}
+              className={classes.btn}
+              classNameTitle={classes.btnLabel}
+            />
           </div>
         </div>
       </div>

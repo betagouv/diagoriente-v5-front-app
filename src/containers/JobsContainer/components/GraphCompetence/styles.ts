@@ -110,7 +110,7 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     alignItems: 'center',
-    width: 645,
+    width: 685,
     height: 67,
     cursor: 'pointer',
   },
@@ -120,10 +120,10 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
     backgroundImage: `url(${darkYellowrrow})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    top: 0,
+    top: 1,
     left: 0,
     bottom: 0,
-    height: 85,
+    height: 90,
   },
 
   arrow: {

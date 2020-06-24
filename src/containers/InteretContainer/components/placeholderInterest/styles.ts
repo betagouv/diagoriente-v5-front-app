@@ -1,6 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: number }>((theme) => ({
+export default makeStyles<
+  Theme,
+  { direction: 'vertical' | 'horizontal'; size?: number; full?: boolean; footer?: boolean }
+>((theme) => ({
   root: {
     display: 'flex',
     flexDirection: (props) => (props.direction === 'horizontal' ? 'row' : 'column'),
@@ -17,8 +20,8 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    opacity: 0.5,
+    backgroundColor: (props) => (props.footer ? '#A275FF' : '#fff'),
+    opacity: (props) => (props.footer ? 0.3 : 0.5),
     marginBottom: (props) => (props.direction === 'horizontal' ? 0 : 10),
   },
   number: {
@@ -35,7 +38,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: 
     width: 54,
     height: 11,
     opacity: 0.2,
-    backgroundColor: '#fff',
+    backgroundColor: (props) => (props.footer ? '#A275FF' : '#fff'),
     margin: 2,
   },
   smallElement: {
@@ -43,7 +46,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; size?: 
     height: 11,
     opacity: 0.2,
     margin: 2,
-    backgroundColor: '#fff',
+    backgroundColor: (props) => (props.footer ? '#A275FF' : '#fff'),
   },
   textFamille: {
     fontSize: 12,

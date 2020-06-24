@@ -19,6 +19,7 @@ export default makeStyles<Theme>((theme) => ({
   item: {
     width: '100%',
     height: '100%',
+    outline: 'none',
   },
   titleContainer: {
     marginBottom: 30,
@@ -84,6 +85,7 @@ export default makeStyles<Theme>((theme) => ({
     cursor: 'pointer',
     outline: 'none',
     borderStyle: 'hidden',
+    paddingLeft: 5,
     '&:active': {
       borderStyle: 'hidden',
     },
@@ -92,9 +94,19 @@ export default makeStyles<Theme>((theme) => ({
     transform: 'rotate(180deg)',
   },
   titleContainerArrow: { margin: '0px 10px', width: 124 },
-  topTitleArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main },
-  bottomTitleArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main },
+  topTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
+  topTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'right' },
+  bottomTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  bottomTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'right' },
+
   hide: {
     display: 'none',
+  },
+  arrowCon: {
+    width: 25,
+    height: 25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));

@@ -9,12 +9,12 @@ interface IProps {
   direction: 'horizontal' | 'vertical';
   size?: number;
   famille?: Families;
+  full?: boolean;
+  footer?: boolean;
 }
 
-const Placeholder = ({
-  index, direction, size, famille,
-}: IProps) => {
-  const classes = useStyles({ direction, size });
+const Placeholder = ({ index, direction, size, famille, full, footer }: IProps) => {
+  const classes = useStyles({ direction, size, full, footer });
   const nom = famille?.nom;
   const res = nom && nom.replace(/\//g, '');
   return (

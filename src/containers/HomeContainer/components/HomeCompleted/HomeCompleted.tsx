@@ -135,7 +135,7 @@ const HomeCompleted = () => {
         }
       />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>
-      <Link className={classes.link} to="/profile">
+      <Link className={classes.link} to="/profil">
         Voir mon profil
       </Link>
       <div className={classes.content}>

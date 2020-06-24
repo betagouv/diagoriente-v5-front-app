@@ -8,6 +8,7 @@ export interface User {
   played: boolean;
   isActive: boolean;
   logo: string;
+  location: string;
 }
 
 export interface Token {
@@ -78,7 +79,7 @@ export interface UserParcour {
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
-    activities: { id: string; title: string; description: string };
+    activities: { id: string; title: string; description: string }[];
     competences: { _id: Competence; value: number }[];
   }[];
   globalCompetences: {

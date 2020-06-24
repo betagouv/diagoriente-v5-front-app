@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import Route from 'components/ui/Route/Route';
+import { Switch } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NotFoundPage from 'components/layout/NotFoundPage';
 
@@ -15,7 +16,7 @@ const theme = createMuiTheme({
     secondary: { main: '#00CFFF' },
     info: { main: '#011A5E' },
     background: {
-      default: '#4D6EC5',
+      default: '#D60051',
     },
   },
   overrides: {
@@ -44,10 +45,9 @@ const theme = createMuiTheme({
 const Profil = () => (
   <ThemeProvider theme={theme}>
     <Switch>
-      <Route exact path="/profil" component={ProfilComponent} />
-      <Route exact path="/profil/experience" component={ExperienceProfil} />
-      <Route exact path="/profil/interet" component={InteretProfil} />
-
+      <Route protected exact path="/profil" component={ProfilComponent} />
+      <Route protected exact path="/profil/experience" component={ExperienceProfil} />
+      <Route protected exact path="/profil/interet" component={InteretProfil} />
       <Route component={NotFoundPage} />
     </Switch>
   </ThemeProvider>

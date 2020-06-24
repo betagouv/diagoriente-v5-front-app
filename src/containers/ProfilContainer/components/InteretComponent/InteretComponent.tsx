@@ -42,7 +42,7 @@ const InteretComponent = () => {
       </div>
       <Link to="/interet/ordre">
         <Button className={classes.btn}>
-          <span className={classes.textButton}>Je modifie mes centres d’intérêt</span>
+          <span className={classes.textButton}>Je modifie mes centres d’intérêts</span>
         </Button>
       </Link>
     </div>

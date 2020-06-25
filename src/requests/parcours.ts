@@ -37,6 +37,10 @@ export const getUserParcourQuery = gql`
             title
             rank
             id
+            niveau {
+              title
+              sub_title
+            }
           }
           value
         }

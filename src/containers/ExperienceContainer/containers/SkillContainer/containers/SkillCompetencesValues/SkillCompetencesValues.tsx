@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Tooltip } from '@material-ui/core';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { CompetenceValues, Competence } from 'requests/types';
+import { CompetenceValues, Competence, Theme } from 'requests/types';
 
 import { echelon, echelonValue } from 'utils/generic';
 
@@ -27,6 +27,8 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   competences: Competence[];
   addSkill: () => void;
   addSkillState: boolean;
+  theme: Theme | null;
+
 }
 
 const SkillCompetencesValues = ({
@@ -37,6 +39,7 @@ const SkillCompetencesValues = ({
   addSkill,
   addSkillState,
   history,
+  theme,
 }: Props) => {
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
@@ -69,7 +72,7 @@ const SkillCompetencesValues = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
+          <Title title={theme && theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'} color="#223A7A" size={26} />
           <RestLogo
             onClick={() => {
               history.replace('/experience');

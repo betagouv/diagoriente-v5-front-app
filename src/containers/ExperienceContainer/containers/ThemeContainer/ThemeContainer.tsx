@@ -48,7 +48,11 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={42} />
+          <Title
+            title={type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            color="#223A7A"
+            size={42}
+          />
           <RestLogo
             onClick={() => {
               history.replace('/experience');
@@ -82,7 +86,10 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                       <img
                         src={theme.resources?.icon}
                         alt=""
-                        className={classNames(classes.avatarStyle, selectedTheme?.id === theme.id && classes.selectedImg)}
+                        className={classNames(
+                          classes.avatarStyle,
+                          selectedTheme?.id === theme.id && classes.selectedImg,
+                        )}
                       />
                     </Avatar>
                   </Grid>

@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<
   Theme,
-  { direction: 'vertical' | 'horizontal'; size?: number; full?: boolean; footer?: boolean }
+  { direction: 'vertical' | 'horizontal'; size?: number; marginTop?: number; footer?: boolean; full?: boolean }
 >((theme) => ({
   root: {
     display: 'flex',
@@ -10,6 +10,7 @@ export default makeStyles<
     alignItems: 'center',
     margin: (props) => (props.direction === 'horizontal' ? '5px 36px 5px 0px' : 0),
     width: (props) => (props.direction === 'vertical' ? '100%' : 'auto'),
+    marginTop: (props) => props.marginTop,
   },
   circle: {
     width: (props) => props.size || 77,

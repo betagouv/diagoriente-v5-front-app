@@ -7,6 +7,7 @@ import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
 import Button from 'components/button/Button';
 
 import medaille from 'assets/svg/medaille.svg';
+import LogoLocation from 'assets/form/location.png';
 
 import useStyles from './styles';
 
@@ -54,7 +55,10 @@ const SecondRecommendation = () => {
           placeholder="paris"
           options={[]}
           onSelectText={onSelect}
+          icon={LogoLocation}
+
         />
+
       </div>
       <div className={classes.btnContainerModal}>
         <Link to="location/done">

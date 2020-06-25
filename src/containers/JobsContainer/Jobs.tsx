@@ -27,7 +27,7 @@ const Jobs = () => {
       <ClearMessageContext.Provider value={{ clearMessage, setClearMessage }}>
         <Switch>
           <Route protected exact path="/jobs" component={JobsContainer} />
-          <Route protected path="/:id" component={ImmersionContainer} />
+          <Route protected path="/:id" component={JobContainer} />
           <Route protected path="/immersion/:id" component={ImmersionContainer} />
           <Route component={NotFoundPage} />
         </Switch>

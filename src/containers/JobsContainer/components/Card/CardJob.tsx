@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'components/button/Button';
 import fullHeart from 'assets/svg/fullHeart.svg';
+import OutLine from 'assets/svg/outlineHeart.svg';
+
 import useStyles from './style';
 
 interface IProps {
@@ -9,10 +11,9 @@ interface IProps {
   description: string;
   accessibility: string;
   id: string;
+  favoris: any;
 }
-const CardJob = ({
-  title, description, accessibility, id,
-}: IProps) => {
+const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => {
   const [selected, setSelected] = useState(false);
   const onHover = () => setSelected(true);
   const onLeave = () => setSelected(false);
@@ -33,7 +34,7 @@ const CardJob = ({
       )}
       <div className={classes.footerCard}>
         {accessibility && !selected && <div className={classes.accessibility}>{accessibility}</div>}
-        {!selected && <img src={fullHeart} className={classes.heartLogo} alt="heart" />}
+        {!selected && <img src={favoris ? fullHeart : OutLine} className={classes.heartLogo} alt="heart" />}
       </div>
     </div>
   );

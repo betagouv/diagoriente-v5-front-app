@@ -3,7 +3,7 @@ import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { useUpdateCompletedParcour } from 'requests/parcours';
+import { useUpdateParcour } from 'requests/parcours';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
@@ -29,7 +29,7 @@ const JobsContainer = () => {
   const { parcours, setParcours } = useContext(ParcoursContext);
   const { clearMessage, setClearMessage } = useContext(ClearMessageContext);
 
-  const [updateCompleteCall, updateCompeteState] = useUpdateCompletedParcour();
+  const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
   const [search, setSearch] = useState<string | undefined>('');
   const [environments, setJob] = useState<string[] | undefined>([]);
@@ -227,6 +227,7 @@ const JobsContainer = () => {
                   title={el.title}
                   description={el.description}
                   accessibility={el.accessibility}
+                  favoris={el.favorite}
                 />
               ))}
             </div>

@@ -129,4 +129,12 @@ export interface Jobs {
   formations: string[];
   environments: string[];
   questionJobs: { _id: string; label: string }[];
+  favorite: string;
+}
+export interface Favoris {
+  id: string;
+  user: string;
+  parcour: string;
+  job: string;
+  interested: boolean;
 }

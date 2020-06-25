@@ -32,6 +32,9 @@ export const jobsQuery = gql`
       questionJobs {
         id
       }
+      favorite{
+        id
+      }
     }
   }
 `;
@@ -62,6 +65,9 @@ export const jobQuery = gql`
         }
         __typename
       }
+      favorite{
+        id
+      }
     }
   }
 `;
@@ -74,6 +80,7 @@ export interface JobResponse {
     accessibility: string;
     competences: { _id: { id: string; title: string }; weight: number }[];
     interests: { _id: { nom: string; id: string }; __typename: string }[];
+    favorite: any;
   };
 }
 export const useJob = (options: LazyQueryHookOptions<JobResponse> = {}) =>

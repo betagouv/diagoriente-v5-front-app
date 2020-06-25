@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import parcoursContext from 'contexts/ParcourContext';
-import { useUpdateSkillsParcour } from 'requests/parcours';
+import { useUpdateParcour } from 'requests/parcours';
 import { Redirect } from 'react-router-dom';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
@@ -11,7 +11,7 @@ const SelectModal = () => {
   const classes = useStyles();
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const { parcours } = useContext(parcoursContext);
-  const [updateCall, updateState] = useUpdateSkillsParcour();
+  const [updateCall, updateState] = useUpdateParcour();
   const isChecked = (id: string) => selectedThemes.includes(id);
 
   const addTheme = (id: string) => {

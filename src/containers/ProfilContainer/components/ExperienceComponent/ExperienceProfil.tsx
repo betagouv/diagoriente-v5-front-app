@@ -1,12 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDeleteSkill } from 'requests/skills';
+import { UserParcour } from 'requests/types';
 
 import { decodeUri } from 'utils/url';
 
 import parcoursContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 import Grid from '@material-ui/core/Grid';
+import Recommendation from 'components/ui/RecommendationModal/RecommendationModal';
 
 import NotFoundPage from 'components/layout/NotFoundPage';
 import Title from 'components/common/Title/Title';
@@ -16,8 +18,19 @@ import Arrow from '../Arrow/Arrow';
 
 import useStyles from './styles';
 
+export type Unpacked<T> = T extends (infer U)[]
+  ? U
+  : T extends (...args: any[]) => infer U
+  ? U
+  : T extends Promise<infer U>
+  ? U
+  : T;
+
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [skill, setSkill] = useState(null as Unpacked<UserParcour['skills']> | null);
+
   const { parcours, setParcours } = useContext(parcoursContext);
   const type = decodeUri(location.search).type || 'personal';
   const [deleteSkill, stateSkill] = useDeleteSkill();
@@ -27,12 +40,14 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   }, [stateSkill.data]);
 
   const onEdit = (id: string) => {
-    const selectedSkill = parcours?.skills.find((skill) => skill.id === id);
+    const selectedSkill = parcours?.skills.find((s) => s.id === id);
     if (selectedSkill) history.push(`/experience/skill/${selectedSkill.theme.id}`);
   };
 
   const handleRecommendation = (id: string) => {
-    history.push(`/recommendation`);
+    const selectedSkill = parcours?.skills.find((s) => s.id === id) || null;
+    setSkill(selectedSkill);
+    setOpen(true);
   };
 
   const onDelete = (id: string) => {
@@ -93,6 +108,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
           </Link>
         </Grid>
       </div>
+      {skill && <Recommendation skill={skill} open={open} setOpen={setOpen} />}
     </div>
   );
 };

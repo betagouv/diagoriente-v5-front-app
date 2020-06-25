@@ -71,6 +71,7 @@ export const loginMutation = gql`
         id
         email
         logo
+        location
         profile {
           firstName
           lastName
@@ -164,6 +165,7 @@ export const resetMutation = gql`
         id
         email
         logo
+        location
         profile {
           firstName
           lastName

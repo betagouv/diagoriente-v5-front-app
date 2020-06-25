@@ -27,7 +27,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 }
 
 const ExperienceActivity = ({
- match, activities, setActivities, history,
+ match, activities, setActivities, history, theme,
 }: Props) => {
   const classes = useStyles();
 
@@ -45,7 +45,7 @@ const ExperienceActivity = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
+          <Title title={theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'} color="#223A7A" size={26} />
           <RestLogo
             onClick={() => {
               history.replace('/experience');

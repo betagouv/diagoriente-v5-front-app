@@ -8,36 +8,6 @@ export const addSkillCommentlMutation = gql`
   mutation AddSkillComment($firstName: String!, $lastName: String!, $email: String!, $text: String!, $id: ID!) {
     addSkillComment(firstName: $firstName, lastName: $lastName, email: $email, text: $text, id: $id) {
       id
-      played
-      families {
-        id
-        nom
-      }
-      skills {
-        id
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-          }
-          value
-        }
-      }
     }
   }
 `;

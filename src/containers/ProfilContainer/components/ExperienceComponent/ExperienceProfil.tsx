@@ -80,7 +80,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
           {parcours?.skills
             .filter((p) => p.theme.type === type)
             .map((skill) => (
-              <Grid item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
+              <Grid key={skill.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
                 <Card
                   edit={onEdit}
                   recommendation={handleRecommendation}
@@ -88,9 +88,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                   id={skill.id}
                   competence={skill.competences}
                   title={skill.theme.title}
-                >
-                  Prendre en compte les codes sociaux
-                </Card>
+                />
               </Grid>
             ))}
 

@@ -32,8 +32,9 @@ export const jobsQuery = gql`
       questionJobs {
         id
       }
-      favorite{
+      favorite {
         id
+        interested
       }
     }
   }
@@ -67,6 +68,7 @@ export const jobQuery = gql`
       }
       favorite{
         id
+        interested
       }
     }
   }

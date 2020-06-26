@@ -8,14 +8,14 @@ import editIcon from 'assets/svg/editblue.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
 import removeIcon from 'assets/svg/delete.svg';
 
+import { Competence } from 'requests/types';
 import useStyles from './styles';
 
 interface Props {
   className?: string;
   title: string;
   logo?: string;
-  children: React.ReactChild;
-  competence?: any;
+  competence: { _id: Competence; value: number }[];
   id: string;
   edit?: (id: string) => void;
   remove?: (id: string) => void;
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const Card = ({
- title, children, className, competence, id, edit, remove, recommendation,
+ title, className, competence, id, edit, remove, recommendation,
 }: Props) => {
   const classes = useStyles();
   const Tab = [
@@ -56,9 +56,9 @@ const Card = ({
           <Circle size={55} />
           <span className={classes.title}>{title}</span>
         </div>
-        {competence.map((comp: any) => (
-          <div className={classes.childrenCardContainer}>
-            <div className={classes.childrenCard}>{children}</div>
+        {competence.map((comp) => (
+          <div key={comp._id.id} className={classes.childrenCardContainer}>
+            <div className={classes.childrenCard}>{comp._id.title}</div>
 
             <Echelon
               tooltipClassName={classes.tooltip}
@@ -73,7 +73,7 @@ const Card = ({
       </div>
       <div className={classes.footerCardContainer}>
         {Tab.map((e) => (
-          <Button onClick={e.onClick} text={e.text} icon={e.icon} />
+          <Button key={e.text} onClick={e.onClick} text={e.text} icon={e.icon} />
         ))}
       </div>
     </div>

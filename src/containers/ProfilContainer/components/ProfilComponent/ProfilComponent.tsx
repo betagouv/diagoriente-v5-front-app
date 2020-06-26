@@ -1,5 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useJobs } from 'requests/jobs';
+import { useDidMount } from 'hooks/useLifeCycle';
 import { Families, Jobs } from 'requests/types';
 
 import Carousel from 'nuka-carousel';
@@ -35,15 +36,23 @@ const ProfilComponent = () => {
 
   const [callJobs, stateJobs] = useJobs();
 
-  const dataJob: Jobs[] = [];
-  if (stateJobs.data) {
-    for (let i = 0; i <= 5; i += 1) {
-      dataJob.push(stateJobs.data.myJobs[i]);
+  useDidMount(() => {
+    callJobs();
+  });
+
+  const persoSkills = parcours?.skills.filter((p) => p.theme.type === 'personal') || [];
+
+  const proSkills = parcours?.skills.filter((p) => p.theme.type === 'professional') || [];
+
+  const topJobs: Jobs[] = [];
+  if (stateJobs.data && stateJobs.data.myJobs.length) {
+    const showNumber = stateJobs.data.myJobs.length > 5 ? 5 : stateJobs.data.myJobs.length;
+    for (let i = 0; i <= showNumber; i += 1) {
+      topJobs.push(stateJobs.data.myJobs[i]);
     }
   }
-  useEffect(() => {
-    callJobs();
-  }, []);
+
+  const favoriteJobs = stateJobs.data?.myJobs.filter((job) => job.favorite && job.favorite.interested) || [];
 
   const allCard = [
     {
@@ -76,6 +85,8 @@ const ProfilComponent = () => {
             <div className={classes.circleContainer}>
               {[...new Array(slideCount)].map((count, index) => (
                 <div
+                  // eslint-disable-next-line
+                  key={index}
                   className={classNames(
                     classes.carouselCircle,
                     index === currentSlide && classes.currentCarouselCircle,
@@ -85,42 +96,43 @@ const ProfilComponent = () => {
             </div>
           )}
           dragging={false}
-          renderCenterLeftControls={({ previousSlide }) => (
-            <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
-              <Arrow
-                onClick={() => {
-                  if (currentIndex !== 0) {
-                    previousSlide();
-                    setCurrentIndex(currentIndex - 1);
-                  }
-                }}
-                width="14"
-                height="14"
-                color="#7533FF"
-                className={classes.rotatedArrow}
-              />
-            </div>
-          )}
-          renderCenterRightControls={({ nextSlide }) => (
-            <div className={classNames(currentIndex === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}>
-              <Arrow
-                onClick={() => {
-                  if (currentIndex !== 1) {
-                    nextSlide();
-                    setCurrentIndex(currentIndex + 1);
-                  }
-                }}
-                width="14"
-                height="14"
-                color="#7533FF"
-              />
-            </div>
-          )}
+          renderCenterLeftControls={({ previousSlide }) =>
+            (parcours && parcours.families.length > 4 ? (
+              <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
+                <Arrow
+                  onClick={() => {
+                    if (currentIndex !== 0) {
+                      previousSlide();
+                      setCurrentIndex(currentIndex - 1);
+                    }
+                  }}
+                  width="14"
+                  height="14"
+                  color="#7533FF"
+                  className={classes.rotatedArrow}
+                />
+              </div>
+            ) : null)}
+          renderCenterRightControls={({ nextSlide }) =>
+            (parcours && parcours.families.length > 4 ? (
+              <div className={classNames(currentIndex === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}>
+                <Arrow
+                  onClick={() => {
+                    if (currentIndex !== 1) {
+                      nextSlide();
+                      setCurrentIndex(currentIndex + 1);
+                    }
+                  }}
+                  width="14"
+                  height="14"
+                  color="#7533FF"
+                />
+              </div>
+            ) : null)}
           className={classes.root}
         >
           {parcours?.families
             .reduce((result, family) => {
-              // [[1 2 3],[4 5 6],[7]]
               if (result[result.length - 1] && result[result.length - 1].length < 3) {
                 result[result.length - 1].push(family);
               } else {
@@ -128,10 +140,10 @@ const ProfilComponent = () => {
               }
               return result;
             }, [] as Families[][])
-            .map((families) => (
-              <Grid container style={{ padding: '40px' }}>
+            .map((families, index) => (
+              <Grid key={index} container style={{ padding: '40px' }}>
                 {families.map((family) => (
-                  <Grid xs={4} sm={4} className={classes.themeSelection}>
+                  <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
                     <Circle size={70} />
                     <p className={classes.themeTile}>{family.nom.replace(new RegExp('[//,]', 'g'), '\n')}</p>
                   </Grid>
@@ -163,25 +175,21 @@ const ProfilComponent = () => {
       title: 'MES EXPERIENCES PERSONNELLES',
       background: '#4D6EC5',
       color: '#fff',
-      xs: 4,
-      sm: 4,
       childrenCardClassName: classes.calcPaddingTop,
       path: '/profil/experience',
       className: classes.experienceCard,
-      children: (
+      children: persoSkills.length ? (
         <Grid container spacing={1}>
-          {parcours?.skills
-            .filter((p) => p.theme.type === 'personal')
-            .map((theme) => (
-              <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
-                <div className={classes.themeSelection}>
-                  <Circle size={70} />
-                  <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
-                </div>
-              </Grid>
-            ))}
+          {persoSkills.map((theme) => (
+            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+              <div className={classes.themeSelection}>
+                <Circle size={70} />
+                <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
+              </div>
+            </Grid>
+          ))}
         </Grid>
-      ),
+      ) : null,
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
@@ -189,30 +197,23 @@ const ProfilComponent = () => {
       title: 'MES EXPERIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
-      xs: 4,
-      sm: 4,
       childrenCardClassName: classes.calcPaddingTop,
       path: '/profil/experience?type=professional',
       className: classes.experienceCard,
-      children: (
+      children: proSkills.length ? (
         <Grid container spacing={1}>
-          {parcours?.skills
-            .filter((p) => p.theme.type === 'professional')
-            .map((theme) => (
-              <Grid item xs={4} sm={4} key={theme.id}>
-                <div className={classes.themeSelection}>
-                  <Circle size={70} />
-                  <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
-                </div>
-              </Grid>
-            ))}
+          {proSkills.map((theme) => (
+            <Grid item xs={4} sm={4} key={theme.id}>
+              <div className={classes.themeSelection}>
+                <Circle size={70} />
+                <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
+              </div>
+            </Grid>
+          ))}
         </Grid>
-      ),
+      ) : null,
     },
-    {
-      xs: 4,
-      sm: 4,
-    },
+    {},
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
@@ -220,27 +221,30 @@ const ProfilComponent = () => {
       background: '#FFD382',
       color: '#424242',
       logo: star,
-      children: dataJob.map((j) => (
-        <div className={classes.favoriContainer}>
-          <img src={littlestar} alt="" height={20} />
-          <div className={classes.job}>{j.title}</div>
-        </div>
-      )),
+      children: topJobs.length
+        ? topJobs.map((j) => (
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littlestar} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
+          ))
+        : null,
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-
       title: 'MES METIERS FAVORIS',
       background: '#FFD382',
       color: '#424242',
       logo: heart,
 
-      children: dataJob.map((j) => (
-        <div className={classes.favoriContainer}>
-          <img src={littleheart} alt="" height={20} />
-          <div className={classes.job}>{j.title}</div>
-        </div>
-      )),
+      children: favoriteJobs.length
+        ? favoriteJobs.map((j) => (
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littleheart} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
+          ))
+        : null,
     },
     /*  {
       titleCard: <div className={classes.emptyDiv} />,
@@ -256,13 +260,9 @@ const ProfilComponent = () => {
       <Title title="MON PROFIL" color="#424242" size={18} font="42" className={classes.title} />
       <div className={classes.cardGridContainer}>
         <Grid container spacing={3}>
-          {allCard.map((e) => (
-            <Grid
-              item
-              xs={(e.xs as any) || 4}
-              sm={(e.sm as any) || 4}
-              className={classNames(classes.cardGrid, e.className)}
-            >
+          {allCard.map((e, index) => (
+            // eslint-disable-next-line
+            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid, e.className)}>
               {e.title && e.background && e.children && (
                 <Card
                   className={classes.cardClassName}

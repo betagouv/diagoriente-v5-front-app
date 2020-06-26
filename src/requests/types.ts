@@ -130,7 +130,10 @@ export interface Jobs {
   formations: string[];
   environments: string[];
   questionJobs: { _id: string; label: string }[];
-  favorite: string;
+  favorite?: {
+    id: string;
+    interested: boolean;
+  };
 }
 export interface Favoris {
   id: string;

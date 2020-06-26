@@ -45,15 +45,17 @@ export const getUserParcourQuery = gql`
           value
         }
       }
-      globalCompetences {
-        id
-        title
-        value
-        count
-      }
     }
   }
 `;
+
+export const parcourResult = getUserParcourQuery.loc?.source.body
+  .split('{')
+  .slice(2)
+  .join('{')
+  .split('}')
+  .slice(0, -2)
+  .join('}');
 
 export interface UserParcourData {
   userParcour: UserParcour;
@@ -65,39 +67,7 @@ export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData>
 export const updateParcours = gql`
   mutation UpdateParcous($families: [ID],$skillsAlgo: [ID],$played: Boolean,$completed: Boolean ) {
     updateParcour(families: $families, skillsAlgo: $skillsAlgo, played: $played,completed: $completed) {
-      id
-      played
-      completed
-      families {
-        id
-        nom
-        category
-      }
-      skills {
-        id
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-          }
-          value
-        }
-      }
+      ${parcourResult}
     }
   }
 `;

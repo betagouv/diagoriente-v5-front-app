@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
 import RestLogo from 'components/common/Rest/Rest';
 import { Redirect, Link } from 'react-router-dom';
-import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
 import { Families } from 'requests/types';
 import { useUpdateParcour } from 'requests/parcours';
-import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
 import ParcourContext from 'contexts/ParcourContext';

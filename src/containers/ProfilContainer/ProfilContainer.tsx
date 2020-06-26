@@ -47,7 +47,7 @@ const Profil = () => (
     <Switch>
       <Route protected exact path="/profil" component={ProfilComponent} />
       <Route protected exact path="/profil/experience" component={ExperienceProfil} />
-      <Route protected exact path="/profil/interet" component={InteretProfil} />
+      <Route protected exact path="/profil/interest" component={InteretProfil} />
       <Route component={NotFoundPage} />
     </Switch>
   </ThemeProvider>

@@ -19,12 +19,11 @@ const InteretComponent = () => {
         <Arrow />
         <Title title="MES CENTRES D’INTÉRÊT" color="#420FAB" size={42} className={classes.title} />
         <div className={classes.empty} />
-
       </div>
       <span className={classes.text}>Liste des centres d’intérêts que tu as sélectionnés et classés.</span>
       <div className={classes.interestCardContainer}>
         {parcours?.families.map((family, index) => (
-          <div className={classes.interestGrid}>
+          <div key={family.id} className={classes.interestGrid}>
             <InterestContainer
               index={index + 1}
               key={family.id}
@@ -40,7 +39,7 @@ const InteretComponent = () => {
           </div>
         ))}
       </div>
-      <Link to="/interet/ordre">
+      <Link to="/interet/parcours?profil=true">
         <Button className={classes.btn}>
           <span className={classes.textButton}>Je modifie mes centres d’intérêts</span>
         </Button>

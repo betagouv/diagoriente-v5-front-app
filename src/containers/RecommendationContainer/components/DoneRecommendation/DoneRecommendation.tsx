@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react';
 import TitleSection from 'components/common/TitleSection/TitleSection';
-import NextButton from 'components/nextButton/nextButton';
-import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+
 import Button from 'components/button/Button';
 
 import medaille from 'assets/svg/medaille.svg';
 
 import useStyles from './styles';
 
-const DoneRecommendation = ({ history }: RouteComponentProps) => {
+const DoneRecommendation = () => {
   const classes = useStyles();
-  const [selectedLocation, setSelectedLocation] = useState('');
   const historyChange = () => {
     window.location.href = process.env.REACT_APP_PUBLIC_URL as string;
   };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { Switch, Route } from 'react-router-dom';
@@ -71,19 +71,15 @@ const theme = createMuiTheme({
   },
 });
 
-const Recommendation = () => {
-  const [recommendation, setRecommendation] = useState('');
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Switch>
-        <Route exact path="/recommendation" render={(props) => <FirstRecommendation {...props} skill={skill} />} />
-        <Route exact path="/recommendation/complete" component={SecondRecommendation} />
-        <Route exact path="/recommendation/location/done" component={DoneRecommendation} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </ThemeProvider>
-  );
-};
+const Recommendation = () => (
+  <ThemeProvider theme={theme}>
+    <Switch>
+      <Route exact path="/recommendation" render={(props) => <FirstRecommendation {...props} skill={skill} />} />
+      <Route exact path="/recommendation/complete" component={SecondRecommendation} />
+      <Route exact path="/recommendation/location/done" component={DoneRecommendation} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  </ThemeProvider>
+);
 
 export default Recommendation;

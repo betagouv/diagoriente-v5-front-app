@@ -24,10 +24,11 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
   activities: Activity[];
   setActivities: (activities: Activity[]) => void;
+  showPrevious?: boolean;
 }
 
 const ExperienceActivity = ({
- match, activities, setActivities, history, theme,
+ match, activities, setActivities, history, theme, showPrevious,
 }: Props) => {
   const classes = useStyles();
 
@@ -45,7 +46,11 @@ const ExperienceActivity = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title={theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'} color="#223A7A" size={26} />
+          <Title
+            title={theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            color="#223A7A"
+            size={26}
+          />
           <RestLogo
             onClick={() => {
               history.replace('/experience');
@@ -95,10 +100,12 @@ const ExperienceActivity = ({
             <NextButton disabled={!activities.length} />
           </Link>
         </div>
-        <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
-          <CancelButton />
-          Précedent
-        </Link>
+        {showPrevious && (
+          <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
+            <CancelButton />
+            Précedent
+          </Link>
+        )}
       </div>
     </div>
   );

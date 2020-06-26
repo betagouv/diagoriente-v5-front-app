@@ -44,10 +44,12 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       const activityData = JSON.parse(d);
       setActivities(activityData.theme === match.params.themeId ? activityData.activities : []);
     }
+    // eslint-disable-next-line
   }, [match.params.themeId]);
 
   useEffect(() => {
     if (!selectedSkill) localStorage.setItem('activities', JSON.stringify({ theme: match.params.themeId, activities }));
+    // eslint-disable-next-line
   }, [activities, match.params.themeId]);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     if (d && !selectedSkill) {
       const competencesData = JSON.parse(d);
       setCompetences(competencesData.theme === match.params.themeId ? competencesData.competences : []);
-    }
+    } // eslint-disable-next-line
   }, [match.params.themeId]);
 
   useEffect(() => {
@@ -63,21 +65,19 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     if (d && !selectedSkill) {
       const competencesData = JSON.parse(d);
       setCompetencesValues(competencesData.theme === match.params.themeId ? competencesData.competencesValues : []);
-    }
+    } // eslint-disable-next-line
   }, [match.params.themeId]);
 
   useEffect(() => {
     if (!selectedSkill) {
-      // eslint-disable-next-line
       localStorage.setItem('competences', JSON.stringify({ theme: match.params.themeId, competences }));
-    }
+    } // eslint-disable-next-line
   }, [competences, match.params.themeId]);
 
   useEffect(() => {
     if (!selectedSkill) {
-      // eslint-disable-next-line
       localStorage.setItem('competencesValues', JSON.stringify({ theme: match.params.themeId, competencesValues }));
-    }
+    } // eslint-disable-next-line
   }, [competencesValues, match.params.themeId]);
 
   const addSkill = () => {
@@ -147,7 +147,13 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       <Switch>
         <Route
           render={(props) => (
-            <SkillActivities {...props} activities={activities} setActivities={setActivities} theme={data.theme} />
+            <SkillActivities
+              {...props}
+              showPrevious={!selectedSkill}
+              activities={activities}
+              setActivities={setActivities}
+              theme={data.theme}
+            />
           )}
           path={`${match.path}/activities`}
           exact

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
@@ -8,13 +8,15 @@ import TestImage from 'assets/svg/test.svg';
 import Spinner from 'components/Spinner/Spinner';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import HeartOutLine from 'assets/svg/outlineHeart.svg';
+import fullHeart from 'assets/svg/fullHeart.svg';
 import userContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
 import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
-
+import { useAddFavoris } from 'requests/favoris';
+import { isEmpty } from 'lodash';
 import ModalContainerInfo from '../Modals/JobInfo';
 import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
@@ -28,7 +30,9 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
   const param = location.pathname.substr(6);
-  const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
+  const [addFavCall, addFavState] = useAddFavoris();
+
+  const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
   });
@@ -36,7 +40,6 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
   const competences = parcours?.globalCompetences;
-
   const d: any = [];
   useOnclickOutside(divRef, () => {});
 
@@ -53,6 +56,20 @@ const JobContainer = ({ location }: RouteComponentProps) => {
     setInfo(false);
     setOpenTest(false);
   };
+  const addToFav = () => {
+    const dataFav = {
+      interested: true,
+      job: param,
+      parcour: parcours?.id,
+    };
+    addFavCall({ variables: dataFav });
+  };
+  useEffect(() => {
+    if (addFavState.data) {
+      const fn = data ? refetch : loadJob;
+      fn();
+    }
+  }, [addFavState.data, loadJob, data, refetch]);
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>
@@ -66,8 +83,8 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               <div className={classes.textBack}>Retour à Mon Top métiers</div>
             </div>
           </Link>
-          <div className={classes.favoris}>
-            <img src={HeartOutLine} alt="" />
+          <div className={classes.favoris} onClick={addToFav}>
+            <img src={data?.job.favorite ? fullHeart : HeartOutLine} alt="" />
             <div className={classes.textFavoris}>Ajouter à mes favoris</div>
           </div>
         </div>
@@ -146,8 +163,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>
-                {' '}
+                </span>{' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>

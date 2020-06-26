@@ -135,3 +135,10 @@ export interface Jobs {
     interested: boolean;
   };
 }
+export interface Favoris {
+  id: string;
+  user: string;
+  parcour: string;
+  job: string;
+  interested: boolean;
+}

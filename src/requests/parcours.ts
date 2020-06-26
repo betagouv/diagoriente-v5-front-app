@@ -64,168 +64,19 @@ export interface UserParcourData {
 export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData> = {}) =>
   useLocalLazyQuery(getUserParcourQuery, options);
 
-export const updateFamiliesParcours = gql`
-  mutation UpdateFamiliesParcous($families: [ID]!) {
-    updateParcour(families: $families) {
-      id
-      played
-      completed
-      families {
-        id
-        nom
-        category
-      }
-      skills {
-        id
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-          }
-          value
-        }
-      }
+export const updateParcours = gql`
+  mutation UpdateParcous($families: [ID],$skillsAlgo: [ID],$played: Boolean,$completed: Boolean ) {
+    updateParcour(families: $families, skillsAlgo: $skillsAlgo, played: $played,completed: $completed) {
+      ${parcourResult}
     }
   }
 `;
-export interface UpdateFamiliesArgument {
-  families: string[];
+export interface UpdateParcourArgument {
+  families?: string[];
+  skillsAlgo?: string[];
+  played?: boolean;
+  completed?: boolean;
 }
-export const useUpdateFamiliesParcour = (
-  options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateFamiliesArgument> = {},
-) => useLocalMutation(updateFamiliesParcours, options);
-
-export const updateSkillsParcours = gql`
-  mutation UpdateSkillsParcous($skillsAlgo: [ID]!) {
-    updateParcour(skillsAlgo: $skillsAlgo) {
-      skillsAlgo {
-        id
-      }
-    }
-  }
-`;
-export interface UpdateSkillsData {
-  skillsAlgo: string[];
-}
-export interface UpdateSkillsArgument {
-  skillsAlgo: string[];
-}
-export const useUpdateSkillsParcour = (
-  options: MutationHookOptions<{ updateParcour: UpdateSkillsData }, UpdateSkillsArgument> = {},
-) => useLocalMutation(updateSkillsParcours, options);
-
-export const updatePlayParcours = gql`
-  mutation UpdatePlayParcous($played: Boolean!) {
-    updateParcour(played: $played) {
-      id
-      played
-      completed
-      families {
-        id
-        nom
-        category
-      }
-      skills {
-        id
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-          }
-          value
-        }
-      }
-    }
-  }
-`;
-export interface UpdatePlayArgument {
-  played: boolean;
-}
-export interface UpdatePlayData {
-  parcoursUpdated: UserParcour;
-}
-export const useUpdatePlayParcour = (
-  options: MutationHookOptions<{ updateParcour: UpdatePlayData }, UpdatePlayArgument> = {},
-) => useLocalMutation(updatePlayParcours, options);
-
-export const updateCompletedParcours = gql`
-  mutation UpdateCompletedParcous($completed: Boolean!) {
-    updateParcour(completed: $completed) {
-      id
-      played
-      completed
-      families {
-        id
-        nom
-        category
-      }
-      skills {
-        id
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-          }
-          value
-        }
-      }
-      globalCompetences {
-        id
-        title
-        value
-        count
-      }
-    }
-  }
-`;
-export interface UpdateCompletedArgument {
-  completed: boolean;
-}
-export const useUpdateCompletedParcour = (
-  options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateCompletedArgument> = {},
-) => useLocalMutation(updateCompletedParcours, options);
+export const useUpdateParcour = (
+  options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateParcourArgument> = {},
+) => useLocalMutation(updateParcours, options);

@@ -5,7 +5,7 @@ import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
 import { Families } from 'requests/types';
-import { useUpdateFamiliesParcour } from 'requests/parcours';
+import { useUpdateParcour } from 'requests/parcours';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import interestContext from 'contexts/InterestSelected';
@@ -16,7 +16,7 @@ import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
 const OrderInteret = () => {
-  const [updateCall, updateState] = useUpdateFamiliesParcour();
+  const [updateCall, updateState] = useUpdateParcour();
   const { selectedInterest } = useContext(interestContext);
   const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
@@ -99,6 +99,7 @@ const OrderInteret = () => {
               onClick={onUpdate}
               className={classes.btn}
               classNameTitle={classes.btnLabel}
+              ArrowColor="#fff"
             />
           </div>
         </div>

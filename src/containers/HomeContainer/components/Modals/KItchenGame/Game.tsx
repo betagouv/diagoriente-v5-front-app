@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import GameLogo from 'assets/svg/game.svg';
-import { useUpdatePlayParcour } from 'requests/parcours';
+import { useUpdateParcour } from 'requests/parcours';
 import Button from 'components/button/Button';
 import { Link, useHistory } from 'react-router-dom';
 import ParcourContext from 'contexts/ParcourContext';
@@ -10,7 +10,7 @@ import useStyles from './styles';
 const Game = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [updateCall, updateState] = useUpdatePlayParcour();
+  const [updateCall, updateState] = useUpdateParcour();
   const { setParcours } = useContext(ParcourContext);
 
   const onNavigate = () => {
@@ -19,7 +19,7 @@ const Game = () => {
   };
   useEffect(() => {
     if (updateState.data && !updateState.error) {
-      setParcours(updateState.data.updateParcour.parcoursUpdated);
+      setParcours(updateState.data.updateParcour);
     }
   }, [updateState.data, setParcours, updateState.error]);
   return (

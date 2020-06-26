@@ -2,7 +2,9 @@ import React, { useState, useContext, useMemo } from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { groupBy } from 'lodash';
+
 import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
 import InterestLogo from 'assets/svg/interest.svg';
@@ -10,13 +12,12 @@ import PlaceHolder from 'containers/InteretContainer/components/placeholderInter
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
-import { groupBy } from 'lodash';
 import Slider from 'components/Slider/Slider';
 
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
-const ParcoursInteret = () => {
+const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
   const { parcours } = useContext(parcoursContext);
@@ -107,7 +108,7 @@ const ParcoursInteret = () => {
             ))}
             {!loading && renderPlaceholder()}
             {selectedInterests.length > 0 && (
-              <Link to="/interet/ordre" className={classes.wrapperBtn}>
+              <Link to={`/interet/ordre/${location.search}`} className={classes.wrapperBtn}>
                 <Button className={classes.btn}>
                   <div className={classes.contentBtn}>
                     <div className={classes.btnLabel}>Suivant</div>

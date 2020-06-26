@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles(() =>
@@ -122,5 +122,41 @@ export default makeStyles(() =>
       borderRadius: 10,
       flex: 1,
       maxWidth: 'calc(33.333333% - 32px)',
+    },
+
+    popupContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      alignItems: 'center',
+      flex: '1 1 0%',
+      justifyContent: 'space-between',
+    },
+
+    popupDescription: {
+      textAlign: 'center',
+      color: '#424242',
+    },
+
+    incluse: {
+      backgroundColor: '#FF0060',
+      color: '#fff',
+      fontSize: 18,
+      marginTop: 25,
+      '&:hover': {
+        backgroundColor: '#D60051',
+      },
+    },
+
+    linkHome: {
+      color: '#00B2DB',
+      fontSize: 14,
+      fontWeight: 'bold',
+      textDecoration: 'none',
+      marginTop: 14,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: '#00CFFF',
+      },
     },
   }));

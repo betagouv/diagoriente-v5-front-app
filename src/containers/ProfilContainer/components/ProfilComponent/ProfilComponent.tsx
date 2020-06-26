@@ -77,7 +77,7 @@ const ProfilComponent = () => {
       title: 'MES CENTRES D’INTERET',
       background: '#420FAB',
       color: '#fff',
-      path: '/profil/interet',
+      path: '/profil/interest',
       childrenCardClassName: classes.childrenCardClassName,
       children: (
         <Carousel

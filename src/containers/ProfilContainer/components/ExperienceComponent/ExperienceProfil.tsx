@@ -9,7 +9,7 @@ import parcoursContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 import Grid from '@material-ui/core/Grid';
 import Recommendation from 'components/ui/RecommendationModal/RecommendationModal';
-
+import Popup from 'components/common/Popup/Popup';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import Title from 'components/common/Title/Title';
 import Button from 'components/button/Button';
@@ -30,14 +30,19 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [skill, setSkill] = useState(null as Unpacked<UserParcour['skills']> | null);
+  const [deleteId, setDeleteId] = useState('');
 
   const { parcours, setParcours } = useContext(parcoursContext);
+
   const type = decodeUri(location.search).type || 'personal';
   const [deleteSkill, stateSkill] = useDeleteSkill();
   const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme.type === type).length % 3 === 0;
   useEffect(() => {
-    if (stateSkill.data) setParcours(stateSkill.data.deleteSkill);
-  }, [stateSkill.data]);
+    if (stateSkill.data) {
+      setParcours(stateSkill.data.deleteSkill);
+      setDeleteId('');
+    }
+  }, [stateSkill.data, setParcours]);
 
   const onEdit = (id: string) => {
     const selectedSkill = parcours?.skills.find((s) => s.id === id);
@@ -50,8 +55,12 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     setOpen(true);
   };
 
-  const onDelete = (id: string) => {
-    deleteSkill({ variables: { id } });
+  const onDelete = () => {
+    deleteSkill({ variables: { id: deleteId } });
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteId(id);
   };
 
   if (type !== 'personal' && type !== 'professional') {
@@ -78,16 +87,16 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
       <div className={classes.cardGridContainer}>
         <Grid container spacing={4}>
           {parcours?.skills
-            .filter((p) => p.theme.type === type)
-            .map((skill) => (
-              <Grid key={skill.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
+            .filter((s) => s.theme.type === type)
+            .map((s) => (
+              <Grid key={s.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
                 <Card
                   edit={onEdit}
                   recommendation={handleRecommendation}
-                  remove={onDelete}
-                  id={skill.id}
-                  competence={skill.competences}
-                  title={skill.theme.title}
+                  remove={handleDelete}
+                  id={s.id}
+                  competence={s.competences}
+                  title={s.theme.title}
                 />
               </Grid>
             ))}
@@ -107,6 +116,27 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         </Grid>
       </div>
       {skill && <Recommendation skill={skill} open={open} setOpen={setOpen} />}
+
+      <Popup open={!!deleteId} handleClose={() => setDeleteId('')}>
+        <div className={classes.popupContainer}>
+          <p className={classes.popupDescription}>
+            Veux-tu vraiment supprimer ?
+            <br />
+            Tes modifications seront enregistrées.
+          </p>
+          <Button className={classes.incluse} onClick={onDelete}>
+            Oui, continuer
+          </Button>
+          <Button
+            onClick={() => {
+              setDeleteId('');
+            }}
+            className={classes.linkHome}
+          >
+            Non
+          </Button>
+        </div>
+      </Popup>
     </div>
   );
 };

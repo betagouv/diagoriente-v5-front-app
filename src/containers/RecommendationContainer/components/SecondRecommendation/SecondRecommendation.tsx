@@ -27,10 +27,6 @@ const SecondRecommendation = () => {
     if (e) setSelectedLocation(e);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedLocation(e.target.value);
-  };
-
   return (
     <div className={classes.container}>
       <TitleSection image={medaille} title={title} />
@@ -56,9 +52,7 @@ const SecondRecommendation = () => {
           options={[]}
           onSelectText={onSelect}
           icon={LogoLocation}
-
         />
-
       </div>
       <div className={classes.btnContainerModal}>
         <Link to="location/done">

@@ -1,13 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import RestLogo from 'components/common/Rest/Rest';
-import { Redirect, Link } from 'react-router-dom';
-import Button from 'components/button/Button';
+import { Redirect, Link, RouteComponentProps } from 'react-router-dom';
 import Avatar from 'components/common/Avatar/Avatar';
 import InterestLogo from 'assets/svg/interest.svg';
 import { Families } from 'requests/types';
 import { useUpdateParcour } from 'requests/parcours';
-import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
+import { decodeUri } from 'utils/url';
 import interestContext from 'contexts/InterestSelected';
 import ParcourContext from 'contexts/ParcourContext';
 import NextButton from 'components/nextButton/nextButton';
@@ -15,7 +14,7 @@ import InterestContainer from '../../components/InterestContainer/InterestContai
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
-const OrderInteret = () => {
+const OrderInteret = ({ history, location }: RouteComponentProps) => {
   const [updateCall, updateState] = useUpdateParcour();
   const { selectedInterest } = useContext(interestContext);
   const { setParcours } = useContext(ParcourContext);
@@ -44,16 +43,21 @@ const OrderInteret = () => {
     setOrderedArray(copySelected);
   };
 
+  useEffect(() => {
+    if (updateState.data && !updateState.error) {
+      setParcours(updateState.data.updateParcour);
+      const { profil } = decodeUri(location.search);
+      history.push(profil ? '/profil/interest' : '/interet/result');
+    }
+    // eslint-disable-next-line
+  }, [updateState.data, updateState.error]);
+
   if (!selectedInterest) return <Redirect to="/interet/parcours" />;
   const onUpdate = () => {
     const dataToSend = orderedArray.map((el) => el.id) || selectedInterest;
     updateCall({ variables: { families: dataToSend } });
   };
 
-  if (updateState.data && !updateState.error) {
-    setParcours(updateState.data.updateParcour);
-    return <Redirect to="/interet/result" />;
-  }
   return (
     <div className={classes.container}>
       <div className={classes.content}>

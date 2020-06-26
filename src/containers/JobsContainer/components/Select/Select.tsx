@@ -59,10 +59,10 @@ const SelectJobs = ({
               {options?.map((el) => (
                 <div
                   key={el.title}
-                  className={classNames(classes.itemSecteur, isInclude(el.id) && classes.selected)}
+                  className={classNames(classes.itemSecteur, isInclude(el.id) && classes.itemSecteurSelected)}
                   onClick={() => onSelectText(el.id)}
                 >
-                  {el.title}
+                  <span className={classNames(classes.item, isInclude(el.id) && classes.selected)}>{el.title}</span>
                 </div>
               ))}
             </div>

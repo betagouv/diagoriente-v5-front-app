@@ -116,7 +116,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
                     <img
                       src={Point}
                       alt=""
-                      style={{ position: 'absolute', left: getWidth(competence.id) - 15, top: 24 }}
+                      style={{ position: 'absolute', left: getWidth(competence.id) - 15, top: 26 }}
                     />
                   )}
                 </div>

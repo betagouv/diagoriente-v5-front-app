@@ -45,15 +45,17 @@ export const getUserParcourQuery = gql`
           value
         }
       }
-      globalCompetences {
-        id
-        title
-        value
-        count
-      }
     }
   }
 `;
+
+export const parcourResult = getUserParcourQuery.loc?.source.body
+  .split('{')
+  .slice(2)
+  .join('{')
+  .split('}')
+  .slice(0, -2)
+  .join('}');
 
 export interface UserParcourData {
   userParcour: UserParcour;
@@ -211,6 +213,12 @@ export const updateCompletedParcours = gql`
           }
           value
         }
+      }
+      globalCompetences {
+        id
+        title
+        value
+        count
       }
     }
   }

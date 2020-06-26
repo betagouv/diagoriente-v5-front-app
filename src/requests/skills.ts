@@ -2,46 +2,13 @@ import gql from 'graphql-tag';
 
 import { MutationHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation } from 'hooks/apollo';
+import { parcourResult } from 'requests/parcours';
 import { UserParcour } from './types';
 
 export const addSkillMutation = gql`
   mutation AddSkill($theme: ID!, $activities: [ID]!, $competences: [skillCompetenceType]!) {
     addSkill(theme: $theme, activities: $activities, competences: $competences) {
-      id
-      completed
-      played
-      families {
-        id
-        nom
-      }
-      skills {
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-            niveau {
-              title
-              sub_title
-            }
-          }
-          value
-        }
-      }
+      ${parcourResult}
     }
   }
 `;
@@ -61,41 +28,7 @@ export const useAddSkill = (options: MutationHookOptions<{ addSkill: UserParcour
 export const deleteSkillMutation = gql`
   mutation DeleteSkill($id: ID!) {
     deleteSkill(id: $id) {
-      id
-      completed
-      played
-      families {
-        id
-        nom
-      }
-      skills {
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-            niveau {
-              title
-              sub_title
-            }
-          }
-          value
-        }
-      }
+      ${parcourResult}
     }
   }
 `;
@@ -113,38 +46,12 @@ export interface updateSkillArguments {
 }
 
 export const updateSkillMutation = gql`
-  mutation UpdateSkill($id: ID!, $activities: [ID]!, $competences: [updateSkillArguments]) {
-    updateSkill(id: $id) {
-      id
-      completed
-      played
-      families {
-        id
-        nom
-      }
-      skills {
-        theme {
-          title
-          id
-          type
-          resources {
-            icon
-            backgroundColor
-          }
-        }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id
-          value
-        }
-      }
+  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType]) {
+    updateSkill(id: $id, activities: $activities, competences: $competences) {
+      ${parcourResult}
     }
   }
 `;
 
 export const useUpdateSkill = (options: MutationHookOptions<{ updateSkill: UserParcour }, updateSkillArguments> = {}) =>
-  useLocalMutation(deleteSkillMutation, options);
+  useLocalMutation(updateSkillMutation, options);

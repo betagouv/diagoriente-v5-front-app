@@ -1,9 +1,9 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme) =>
   createStyles({
     profilContainer: {
+      flex: '1 0 auto',
       position: 'relative',
       width: '100%',
       backgroundColor: '#F3F2F4',

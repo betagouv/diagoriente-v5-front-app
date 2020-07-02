@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'components/button/Button';
 import fullHeart from 'assets/svg/fullHeart.svg';
-import OutLine from 'assets/svg/outlineHeart.svg';
 
 import useStyles from './style';
 
@@ -13,7 +12,9 @@ interface IProps {
   id: string;
   favoris: any;
 }
-const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => {
+const CardJob = ({
+  title, description, accessibility, id, favoris,
+}: IProps) => {
   const [selected, setSelected] = useState(false);
   const onHover = () => setSelected(true);
   const onLeave = () => setSelected(false);
@@ -25,7 +26,7 @@ const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => 
       <div className={classes.description}>{description}</div>
       {selected && (
         <div className={classes.btnContainer}>
-          <Link to={`/jobs/${id}`}>
+          <Link to={`/jobs/job/${id}`}>
             <Button className={classes.btn}>
               <div className={classes.btnLabel}>En savoir plus</div>
             </Button>
@@ -34,7 +35,7 @@ const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => 
       )}
       <div className={classes.footerCard}>
         {accessibility && !selected && <div className={classes.accessibility}>{accessibility}</div>}
-        {!selected && <img src={favoris ? fullHeart : OutLine} className={classes.heartLogo} alt="heart" />}
+        {!selected && favoris && <img src={fullHeart} className={classes.heartLogo} alt="heart" />}
       </div>
     </div>
   );

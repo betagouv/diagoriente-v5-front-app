@@ -45,6 +45,12 @@ export const getUserParcourQuery = gql`
           value
         }
       }
+      globalCompetences {
+        id
+        count
+        value
+        title
+      }
     }
   }
 `;

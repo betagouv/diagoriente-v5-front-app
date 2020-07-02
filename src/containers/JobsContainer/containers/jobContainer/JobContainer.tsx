@@ -1,10 +1,11 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { useJob } from 'requests/jobs';
+import { useJob, useJobs } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
+import LogoLocation from 'assets/form/location.png';
 import Spinner from 'components/Spinner/Spinner';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import HeartOutLine from 'assets/svg/outlineHeart.svg';
@@ -15,13 +16,13 @@ import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
-import { useAddFavoris } from 'requests/favoris';
-import { isEmpty } from 'lodash';
+import { Jobs } from 'requests/types';
+import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
+import { useLocation } from 'requests/location';
 import ModalContainerInfo from '../Modals/JobInfo';
 import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
 import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
-import Select from '../../components/Select/Select';
 import useStyles from './styles';
 
 const JobContainer = ({ location }: RouteComponentProps) => {
@@ -29,13 +30,40 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
-  const param = location.pathname.substr(6);
+  const param = location.pathname.substr(10);
   const [addFavCall, addFavState] = useAddFavoris();
-
+  const [deleteFavCall, deleteFavState] = useDeleteFavoris();
+  const [loadJobs, { data: listJobs }] = useJobs();
+  const [loadFav, { data: FavData }] = useListFavoris();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
+    loadFav();
+    loadJobs();
   });
+  const isFav = FavData?.favorites.data.find((el) => el.job === param);
+
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [openLocation, setOpenLocation] = useState(false);
+  const [selectedImmersion, setSelectedImmersion] = useState('');
+  const [openImmersion, setOpenImmersion] = useState(false);
+
+  const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+
+  const onChangeImmersion = (e: any) => {
+    const { value } = e.target;
+    setSelectedImmersion(value);
+    setOpenImmersion(true);
+    setFiltredArray(listJobs?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+  };
+
+  const onChangeLocation = (e: any) => {
+    const { value } = e.target;
+    setOpenLocation(true);
+    setSelectedLocation(value);
+  };
+
+  const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
@@ -56,6 +84,14 @@ const JobContainer = ({ location }: RouteComponentProps) => {
     setInfo(false);
     setOpenTest(false);
   };
+  const onSelect = (e: string | undefined) => {
+    if (e) setSelectedLocation(e);
+    setOpenLocation(false);
+  };
+  const onSelectImmersion = (e: string | undefined) => {
+    if (e) setSelectedImmersion(e);
+    setOpenImmersion(false);
+  };
   const addToFav = () => {
     const dataFav = {
       interested: true,
@@ -64,32 +100,36 @@ const JobContainer = ({ location }: RouteComponentProps) => {
     };
     addFavCall({ variables: dataFav });
   };
+  const deleteFromFav = () => {
+    deleteFavCall({ variables: { id: isFav?.id } });
+  };
   useEffect(() => {
     if (addFavState.data) {
       const fn = data ? refetch : loadJob;
       fn();
     }
   }, [addFavState.data, loadJob, data, refetch]);
+
+  useEffect(() => {
+    if (deleteFavState.data) {
+      const fn = FavData ? refetch : loadJob;
+      fn();
+    }
+  }, [deleteFavState.data, loadJob, FavData, refetch]);
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>
         {loading ? <Spinner /> : <Title color="#fff" title={data?.job.title || ''} size={42} />}
       </div>
       <div className={classes.contentInfo}>
-        <div className={classes.headerInfo}>
-          <Link to="/jobs">
-            <div className={classes.back}>
-              <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
-              <div className={classes.textBack}>Retour à Mon Top métiers</div>
-            </div>
-          </Link>
-          <div className={classes.favoris} onClick={addToFav}>
-            <img src={data?.job.favorite ? fullHeart : HeartOutLine} alt="" />
-            <div className={classes.textFavoris}>Ajouter à mes favoris</div>
-          </div>
-        </div>
         <div className={classes.JobInfo}>
           <div className={classes.jobDescription}>
+            <Link to="/jobs">
+              <div className={classes.back}>
+                <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
+                <div className={classes.textBack}>Retour à Mon Top métiers</div>
+              </div>
+            </Link>
             <div className={classes.titleDescription}>{data?.job.title}</div>
             <div>{data?.job.description}</div>
             <div className={classes.footerDescription}>
@@ -104,35 +144,53 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               </div>
             </div>
           </div>
-          <div className={classes.immersion}>
-            <div className={classes.logoContainer}>
-              <Loupe color="#FFA600" width="42" height="42" />
+          <div className={classes.favorisContainer}>
+            <div className={classes.favoris} onClick={!data?.job.favorite ? addToFav : deleteFromFav}>
+              <img src={data?.job.favorite ? fullHeart : HeartOutLine} alt="" />
+              <div className={classes.textFavoris}>
+                {!data?.job.favorite ? 'Ajouter à mes favoris' : 'Enlever de mes favoris'}
+              </div>
             </div>
-            <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
-            <div>Je recherche :</div>
-            <Select
-              onChange={() => {}}
-              name="imersion"
-              value={[]}
-              onClick={() => {}}
-              onSelectText={() => {}}
-              options={[]}
-              reference={divRef}
-            />
-            <AutoComplete
-              onChange={() => {}}
-              name="imersion"
-              value=""
-              onSelectText={() => {}}
-              options={[]}
-              placeholder="à Paris, Dijon, Lille..."
-            />
-            <div className={classes.btnImersionContainer}>
-              <Link to={`/jobs/immersion/${param}`}>
-                <Button className={classes.btnImersion}>
-                  <div className={classes.btnLabel}>Chercher</div>
-                </Button>
-              </Link>
+            <div className={classes.immersion}>
+              <div className={classes.logoContainer}>
+                <Loupe color="#FFA600" width="42" height="42" />
+              </div>
+              <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
+              <div>Je recherche :</div>
+              <div className={classes.autocompleteContainer}>
+                <AutoComplete
+                  options={filteredArray}
+                  onChange={onChangeImmersion}
+                  onSelectText={onSelectImmersion}
+                  value={selectedImmersion}
+                  name="search"
+                  placeholder="Immersion"
+                  className={classes.containerAutoComp}
+                  open={openImmersion}
+                  type="immersion"
+                />
+              </div>
+              <div className={classes.autocompleteContainer}>
+                <AutoComplete
+                  onChange={onChangeLocation}
+                  onSelectText={onSelect}
+                  value={selectedLocation}
+                  name="location"
+                  placeholder="paris"
+                  options={listLocation ? listLocation?.location : []}
+                  icon={LogoLocation}
+                  type="location"
+                  open={openLocation}
+                />
+              </div>
+
+              <div className={classes.btnImersionContainer}>
+                <Link to={`/jobs/immersion/${param}`}>
+                  <Button className={classes.btnImersion}>
+                    <div className={classes.btnLabel}>Chercher</div>
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -195,7 +253,8 @@ const JobContainer = ({ location }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openInfo ? <ModalContainerInfo job={data?.job} /> : <ModalQuestion job={data?.job} />}
+        {openInfo ? <ModalContainerInfo job={data?.job} />
+        : <ModalQuestion job={data?.job} />}
       </ModalContainer>
     </div>
   );

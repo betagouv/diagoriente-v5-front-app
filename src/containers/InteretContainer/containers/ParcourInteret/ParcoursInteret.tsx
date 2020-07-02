@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
@@ -24,7 +24,9 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
   );
-  setInterest(selectedInterests);
+  useEffect(() => {
+    setInterest(selectedInterests);
+  }, [setInterest, selectedInterests]);
 
   const { data, loading } = useFamilies();
   const formattedData: { title: string; data: Families[] }[] = useMemo(
@@ -79,7 +81,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
               <img src={InterestLogo} alt="interest" />
             </Avatar>
             <div className={classes.titlesWrapper}>
-              {' '}
               <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
               <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
             </div>

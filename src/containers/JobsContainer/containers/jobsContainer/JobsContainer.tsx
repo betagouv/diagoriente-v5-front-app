@@ -1,9 +1,13 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  useContext, useState, useEffect, useRef,
+} from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { useUpdateParcour } from 'requests/parcours';
+import localForage from 'localforage';
+import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useAccessibility } from 'requests/accessibility';
 import { useTypeJob } from 'requests/environment';
@@ -13,7 +17,6 @@ import { useSecteurs } from 'requests/themes';
 import Trait from 'assets/images/trait_jaune.svg';
 import Reset from 'components/common/Rest/Rest';
 import Spinner from 'components/Spinner/Spinner';
-import ClearMessageContext from 'contexts/messageContext';
 import { isEmpty } from 'lodash';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
@@ -27,7 +30,21 @@ const JobsContainer = () => {
   const divAcc = useRef<HTMLDivElement>(null);
 
   const { parcours, setParcours } = useContext(ParcoursContext);
-  const { clearMessage, setClearMessage } = useContext(ClearMessageContext);
+
+  const [clearMessage, setClearMessage] = useState<null | boolean>(null);
+  const setMessage = async () => {
+    setClearMessage(false);
+    await localForage.setItem('messages', false);
+  };
+  useEffect(() => {
+    async function c() {
+      const res = await localForage.getItem('messages');
+      if (res === null) {
+        setClearMessage(true);
+      }
+    }
+    c();
+  }, []);
 
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
@@ -139,12 +156,19 @@ const JobsContainer = () => {
             <div className={classes.text}>
               <div>Pour voir une sélection personnalisée de métiers qui pourraient te plaire,</div>
               <div>
-                commence à remplir ton profil en ajoutant tes <span className={classes.clearTextBold}>expériences</span>{' '}
-                et tes <span className={classes.clearTextBold}>centres d'intérêts</span>{' '}
+                commence à remplir ton profil en ajoutant tes{' '}
+                <Link to="/experience">
+                  {' '}
+                  <span className={classes.clearTextBold}>expériences</span>
+                </Link>{' '}
+                et tes{' '}
+                <Link to="/interet">
+                  <span className={classes.clearTextBold}>centres d'intérêts</span>
+                </Link>{' '}
               </div>
             </div>
             <div>
-              <div onClick={() => setClearMessage(false)} className={classes.clearMessage}>
+              <div onClick={() => setMessage()} className={classes.clearMessage}>
                 <div className={classes.clearText}>Ok, masquer ce message</div>
                 <Reset color="#D60051" size={32} />
               </div>
@@ -159,7 +183,14 @@ const JobsContainer = () => {
             <div className={classes.logoContainer}>
               <img src={Logo} alt="log" />
             </div>
-            <Title title="MON TOP METIERS" font="ocean" size={42} width={225} color="#DB8F00" image={Trait} />
+            <Title
+              title={parcours?.completed ? 'MON TOP METIERS' : 'TOUS LES MÉTIERS'}
+              font="ocean"
+              size={42}
+              width={225}
+              color="#DB8F00"
+              image={Trait}
+            />
           </div>
           <div className={classes.subTitle}>Sélectionné en fonction de tes réponses</div>
           <div className={classes.filtersContainer}>

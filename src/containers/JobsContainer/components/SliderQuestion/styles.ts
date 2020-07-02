@@ -42,4 +42,7 @@ export default makeStyles((theme) => ({
     listStyleType: 'none',
     display: 'inline-block',
   },
+  existResponses: {
+    border: '1px dotted black',
+  },
 }));

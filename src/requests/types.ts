@@ -125,11 +125,11 @@ export interface Jobs {
   rome_codes: string;
   secteur: string[];
   niveau: string[];
-  interests: { _id: string; weight: number }[];
-  competences: { _id: string; weight: number }[];
+  interests: { _id: { nom: string; id: string }; __typename: string }[];
+  competences: { _id: { id: string; title: string }; weight: number }[];
   formations: string[];
   environments: string[];
-  questionJobs: { _id: string; label: string }[];
+  questionJobs: { id: string; label: string }[];
   favorite?: {
     id: string;
     interested: boolean;

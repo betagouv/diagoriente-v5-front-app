@@ -50,4 +50,16 @@ export default makeStyles((theme) => ({
   graph: {
     width: '45%',
   },
+  metiersContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  metierItem: {
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: 12,
+    padding: '3px 16px',
+    width: 'fit-content',
+    margin: 3,
+    color: '#424242',
+  },
 }));

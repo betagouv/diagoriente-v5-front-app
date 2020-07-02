@@ -123,7 +123,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     <div className={classes.root}>
       <div className={classes.content}>
         <div className={classes.titleContainer}>
-          <Link to={`/jobs/${param}`}>
+          <Link to={`/jobs/job/${param}`}>
             <div className={classes.back}>
               <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
               {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}

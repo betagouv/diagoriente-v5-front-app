@@ -31,7 +31,12 @@ export default makeStyles<Theme>((theme) => ({
     marginBottom: 25,
     width: '100%',
   },
-  back: { display: 'flex', alignItems: 'center', cursor: 'pointer' },
+  back: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    marginBottom: 40,
+  },
   arrow: {
     transform: 'rotate(180deg)',
   },
@@ -40,7 +45,24 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 'bold',
     marginLeft: 13,
   },
-  favoris: { display: 'flex', alignItems: 'flex-end', cursor: 'pointer' },
+  autocompleteContainer: {
+    margin: '10px 0px',
+  },
+  containerAutoComp: {
+    backgroundColor: 'red',
+  },
+  favorisContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  favoris: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    cursor: 'pointer',
+    marginBottom: 35,
+  },
   textFavoris: {
     textDecorationLine: 'underline',
     color: '#011A5E',
@@ -55,7 +77,7 @@ export default makeStyles<Theme>((theme) => ({
     padding: 4,
   },
   jobDescription: {
-    maxWidth: 500,
+    maxWidth: '60%',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -85,7 +107,7 @@ export default makeStyles<Theme>((theme) => ({
   immersion: {
     width: 285,
     height: 243,
-    background: "#ffe9c3",
+    background: '#ffe9c3',
     borderRadius: 15,
     position: 'relative',
     padding: 30,

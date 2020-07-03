@@ -240,7 +240,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
             </div>
           </div>
           <div className={classes.results}>
-            <div className={classes.resultTitle}>35 résultats</div>
+            <div className={classes.resultTitle}>{`${immersionState.data?.immersions.companies_count} résultats`}</div>
             <div>{immersionState.loading && <Spinner />}</div>
             <div>{immersionState.data?.immersions.companies.length === 0 && 'Aucun resultat trouvé'}</div>
             {immersionState.data?.immersions.companies?.map((e: Company) => (

@@ -12,6 +12,9 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     width: 228,
   },
   inputRoot: {
+    width: 185,
+  },
+  containerAutoComp: {
     '& .MuiOutlinedInput-adornedStart': {
       paddingLeft: 4,
     },

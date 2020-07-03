@@ -144,10 +144,14 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     }
   };
   const onChangeDistance = (s: string) => {
+    const str = Number(s.substring(0, s.length - 2));
+
     if (state.values.distance === s) {
       actions.setValues({ distance: '' });
     } else {
       actions.setValues({ distance: s });
+      const args = { ...dataToSend, page, distance: str };
+      immersionCall({ variables: args });
     }
   };
   return (
@@ -238,6 +242,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
           <div className={classes.results}>
             <div className={classes.resultTitle}>35 résultats</div>
             <div>{immersionState.loading && <Spinner />}</div>
+            <div>{immersionState.data?.immersions.companies.length === 0 && 'Aucun resultat trouvé'}</div>
             {immersionState.data?.immersions.companies?.map((e: Company) => (
               <CardImmersion
                 data={e}
@@ -246,17 +251,19 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                 onClickConseil={() => openConseilState(true)}
               />
             ))}
-            <div className={classes.paginationContainer}>
-              {items.map((el) => (
-                <div
-                  key={el}
-                  className={classNames(classes.itemPage, el === page ? classes.boldItem : null)}
-                  onClick={() => getData(el)}
-                >
-                  {el}
-                </div>
-              ))}
-            </div>
+            {immersionState.data?.immersions.companies.length !== 0 && (
+              <div className={classes.paginationContainer}>
+                {items.map((el) => (
+                  <div
+                    key={el}
+                    className={classNames(classes.itemPage, el === page ? classes.boldItem : null)}
+                    onClick={() => getData(el)}
+                  >
+                    {el}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

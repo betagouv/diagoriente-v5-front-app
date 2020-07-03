@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     width: '60% !important',
   },
   content: {
-    paddingTop: 40,
+    paddingTop: 20,
     height: 250,
     display: 'flex',
     flexDirection: 'column',
@@ -17,7 +17,7 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
     width: 344,
-    height: 84,
+    height: 145,
   },
   btnContainer: {
     display: 'flex',

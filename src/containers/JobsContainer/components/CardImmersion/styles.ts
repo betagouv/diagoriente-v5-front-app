@@ -4,7 +4,7 @@ export default makeStyles<Theme>((theme) => ({
   root: {
     border: '1px solid #C9C9C7',
     borderRadius: 5,
-    height: 165,
+    minHeight: 165,
     margin: '10px 0px',
     transition: '1s ease-in-out',
   },
@@ -72,8 +72,8 @@ export default makeStyles<Theme>((theme) => ({
   },
   headerInfo: {
     backgroundColor: '#ffe9c3',
-    height: 153,
-    padding: 25,
+    height: 159,
+    padding: 23,
     position: 'relative',
   },
   arrow: {
@@ -100,6 +100,7 @@ export default makeStyles<Theme>((theme) => ({
   logoItem: {
     display: 'flex',
     width: '33.33%',
+    cursor: 'pointer',
   },
   titleLogo: {
     fontWeight: 'bold',

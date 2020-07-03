@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useJob } from 'requests/jobs';
+import CompaniesContext from 'contexts/immersion';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDidMount } from 'hooks/useLifeCycle';
+import ModalContainer from 'components/common/Modal/ModalContainer';
 import Arrow from 'assets/svg/arrow';
 import ImageTitle from 'components/common/TitleImage/TitleImage';
 import TraitJaune from 'assets/images/trait_jaune.svg';
@@ -9,24 +11,29 @@ import Edit from 'assets/svg/edit.svg';
 import Select from 'components/inputs/Select/Select';
 import Loupe from 'assets/svg/loupe';
 import { useForm } from 'hooks/useInputs';
+import ModalConseil from '../Modals/ConseilModal/ConseilModal';
+import ModalContact from '../Modals/ContactModal/ContactModal';
 import CardImmersion from '../../components/CardImmersion/CardImmersion';
 import CheckBox from '../../components/checkBox/ChexBox';
 import Switch from '../../components/Switch/Switch';
 import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
-const array = [
-  { title: 'title', description: 'description', salariés: 'salariés' },
-  { title: 'title', description: 'description', salariés: 'salariés' },
-];
-
 const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
+  const { companies } = useContext(CompaniesContext);
+  const [openContact, openContactState] = useState(false);
+  const [openConseil, openConseilState] = useState(false);
+
   const param = location.pathname.substr(16);
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
   });
+  const handleClose = () => {
+    openContactState(false);
+    openConseilState(false);
+  };
   const [state, actions] = useForm({
     initialValues: {
       tri: '',
@@ -129,8 +136,15 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
               {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}
             </div>
           </Link>
-          <ImageTitle title="TROUVER UNE IMMERSION" color="#DB8F00" image={TraitJaune} size={42} />
+          <ImageTitle
+            title="TROUVER UNE IMMERSION"
+            color="#DB8F00"
+            image={TraitJaune}
+            size={42}
+            className={classes.titleImmersion}
+          />
         </div>
+
         <div className={classes.wrapper}>
           <div className={classes.filtersContainer}>
             <div className={classes.boxSearch}>
@@ -169,7 +183,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
               <hr className={classes.bar} />
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
               <div className={classes.filterTitle}>Secteurs d’activité</div>
-              <Select  />
+              <Select />
               <div className={classes.tailleContainer}>
                 <div className={classes.filterTitle}>Taille de l’entreprise</div>
                 {taille.map((el) => (
@@ -199,12 +213,26 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.results}>
             <div className={classes.resultTitle}>35 résultats</div>
-            {array.map((e) => (
-              <CardImmersion key={e.title} data={e} />
+            {companies?.map((e) => (
+              <CardImmersion
+                data={e}
+                key={e.siret}
+                onClickContact={() => openContactState(true)}
+                onClickConseil={() => openConseilState(true)}
+              />
             ))}
           </div>
         </div>
       </div>
+      <ModalContainer
+        open={openContact || openConseil}
+        handleClose={handleClose}
+        backdropColor="#011A5E"
+        colorIcon="#DB8F00"
+        size={70}
+      >
+        {openConseil ? <ModalConseil handleClose={handleClose} /> : <ModalContact />}
+      </ModalContainer>
     </div>
   );
 };

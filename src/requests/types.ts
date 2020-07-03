@@ -142,3 +142,26 @@ export interface Favoris {
   job: string;
   interested: boolean;
 }
+export interface Company {
+  address: string;
+  alternance: string;
+  boosted: boolean;
+  city: string;
+  contact_mode: string;
+  distance: number;
+  headcount_text: string;
+  lat: number;
+  lon: number;
+  matched_rome_code: string;
+  matched_rome_label: string;
+  matched_rome_slug: string;
+  naf: string;
+  naf_text: string;
+  name: string;
+  pmsmp: string;
+  siret: string;
+  social_network: string;
+  stars: number;
+  url: string;
+  website: string;
+}

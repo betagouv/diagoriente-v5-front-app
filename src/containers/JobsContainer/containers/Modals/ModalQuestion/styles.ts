@@ -34,5 +34,6 @@ export default makeStyles((theme) => ({
     marginTop: 20,
     display: 'flex',
     justifyContent: 'center',
+    height: 270
   },
 }));

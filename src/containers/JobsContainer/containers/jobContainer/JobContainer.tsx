@@ -12,12 +12,14 @@ import HeartOutLine from 'assets/svg/outlineHeart.svg';
 import fullHeart from 'assets/svg/fullHeart.svg';
 import userContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
+import CompaniesContext from 'contexts/immersion';
 import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import { Jobs } from 'requests/types';
 import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
+import { useImmersion } from 'requests/immersion';
 import { useLocation } from 'requests/location';
 import ModalContainerInfo from '../Modals/JobInfo';
 import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
@@ -25,12 +27,14 @@ import Graph from '../../components/GraphCompetence/GraphCompetence';
 import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
 import useStyles from './styles';
 
-const JobContainer = ({ location }: RouteComponentProps) => {
+const JobContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
+
   const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
   const param = location.pathname.substr(10);
+  const [immersionCall, immersionState] = useImmersion();
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadJobs, { data: listJobs }] = useJobs();
@@ -43,11 +47,12 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   });
   const isFav = FavData?.favorites.data.find((el) => el.job === param);
 
+  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
+  const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
+  const [coordinates, setCoordinates] = useState([]);
+  const [openImmersion, setOpenImmersion] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
-  const [selectedImmersion, setSelectedImmersion] = useState('');
-  const [openImmersion, setOpenImmersion] = useState(false);
-
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
 
   const onChangeImmersion = (e: any) => {
@@ -66,6 +71,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
 
   const { user } = useContext(userContext);
+  const { setCompanies } = useContext(CompaniesContext);
   const { parcours } = useContext(parcoursContext);
   const competences = parcours?.globalCompetences;
   const d: any = [];
@@ -84,13 +90,19 @@ const JobContainer = ({ location }: RouteComponentProps) => {
     setInfo(false);
     setOpenTest(false);
   };
-  const onSelect = (e: string | undefined) => {
-    if (e) setSelectedLocation(e);
-    setOpenLocation(false);
+  const onSelect = (e: any | undefined) => {
+    if (e) {
+      setSelectedLocation(e.label);
+      setCoordinates(e.value.coordinates);
+      setOpenLocation(false);
+    }
   };
-  const onSelectImmersion = (e: string | undefined) => {
-    if (e) setSelectedImmersion(e);
-    setOpenImmersion(false);
+  const onSelectImmersion = (e: any | undefined) => {
+    if (e) {
+      setSelectedImmersion(e.label);
+      setSelectedImmersionCode(e.value);
+      setOpenImmersion(false);
+    }
   };
   const addToFav = () => {
     const dataFav = {
@@ -103,6 +115,21 @@ const JobContainer = ({ location }: RouteComponentProps) => {
   const deleteFromFav = () => {
     deleteFavCall({ variables: { id: isFav?.id } });
   };
+  const onClickImmersion = () => {
+    const dataToSend = {
+      rome_codes: 'M1607',
+      latitude: 49.119146,
+      longitude: 6.17602,
+      distance: 30,
+    };
+    immersionCall({ variables: dataToSend });
+  };
+  useEffect(() => {
+    if (data?.job) {
+      setSelectedImmersion(data?.job.title);
+      setSelectedImmersionCode(data.job.rome_codes);
+    }
+  }, [data]);
   useEffect(() => {
     if (addFavState.data) {
       const fn = data ? refetch : loadJob;
@@ -116,6 +143,14 @@ const JobContainer = ({ location }: RouteComponentProps) => {
       fn();
     }
   }, [deleteFavState.data, loadJob, FavData, refetch]);
+  useEffect(() => {
+    if (immersionState.data) {
+      if (immersionState.data) {
+        setCompanies(immersionState.data.immersions.companies);
+        history.push(`/jobs/immersion/${param}`);
+      }
+    }
+  }, [immersionState.data, history, param, setCompanies]);
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>
@@ -185,11 +220,9 @@ const JobContainer = ({ location }: RouteComponentProps) => {
               </div>
 
               <div className={classes.btnImersionContainer}>
-                <Link to={`/jobs/immersion/${param}`}>
-                  <Button className={classes.btnImersion}>
-                    <div className={classes.btnLabel}>Chercher</div>
-                  </Button>
-                </Link>
+                <Button className={classes.btnImersion} onClick={onClickImmersion} fetching={immersionState.loading}>
+                  <div className={classes.btnLabel}>Chercher</div>
+                </Button>
               </div>
             </div>
           </div>
@@ -253,8 +286,7 @@ const JobContainer = ({ location }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openInfo ? <ModalContainerInfo job={data?.job} />
-        : <ModalQuestion job={data?.job} />}
+        {openInfo ? <ModalContainerInfo job={data?.job} /> : <ModalQuestion job={data?.job} />}
       </ModalContainer>
     </div>
   );

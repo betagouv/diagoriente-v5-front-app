@@ -12,18 +12,20 @@ import useStyles from './styles';
 
 interface IProps {
   data: any;
+  onClickContact: () => void;
+  onClickConseil: () => void;
 }
 
-const CardImmersion = ({ data }: IProps) => {
+const CardImmersion = ({ data, onClickContact, onClickConseil }: IProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   return (
     <div className={classNames(classes.root, open && classes.height2)}>
       <div className={classes.infoImmersion}>
         <div className={classes.leftInfo}>
-          <div className={classes.titleCard}>Title</div>
-          <div className={classes.description}>description</div>
-          <div> 6 à 9 salariés </div>
+          <div className={classes.titleCard}>{data.name}</div>
+          <div className={classes.description}>{data.naf_text}</div>
+          <div>{data.headcount_text}</div>
           <div className={classes.icons}>
             <div className={classes.logoItemDescription}>
               <img src={Location} alt="" />
@@ -58,7 +60,7 @@ const CardImmersion = ({ data }: IProps) => {
             <div className={classes.infoExtended}>
               <div className={classes.item}>
                 <div className={classes.itemTitle}>Adresse</div>
-                <div>RUE DE BRETAGNE 75003 PARIS-03</div>
+                <div>{data.address}</div>
               </div>
               <div className={classes.item}>
                 <div className={classes.itemTitle}>Téléphone</div>
@@ -67,22 +69,22 @@ const CardImmersion = ({ data }: IProps) => {
               </div>
               <div className={classes.item}>
                 <div className={classes.itemTitle}>Mode de contact à privilégier</div>
-                <div>Se présenter spontanément</div>
+                <div>{data.contact_mode}</div>
               </div>
             </div>
             <div className={classes.logoContainer}>
-              <div className={classes.logoItem}>
+              <div className={classes.logoItem} onClick={onClickContact}>
                 <img src={Mail} alt="" width={32} height={32} />
                 <div className={classes.titleLogo}>Contacter par mail</div>
               </div>
-              <div className={classes.logoItem}>
+              <div className={classes.logoItem} onClick={onClickConseil}>
                 <img src={Idea} alt="" width={32} height={32} />
                 <div className={classes.titleLogo}>Conseils pour appeler</div>
               </div>
             </div>
           </div>
           <div style={{ width: '100%', height: 203 }}>
-            <Map lat={48.8566} lng={2.3522} name={data.title} />
+            <Map lat={data.lat} lng={data.lon} name={data.title} />
           </div>
         </div>
       )}

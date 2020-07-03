@@ -12,7 +12,7 @@ interface IProps {
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSelectText: (e: string | undefined) => void;
-  value: string;
+  value: string | undefined;
   name: string;
   placeholder?: string;
   error?: boolean;
@@ -39,7 +39,10 @@ const AutoCompleteJob = ({
   onSelectText,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
-  const data = options.map((el: any) => ({ label: el.title || el.label, value: el.label }));
+  const data = options?.map((el: any) => ({
+    label: el.title || el.label,
+    value: type === 'immersion' ? el.rome_codes : el,
+  }));
   return (
     <div className={classes.root}>
       <TextField
@@ -61,14 +64,14 @@ const AutoCompleteJob = ({
       />
       {open && (
         <div className={classes.optionsContainer}>
-          {data.map((el: any) => {
-            const t = el.label.toLowerCase().split(value.toLowerCase());
+          {data?.map((el: any) => {
+            const t = el.label.toLowerCase().split(value?.toLowerCase());
             for (let i = 0; i < t.length; i += 1) {
               return (
                 <div
                   key={el.label}
                   onClick={() => {
-                    onSelectText(el.label);
+                    onSelectText(el);
                   }}
                   className={classes.item}
                 >

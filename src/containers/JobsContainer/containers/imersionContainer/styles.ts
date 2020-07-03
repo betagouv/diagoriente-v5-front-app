@@ -15,11 +15,19 @@ export default makeStyles<Theme>((theme) => ({
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  titleImmersion: {
+    textAlign: 'center',
   },
   back: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
+    position: 'absolute',
+    left: 0,
+    top: 66,
   },
   arrow: {
     transform: 'rotate(180deg)',

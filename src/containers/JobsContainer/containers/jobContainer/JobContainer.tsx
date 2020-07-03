@@ -119,6 +119,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
       rome_codes: selectedImmersionCode,
       latitude: coordinates[1],
       longitude: coordinates[0],
+      page_size: 6,
       distance: 30,
     };
     history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: dataToSend } });

@@ -121,12 +121,14 @@ export default makeStyles<Theme>((theme) => ({
     marginTop: 30,
   },
   itemPage: {
+    fontSize: 18,
     padding: '0px 10px',
     cursor: 'pointer',
+    fontWeight: 100,
+
   },
   boldItem: {
     fontSize: 18,
     fontWeight: 'bolder',
-    color: theme.palette.primary.main,
   },
 }));

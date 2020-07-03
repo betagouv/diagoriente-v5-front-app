@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useJob } from 'requests/jobs';
-import CompaniesContext from 'contexts/immersion';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDidMount } from 'hooks/useLifeCycle';
 import ModalContainer from 'components/common/Modal/ModalContainer';
@@ -9,7 +8,10 @@ import ImageTitle from 'components/common/TitleImage/TitleImage';
 import TraitJaune from 'assets/images/trait_jaune.svg';
 import Edit from 'assets/svg/edit.svg';
 import Select from 'components/inputs/Select/Select';
+import { useImmersion } from 'requests/immersion';
 import Loupe from 'assets/svg/loupe';
+import Spinner from 'components/Spinner/Spinner';
+import { Company } from 'requests/types';
 import { useForm } from 'hooks/useInputs';
 import ModalConseil from '../Modals/ConseilModal/ConseilModal';
 import ModalContact from '../Modals/ContactModal/ContactModal';
@@ -21,15 +23,23 @@ import useStyles from './styles';
 
 const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const { companies } = useContext(CompaniesContext);
   const [openContact, openContactState] = useState(false);
   const [openConseil, openConseilState] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [immersionCall, immersionState] = useImmersion();
+  const dataToSend = (location.state as any)?.detail;
   const param = location.pathname.substr(16);
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
   });
+  useEffect(() => {
+    if (dataToSend) {
+      const args = { ...dataToSend, page };
+      console.log('args', args);
+      immersionCall({ variables: args });
+    }
+  }, [dataToSend, immersionCall, page]);
   const handleClose = () => {
     openContactState(false);
     openConseilState(false);
@@ -75,23 +85,23 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const distance = [
     {
       label: '5 km',
-      value: '5 km',
+      value: 5,
     },
     {
       label: '10 km',
-      value: '10 km',
+      value: 10,
     },
     {
       label: '30 km',
-      value: '30 km',
+      value: 30,
     },
     {
       label: '50 km',
-      value: '50 km',
+      value: 50,
     },
     {
       label: '100 km',
-      value: '100 km',
+      value: 100,
     },
     {
       label: '+ de 100 km',
@@ -213,7 +223,8 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.results}>
             <div className={classes.resultTitle}>35 résultats</div>
-            {companies?.map((e) => (
+            <div>{immersionState.loading && <Spinner />}</div>
+            {immersionState.data?.immersions.companies?.map((e: Company) => (
               <CardImmersion
                 data={e}
                 key={e.siret}

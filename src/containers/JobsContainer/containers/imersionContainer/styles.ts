@@ -114,4 +114,8 @@ export default makeStyles<Theme>((theme) => ({
     color: theme.palette.success.main,
     fontSize: 28,
   },
+  paginationContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));

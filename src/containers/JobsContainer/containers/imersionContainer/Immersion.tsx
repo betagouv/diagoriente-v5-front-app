@@ -13,6 +13,7 @@ import Loupe from 'assets/svg/loupe';
 import Spinner from 'components/Spinner/Spinner';
 import { Company } from 'requests/types';
 import { useForm } from 'hooks/useInputs';
+import classNames from 'utils/classNames';
 import ModalConseil from '../Modals/ConseilModal/ConseilModal';
 import ModalContact from '../Modals/ContactModal/ContactModal';
 import CardImmersion from '../../components/CardImmersion/CardImmersion';
@@ -26,6 +27,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const [openContact, openContactState] = useState(false);
   const [openConseil, openConseilState] = useState(false);
   const [page, setPage] = useState(1);
+  const [items, setItems] = useState<number[]>([]);
   const [immersionCall, immersionState] = useImmersion();
   const dataToSend = (location.state as any)?.detail;
   const param = location.pathname.substr(16);
@@ -36,13 +38,25 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   useEffect(() => {
     if (dataToSend) {
       const args = { ...dataToSend, page };
-      console.log('args', args);
       immersionCall({ variables: args });
     }
-  }, [dataToSend, immersionCall, page]);
+  }, [dataToSend, immersionCall]);
   const handleClose = () => {
     openContactState(false);
     openConseilState(false);
+  };
+  const PAGES = immersionState.data?.immersions.companies_count / 6;
+  useEffect(() => {
+    if (PAGES) {
+      const lengthItem = Math.round(PAGES);
+      const a = Array.from(Array(lengthItem), (_, i) => i + 1);
+      setItems(a);
+    }
+  }, [PAGES]);
+  const getData = (pg: number) => {
+    setPage(pg);
+    const args = { ...dataToSend, page: pg };
+    immersionCall({ variables: args });
   };
   const [state, actions] = useForm({
     initialValues: {
@@ -232,6 +246,17 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                 onClickConseil={() => openConseilState(true)}
               />
             ))}
+            <div className={classes.paginationContainer}>
+              {items.map((el) => (
+                <div
+                  key={el}
+                  className={classNames(classes.itemPage, el === page ? classes.boldItem : null)}
+                  onClick={() => getData(el)}
+                >
+                  {el}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -117,5 +117,16 @@ export default makeStyles<Theme>((theme) => ({
   paginationContainer: {
     display: 'flex',
     justifyContent: 'center',
+    marginBottom: 30,
+    marginTop: 30,
+  },
+  itemPage: {
+    padding: '0px 10px',
+    cursor: 'pointer',
+  },
+  boldItem: {
+    fontSize: 18,
+    fontWeight: 'bolder',
+    color: theme.palette.primary.main,
   },
 }));

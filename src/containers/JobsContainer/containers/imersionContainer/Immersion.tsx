@@ -1,16 +1,26 @@
-import React, { useState, useContext } from 'react';
-import { useJob } from 'requests/jobs';
-import CompaniesContext from 'contexts/immersion';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
+
+import { useJob, useJobs } from 'requests/jobs';
+import { useImmersion } from 'requests/immersion';
+import { useLocation } from 'requests/location';
+import { Company, Jobs } from 'requests/types';
+
+import { useForm } from 'hooks/useInputs';
 import { useDidMount } from 'hooks/useLifeCycle';
+import classNames from 'utils/classNames';
 import ModalContainer from 'components/common/Modal/ModalContainer';
-import Arrow from 'assets/svg/arrow';
+import Select from 'components/inputs/Select/Select';
 import ImageTitle from 'components/common/TitleImage/TitleImage';
+import Spinner from 'components/Spinner/Spinner';
+
+import Arrow from 'assets/svg/arrow';
 import TraitJaune from 'assets/images/trait_jaune.svg';
 import Edit from 'assets/svg/edit.svg';
-import Select from 'components/inputs/Select/Select';
+import LogoLocation from 'assets/form/location.png';
 import Loupe from 'assets/svg/loupe';
-import { useForm } from 'hooks/useInputs';
+
+import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalConseil from '../Modals/ConseilModal/ConseilModal';
 import ModalContact from '../Modals/ContactModal/ContactModal';
 import CardImmersion from '../../components/CardImmersion/CardImmersion';
@@ -21,18 +31,54 @@ import useStyles from './styles';
 
 const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const { companies } = useContext(CompaniesContext);
   const [openContact, openContactState] = useState(false);
   const [openConseil, openConseilState] = useState(false);
+  const [update, setUpdate] = useState(false);
+  // form state
+  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
+  const [openImmersion, setOpenImmersion] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [openLocation, setOpenLocation] = useState(false);
+  const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
+  const [coordinates, setCoordinates] = useState([]);
+  const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState<number[]>([]);
+  const [immersionCall, immersionState] = useImmersion();
+  const dataToSend = (location.state as any)?.detail;
 
   const param = location.pathname.substr(16);
+  const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
+    loadJobs();
   });
+  useEffect(() => {
+    if (dataToSend) {
+      const args = { ...dataToSend, page };
+      immersionCall({ variables: args });
+    }
+  }, [dataToSend, immersionCall, page]);
   const handleClose = () => {
     openContactState(false);
     openConseilState(false);
+  };
+  const PAGES = immersionState.data?.immersions.companies_count / 6;
+  const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
+
+  useEffect(() => {
+    if (PAGES) {
+      const lengthItem = Math.round(PAGES);
+      const a = Array.from(Array(lengthItem), (_, i) => i + 1);
+      setItems(a);
+    }
+  }, [PAGES]);
+  const getData = (pg: number) => {
+    setPage(pg);
+    const args = { ...dataToSend, page: pg };
+    immersionCall({ variables: args });
   };
   const [state, actions] = useForm({
     initialValues: {
@@ -75,23 +121,23 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const distance = [
     {
       label: '5 km',
-      value: '5 km',
+      value: 5,
     },
     {
       label: '10 km',
-      value: '10 km',
+      value: 10,
     },
     {
       label: '30 km',
-      value: '30 km',
+      value: 30,
     },
     {
       label: '50 km',
-      value: '50 km',
+      value: 50,
     },
     {
       label: '100 km',
-      value: '100 km',
+      value: 100,
     },
     {
       label: '+ de 100 km',
@@ -120,11 +166,50 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     }
   };
   const onChangeDistance = (s: string) => {
+    const str = Number(s.substring(0, s.length - 2));
+
     if (state.values.distance === s) {
       actions.setValues({ distance: '' });
     } else {
       actions.setValues({ distance: s });
+      const args = { ...dataToSend, page, distance: str };
+      immersionCall({ variables: args });
     }
+  };
+  const onChangeImmersion = (e: any) => {
+    const { value } = e.target;
+    setSelectedImmersion(value);
+    setOpenImmersion(true);
+    setFiltredArray(listJobs?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+  };
+  const onChangeLocation = (e: any) => {
+    const { value } = e.target;
+    setOpenLocation(true);
+    setSelectedLocation(value);
+  };
+  const onSelect = (e: any | undefined) => {
+    if (e) {
+      setSelectedLocation(e.label);
+      setCoordinates(e.value.coordinates);
+      setOpenLocation(false);
+    }
+  };
+  const onSelectImmersion = (e: any | undefined) => {
+    if (e) {
+      setSelectedImmersion(e.label);
+      setSelectedImmersionCode(e.value);
+      setOpenImmersion(false);
+    }
+  };
+  const onClickImmersion = () => {
+    const dataTo = {
+      rome_codes: selectedImmersionCode,
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      page_size: 6,
+      distance: 30,
+    };
+    immersionCall({ variables: dataTo });
   };
   return (
     <div className={classes.root}>
@@ -147,20 +232,41 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
 
         <div className={classes.wrapper}>
           <div className={classes.filtersContainer}>
-            <div className={classes.boxSearch}>
-              <div className={classes.textTitleContainer}>
-                <Loupe color="#FFA600" width="32" height="32" />
-                <div className={classes.textTitle}>MA RECHERCHE</div>
+            {update ? (
+              <div className={classes.immersionFormContainer}>
+                <ImmersionForm
+                  filteredArray={filteredArray}
+                  onChangeImmersion={onChangeImmersion}
+                  onSelectImmersion={onSelectImmersion}
+                  selectedImmersion={selectedImmersion}
+                  openImmersion={openImmersion}
+                  onChangeLocation={onChangeLocation}
+                  onSelect={onSelect}
+                  selectedLocation={selectedLocation}
+                  listLocation={listLocation}
+                  LogoLocation={LogoLocation}
+                  openLocation={openLocation}
+                  onClickImmersion={onClickImmersion}
+                />
               </div>
-              <div>
-                Je recherche une <strong>immersion</strong> pour le métier de
-                <b> {data?.job.title} </b>à Lyon.
+            ) : (
+              <div className={classes.boxSearch}>
+                <div className={classes.textTitleContainer}>
+                  <Loupe color="#FFA600" width="32" height="32" />
+                  <div className={classes.textTitle}>MA RECHERCHE</div>
+                </div>
+                <div>
+                  Je recherche une <strong>immersion</strong> pour le métier de
+                  <b> {data?.job.title} </b>à Lyon.
+                </div>
+                <div className={classes.edit}>
+                  <img src={Edit} alt="" />
+                  <div className={classes.textEdit} onClick={() => setUpdate(!update)}>
+                    Modifier
+                  </div>
+                </div>
               </div>
-              <div className={classes.edit}>
-                <img src={Edit} alt="" />
-                <div className={classes.textEdit}>Modifier</div>
-              </div>
-            </div>
+            )}
             <div className={classes.filters}>
               <div className={classes.switchMask}>
                 <Switch
@@ -212,15 +318,38 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
             </div>
           </div>
           <div className={classes.results}>
-            <div className={classes.resultTitle}>35 résultats</div>
-            {companies?.map((e) => (
-              <CardImmersion
-                data={e}
-                key={e.siret}
-                onClickContact={() => openContactState(true)}
-                onClickConseil={() => openConseilState(true)}
-              />
-            ))}
+            <div>{immersionState.loading && <Spinner />}</div>
+            {immersionState.data ? (
+              <>
+                <div className={classes.resultTitle}>
+                  {`${immersionState.data?.immersions.companies_count} résultats`}
+                </div>
+                <div>{immersionState.data?.immersions.companies.length === 0 && 'Aucun resultat trouvé'}</div>
+                {immersionState.data?.immersions.companies?.map((e: Company) => (
+                  <CardImmersion
+                    data={e}
+                    key={e.siret}
+                    onClickContact={() => openContactState(true)}
+                    onClickConseil={() => openConseilState(true)}
+                  />
+                ))}
+                {immersionState.data?.immersions.companies.length !== 0 && (
+                  <div className={classes.paginationContainer}>
+                    {items.map((el) => (
+                      <div
+                        key={el}
+                        className={classNames(classes.itemPage, el === page ? classes.boldItem : null)}
+                        onClick={() => getData(el)}
+                      >
+                        {el}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
       </div>

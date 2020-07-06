@@ -12,19 +12,15 @@ import HeartOutLine from 'assets/svg/outlineHeart.svg';
 import fullHeart from 'assets/svg/fullHeart.svg';
 import userContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
-import CompaniesContext from 'contexts/immersion';
-import Loupe from 'assets/svg/loupe';
-import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import { Jobs } from 'requests/types';
 import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
-import { useImmersion } from 'requests/immersion';
 import { useLocation } from 'requests/location';
+import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalContainerInfo from '../Modals/JobInfo';
 import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
-import AutoComplete from '../../components/Autocomplete/AutoCompleteJob';
 import useStyles from './styles';
 
 const JobContainer = ({ location, history }: RouteComponentProps) => {
@@ -34,7 +30,6 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
   const param = location.pathname.substr(10);
-  const [immersionCall, immersionState] = useImmersion();
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadJobs, { data: listJobs }] = useJobs();
@@ -71,21 +66,23 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
 
   const { user } = useContext(userContext);
-  const { setCompanies } = useContext(CompaniesContext);
   const { parcours } = useContext(parcoursContext);
   const competences = parcours?.globalCompetences;
   const d: any = [];
   useOnclickOutside(divRef, () => {});
 
-  if (data?.job && parcours?.families) {
-    parcours?.families.map((item) => {
-      data?.job.interests.map((el) => {
-        if (el._id.nom === item.nom) {
-          d.push(item);
-        }
+  useEffect(() => {
+    if (data?.job && parcours?.families) {
+      parcours?.families.map((item) => {
+        data?.job.interests.map((el) => {
+          if (el._id.nom === item.nom) {
+            d.push(item);
+          }
+        });
       });
-    });
-  }
+    }
+  }, [d, data, parcours]);
+
   const handleClose = () => {
     setInfo(false);
     setOpenTest(false);
@@ -117,12 +114,13 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   };
   const onClickImmersion = () => {
     const dataToSend = {
-      rome_codes: 'M1607',
-      latitude: 49.119146,
-      longitude: 6.17602,
+      rome_codes: selectedImmersionCode,
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      page_size: 6,
       distance: 30,
     };
-    immersionCall({ variables: dataToSend });
+    history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: dataToSend } });
   };
   useEffect(() => {
     if (data?.job) {
@@ -143,14 +141,6 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
       fn();
     }
   }, [deleteFavState.data, loadJob, FavData, refetch]);
-  useEffect(() => {
-    if (immersionState.data) {
-      if (immersionState.data) {
-        setCompanies(immersionState.data.immersions.companies);
-        history.push(`/jobs/immersion/${param}`);
-      }
-    }
-  }, [immersionState.data, history, param, setCompanies]);
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>
@@ -186,44 +176,21 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
                 {!data?.job.favorite ? 'Ajouter à mes favoris' : 'Enlever de mes favoris'}
               </div>
             </div>
-            <div className={classes.immersion}>
-              <div className={classes.logoContainer}>
-                <Loupe color="#FFA600" width="42" height="42" />
-              </div>
-              <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
-              <div>Je recherche :</div>
-              <div className={classes.autocompleteContainer}>
-                <AutoComplete
-                  options={filteredArray}
-                  onChange={onChangeImmersion}
-                  onSelectText={onSelectImmersion}
-                  value={selectedImmersion}
-                  name="search"
-                  placeholder="Immersion"
-                  className={classes.containerAutoComp}
-                  open={openImmersion}
-                  type="immersion"
-                />
-              </div>
-              <div className={classes.autocompleteContainer}>
-                <AutoComplete
-                  onChange={onChangeLocation}
-                  onSelectText={onSelect}
-                  value={selectedLocation}
-                  name="location"
-                  placeholder="paris"
-                  options={listLocation ? listLocation?.location : []}
-                  icon={LogoLocation}
-                  type="location"
-                  open={openLocation}
-                />
-              </div>
-
-              <div className={classes.btnImersionContainer}>
-                <Button className={classes.btnImersion} onClick={onClickImmersion} fetching={immersionState.loading}>
-                  <div className={classes.btnLabel}>Chercher</div>
-                </Button>
-              </div>
+            <div className={classes.immersionFormContainer}>
+              <ImmersionForm
+                filteredArray={filteredArray}
+                onChangeImmersion={onChangeImmersion}
+                onSelectImmersion={onSelectImmersion}
+                selectedImmersion={selectedImmersion}
+                openImmersion={openImmersion}
+                onChangeLocation={onChangeLocation}
+                onSelect={onSelect}
+                selectedLocation={selectedLocation}
+                listLocation={listLocation}
+                LogoLocation={LogoLocation}
+                openLocation={openLocation}
+                onClickImmersion={onClickImmersion}
+              />
             </div>
           </div>
         </div>

@@ -64,8 +64,6 @@ const CardImmersion = ({ data, onClickContact, onClickConseil }: IProps) => {
               </div>
               <div className={classes.item}>
                 <div className={classes.itemTitle}>Téléphone</div>
-                <div>04 72 60 56 54</div>
-                <div>78 67 67 67</div>
               </div>
               <div className={classes.item}>
                 <div className={classes.itemTitle}>Mode de contact à privilégier</div>

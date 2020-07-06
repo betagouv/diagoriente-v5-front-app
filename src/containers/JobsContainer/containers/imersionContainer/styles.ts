@@ -40,6 +40,9 @@ export default makeStyles<Theme>((theme) => ({
   wrapper: {
     display: 'flex',
   },
+  immersionFormContainer: {
+    marginBottom: 20,
+  },
   filtersContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -105,6 +108,7 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 'bold',
     textDecorationLine: 'underline',
     paddingLeft: 5,
+    cursor: 'pointer',
   },
   results: {
     flex: 1,
@@ -125,7 +129,6 @@ export default makeStyles<Theme>((theme) => ({
     padding: '0px 10px',
     cursor: 'pointer',
     fontWeight: 100,
-
   },
   boldItem: {
     fontSize: 18,

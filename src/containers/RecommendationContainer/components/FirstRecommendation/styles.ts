@@ -109,4 +109,7 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     lineHeight: '20px',
   },
+  disabled: {
+    pointerEvents: 'none',
+  },
 }));

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useJobs } from 'requests/jobs';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { Families, Jobs } from 'requests/types';
@@ -11,6 +11,7 @@ import classNames from 'utils/classNames';
 import UserContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
 
+import Spinner from 'components/Spinner/Spinner';
 import Title from 'components/common/Title/Title';
 import Card from 'components/common/Card/Card';
 import Avatar from '@material-ui/core/Avatar';
@@ -32,7 +33,6 @@ const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const [callJobs, stateJobs] = useJobs();
 
@@ -53,6 +53,20 @@ const ProfilComponent = () => {
   }
 
   const favoriteJobs = stateJobs.data?.myJobs.filter((job) => job.favorite && job.favorite.interested) || [];
+
+  const renderTopJobs = useMemo(() => {
+    if (topJobs.length) {
+      return topJobs.map((j) => (
+        <div key={j.id} className={classes.favoriContainer}>
+          <img src={littlestar} alt="" height={20} />
+          <div className={classes.job}>{j.title}</div>
+        </div>
+      ));
+    }
+    if (stateJobs.loading) return <Spinner />;
+    return <div>Aucun metier à afficher</div>;
+    // eslint-disable-next-line
+  }, [stateJobs.loading]);
 
   const allCard = [
     {
@@ -81,29 +95,33 @@ const ProfilComponent = () => {
       childrenCardClassName: classes.childrenCardClassName,
       children: (
         <Carousel
-          renderBottomCenterControls={({ slideCount, currentSlide }) => (
-            <div className={classes.circleContainer}>
+          renderBottomCenterControls={({ slideCount, currentSlide, goToSlide }) => (
+            <div tabIndex={-1} className={classes.circleContainer}>
               {[...new Array(slideCount)].map((count, index) => (
                 <div
+                  tabIndex={-1}
                   // eslint-disable-next-line
                   key={index}
                   className={classNames(
                     classes.carouselCircle,
                     index === currentSlide && classes.currentCarouselCircle,
                   )}
+                  onClick={index !== currentSlide ? () => goToSlide(index) : undefined}
                 />
               ))}
             </div>
           )}
           dragging={false}
-          renderCenterLeftControls={({ previousSlide }) =>
-            (parcours && parcours.families.length > 4 ? (
-              <div className={classNames(currentIndex === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}>
+          renderCenterLeftControls={({ previousSlide, currentSlide }) =>
+            (parcours && parcours.families.length > 3 ? (
+              <div
+                tabIndex={-1}
+                className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
+              >
                 <Arrow
                   onClick={() => {
-                    if (currentIndex !== 0) {
+                    if (currentSlide !== 0) {
                       previousSlide();
-                      setCurrentIndex(currentIndex - 1);
                     }
                   }}
                   width="14"
@@ -113,14 +131,16 @@ const ProfilComponent = () => {
                 />
               </div>
             ) : null)}
-          renderCenterRightControls={({ nextSlide }) =>
-            (parcours && parcours.families.length > 4 ? (
-              <div className={classNames(currentIndex === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}>
+          renderCenterRightControls={({ nextSlide, currentSlide }) =>
+            (parcours && parcours.families.length > 3 ? (
+              <div
+                tabIndex={-1}
+                className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
+              >
                 <Arrow
                   onClick={() => {
-                    if (currentIndex !== 1) {
+                    if (currentSlide !== 1) {
                       nextSlide();
-                      setCurrentIndex(currentIndex + 1);
                     }
                   }}
                   width="14"
@@ -141,7 +161,7 @@ const ProfilComponent = () => {
               return result;
             }, [] as Families[][])
             .map((families, index) => (
-              <Grid key={index} container style={{ padding: '40px' }}>
+              <Grid key={index} container className={classes.interestItem}>
                 {families.map((family) => (
                   <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
                     <Circle size={70} />
@@ -154,6 +174,7 @@ const ProfilComponent = () => {
       ),
     },
     {
+      path: '/profil/card',
       title: 'MA CARTE DE COMPETENCES',
       background: '#D60051',
       color: '#fff',
@@ -183,7 +204,11 @@ const ProfilComponent = () => {
           {persoSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
-                <Circle size={70} />
+                <Circle size={70}>
+                  {theme.theme.resources && theme.theme.resources.icon && (
+                    <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
+                  )}
+                </Circle>
                 <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
               </div>
             </Grid>
@@ -205,7 +230,11 @@ const ProfilComponent = () => {
           {proSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id}>
               <div className={classes.themeSelection}>
-                <Circle size={70} />
+                <Circle size={70}>
+                  {theme.theme.resources && theme.theme.resources.icon && (
+                    <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
+                  )}
+                </Circle>
                 <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
               </div>
             </Grid>
@@ -221,14 +250,7 @@ const ProfilComponent = () => {
       background: '#FFD382',
       color: '#424242',
       logo: star,
-      children: topJobs.length
-        ? topJobs.map((j) => (
-          <div key={j.id} className={classes.favoriContainer}>
-            <img src={littlestar} alt="" height={20} />
-            <div className={classes.job}>{j.title}</div>
-          </div>
-          ))
-        : null,
+      children: renderTopJobs,
     },
     {
       titleCard: <div className={classes.emptyDiv} />,

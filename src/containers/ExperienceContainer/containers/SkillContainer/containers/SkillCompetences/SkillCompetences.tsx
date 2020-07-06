@@ -19,6 +19,7 @@ import Popup from 'components/common/Popup/Popup';
 import blueline from 'assets/svg/blueline.svg';
 
 import classNames from 'utils/classNames';
+import { decodeUri } from 'utils/url';
 
 import useStyles from './styles';
 
@@ -26,14 +27,16 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   competences: Competence[];
   setCompetences: (Competences: Competence[]) => void;
   theme: Theme | null;
+  isCreate?: boolean;
 }
 
 const ExperienceCompetence = ({
- match, competences, setCompetences, theme, history,
+ match, competences, setCompetences, theme, history, isCreate, location,
 }: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetence();
   const [open, setOpen] = React.useState(false);
+  const { redirect } = decodeUri(location.search);
 
   const addCompetence = (competence: Competence) => {
     if (competences.length < 4) {
@@ -53,17 +56,28 @@ const ExperienceCompetence = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title={theme && theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'} color="#223A7A" size={26} />
+          <Title
+            title={
+              theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
+            color="#223A7A"
+            size={26}
+          />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              let path = '/experience';
+              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
+              else if (redirect) path = redirect;
+              history.replace(path);
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="3" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="3." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             En rapport avec ces activités, quelles sont
             <br />
@@ -99,12 +113,18 @@ const ExperienceCompetence = ({
               );
             })}
           </Grid>
-          <Link to={`/experience/skill/${match.params.themeId}/competencesValues`} className={classes.hideLine}>
+          <Link
+            to={`/experience/skill/${match.params.themeId}/competencesValues${location.search}`}
+            className={classes.hideLine}
+          >
             <NextButton disabled={!competences.length || competences.length > 4} />
           </Link>
         </div>
 
-        <Link to={`/experience/skill/${match.params.themeId}/activities`} className={classes.btnpreced}>
+        <Link
+          to={`/experience/skill/${match.params.themeId}/activities${location.search}`}
+          className={classes.btnpreced}
+        >
           <CancelButton />
           Précedent
         </Link>

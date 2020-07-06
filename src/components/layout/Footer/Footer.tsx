@@ -15,10 +15,9 @@ interface IProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   value?: string;
   name?: string;
-  className?: string;
 }
 
-const Footer = ({ onChange, name, className }: IProps) => {
+const Footer = ({ onChange, name }: IProps) => {
   const classes = useStyles();
   return (
     <footer className={classes.footerContainer}>

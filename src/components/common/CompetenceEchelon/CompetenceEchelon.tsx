@@ -34,7 +34,7 @@ const CompetenceEchelon = ({
           ))}
           {[...Array(4 - value)].map((t, point) => (
             // eslint-disable-next-line
-            <div key={point} className={classNames(classes.tooltip, tooltipClassName)} />
+            <div key={point} className={classNames(classes.tooltipPoint, classes.tooltip, tooltipClassName)} />
           ))}
         </div>
       </div>

@@ -29,20 +29,17 @@ const Card = ({
   childrenCardClassName,
 }: Props) => {
   const classes = useStyles({ background, color });
+  const Component = !path ? 'div' : Link;
   return (
     <div className={classNames(classes.cardContainer, className)}>
       {titleCard}
-      <div className={classNames(classes.titleContainer, logo && classes.titleSpacing)}>
-        {logo && <img src={logo} alt=" " height={40} className={classes.logo} />}
-        {path ? (
-          <Link to={path} className={classes.link}>
-            {title}
-          </Link>
-        ) : (
-          <span>{title}</span>
-        )}
-        {logo && <div className={classes.logo} />}
-      </div>
+      <Component to={path || ''} className={classes.link}>
+        <div className={classNames(classes.titleContainer, logo && classes.titleSpacing)}>
+          {logo && <img src={logo} alt=" " height={40} className={classes.logo} />}
+          {title}
+          {logo && <div className={classes.logo} />}
+        </div>
+      </Component>
 
       <div className={classNames(classes.childrenCard, childrenCardClassName)}>{children}</div>
     </div>

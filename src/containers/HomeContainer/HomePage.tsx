@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Switch } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import logo from 'assets/images/diagoriente_logo_bg_transparent.png';
+import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
 import open from 'assets/svg/menu_close.svg';
 import ParcourContext from 'contexts/ParcourContext';
 import Home from './containers/Home';

@@ -16,6 +16,7 @@ import CancelButton from 'components/cancelButton/CancelButton';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import classNames from 'utils/classNames';
+import { decodeUri } from 'utils/url';
 
 import blueline from 'assets/svg/blueline.svg';
 
@@ -28,6 +29,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   addSkill: () => void;
   addSkillState: boolean;
   theme: Theme | null;
+  isCreate?: boolean;
 }
 
 const SkillCompetencesValues = ({
@@ -39,12 +41,15 @@ const SkillCompetencesValues = ({
   addSkillState,
   history,
   theme,
+  isCreate,
+  location,
 }: Props) => {
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
   const arrowRef = useRef(null as HTMLDivElement | null);
   // eslint-disable-next-line
   const [fixRef, setFixRef] = useState(0);
+  const { redirect } = decodeUri(location.search);
   const pointClick = (id: string, value: number) => {
     const nextCompetenceValues = [...competencesValues];
     const index = nextCompetenceValues.findIndex((v) => v.id === id);
@@ -83,14 +88,17 @@ const SkillCompetencesValues = ({
           />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              let path = '/experience';
+              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
+              else if (redirect) path = redirect;
+              history.replace(path);
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="4" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             Et enfin, pour chacune de ces compétences
             <br />
@@ -182,7 +190,10 @@ const SkillCompetencesValues = ({
           />
         </div>
 
-        <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.btnpreced}>
+        <Link
+          to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
+          className={classes.btnpreced}
+        >
           <CancelButton />
           Précedent
         </Link>

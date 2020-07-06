@@ -8,9 +8,12 @@ export default makeStyles(() => ({
     left: '50%',
     transform: 'translate(-50%,0)',
     height: 50,
+    borderRadius: 10,
     '&:hover': {
       backgroundColor: '#00B2DB ',
-      borderRadius: 10,
+    },
+    '&:disabled': {
+      backgroundColor: '#7AE6FF',
     },
   },
 

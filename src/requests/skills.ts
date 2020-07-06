@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 import { parcourResult } from 'requests/parcours';
-import { UserParcour } from './types';
+import { UserParcour, PublicSkill } from './types';
 
 export const addSkillMutation = gql`
   mutation AddSkill($theme: ID!, $activities: [ID]!, $competences: [skillCompetenceType]!) {
@@ -55,3 +55,41 @@ export const updateSkillMutation = gql`
 
 export const useUpdateSkill = (options: MutationHookOptions<{ updateSkill: UserParcour }, updateSkillArguments> = {}) =>
   useLocalMutation(updateSkillMutation, options);
+
+export const getSkillQuery = gql`
+  query PublicSkill($token: String!) {
+    publicSkill(token: $token) {
+      id
+      user {
+        id
+        firstName
+        lastName
+      }
+      theme {
+        id
+        title
+      }
+      competences {
+        _id {
+          id
+          niveau {
+            title
+            sub_title
+          }
+          title
+        }
+        value
+      }
+      comment {
+        status
+        id
+        email
+        lastName
+        firstName
+      }
+    }
+  }
+`;
+
+export const useGetSkill = (options: QueryHookOptions<{ publicSkill: PublicSkill }, { token: string }>) =>
+  useLocalQuery(getSkillQuery, options);

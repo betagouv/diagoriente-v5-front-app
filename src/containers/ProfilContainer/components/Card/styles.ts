@@ -91,4 +91,8 @@ export default makeStyles(() =>
       background: '#4D6EC5',
       opacity: '0.3px',
     },
+    image: {
+      maxHeight: '100%',
+      maxWidth: '100%',
+    },
   }));

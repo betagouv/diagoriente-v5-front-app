@@ -12,5 +12,7 @@ export default makeStyles(() =>
       fontSize: 14,
       fontWeight: 'bold',
       marginLeft: 20,
+      position: 'relative',
+      bottom: 1,
     },
   }));

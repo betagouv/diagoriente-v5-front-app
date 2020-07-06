@@ -13,6 +13,7 @@ import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
+import { decodeUri } from 'utils/url';
 
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
@@ -37,6 +38,9 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
       })),
     [data],
   );
+
+  const { profil } = decodeUri(location.search);
+
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = selectedInterests.length + 1; i <= 5; i += 1) {
@@ -85,7 +89,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
               <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
             </div>
           </div>
-          <Link to="/interet">
+          <Link to={profil ? '/profil' : '/interet'}>
             <RestLogo color="#420FAB" label="Annuler" />
           </Link>
         </div>

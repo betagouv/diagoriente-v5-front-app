@@ -6,6 +6,7 @@ import { Activity, Theme } from 'requests/types';
 import { Tooltip } from '@material-ui/core';
 
 import classNames from 'utils/classNames';
+import { decodeUri } from 'utils/url';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
@@ -24,14 +25,14 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
   activities: Activity[];
   setActivities: (activities: Activity[]) => void;
-  showPrevious?: boolean;
+  isCreate?: boolean;
 }
 
 const ExperienceActivity = ({
- match, activities, setActivities, history, theme, showPrevious,
+ match, activities, setActivities, history, theme, isCreate, location,
 }: Props) => {
   const classes = useStyles();
-
+  const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {
     setActivities([...activities, activite]);
   };
@@ -53,14 +54,17 @@ const ExperienceActivity = ({
           />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              let path = '/experience';
+              if (!isCreate) path = `/profile/experience?type=${data && data.theme.type}`;
+              else if (redirect) path = redirect;
+              history.replace(path);
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="2" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="2." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             Peux-tu nous en dire un peu plus sur
             <br />
@@ -96,12 +100,18 @@ const ExperienceActivity = ({
                 );
               })}
           </div>
-          <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.hideLine}>
+          <Link
+            to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
+            className={classes.hideLine}
+          >
             <NextButton disabled={!activities.length} />
           </Link>
         </div>
-        {showPrevious && (
-          <Link to={`/experience/theme?type=${data && data.theme.type}`} className={classes.btnpreced}>
+        {isCreate && (
+          <Link
+            to={`/experience/theme${location.search ? `${location.search}&` : '?'}type=${data && data.theme.type}`}
+            className={classes.btnpreced}
+          >
             <CancelButton />
             Précedent
           </Link>

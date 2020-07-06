@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions } from '@apollo/react-hooks';
+import { QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalQuery } from 'hooks/apollo';
 
 export const locationQuery = gql`
@@ -18,5 +18,5 @@ export interface LocationResponse {
     coordinates: string[];
   }[];
 }
-export const useLocation = (options: MutationHookOptions<LocationResponse, LocationArguments> = {}) =>
+export const useLocation = (options: QueryHookOptions<LocationResponse, LocationArguments> = {}) =>
   useLocalQuery<LocationResponse, LocationArguments>(locationQuery, options);

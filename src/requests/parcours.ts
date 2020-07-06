@@ -44,12 +44,24 @@ export const getUserParcourQuery = gql`
           }
           value
         }
+        comment {
+          id
+          lastName
+          firstName
+          commentText
+          status
+          email
+        }
       }
       globalCompetences {
         id
         count
         value
         title
+        niveau {
+          title
+          sub_title
+        }
       }
     }
   }

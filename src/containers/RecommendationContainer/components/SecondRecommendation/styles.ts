@@ -129,6 +129,9 @@ export default makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#00B2DB',
     },
+    '&:disabled': {
+      backgroundColor: '#7AE6FF',
+    },
   },
 
   btnLabel: {

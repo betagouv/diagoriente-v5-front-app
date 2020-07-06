@@ -37,7 +37,6 @@ export default makeStyles<Theme, { background: string; color: string }>(() =>
     },
 
     link: {
-      cursor: 'pointer',
       textDecoration: 'none',
       color: '#fff',
     },

@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDeleteSkill } from 'requests/skills';
 import { UserParcour } from 'requests/types';
 
-import { decodeUri } from 'utils/url';
+import { decodeUri, encodeUri } from 'utils/url';
 
 import parcoursContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
@@ -97,12 +97,20 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                   id={s.id}
                   competence={s.competences}
                   title={s.theme.title}
+                  src={s.theme.resources?.icon}
                 />
               </Grid>
             ))}
 
           <Link
-            to={type === 'professional' ? '/experience/theme?type=professional' : '/experience/theme'}
+            to={
+              type === 'professional'
+                ? `/experience/theme${encodeUri({
+                    type: 'professional',
+                    redirect: '/profil/experience?type=professional',
+                  })}`
+                : `/experience/theme${encodeUri({ redirect: '/profil/experience' })}`
+            }
             className={classNames(!showAddCard ? classes.link : classes.btnLink)}
           >
             <Button className={classes.btn}>

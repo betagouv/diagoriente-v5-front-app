@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import TitleSection from 'components/common/TitleSection/TitleSection';
 import RadioButton from 'components/radioButton/RadioButton';
@@ -9,23 +9,57 @@ import Button from 'components/button/Button';
 import medaille from 'assets/svg/medaille.svg';
 import LogoLocation from 'assets/form/location.png';
 
+import { useLocation } from 'requests/location';
+import { useUpdateSkillComment } from 'requests/skillComment';
+import { PublicSkill } from 'requests/types';
+
 import useStyles from './styles';
 
-const SecondRecommendation = () => {
+interface Props extends RouteComponentProps {
+  skill: PublicSkill;
+  comment: string;
+}
+
+const SecondRecommendation = ({ skill, comment, location }: Props) => {
   const classes = useStyles();
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [search, setSearch] = useState('');
+  const { data } = useLocation({ variables: { search } });
   const [value, setValue] = useState('');
+  const [updateCall, updateState] = useUpdateSkillComment();
 
   const title = (
     <span>
-      Recommanderiez-vous le travail de Léna Mazilu à des recruteurs
+      Recommanderiez-vous le travail de
+      {' '}
+      {skill.user.firstName}
+      {' '}
+      {skill.user.lastName}
+      {' '}
+      à des recruteurs
       <br />
       (votre réponse restera confidentielle) ?
     </span>
   );
+
+  const onSubmit = () => {
+    updateCall({
+      variables: {
+        commentText: comment,
+        id: skill.comment.id,
+        status: value === 'Oui' ? 'accepted' : 'refused',
+        location: selectedLocation,
+      },
+    });
+  };
+
   const onSelect = (e: string | null) => {
     if (e) setSelectedLocation(e);
   };
+
+  if (updateState.data) {
+    return <Redirect to={`/recommendation/done${location.search}`} />;
+  }
 
   return (
     <div className={classes.container}>
@@ -45,21 +79,21 @@ const SecondRecommendation = () => {
         <span className={classes.recommendation}>Pour finir, dans quelle commune se situe votre établissement ? </span>
         <AutoComplete
           containerClassName={classes.containerClassName}
+          freeSolo={false}
           label=""
-          value=""
+          value={selectedLocation}
           name="location"
           placeholder="paris"
-          options={[]}
+          options={data?.location || []}
           onSelectText={onSelect}
           icon={LogoLocation}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
       <div className={classes.btnContainerModal}>
-        <Link to="location/done">
-          <Button className={classes.btn} onClick={() => {}}>
-            <div className={classes.btnLabel}>Terminer</div>
-          </Button>
-        </Link>
+        <Button className={classes.btn} disabled={!value} onClick={onSubmit}>
+          <div className={classes.btnLabel}>Terminer</div>
+        </Button>
       </div>
       <Link to="/" className={classes.btnpreced}>
         Annuler

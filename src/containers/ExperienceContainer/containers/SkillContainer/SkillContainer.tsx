@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+ useState, useEffect, useContext, useMemo,
+} from 'react';
 import path from 'path';
 import {
  RouteComponentProps, Switch, Route, Redirect, matchPath,
@@ -13,6 +15,7 @@ import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import SnackBar from 'components/SnackBar/SnackBar';
 
+import { decodeUri } from 'utils/url';
 import SkillActivities from './containers/SkillActivities';
 import SkillCompetences from './containers/SkillCompetences';
 import SkillCompetencesValues from './containers/SkillCompetencesValues/SkillCompetencesValues';
@@ -22,7 +25,10 @@ import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
   const { parcours, setParcours } = useContext(ParcourContext);
-  const selectedSkill = parcours?.skills.find((skill) => skill.theme.id === match.params.themeId);
+  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme.id === match.params.themeId), [
+    parcours,
+    match.params.themeId,
+  ]);
   const [activities, setActivities] = useState(selectedSkill?.activities || []);
   const [competences, setCompetences] = useState(selectedSkill?.competences.map((c) => c._id) || []);
   const [competencesValues, setCompetencesValues] = useState(
@@ -107,7 +113,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   useEffect(() => {
     if (addSkillState.called && addSkillState.data) {
       setParcours(addSkillState.data.addSkill);
-      history.push(`/experience/skill/${match.params.themeId}/success`);
+      const { redirect } = decodeUri(location.search);
+      history.push(redirect || `/experience/skill/${match.params.themeId}/success`);
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
@@ -133,7 +140,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   if (!data) return <NotFoundPage />;
 
   if (match.isExact) {
-    return <Redirect to={path.join(match.url, '/activities')} />;
+    return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
   }
 
   return (
@@ -149,7 +156,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
           render={(props) => (
             <SkillActivities
               {...props}
-              showPrevious={!selectedSkill}
+              isCreate={!selectedSkill}
               activities={activities}
               setActivities={setActivities}
               theme={data.theme}
@@ -160,13 +167,14 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         />
         <Route
           render={(props) => {
-            if (!activities.length) return <Redirect to={path.join(match.url, '/activities')} />;
+            if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
             return (
               <SkillCompetences
                 {...props}
                 competences={competences}
                 setCompetences={setCompetences}
                 theme={data.theme}
+                isCreate={!selectedSkill}
               />
             );
           }}
@@ -175,7 +183,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         />
         <Route
           render={(props) => {
-            if (!competences.length) return <Redirect to={path.join(match.url, '/competences')} />;
+            if (!competences.length) return <Redirect to={path.join(match.url, `/competences${location.search}`)} />;
             return (
               <SkillCompetencesValues
                 {...props}
@@ -185,6 +193,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 addSkill={selectedSkill ? editSkill : addSkill}
                 addSkillState={addSkillState.loading}
                 theme={data.theme}
+                isCreate={!selectedSkill}
               />
             );
           }}

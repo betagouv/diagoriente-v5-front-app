@@ -1,25 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextField } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { PublicSkill } from 'requests/types';
 
 import TitleSection from 'components/common/TitleSection/TitleSection';
 import NextButton from 'components/nextButton/nextButton';
 
 import attention from 'assets/svg/blueattention.svg';
 import medaille from 'assets/svg/medaille.svg';
+import classNames from 'utils/classNames';
 import CompetenceEchelon from '../Echelon/Echelon';
 
 import useStyles from './styles';
 
-const FirstRecommendation = ({ skill }: any) => {
+interface Props extends RouteComponentProps {
+  skill: PublicSkill;
+  comment: string;
+  setComment: (comment: string) => void;
+}
+
+const FirstRecommendation = ({
+ skill, location, comment, setComment,
+}: Props) => {
   const classes = useStyles();
-  const [comment, setComment] = useState('');
   const title = (
     <span>
-      Bonjour Marie Dupont,
+      Bonjour
+      {' '}
+      {skill.comment.firstName}
+      {' '}
+      {skill.comment.lastName}
+      ,
       <br />
-      Vous pouvez renseigner ci dessous votre appréciation du travail de Léna Mazilu lorsque vous étiez son tuteur/sa
-      tutrice
+      Vous pouvez renseigner ci dessous votre appréciation du travail de
+      {' '}
+      {skill.user.firstName}
+      {' '}
+      {skill.user.lastName}
+      {' '}
+      lorsque vous étiez son tuteur/sa tutrice
     </span>
   );
 
@@ -34,7 +53,7 @@ const FirstRecommendation = ({ skill }: any) => {
         <div className={classes.headerCard}>
           <div className={classes.header}>
             <span className={classes.themeHeader}>{skill.theme.title}</span>
-            <span className={classes.themeHeader}>{skill.theme.date}</span>
+            {/*  <span className={classes.themeHeader}>{skill.theme.date}</span> */}
           </div>
           <div className={classes.errorContainer}>
             <img src={attention} alt="attention" height={15} />
@@ -43,8 +62,15 @@ const FirstRecommendation = ({ skill }: any) => {
         </div>
         <div className={classes.bodyCard}>
           <span className={classes.competenceTitle}>Compétences identifiées par Léna lors de son expérience</span>
-          {skill.competences.map((value: any) => (
-            <CompetenceEchelon {...value} />
+          {skill.competences.map((competence) => (
+            <CompetenceEchelon
+              key={competence._id.id}
+              value={competence.value}
+              title={competence._id.title}
+              niveau={`${competence._id.niveau[competence.value - 1].title} ${
+                competence._id.niveau[competence.value - 1].sub_title
+              }`}
+            />
           ))}
         </div>
       </div>
@@ -64,8 +90,11 @@ const FirstRecommendation = ({ skill }: any) => {
         className={classes.textArea}
         variant="outlined"
       />
-      <Link to="/recommendation/complete" className={classes.hideLine}>
-        <NextButton className={classes.button} disabled={!comment} />
+      <Link
+        to={`/recommendation/complete${location.search}`}
+        className={classNames(classes.hideLine, !comment && classes.disabled)}
+      >
+        <NextButton className={classes.button} disabled={comment.length < 5} />
       </Link>
 
       <Link to="/" className={classes.btnpreced}>

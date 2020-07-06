@@ -13,7 +13,7 @@ import parcoursContext from 'contexts/ParcourContext';
 
 import blueline from 'assets/svg/blueline.svg';
 import classNames from 'utils/classNames';
-import { decodeUri } from 'utils/url';
+import { decodeUri, encodeUri } from 'utils/url';
 import { Theme } from 'requests/types';
 import useStyles from './styles';
 
@@ -22,7 +22,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
 
-  const { type } = decodeUri(location.search);
+  const { type, redirect } = decodeUri(location.search);
 
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
@@ -55,14 +55,14 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              history.replace(redirect || '/experience');
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="1" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
           <p className={classes.themeTitle}>
             Choisis un
             <span className={classes.themeText}> thème :</span>
@@ -96,7 +96,10 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                 ))}
             </Grid>
           </div>
-          <Link to={selectedTheme ? `/experience/skill/${selectedTheme.id}` : ''} className={classes.hideLine}>
+          <Link
+            to={selectedTheme ? `/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}` : ''}
+            className={classes.hideLine}
+          >
             <Button disabled={!selectedTheme} />
           </Link>
         </div>

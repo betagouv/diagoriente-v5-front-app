@@ -5,9 +5,10 @@ import Button from 'components/button/Button';
 
 import medaille from 'assets/svg/medaille.svg';
 
+import { PublicSkill } from 'requests/types';
 import useStyles from './styles';
 
-const DoneRecommendation = () => {
+const DoneRecommendation = ({ skill }: { skill: PublicSkill }) => {
   const classes = useStyles();
   const historyChange = () => {
     window.location.href = process.env.REACT_APP_PUBLIC_URL as string;
@@ -16,9 +17,13 @@ const DoneRecommendation = () => {
     <span>
       Merci !
       <br />
-      Votre avis a été envoyé.
+      Votre recommandation a été envoyée
       <br />
-      Il aidera Léna à s'améliorer et à trouver un travail
+      Elle aidera
+      {' '}
+      {skill.user.firstName}
+      {' '}
+      à s'améliorer et décrocher de futures expériences professionnelles.
     </span>
   );
   return (

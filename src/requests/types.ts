@@ -87,6 +87,7 @@ export interface UserParcour {
     title: string;
     value: number;
     count: number;
+    niveau: { title: string; sub_title: string };
   }[];
 }
 
@@ -111,9 +112,25 @@ export interface Skill {
     interests: string[];
     verified: boolean;
   }[];
-  competences: { _id: string; value: number }[];
-  comment: { firstName: string; lastName: string; email: string; text: string; status: string }[];
+  competences: { _id: Competence; value: number }[];
+  comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string }[];
 }
+
+export interface PublicSkill {
+  id: string;
+  theme: {
+    id: string;
+    title: string;
+  };
+  activities: {
+    id: string;
+    title: string;
+  }[];
+  competences: { _id: Competence; value: number }[];
+  comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string };
+  user: { id: string; firstName: string; lastName: string };
+}
+
 export interface Jobs {
   id: string;
   title: string;

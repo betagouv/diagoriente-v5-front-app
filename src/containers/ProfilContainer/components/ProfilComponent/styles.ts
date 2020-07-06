@@ -65,6 +65,7 @@ export default makeStyles((theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      width: '100%',
     },
 
     locationContainer: {
@@ -178,6 +179,11 @@ export default makeStyles((theme) =>
       display: 'flex',
       position: 'absolute',
       width: '100%',
+      cursor: 'pointer',
+      '&:focus': {
+        outline: 'none',
+        border: 'none',
+      },
     },
 
     nextWrap: { right: 20 },
@@ -216,6 +222,10 @@ export default makeStyles((theme) =>
     circleContainer: {
       display: 'flex',
       justifyContent: 'center',
+      '&:focus': {
+        outline: 'none',
+        border: 'none',
+      },
     },
 
     carouselCircle: {
@@ -226,6 +236,11 @@ export default makeStyles((theme) =>
       margin: '0px 2.5px',
       marginBottom: 20,
       transition: 'all 0.4s linear',
+      cursor: 'pointer',
+      '&:focus': {
+        outline: 'none',
+        border: 'none',
+      },
     },
 
     currentCarouselCircle: {
@@ -250,5 +265,16 @@ export default makeStyles((theme) =>
       width: '100%',
       alignItems: 'center',
       marginTop: 8,
+    },
+    interestItem: {
+      padding: 40,
+      '&:focus': {
+        outline: 'none',
+        border: 'none',
+      },
+    },
+    themeImage: {
+      maxHeight: '100%',
+      maxWidth: '100%',
     },
   }));

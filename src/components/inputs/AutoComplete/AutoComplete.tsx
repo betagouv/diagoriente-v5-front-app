@@ -23,6 +23,7 @@ interface IProps {
   className?: string;
   errorForm?: string;
   containerClassName?: string;
+  freeSolo: boolean;
 }
 
 const AutoComplete = ({
@@ -39,6 +40,7 @@ const AutoComplete = ({
   errorForm,
   containerClassName,
   onSelectText,
+  freeSolo,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
   return (
@@ -57,7 +59,7 @@ const AutoComplete = ({
         <Grid item xs={12} sm={8} md={7} lg={7}>
           <div style={{ width: 229 }}>
             <Autocomplete
-              freeSolo
+              freeSolo={freeSolo}
               openOnFocus={false}
               disableClearable
               options={options.map((option) => option.label)}
@@ -99,6 +101,10 @@ const AutoComplete = ({
       </Grid>
     </div>
   );
+};
+
+AutoComplete.defaultProps = {
+  freeSolo: true,
 };
 
 export default AutoComplete;

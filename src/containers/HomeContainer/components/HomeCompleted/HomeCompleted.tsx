@@ -4,6 +4,9 @@ import React, {
 import UserContext from 'contexts/UserContext';
 import { Link } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
+import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
+import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png'
+import IlluMengager from 'assets/images/illu_dashboard_sengager.png'
 
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
@@ -11,7 +14,6 @@ import Button from '@material-ui/core/Button/Button';
 
 import classNames from 'utils/classNames';
 
-import experienceImage from 'assets/images/experience.png';
 
 import useStyles from './styles';
 
@@ -52,7 +54,7 @@ const HomeCompleted = () => {
       {
         title: 'ME CONNAITRE',
         background: '#4D6EC5',
-        image: experienceImage,
+        image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
             Identifier mes
@@ -83,6 +85,7 @@ const HomeCompleted = () => {
       {
         title: 'ME PROJETER',
         background: '#FFA600',
+        image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.contentChildBlack)}>
             Découvrir des
@@ -104,6 +107,7 @@ const HomeCompleted = () => {
       {
         title: 'M’ENGAGER',
         background: '#D60051',
+        image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
             Faire mes

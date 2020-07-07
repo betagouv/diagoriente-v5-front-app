@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper/Paper';
 import Grid from '@material-ui/core/Grid/Grid';
 import Circle from 'components/common/Avatar/Avatar';
 import Button from '@material-ui/core/Button/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import carte from 'assets/svg/carte.svg';
 import download from 'assets/svg/download.svg';
@@ -18,6 +19,7 @@ import print from 'assets/svg/print.svg';
 import partage from 'assets/svg/partage.svg';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
 import betaGouv from 'assets/svg/logo-beta.gouv 3.svg';
+import medaille from 'assets/svg/picto_medaille.svg';
 
 import { Unpacked } from 'containers/ProfilContainer/components/ExperienceComponent/ExperienceProfil';
 
@@ -32,22 +34,57 @@ const CardContainer = () => {
   const { user } = useContext(UserContext);
 
   function renderSkill(skill: Unpacked<UserParcour['skills']>) {
+    const comment = skill.comment.filter((c) => c.status === 'accepted');
     return (
-      <Grid key={skill.id} item lg={4}>
-        <div className={classes.skillHeader}>
-          <Circle size={42}>
-            {skill.theme.resources && <img className={classes.themeIcon} src={skill.theme.resources.icon} alt="" />}
-          </Circle>
-          <div className={classes.themeTitle}>{skill.theme.title}</div>
-        </div>
-        <ul className={classes.activityContainer}>
-          {skill.activities.map((activity) => (
-            <li className={classes.activity} key={activity.id}>
-              {activity.title}
-            </li>
-          ))}
-        </ul>
-      </Grid>
+      <Tooltip
+        key={skill.id}
+        arrow
+        placement="right"
+        classes={{ popper: classes.tooltip }}
+        title={
+          comment.length
+            ? comment.map((c) => (
+              <div key={c.id} className={classes.tooltipContainer}>
+                <div className={classes.tooltipTitle}>
+                  Expérience validée par
+                  {' '}
+                  <span className={classes.tooltipUser}>
+                    {c.firstName}
+                    {' '}
+                    {c.lastName}
+                  </span>
+                  {c.location && (
+                  <>
+                    <br />
+                    <span className={classes.tooltipLocation}>{c.location}</span>
+                  </>
+                    )}
+                </div>
+                <div className={classes.tooltipCommentText}>{c.commentText}</div>
+              </div>
+              ))
+            : ''
+        }
+      >
+        <Grid className={classes.skill} item lg={4}>
+          <div className={classes.skillHeader}>
+            <Circle size={42}>
+              {skill.theme.resources && <img className={classes.themeIcon} src={skill.theme.resources.icon} alt="" />}
+            </Circle>
+            <div className={classes.themeTitle}>
+              <div className={classes.titleText}>{skill.theme.title}</div>
+              {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
+            </div>
+          </div>
+          <ul className={classes.activityContainer}>
+            {skill.activities.map((activity) => (
+              <li className={classes.activity} key={activity.id}>
+                {activity.title}
+              </li>
+            ))}
+          </ul>
+        </Grid>
+      </Tooltip>
     );
   }
 

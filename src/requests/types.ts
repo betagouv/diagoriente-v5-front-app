@@ -81,6 +81,15 @@ export interface UserParcour {
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
     activities: { id: string; title: string; description: string }[];
     competences: { _id: Competence; value: number }[];
+    comment: {
+      id: string;
+      lastName: string;
+      firstName: string;
+      commentText: string;
+      status: 'pending' | 'accepted' | 'refused';
+      email: string;
+      location: string;
+    }[];
   }[];
   globalCompetences: {
     id: string;

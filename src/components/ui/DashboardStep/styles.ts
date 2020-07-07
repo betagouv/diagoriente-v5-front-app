@@ -7,10 +7,10 @@ function getAvatarSize(props: { state?: 'closed' | 'initial' | 'open' }) {
     return '7vw';
   }
   if (props.state === 'open') {
-    return '9vw';
+    return '14vw';
   }
 
-  return '14vw';
+  return '20vw';
 }
 
 export default makeStyles<Theme, { background?: string; state?: 'closed' | 'initial' | 'open' }>(() => ({
@@ -49,7 +49,7 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     right: 0,
     left: 0,
     borderRadius: '50%',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    //backgroundColor: 'rgba(0, 0, 0, 0.2)',
     overflow: 'hidden',
   },
   initialChildren: {

@@ -65,6 +65,7 @@ const AutoCompleteJob = ({
       {open && (
         <div className={classes.optionsContainer}>
           {data?.map((el: any) => {
+            console.log('el',el)
             const t = el.label.toLowerCase().split(value?.toLowerCase());
             for (let i = 0; i < t.length; i += 1) {
               return (

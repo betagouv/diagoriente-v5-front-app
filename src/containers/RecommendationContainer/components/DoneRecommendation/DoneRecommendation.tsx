@@ -29,13 +29,7 @@ const DoneRecommendation = ({ skill }: { skill: PublicSkill }) => {
   return (
     <div className={classes.container}>
       <TitleSection image={medaille} title={title} textClassName={classes.text} />
-      <div className={classes.location}>
-        <span className={classes.recommendation}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec erat
-          <br />
-          suscipit risus egestas bibendum. Sed at nibh arcu.
-        </span>
-      </div>
+
       <div className={classes.btnContainerModal}>
         <Button className={classes.btn} onClick={historyChange}>
           <div className={classes.btnLabel}>Découvrir Diagoriente</div>

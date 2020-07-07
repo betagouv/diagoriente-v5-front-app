@@ -132,6 +132,15 @@ export default makeStyles((theme) => ({
     fontSize: 18,
     lineHeight: '26px',
     marginLeft: 14,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  titleText: {
+    maxWidth: 'calc(100% - 37px)',
+  },
+  commentIcon: {
+    marginLeft: 7,
+    width: 30,
   },
   themeIcon: {
     maxWidth: '100%',
@@ -179,5 +188,36 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: 40,
+  },
+  tooltip: {
+    left: '-10vw !important',
+  },
+  skill: {
+    borderRadius: 10,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(122, 230, 255, 0.2)',
+    },
+  },
+  tooltipContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tooltipTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    lineHeight: '15px',
+    WebkitTextStroke: '0.2px',
+  },
+  tooltipUser: {
+    color: '#7AE6FF',
+    textTransform: 'capitalize',
+  },
+  tooltipLocation: {
+    fontWeight: 'normal',
+  },
+  tooltipCommentText: {
+    fontSize: 12,
+    marginTop: 13,
   },
 }));

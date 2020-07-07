@@ -51,6 +51,7 @@ export const getUserParcourQuery = gql`
           commentText
           status
           email
+          location
         }
       }
       globalCompetences {

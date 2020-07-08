@@ -74,6 +74,7 @@ const HomeCompleted = () => {
           <div className={classes.firstContent}>
             {renderContentItem(
               'MES EXPÉRIENCES',
+              // eslint-disable-next-line
               "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}

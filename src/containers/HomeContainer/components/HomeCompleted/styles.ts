@@ -41,7 +41,8 @@ export default makeStyles({
   contentChild: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 18,
+    lineHeight: '29px',
   },
   bold: {
     fontWeight: 900,
@@ -71,6 +72,7 @@ export default makeStyles({
     fontFamily: 'Ocean',
     fontWeight: 900,
     paddingTop: 11,
+    color: '#424242',
     '&:hover': {
       backgroundColor: '#fff',
     },

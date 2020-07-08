@@ -63,6 +63,7 @@ const HomeCompleted = () => {
             Identifier mes
             {' '}
             <span className={classes.bold}>compétences</span>
+            <br />
             {' '}
             et explorer mes
             {' '}
@@ -72,14 +73,14 @@ const HomeCompleted = () => {
         openChildren: (
           <div className={classes.firstContent}>
             {renderContentItem(
-              'MES EXPERIENCES',
-              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences",
+              'MES EXPÉRIENCES',
+              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}
             {renderContentItem(
-              'MES CENTRES D’INTERÊT',
+              'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
-              "Sélectionne tes centres d'intérêts. Aimes-tu plutôt être dehors, travailler seul.e, manipuler des outils... ?",
+              "Sélectionne tes centres d'intérêts. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
               { path: '/interet', buttonClassName: classes.purple },
             )}
           </div>
@@ -102,9 +103,9 @@ const HomeCompleted = () => {
           </div>
         ),
         openChildren: renderContentItem(
-          'MES PISTES METIER',
+          'MES PISTES MÉTIERS',
           // eslint-disable-next-line
-          "Dès que tu auras rempli tes expériences et tes centres d'intérêts, nous te proposerons des métiers qui te correspondent",
+          "Dès que tu auras rempli tes expériences et tes centres d'intérêts, explore des métiers qui te correspondent.",
           { path: '/jobs', descriptionClassName: classes.black },
         ),
       },
@@ -126,7 +127,7 @@ const HomeCompleted = () => {
             à contacter
           </div>
         ),
-        openChildren: renderContentItem('MES DEMARCHES', 'Gère tes démarches avec les entreprises'),
+        openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
       },
     ],
     [classes, renderContentItem],

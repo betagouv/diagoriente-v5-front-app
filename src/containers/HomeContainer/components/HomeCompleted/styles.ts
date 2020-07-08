@@ -30,6 +30,8 @@ export default makeStyles({
     lineHeight: 1,
     color: '#02B2DB',
     marginTop: 5,
+    position: "relative",
+    zIndex: 3,
   },
   content: {
     display: 'flex',

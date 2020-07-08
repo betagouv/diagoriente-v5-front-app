@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
+    paddingBottom: 20,
   },
 
   content: {
@@ -76,7 +77,10 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     fontSize: 18,
     fontWeight: 'bold',
-    '&:hover': {},
+    width: 340,
+    '&:hover': {
+      backgroundColor: '#00B2DB',
+    },
   },
 
   btnFirstUse: {
@@ -93,10 +97,14 @@ export default makeStyles((theme) => ({
   },
 
   btnSkillCard: {
-    backgroundColor: '#FFA600',
+    backgroundColor: '#D60051',
     fontSize: 18,
     fontWeight: 'bold',
-    '&:hover': {},
+    width: 340,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#FF0060',
+    },
   },
 
   btnLabel: {

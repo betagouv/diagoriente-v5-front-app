@@ -42,9 +42,7 @@ const ResultCompetences = ({ theme }: Props) => {
             </div>
             <div className={classes.btnSkillCardContainer}>
               <Link to="/profil/card">
-                <Button className={classes.btnSkillCard}>
-                  <div className={classes.btnLabel}>Voir ma carte de compétences</div>
-                </Button>
+                <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
               </Link>
             </div>
           </div>

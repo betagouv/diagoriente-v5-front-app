@@ -48,8 +48,6 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     bottom: 0,
     right: 0,
     left: 0,
-    borderRadius: '50%',
-    //backgroundColor: 'rgba(0, 0, 0, 0.2)',
     overflow: 'hidden',
   },
   initialChildren: {

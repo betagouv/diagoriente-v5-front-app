@@ -43,10 +43,9 @@ export default makeStyles({
     textAlign: 'center',
     fontSize: 14,
   },
-  contentChildBlack: {
-  },
   bold: {
     fontWeight: 900,
+    WebkitTextStroke: '0.2px',
   },
   firstContent: {
     display: 'flex',
@@ -82,7 +81,7 @@ export default makeStyles({
     color: '#fff',
   },
   black: {
-    color: '#000',
+    color: '#424242',
   },
   blue: {
     color: '#223A7A',

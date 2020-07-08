@@ -5,15 +5,17 @@ import UserContext from 'contexts/UserContext';
 import { Link } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
-import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png'
-import IlluMengager from 'assets/images/illu_dashboard_sengager.png'
+import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png';
+import IlluMengager from 'assets/images/illu_dashboard_sengager.png';
+import blueLine from 'assets/svg/trait_bleu_tres_fonce.svg';
+import yellowLine from 'assets/svg/trait_jaune_fonce.svg';
+import pinkLine from 'assets/svg/trait_rose.svg';
 
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
 import Button from '@material-ui/core/Button/Button';
 
 import classNames from 'utils/classNames';
-
 
 import useStyles from './styles';
 
@@ -53,6 +55,7 @@ const HomeCompleted = () => {
     () => [
       {
         title: 'ME CONNAITRE',
+        titleBackground: blueLine,
         background: '#4D6EC5',
         image: IlluMeConnaitre,
         initialChildren: (
@@ -84,10 +87,11 @@ const HomeCompleted = () => {
       },
       {
         title: 'ME PROJETER',
+        titleBackground: yellowLine,
         background: '#FFA600',
         image: IlluMeProtejer,
         initialChildren: (
-          <div className={classNames(classes.contentChild, classes.contentChildBlack)}>
+          <div className={classNames(classes.contentChild, classes.black)}>
             Découvrir des
             {' '}
             <span className={classes.bold}>métiers</span>
@@ -106,6 +110,7 @@ const HomeCompleted = () => {
       },
       {
         title: 'M’ENGAGER',
+        titleBackground: pinkLine,
         background: '#D60051',
         image: IlluMengager,
         initialChildren: (
@@ -130,14 +135,7 @@ const HomeCompleted = () => {
   return (
     <div className={classes.container}>
       <div className={classes.profileHeader}>MON PROFIL</div>
-      <Avatar
-        className={classes.logo}
-        src={
-          user?.logo
-            ? user?.logo
-            : defaultAvatar
-        }
-      />
+      <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>
       <Link className={classes.link} to="/profil">
         Voir mon profil

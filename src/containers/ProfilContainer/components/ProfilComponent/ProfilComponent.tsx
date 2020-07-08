@@ -204,7 +204,7 @@ const ProfilComponent = () => {
           {persoSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
-                <Circle size={70}>
+                <Circle avatarCircleBackground="transparent" size={90}>
                   {theme.theme.resources && theme.theme.resources.icon && (
                     <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
                   )}
@@ -230,7 +230,7 @@ const ProfilComponent = () => {
           {proSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id}>
               <div className={classes.themeSelection}>
-                <Circle size={70}>
+                <Circle avatarCircleBackground="transparent" size={90}>
                   {theme.theme.resources && theme.theme.resources.icon && (
                     <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
                   )}

@@ -4,10 +4,10 @@ const transition = 'all 225ms ease-out';
 
 function getAvatarSize(props: { state?: 'closed' | 'initial' | 'open' }) {
   if (props.state === 'closed') {
-    return '7vw';
+    return '10vw';
   }
   if (props.state === 'open') {
-    return '14vw';
+    return '15vw';
   }
 
   return '20vw';
@@ -33,13 +33,14 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     fontFamily: 'Ocean',
     position: 'relative',
     transition,
+    zIndex: 2,
   },
   avatarContainer: {
     width: getAvatarSize,
     paddingTop: getAvatarSize,
     position: 'relative',
-    marginTop: (props) => (props.state === 'open' ? '4.5vh' : '8vh'),
-    marginBottom: (props) => (props.state === 'open' ? '4.5vh' : '8vh'),
+    marginTop: (props) => (props.state === 'open' ? '3.5vh' : '6vh'),
+    marginBottom: (props) => (props.state === 'open' ? '3.5vh' : '6vh'),
     transition,
   },
   avatar: {
@@ -48,9 +49,6 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     bottom: 0,
     right: 0,
     left: 0,
-    borderRadius: '50%',
-    //backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    overflow: 'hidden',
   },
   initialChildren: {
     display: 'flex',
@@ -74,8 +72,15 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     cursor: 'default',
   },
   image: {
-    objectFit: 'cover',
     width: '100%',
-    height: '100%',
+  },
+  titleBackground: {
+    position: 'absolute',
+    top: '40%',
+    left: '-4vw',
+    width: (props) => (props.state !== 'closed' ? '25vw' : '15vw'),
+    transform: 'translateY(-50%)',
+    zIndex: -1,
+    transition,
   },
 }));

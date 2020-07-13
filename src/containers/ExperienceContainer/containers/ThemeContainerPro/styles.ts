@@ -36,7 +36,7 @@ export default makeStyles((theme: Theme) =>
     gridContainer: {
       padding: CONTAINER_PADDING,
       [theme.breakpoints.down('md')]: {
-        padding: '30px 30px',
+        padding: '40px 15px',
       },
     },
 
@@ -45,29 +45,43 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       alignItems: 'stretch',
     },
-
-    circle: {
-      width: '100%',
-      minWidth: 130,
+    searchContainer: {
+      width: '80%',
     },
-    searchContainer: {},
     boxSearch: {
-      background: '#7AE6FF',
+      background: '#B7ECFA',
       borderRadius: 10,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       padding: '44px 100px',
     },
+    itemData: {
+      border: '1px solid #00CFFF',
+      borderRadius: 30,
+      width: 'max-content',
+      padding: 10,
+      cursor: 'pointer',
+      color: '#424242',
+      textTransform: 'capitalize',
+      '&:hover': {
+        backgroundColor: 'rgba(122, 230, 255, 0.2)',
+      },
+    },
+    selected: {
+      backgroundColor: '#7AE6FF',
+    },
     boxSearchTitle: {
       fontWeight: 'bold',
       fontSize: 18,
       lineHeight: ' 26px',
     },
+    searchProp: {
+      color: '#00CFFF',
+    },
     inputSearchContainer: {
       marginTop: 25,
     },
-    dataSearchContainer: {},
     title: {
       fontWeight: 900,
       fontSize: 42,
@@ -116,7 +130,7 @@ export default makeStyles((theme: Theme) =>
       maxHeight: '100%',
       maxWidth: '100%',
       '&:hover': {
-        opacity: 0.6,
+        opacity: 0.5,
       },
     },
 
@@ -159,6 +173,18 @@ export default makeStyles((theme: Theme) =>
       '&:not(.nohover):hover': {
         opacity: 1,
       },
+    },
+    btn: {
+      backgroundColor: theme.palette.background.default,
+      '&:hover': {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
+    classNameTitle: {
+      color: '#fff',
+    },
+    ArrowColor: {
+      color: '#fff',
     },
   }),
 );

@@ -6,14 +6,19 @@ import { useLocalQuery } from 'hooks/apollo';
 import { Theme } from './types';
 
 export const themesQuery = gql`
-  query Themes($type: String) {
-    themes(type: $type) {
+  query Themes($type: String, $search: String) {
+    themes(type: $type, search: $search) {
       data {
         id
         title
         resources {
           icon
           backgroundColor
+        }
+        activities {
+          id
+          title
+          description
         }
       }
     }
@@ -22,11 +27,12 @@ export const themesQuery = gql`
 
 export interface ThemesArguments {
   type?: 'professional' | 'personal';
+  search?: string;
 }
 
 export interface ThemesResponse {
   themes: {
-    data: Omit<Theme, 'activities'>[];
+    data: Theme[];
   };
 }
 
@@ -66,7 +72,7 @@ export interface ThemeArguments {
 export const useTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
   useLocalQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
 
-  export const secteurQuery = gql`
+export const secteurQuery = gql`
   query Themes($type: String) {
     themes(type: $type) {
       data {
@@ -75,6 +81,11 @@ export const useTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments
         resources {
           icon
           backgroundColor
+        }
+        activities {
+          id
+          title
+          description
         }
       }
     }

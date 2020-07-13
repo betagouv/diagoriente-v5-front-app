@@ -19,25 +19,14 @@ interface Props extends RouteComponentProps {
   setComment: (comment: string) => void;
 }
 
-const FirstRecommendation = ({
- skill, location, comment, setComment,
-}: Props) => {
+const FirstRecommendation = ({ skill, location, comment, setComment }: Props) => {
   const classes = useStyles();
   const title = (
     <span>
-      Bonjour
-      {' '}
-      {skill.comment.firstName}
-      {' '}
-      {skill.comment.lastName}
+      Bonjour {skill.comment.firstName} {skill.comment.lastName}
       ,
       <br />
-      Vous pouvez renseigner ci dessous votre appréciation du travail de
-      {' '}
-      {skill.user.firstName}
-      {' '}
-      {skill.user.lastName}
-      {' '}
+      Vous pouvez renseigner ci dessous votre appréciation du travail de {skill.user.firstName} {skill.user.lastName}{' '}
       lorsque vous étiez son tuteur/sa tutrice
     </span>
   );
@@ -61,7 +50,13 @@ const FirstRecommendation = ({
           </div>
         </div>
         <div className={classes.bodyCard}>
-          <span className={classes.competenceTitle}>Compétences identifiées par Léna lors de son expérience</span>
+          <span className={classes.competenceTitle}>
+            Compétences identifiées par
+            {skill.user.firstName}
+            {' '}
+            {skill.user.lastName}
+            lors de son expérience
+          </span>
           {skill.competences.map((competence) => (
             <CompetenceEchelon
               key={competence._id.id}

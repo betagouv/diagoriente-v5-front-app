@@ -16,15 +16,23 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     width: 77,
     height: 77,
     borderRadius: '50%',
-    border: (props) =>
-      (props.direction === 'horizontal'
-        ? `2px solid ${theme.palette.primary.main}`
-        : `4px solid ${theme.palette.primary.main}`),
+    border: (props) => (props.direction !== 'horizontal' ? `4px solid ${theme.palette.primary.main}` : ''),
     boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+  },
+  number: {
+    fontWeight: 900,
+    fontSize: 42,
+    lineHeight: '42px',
+    fontFamily: 'ocean',
+    color: theme.palette.primary.main,
+    paddingTop: 8,
+  },
+  text: {
+    fontWeight: 'bold',
   },
 
   elements: {

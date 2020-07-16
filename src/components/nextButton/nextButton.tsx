@@ -15,6 +15,7 @@ interface Props {
 
 const NextButton = ({ className, classNameTitle, ArrowColor, fetching, ...props }: IProps & Props) => {
   const classes = useStyles();
+  console.log('ArrowColor',ArrowColor)
   return (
     <Button
       type="submit"

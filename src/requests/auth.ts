@@ -119,10 +119,23 @@ export const useForgot = (options: MutationHookOptions<{ forgot: ForgotData }, F
 export const refreshMutation = gql`
   mutation Refresh($email: String!, $refreshToken: String!) {
     refresh(email: $email, refreshToken: $refreshToken) {
-      tokenType
-      accessToken
-      refreshToken
-      expiresIn
+      user {
+        id
+        email
+        logo
+        location
+        profile {
+          firstName
+          lastName
+          institution
+        }
+      }
+      token {
+        tokenType
+        accessToken
+        refreshToken
+        expiresIn
+      }
     }
   }
 `;
@@ -132,8 +145,8 @@ export interface RefreshArguments {
   refreshToken: string;
 }
 
-export const useRefresh = (options: MutationHookOptions<Token, RefreshArguments> = {}) =>
-  useLocalMutation<Token, RefreshArguments>(loginMutation, options);
+export const useRefresh = (options: MutationHookOptions<LoginData, RefreshArguments> = {}) =>
+  useLocalMutation<LoginData, RefreshArguments>(refreshMutation, options);
 
 export const AvatarQuery = gql`
   {

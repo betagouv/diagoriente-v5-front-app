@@ -72,6 +72,7 @@ export const loginMutation = gql`
         email
         logo
         location
+        codeGroupe
         profile {
           firstName
           lastName

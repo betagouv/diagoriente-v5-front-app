@@ -9,6 +9,7 @@ export interface User {
   isActive: boolean;
   logo: string;
   location: string;
+  codeGroupe:string;
 }
 
 export interface Token {

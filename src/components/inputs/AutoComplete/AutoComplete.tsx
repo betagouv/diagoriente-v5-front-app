@@ -43,6 +43,7 @@ const AutoComplete = ({
   freeSolo,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
+
   return (
     <div className={classNames(classes.container, containerClassName)}>
       <Grid container spacing={0}>
@@ -67,6 +68,7 @@ const AutoComplete = ({
               fullWidth={false}
               className={className}
               autoComplete={false}
+              value={value}
               classes={{ inputRoot: classes.inputRoot }}
               closeIcon={<div />}
               renderInput={(params) => (
@@ -82,6 +84,7 @@ const AutoComplete = ({
                     error={error}
                     InputProps={{
                       ...params.InputProps,
+                      classes: { input: classes.inputPadding },
                       startAdornment: (
                         <InputAdornment position="start">
                           {name === 'location' && <img src={icon} alt="location" />}
@@ -104,7 +107,7 @@ const AutoComplete = ({
 };
 
 AutoComplete.defaultProps = {
-  freeSolo: true,
+  freeSolo: false,
 };
 
 export default AutoComplete;

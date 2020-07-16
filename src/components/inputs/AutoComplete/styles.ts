@@ -110,4 +110,8 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     height: 37,
     padding: '0px 0px 2px 15px !important',
   },
+
+  inputPadding: {
+    paddingRight: '35px !important',
+  },
 }));

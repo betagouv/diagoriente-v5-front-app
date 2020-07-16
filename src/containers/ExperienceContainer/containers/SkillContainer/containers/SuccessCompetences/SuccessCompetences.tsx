@@ -8,6 +8,7 @@ import Recommendation from 'components/ui/RecommendationModal/RecommendationModa
 import Button from 'components/button/Button';
 
 import ParcourContext from 'contexts/ParcourContext';
+import check from 'assets/svg/check.svg';
 
 import useStyles from './styles';
 
@@ -21,7 +22,6 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
   const { parcours } = useContext(ParcourContext);
 
   const skill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -37,9 +37,16 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
             Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
-        <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked>
-          <img src={theme.resources?.icon} alt="" />
-        </Avatar>
+        {skill?.theme.type === 'professional' ? (
+          <div>
+            <span className={classes.titleThemeDone}>{theme.title}</span>
+            <img src={check} alt="check" className={classes.checked} />
+          </div>
+        ) : (
+          <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked>
+            <img src={theme.resources?.icon} alt="" />
+          </Avatar>
+        )}
 
         <div className={classes.textDescription}>
           <p className={classes.text}>

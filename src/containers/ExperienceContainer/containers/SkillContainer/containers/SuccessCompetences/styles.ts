@@ -286,4 +286,12 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
     marginTop: 14,
   },
+
+  titleThemeDone: {
+    fontSize: 20,
+  },
+
+  checked: {
+    marginLeft: 10,
+  },
 }));

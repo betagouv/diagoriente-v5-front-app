@@ -105,7 +105,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
           <Link
             to={
               type === 'professional'
-                ? `/experience/theme${encodeUri({
+                ? `/experience/theme-pro${encodeUri({
                     type: 'professional',
                     redirect: '/profil/experience?type=professional',
                   })}`

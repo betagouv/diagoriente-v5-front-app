@@ -54,7 +54,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '44px 100px',
+      padding: '30px 100px',
     },
     itemData: {
       border: '1px solid #00CFFF',
@@ -70,6 +70,9 @@ export default makeStyles((theme: Theme) =>
     },
     selected: {
       backgroundColor: '#7AE6FF',
+      '&:hover': {
+        backgroundColor: '#7AE6FF',
+      },
     },
     boxSearchTitle: {
       fontWeight: 'bold',
@@ -186,5 +189,4 @@ export default makeStyles((theme: Theme) =>
     ArrowColor: {
       color: '#fff',
     },
-  }),
-);
+  }));

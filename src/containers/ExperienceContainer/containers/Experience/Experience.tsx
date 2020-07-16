@@ -49,7 +49,7 @@ const Experience = () => {
             >
               <img src={IlluExpPro} alt="" className={classes.illus} />
             </Avatar>
-            <Link to="/experience/themePro" className={classes.hideLine}>
+            <Link to="/experience/theme-pro" className={classes.hideLine}>
               <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
                 <div className={classes.btnLabel}>Expérience pro</div>
               </Button>

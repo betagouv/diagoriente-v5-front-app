@@ -1,5 +1,6 @@
 import localforage from 'localforage';
 import moment from 'moment';
+import { FetchResult } from 'apollo-boost';
 import { refreshMutation, RefreshArguments, LoginData } from 'requests/auth';
 import { client, setAuthorizationBearer } from 'requests/client';
 import { User, Token, UserParcour } from 'requests/types';
@@ -8,13 +9,21 @@ import { getUserParcourQuery } from 'requests/parcours';
 export default async function startup(): Promise<{ user: User; parcours: UserParcour } | null> {
   try {
     const authString = await localforage.getItem<string | null>('auth');
-
+    let nextData:
+      | FetchResult<
+          {
+            refresh: LoginData;
+          },
+          Record<string, any>,
+          Record<string, any>
+        >
+      | undefined;
     let accessToken = null;
     if (authString) {
       const { user, token }: { user: User; token: Token } = JSON.parse(authString);
 
       if (token.refreshToken) {
-        const nextData = await client.mutate<{ refresh: LoginData }, RefreshArguments>({
+        nextData = await client.mutate<{ refresh: LoginData }, RefreshArguments>({
           mutation: refreshMutation,
           variables: { email: user.email, refreshToken: token.refreshToken },
         });
@@ -30,7 +39,10 @@ export default async function startup(): Promise<{ user: User; parcours: UserPar
         setAuthorizationBearer(accessToken);
         const parcours = await client.query({ query: getUserParcourQuery });
         if (parcours.data) {
-          return { user, parcours: parcours.data.userParcour };
+          return {
+            user: nextData && nextData.data ? nextData.data.refresh.user : user,
+            parcours: parcours.data.userParcour,
+          };
         }
       }
     }

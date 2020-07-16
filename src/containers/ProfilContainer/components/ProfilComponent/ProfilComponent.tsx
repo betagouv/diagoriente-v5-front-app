@@ -229,15 +229,8 @@ const ProfilComponent = () => {
       children: proSkills.length ? (
         <Grid container spacing={1}>
           {proSkills.map((theme) => (
-            <Grid item xs={4} sm={4} key={theme.id}>
-              <div className={classes.themeSelection}>
-                <Circle avatarCircleBackground="transparent" size={100}>
-                  {theme.theme.resources && theme.theme.resources.icon && (
-                    <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
-                  )}
-                </Circle>
-                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
-              </div>
+            <Grid item xs={4} sm={12} key={theme.id}>
+              <li className={classNames(classes.themeTile, classes.alignThemeTitle)}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</li>
             </Grid>
           ))}
         </Grid>

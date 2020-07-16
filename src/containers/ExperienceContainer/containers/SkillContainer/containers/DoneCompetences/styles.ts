@@ -143,4 +143,12 @@ export default makeStyles((theme) => ({
   size: {
     fontSize: 18,
   },
+
+  titleThemeDone: {
+    fontSize: 20,
+  },
+
+  checked: {
+    marginLeft: 10,
+  },
 }));

@@ -53,7 +53,7 @@ const Experience = () => {
         <Switch>
           <Route exact path="/experience" component={ExperienceComponent} />
           <Route path="/experience/theme" exact component={ThemeContainer} />
-          <Route path="/experience/themePro" exact component={ThemeContainerPro} />
+          <Route path="/experience/theme-pro" exact component={ThemeContainerPro} />
           <Route path="/experience/skill/:themeId" component={SkillContainer} />
           <Route component={NotFoundPage} />
         </Switch>

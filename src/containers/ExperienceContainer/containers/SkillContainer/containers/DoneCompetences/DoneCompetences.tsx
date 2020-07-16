@@ -4,6 +4,7 @@ import ParcoursContext from 'contexts/ParcourContext';
 
 import Button from 'components/button/Button';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
+import check from 'assets/svg/check.svg';
 
 import { Theme } from 'requests/types';
 
@@ -13,9 +14,11 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
 }
 
-const ResultCompetences = ({ theme }: Props) => {
+const ResultCompetences = ({ theme, match }: Props) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
+  const skill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -27,10 +30,16 @@ const ResultCompetences = ({ theme }: Props) => {
             Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
-        <Avatar titleClassName={classes.size} title={theme.title} size={170} className={classes.avatar} checked>
-          <img src={theme.resources?.icon} alt="" />
-        </Avatar>
-
+        {skill?.theme.type === 'professional' ? (
+          <div>
+            <span className={classes.titleThemeDone}>{theme.title}</span>
+            <img src={check} alt="check" className={classes.checked} />
+          </div>
+        ) : (
+          <Avatar titleClassName={classes.size} title={theme.title} size={170} className={classes.avatar} checked>
+            <img src={theme.resources?.icon} alt="" />
+          </Avatar>
+        )}
         {parcours?.completed ? (
           <div className={classes.btnskillContainer}>
             <div className={classes.btnContainer}>

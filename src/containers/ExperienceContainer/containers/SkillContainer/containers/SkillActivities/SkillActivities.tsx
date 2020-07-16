@@ -109,7 +109,7 @@ const ExperienceActivity = ({
         </div>
         {isCreate && (
           <Link
-            to={`/experience/theme${location.search ? `${location.search}&` : '?'}type=${data && data.theme.type}`}
+            to={`/experience/${theme.type === 'professional' ? 'theme-pro' : 'theme'}${location.search}`}
             className={classes.btnpreced}
           >
             <CancelButton />

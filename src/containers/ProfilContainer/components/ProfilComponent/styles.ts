@@ -84,6 +84,12 @@ export default makeStyles((theme) =>
       whiteSpace: 'pre-wrap',
     },
 
+    alignThemeTitle: {
+      textAlign: 'left',
+      listStyle: 'inside',
+
+    },
+
     emptyDiv: {
       height: 45,
     },

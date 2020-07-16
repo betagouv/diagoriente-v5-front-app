@@ -8,16 +8,13 @@ export default makeStyles<Theme>((theme) => ({
     justifyContent: 'center',
   },
   content: {
-    maxWidth: 1080,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop: 15,
   },
   header: {
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     height: 'auto',
@@ -27,38 +24,32 @@ export default makeStyles<Theme>((theme) => ({
       alignItems: 'flex-end',
     },
   },
+  titleTopContainer: { display: 'flex', justifyContent: 'center', flex: 1 },
+  topTitle: {
+    fontSize: 35,
+    fontWeight: 900,
+    color: theme.palette.secondary.main,
+    textTransform: 'uppercase',
+    margin: '0px 5px',
+  },
+  bottomTitle: {
+    fontSize: 35,
+    fontWeight: 900,
+    color: theme.palette.primary.main,
+    textTransform: 'uppercase',
+    margin: '0px 5px',
+  },
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'center !important',
     },
   },
-  titlesWrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'baseline',
-
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-  },
-  title: {
-    fontSize: 42,
-    color: theme.palette.primary.main,
-    fontFamily: 'ocean',
-    marginLeft: 15,
-    [theme.breakpoints.down('xs')]: {
-      alignSelf: 'center !important',
-      fontSize: 41,
-      marginLeft: 15,
-    },
-  },
-  descriptionTitle: {
-    fontSize: 18,
-    marginLeft: 15,
-    fontWeight: 'bold',
+  linkContainer: {
+    width: 'auto',
+    paddingRight: 20,
   },
   wrapper: {
     backgroundColor: '#E5E5E5',
@@ -98,8 +89,9 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     boxShadow: '4px -4px 4px rgba(0, 0, 0, 0.25)',
-    padding: 10,
+    padding: '10px 60px 10px 10px',
     [theme.breakpoints.down('xs')]: {
       padding: 10,
       overflow: 'overlay',
@@ -109,8 +101,19 @@ export default makeStyles<Theme>((theme) => ({
       '-ms-overflow-style': 'none',
     },
   },
+  description: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#fff',
+    lineHeight: '22px',
+  },
+  descriptionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
   footerContent: {
-    maxWidth: 1080,
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',

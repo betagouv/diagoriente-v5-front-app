@@ -67,13 +67,15 @@ export default makeStyles<Theme>((theme) => ({
   },
   wrapperBtn: {
     display: 'flex',
+    flexDirection: 'column',
     position: 'absolute',
+    alignItems:'center',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
-  nextWrap: { right: -25 },
-  prevWrap: { left: -25 },
+  nextWrap: { right: 4 },
+  prevWrap: { left: 3 },
   containerBtn: {
     width: 55,
     height: 55,
@@ -95,9 +97,9 @@ export default makeStyles<Theme>((theme) => ({
   },
   titleContainerArrow: { margin: '0px 10px', width: 124 },
   topTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  topTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'right' },
+  topTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
   bottomTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
-  bottomTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'right' },
+  bottomTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
 
   hide: {
     display: 'none',

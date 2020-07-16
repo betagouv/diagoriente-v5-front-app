@@ -21,6 +21,7 @@ import useStyles from './styles';
 const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
+  const [index, setIndex] = useState(0);
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
@@ -76,31 +77,38 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
 
     setSelectedInterest(copySelected);
   };
+  const onChangeIndex = (i: number) => {
+    setIndex(i);
+  };
   return (
     <div className={classes.container}>
       <div className={classes.content}>
         <div className={classes.header}>
           <div className={classes.titleContainer}>
-            <Avatar size={60} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
-              <img src={InterestLogo} alt="interest" />
-            </Avatar>
-            <div className={classes.titlesWrapper}>
-              <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
-              <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
+            <div className={classes.titleTopContainer}>
+              <div className={classes.topTitle}>Travailler</div>
+              {'  '}
+              <div className={classes.bottomTitle}>{formattedData && formattedData[index]?.title}</div>
+            </div>
+            <div className={classes.linkContainer}>
+              <Link to={profil ? '/profil' : '/interet'}>
+                <RestLogo color="#420FAB" label="Annuler" />
+              </Link>
             </div>
           </div>
-          <Link to={profil ? '/profil' : '/interet'}>
-            <RestLogo color="#420FAB" label="Annuler" />
-          </Link>
         </div>
         <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
-            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
+            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
           </div>
         </div>
         <div className={classes.footer}>
           <div className={classes.footerContent}>
+            <div className={classes.descriptionContainer}>
+              <div className={classes.description}>Sélectionne 5 groupes de</div>
+              <div className={classes.description}>centres d’intérêts en tout :</div>
+            </div>
             {loading && renderAllPlaceholder()}
             {selectedInterests.map((el, i) => (
               <FamileSelected

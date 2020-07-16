@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 
 import SelectionContext from 'contexts/SelectionContext';
 
-import { useDidUpdate } from 'hooks/useLifeCycle';
-
 import { Theme, Activity } from 'requests/types';
 
 import Avatar from 'components/common/Avatar/Avatar';
@@ -25,12 +23,6 @@ const PrivateHeader = ({ theme, activities }: Props) => {
   const toggle = () => {
     setOpen(!open);
   };
-
-  useDidUpdate(() => {
-    if (theme || activities.length) {
-      setOpen(true);
-    }
-  }, [theme, activities.length]);
 
   return (
     <div className={classes.appBar}>

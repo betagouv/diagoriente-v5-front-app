@@ -113,7 +113,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -130,9 +130,10 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -148,7 +149,8 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           className={classes.root}
         >
           {parcours?.families
@@ -204,12 +206,12 @@ const ProfilComponent = () => {
           {persoSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
-                <Circle size={70}>
+                <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
                     <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
                   )}
                 </Circle>
-                <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
+                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
               </div>
             </Grid>
           ))}
@@ -230,12 +232,12 @@ const ProfilComponent = () => {
           {proSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id}>
               <div className={classes.themeSelection}>
-                <Circle size={70}>
+                <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
                     <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
                   )}
                 </Circle>
-                <p className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</p>
+                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
               </div>
             </Grid>
           ))}
@@ -261,10 +263,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-          <div key={j.id} className={classes.favoriContainer}>
-            <img src={littleheart} alt="" height={20} />
-            <div className={classes.job}>{j.title}</div>
-          </div>
+            <div key={j.id} className={classes.favoriContainer}>
+              <img src={littleheart} alt="" height={20} />
+              <div className={classes.job}>{j.title}</div>
+            </div>
           ))
         : null,
     },

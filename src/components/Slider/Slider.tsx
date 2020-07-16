@@ -11,8 +11,9 @@ interface IProps {
   data: { title: string; data: Families[] }[];
   handleClick: (e: any) => void;
   isChecked: any;
+  setIndex: (i: number) => void;
 }
-const Slider = ({ data, handleClick, isChecked }: IProps) => {
+const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
@@ -25,6 +26,7 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
               if (currentIndex !== 0) {
                 previousSlide();
                 setCurrentIndex(currentIndex - 1);
+                setIndex(currentIndex - 1);
               }
             }}
             className={classNames(classes.containerBtn, classes.rotatedArrow)}
@@ -32,8 +34,8 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
             <Arrow width="15" height="24" color="#fff" className={classes.arrowCon} />
           </div>
           <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleLeftArrow}>Travailler...</div>
-            <div className={classes.bottomTitleLeftArrow}>{data && data[currentIndex - 1]?.title}</div>
+            <div className={classes.topTitleRightArrow}>Travailler</div>
+            <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex - 1]?.title}</div>
           </div>
         </div>
       )}
@@ -41,20 +43,21 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
         <div
           className={classNames(currentIndex === data.length - 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
         >
-          <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleRightArrow}>Travailler...</div>
-            <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex + 1]?.title}</div>
-          </div>
           <div
             onClick={() => {
               if (currentIndex !== data.length - 1) {
                 nextSlide();
                 setCurrentIndex(currentIndex + 1);
+                setIndex(currentIndex + 1);
               }
             }}
             className={classes.containerBtn}
           >
-            <Arrow width="16" height="25" color="#fff" className={classes.arrowCon}  />
+            <Arrow width="16" height="25" color="#fff" className={classes.arrowCon} />
+          </div>
+          <div className={classes.titleContainerArrow}>
+            <div className={classes.topTitleRightArrow}>Travailler</div>
+            <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex + 1]?.title}</div>
           </div>
         </div>
       )}
@@ -63,14 +66,6 @@ const Slider = ({ data, handleClick, isChecked }: IProps) => {
     >
       {data.map((el) => (
         <div key={el.title} className={classes.item}>
-          <div className={classes.titleContainer}>
-            <div className={classes.topTitle}>Travailler...</div>
-            <div className={classes.descLogo}>
-              <div className={classes.bottomTitle}>{el.title}</div>
-              <img src={Trait} alt="" className={classes.traitLogo} width={170} height={80} />
-            </div>
-          </div>
-
           <div className={classes.avatarContainer}>
             {el.data.map((e) => {
               const { nom } = e;

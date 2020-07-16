@@ -31,7 +31,7 @@ const HomeInteret = () => {
         <div className={classes.avatarContainer}>
           <AvatarImage size={168} />
           <div className={classes.btnContainer}>
-            <Link to="/interet/parcours">
+            <Link to="/interet/main">
               <Button className={classes.btn} type="submit">
                 <div className={classes.btnLabel}>C’est parti !</div>
               </Button>

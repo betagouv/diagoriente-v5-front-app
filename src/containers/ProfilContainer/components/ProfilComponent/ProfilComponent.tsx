@@ -73,6 +73,7 @@ const ProfilComponent = () => {
       title: 'MES INFOS PERSONNELLES',
       background: '#6B6B6A',
       color: '#fff',
+      path: '/profil/info',
       children: (
         <>
           <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
@@ -113,7 +114,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -130,10 +131,9 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -149,8 +149,7 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           className={classes.root}
         >
           {parcours?.families
@@ -263,10 +262,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-            <div key={j.id} className={classes.favoriContainer}>
-              <img src={littleheart} alt="" height={20} />
-              <div className={classes.job}>{j.title}</div>
-            </div>
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littleheart} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
           ))
         : null,
     },

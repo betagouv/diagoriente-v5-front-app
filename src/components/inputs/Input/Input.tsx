@@ -77,7 +77,7 @@ const Input = ({
                 ),
                 endAdornment: (
                   <InputAdornment position="start">
-                    {name === 'password' && (
+                    {(name === 'password' || name === 'oldPassword') && (
                       <img src={PasswordEye} alt="view" onClick={showPassword} className={classes.showPasswordImage} />
                     )}
                   </InputAdornment>

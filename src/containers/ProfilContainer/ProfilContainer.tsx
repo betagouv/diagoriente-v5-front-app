@@ -7,6 +7,8 @@ import NotFoundPage from 'components/layout/NotFoundPage';
 import ExperienceProfil from './components/ExperienceComponent/ExperienceProfil';
 import ProfilComponent from './components/ProfilComponent/ProfilComponent';
 import InteretProfil from './components/InteretComponent/InteretComponent';
+import InfoProfil from './components/InfoProfil/InfoProfil';
+
 import CardContainer from './containers/CardContainer';
 
 export const CONTAINER_PADDING = '30px 70px 80px 70px';
@@ -49,6 +51,7 @@ const Profil = () => (
       <Route protected exact path="/profil" component={ProfilComponent} />
       <Route protected exact path="/profil/experience" component={ExperienceProfil} />
       <Route protected exact path="/profil/interest" component={InteretProfil} />
+      <Route protected exact path="/profil/info" component={InfoProfil} />
       <Route footer protected exact path="/profil/card" component={CardContainer} />
       <Route component={NotFoundPage} />
     </Switch>

@@ -21,10 +21,11 @@ interface Props {
   remove?: (id: string) => void;
   recommendation?: (id: string) => void;
   src?: string;
+  type?: string;
 }
 
 const Card = ({
- title, src, className, competence, id, edit, remove, recommendation,
+ title, src, className, competence, id, edit, remove, recommendation, type,
 }: Props) => {
   const classes = useStyles();
   const Tab = [
@@ -53,10 +54,15 @@ const Card = ({
   return (
     <div className={classNames(classes.cardContainer, className)}>
       <div className={classes.root}>
-        <div className={classes.titleContainer}>
-          <Circle size={55}>{src && <img src={src} alt="theme" className={classes.image} />}</Circle>
-          <span className={classes.title}>{title}</span>
-        </div>
+        {type === 'professional' ? (
+          <li className={classNames(classes.title, classes.themeTitle)}>{title}</li>
+
+        ) : (
+          <div className={classes.titleContainer}>
+            <Circle size={55}>{src && <img src={src} alt="theme" className={classes.image} />}</Circle>
+            <span className={classes.title}>{title}</span>
+          </div>
+        )}
         {competence.map((comp) => (
           <div key={comp._id.id} className={classes.childrenCardContainer}>
             <div className={classes.childrenCard}>{comp._id.title}</div>

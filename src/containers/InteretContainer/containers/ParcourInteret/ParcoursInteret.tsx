@@ -1,13 +1,13 @@
-import React, { useState, useContext, useMemo, useEffect } from 'react';
+import React, {
+ useState, useContext, useMemo, useEffect,
+} from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { groupBy } from 'lodash';
 
-import Avatar from 'components/common/Avatar/Avatar';
 import RestLogo from 'components/common/Rest/Rest';
-import InterestLogo from 'assets/svg/interest.svg';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
@@ -91,7 +91,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
               <div className={classes.bottomTitle}>{formattedData && formattedData[index]?.title}</div>
             </div>
             <div className={classes.linkContainer}>
-              <Link to={profil ? '/profil' : '/interet'}>
+              <Link to={profil ? '/profile' : '/interet'}>
                 <RestLogo color="#420FAB" label="Annuler" />
               </Link>
             </div>

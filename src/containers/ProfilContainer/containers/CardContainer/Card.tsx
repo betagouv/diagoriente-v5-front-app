@@ -200,14 +200,14 @@ const CardContainer = () => {
           type: 'personal',
           emptyMessage: "Tu n’as pas encore renseigné d'expérience personnelle",
           emptyButton: 'J’ajoute une expérience perso',
-          path: `/experience/theme${encodeUri({ redirect: '/profil/card' })}`,
+          path: `/experience/theme${encodeUri({ redirect: '/profile/card' })}`,
         })}
         {renderSkillPart({
           title: 'Expériences professionnelles',
           type: 'professional',
           emptyMessage: "Tu n’as pas encore renseigné d'expérience professionnelle",
           emptyButton: 'J’ajoute une expérience pro',
-          path: `/experience/theme${encodeUri({ redirect: '/profil/card', type: 'professional' })}`,
+          path: `/experience/theme${encodeUri({ redirect: '/profile/card', type: 'professional' })}`,
         })}
       </Paper>
       <div className={classes.footerIcons}>{renderIcons()}</div>

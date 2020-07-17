@@ -7,6 +7,7 @@ import { User } from './types';
 
 export const updateUserMutation = gql`
   mutation User(
+    $email: String 
     $password: String
     $firstName: String
     $lastName: String
@@ -23,6 +24,7 @@ export const updateUserMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
+      email:$email
     ) {
       id
       email

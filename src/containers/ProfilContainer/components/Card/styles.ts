@@ -95,4 +95,12 @@ export default makeStyles(() =>
       maxHeight: '100%',
       maxWidth: '100%',
     },
+
+    themeTitle: {
+      textAlign: 'left',
+      listStyle: 'inside',
+      fontSize: 18,
+      flex: 0,
+      margin: 0,
+    },
   }));

@@ -122,10 +122,12 @@ const InfoProfil = () => {
   useEffect(() => {
     if (updateUserState.data) {
       setUser(updateUserState.data.updateUser);
+
       setOpen(false);
     }
     // eslint-disable-next-line
   }, [updateUserState.data]);
+
   return (
     <>
       <SnackBar variant="error" message={error} open={!!error} />

@@ -8,7 +8,7 @@ import useStyles from './styles';
 const Arrow = () => {
   const classes = useStyles();
   return (
-    <Link className={classes.arrowContainer} to="/profil">
+    <Link className={classes.arrowContainer} to="/profile">
       <img src={redarrow} alt="" height={15} />
       <span className={classes.txt}>Retour à mon profil </span>
     </Link>

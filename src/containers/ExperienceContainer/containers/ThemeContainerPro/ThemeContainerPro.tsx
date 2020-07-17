@@ -85,8 +85,8 @@ const ThemeContainerPro = ({ location, history }: RouteComponentProps) => {
             </div>
             <div className={classes.gridContainer}>
               <Grid className={classes.circleContainer} container spacing={2}>
-                {valueSearch &&
-                  data?.themes.data
+                {valueSearch
+                  && data?.themes.data
                     .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
                     .map((theme, index) => {
                       const tooltip = theme.activities;
@@ -108,13 +108,13 @@ const ThemeContainerPro = ({ location, history }: RouteComponentProps) => {
                         <Tooltip
                           key={theme.id}
                           open={!tooltip ? false : undefined}
-                          title={
+                          title={(
                             <Child key={index}>
                               {tooltip.map((el) => (
                                 <div key={el.id}>{`-${el.title}`}</div>
                               ))}
                             </Child>
-                          }
+                          )}
                           arrow
                           placement="left"
                         >

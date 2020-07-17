@@ -152,13 +152,25 @@ export default makeStyles((theme: Theme) =>
       paddingRight: 2,
     },
 
+    tooltipRight: {
+      left: '-50px !important',
+    },
+    tooltipLeft: {
+      right: '-50px !important',
+    },
     margin: {
       margin: '0px 20px',
+    },
+
+    dot: {
+      textAlign: 'left',
+      listStyle: 'inside',
+      flex: 0,
+      margin: 0,
     },
     selectedImg: {
       '&:not(.nohover):hover': {
         opacity: 1,
       },
     },
-  }),
-);
+  }));

@@ -10,6 +10,8 @@ import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import parcoursContext from 'contexts/ParcourContext';
+import Tooltip from '@material-ui/core/Tooltip';
+import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
 import classNames from 'utils/classNames';
@@ -73,25 +75,41 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
 
               {data?.themes.data
                 .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
-                .map((theme) => (
+                .map((theme, index) => (
                   <Grid key={theme.id} item xs={12} sm={3} md={2}>
-                    <Avatar
-                      title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-                      size={62}
-                      titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
-                      className={classes.circle}
-                      onClick={() => showAvatar(theme)}
-                      avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                    <Tooltip
+                      classes={{ tooltipPlacementRight: classes.tooltipRight, tooltipPlacementLeft: classes.tooltipLeft }}
+
+                      title={(
+                        <Child key={index}>
+                          {theme.activities.map((act) => (
+                            <li className={classes.dot}>{act.title}</li>
+                          ))}
+                        </Child>
+                      )}
+                      arrow
+                      placement="right"
                     >
-                      <img
-                        src={theme.resources?.icon}
-                        alt=""
-                        className={classNames(
-                          classes.avatarStyle,
-                          selectedTheme?.id === theme.id && classes.selectedImg,
-                        )}
-                      />
-                    </Avatar>
+                      <Child>
+                        <Avatar
+                          title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
+                          size={62}
+                          titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
+                          className={classes.circle}
+                          onClick={() => showAvatar(theme)}
+                          avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                        >
+                          <img
+                            src={theme.resources?.icon}
+                            alt=""
+                            className={classNames(
+                            classes.avatarStyle,
+                            selectedTheme?.id === theme.id && classes.selectedImg,
+                          )}
+                          />
+                        </Avatar>
+                      </Child>
+                    </Tooltip>
                   </Grid>
                 ))}
             </Grid>

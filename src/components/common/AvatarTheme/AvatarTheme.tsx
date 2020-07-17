@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, Ref } from 'react';
 import classNames from 'utils/classNames';
 import check from 'assets/svg/check.svg';
 
@@ -14,31 +14,29 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   checked?: boolean;
 }
 
-const AvatarTheme = ({
-  title,
-  size,
-  className,
-  titleClassName,
-  children,
-  avatarCircleBackground,
-  checked,
-  ...rest
-}: Props) => {
-  const classes = useStyles({
-    size,
-    avatarCircleBackground,
-  });
-  return (
-    <div className={classNames(classes.circle, className)} {...rest}>
-      <div className={classes.squareContainer}>{children}</div>
-      {title && (
-        <p className={classNames(classes.title, titleClassName)}>
-          {title}
-          {checked && <img src={check} alt="check" className={classes.checked} />}
-        </p>
-      )}
-    </div>
-  );
-};
+const AvatarTheme = forwardRef(
+  (
+    {
+ title, size, className, titleClassName, children, avatarCircleBackground, checked, ...rest
+}: Props,
+    ref: Ref<HTMLDivElement>,
+  ) => {
+    const classes = useStyles({
+      size,
+      avatarCircleBackground,
+    });
+    return (
+      <div className={classNames(classes.circle, className)} {...rest} ref={ref}>
+        <div className={classes.squareContainer}>{children}</div>
+        {title && (
+          <p className={classNames(classes.title, titleClassName)}>
+            {title}
+            {checked && <img src={check} alt="check" className={classes.checked} />}
+          </p>
+        )}
+      </div>
+    );
+  },
+);
 
 export default AvatarTheme;

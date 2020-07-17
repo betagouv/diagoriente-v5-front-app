@@ -52,6 +52,7 @@ export default makeStyles((theme) =>
     cancelText: {
       color: '#D60051',
       fontWeight: 'bold',
+      WebkitTextStroke: '0.2px',
       fontSize: 14,
       cursor: 'pointer',
       marginTop: 22,

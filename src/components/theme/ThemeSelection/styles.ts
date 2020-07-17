@@ -138,4 +138,10 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     circleClassName: {
       padding: 0,
     },
+    dot: {
+      textAlign: 'left',
+      listStyle: 'inside',
+      fontSize: 16,
+      margin: 0,
+    },
   }));

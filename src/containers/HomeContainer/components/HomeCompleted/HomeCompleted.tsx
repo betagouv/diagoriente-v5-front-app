@@ -139,7 +139,7 @@ const HomeCompleted = () => {
       <div className={classes.profileHeader}>MON PROFIL</div>
       <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>
-      <Link className={classes.link} to="/profil">
+      <Link className={classes.link} to="/profile">
         Voir mon profil
       </Link>
       <div className={classes.content}>

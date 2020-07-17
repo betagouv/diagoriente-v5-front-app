@@ -47,7 +47,7 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
     if (updateState.data && !updateState.error) {
       setParcours(updateState.data.updateParcour);
       const { profil } = decodeUri(location.search);
-      history.push(profil ? '/profil/interest' : '/interet/result');
+      history.push(profil ? '/profile/interest' : '/interet/result');
     }
     // eslint-disable-next-line
   }, [updateState.data, updateState.error]);

@@ -50,7 +50,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
               </Link>
             </div>
             <div className={classes.btnSkillCardContainer}>
-              <Link to="/profil/card">
+              <Link to="/profile/card">
                 <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
               </Link>
             </div>

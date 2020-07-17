@@ -253,10 +253,6 @@ export default makeStyles((theme) =>
       background: '#420FAB',
     },
 
-    calcPaddingTop: {
-      paddingTop: 'calc(30px + 1em)',
-    },
-
     job: {
       flex: 1,
 

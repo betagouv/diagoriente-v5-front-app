@@ -125,7 +125,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   useEffect(() => {
     if (updateSkillState.called && updateSkillState.data) {
       setParcours(updateSkillState.data.updateSkill);
-      history.push(`/profil/experience?type=${data?.theme.type}`);
+      history.push(`/profile/experience?type=${data?.theme.type}`);
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');

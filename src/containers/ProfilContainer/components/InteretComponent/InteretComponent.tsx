@@ -39,7 +39,7 @@ const InteretComponent = () => {
           </div>
         ))}
       </div>
-      <Link to="/interet/parcours?profil=true">
+      <Link to="/interet/parcours?profile=true">
         <Button className={classes.btn}>
           <span className={classes.textButton}>Je modifie mes centres d’intérêts</span>
         </Button>

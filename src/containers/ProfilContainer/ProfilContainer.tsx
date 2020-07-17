@@ -48,11 +48,11 @@ const theme = createMuiTheme({
 const Profil = () => (
   <ThemeProvider theme={theme}>
     <Switch>
-      <Route protected exact path="/profil" component={ProfilComponent} />
-      <Route protected exact path="/profil/experience" component={ExperienceProfil} />
-      <Route protected exact path="/profil/interest" component={InteretProfil} />
-      <Route protected exact path="/profil/info" component={InfoProfil} />
-      <Route footer protected exact path="/profil/card" component={CardContainer} />
+      <Route protected exact path="/profile" component={ProfilComponent} />
+      <Route protected exact path="/profile/experience" component={ExperienceProfil} />
+      <Route protected exact path="/profile/interest" component={InteretProfil} />
+      <Route protected exact path="/profile/info" component={InfoProfil} />
+      <Route footer protected exact path="/profile/card" component={CardContainer} />
       <Route component={NotFoundPage} />
     </Switch>
   </ThemeProvider>

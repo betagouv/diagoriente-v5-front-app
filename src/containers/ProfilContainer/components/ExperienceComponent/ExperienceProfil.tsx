@@ -4,7 +4,7 @@ import { useDeleteSkill } from 'requests/skills';
 import { UserParcour } from 'requests/types';
 
 import { decodeUri, encodeUri } from 'utils/url';
-
+import { useWillUnmount } from 'hooks/useLifeCycle';
 import parcoursContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 import Grid from '@material-ui/core/Grid';
@@ -33,10 +33,11 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const [deleteId, setDeleteId] = useState('');
 
   const { parcours, setParcours } = useContext(parcoursContext);
-
+  const [rowSize, setRowSize] = useState(window.innerWidth < 1280 ? 2 : 3);
   const type = decodeUri(location.search).type || 'personal';
   const [deleteSkill, stateSkill] = useDeleteSkill();
-  const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme.type === type).length % 3 === 0;
+  const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme.type === type).length % rowSize === 0;
+
   useEffect(() => {
     if (stateSkill.data) {
       setParcours(stateSkill.data.deleteSkill);
@@ -48,7 +49,6 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     const selectedSkill = parcours?.skills.find((s) => s.id === id);
     if (selectedSkill) history.push(`/experience/skill/${selectedSkill.theme.id}`);
   };
-
   const handleRecommendation = (id: string) => {
     const selectedSkill = parcours?.skills.find((s) => s.id === id) || null;
     setSkill(selectedSkill);
@@ -62,6 +62,17 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const handleDelete = (id: string) => {
     setDeleteId(id);
   };
+
+  const onWindowResize = () => {
+    setRowSize(window.innerWidth < 1280 ? 2 : 3);
+  };
+  useEffect(() => {
+    window.addEventListener('resize', onWindowResize);
+  }, []);
+
+  useWillUnmount(() => {
+    window.removeEventListener('resize', onWindowResize);
+  });
 
   if (type !== 'personal' && type !== 'professional') {
     return <NotFoundPage />;
@@ -98,6 +109,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                   competence={s.competences}
                   title={s.theme.title}
                   src={s.theme.resources?.icon}
+                  type={type}
                 />
               </Grid>
             ))}
@@ -107,11 +119,11 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
               type === 'professional'
                 ? `/experience/theme-pro${encodeUri({
                     type: 'professional',
-                    redirect: '/profil/experience?type=professional',
+                    redirect: '/profile/experience?type=professional',
                   })}`
-                : `/experience/theme${encodeUri({ redirect: '/profil/experience' })}`
+                : `/experience/theme${encodeUri({ redirect: '/profile/experience' })}`
             }
-            className={classNames(!showAddCard ? classes.link : classes.btnLink)}
+            className={classNames(showAddCard ? classes.btnLink : classes.link)}
           >
             <Button className={classes.btn}>
               <span className={classes.textButton}>

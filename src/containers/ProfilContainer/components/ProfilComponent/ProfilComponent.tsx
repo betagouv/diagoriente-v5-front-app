@@ -73,7 +73,7 @@ const ProfilComponent = () => {
       title: 'MES INFOS PERSONNELLES',
       background: '#6B6B6A',
       color: '#fff',
-      path: '/profil/info',
+      path: '/profile/info',
       children: (
         <>
           <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
@@ -92,7 +92,7 @@ const ProfilComponent = () => {
       title: 'MES CENTRES D’INTERET',
       background: '#420FAB',
       color: '#fff',
-      path: '/profil/interest',
+      path: '/profile/interest',
       childrenCardClassName: classes.childrenCardClassName,
       children: (
         <Carousel
@@ -175,7 +175,7 @@ const ProfilComponent = () => {
       ),
     },
     {
-      path: '/profil/card',
+      path: '/profile/card',
       title: 'MA CARTE DE COMPETENCES',
       background: '#D60051',
       color: '#fff',
@@ -197,8 +197,7 @@ const ProfilComponent = () => {
       title: 'MES EXPERIENCES PERSONNELLES',
       background: '#4D6EC5',
       color: '#fff',
-      childrenCardClassName: classes.calcPaddingTop,
-      path: '/profil/experience',
+      path: '/profile/experience',
       className: classes.experienceCard,
       children: persoSkills.length ? (
         <Grid container spacing={1}>
@@ -223,8 +222,7 @@ const ProfilComponent = () => {
       title: 'MES EXPERIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
-      childrenCardClassName: classes.calcPaddingTop,
-      path: '/profil/experience?type=professional',
+      path: '/profile/experience?type=professional',
       className: classes.experienceCard,
       children: proSkills.length ? (
         <Grid container spacing={1}>

@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
-import Avatar from 'components/common/Avatar/Avatar';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
 
 import { useThemes } from 'requests/themes';
-import Typography from '@material-ui/core/Typography/Typography';
 import Button from 'components/nextButton/nextButton';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import parcoursContext from 'contexts/ParcourContext';
+import Tooltip from '@material-ui/core/Tooltip';
+import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
-
-import { decodeUri } from 'utils/url';
+import classNames from 'utils/classNames';
+import { decodeUri, encodeUri } from 'utils/url';
 import { Theme } from 'requests/types';
 import useStyles from './styles';
 
@@ -23,7 +24,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
 
-  const { type } = decodeUri(location.search);
+  const { type, redirect } = decodeUri(location.search);
 
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
@@ -49,17 +50,21 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={42} />
+          <Title
+            title={type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            color="#223A7A"
+            size={42}
+          />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              history.replace(redirect || '/experience');
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="1" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
           <p className={classes.themeTitle}>
             Choisis un
             <span className={classes.themeText}> thème :</span>
@@ -70,25 +75,49 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
 
               {data?.themes.data
                 .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
-                .map((theme) => (
+                .map((theme, index) => (
                   <Grid key={theme.id} item xs={12} sm={3} md={2}>
-                    <Avatar
-                      title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-                      size={60}
-                      titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
-                      className={classes.circle}
-                      onClick={() => showAvatar(theme)}
-                      avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
-                    >
-                      {selectedTheme?.id === theme.id && (
-                        <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} />
+                    <Tooltip
+                      classes={{ tooltipPlacementRight: classes.tooltipRight, tooltipPlacementLeft: classes.tooltipLeft }}
+
+                      title={(
+                        <Child key={index}>
+                          {theme.activities.map((act) => (
+                            <li className={classes.dot}>{act.title}</li>
+                          ))}
+                        </Child>
                       )}
-                    </Avatar>
+                      arrow
+                      placement="right"
+                    >
+                      <Child>
+                        <Avatar
+                          title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
+                          size={62}
+                          titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
+                          className={classes.circle}
+                          onClick={() => showAvatar(theme)}
+                          avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                        >
+                          <img
+                            src={theme.resources?.icon}
+                            alt=""
+                            className={classNames(
+                            classes.avatarStyle,
+                            selectedTheme?.id === theme.id && classes.selectedImg,
+                          )}
+                          />
+                        </Avatar>
+                      </Child>
+                    </Tooltip>
                   </Grid>
                 ))}
             </Grid>
           </div>
-          <Link to={selectedTheme ? `/experience/skill/${selectedTheme.id}` : ''} className={classes.hideLine}>
+          <Link
+            to={selectedTheme ? `/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}` : ''}
+            className={classes.hideLine}
+          >
             <Button disabled={!selectedTheme} />
           </Link>
         </div>

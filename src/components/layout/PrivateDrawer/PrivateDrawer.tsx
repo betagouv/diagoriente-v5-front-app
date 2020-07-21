@@ -7,6 +7,8 @@ import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
 import userContext from 'contexts/UserContext';
+import { setAuthorizationBearer } from 'requests/client';
+import { client } from 'requests/client';
 
 import useStyles from './styles';
 
@@ -14,7 +16,7 @@ export const links = [
   { text: 'MON DASHBOARD', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
-  { text: 'DECONEXION', path: '/' },
+  { text: 'DÉCONNEXION', path: '/' },
 ];
 
 const PrivateDrawer = () => {
@@ -28,9 +30,11 @@ const PrivateDrawer = () => {
 
   const logout = () => {
     localforage.removeItem('auth');
+    setAuthorizationBearer('');
     setParcours(null);
     setUser(null);
     localStorage.clear();
+    client.clearStore();
   };
   /* useListener('resize', () => {
     const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
@@ -58,7 +62,7 @@ const PrivateDrawer = () => {
       <div className={classes.toolbar} />
       <List className={classes.root}>
         {links.map((e) => (
-          <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DECONEXION' ? logout : () => {}}>
+          <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
             <Link className={classes.link} to={e.path}>
               {e.text}
             </Link>

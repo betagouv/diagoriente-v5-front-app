@@ -21,6 +21,8 @@ import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
 import ExperienceComponent from 'containers/ExperienceContainer';
 import ParcourContext from 'contexts/ParcourContext';
+import Recommendation from 'containers/RecommendationContainer';
+import Profil from 'containers/ProfilContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -64,6 +66,8 @@ const RootContainer = () => {
             <Route footer path="/login" exact component={LoginContainer} />
             <Route footer path="/register" exact component={RegisterContainer} />
             <Route footer path="/confirmation" exact component={ConfiramtionContainer} />
+            <Route footer path="/recommendation" component={Recommendation} />
+            <BaseRoute protected path="/profile" component={Profil} />
             <BaseRoute protected path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
             <Route footer path="/reset" exact component={RenewPasswordContainer} />

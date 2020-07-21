@@ -12,7 +12,9 @@ interface IProps {
   iconClassName?: string;
 }
 
-const ModalContainer = ({ open, handleClose, children, iconClassName }: IProps) => {
+const ModalContainer = ({
+ open, handleClose, children, iconClassName,
+}: IProps) => {
   const classes = useStyles();
   return (
     <Modal
@@ -25,7 +27,7 @@ const ModalContainer = ({ open, handleClose, children, iconClassName }: IProps) 
     >
       <div className={classes.modalContainer}>
         <div className={classes.modal}>
-          <img src={picto} alt="compris" onClick={handleClose} className={classNames(classes.picto, iconClassName)} />
+          <img src={picto} alt="" onClick={handleClose} className={classNames(classes.picto, iconClassName)} />
           <div className={classes.header}>{children}</div>
         </div>
       </div>

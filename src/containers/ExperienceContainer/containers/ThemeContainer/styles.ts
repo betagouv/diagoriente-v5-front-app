@@ -26,7 +26,6 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 34,
-      paddingBottom: 77,
     },
 
     themeTitle: {
@@ -37,7 +36,7 @@ export default makeStyles((theme: Theme) =>
     gridContainer: {
       padding: CONTAINER_PADDING,
       [theme.breakpoints.down('md')]: {
-        padding: '20px 30px',
+        padding: '30px 30px',
       },
     },
 
@@ -51,7 +50,24 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       minWidth: 130,
     },
-
+    searchContainer: {},
+    boxSearch: {
+      background: '#7AE6FF',
+      borderRadius: 10,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '44px 100px',
+    },
+    boxSearchTitle: {
+      fontWeight: 'bold',
+      fontSize: 18,
+      lineHeight: ' 26px',
+    },
+    inputSearchContainer: {
+      marginTop: 25,
+    },
+    dataSearchContainer: {},
     title: {
       fontWeight: 900,
       fontSize: 42,
@@ -99,6 +115,9 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       maxHeight: '100%',
       maxWidth: '100%',
+      '&:hover': {
+        opacity: 0.6,
+      },
     },
 
     themeRoot: {
@@ -133,7 +152,25 @@ export default makeStyles((theme: Theme) =>
       paddingRight: 2,
     },
 
+    tooltipRight: {
+      left: '-50px !important',
+    },
+    tooltipLeft: {
+      right: '-50px !important',
+    },
     margin: {
       margin: '0px 20px',
+    },
+
+    dot: {
+      textAlign: 'left',
+      listStyle: 'inside',
+      flex: 0,
+      margin: 0,
+    },
+    selectedImg: {
+      '&:not(.nohover):hover': {
+        opacity: 1,
+      },
     },
   }));

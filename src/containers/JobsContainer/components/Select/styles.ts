@@ -8,6 +8,14 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     display: 'flex',
     position: 'relative',
   },
+  mask: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1200,
+  },
   inputContainer: {
     height: 35,
     width: 235,
@@ -60,22 +68,40 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     borderRadius: 5,
     position: 'absolute',
     top: 46,
-    width: 599,
+    width: 633,
     height: 448,
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '20px 30px',
+    padding: '20px 25px',
     overflow: 'scroll',
+    zIndex: 5,
   },
   itemSecteur: {
-    margin: 15,
-    width: 230,
+    margin: 2,
+    width: 284,
     cursor: 'pointer',
     '&:hover': {
-      color: '#FFA600',
+      color: theme.palette.primary.main,
+    },
+    padding: '3px 0px',
+
+  },
+  itemSecteurSelected: {
+ 
+    '&:hover': {
+      color: '#424242',
     },
   },
+  item: {
+    padding: '10px 10px',
+  },
   selected: {
-    color: '#FFA600',
+    fontWeight: 'bold',
+    background: theme.palette.secondary.main,
+    borderRadius: 12,
+    padding: '3px 10px',
+    '&:hover': {
+      color: '#424242',
+    },
   },
 }));

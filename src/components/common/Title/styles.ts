@@ -19,7 +19,8 @@ export default makeStyles<Theme, { color: string; size?: number; font?: string; 
     fontWeight: 900,
     fontSize: (props) => (props.size ? props.size : 62),
     fontFamily: (props) => (props.font ? props.font : 'Ocean'),
-    color: theme.palette.primary.main,
+    textTransform: 'uppercase',
+    color: (props) => (props.color ? props.color : theme.palette.primary.main),
     margin: 0,
     [theme.breakpoints.down('xs')]: {
       fontSize: (props) => (props.size ? props.size : 50),

@@ -7,9 +7,10 @@ import SelectionContext from 'contexts/SelectionContext';
 
 import ExperienceComponent from './containers/Experience/Experience';
 import ThemeContainer from './containers/ThemeContainer';
+import ThemeContainerPro from './containers/ThemeContainerPro/ThemeContainerPro';
 import SkillContainer from './containers/SkillContainer';
 
-export const CONTAINER_PADDING = '30px 70px 90px 70px';
+export const CONTAINER_PADDING = '30px 70px 80px 70px';
 
 const theme = createMuiTheme({
   palette: {
@@ -52,6 +53,7 @@ const Experience = () => {
         <Switch>
           <Route exact path="/experience" component={ExperienceComponent} />
           <Route path="/experience/theme" exact component={ThemeContainer} />
+          <Route path="/experience/theme-pro" exact component={ThemeContainerPro} />
           <Route path="/experience/skill/:themeId" component={SkillContainer} />
           <Route component={NotFoundPage} />
         </Switch>

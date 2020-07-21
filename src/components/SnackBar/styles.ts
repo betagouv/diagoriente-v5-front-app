@@ -16,6 +16,7 @@ export default makeStyles((theme: Theme) => ({
   },
   icon: {
     fontSize: 20,
+    color: "#fff",
   },
   iconVariant: {
     opacity: 0.9,
@@ -24,6 +25,7 @@ export default makeStyles((theme: Theme) => ({
   message: {
     display: 'flex',
     alignItems: 'center',
+    color: '#fff',
   },
   snackContainer: {
     marginTop: 30,

@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'utils/classNames';
+import check from 'assets/svg/check.svg';
 import useStyles from './styles';
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -9,19 +10,32 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   titleClassName?: string;
   children?: React.ReactChild | boolean | null;
   avatarCircleBackground?: string;
+  circleClassName?: string;
+  checked?: boolean;
 }
 
-const Avatar = ({ title, size, className, titleClassName, children, avatarCircleBackground, ...rest }: Props) => {
+const Avatar = ({
+  title,
+  size,
+  className,
+  titleClassName,
+  children,
+  avatarCircleBackground,
+  circleClassName,
+  checked,
+  ...rest
+}: Props) => {
   const classes = useStyles({
     size,
     avatarCircleBackground,
   });
   return (
     <div className={classNames(classes.squareContainer, className)} {...rest}>
-      <div className={classes.circle}>{children}</div>
+      <div className={classNames(classes.circle, circleClassName)}>{children}</div>
       {title && (
         <p className={classNames(classes.title, titleClassName)}>
-          <div className={classes.titleSize}>{title}</div>
+          {title}
+          {checked && <img src={check} alt="check" className={classes.checked} />}
         </p>
       )}
     </div>

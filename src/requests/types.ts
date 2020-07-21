@@ -8,6 +8,8 @@ export interface User {
   played: boolean;
   isActive: boolean;
   logo: string;
+  location: string;
+  codeGroupe:string;
 }
 
 export interface Token {
@@ -78,8 +80,24 @@ export interface UserParcour {
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
-    activities: { id: string; title: string; description: string };
-    competences: { _id: string; value: number };
+    activities: { id: string; title: string; description: string }[];
+    competences: { _id: Competence; value: number }[];
+    comment: {
+      id: string;
+      lastName: string;
+      firstName: string;
+      commentText: string;
+      status: 'pending' | 'accepted' | 'refused';
+      email: string;
+      location: string;
+    }[];
+  }[];
+  globalCompetences: {
+    id: string;
+    title: string;
+    value: number;
+    count: number;
+    niveau: { title: string; sub_title: string };
   }[];
 }
 
@@ -104,9 +122,25 @@ export interface Skill {
     interests: string[];
     verified: boolean;
   }[];
-  competences: { _id: string; value: number }[];
-  comment: { firstName: string; lastName: string; email: string; text: string; status: string }[];
+  competences: { _id: Competence; value: number }[];
+  comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string }[];
 }
+
+export interface PublicSkill {
+  id: string;
+  theme: {
+    id: string;
+    title: string;
+  };
+  activities: {
+    id: string;
+    title: string;
+  }[];
+  competences: { _id: Competence; value: number }[];
+  comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string };
+  user: { id: string; firstName: string; lastName: string };
+}
+
 export interface Jobs {
   id: string;
   title: string;
@@ -118,9 +152,43 @@ export interface Jobs {
   rome_codes: string;
   secteur: string[];
   niveau: string[];
-  interests: { _id: string; weight: number }[];
-  competences: { _id: string; weight: number }[];
+  interests: { _id: { nom: string; id: string }; __typename: string }[];
+  competences: { _id: { id: string; title: string }; weight: number }[];
   formations: string[];
   environments: string[];
-  questionJobs: { _id: string; label: string }[];
+  questionJobs: { id: string; label: string }[];
+  favorite?: {
+    id: string;
+    interested: boolean;
+  };
+}
+export interface Favoris {
+  id: string;
+  user: string;
+  parcour: string;
+  job: string;
+  interested: boolean;
+}
+export interface Company {
+  address: string;
+  alternance: string;
+  boosted: boolean;
+  city: string;
+  contact_mode: string;
+  distance: number;
+  headcount_text: string;
+  lat: number;
+  lon: number;
+  matched_rome_code: string;
+  matched_rome_label: string;
+  matched_rome_slug: string;
+  naf: string;
+  naf_text: string;
+  name: string;
+  pmsmp: string;
+  siret: string;
+  social_network: string;
+  stars: number;
+  url: string;
+  website: string;
 }

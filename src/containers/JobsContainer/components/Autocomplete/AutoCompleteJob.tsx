@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import TextField from 'components/inputs/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LogoLoupe from 'assets/svg/loupe.svg';
@@ -12,16 +12,17 @@ interface IProps {
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSelectText: (e: string | undefined) => void;
-  value: string;
+  value: string | undefined;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   error?: boolean;
   errorText?: string;
   options: any;
-  icon?: ReactElement;
+  icon?: any;
   className?: string;
   errorForm?: string;
   open?: boolean;
+  type?: string;
 }
 
 const AutoCompleteJob = ({
@@ -34,9 +35,14 @@ const AutoCompleteJob = ({
   options,
   errorForm,
   open,
+  type,
   onSelectText,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
+  const data = options?.map((el: any) => ({
+    label: el.title || el.label,
+    value: type === 'immersion' ? el.rome_codes : el,
+  }));
   return (
     <div className={classes.root}>
       <TextField
@@ -48,32 +54,37 @@ const AutoCompleteJob = ({
         withOutIcons
         InputProps={{
           classes: { input: classNames(classes.inputRoot), root: classes.inputBase },
-          startAdornment: (
-            <InputAdornment position="start">
-              <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
-            </InputAdornment>
-          ),
+          startAdornment:
+            type === 'location' || type === 'jobs' ? (
+              <InputAdornment position="start">
+                <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
+              </InputAdornment>
+            ) : null,
         }}
       />
       {open && (
         <div className={classes.optionsContainer}>
-          {options.map((el: any) => {
-            const t = el.title.toLowerCase().split(value.toLowerCase());
+          {data?.map((el: any) => {
+            const t = el.label.toLowerCase().split(value?.toLowerCase());
             for (let i = 0; i < t.length; i += 1) {
               return (
                 <div
-                  key={el.id}
+                  key={el.label}
                   onClick={() => {
-                    onSelectText(el.title);
+                    onSelectText(el);
                   }}
                   className={classes.item}
                 >
-                  <LogoLoupeComponent color="#424242" width="19" height="19" />
-                  <div className={classes.itemWrapper}>
-                    <span>{t[i]}</span>
-                    <span style={{ fontWeight: 'bold' }}>{value}</span>
-                    {t[i + 1] && <span>{t[i + 1]}</span>}
-                  </div>
+                  {type === 'jobs' && <LogoLoupeComponent color="#424242" width="19" height="19" />}
+                  {type === 'jobs' ? (
+                    <div className={classes.itemWrapper}>
+                      <span>{t[i]}</span>
+                      <span style={{ fontWeight: 'bold' }}>{value}</span>
+                      {t[i + 1] && <span>{t[i + 1]}</span>}
+                    </div>
+                  ) : (
+                    <div>{el.label}</div>
+                  )}
                 </div>
               );
             }

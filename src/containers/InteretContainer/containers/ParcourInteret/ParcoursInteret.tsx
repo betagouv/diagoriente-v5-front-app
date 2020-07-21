@@ -1,29 +1,34 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, {
+ useState, useContext, useMemo, useEffect,
+} from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
-import { Link } from 'react-router-dom';
-import Avatar from 'components/common/Avatar/Avatar';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { groupBy } from 'lodash';
+
 import RestLogo from 'components/common/Rest/Rest';
-import InterestLogo from 'assets/svg/interest.svg';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
-import { groupBy } from 'lodash';
 import Slider from 'components/Slider/Slider';
+import { decodeUri } from 'utils/url';
 
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
-const ParcoursInteret = () => {
+const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
+  const [index, setIndex] = useState(0);
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
   );
-  setInterest(selectedInterests);
+  useEffect(() => {
+    setInterest(selectedInterests);
+  }, [setInterest, selectedInterests]);
 
   const { data, loading } = useFamilies();
   const formattedData: { title: string; data: Families[] }[] = useMemo(
@@ -34,6 +39,9 @@ const ParcoursInteret = () => {
       })),
     [data],
   );
+
+  const { profil } = decodeUri(location.search);
+
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = selectedInterests.length + 1; i <= 5; i += 1) {
@@ -69,31 +77,39 @@ const ParcoursInteret = () => {
 
     setSelectedInterest(copySelected);
   };
+  const onChangeIndex = (i: number) => {
+    setIndex(i);
+  };
   return (
     <div className={classes.container}>
       <div className={classes.content}>
         <div className={classes.header}>
           <div className={classes.titleContainer}>
-            <Avatar size={60} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
-              <img src={InterestLogo} alt="interest" />
-            </Avatar>
-            <div className={classes.titlesWrapper}>
-              {' '}
-              <div className={classes.title}>MES CENTRES D&lsquo;INTERET</div>
-              <div className={classes.descriptionTitle}>Sélectionne 5 centres d’intérêts :</div>
+            <div className={classes.titleTopContainer}>
+              <div className={classes.topTitle}>Travailler</div>
+              {'  '}
+              <div className={classes.bottomTitle}>{formattedData && formattedData[index]?.title}</div>
+            </div>
+            <div className={classes.linkContainer}>
+              <Link to={profil ? '/profile' : '/interet'}>
+                <RestLogo color="#420FAB" label="Annuler" />
+              </Link>
             </div>
           </div>
-
-          <RestLogo color="#420FAB" label="Annuler" />
         </div>
-        <div className={classes.wrapper}>
+       <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
-            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
+            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
           </div>
-        </div>
+        </div> 
+
         <div className={classes.footer}>
           <div className={classes.footerContent}>
+            <div className={classes.descriptionContainer}>
+              <div className={classes.description}>Sélectionne 5 groupes de</div>
+              <div className={classes.description}>centres d’intérêts en tout :</div>
+            </div>
             {loading && renderAllPlaceholder()}
             {selectedInterests.map((el, i) => (
               <FamileSelected
@@ -106,7 +122,7 @@ const ParcoursInteret = () => {
             ))}
             {!loading && renderPlaceholder()}
             {selectedInterests.length > 0 && (
-              <Link to="/interet/ordre" className={classes.wrapperBtn}>
+              <Link to={`/interet/ordre/${location.search}`} className={classes.wrapperBtn}>
                 <Button className={classes.btn}>
                   <div className={classes.contentBtn}>
                     <div className={classes.btnLabel}>Suivant</div>
@@ -117,7 +133,7 @@ const ParcoursInteret = () => {
             )}
           </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 };

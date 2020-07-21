@@ -172,21 +172,27 @@ export default makeStyles((theme) =>
     },
 
     btn: {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: '#00CFFF',
       height: 50,
       width: 'max-content',
+      color: '#011A5E',
+      fontSize: 18,
+      fontWeight: 'bold',
 
       '&:hover': {
-        backgroundColor: theme.palette.success.main,
+        backgroundColor: '#00B2DB',
         borderRadius: 10,
       },
     },
 
     contact: {
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: '#FF0060',
       height: 50,
       width: 244,
       marginTop: 24,
+      color: '#FFFFFF',
+      fontSize: 18,
+      fontWeight: 'bold',
       '&:hover': {
         backgroundColor: '#D60051',
         borderRadius: 10,

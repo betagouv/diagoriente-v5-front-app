@@ -2,7 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   root: {
-    height: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
   },
   titleContainer: {
     display: 'flex',
@@ -34,6 +36,7 @@ export default makeStyles((theme) => ({
     marginTop: 20,
     display: 'flex',
     justifyContent: 'center',
-    height: 270
+    flex: 1,
+    paddingBottom: 55,
   },
 }));

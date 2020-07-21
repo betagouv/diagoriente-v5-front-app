@@ -7,7 +7,7 @@ import Chart from 'react-apexcharts';
 } */
 const options = {
   options: {
-    colors: ['#FFD382', '#E91E63', '#223A7A', '#FFA600'],
+    colors: ['#FFD382', '#e8296b', '#3f8dff', '#ffdb1f'],
   },
   series: [44, 55, 41, 17],
   labels: ['A', 'B', 'C', 'D'],

@@ -6,6 +6,7 @@ export default makeStyles(() => ({
     backgroundColor: '#00CFFF',
     bottom: -25,
     left: '50%',
+    minWidth: 156,
     transform: 'translate(-50%,0)',
     height: 50,
     borderRadius: 10,
@@ -20,6 +21,7 @@ export default makeStyles(() => ({
   contentBtn: {
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
   },
 
   btnLabel: {
@@ -30,6 +32,12 @@ export default makeStyles(() => ({
     textAlign: 'center',
     marginRight: 10,
     paddingBottom: 4,
+    flex: 1,
+  },
+
+  arrow: {
+    position: 'absolute',
+    right: 19,
   },
 
   margin: {

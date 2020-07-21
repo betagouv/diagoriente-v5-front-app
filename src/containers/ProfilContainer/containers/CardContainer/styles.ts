@@ -135,6 +135,10 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  themeTitlePro:{
+    marginLeft: 0,
+
+  },
   titleText: {
     maxWidth: 'calc(100% - 37px)',
   },

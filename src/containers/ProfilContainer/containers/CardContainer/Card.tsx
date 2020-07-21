@@ -26,15 +26,19 @@ import { Unpacked } from 'containers/ProfilContainer/components/ExperienceCompon
 import CompetenceEchelon from 'components/common/CompetenceEchelon/CompetenceEchelon';
 import Arrow from '../../components/Arrow/Arrow';
 
+import classNames from 'utils/classNames';
+
 import useStyles from './styles';
 
 const CardContainer = () => {
   const classes = useStyles();
   const { parcours } = useContext(ParcourContext);
   const { user } = useContext(UserContext);
-
   function renderSkill(skill: Unpacked<UserParcour['skills']>) {
     const comment = skill.comment.filter((c) => c.status === 'accepted');
+    console.log('ss', skill.theme);
+    const themePro = skill.theme.type === 'professional';
+
     return (
       <Tooltip
         key={skill.id}
@@ -44,34 +48,31 @@ const CardContainer = () => {
         title={
           comment.length
             ? comment.map((c) => (
-              <div key={c.id} className={classes.tooltipContainer}>
-                <div className={classes.tooltipTitle}>
-                  Expérience validée par
-                  {' '}
-                  <span className={classes.tooltipUser}>
-                    {c.firstName}
-                    {' '}
-                    {c.lastName}
-                  </span>
-                  {c.location && (
-                  <>
-                    <br />
-                    <span className={classes.tooltipLocation}>{c.location}</span>
-                  </>
+                <div key={c.id} className={classes.tooltipContainer}>
+                  <div className={classes.tooltipTitle}>
+                    Expérience validée par{' '}
+                    <span className={classes.tooltipUser}>
+                      {c.firstName} {c.lastName}
+                    </span>
+                    {c.location && (
+                      <>
+                        <br />
+                        <span className={classes.tooltipLocation}>{c.location}</span>
+                      </>
                     )}
+                  </div>
+                  <div className={classes.tooltipCommentText}>{c.commentText}</div>
                 </div>
-                <div className={classes.tooltipCommentText}>{c.commentText}</div>
-              </div>
               ))
             : ''
         }
       >
         <Grid className={classes.skill} item lg={4}>
           <div className={classes.skillHeader}>
-            <Circle size={42}>
-              {skill.theme.resources && <img className={classes.themeIcon} src={skill.theme.resources.icon} alt="" />}
-            </Circle>
-            <div className={classes.themeTitle}>
+            {!themePro && skill.theme.resources ? (
+              <img height={50} width={50} className={classes.themeIcon} src={skill.theme.resources.icon} alt="" />
+            ) : null}
+            <div className={classNames(classes.themeTitle, themePro && classes.themeTitlePro)}>
               <div className={classes.titleText}>{skill.theme.title}</div>
               {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
             </div>
@@ -159,9 +160,7 @@ const CardContainer = () => {
         <div className={classes.cardHeader}>
           <div className={classes.userInfo}>
             <div className={classes.userName}>
-              {user?.profile.firstName}
-              {' '}
-              {user?.profile.lastName}
+              {user?.profile.firstName} {user?.profile.lastName}
             </div>
             {user?.location}
           </div>
@@ -186,8 +185,7 @@ const CardContainer = () => {
               </Grid>
             ) : (
               <div className={classes.emptyCompetences}>
-                Pour évaluer tes compétences, tu dois d&lsquo;abord
-                {' '}
+                Pour évaluer tes compétences, tu dois d&lsquo;abord{' '}
                 <span className={classes.emptyCompetencesBold}>
                   ajouter des expériences personnelles ou professionnelles
                 </span>

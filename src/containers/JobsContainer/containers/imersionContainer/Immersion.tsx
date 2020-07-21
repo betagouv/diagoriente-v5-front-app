@@ -10,14 +10,17 @@ import { useForm } from 'hooks/useInputs';
 import { useDidMount } from 'hooks/useLifeCycle';
 import classNames from 'utils/classNames';
 import ModalContainer from 'components/common/Modal/ModalContainer';
-import Select from 'components/inputs/Select/Select';
 import ImageTitle from 'components/common/TitleImage/TitleImage';
 import Spinner from 'components/Spinner/Spinner';
+import Button from 'components/nextButton/nextButton';
 
 import Arrow from 'assets/svg/arrow';
 import TraitJaune from 'assets/images/trait_jaune.svg';
 import Edit from 'assets/svg/edit.svg';
 import LogoLocation from 'assets/form/location.png';
+import msg from 'assets/svg/msgorange.svg';
+import attention from 'assets/svg/attentionpink.svg';
+
 import Loupe from 'assets/svg/loupe';
 
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
@@ -33,6 +36,8 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const [openContact, openContactState] = useState(false);
   const [openConseil, openConseilState] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
   const [update, setUpdate] = useState(false);
   // form state
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
@@ -65,6 +70,14 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     openContactState(false);
     openConseilState(false);
   };
+
+  const handleCloseContact = () => {
+    setOpen(false);
+  };
+
+  const handleOk = () => {
+    setOpen(false);
+  };
   const PAGES = immersionState.data?.immersions.companies_count / 6;
   const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
 
@@ -75,6 +88,12 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
       setItems(a);
     }
   }, [PAGES]);
+
+  useEffect(() => {
+    if (open === true) {
+      openContactState(false);
+    }
+  }, [open, openContact]);
   const getData = (pg: number) => {
     setPage(pg);
     const args = { ...dataToSend, page: pg };
@@ -228,6 +247,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
             size={42}
             className={classes.titleImmersion}
           />
+          <div className={classes.empty} />
         </div>
 
         <div className={classes.wrapper}>
@@ -288,8 +308,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
               </div>
               <hr className={classes.bar} />
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
-              <div className={classes.filterTitle}>Secteurs d’activité</div>
-              <Select />
+
               <div className={classes.tailleContainer}>
                 <div className={classes.filterTitle}>Taille de l’entreprise</div>
                 {taille.map((el) => (
@@ -360,7 +379,30 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openConseil ? <ModalConseil handleClose={handleClose} /> : <ModalContact />}
+        {openConseil ? <ModalConseil handleClose={handleClose} /> : <ModalContact setOpen={setOpen} />}
+      </ModalContainer>
+      <ModalContainer open={open} handleClose={handleCloseContact} backdropColor="#011A5E" colorIcon="#DB8F00">
+        <div className={classes.modalContainer}>
+          <div className={classes.titleContainerContact}>CONTACTER LA BOUCHERIE DU MARAIS</div>
+
+          <img src={msg} height={90} className={classes.iconBackground} alt=" " />
+
+          <div className={classes.descriptionModalContainer}>
+            Ton message a bien été envoyé ! Tu seras averti.e dans la partie
+            <br />
+            “Mes démarches” de ton profil lorsque l’entreprise t’aura répondu.
+          </div>
+          <div className={classes.message}>
+            <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
+            Attention : l'immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable rempli
+            une convention avec ta structure d’accueil !{' '}
+          </div>
+          <Button   ArrowColor='#011A5E'  classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
+            <div className={classes.okButton}>
+              <span className={classes.okText}>OK</span> <span>!</span>
+            </div>
+          </Button>
+        </div>
       </ModalContainer>
     </div>
   );

@@ -36,7 +36,6 @@ const CardContainer = () => {
   const { user } = useContext(UserContext);
   function renderSkill(skill: Unpacked<UserParcour['skills']>) {
     const comment = skill.comment.filter((c) => c.status === 'accepted');
-    console.log('ss', skill.theme);
     const themePro = skill.theme.type === 'professional';
 
     return (

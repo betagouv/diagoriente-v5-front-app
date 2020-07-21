@@ -9,16 +9,27 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   openChildren?: React.ReactChild;
   state?: 'closed' | 'initial' | 'open';
   image?: string;
+  titleBackground?: string;
 }
 
 const DashboardStep = ({
- title, background, initialChildren, openChildren, state, image, ...other
+  title,
+  background,
+  initialChildren,
+  openChildren,
+  state,
+  image,
+  titleBackground,
+  ...other
 }: Props) => {
   const classes = useStyles({ background, state });
 
   return (
     <div {...other} className={classes.container}>
-      <div className={classes.title}>{title}</div>
+      <div className={classes.title}>
+        {title}
+        {titleBackground && <img src={titleBackground} alt="" className={classes.titleBackground} />}
+      </div>
       <div className={classes.avatarContainer}>
         <div className={classes.avatar}>{image && <img className={classes.image} alt="" src={image} />}</div>
       </div>

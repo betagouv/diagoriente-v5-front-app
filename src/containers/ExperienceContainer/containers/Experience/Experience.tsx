@@ -3,6 +3,9 @@ import Title from 'components/common/TitleImage/TitleImage';
 import blueline from 'assets/svg/blueline.svg';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
+import IlluExpPerso from 'assets/images/illu_xp_perso.png';
+import IlluExpPro from 'assets/images/illu_xp_pro.png';
+
 import help from 'assets/svg/help.svg';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +25,14 @@ const Experience = () => {
       </p>
       <div className={classes.root}>
         <div className={classes.circleContainer}>
-          <Avatar title="Ajouter une" size={180} titleClassName={classes.marginTitle} />
+          <Avatar
+            title="Ajouter une"
+            size={200}
+            titleClassName={classes.marginTitle}
+            avatarCircleBackground="transparent"
+          >
+            <img src={IlluExpPerso} alt="" className={classes.illus} />
+          </Avatar>
           <Link to="/experience/theme">
             <Button childrenClassName={classes.margin} className={classes.btnperso} type="submit">
               <div className={classes.btnLabel}>Expérience perso </div>
@@ -31,8 +41,15 @@ const Experience = () => {
         </div>
         <div>
           <div className={classes.circleContainer}>
-            <Avatar title="Ajouter une" size={180} titleClassName={classes.marginTitle} />
-            <Link to="/experience/theme?type=professional" className={classes.hideLine}>
+            <Avatar
+              title="Ajouter une"
+              size={200}
+              titleClassName={classes.marginTitle}
+              avatarCircleBackground="transparent"
+            >
+              <img src={IlluExpPro} alt="" className={classes.illus} />
+            </Avatar>
+            <Link to="/experience/theme-pro" className={classes.hideLine}>
               <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
                 <div className={classes.btnLabel}>Expérience pro</div>
               </Button>

@@ -13,16 +13,16 @@ export default makeStyles<Theme, { height: number; full?: boolean }>((theme) => 
     color: theme.palette.primary.main,
   },
   container: {
-    width: 113,
-    backgroundColor: theme.palette.secondary.main,
-    border: (props) => (props.full ? `4px solid ${theme.palette.primary.main}` : 'none'),
+    width: 110,
+    backgroundColor: (props) => (props.full ? '#cbb3fa' : 'rgba(162, 117, 255,0.1)'),
+    border: (props) => (props.full ? `4px solid #9b80cf` : 'none'),
     borderRadius: 10,
     height: (props) => props.height,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: (props) => (props.full ? 1 : 0.5),
     position: 'relative',
+    padding:'0px 3px'
   },
   resetLogo: {
     position: 'absolute',

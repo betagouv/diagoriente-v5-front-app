@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 
 import SelectionContext from 'contexts/SelectionContext';
 
-import { useDidUpdate } from 'hooks/useLifeCycle';
-
 import { Theme, Activity } from 'requests/types';
 
 import Avatar from 'components/common/Avatar/Avatar';
@@ -26,12 +24,6 @@ const PrivateHeader = ({ theme, activities }: Props) => {
     setOpen(!open);
   };
 
-  useDidUpdate(() => {
-    if (theme || activities.length) {
-      setOpen(true);
-    }
-  }, [theme, activities.length]);
-
   return (
     <div className={classes.appBar}>
       <div onClick={toggle} className={classes.container}>
@@ -50,14 +42,23 @@ const PrivateHeader = ({ theme, activities }: Props) => {
             {theme ? (
               <>
                 <div className={classes.themeSelection}>
-                  <Avatar
-                    size={60}
-                    className={classes.themeAvatar}
-                    avatarCircleBackground={theme.resources?.backgroundColor}
-                  >
-                    <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
-                  </Avatar>
-                  <p className={classes.themeTile}>{theme.title}</p>
+                  {theme.type !== 'professional' ? (
+                    <Avatar
+                      size={90}
+                      className={classes.themeAvatar}
+                      avatarCircleBackground={theme.resources?.backgroundColor}
+                      circleClassName={classes.circleClassName}
+                    >
+                      <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
+                    </Avatar>
+                  ) : (
+                    undefined
+                  )}
+                  {theme.type === 'professional' ? (
+                    <li className={classes.dot}>{theme.title}</li>
+                  ) : (
+                    <p className={classes.themeTile}>{theme.title}</p>
+                  )}
                 </div>
               </>
             ) : (

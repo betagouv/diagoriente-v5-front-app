@@ -1,6 +1,7 @@
 import localforage from 'localforage';
 import moment from 'moment';
-import { refreshMutation, RefreshArguments } from 'requests/auth';
+import { FetchResult } from 'apollo-boost';
+import { refreshMutation, RefreshArguments, LoginData } from 'requests/auth';
 import { client, setAuthorizationBearer } from 'requests/client';
 import { User, Token, UserParcour } from 'requests/types';
 import { getUserParcourQuery } from 'requests/parcours';
@@ -8,7 +9,15 @@ import { getUserParcourQuery } from 'requests/parcours';
 export default async function startup(): Promise<{ user: User; parcours: UserParcour } | null> {
   try {
     const authString = await localforage.getItem<string | null>('auth');
-
+    let nextData:
+      | FetchResult<
+          {
+            refresh: LoginData;
+          },
+          Record<string, any>,
+          Record<string, any>
+        >
+      | undefined;
     let accessToken = null;
     if (authString) {
       const { user, token }: { user: User; token: Token } = JSON.parse(authString);
@@ -25,11 +34,27 @@ export default async function startup(): Promise<{ user: User; parcours: UserPar
         accessToken = token.accessToken;
       }
 
+      if (token.refreshToken) {
+        nextData = await client.mutate<{ refresh: LoginData }, RefreshArguments>({
+          mutation: refreshMutation,
+          variables: { email: user.email, refreshToken: token.refreshToken },
+        });
+        if (nextData.data) {
+          accessToken = nextData.data.refresh.token.accessToken;
+          localforage.setItem('auth', JSON.stringify(nextData.data.refresh));
+        }
+      } else if (moment(token.expiresIn, 'x').diff(moment(), 'minutes') > 0) {
+        accessToken = token.accessToken;
+      }
+
       if (accessToken) {
         setAuthorizationBearer(accessToken);
         const parcours = await client.query({ query: getUserParcourQuery });
         if (parcours.data) {
-          return { user, parcours: parcours.data.userParcour };
+          return {
+            user: nextData && nextData.data ? nextData.data.refresh.user : user,
+            parcours: parcours.data.userParcour,
+          };
         }
       }
     }

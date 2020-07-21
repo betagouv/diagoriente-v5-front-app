@@ -35,6 +35,10 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
     },
+    illus: {
+      width: '100%',
+      height: '100%',
+    },
 
     btnpro: {
       backgroundColor: '#4D6EC5',
@@ -80,7 +84,7 @@ export default makeStyles((theme: Theme) =>
       marginTop: 41,
       marginBottom: 16,
       color: '#424242',
-      fontSize: 18,
+      fontSize: 14,
     },
 
     hideLine: {
@@ -90,4 +94,5 @@ export default makeStyles((theme: Theme) =>
     margin: {
       margin: '3px 20px 6px 20px',
     },
-  }));
+  }),
+);

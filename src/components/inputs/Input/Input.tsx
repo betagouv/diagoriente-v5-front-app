@@ -20,6 +20,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   inputClassName?: string;
   inputBaseClassName?: string;
   withOutIcons?: boolean;
+  icon?: any;
 }
 
 const Input = ({
@@ -34,6 +35,7 @@ const Input = ({
   required,
   className,
   withOutIcons,
+  icon,
   inputClassName,
   inputBaseClassName,
   ...rest
@@ -70,12 +72,12 @@ const Input = ({
                 },
                 startAdornment: (
                   <InputAdornment position="start">
-                    {name === 'location' && <img src={LogoLocation} alt="location" />}
+                    {(name === 'location' || icon) && <img src={icon || LogoLocation} alt="location" />}
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="start">
-                    {name === 'password' && (
+                    {(name === 'password' || name === 'oldPassword') && (
                       <img src={PasswordEye} alt="view" onClick={showPassword} className={classes.showPasswordImage} />
                     )}
                   </InputAdornment>

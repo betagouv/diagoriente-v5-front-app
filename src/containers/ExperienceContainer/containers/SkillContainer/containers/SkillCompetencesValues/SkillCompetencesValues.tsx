@@ -3,19 +3,22 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Tooltip } from '@material-ui/core';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { CompetenceValues, Competence } from 'requests/types';
+import { CompetenceValues, Competence, Theme } from 'requests/types';
+
+import { echelon, echelonValue } from 'utils/generic';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Button from 'components/nextButton/nextButton';
+import CancelButton from 'components/cancelButton/CancelButton';
+
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
-import Typography from '@material-ui/core/Typography/Typography';
 
 import classNames from 'utils/classNames';
+import { decodeUri } from 'utils/url';
 
 import blueline from 'assets/svg/blueline.svg';
-import arrowleft from 'assets/svg/arrowLeft.svg';
 
 import useStyles from './styles';
 
@@ -25,9 +28,10 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   competences: Competence[];
   addSkill: () => void;
   addSkillState: boolean;
+  theme: Theme | null;
+  isCreate?: boolean;
 }
-const echelonValue = [1, 2, 3, 4];
-const echelon = ['Débutant.e', "Plutôt à l'aise", "A l'aise", 'Expert.e'];
+
 const SkillCompetencesValues = ({
   match,
   competencesValues,
@@ -36,12 +40,16 @@ const SkillCompetencesValues = ({
   addSkill,
   addSkillState,
   history,
+  theme,
+  isCreate,
+  location,
 }: Props) => {
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
   const arrowRef = useRef(null as HTMLDivElement | null);
   // eslint-disable-next-line
   const [fixRef, setFixRef] = useState(0);
+  const { redirect } = decodeUri(location.search);
   const pointClick = (id: string, value: number) => {
     const nextCompetenceValues = [...competencesValues];
     const index = nextCompetenceValues.findIndex((v) => v.id === id);
@@ -57,6 +65,7 @@ const SkillCompetencesValues = ({
     if (competencesValues.length) {
       setFixRef(1);
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -68,17 +77,28 @@ const SkillCompetencesValues = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title="MES EXPERIENCES PERSONNELLES" color="#223A7A" size={26} />
+          <Title
+            title={
+              theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
+            color="#223A7A"
+            size={26}
+          />
           <RestLogo
             onClick={() => {
-              history.replace('/experience');
+              let path = '/experience';
+              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
+              else if (redirect) path = redirect;
+              history.replace(path);
             }}
             color="#4D6EC5"
             label="Annuler"
           />
         </div>
         <div className={classes.themeContainer}>
-          <TitleImage title="4" image={blueline} color="#223A7A" width={180} />
+          <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             Et enfin, pour chacune de ces compétences
             <br />
@@ -170,8 +190,11 @@ const SkillCompetencesValues = ({
           />
         </div>
 
-        <Link to={`/experience/skill/${match.params.themeId}/competences`} className={classes.btnpreced}>
-          <img src={arrowleft} alt="arrow" className={classes.arrowpreced} />
+        <Link
+          to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
+          className={classes.btnpreced}
+        >
+          <CancelButton />
           Précedent
         </Link>
       </div>

@@ -42,7 +42,6 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
       background: '#FFFFFF',
       overflow: 'auto',
       maxHeight: 'calc(100vh - 120px)',
-
     },
 
     header: {
@@ -113,7 +112,6 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     themeSelection: {
       display: 'flex',
       paddingTop: 31,
-      paddingBottom: 30,
       alignItems: 'center',
     },
 
@@ -135,5 +133,15 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
 
     themeAvatar: {
       paddingRight: 2,
+      alignItems: 'flex-start',
+    },
+    circleClassName: {
+      padding: 0,
+    },
+    dot: {
+      textAlign: 'left',
+      listStyle: 'inside',
+      fontSize: 16,
+      margin: 0,
     },
   }));

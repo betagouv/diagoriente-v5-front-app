@@ -1,14 +1,21 @@
-import React, { useContext, useState, useMemo, useCallback } from 'react';
+import React, {
+ useContext, useState, useMemo, useCallback,
+} from 'react';
 import UserContext from 'contexts/UserContext';
 import { Link } from 'react-router-dom';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
+import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
+import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png';
+import IlluMengager from 'assets/images/illu_dashboard_sengager.png';
+import blueLine from 'assets/svg/trait_bleu_tres_fonce.svg';
+import yellowLine from 'assets/svg/trait_jaune_fonce.svg';
+import pinkLine from 'assets/svg/trait_rose.svg';
 
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
 import Button from '@material-ui/core/Button/Button';
 
 import classNames from 'utils/classNames';
-
-import experienceImage from 'assets/images/experience.png';
 
 import useStyles from './styles';
 
@@ -48,25 +55,33 @@ const HomeCompleted = () => {
     () => [
       {
         title: 'ME CONNAITRE',
+        titleBackground: blueLine,
         background: '#4D6EC5',
-        image: experienceImage,
+        image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes <span className={classes.bold}>compétences</span> et explorer mes{' '}
+            Identifier mes
+            {' '}
+            <span className={classes.bold}>compétences</span>
+            <br />
+            {' '}
+            et explorer mes
+            {' '}
             <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
           <div className={classes.firstContent}>
             {renderContentItem(
-              'MES EXPERIENCES',
-              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences",
+              'MES EXPÉRIENCES',
+              // eslint-disable-next-line
+              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}
             {renderContentItem(
-              'MES CENTRES D’INTERÊT',
+              'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
-              "Sélectionne tes centres d'intérêts. Aimes-tu plutôt être dehors, travailler seul.e, manipuler des outils... ?",
+              "Sélectionne tes centres d'intérêts. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
               { path: '/interet', buttonClassName: classes.purple },
             )}
           </div>
@@ -74,30 +89,46 @@ const HomeCompleted = () => {
       },
       {
         title: 'ME PROJETER',
+        titleBackground: yellowLine,
         background: '#FFA600',
+        image: IlluMeProtejer,
         initialChildren: (
-          <div className={classNames(classes.contentChild, classes.contentChildBlack)}>
-            Découvrir des <span className={classes.bold}>métiers</span> et identifier mon{' '}
+          <div className={classNames(classes.contentChild, classes.black)}>
+            Découvrir des
+            {' '}
+            <span className={classes.bold}>métiers</span>
+            {' '}
+            et identifier mon
+            {' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
         openChildren: renderContentItem(
-          'MES PISTES METIER',
+          'MES PISTES MÉTIERS',
           // eslint-disable-next-line
-          "Dès que tu auras rempli tes expériences et tes centres d'intérêts, nous te proposerons des métiers qui te correspondent",
+          "Dès que tu auras rempli tes expériences et tes centres d'intérêts, explore des métiers qui te correspondent.",
           { path: '/jobs', descriptionClassName: classes.black },
         ),
       },
       {
         title: 'M’ENGAGER',
+        titleBackground: pinkLine,
         background: '#D60051',
+        image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes <span className={classes.bold}>choix</span> et identifier des{' '}
-            <span className={classes.bold}>entreprises</span> à contacter
+            Faire mes
+            {' '}
+            <span className={classes.bold}>choix</span>
+            {' '}
+            et identifier des
+            {' '}
+            <span className={classes.bold}>entreprises</span>
+            {' '}
+            à contacter
           </div>
         ),
-        openChildren: renderContentItem('MES DEMARCHES', 'Gère tes démarches avec les entreprises'),
+        openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
       },
     ],
     [classes, renderContentItem],
@@ -105,15 +136,8 @@ const HomeCompleted = () => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.profileHeader}>MON PROFILE</div>
-      <Avatar
-        className={classes.logo}
-        src={
-          user?.logo
-            ? user?.logo
-            : 'https://api-ql-dev.diagoriente.beta.gouv.fr/uploads/4c650cc2-ffeb-4c58-aec2-f5714a1e26fb.svg'
-        }
-      />
+      <div className={classes.profileHeader}>MON PROFIL</div>
+      <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
       <div className={classes.info}>Ma carte de compétences, mes infos..</div>
       <Link className={classes.link} to="/profile">
         Voir mon profil

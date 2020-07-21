@@ -1,5 +1,5 @@
 import React from 'react';
 
-const NotFoundPage = () => <div>404 not found</div>;
+const NotFoundPage = () => <div>Page introuvable ou expirée</div>;
 
 export default NotFoundPage;

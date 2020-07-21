@@ -10,9 +10,7 @@ interface IProps {
   index: number;
   direction: 'vertical' | 'horizontal';
 }
-const SelectedFamille = ({
-  handleClick, famille, index, direction,
-}: IProps) => {
+const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => {
   const classes = useStyles({ direction });
 
   const nom = famille?.nom;
@@ -20,10 +18,12 @@ const SelectedFamille = ({
   return (
     <div className={classes.root} onClick={() => handleClick(index)}>
       <div className={classes.circle}>
-        <div className={classes.number}>logo</div>
+        <div className={classes.number}>{index + 1}</div>
       </div>
       <div className={classes.elements}>
-        <Dotdotdot clamp={5}>{res}</Dotdotdot>
+        <Dotdotdot clamp={5}>
+          <div className={classes.text}>{res}</div>
+        </Dotdotdot>
       </div>
     </div>
   );

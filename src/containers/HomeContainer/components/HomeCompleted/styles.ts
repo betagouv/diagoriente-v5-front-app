@@ -30,6 +30,8 @@ export default makeStyles({
     lineHeight: 1,
     color: '#02B2DB',
     marginTop: 5,
+    position: "relative",
+    zIndex: 3,
   },
   content: {
     display: 'flex',
@@ -41,12 +43,12 @@ export default makeStyles({
   contentChild: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 14,
-  },
-  contentChildBlack: {
+    fontSize: 18,
+    lineHeight: '29px',
   },
   bold: {
     fontWeight: 900,
+    WebkitTextStroke: '0.2px',
   },
   firstContent: {
     display: 'flex',
@@ -72,6 +74,7 @@ export default makeStyles({
     fontFamily: 'Ocean',
     fontWeight: 900,
     paddingTop: 11,
+    color: '#424242',
     '&:hover': {
       backgroundColor: '#fff',
     },
@@ -82,7 +85,7 @@ export default makeStyles({
     color: '#fff',
   },
   black: {
-    color: '#000',
+    color: '#424242',
   },
   blue: {
     color: '#223A7A',

@@ -16,7 +16,7 @@ export default makeStyles<Theme, { selected: boolean }>((theme) => ({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
-    textAlign: 'center',
+    textAlign: 'left',
     height: 90,
   },
   description: {
@@ -25,18 +25,18 @@ export default makeStyles<Theme, { selected: boolean }>((theme) => ({
     overflow: 'hidden',
     width: '100%',
     marginBottom: (props) => (props.selected ? 0 : 15),
-    textAlign: 'center',
+    textAlign: 'left',
   },
   accessibility: {
-    width: 'max-content',
+    maxWidth: '170px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
     height: 24,
     backgroundColor: theme.palette.secondary.main,
     borderRadius: 12,
     color: '#6B6B6A',
     padding: '0 12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifySelf: 'flex-start',
   },
   btnContainer: {
     display: 'flex',
@@ -48,7 +48,7 @@ export default makeStyles<Theme, { selected: boolean }>((theme) => ({
       backgroundColor: '#fff',
     },
   },
-  btnLabe: {
+  btnLabel: {
     color: '#011A5E',
     fontWeight: 'bold',
     fontSize: 18,
@@ -56,5 +56,12 @@ export default makeStyles<Theme, { selected: boolean }>((theme) => ({
   footerCard: {
     display: 'flex',
     justifyContent: 'space-between',
+    position: 'relative',
+    height: 25,
+  },
+  heartLogo: {
+    position: 'absolute',
+    bottom: 5,
+    right: 10,
   },
 }));

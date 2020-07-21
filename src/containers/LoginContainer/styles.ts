@@ -6,9 +6,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    height: 'calc(100vh - 113px)',
     paddingBottom: 40,
-    alignItems: 'center',
   },
   title: {
     fontFamily: 'ocean',

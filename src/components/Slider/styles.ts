@@ -18,7 +18,11 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 290px)',
+    outline: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   titleContainer: {
     marginBottom: 30,
@@ -29,6 +33,7 @@ export default makeStyles<Theme>((theme) => ({
     position: 'absolute',
     top: -16,
     left: -22,
+    zIndex: 3,
   },
   topTitle: {
     fontWeight: 900,
@@ -39,42 +44,41 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 900,
     fontSize: 24,
     color: theme.palette.primary.main,
-    position: 'absolute',
+    position: 'relative',
     zIndex: 5,
   },
   descLogo: {
     position: 'relative',
-    width: 270,
     height: 80,
   },
   avatarContainer: {
     display: 'flex',
-    justifyContent: 'space-evenly',
     flexWrap: 'wrap',
-    padding: '0px 100px',
+    padding: '0px 150px',
   },
   circle: {
     width: '100%',
   },
   subitem: {
-    width: 170,
-    margin: '10px 15px',
+    minWidth: 170,
+    padding: '10px 3px',
+    width: '25%',
   },
   selected: {
     opacity: 0.5,
   },
   wrapperBtn: {
     display: 'flex',
-    position: 'absolute',
+    alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
-  nextWrap: { right: -25 },
-  prevWrap: { left: -25 },
+  nextWrap: { right: 4 },
+  prevWrap: { left: 3 },
   containerBtn: {
-    width: 55,
-    height: 55,
+    width: 44,
+    height: 44,
     backgroundColor: theme.palette.secondary.main,
     borderRadius: '50%',
     display: 'flex',
@@ -83,6 +87,7 @@ export default makeStyles<Theme>((theme) => ({
     cursor: 'pointer',
     outline: 'none',
     borderStyle: 'hidden',
+    paddingLeft: 5,
     '&:active': {
       borderStyle: 'hidden',
     },
@@ -90,10 +95,21 @@ export default makeStyles<Theme>((theme) => ({
   rotatedArrow: {
     transform: 'rotate(180deg)',
   },
-  titleContainerArrow: { margin: '0px 10px', width: 124 },
-  topTitleArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main },
-  bottomTitleArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main },
+  titleContainerArrow: { margin: '0px 10px' },
+  topTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
+  topTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
+  bottomTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  bottomTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+
   hide: {
     display: 'none',
+  },
+  arrowCon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rowReverse: {
+    flexDirection: 'row-reverse',
   },
 }));

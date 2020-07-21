@@ -1,14 +1,17 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import LogoRose from 'assets/form/Vector.png';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import LogoCheked from 'assets/form/check.png';
+import classNames from 'utils/classNames';
+
 import useStyles from './styles';
 
 interface IProps {
   label?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSelectText: (e: string | null) => void;
   value: string;
   name: string;
@@ -16,9 +19,11 @@ interface IProps {
   error?: boolean;
   errorText?: string;
   options: any[];
-  icon?: ReactElement;
+  icon?: string;
   className?: string;
   errorForm?: string;
+  containerClassName?: string;
+  freeSolo: boolean;
 }
 
 const AutoComplete = ({
@@ -33,11 +38,14 @@ const AutoComplete = ({
   icon,
   className,
   errorForm,
+  containerClassName,
   onSelectText,
+  freeSolo,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
+
   return (
-    <div className={classes.container}>
+    <div className={classNames(classes.container, containerClassName)}>
       <Grid container spacing={0}>
         {label && (
           <Grid item xs={12} sm={4} md={5} lg={5}>
@@ -52,7 +60,7 @@ const AutoComplete = ({
         <Grid item xs={12} sm={8} md={7} lg={7}>
           <div style={{ width: 229 }}>
             <Autocomplete
-              freeSolo
+              freeSolo={freeSolo}
               openOnFocus={false}
               disableClearable
               options={options.map((option) => option.label)}
@@ -60,6 +68,9 @@ const AutoComplete = ({
               fullWidth={false}
               className={className}
               autoComplete={false}
+              value={value}
+              classes={{ inputRoot: classes.inputRoot }}
+              closeIcon={<div />}
               renderInput={(params) => (
                 <div className={classes.wrapperInput}>
                   <TextField
@@ -73,6 +84,12 @@ const AutoComplete = ({
                     error={error}
                     InputProps={{
                       ...params.InputProps,
+                      classes: { input: classes.inputPadding },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          {name === 'location' && <img src={icon} alt="location" />}
+                        </InputAdornment>
+                      ),
                       type: 'search',
                       autoComplete: 'off',
                     }}
@@ -87,6 +104,10 @@ const AutoComplete = ({
       </Grid>
     </div>
   );
+};
+
+AutoComplete.defaultProps = {
+  freeSolo: false,
 };
 
 export default AutoComplete;

@@ -32,8 +32,12 @@ export default makeStyles((theme) => ({
 
   titleClassName: {
     whiteSpace: 'nowrap',
+    fontSize: 14,
   },
 
+  classNameTitle: {
+    fontSize: 18,
+  },
   description: {
     marginTop: 20,
     marginBottom: 20,
@@ -281,5 +285,13 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     textDecoration: 'none',
     marginTop: 14,
+  },
+
+  titleThemeDone: {
+    fontSize: 20,
+  },
+
+  checked: {
+    marginLeft: 10,
   },
 }));

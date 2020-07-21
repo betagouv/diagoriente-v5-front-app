@@ -104,7 +104,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 18,
       color: '#424242',
       '&:hover': {
-        backgroundColor: ' rgba(77, 110, 197, 0.2);',
+        backgroundColor: ' rgba(77, 110, 197, 0.2)',
       },
     },
 

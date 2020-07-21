@@ -31,17 +31,22 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
             }}
             className={classNames(classes.containerBtn, classes.rotatedArrow)}
           >
-            <Arrow width="15" height="24" color="#fff" className={classes.arrowCon} />
+            <Arrow width="12" height="24" color="#fff" className={classes.arrowCon} />
           </div>
           <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleRightArrow}>Travailler</div>
+            <div className={classes.topTitleRightArrow}>Travailler...</div>
             <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex - 1]?.title}</div>
           </div>
         </div>
       )}
       renderCenterRightControls={({ nextSlide }) => (
         <div
-          className={classNames(currentIndex === data.length - 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
+          className={classNames(
+            currentIndex === data.length - 1 && classes.hide,
+            classes.wrapperBtn,
+            classes.nextWrap,
+            classes.rowReverse,
+          )}
         >
           <div
             onClick={() => {
@@ -53,10 +58,10 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
             }}
             className={classes.containerBtn}
           >
-            <Arrow width="16" height="25" color="#fff" className={classes.arrowCon} />
+            <Arrow width="12" height="24" color="#fff" className={classes.arrowCon} />
           </div>
           <div className={classes.titleContainerArrow}>
-            <div className={classes.topTitleRightArrow}>Travailler</div>
+            <div className={classes.topTitleRightArrow}>Travailler...</div>
             <div className={classes.bottomTitleRightArrow}>{data && data[currentIndex + 1]?.title}</div>
           </div>
         </div>

@@ -35,8 +35,8 @@ const ConseilModal = ({ handleClose }: IProps) => {
         <div className={classes.text}>• Et surtout : reste courtois et relax, tout va bien se passer !</div>
       </div>
       <div className={classes.logoContainerBtn}>
-        <Button className={classes.btn} onClick={handleClose}>
-          <div>J’ai compris !</div>
+        <Button childrenClassName={classes.btnLabel} className={classes.btn} onClick={handleClose}>
+          J’ai compris !
         </Button>
       </div>
     </div>

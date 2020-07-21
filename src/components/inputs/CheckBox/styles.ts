@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { color?: string; checked?: boolean }>(() => ({
+export default makeStyles<Theme, { color?: string; checked?: boolean; border?: string }>(() => ({
   container: {
     display: 'block',
     position: 'relative',
@@ -36,7 +36,7 @@ export default makeStyles<Theme, { color?: string; checked?: boolean }>(() => ({
     height: 20,
     backgroundColor: (props) => (props.checked ? props.color : '#fff'),
     borderRadius: 5,
-    border: '1px solid #C9C9C7',
+    border: (props) => (props.border ? `1px solid ${props.border}` : '1px solid #C9C9C7'),
     '&:after': {
       content: '""',
       position: 'absolute',

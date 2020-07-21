@@ -18,8 +18,11 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 290px)',
     outline: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   titleContainer: {
     marginBottom: 30,
@@ -50,7 +53,6 @@ export default makeStyles<Theme>((theme) => ({
   },
   avatarContainer: {
     display: 'flex',
-    justifyContent: 'space-evenly',
     flexWrap: 'wrap',
     padding: '0px 150px',
   },
@@ -67,9 +69,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   wrapperBtn: {
     display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    alignItems:'center',
+    alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
@@ -77,8 +77,8 @@ export default makeStyles<Theme>((theme) => ({
   nextWrap: { right: 4 },
   prevWrap: { left: 3 },
   containerBtn: {
-    width: 55,
-    height: 55,
+    width: 44,
+    height: 44,
     backgroundColor: theme.palette.secondary.main,
     borderRadius: '50%',
     display: 'flex',
@@ -95,20 +95,21 @@ export default makeStyles<Theme>((theme) => ({
   rotatedArrow: {
     transform: 'rotate(180deg)',
   },
-  titleContainerArrow: { margin: '0px 10px', width: 124 },
-  topTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  topTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  bottomTitleLeftArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
-  bottomTitleRightArrow: { fontSize: 18, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  titleContainerArrow: { margin: '0px 10px' },
+  topTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
+  topTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
+  bottomTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  bottomTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
 
   hide: {
     display: 'none',
   },
   arrowCon: {
-    width: 25,
-    height: 25,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  rowReverse: {
+    flexDirection: 'row-reverse',
   },
 }));

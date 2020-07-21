@@ -19,6 +19,7 @@ import edit from 'assets/svg/editIcon.svg';
 import SnackBar from 'components/SnackBar/SnackBar';
 import InfoProfilRow from '../InfoProfilRow/InfoProfilRow';
 import Arrow from '../Arrow/Arrow';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 
 import useStyles from './styles';
 
@@ -180,7 +181,7 @@ const InfoProfil = () => {
                       <img
                         height={65}
                         width={65}
-                        src={el.url}
+                        src={el?.url || defaultAvatar}
                         alt=""
                         className={classNames(classes.avatar, values.logo === el.url && classes.selectedAvatar)}
                       />

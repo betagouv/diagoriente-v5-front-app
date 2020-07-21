@@ -97,12 +97,13 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
             </div>
           </div>
         </div>
-        <div className={classes.wrapper}>
+       <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
             <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
           </div>
-        </div>
+        </div> 
+
         <div className={classes.footer}>
           <div className={classes.footerContent}>
             <div className={classes.descriptionContainer}>
@@ -132,7 +133,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
             )}
           </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 };

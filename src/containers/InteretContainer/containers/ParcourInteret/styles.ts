@@ -6,6 +6,7 @@ export default makeStyles<Theme>((theme) => ({
     height: `100%`,
     display: 'flex',
     justifyContent: 'center',
+    flex: '1 1 0%',
   },
   content: {
     width: '100%',
@@ -24,7 +25,7 @@ export default makeStyles<Theme>((theme) => ({
       alignItems: 'flex-end',
     },
   },
-  titleTopContainer: { display: 'flex', justifyContent: 'center', flex: 1 },
+  titleTopContainer: { display: 'flex', justifyContent: 'center', flex: 1, fontFamily: 'Ocean' },
   topTitle: {
     fontSize: 35,
     fontWeight: 900,
@@ -42,6 +43,7 @@ export default makeStyles<Theme>((theme) => ({
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: 35,
     width: '100%',
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'center !important',
@@ -52,11 +54,23 @@ export default makeStyles<Theme>((theme) => ({
     paddingRight: 20,
   },
   wrapper: {
-    backgroundColor: '#E5E5E5',
     width: '100%',
-    height: '85%',
     position: 'relative',
-    marginBottom: 89,
+    flex: '1 1 0%',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    padding: '0px 160px',
+    backgroundColor: '#E5E5E5',
+
+  },
+  maxWidth: {
+    maxWidth: 1080,
+    position: 'relative',
+    flex: '1 1 0%',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
   loadingContainer: {
     width: '100%',
@@ -68,6 +82,8 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     width: '100%',
     flexWrap: 'wrap',
+    flex: '1 1 0%',
+    overflow:'hidden',
     padding: '22px 0px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
@@ -82,9 +98,7 @@ export default makeStyles<Theme>((theme) => ({
     },
   },
   footer: {
-    position: 'fixed',
-    bottom: 0,
-    height: '19%',
+    height: 110,
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     display: 'flex',

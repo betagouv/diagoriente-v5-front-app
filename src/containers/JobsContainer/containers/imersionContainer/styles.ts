@@ -15,8 +15,7 @@ export default makeStyles<Theme>((theme) => ({
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
-    position: 'relative',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   titleImmersion: {
     textAlign: 'center',
@@ -25,9 +24,12 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
-    position: 'absolute',
     left: 0,
     top: 66,
+    width: 286,
+  },
+  empty: {
+    width: '286px',
   },
   arrow: {
     transform: 'rotate(180deg)',
@@ -35,7 +37,8 @@ export default makeStyles<Theme>((theme) => ({
   textBack: {
     color: '#6B6B6A',
     fontWeight: 'bold',
-    marginLeft: 13,
+    marginLeft: 19,
+    width: '100%',
   },
   wrapper: {
     display: 'flex',
@@ -78,7 +81,7 @@ export default makeStyles<Theme>((theme) => ({
     marginTop: 30,
   },
   tailleContainer: {
-    marginTop: 35,
+    marginTop: 25,
   },
   boxSearch: {
     width: 286,
@@ -133,5 +136,79 @@ export default makeStyles<Theme>((theme) => ({
   boldItem: {
     fontSize: 18,
     fontWeight: 'bolder',
+  },
+
+  titleContainerContact: {
+    fontSize: 42,
+    fontFamily: 'ocean',
+    marginTop: 25,
+    textAlign: 'center',
+  },
+
+  modalContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+
+  iconBackground: {
+    background: '#ffff',
+    marginTop: 30,
+  },
+
+  iconAttention: {
+    marginRight: 22,
+  },
+
+  descriptionModalContainer: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#424242',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  btn: {
+    position: 'relative',
+    left: 'auto',
+    bottom: 'auto',
+    right: 'auto',
+    top: 'auto',
+    backgroundColor: '#FFA600',
+    alignSelf: 'center',
+    transform: 'none',
+    '&:hover': {
+      backgroundColor: '#FFA600',
+    },
+    marginBottom: 15,
+    width: 145,
+  },
+
+  btnLabel: {
+    color: '#011A5E',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  message: {
+    color: '#FF0060',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 15,
+    width: 555,
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+
+  okButton: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  okText: {
+    marginRight: 10,
   },
 }));

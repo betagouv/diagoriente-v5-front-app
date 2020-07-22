@@ -59,7 +59,7 @@ const Card = ({
 
         ) : (
           <div className={classes.titleContainer}>
-            <Circle size={55}>{src && <img src={src} alt="theme" className={classes.image} />}</Circle>
+            {src && <img src={src} alt="theme" className={classes.image} height={65} width={65} />}
             <span className={classes.title}>{title}</span>
           </div>
         )}

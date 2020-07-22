@@ -182,6 +182,7 @@ export default makeStyles((theme) => ({
     color: '#223A7A',
     fontSize: 18,
     boxShadow: 'none',
+    textTransform: 'none',
     '&:hover': {
       backgroundColor: '#00B2DB',
       color: '#011A5E',

@@ -23,7 +23,7 @@ const FirstRecommendation = ({ skill, location, comment, setComment }: Props) =>
   const classes = useStyles();
   const title = (
     <span>
-      Bonjour {skill.comment.firstName} {skill.comment.lastName}
+      Bonjour {` ${skill.comment.firstName} ${skill.comment.lastName}`}
       ,
       <br />
       Vous pouvez renseigner ci dessous votre appréciation du travail de {skill.user.firstName} {skill.user.lastName}{' '}
@@ -51,10 +51,7 @@ const FirstRecommendation = ({ skill, location, comment, setComment }: Props) =>
         </div>
         <div className={classes.bodyCard}>
           <span className={classes.competenceTitle}>
-            Compétences identifiées par
-            {skill.user.firstName}
-            {' '}
-            {skill.user.lastName}
+            Compétences identifiées par {` ${skill.user.firstName} ${skill.user.lastName}  `}
             lors de son expérience
           </span>
           {skill.competences.map((competence) => (

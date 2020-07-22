@@ -76,7 +76,7 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     position: 'absolute',
     padding: 9,
     top: 37,
-    zIndex: 1500,
+    zIndex: 1300,
     maxHeight: 300,
     overflow: 'scroll',
     '&::-webkit-scrollbar': {

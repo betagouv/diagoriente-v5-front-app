@@ -204,7 +204,7 @@ const CardContainer = () => {
           type: 'professional',
           emptyMessage: "Tu n’as pas encore renseigné d'expérience professionnelle",
           emptyButton: 'J’ajoute une expérience pro',
-          path: `/experience/theme${encodeUri({ redirect: '/profile/card', type: 'professional' })}`,
+          path: `/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'professional' })}`,
         })}
       </Paper>
       <div className={classes.footerIcons}>{renderIcons()}</div>

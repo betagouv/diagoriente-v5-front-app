@@ -49,6 +49,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+  const [errorLocation, setErrorLocation] = useState(false);
 
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;
@@ -120,7 +121,9 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
       page_size: 6,
       distance: 30,
     };
-    history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: dataToSend } });
+    setErrorLocation(true);
+
+    if (selectedLocation) history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: dataToSend } });
   };
   useEffect(() => {
     if (data?.job) {
@@ -190,6 +193,8 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
                 LogoLocation={LogoLocation}
                 openLocation={openLocation}
                 onClickImmersion={onClickImmersion}
+                setOpenLocation={setOpenLocation}
+                errorLocation={errorLocation}
               />
             </div>
           </div>

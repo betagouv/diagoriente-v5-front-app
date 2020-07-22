@@ -1,6 +1,6 @@
 import { useEffect, RefObject } from 'react';
 
-export default function (ref: RefObject<HTMLElement | null>, handler: (e: Event) => void) {
+export default function(ref: RefObject<HTMLElement | null>, handler: (e: Event) => void) {
   useEffect(() => {
     const listener = (event: Event) => {
       if (!ref.current || ref.current.contains(event.target as any)) {

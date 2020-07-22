@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TextField from 'components/inputs/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LogoLoupe from 'assets/svg/loupe.svg';
 import LogoLoupeComponent from 'assets/svg/loupe';
 import LogoLoupeOrange from 'assets/svg/loupeOrange.svg';
 import classNames from 'utils/classNames';
+import useOnclickOutside from 'hooks/useOnclickOutside';
 
 import useStyles from './style';
 
@@ -23,6 +24,7 @@ interface IProps {
   errorForm?: string;
   open?: boolean;
   type?: string;
+  setOpen?: (open: boolean) => void;
 }
 
 const AutoCompleteJob = ({
@@ -36,16 +38,27 @@ const AutoCompleteJob = ({
   errorForm,
   open,
   type,
+  error,
   onSelectText,
+  setOpen,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm) });
   const data = options?.map((el: any) => ({
     label: el.title || el.label,
     value: type === 'immersion' ? el.rome_codes : el,
   }));
+  const inputRef = useRef<HTMLDivElement>(null);
+
+  useOnclickOutside(inputRef, () => {
+    if (setOpen) setOpen(false);
+  });
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={inputRef}>
       <TextField
+        autoComplete="off"
+        autoCorrect="off"
+        error={error}
         onChange={onChange}
         value={value || ''}
         placeholder={placeholder}

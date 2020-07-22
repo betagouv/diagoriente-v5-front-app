@@ -17,6 +17,8 @@ interface IProps {
   LogoLocation: any;
   openLocation: any;
   onClickImmersion: any;
+  setOpenLocation?: (open: boolean) => void;
+  errorLocation?:boolean;
 }
 
 const ImmersionForm = ({
@@ -32,6 +34,8 @@ const ImmersionForm = ({
   LogoLocation,
   openLocation,
   onClickImmersion,
+  setOpenLocation,
+  errorLocation,
 }: IProps) => {
   const classes = useStyles();
   return (
@@ -65,6 +69,8 @@ const ImmersionForm = ({
           icon={LogoLocation}
           type="location"
           open={openLocation}
+          error={errorLocation && !selectedLocation}
+          setOpen={setOpenLocation}
         />
       </div>
 

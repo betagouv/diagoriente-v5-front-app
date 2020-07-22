@@ -266,6 +266,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                   listLocation={listLocation}
                   LogoLocation={LogoLocation}
                   openLocation={openLocation}
+                  setOpenLocation={setOpenLocation}
                   onClickImmersion={onClickImmersion}
                 />
               </div>
@@ -397,7 +398,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
             Attention : l'immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable rempli
             une convention avec ta structure d’accueil !{' '}
           </div>
-          <Button   ArrowColor='#011A5E'  classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
+          <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
               <span className={classes.okText}>OK</span> <span>!</span>
             </div>

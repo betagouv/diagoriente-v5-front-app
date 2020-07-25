@@ -66,7 +66,7 @@ const ProfilComponent = () => {
     if (stateJobs.loading) return <Spinner />;
     return <div>Aucun metier à afficher</div>;
     // eslint-disable-next-line
-  }, [stateJobs.loading]);
+  }, [stateJobs.loading, stateJobs.data]);
 
   const allCard = [
     {
@@ -114,7 +114,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -131,9 +131,10 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -149,7 +150,8 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           className={classes.root}
         >
           {parcours?.families
@@ -228,7 +230,9 @@ const ProfilComponent = () => {
         <Grid container spacing={1}>
           {proSkills.map((theme) => (
             <Grid item xs={4} sm={12} key={theme.id}>
-              <li className={classNames(classes.themeTile, classes.alignThemeTitle)}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</li>
+              <li className={classNames(classes.themeTile, classes.alignThemeTitle)}>
+                {theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
+              </li>
             </Grid>
           ))}
         </Grid>
@@ -243,6 +247,7 @@ const ProfilComponent = () => {
       color: '#424242',
       logo: star,
       children: renderTopJobs,
+      path: '/jobs',
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
@@ -253,10 +258,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-          <div key={j.id} className={classes.favoriContainer}>
-            <img src={littleheart} alt="" height={20} />
-            <div className={classes.job}>{j.title}</div>
-          </div>
+            <div key={j.id} className={classes.favoriContainer}>
+              <img src={littleheart} alt="" height={20} />
+              <div className={classes.job}>{j.title}</div>
+            </div>
           ))
         : null,
     },

@@ -34,7 +34,7 @@ import useStyles from './styles';
 
 const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
-  const [openContact, openContactState] = useState(false);
+  const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -60,14 +60,9 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     loadJob();
     loadJobs();
   });
-  useEffect(() => {
-    if (dataToSend) {
-      const args = { ...dataToSend, page };
-      immersionCall({ variables: args });
-    }
-  }, [dataToSend, immersionCall, page]);
+
   const handleClose = () => {
-    openContactState(false);
+    openContactState(null);
     openConseilState(false);
   };
 
@@ -91,24 +86,32 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
 
   useEffect(() => {
     if (open === true) {
-      openContactState(false);
+      openContactState(null);
     }
   }, [open, openContact]);
+
   const getData = (pg: number) => {
     setPage(pg);
-    const args = { ...dataToSend, page: pg };
-    immersionCall({ variables: args });
   };
+
   const [state, actions] = useForm({
     initialValues: {
       tri: '',
       taille: '',
       rayon: '',
-      distance: '',
+      distance: '5 km',
       switch: true,
       switchRayon: '',
     },
   });
+
+  useEffect(() => {
+    if (dataToSend) {
+      const args = { ...dataToSend, page, distance: Number(state.values.distance.replace(' km', '')) };
+      immersionCall({ variables: args });
+    }
+  }, [dataToSend, immersionCall, page, state.values.distance]);
+
   const tri = [
     {
       label: 'Tri optimisé',
@@ -191,8 +194,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
       actions.setValues({ distance: '' });
     } else {
       actions.setValues({ distance: s });
-      const args = { ...dataToSend, page, distance: str };
-      immersionCall({ variables: args });
+      setPage(1);
     }
   };
   const onChangeImmersion = (e: any) => {
@@ -226,10 +228,11 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
       latitude: coordinates[1],
       longitude: coordinates[0],
       page_size: 6,
-      distance: 30,
+      distance: 5,
     };
     immersionCall({ variables: dataTo });
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -349,21 +352,35 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                   <CardImmersion
                     data={e}
                     key={e.siret}
-                    onClickContact={() => openContactState(true)}
+                    onClickContact={() => openContactState(e)}
                     onClickConseil={() => openConseilState(true)}
                   />
                 ))}
                 {immersionState.data?.immersions.companies.length !== 0 && (
                   <div className={classes.paginationContainer}>
-                    {items.map((el) => (
-                      <div
-                        key={el}
-                        className={classNames(classes.itemPage, el === page ? classes.boldItem : null)}
-                        onClick={() => getData(el)}
-                      >
-                        {el}
+                    {page >= 3 && (
+                      <div className={classNames(classes.itemPage)}>
+                        <span onClick={() => getData(1)}>1</span>
+                        {page !== 2 && <span> ...</span>}
                       </div>
-                    ))}
+                    )}
+                    {items
+                      .filter((el) => el === page || el === page + 1 || el === page - 1)
+                      .map((el) => (
+                        <div
+                          key={el}
+                          className={classNames(classes.itemPage, el === page && classes.boldItem)}
+                          onClick={() => getData(el)}
+                        >
+                          {el}
+                        </div>
+                      ))}
+                    {page <= items.length - 2 && (
+                      <div className={classNames(classes.itemPage)}>
+                        {page !== items.length - 2 && <span>... </span>}
+                        <span onClick={() => getData(items.length - 1)}>{items.length}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </>
@@ -374,13 +391,16 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
         </div>
       </div>
       <ModalContainer
-        open={openContact || openConseil}
+        open={!!openContact || openConseil}
         handleClose={handleClose}
         backdropColor="#011A5E"
         colorIcon="#DB8F00"
-        size={70}
       >
-        {openConseil ? <ModalConseil handleClose={handleClose} /> : <ModalContact setOpen={setOpen} />}
+        {openConseil ? (
+          <ModalConseil handleClose={handleClose} />
+        ) : (
+          <ModalContact setOpen={setOpen} openContact={openContact} />
+        )}
       </ModalContainer>
       <ModalContainer open={open} handleClose={handleCloseContact} backdropColor="#011A5E" colorIcon="#DB8F00">
         <div className={classes.modalContainer}>

@@ -1,6 +1,4 @@
-import React, {
- useEffect, useState, useRef, useContext,
-} from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -33,6 +31,7 @@ const Register = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [registerCall, registerState] = useAuth(useRegister);
+
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -102,6 +101,7 @@ const Register = () => {
       setErrorCondition('');
     }
   }, [values.acceptCondition]);
+
   const onClickCondition = () => {
     if (checkBoxRef.current) {
       // (checkBoxRef.current as any)?.onclick();
@@ -129,7 +129,6 @@ const Register = () => {
   if (user) {
     return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
   }
-
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
@@ -205,12 +204,12 @@ const Register = () => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password
-                && errors.password !== ''
-                && hasUppercase(values.password)
-                && hasLowercase(values.password)
-                && hasNumber(values.password)
-                && hasSpecial(values.password)
+                touched.password &&
+                errors.password !== '' &&
+                hasUppercase(values.password) &&
+                hasLowercase(values.password) &&
+                hasNumber(values.password) &&
+                hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -309,11 +308,8 @@ const Register = () => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les
-                      {' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-                      {' '}
-                      de Diagoriente
+                      J&lsquo;accepte les{' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
                       <span className={classes.start}>*</span>
                     </div>
                   </div>
@@ -333,7 +329,7 @@ const Register = () => {
                   <div className={classes.emptyDiv} />
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
-                  <Button className={classes.btn} type="submit">
+                  <Button className={classes.btn} type="submit" disabled={registerState.loading}>
                     <div className={classes.btnLabel}>Je m’inscris</div>
                   </Button>
                 </Grid>

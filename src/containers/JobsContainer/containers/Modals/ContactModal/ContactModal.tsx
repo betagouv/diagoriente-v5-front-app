@@ -3,29 +3,46 @@ import TextField from '@material-ui/core/TextField/TextField';
 
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/nextButton/nextButton';
-import ModalContainer from 'components/common/Modal/ModalContainer';
+import { useCreateContact } from 'requests/contact';
+import { Company } from 'requests/types';
 
 import idea from 'assets/svg/picto_ampoule_full.svg';
 import check from 'assets/svg/checkOrange.svg';
-import msg from 'assets/svg/msgorange.svg';
 
 import useStyles from './styles';
-
+const defaultMessage =
+  'Madame, Monsieur, Vous êtes référencé dans notre base entreprises Diagoriente, une plateforme numérique publique d’orientation qui aide les jeunes de 16 à 25 ans à identifier leurs compétences et réaliser des immersions professionnelles. Un.e jeune a repéré votre entreprise et vous sollicite pour une demande de PMSMP (Période de Mise en Situation en Milieu Professionnel). Êtes-vous intéressé pour prendre contact avec lui/elle ?';
 interface Props {
   setOpen: (open: boolean) => void;
+  openContact: Company | null;
 }
-const ContactModal = ({ setOpen }: Props) => {
+const ContactModal = ({ setOpen, openContact }: Props) => {
   const [message, setMessage] = useState('');
-  const [checked, setChecked] = useState(false);
-
+  const [checked, setChecked] = useState(true);
+  const [contactCall, contactState] = useCreateContact();
   const checkBoxRef = useRef<HTMLInputElement>(null);
   const classes = useStyles();
-  const messageChange = () => {};
+
+  const messageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
   const handleSend = () => {
-    setOpen(true);
+    if (openContact) {
+      contactCall({
+        variables: {
+          name: openContact.name,
+          email: 'mahdi22322@yopmail.com   ',
+          message: `${defaultMessage}\n${message}`,
+        },
+      });
+    }
+
+    if (contactState.data) {
+      setOpen(true);
+    }
   };
 
   return (
@@ -36,13 +53,7 @@ const ContactModal = ({ setOpen }: Props) => {
           <div className={classes.contactContainer}>
             Le message qui sera envoyé à <b className={classes.textBold}> La Boucherie du Marais</b>
           </div>
-          <div className={classes.information}>
-            Madame, Monsieur, Vous êtes référencé dans notre base entreprises Diagoriente, une plateforme numérique
-            publique d’orientation qui aide les jeunes de 16 à 25 ans à identifier leurs compétences et réaliser des
-            immersions professionnelles. Un.e jeune a repéré votre entreprise et vous sollicite pour une demande de
-            PMSMP (Période de Mise en Situation en Milieu Professionnel). Êtes-vous intéressé pour prendre contact avec
-            lui/elle ?{' '}
-          </div>
+          <div className={classes.information}>{defaultMessage}</div>
           <div className={classes.text}>Tu peux ajouter une note personnelle si tu le souhaites</div>
         </div>
         <TextField
@@ -89,7 +100,7 @@ const ContactModal = ({ setOpen }: Props) => {
             <br /> Cela aidera l’entreprise à mieux te connaître
           </span>
         </div>
-        <Button ArrowColor='#011A5E' classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleSend}>
+        <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleSend}>
           J’envoie
         </Button>
       </div>

@@ -119,7 +119,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
       latitude: coordinates[1],
       longitude: coordinates[0],
       page_size: 6,
-      distance: 30,
+      distance: 5,
     };
     setErrorLocation(true);
 

@@ -72,17 +72,14 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const d: any = [];
   useOnclickOutside(divRef, () => {});
 
-  useEffect(() => {
-    if (data?.job && parcours?.families) {
-      parcours?.families.map((item) => {
-        data?.job.interests.map((el) => {
-          if (el._id.nom === item.nom) {
-            d.push(item);
-          }
-        });
-      });
-    }
-  }, [d, data, parcours]);
+ 
+  parcours?.families.forEach((item) => {
+    data?.job.interests.forEach((el) => {
+      if (el._id.nom === item.nom) {
+        d.push(item);
+      }
+    });
+  });
 
   const handleClose = () => {
     setInfo(false);

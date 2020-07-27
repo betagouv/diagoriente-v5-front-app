@@ -43,6 +43,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [locationState, setLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState([]);
@@ -60,6 +61,11 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     loadJob();
     loadJobs();
   });
+  useEffect(() => {
+    if (location?.state) {
+      setLocation((location.state as any).detail.selectedLocation);
+    }
+  }, [location]);
 
   const handleClose = () => {
     openContactState(null);
@@ -281,7 +287,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                 </div>
                 <div>
                   Je recherche une <strong>immersion</strong> pour le métier de
-                  <b> {data?.job.title} </b>à Lyon.
+                  <b> {data?.job.title} </b>à {locationState}.
                 </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />

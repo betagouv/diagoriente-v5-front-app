@@ -72,7 +72,6 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const d: any = [];
   useOnclickOutside(divRef, () => {});
 
- 
   parcours?.families.forEach((item) => {
     data?.job.interests.forEach((el) => {
       if (el._id.nom === item.nom) {
@@ -120,7 +119,8 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     };
     setErrorLocation(true);
 
-    if (selectedLocation) history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: dataToSend } });
+    if (selectedLocation)
+      history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: { ...dataToSend, selectedLocation } } });
   };
   useEffect(() => {
     if (data?.job) {

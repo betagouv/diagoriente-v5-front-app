@@ -4,7 +4,6 @@ import Avatar from 'components/common/Avatar/Avatar';
 import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
-import Trait from 'assets/images/trait_violet.png';
 import useStyles from './styles';
 
 interface IProps {
@@ -13,7 +12,9 @@ interface IProps {
   isChecked: any;
   setIndex: (i: number) => void;
 }
-const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
+const Slider = ({
+ data, handleClick, isChecked, setIndex,
+}: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   return (

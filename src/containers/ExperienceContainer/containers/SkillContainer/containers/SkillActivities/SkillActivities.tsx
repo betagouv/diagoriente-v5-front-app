@@ -55,7 +55,7 @@ const ExperienceActivity = ({
           <RestLogo
             onClick={() => {
               let path = '/experience';
-              if (!isCreate) path = `/profile/experience?type=${data && data.theme.type}`;
+              if (!isCreate) path = `/profil/experience?type=${data && data.theme.type}`;
               else if (redirect) path = redirect;
               history.replace(path);
             }}

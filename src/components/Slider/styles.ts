@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   root: {
     width: '100% !important',
+    outline: 0,
     [theme.breakpoints.down('xs')]: {
       height: 'max-content !important',
     },

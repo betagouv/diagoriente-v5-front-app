@@ -49,7 +49,7 @@ const FirstDashboard = () => {
     };
   }
   if (parcours?.completed) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/profil" />;
   }
   return (
     <div className={classes.root}>

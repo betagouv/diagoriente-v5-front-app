@@ -36,7 +36,7 @@ const ResultInterest = () => {
             <div className={classes.btnLabel}>Voir mes pistes métiers</div>
           </Button>
         </div>
-        <Link to="/experience?redirect=profile" className={classes.link}>
+        <Link to="/experience?redirect=profil" className={classes.link}>
           <div className={classes.info}>Je n&lsquo;ai pas encore ajouté d&lsquo;expériences</div>
         </Link>
       </div>

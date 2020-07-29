@@ -298,7 +298,7 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
                   </b>
                   à
                   {' '}
-                  {locationState}
+                  {selectedLoc}
                   .
                 </div>
                 <div className={classes.edit}>

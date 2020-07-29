@@ -1,10 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles({
   container: {
+    position: 'relative',
+    overflow: 'hidden',
+    height: 0,
+  },
+  pdf: {
+    width: 1280,
+    display: 'flex',
+    flexDirection: 'column',
     padding: 50,
-    position: 'absolute',
-    top: -99999,
+    position: "relative",
   },
   headerImage: {
     width: 56,
@@ -21,7 +28,7 @@ export default makeStyles((theme) => ({
     lineHeight: 1,
     fontSize: 42,
     top: 2,
-    color: theme.palette.background.default,
+    color: '#D60051',
     fontFamily: 'Ocean',
     textTransform: 'uppercase',
   },
@@ -53,4 +60,4 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-}));
+});

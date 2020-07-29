@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   root: {
     width: '100% !important',
+    outline: 0,
     [theme.breakpoints.down('xs')]: {
       height: 'max-content !important',
     },
@@ -23,6 +24,11 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    overflow: 'auto',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',
   },
   titleContainer: {
     marginBottom: 30,
@@ -55,6 +61,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: '0px 150px',
+    height: '100%',
   },
   circle: {
     width: '100%',

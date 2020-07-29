@@ -1,6 +1,4 @@
-import React, {
- useState, useContext, useMemo, useEffect,
-} from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { useFamilies } from 'requests/interests';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
@@ -97,12 +95,12 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
             </div>
           </div>
         </div>
-       <div className={classes.wrapper}>
+        <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}
             <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
           </div>
-        </div> 
+        </div>
 
         <div className={classes.footer}>
           <div className={classes.footerContent}>
@@ -133,7 +131,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
             )}
           </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

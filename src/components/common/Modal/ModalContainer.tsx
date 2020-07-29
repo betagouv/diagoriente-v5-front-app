@@ -13,7 +13,9 @@ interface IProps {
   size?: number;
 }
 
-const ModalContainer = ({ open, handleClose, backdropColor, colorIcon, children, size, onReset }: IProps) => {
+const ModalContainer = ({
+ open, handleClose, backdropColor, colorIcon, children, size, onReset,
+}: IProps) => {
   const classes = useStyles({ backdropColor, size });
   return (
     <Modal

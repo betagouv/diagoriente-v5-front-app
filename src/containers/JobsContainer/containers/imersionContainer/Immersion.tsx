@@ -196,8 +196,6 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
     }
   };
   const onChangeDistance = (s: string) => {
-    const str = Number(s.substring(0, s.length - 2));
-
     if (state.values.distance === s) {
       actions.setValues({ distance: '' });
     } else {
@@ -288,8 +286,20 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
                   <div className={classes.textTitle}>MA RECHERCHE</div>
                 </div>
                 <div>
-                  Je recherche une <strong>immersion</strong> pour le métier de
-                  <b> {data?.job.title} </b>à {selectedLoc}.
+                  Je recherche une
+                  {' '}
+                  <strong>immersion</strong>
+                  {' '}
+                  pour le métier de
+                  <b>
+                    {' '}
+                    {data?.job.title}
+                    {' '}
+                  </b>
+                  à
+                  {' '}
+                  {locationState}
+                  .
                 </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />
@@ -404,7 +414,7 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
         backdropColor="#011A5E"
         colorIcon="#DB8F00"
       >
-        {openConseil ? (
+        {!openContact ? (
           <ModalConseil handleClose={handleClose} />
         ) : (
           <ModalContact setOpen={setOpen} openContact={openContact} />
@@ -423,12 +433,15 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
           </div>
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
-            Attention : l'immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable rempli
-            une convention avec ta structure d’accueil !{' '}
+            Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
+            rempli une convention avec ta structure d’accueil !
+            {' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span>
+              {' '}
+              <span>!</span>
             </div>
           </Button>
         </div>

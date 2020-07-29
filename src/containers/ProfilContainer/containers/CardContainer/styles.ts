@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles({
   container: {
     flex: '1 0 auto',
     display: 'flex',
@@ -31,7 +31,7 @@ export default makeStyles((theme) => ({
     lineHeight: 1,
     fontSize: 42,
     top: 2,
-    color: theme.palette.background.default,
+    color: '#D60051',
     fontFamily: 'Ocean',
     textTransform: 'uppercase',
   },
@@ -58,4 +58,4 @@ export default makeStyles((theme) => ({
       borderBottom: 'none',
     },
   },
-}));
+});

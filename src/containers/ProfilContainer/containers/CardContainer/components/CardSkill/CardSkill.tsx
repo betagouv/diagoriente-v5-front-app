@@ -21,7 +21,7 @@ const CardSkill = ({ comment: allComments, theme, activities }: CardSkill) => {
       arrow
       placement="right"
       classes={{ tooltipPlacementRight: classes.tooltipRight, tooltipPlacementLeft: classes.tooltipLeft }}
-      title={comment.length ? comment.map((c) => <Comment {...c} />) : ''}
+      title={comment.length ? comment.map((c) => <Comment key={c.id} {...c} />) : ''}
     >
       <Grid className={classes.skill} item lg={4}>
         <div className={classes.skillHeader}>

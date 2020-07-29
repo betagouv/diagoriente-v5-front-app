@@ -1,6 +1,4 @@
-import React, {
-  useContext, useState, useEffect, useRef,
-} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
@@ -251,16 +249,18 @@ const JobsContainer = () => {
             </div>
           ) : (
             <div className={classes.boxsContainer}>
-              {(filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
-                <JobCard
-                  key={el.id}
-                  id={el.id}
-                  title={el.title}
-                  description={el.description}
-                  accessibility={el.accessibility}
-                  favoris={el.favorite}
-                />
-              ))}
+              {filtredJob?.length === 0
+                ? 'Aucun resultat trouvé !'
+                : (filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
+                  <JobCard
+                    key={el.id}
+                    id={el.id}
+                    title={el.title}
+                    description={el.description}
+                    accessibility={el.accessibility}
+                    favoris={el.favorite}
+                  />
+                  ))}
             </div>
           )}
         </div>

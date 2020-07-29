@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useJob, useJobs } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Link, useParams } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import LogoLocation from 'assets/form/location.png';
@@ -25,7 +25,6 @@ import useStyles from './styles';
 
 const JobContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
-
   const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
@@ -110,17 +109,15 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     deleteFavCall({ variables: { id: isFav?.id } });
   };
   const onClickImmersion = () => {
-    const dataToSend = {
-      rome_codes: selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      page_size: 6,
-      distance: 5,
-    };
     setErrorLocation(true);
-
-    if (selectedLocation)
-      history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: { ...dataToSend, selectedLocation } } });
+    if (selectedLocation) {
+      history.push({
+        pathname: `/jobs/immersion/${param}`,
+        search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
+          coordinates[0]
+        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}`,
+      });
+    }
   };
   useEffect(() => {
     if (data?.job) {

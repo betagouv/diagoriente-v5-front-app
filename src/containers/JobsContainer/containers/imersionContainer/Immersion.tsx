@@ -20,6 +20,7 @@ import Edit from 'assets/svg/edit.svg';
 import LogoLocation from 'assets/form/location.png';
 import msg from 'assets/svg/msgorange.svg';
 import attention from 'assets/svg/attentionpink.svg';
+import { decodeUri } from 'utils/url';
 
 import Loupe from 'assets/svg/loupe';
 
@@ -32,7 +33,7 @@ import Switch from '../../components/Switch/Switch';
 import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
-const ImmersionContainer = ({ location }: RouteComponentProps) => {
+const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: string }>) => {
   const classes = useStyles();
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
@@ -43,7 +44,6 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
-  const [locationState, setLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState([]);
@@ -52,20 +52,15 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
   const [immersionCall, immersionState] = useImmersion();
-  const dataToSend = (location.state as any)?.detail;
-
-  const param = location.pathname.substr(16);
+  const { search } = location;
+  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
+  const param = match.params.id;
   const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
     loadJobs();
   });
-  useEffect(() => {
-    if (location?.state) {
-      setLocation((location.state as any).detail.selectedLocation);
-    }
-  }, [location]);
 
   const handleClose = () => {
     openContactState(null);
@@ -112,11 +107,18 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   });
 
   useEffect(() => {
-    if (dataToSend) {
-      const args = { ...dataToSend, page, distance: Number(state.values.distance.replace(' km', '')) };
+    if (romeCodes && latitude && longitude && pageSize && distances) {
+      const args = {
+        rome_codes: romeCodes,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        page_size: Number(pageSize),
+        page: Number(page),
+        distance: Number(state.values.distance.replace(' km', '')),
+      };
       immersionCall({ variables: args });
     }
-  }, [dataToSend, immersionCall, page, state.values.distance]);
+  }, [romeCodes, latitude, longitude, pageSize, distances, immersionCall, page, state.values.distance]);
 
   const tri = [
     {
@@ -287,7 +289,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                 </div>
                 <div>
                   Je recherche une <strong>immersion</strong> pour le métier de
-                  <b> {data?.job.title} </b>à {locationState}.
+                  <b> {data?.job.title} </b>à {selectedLoc}.
                 </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />

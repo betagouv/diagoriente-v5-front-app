@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Carousel from 'nuka-carousel';
-import Avatar from 'components/common/Avatar/Avatar';
 import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
+import Img from 'assets/svg/tete-01.svg';
+import Avatar from 'components/common/Avatar/Avatar';
 import useStyles from './styles';
 
 interface IProps {
@@ -12,11 +13,18 @@ interface IProps {
   isChecked: any;
   setIndex: (i: number) => void;
 }
-const Slider = ({
- data, handleClick, isChecked, setIndex,
-}: IProps) => {
+const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [hovred, setHovred] = useState('');
+
+  const mouseEnter = (id: string) => {
+    setHovred(id);
+  };
+  const mouseLeave = () => {
+    setHovred('');
+  };
+
   return (
     <Carousel
       dragging={false}
@@ -74,14 +82,26 @@ const Slider = ({
         <div key={el.title} className={classes.item}>
           <div className={classes.avatarContainer}>
             {el.data.map((e) => {
+              const selected = isChecked(e.id);
               const { nom } = e;
               const res = nom.replace(/\//g, '');
-              const selected = isChecked(e.id);
               return (
-                <div key={e.id} onClick={() => handleClick(e)} className={classes.subitem}>
-                  <div className={classNames(selected ? classes.selected : '')}>
-                    <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
-                  </div>
+                <div
+                  key={e.id}
+                  onClick={() => handleClick(e)}
+                  className={e.resources.length === 1 ? classes.subitem1 : classes.subitem}
+                  onMouseEnter={() => mouseEnter(e.id)}
+                  onMouseLeave={mouseLeave}
+                >
+                  {e.resources.length === 1 ? (
+                    <div className={classNames(selected ? classes.selected : '')}>
+                      <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
+                    </div>
+                  ) : (
+                    <div className={classNames(hovred === e.id || selected ? classes.selected : classes.deselected)}>
+                      <img src={hovred === e.id || selected ? e.resources[1] : e.resources[0]} alt="" />
+                    </div>
+                  )}
                 </div>
               );
             })}

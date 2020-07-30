@@ -60,7 +60,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    padding: '0px 160px',
+    padding: '0px 50px',
     backgroundColor: '#E5E5E5',
 
   },
@@ -83,7 +83,6 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     flexWrap: 'wrap',
     flex: '1 1 0%',
-    overflow:'hidden',
     padding: '22px 0px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',

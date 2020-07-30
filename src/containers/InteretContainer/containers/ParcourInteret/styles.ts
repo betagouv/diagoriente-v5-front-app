@@ -83,7 +83,7 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     flexWrap: 'wrap',
     flex: '1 1 0%',
-    padding: '22px 0px',
+    padding: '22px 40px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
     },
@@ -97,7 +97,7 @@ export default makeStyles<Theme>((theme) => ({
     },
   },
   footer: {
-    height: 110,
+    height: 90,
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     display: 'flex',

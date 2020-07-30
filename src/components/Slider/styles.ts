@@ -19,7 +19,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: 'calc(100vh - 200px)',
+    height: 'calc(100vh - 178px)',
     outline: 'none',
     display: 'flex',
     flexDirection: 'column',
@@ -69,7 +69,7 @@ export default makeStyles<Theme>((theme) => ({
   subitem: {
     minWidth: 170,
     padding: '10px 3px',
-    width: '33%',
+    width: '29%',
   },
   subitem1: {
     minWidth: 170,

@@ -81,7 +81,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        <div className={classes.header}>
+      {/*   <div className={classes.header}>
           <div className={classes.titleContainer}>
             <div className={classes.titleTopContainer}>
               <div className={classes.topTitle}>Travailler</div>
@@ -94,7 +94,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
             {loading && <div className={classes.loadingContainer}>...loading</div>}

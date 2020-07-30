@@ -54,7 +54,6 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
             currentIndex === data.length - 1 && classes.hide,
             classes.wrapperBtn,
             classes.nextWrap,
-            classes.rowReverse,
           )}
         >
           <div

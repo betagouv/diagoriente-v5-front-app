@@ -19,7 +19,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: 'calc(100vh - 290px)',
+    height: 'calc(100vh - 200px)',
     outline: 'none',
     display: 'flex',
     flexDirection: 'column',
@@ -60,7 +60,7 @@ export default makeStyles<Theme>((theme) => ({
   avatarContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '0px 189px',
+    padding: '0px 116px',
     height: '100%',
   },
   circle: {
@@ -84,6 +84,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   wrapperBtn: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
@@ -110,11 +111,43 @@ export default makeStyles<Theme>((theme) => ({
   rotatedArrow: {
     transform: 'rotate(180deg)',
   },
-  titleContainerArrow: { margin: '0px 10px' },
-  topTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  topTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  bottomTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
-  bottomTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  titleContainerArrow: { margin: '5px 10px' },
+  topTitleLeftArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.secondary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  topTitleRightArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.secondary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  bottomTitleLeftArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.primary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  bottomTitleRightArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.primary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
 
   hide: {
     display: 'none',

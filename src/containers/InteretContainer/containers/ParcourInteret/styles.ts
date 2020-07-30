@@ -116,7 +116,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   description: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
     color: '#fff',
     lineHeight: '22px',
   },

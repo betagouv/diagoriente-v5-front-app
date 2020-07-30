@@ -95,7 +95,8 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
                     </div>
                   ) : (
                     <div className={classNames(hovred === e.id || selected ? classes.selected : classes.deselected)}>
-                      <img src={hovred === e.id || selected ? e.resources[1] : e.resources[0]} alt="" />
+                      <img src={e.resources[0]} alt="" />
+                      <img src={(hovred === e.id || selected) && e.resources[1]} alt="" className={classes.testImg} />
                     </div>
                   )}
                 </div>

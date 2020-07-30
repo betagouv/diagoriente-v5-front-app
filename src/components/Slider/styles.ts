@@ -60,7 +60,7 @@ export default makeStyles<Theme>((theme) => ({
   avatarContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '0px 150px',
+    padding: '0px 189px',
     height: '100%',
   },
   circle: {
@@ -69,10 +69,18 @@ export default makeStyles<Theme>((theme) => ({
   subitem: {
     minWidth: 170,
     padding: '10px 3px',
+    width: '33%',
+  },
+  subitem1: {
+    minWidth: 170,
+    padding: '10px 3px',
     width: '25%',
   },
   selected: {
-    opacity: 0.5,
+    opacity: 1,
+  },
+  deselected: {
+    opacity: '50%',
   },
   wrapperBtn: {
     display: 'flex',

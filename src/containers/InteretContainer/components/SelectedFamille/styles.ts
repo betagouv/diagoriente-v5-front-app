@@ -33,7 +33,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
   },
   text: {
     fontWeight: 'bold',
-    lineHeight: 15
+    lineHeight: '15px',
   },
 
   elements: {

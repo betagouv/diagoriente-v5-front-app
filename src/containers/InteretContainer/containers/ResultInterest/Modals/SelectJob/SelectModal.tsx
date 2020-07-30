@@ -50,7 +50,7 @@ const SelectModal = () => {
                   <Avatar size={65}>
                     <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
                   </Avatar>
-                  <div className={classes.themeTitle}>{pr.theme.title}</div>
+                  <div className={classes.themeTitle}>{pr.theme.title.replace(/\//g, '')}</div>
                   <CheckBox
                     onChange={() => addTheme(pr.theme.id)}
                     name={pr.theme.title}

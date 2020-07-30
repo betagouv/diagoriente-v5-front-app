@@ -78,6 +78,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   selected: {
     opacity: 1,
+    position: 'relative',
   },
   deselected: {
     opacity: '50%',
@@ -159,5 +160,11 @@ export default makeStyles<Theme>((theme) => ({
   },
   rowReverse: {
     flexDirection: 'row-reverse',
+  },
+  testImg: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    left: 0,
   },
 }));

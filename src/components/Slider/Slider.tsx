@@ -76,7 +76,7 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
       {data.map((el, i) => (
         <div key={el.title} className={classes.item}>
           <div className={classes.avatarContainer}>
-            <img alt="" src={imgs[i]} width="33%" />
+            {i === 0 && <img alt="" src={imgs[i]} width="33%" />}
             {el.data.map((e) => {
               const selected = isChecked(e.id);
               const { nom } = e;

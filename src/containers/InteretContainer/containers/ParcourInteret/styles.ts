@@ -83,7 +83,7 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     flexWrap: 'wrap',
     flex: '1 1 0%',
-    padding: '22px 40px',
+    padding: '0px 40px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
     },
@@ -103,8 +103,9 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '4px -4px 4px rgba(0, 0, 0, 0.25)',
+    boxShadow: '0px -4px 6px rgba(0, 0, 0, 0.25)',
     padding: '10px 60px 10px 10px',
+    position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: 10,
       overflow: 'overlay',

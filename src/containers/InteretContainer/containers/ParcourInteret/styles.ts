@@ -60,7 +60,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    padding: '0px 50px',
+    padding: '0px 40px',
     backgroundColor: '#E5E5E5',
 
   },
@@ -83,17 +83,15 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     flexWrap: 'wrap',
     flex: '1 1 0%',
-    padding: '0px 40px',
+    padding: '0px 0px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
     },
     [theme.breakpoints.down('sm')]: {
       padding: 30,
-      paddingBottom: 80,
     },
     [theme.breakpoints.down('sm')]: {
       padding: 30,
-      paddingBottom: 80,
     },
   },
   footer: {

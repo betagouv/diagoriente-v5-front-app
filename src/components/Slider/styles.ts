@@ -19,7 +19,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: 'calc(100vh - 168px)',
+    height: 'calc(100vh - 139px)',
     outline: 'none',
     display: 'flex',
     flexDirection: 'column',
@@ -60,8 +60,9 @@ export default makeStyles<Theme>((theme) => ({
   avatarContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '0px 116px',
+    padding: '0px 143px',
     height: '100%',
+    justifyContent: 'space-evenly',
   },
   circle: {
     width: '100%',

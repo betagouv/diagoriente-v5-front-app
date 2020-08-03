@@ -38,7 +38,14 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
     });
     return widthBlue;
   };
-
+  const isLess = (id: string) => {
+    const valueRequis = competencesrequises?.find((selected) => selected._id.id === id);
+    const valueUser = competenceUser?.find((el) => el.id === id);
+    if (valueUser && valueRequis) {
+      if (valueUser.value < valueRequis.weight) return true;
+      return false;
+    }
+  };
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -86,7 +93,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
               <div
                 key={competence.id}
                 className={
-                  select === 'parcoursCompetence' && !isExist(competence.id)
+                  select === 'parcoursCompetence' && (!isExist(competence.id) || isLess(competence.id))
                     ? classes.competencesValuesNotExist
                     : classes.competencesValues
                 }
@@ -94,7 +101,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
                 <p className={classes.competenceTitle}>{competence.title}</p>
                 <div
                   className={
-                    select === 'parcoursCompetence' && isExist(competence.id)
+                    select === 'parcoursCompetence' && isExist(competence.id) && !isLess(competence.id)
                       ? classes.arrowEchelonBlue
                       : classes.arrowEchelon
                   }
@@ -102,7 +109,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
                 >
                   <div
                     className={
-                      select === 'parcoursCompetence' && isExist(competence.id)
+                      select === 'parcoursCompetence' && isExist(competence.id) && !isLess(competence.id)
                         ? classes.darkArrowEchelonBlue
                         : classes.darkArrowEchelon
                     }
@@ -112,7 +119,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
                       }px`,
                     }}
                   />
-                  {select === 'parcoursCompetence' && isExist(competence.id) && (
+                  {select === 'parcoursCompetence' && isExist(competence.id) && !isLess(competence.id) && (
                     <img
                       src={Point}
                       alt=""

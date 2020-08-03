@@ -19,6 +19,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
   inputContainer: {
     height: 35,
     width: 235,
+    fontFamily: 'Andika New Basic',
     border: (props) => `1px solid  ${props.open ? theme.palette.success.main : '#C9C9C7'}`,
     borderRadius: 5,
     margin: '9px 0px',

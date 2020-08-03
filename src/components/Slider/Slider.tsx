@@ -95,9 +95,20 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
                       <Avatar title={res} size={77} titleClassName={classes.marginTitle} className={classes.circle} />
                     </div>
                   ) : (
-                    <div className={classNames(hovred === e.id || selected ? classes.selected : classes.deselected)}>
-                      <img src={e.resources[0]} alt="" />
-                      <img src={(hovred === e.id || selected) && e.resources[1]} alt="" className={classes.testImg} />
+                    <div className={classes.imageContainer}>
+                      <img
+                        src={e.resources[0]}
+                        alt=""
+                        className={classNames(hovred === e.id || selected ? classes.selected : classes.deselected)}
+                      />
+                      <img
+                        src={e.resources[1]}
+                        alt=""
+                        className={classNames(
+                          classes.testImg,
+                          hovred === e.id || selected ? classes.show : classes.hideImg,
+                        )}
+                      />
                     </div>
                   )}
                 </div>

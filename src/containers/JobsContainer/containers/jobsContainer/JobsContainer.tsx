@@ -251,16 +251,19 @@ const JobsContainer = () => {
             <div className={classes.boxsContainer}>
               {filtredJob?.length === 0
                 ? 'Aucun resultat trouvé !'
-                : (filteredArray?.length ? filteredArray : filtredJob)?.map((el) => (
-                  <JobCard
-                    key={el.id}
-                    id={el.id}
-                    title={el.title}
-                    description={el.description}
-                    accessibility={el.accessibility}
-                    favoris={el.favorite}
-                  />
-                  ))}
+                : (filteredArray?.length ? filteredArray : filtredJob)?.map((el) => {
+                    console.log('card', el);
+                    return (
+                      <JobCard
+                        key={el.id}
+                        id={el.id}
+                        title={el.title}
+                        description={el.description}
+                        accessibility={el.accessibility}
+                        favoris={el.favorite}
+                      />
+                    );
+                  })}
             </div>
           )}
         </div>

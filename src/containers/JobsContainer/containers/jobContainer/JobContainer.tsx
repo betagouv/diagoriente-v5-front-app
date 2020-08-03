@@ -32,14 +32,13 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadJobs, { data: listJobs }] = useJobs();
-  const [loadFav, { data: FavData }] = useListFavoris();
+  const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
     loadFav();
     loadJobs();
   });
-  const isFav = FavData?.favorites.data.find((el) => el.job === param);
 
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
@@ -49,6 +48,15 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [errorLocation, setErrorLocation] = useState(false);
+  const [isFav, setIsFav] = useState('');
+  useEffect(() => {
+    if (!loadingFav && FavData) {
+      const fav = FavData?.favorites.data.find((el) => el.job === param);
+      if (fav?.id) {
+        setIsFav(fav.id);
+      }
+    }
+  }, [FavData, loadingFav, param]);
 
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;
@@ -105,8 +113,16 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     };
     addFavCall({ variables: dataFav });
   };
+  useEffect(() => {
+    if (!addFavState.loading && addFavState.data) {
+      console.log('here')
+      setIsFav(addFavState.data.createFavorite.id);
+      loadFav();
+    }
+  }, [addFavState, loadFav]);
   const deleteFromFav = () => {
-    deleteFavCall({ variables: { id: isFav?.id } });
+    setIsFav('');
+    deleteFavCall({ variables: { id: isFav } });
   };
   const onClickImmersion = () => {
     setErrorLocation(true);

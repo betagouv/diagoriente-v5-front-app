@@ -13,9 +13,7 @@ interface IProps {
   size?: number;
 }
 
-const ModalContainer = ({
- open, handleClose, backdropColor, colorIcon, children, size, onReset,
-}: IProps) => {
+const ModalContainer = ({ open, handleClose, backdropColor, colorIcon, children, size, onReset }: IProps) => {
   const classes = useStyles({ backdropColor, size });
   return (
     <Modal
@@ -31,7 +29,7 @@ const ModalContainer = ({
           <div className={classes.header}>
             <Reset color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
           </div>
-          {children}
+          <div className={classes.modalContainerBody}>{children}</div>
         </div>
       </div>
     </Modal>

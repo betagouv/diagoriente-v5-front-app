@@ -84,7 +84,7 @@ export default makeStyles<Theme>((theme) => ({
     position: 'relative',
   },
   deselected: {
-    opacity: '50%',
+    opacity: 0.5,
   },
   wrapperBtn: {
     display: 'flex',
@@ -169,5 +169,14 @@ export default makeStyles<Theme>((theme) => ({
     top: 0,
     width: '100%',
     left: 0,
+  },
+  imageContainer: {
+    position: 'relative',
+  },
+  show: {
+    opacity: 1,
+  },
+  hideImg: {
+    opacity: 0,
   },
 }));

@@ -20,15 +20,19 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
     borderRadius: 15,
     width: (props) => `${props.size ? props.size : 60}%`,
     height: '80%',
-    overflow: 'scroll',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-    '-ms-overflow-style': 'none',
   },
   header: {
     display: 'flex',
     justifyContent: 'flex-end',
     margin: '20px 14px',
+  },
+  modalContainerBody: {
+    overflow: 'scroll',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',
+    height: '80%',
+    flex: 1,
   },
 }));

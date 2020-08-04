@@ -36,9 +36,7 @@ interface Props {
   setOpen: (open: boolean) => void;
   onSuccess?: () => void;
 }
-const RecommendationModal = ({
- skill, open, setOpen, onSuccess,
-}: Props) => {
+const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
   const classes = useStyles();
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
@@ -62,9 +60,9 @@ const RecommendationModal = ({
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},\n${user
-          && NameFormator(user?.profile.firstName)} ${user
-          && NameFormator(
+        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},\n${user &&
+          NameFormator(user?.profile.firstName)} ${user &&
+          NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
           )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
@@ -132,14 +130,23 @@ const RecommendationModal = ({
     <>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
         <div className={classes.modalContainer}>
-          <Avatar title={skill.theme.title} size={94} titleClassName={classes.titleClassName}>
-            <img src={skill.theme.resources?.icon} alt="" />
-          </Avatar>
+          {skill?.theme.type === 'professional' ? (
+            <span className={classes.titleThemeDone}>{skill.theme.title}</span>
+          ) : (
+            <Avatar
+              title={skill.theme.title}
+              size={94}
+              titleClassName={classes.titleClassName}
+              className={classes.imgContainer}
+            >
+              <img src={skill.theme.resources?.icon} alt="" />
+            </Avatar>
+          )}
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
           <div className={classes.descriptionModal}>Je souhaite demander une recommandation à</div>
           <form className={classes.formContainer}>
             <Input
-              label="Nom* :"
+              label="Nom"
               name="firstName"
               value={state.values.firstName}
               onChange={actions.handleChange}
@@ -147,9 +154,10 @@ const RecommendationModal = ({
               className={classes.marginInput}
               placeholder="ex : Marie"
               inputClassName={classes.fontInput}
+              required
             />
             <Input
-              label="Prénom* :"
+              label="Prénom"
               name="lastName"
               value={state.values.lastName}
               onChange={actions.handleChange}
@@ -157,10 +165,11 @@ const RecommendationModal = ({
               className={classes.marginInput}
               placeholder="ex : Dupont"
               inputClassName={classes.fontInput}
+              required
             />
 
             <Input
-              label="Email* :"
+              label="Email"
               name="email"
               placeholder="ex : mail@exemple.com "
               value={state.values.email}
@@ -168,6 +177,7 @@ const RecommendationModal = ({
               errorText={state.touched.email && state.errors.email}
               className={classes.marginInput}
               inputClassName={classes.fontInput}
+              required
             />
           </form>
           <div className={classes.btnContainerModal}>
@@ -193,8 +203,7 @@ const RecommendationModal = ({
             Le message pour
             {/* eslint-disable-next-line */}
             {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
-            {`${state.values.email}`}
-            )
+            {`${state.values.email}`})
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -262,9 +271,7 @@ const RecommendationModal = ({
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
             Veux-tu vraiment quitter ?
-            <br />
-            {' '}
-            Tes modifications ne seront pas enregistrées.
+            <br /> Tes modifications ne seront pas enregistrées.
           </p>
           <Button
             className={classes.incluse}

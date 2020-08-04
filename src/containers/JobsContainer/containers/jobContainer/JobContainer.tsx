@@ -267,7 +267,11 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openInfo ? <ModalContainerInfo job={data?.job} /> : <ModalQuestion job={data?.job} />}
+        {openInfo ? (
+          <ModalContainerInfo job={data?.job} />
+        ) : (
+          <ModalQuestion job={data?.job} handleClose={handleClose} />
+        )}
       </ModalContainer>
     </div>
   );

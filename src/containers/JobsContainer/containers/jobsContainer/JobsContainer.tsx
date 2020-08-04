@@ -252,7 +252,6 @@ const JobsContainer = () => {
               {filtredJob?.length === 0
                 ? 'Aucun resultat trouvé !'
                 : (filteredArray?.length ? filteredArray : filtredJob)?.map((el) => {
-                    console.log('card', el);
                     return (
                       <JobCard
                         key={el.id}

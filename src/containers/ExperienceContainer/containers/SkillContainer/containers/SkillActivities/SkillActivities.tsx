@@ -68,7 +68,7 @@ const ExperienceActivity = ({
           <p className={classes.title}>
             Peux-tu nous en dire un peu plus sur
             <br />
-            <strong>les activités</strong>
+            <strong>les activités </strong>
             que tu pratiques ?
             <br />
             <small>(Plusieurs choix possibles)</small>

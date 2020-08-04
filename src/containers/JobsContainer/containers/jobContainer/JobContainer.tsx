@@ -115,7 +115,6 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   };
   useEffect(() => {
     if (!addFavState.loading && addFavState.data) {
-      console.log('here')
       setIsFav(addFavState.data.createFavorite.id);
       loadFav();
     }

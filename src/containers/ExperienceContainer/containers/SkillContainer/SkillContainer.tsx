@@ -1,10 +1,6 @@
-import React, {
- useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import path from 'path';
-import {
- RouteComponentProps, Switch, Route, Redirect, matchPath,
-} from 'react-router-dom';
+import { RouteComponentProps, Switch, Route, Redirect, matchPath } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill } from 'requests/skills';
@@ -21,9 +17,17 @@ import SkillCompetences from './containers/SkillCompetences';
 import SkillCompetencesValues from './containers/SkillCompetencesValues/SkillCompetencesValues';
 import SuccessCompetences from './containers/SuccessCompetences/SuccessCompetences';
 import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
+import Engagement from './containers/EngagementActivities/EngagementActivities';
+import EngagementContext from './containers/EngagementContext/EngagementContext';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
+
+  //for testing engagement type
+  /*  if (data) {
+    (data as any).theme.type = 'engagement';
+  } */
+
   const { parcours, setParcours } = useContext(ParcourContext);
   const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme.id === match.params.themeId), [
     parcours,
@@ -87,7 +91,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [competencesValues, match.params.themeId]);
 
   const addSkill = () => {
-    if (data) {
+    if (data?.theme.type === 'engagement') {
+      history.push(`/experience/skill/${match.params.themeId}/context`);
+    } else if (data) {
       addSkillCall({
         variables: {
           theme: data.theme.id,
@@ -153,21 +159,31 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
       <Switch>
         <Route
-          render={(props) => (
-            <SkillActivities
-              {...props}
-              isCreate={!selectedSkill}
-              activities={activities}
-              setActivities={setActivities}
-              theme={data.theme}
-            />
-          )}
+          render={(props) =>
+            data.theme.type === 'engagement' ? (
+              <Engagement
+                {...props}
+                isCreate={!selectedSkill}
+                activities={activities}
+                setActivities={setActivities}
+                theme={data.theme}
+              />
+            ) : (
+              <SkillActivities
+                {...props}
+                isCreate={!selectedSkill}
+                activities={activities}
+                setActivities={setActivities}
+                theme={data.theme}
+              />
+            )
+          }
           path={`${match.path}/activities`}
           exact
         />
         <Route
           render={(props) => {
-            if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
+            // if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
             return (
               <SkillCompetences
                 {...props}
@@ -210,6 +226,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
           path={`${match.path}/done`}
           exact
         />
+        <Route component={EngagementContext} path={`${match.path}/context`} exact />
+
         <Route component={NotFoundPage} />
       </Switch>
       {showSelection && <Selection activities={activities} theme={data.theme} />}

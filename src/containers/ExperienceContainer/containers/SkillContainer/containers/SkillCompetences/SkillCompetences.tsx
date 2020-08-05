@@ -30,9 +30,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceCompetence = ({
- match, competences, setCompetences, theme, history, isCreate, location,
-}: Props) => {
+const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetence();
   const [open, setOpen] = React.useState(false);
@@ -58,9 +56,7 @@ const ExperienceCompetence = ({
         <div className={classes.header}>
           <Title
             title={
-              theme && theme.type === 'professional'
-                ? 'MES EXPERIENCES PROFESSIONNELLES'
-                : 'MES EXPERIENCES PERSONNELLES'
+              theme && theme.type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
             size={26}

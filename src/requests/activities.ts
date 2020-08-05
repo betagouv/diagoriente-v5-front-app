@@ -6,8 +6,8 @@ import { useLocalQuery } from 'hooks/apollo';
 import { Activity } from './types';
 
 export const activitiesQuery = gql`
-  query Activities($search: String, $page: Int, $perPage: Int) {
-    activities(search: $search, page: $page, perPage: $perPage) {
+  query Activities($search: String, $page: Int, $perPage: Int, $type: String) {
+    activities(search: $search, page: $page, perPage: $perPage, type: $type) {
       perPage
       page
       totalPages
@@ -25,6 +25,7 @@ export interface ActivitiesArguments {
   search?: string;
   page?: number;
   perPage?: number;
+  type?: string;
 }
 
 export interface ActivitiesResponse {

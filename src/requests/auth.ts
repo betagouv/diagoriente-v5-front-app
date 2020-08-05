@@ -29,6 +29,7 @@ export const registerMutation = gql`
       user {
         id
         email
+        role
         profile {
           firstName
           lastName
@@ -73,6 +74,7 @@ export const loginMutation = gql`
         logo
         location
         codeGroupe
+        role
         profile {
           firstName
           lastName
@@ -125,6 +127,7 @@ export const refreshMutation = gql`
         email
         logo
         location
+        role
         profile {
           firstName
           lastName
@@ -180,6 +183,7 @@ export const resetMutation = gql`
         email
         logo
         location
+        role
         profile {
           firstName
           lastName

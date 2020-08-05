@@ -6,7 +6,7 @@ import { client, setAuthorizationBearer } from 'requests/client';
 import { User, Token, UserParcour } from 'requests/types';
 import { getUserParcourQuery } from 'requests/parcours';
 
-export default async function startup(): Promise<{ user: User; parcours: UserParcour } | null> {
+export default async function startup(): Promise<{ user: User; parcours: UserParcour | null } | null> {
   try {
     const authString = await localforage.getItem<string | null>('auth');
     let nextData:
@@ -37,12 +37,16 @@ export default async function startup(): Promise<{ user: User; parcours: UserPar
 
       if (accessToken) {
         setAuthorizationBearer(accessToken);
-        const parcours = await client.query({ query: getUserParcourQuery });
-        if (parcours.data) {
-          return {
-            user: nextData && nextData.data ? nextData.data.refresh.user : user,
-            parcours: parcours.data.userParcour,
-          };
+        if (user.role === 'user') {
+          const parcours = await client.query({ query: getUserParcourQuery });
+          if (parcours.data) {
+            return {
+              user: nextData && nextData.data ? nextData.data.refresh.user : user,
+              parcours: parcours.data.userParcour,
+            };
+          }
+        } else {
+          return { user, parcours: null };
         }
       }
     }

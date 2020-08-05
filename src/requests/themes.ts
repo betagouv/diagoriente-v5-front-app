@@ -1,16 +1,23 @@
 import gql from 'graphql-tag';
 
-import { QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalQuery } from 'hooks/apollo';
+import { QueryHookOptions, MutationHookOptions } from '@apollo/react-hooks';
+import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo';
 
 import { Theme } from './types';
 
 export const themesQuery = gql`
-  query Themes($type: String, $search: String) {
-    themes(type: $type, search: $search) {
+  query Themes($type: String, $search: String, $page: Int, $perPage: Int) {
+    themes(type: $type, search: $search, page: $page, perPage: $perPage) {
+      perPage
+      page
+      totalPages
+      count
       data {
         id
         title
+        description
+        verified
+        type
         resources {
           icon
           backgroundColor
@@ -28,11 +35,17 @@ export const themesQuery = gql`
 export interface ThemesArguments {
   type?: 'professional' | 'personal';
   search?: string;
+  page?: number;
+  perPage?: number;
 }
 
 export interface ThemesResponse {
   themes: {
     data: Theme[];
+    perPage: number;
+    page: number;
+    totalPages: number;
+    count: number;
   };
 }
 
@@ -45,6 +58,8 @@ export const themeQuery = gql`
       id
       title
       type
+      description
+      verified
       resources {
         icon
         backgroundColor
@@ -71,6 +86,9 @@ export interface ThemeArguments {
 }
 export const useTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
   useLocalQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
+
+export const useLazyTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
+  useLocalLazyQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
 
 export const secteurQuery = gql`
   query Themes($type: String) {
@@ -104,3 +122,114 @@ export interface SectureResponse {
 
 export const useSecteurs = (options: QueryHookOptions<SectureResponse, SecteurArguments> = {}) =>
   useLocalQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
+
+export const createThemeMutation = gql`
+  mutation CreateTheme(
+    $title: String!
+    $description: String!
+    $type: String!
+    $tooltips: [themeTooltipInputType]
+    $required: [ID]
+    $verified: Boolean!
+    $activities: [String]
+    $icon: Upload
+  ) {
+    createTheme(
+      title: $title
+      description: $description
+      type: $type
+      tooltips: $tooltips
+      required: $required
+      verified: $verified
+      activities: $activities
+      icon: $icon
+    ) {
+      id
+      title
+      description
+      verified
+      type
+      resources {
+        icon
+        backgroundColor
+      }
+      activities {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+interface CreateThemeParams {
+  title: string;
+  description: string;
+  type: string;
+  tooltips?: { competenceId: string; tooltip: string }[];
+  required?: string[];
+  verified: boolean;
+  activities?: string[];
+  icon?: File;
+}
+
+export const useCreateTheme = (options?: MutationHookOptions<{ createTheme: Theme }, CreateThemeParams>) =>
+  useLocalMutation(createThemeMutation, options);
+
+export const deleteThemeMutation = gql`
+  mutation DeleteTheme($id: ID, $ids: [ID]) {
+    deleteTheme(id: $id, ids: $ids)
+  }
+`;
+
+export const useDeleteTheme = (
+  options?: MutationHookOptions<{ deleteTheme: string }, { id?: string; ids?: string[] }>,
+) => useLocalMutation(deleteThemeMutation, options);
+
+export const updateThemeMutation = gql`
+  mutation UpdateTheme(
+    $id: ID!
+    $title: String
+    $description: String
+    $type: String
+    $tooltips: [themeTooltipInputType]
+    $required: [ID]
+    $verified: Boolean
+    $activities: [String]
+    $icon: Upload
+  ) {
+    updateTheme(
+      id: $id
+      title: $title
+      description: $description
+      type: $type
+      tooltips: $tooltips
+      required: $required
+      verified: $verified
+      activities: $activities
+      icon: $icon
+    ) {
+      id
+      title
+      description
+      verified
+      type
+      resources {
+        icon
+        backgroundColor
+      }
+      activities {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+interface UpdateThemeParams extends Partial<CreateThemeParams> {
+  id: string;
+}
+
+export const useUpdateTheme = (options?: MutationHookOptions<{ updateTheme: Theme }, UpdateThemeParams>) =>
+  useLocalMutation(updateThemeMutation, options);

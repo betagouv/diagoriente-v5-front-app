@@ -110,7 +110,6 @@ export default makeStyles((theme: Theme) =>
       height: 'calc(100vh - 166px)',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
     },
 
     avatarStyle: {

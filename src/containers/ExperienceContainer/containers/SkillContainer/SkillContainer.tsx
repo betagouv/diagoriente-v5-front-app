@@ -1,10 +1,6 @@
-import React, {
- useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import path from 'path';
-import {
- RouteComponentProps, Switch, Route, Redirect, matchPath,
-} from 'react-router-dom';
+import { RouteComponentProps, Switch, Route, Redirect, matchPath } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill } from 'requests/skills';
@@ -14,6 +10,7 @@ import ParcourContext from 'contexts/ParcourContext';
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import SnackBar from 'components/SnackBar/SnackBar';
+import Spinner from 'components/SpinnerXp/Spinner';
 
 import { decodeUri } from 'utils/url';
 import SkillActivities from './containers/SkillActivities';
@@ -21,11 +18,14 @@ import SkillCompetences from './containers/SkillCompetences';
 import SkillCompetencesValues from './containers/SkillCompetencesValues/SkillCompetencesValues';
 import SuccessCompetences from './containers/SuccessCompetences/SuccessCompetences';
 import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
+import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
+  const classes = useStyles();
+
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
   const { parcours, setParcours } = useContext(ParcourContext);
-  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme.id === match.params.themeId), [
+  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId), [
     parcours,
     match.params.themeId,
   ]);
@@ -134,7 +134,11 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [updateSkillState.data, updateSkillState.called]);
 
   if (loading) {
-    return <div>...loading</div>;
+    return (
+      <div className={classes.loadingContainer}>
+        <Spinner />
+      </div>
+    );
   }
 
   if (!data) return <NotFoundPage />;

@@ -21,7 +21,7 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
   const [open, setOpen] = React.useState(false);
   const { parcours } = useContext(ParcourContext);
 
-  const skill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
+  const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
   const handleOpen = () => {
     setOpen(true);
   };

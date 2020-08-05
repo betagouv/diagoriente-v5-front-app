@@ -17,7 +17,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 const ResultCompetences = ({ theme, match }: Props) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
-  const skill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
+  const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
 
   return (
     <div className={classes.root}>

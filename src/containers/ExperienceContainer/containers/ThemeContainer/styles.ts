@@ -108,7 +108,9 @@ export default makeStyles((theme: Theme) =>
     loadingContainer: {
       width: '100%',
       height: 'calc(100vh - 166px)',
-      backgroundColor: '#E5E5E5',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     avatarStyle: {
@@ -173,4 +175,5 @@ export default makeStyles((theme: Theme) =>
         opacity: 1,
       },
     },
-  }));
+  }),
+);

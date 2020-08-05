@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles({
+export default makeStyles<Theme, { recommended?: Boolean }>(() => ({
   tooltipRight: {
     left: '-10vw !important',
   },
@@ -12,7 +12,7 @@ export default makeStyles({
     cursor: 'pointer',
     transition: 'all 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     '&:hover': {
-      backgroundColor: 'rgba(122, 230, 255, 0.2)',
+      backgroundColor: (props) => (props.recommended ? 'rgba(122, 230, 255, 0.2)' : 'none'),
     },
   },
   skillHeader: {
@@ -59,4 +59,4 @@ export default makeStyles({
       left: 0,
     },
   },
-});
+}));

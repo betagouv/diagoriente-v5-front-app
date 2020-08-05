@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
@@ -33,6 +33,9 @@ const PrivateHeader = ({
   const toggle = () => {
     setOpen(!open);
   };
+
+  const userName = `${user?.profile.firstName || ''} ${user?.profile.lastName || ''}`.trim() || user?.email;
+
   return (
     <AppBar position="fixed" className={classNames(classes.appBar, className)}>
       <Toolbar className={classes.toolbarContainer}>
@@ -44,11 +47,7 @@ const PrivateHeader = ({
         </div>
         {showUser && (
           <div className={classes.flexCenter}>
-            <span className={classes.typography}>
-              {user?.profile.firstName}
-              {' '}
-              {user?.profile.lastName}
-            </span>
+            <span className={classes.typography}>{userName}</span>
             <img src={user?.logo ? user?.logo : defaultAvatar} alt="" height={39} />
           </div>
         )}

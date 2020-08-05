@@ -1,3 +1,4 @@
+export type UserRole = 'user' | 'admin';
 export interface User {
   id: string;
   email: string;
@@ -9,7 +10,8 @@ export interface User {
   isActive: boolean;
   logo: string;
   location: string;
-  codeGroupe:string;
+  codeGroupe: string;
+  role: UserRole;
 }
 
 export interface Token {
@@ -34,6 +36,8 @@ export interface Theme {
   title: string;
   type: string;
   resources?: { icon: string; backgroundColor: string };
+  description: string;
+  verified: boolean;
   activities: {
     id: string;
     title: string;

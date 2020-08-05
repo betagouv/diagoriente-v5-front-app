@@ -7,15 +7,19 @@ import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
 import userContext from 'contexts/UserContext';
-import { setAuthorizationBearer } from 'requests/client';
-import { client } from 'requests/client';
+import { setAuthorizationBearer, client } from 'requests/client';
 
 import useStyles from './styles';
 
-export const links = [
+export const userLinks = [
   { text: 'MON DASHBOARD', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
+  { text: 'DÉCONNEXION', path: '/' },
+];
+
+const adminLinks = [
+  { text: 'Thèmes', path: '/admin/themes' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
@@ -26,7 +30,7 @@ const PrivateDrawer = () => {
   ); */
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours } = useContext(parcoursContext);
-  const { setUser } = useContext(userContext);
+  const { setUser, user } = useContext(userContext);
 
   const logout = () => {
     localforage.removeItem('auth');
@@ -44,7 +48,7 @@ const PrivateDrawer = () => {
   const onClose = () => {
     setOpen(false);
   };
-
+  const links = user?.role === 'user' ? userLinks : adminLinks;
   return (
     <Drawer
       variant="temporary"

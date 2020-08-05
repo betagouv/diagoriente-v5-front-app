@@ -28,7 +28,17 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
   },
   header: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     margin: '20px 14px',
+    position: 'relative',
+    height: 33,
+    alignItems: 'center',
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.palette.secondary.main,
+  },
+  reset: {
+    position: 'absolute',
+    right: 0,
   },
 }));

@@ -28,6 +28,7 @@ interface AdminAutocompleteProps<
     { search?: string }
   >;
   handleOptions: (data: T) => { value: string; label: string };
+  variables: { [key: string]: any };
 }
 
 function AdminAutocomplete<
@@ -41,11 +42,12 @@ function AdminAutocomplete<
   error,
   handleOptions,
   className,
+  variables,
   ...rest
 }: AdminAutocompleteProps<ListKey, T, Multiple, DisableClearable>) {
   const classes = useStyles();
   const [search, setSearch] = useState('');
-  const list = useList({ variables: { search } });
+  const list = useList({ variables: { search, ...variables } });
 
   const { data } = useMemo(() => (list.data ? graphQLResult(list.data) : { data: [] as T[] }), [list.data]);
 
@@ -73,6 +75,7 @@ function AdminAutocomplete<
 
 AdminAutocomplete.defaultProps = {
   handleOptions: (d: any[]) => d,
+  variables: {},
 };
 
 export default AdminAutocomplete;

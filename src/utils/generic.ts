@@ -3,4 +3,5 @@ export const echelon = ['Débutant.e', "Plutôt à l'aise", "A l'aise", 'Expert.
 export const THEME_TYPES_OPTIONS = [
   { value: 'personal', label: 'Personnel' },
   { value: 'professional', label: 'Professionnel' },
+  { value: 'engagement', label: 'Engagement' },
 ];

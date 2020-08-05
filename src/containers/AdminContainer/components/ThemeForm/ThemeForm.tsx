@@ -43,6 +43,12 @@ const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
   });
   const { values } = state;
   const { handleChange, setValues } = actions;
+
+  useEffect(() => {
+    setValues({ activities: [] });
+    // eslint-disable-next-line
+  }, [values.type]);
+
   useEffect(() => {
     if (prevData) {
       setValues({
@@ -118,6 +124,7 @@ const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
           list={useActivities}
           onChange={(e, value) => setValues({ activities: value })}
           className={classes.activities}
+          variables={{ type: values.type }}
         />
       </div>
       <Button type="submit" className={classes.button} variant="contained" color="primary">

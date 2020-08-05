@@ -17,7 +17,7 @@ export default makeStyles((theme: Theme) =>
 
     root: {
       display: 'flex',
-      width: 600,
+      width: "70%",
       alignItems: 'center',
       justifyContent: 'space-between',
       marginTop: 20,

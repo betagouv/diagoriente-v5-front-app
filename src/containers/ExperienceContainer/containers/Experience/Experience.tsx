@@ -3,6 +3,8 @@ import Title from 'components/common/TitleImage/TitleImage';
 import blueline from 'assets/svg/blueline.svg';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
+import AvatarTheme from 'components/common/AvatarTheme/AvatarTheme';
+
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
 
@@ -56,6 +58,19 @@ const Experience = () => {
             </Link>
           </div>
         </div>
+        <div className={classes.circleContainer}>
+            <Avatar
+              title="Ajouter une"
+              size={200}
+              titleClassName={classes.marginTitle}
+           />
+             
+            <Link to="/experience/theme?type=engagement" className={classes.hideLine}>
+              <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
+                <div className={classes.btnLabel}>Expérience d'engagement</div>
+              </Button>
+            </Link>
+          </div>
       </div>
       <div className={classes.help}>
         <img src={help} alt="help" />

@@ -25,7 +25,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
   activities: Activity[];
   setActivities: (activities: Activity[]) => void;
-  isCreate?: boolean;
+  isCreate?: boolean; 
 }
 
 const ExperienceActivity = ({

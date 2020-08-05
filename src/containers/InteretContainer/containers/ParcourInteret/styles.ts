@@ -60,7 +60,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    padding: '0px 160px',
+    padding: '0px 40px',
     backgroundColor: '#E5E5E5',
 
   },
@@ -75,6 +75,9 @@ export default makeStyles<Theme>((theme) => ({
   loadingContainer: {
     width: '100%',
     height: 'calc(100vh - 166px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#E5E5E5',
   },
   circleContainer: {
@@ -83,29 +86,27 @@ export default makeStyles<Theme>((theme) => ({
     width: '100%',
     flexWrap: 'wrap',
     flex: '1 1 0%',
-    overflow:'hidden',
-    padding: '22px 0px',
+    padding: '0px 0px',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center',
     },
     [theme.breakpoints.down('sm')]: {
       padding: 30,
-      paddingBottom: 80,
     },
     [theme.breakpoints.down('sm')]: {
       padding: 30,
-      paddingBottom: 80,
     },
   },
   footer: {
-    height: 110,
+    height: 90,
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '4px -4px 4px rgba(0, 0, 0, 0.25)',
+    boxShadow: '0px -4px 6px rgba(0, 0, 0, 0.25)',
     padding: '10px 60px 10px 10px',
+    position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: 10,
       overflow: 'overlay',
@@ -117,7 +118,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   description: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
     color: '#fff',
     lineHeight: '22px',
   },

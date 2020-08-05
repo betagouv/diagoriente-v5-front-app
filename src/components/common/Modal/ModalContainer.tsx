@@ -42,7 +42,7 @@ const ModalContainer = ({
             {title}
             <Reset className={classes.reset} color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
           </div>
-          {children}
+          <div className={classes.modalContainerBody}>{children}</div>
         </div>
       </div>
     </Modal>

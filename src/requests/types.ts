@@ -29,6 +29,7 @@ export interface Families {
   id: string;
   nom: string;
   category: string;
+  resources: string[]
 }
 
 export interface Theme {
@@ -80,7 +81,7 @@ export interface UserParcour {
   id: string;
   played: boolean;
   completed: boolean;
-  families: { id: string; nom: string; category: string }[];
+  families: { id: string; nom: string; category: string; resources: string[] }[];
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };

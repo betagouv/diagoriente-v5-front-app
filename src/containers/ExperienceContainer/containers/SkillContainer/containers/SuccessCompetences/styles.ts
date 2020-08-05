@@ -22,7 +22,9 @@ export default makeStyles((theme) => ({
     width: '100%',
     marginTop: 30,
   },
-
+  imgContainer: {
+    width: 'fit-content !important',
+  },
   title: {
     fontFamily: 'ocean',
     fontSize: 62,

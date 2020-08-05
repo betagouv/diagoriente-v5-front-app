@@ -19,7 +19,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   item: {
     width: '100%',
-    height: 'calc(100vh - 290px)',
+    height: 'calc(100vh - 139px)',
     outline: 'none',
     display: 'flex',
     flexDirection: 'column',
@@ -60,8 +60,9 @@ export default makeStyles<Theme>((theme) => ({
   avatarContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '0px 150px',
+    padding: '0px 143px',
     height: '100%',
+    justifyContent: 'space-evenly',
   },
   circle: {
     width: '100%',
@@ -69,13 +70,25 @@ export default makeStyles<Theme>((theme) => ({
   subitem: {
     minWidth: 170,
     padding: '10px 3px',
+    width: '29%',
+    cursor: 'pointer',
+  },
+  subitem1: {
+    minWidth: 170,
+    padding: '10px 3px',
     width: '25%',
+    cursor: 'pointer',
   },
   selected: {
+    opacity: 1,
+    position: 'relative',
+  },
+  deselected: {
     opacity: 0.5,
   },
   wrapperBtn: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
@@ -102,11 +115,43 @@ export default makeStyles<Theme>((theme) => ({
   rotatedArrow: {
     transform: 'rotate(180deg)',
   },
-  titleContainerArrow: { margin: '0px 10px' },
-  topTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  topTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.secondary.main, textAlign: 'left' },
-  bottomTitleLeftArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
-  bottomTitleRightArrow: { fontSize: 12, fontWeight: 900, color: theme.palette.primary.main, textAlign: 'left' },
+  titleContainerArrow: { margin: '5px 10px' },
+  topTitleLeftArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.secondary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  topTitleRightArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.secondary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  bottomTitleLeftArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.primary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
+  bottomTitleRightArrow: {
+    fontSize: 22,
+    fontWeight: 900,
+    color: theme.palette.primary.main,
+    textAlign: 'left',
+    fontFamily: 'ocean',
+    lineHeight: '26px',
+    textTransform: 'uppercase',
+  },
 
   hide: {
     display: 'none',
@@ -118,5 +163,20 @@ export default makeStyles<Theme>((theme) => ({
   },
   rowReverse: {
     flexDirection: 'row-reverse',
+  },
+  testImg: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    left: 0,
+  },
+  imageContainer: {
+    position: 'relative',
+  },
+  show: {
+    opacity: 1,
+  },
+  hideImg: {
+    opacity: 0,
   },
 }));

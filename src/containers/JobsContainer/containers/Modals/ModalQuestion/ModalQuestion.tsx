@@ -8,16 +8,18 @@ import useStyles from './styles';
 
 interface IProps {
   job: Jobs | undefined;
+  handleClose: () => void;
 }
 
-const ModalQuestion = ({ job }: IProps) => {
+const ModalQuestion = ({ job, handleClose }: IProps) => {
   const classes = useStyles();
   const location = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideRef = useRef(null);
   const [responseCall, responseState] = useResponseJob();
   const [updateResponseCall, updateResponseState] = useUpdateResponseJob();
-  const [getListResponses, getListState] = useGetResponseJob();
+  const [getListResponses, { data, refetch }] = useGetResponseJob();
+
   const param = location.pathname.substr(10);
 
   useDidMount(() => {
@@ -39,16 +41,18 @@ const ModalQuestion = ({ job }: IProps) => {
     } else {
       updateResponseCall({ variables: { id: rep.responseId, response: rep.response } });
     }
-    getListResponses({ variables: { JobId: param } });
   };
   useEffect(() => {
     if (responseState.data || updateResponseState.data) {
+      refetch({ variables: { JobId: param } });
       if (slideRef?.current) {
         (slideRef.current as any).nextSlide();
       }
+      if ((slideRef?.current as any).state.currentSlide + 1 === job?.questionJobs.length) {
+        handleClose();
+      }
     }
-  }, [responseState.data, updateResponseState.data]);
-
+  }, [responseState.data, updateResponseState.data, getListResponses, param, refetch, job, handleClose]);
   return (
     <div className={classes.root}>
       <div className={classes.titleContainer}>
@@ -64,7 +68,7 @@ const ModalQuestion = ({ job }: IProps) => {
           setCurrentIndex={setCurrentIndex}
           onClick={onUpdate}
           ref={slideRef}
-          list={getListState.data?.responseJobs.data}
+          list={data?.responseJobs.data}
         />
       </div>
     </div>

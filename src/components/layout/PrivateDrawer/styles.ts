@@ -38,6 +38,19 @@ export default makeStyles((theme) => ({
     width: '100%',
     position: 'relative',
   },
+  linkJob: {
+    textDecoration: 'none',
+    color: '#223A7A',
+    width: 'fit-content',
+    position: 'relative',
+  },
+  firstUseLink: {
+    backgroundColor: '#ffc354',
+    borderRadius: 7,
+    padding: 5,
+    fontSize: 15,
+    fontWeight: 'bolder',
+  },
 
   square: {
     width: '80px',
@@ -57,5 +70,26 @@ export default makeStyles((theme) => ({
 
   toolbar: {
     height: 39,
+  },
+  textMsg: {
+    fontWeight: 'bold',
+    fontSize: '20px',
+    lineHeight: '31px',
+    color: '#fff',
+    width: '492px',
+    paddingTop: 34,
+    paddingLeft: 15,
+  },
+  btn: {
+    backgroundColor: '#FFA600',
+    marginTop: 20,
+    marginLeft: 16,
+    '&:hover': {
+      backgroundColor: '#FFA600',
+    },
+  },
+  btnLabel: {
+    color: '#223A7A',
+    fontWeight: 'bold',
   },
 }));

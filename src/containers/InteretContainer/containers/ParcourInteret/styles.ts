@@ -75,6 +75,9 @@ export default makeStyles<Theme>((theme) => ({
   loadingContainer: {
     width: '100%',
     height: 'calc(100vh - 166px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#E5E5E5',
   },
   circleContainer: {

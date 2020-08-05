@@ -103,6 +103,7 @@ export default makeStyles<Theme>((theme) => ({
     textDecorationLine: 'underline',
     color: '#D60051',
     paddingRight: 18,
+    cursor: 'pointer',
   },
   clearTextBold: {
     fontWeight: 'bold',

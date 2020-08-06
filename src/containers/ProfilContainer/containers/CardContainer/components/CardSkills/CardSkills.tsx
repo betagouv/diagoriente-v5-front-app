@@ -22,7 +22,7 @@ const CardSkills = ({
 }: CardSkillsProps) => {
   const { parcours } = useContext(ParcourContext);
   const classes = useStyles();
-  const skills = parcours?.skills.filter((skill) => skill.theme.type === type) || [];
+  const skills = parcours?.skills.filter((skill) => skill.theme?.type === type) || [];
 
   return (
     <CardPart title={title}>

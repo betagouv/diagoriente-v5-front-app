@@ -9,7 +9,7 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     paddingTop: 31,
     paddingBottom: 20,
-
+    backgroundColor: '#f3f2f4',
   },
   content: {
     maxWidth: 1080,

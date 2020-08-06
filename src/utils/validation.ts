@@ -39,10 +39,7 @@ export function hasSpecial(s: string) {
 export function validatePassword(password: string) {
   if (!password) return 'Mot de passe vide';
   if (password.length < 6) return 'Mot de passe doit dépasser 6 caractères';
-  if (!hasNumber(password)
-  || !hasUppercase(password)
-  || !hasLowercase(password)
-  || !hasSpecial(password)) {
+  if (!hasNumber(password) || !hasUppercase(password) || !hasLowercase(password) || !hasSpecial(password)) {
     return 'Mot de passe invalid';
   }
   return '';

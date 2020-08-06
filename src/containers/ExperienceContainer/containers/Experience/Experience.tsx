@@ -32,6 +32,7 @@ const Experience = () => {
             size={200}
             titleClassName={classes.marginTitle}
             avatarCircleBackground="transparent"
+            circleClassName={classes.circleStyle}
           >
             <img src={IlluExpPerso} alt="" className={classes.illus} />
           </Avatar>
@@ -48,6 +49,7 @@ const Experience = () => {
               size={200}
               titleClassName={classes.marginTitle}
               avatarCircleBackground="transparent"
+              circleClassName={classes.circleStyle}
             >
               <img src={IlluExpPro} alt="" className={classes.illus} />
             </Avatar>

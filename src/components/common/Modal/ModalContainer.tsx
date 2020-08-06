@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
+import Modal, { ModalProps } from '@material-ui/core/Modal';
 import Reset from 'components/common/Rest/Rest';
 import useStyles from './styles';
 
-interface IProps {
+interface IProps extends ModalProps {
   open: boolean;
   handleClose: () => void;
   onReset?: () => void;
@@ -11,9 +11,20 @@ interface IProps {
   backdropColor: string;
   colorIcon: string;
   size?: number;
+  title?: string;
 }
 
-const ModalContainer = ({ open, handleClose, backdropColor, colorIcon, children, size, onReset }: IProps) => {
+const ModalContainer = ({
+  open,
+  handleClose,
+  backdropColor,
+  colorIcon,
+  children,
+  size,
+  onReset,
+  title,
+  ...rest
+}: IProps) => {
   const classes = useStyles({ backdropColor, size });
   return (
     <Modal
@@ -23,11 +34,13 @@ const ModalContainer = ({ open, handleClose, backdropColor, colorIcon, children,
       disableEnforceFocus
       disableAutoFocus
       BackdropProps={{ className: classes.backdrop }}
+      {...rest}
     >
       <div className={classes.modalContainer}>
         <div className={classes.modal}>
           <div className={classes.header}>
-            <Reset color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
+            {title}
+            <Reset className={classes.reset} color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
           </div>
           <div className={classes.modalContainerBody}>{children}</div>
         </div>

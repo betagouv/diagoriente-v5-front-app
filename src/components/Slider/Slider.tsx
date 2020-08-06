@@ -5,6 +5,7 @@ import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
 import Img1 from 'assets/svg/tete-01.svg';
 import Img2 from 'assets/svg/mains-01.svg';
+import Img3 from 'assets/svg/personnes-01.svg';
 import Avatar from 'components/common/Avatar/Avatar';
 import useStyles from './styles';
 
@@ -25,7 +26,7 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
   const mouseLeave = () => {
     setHovred('');
   };
-  const imgs = [Img1, Img2];
+  const imgs = [Img1, Img2, Img3];
   return (
     <Carousel
       dragging={false}
@@ -77,7 +78,7 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
       {data.map((el, i) => (
         <div key={el.title} className={classes.item}>
           <div className={classes.avatarContainer}>
-            {(i === 0 || i === 1) && <img alt="" src={imgs[i]} width="33%" />}
+            <img alt="" src={imgs[i]} width="33%" />
             {el.data.map((e) => {
               const selected = isChecked(e.id);
               const { nom } = e;

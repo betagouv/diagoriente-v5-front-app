@@ -22,6 +22,12 @@ export default makeStyles((theme) => ({
     width: '100%',
     marginTop: 30,
   },
+  imgContainer: {
+    width: 'fit-content !important',
+  },
+  titleThemeDone: {
+    fontSize: 14,
+  },
 
   title: {
     fontFamily: 'ocean',
@@ -95,6 +101,7 @@ export default makeStyles((theme) => ({
 
   modalContainer: {
     display: 'flex',
+    paddingTop: '15px',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

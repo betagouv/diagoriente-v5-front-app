@@ -10,6 +10,7 @@ import ParcourContext from 'contexts/ParcourContext';
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import SnackBar from 'components/SnackBar/SnackBar';
+import Spinner from 'components/SpinnerXp/Spinner';
 
 import { decodeUri } from 'utils/url';
 import SkillActivities from './containers/SkillActivities';
@@ -19,8 +20,11 @@ import SuccessCompetences from './containers/SuccessCompetences/SuccessCompetenc
 import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
 import Engagement from './containers/EngagementActivities/EngagementActivities';
 import EngagementContext from './containers/EngagementContext/EngagementContext';
+import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
+  const classes = useStyles();
+
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
 
   //for testing engagement type
@@ -29,7 +33,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   } */
 
   const { parcours, setParcours } = useContext(ParcourContext);
-  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme.id === match.params.themeId), [
+  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId), [
     parcours,
     match.params.themeId,
   ]);
@@ -140,7 +144,11 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [updateSkillState.data, updateSkillState.called]);
 
   if (loading) {
-    return <div>...loading</div>;
+    return (
+      <div className={classes.loadingContainer}>
+        <Spinner />
+      </div>
+    );
   }
 
   if (!data) return <NotFoundPage />;

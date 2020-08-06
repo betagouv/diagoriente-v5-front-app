@@ -13,6 +13,9 @@ export default makeStyles({
     color: '#6B6B6A',
     marginLeft: 22,
     cursor: 'pointer',
+    '&:hover': {
+      opacity: 0.7,
+    },
   },
   headerIconImage: {
     width: 30,

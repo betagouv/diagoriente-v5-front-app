@@ -14,8 +14,9 @@ import useStyles from './styles';
 interface CardSkill extends Unpacked<UserParcour['skills']> {}
 
 const CardSkill = ({ comment: allComments, theme, activities }: CardSkill) => {
-  const classes = useStyles();
   const comment = allComments.filter((c) => c.status === 'accepted');
+  const classes = useStyles({ recommended: comment.length !== 0 });
+
   return (
     <Tooltip
       arrow

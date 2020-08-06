@@ -23,6 +23,7 @@ import ExperienceComponent from 'containers/ExperienceContainer';
 import ParcourContext from 'contexts/ParcourContext';
 import Recommendation from 'containers/RecommendationContainer';
 import Profil from 'containers/ProfilContainer';
+import AdminContainer from 'containers/AdminContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -62,18 +63,19 @@ const RootContainer = () => {
       <UserContext.Provider value={{ user, setUser }}>
         <ParcourContext.Provider value={{ parcours, setParcours }}>
           <Switch>
-            <BaseRoute protected exact path="/" component={HomeContainer} />
+            <BaseRoute exact path="/" component={HomeContainer} />
             <Route footer path="/login" exact component={LoginContainer} />
             <Route footer path="/register" exact component={RegisterContainer} />
             <Route footer path="/confirmation" exact component={ConfiramtionContainer} />
             <Route footer path="/recommendation" component={Recommendation} />
-            <BaseRoute protected path="/profile" component={Profil} />
-            <BaseRoute protected path="/interet" component={InteretContainer} />
+            <BaseRoute path="/profile" component={Profil} />
+            <BaseRoute path="/interet" component={InteretContainer} />
             <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
             <Route footer path="/reset" exact component={RenewPasswordContainer} />
             <Route protected path="/experience" component={ExperienceComponent} />
-            <BaseRoute protected path="/jobs" component={jobsContainer} />
-            <BaseRoute protected path="/game" component={GameContainer} />
+            <BaseRoute path="/jobs" component={jobsContainer} />
+            <BaseRoute path="/game" component={GameContainer} />
+            <BaseRoute path="/admin" component={AdminContainer} />
             <Route component={NotFoundPage} />
           </Switch>
         </ParcourContext.Provider>

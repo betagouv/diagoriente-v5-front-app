@@ -140,7 +140,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     color: theme.palette.error.main,
   },
   requiredInput: {
-    color: theme.palette.primary.main,
+    color: "#00CFFF",
   },
   showPasswordImage: {
     cursor: 'pointer',

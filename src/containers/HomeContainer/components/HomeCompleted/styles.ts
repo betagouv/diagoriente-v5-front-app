@@ -30,7 +30,7 @@ export default makeStyles({
     lineHeight: 1,
     color: '#02B2DB',
     marginTop: 5,
-    position: "relative",
+    position: 'relative',
     zIndex: 3,
   },
   content: {
@@ -77,6 +77,7 @@ export default makeStyles({
     color: '#424242',
     '&:hover': {
       backgroundColor: '#fff',
+      opacity: 0.7,
     },
   },
   itemDescription: {

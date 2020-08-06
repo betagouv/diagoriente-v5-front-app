@@ -94,5 +94,8 @@ export default makeStyles((theme: Theme) =>
     margin: {
       margin: '3px 20px 6px 20px',
     },
+    circleStyle: {
+      width: 220,
+    },
   }),
 );

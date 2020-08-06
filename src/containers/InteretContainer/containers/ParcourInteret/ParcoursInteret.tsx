@@ -4,15 +4,13 @@ import Button from 'components/button/Button';
 import { Families } from 'requests/types';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { groupBy } from 'lodash';
-
-import RestLogo from 'components/common/Rest/Rest';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
 import { decodeUri } from 'utils/url';
-
+import Spinner from '../../components/SpinnerInterest/Spinner';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
 
@@ -81,24 +79,15 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-      {/*   <div className={classes.header}>
-          <div className={classes.titleContainer}>
-            <div className={classes.titleTopContainer}>
-              <div className={classes.topTitle}>Travailler</div>
-              {'  '}
-              <div className={classes.bottomTitle}>{formattedData && formattedData[index]?.title}</div>
-            </div>
-            <div className={classes.linkContainer}>
-              <Link to={profil ? '/profile' : '/interet'}>
-                <RestLogo color="#420FAB" label="Annuler" />
-              </Link>
-            </div>
-          </div>
-        </div> */}
         <div className={classes.wrapper}>
           <div className={classes.circleContainer}>
-            {loading && <div className={classes.loadingContainer}>...loading</div>}
-            <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <Spinner />
+              </div>
+            ) : (
+              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
+            )}
           </div>
         </div>
 
@@ -108,16 +97,18 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
               <div className={classes.description}>Sélectionne 5 groupes de</div>
               <div className={classes.description}>centres d’intérêts en tout :</div>
             </div>
-            {loading && renderAllPlaceholder()}
-            {selectedInterests.map((el, i) => (
-              <FamileSelected
-                key={el.id}
-                handleClick={() => deleteFamille(i)}
-                famille={el}
-                index={i}
-                direction="horizontal"
-              />
-            ))}
+            {loading
+              ? renderAllPlaceholder()
+              : selectedInterests.map((el, i) => (
+                <FamileSelected
+                  key={el.id}
+                  handleClick={() => deleteFamille(i)}
+                  famille={el}
+                  index={i}
+                  direction="horizontal"
+                />
+                ))}
+
             {!loading && renderPlaceholder()}
             {selectedInterests.length > 0 && (
               <Link to={`/interet/ordre/${location.search}`} className={classes.wrapperBtn}>

@@ -13,6 +13,7 @@ import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
 import CancelButton from 'components/cancelButton/CancelButton';
+import Spinner from 'components/SpinnerXp/Spinner';
 
 import RestLogo from 'components/common/Rest/Rest';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
@@ -28,9 +29,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean; 
 }
 
-const ExperienceActivity = ({
- match, activities, setActivities, history, theme, isCreate, location,
-}: Props) => {
+const ExperienceActivity = ({ match, activities, setActivities, history, theme, isCreate, location }: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {
@@ -68,13 +67,18 @@ const ExperienceActivity = ({
           <p className={classes.title}>
             Peux-tu nous en dire un peu plus sur
             <br />
-            <strong>les activités</strong>
+            <strong>les activités </strong>
             que tu pratiques ?
             <br />
             <small>(Plusieurs choix possibles)</small>
           </p>
           <div className={classes.circleContainer}>
-            {loading && <div className={classes.loadingContainer}>...loading</div>}
+            {loading && (
+              <div className={classes.loadingContainer}>
+                {' '}
+                <Spinner />
+              </div>
+            )}
 
             {data?.theme.activities
               .sort((a, b) => a.title.toLowerCase().charCodeAt(0) - b.title.toLowerCase().charCodeAt(0))

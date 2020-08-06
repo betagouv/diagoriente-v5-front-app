@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import NextButton from 'components/nextButton/nextButton';
 import Button from 'components/button/Button';
 import CancelButton from 'components/cancelButton/CancelButton';
+import Spinner from 'components/SpinnerXp/Spinner';
 
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Popup from 'components/common/Popup/Popup';
@@ -83,7 +84,12 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
             <small>(4 choix maximum) </small>
           </p>
           <Grid className={classes.circleContainer} container spacing={3}>
-            {loading && <div className={classes.loadingContainer}>...loading</div>}
+            {loading && (
+              <div className={classes.loadingContainer}>
+                {' '}
+                <Spinner />
+              </div>
+            )}
 
             {data?.competences.data.map((comp, index) => {
               const selected = competences.find((e) => e.id === comp.id);

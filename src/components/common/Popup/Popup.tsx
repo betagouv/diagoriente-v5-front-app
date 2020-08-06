@@ -25,8 +25,8 @@ const ModalContainer = ({
       disableEnforceFocus
       disableAutoFocus
     >
-      <div className={classes.modalContainer}>
-        <div className={classes.modal}>
+      <div onClick={handleClose} className={classes.modalContainer}>
+        <div onClick={(e) => e.stopPropagation()} className={classes.modal}>
           <img src={picto} alt="" onClick={handleClose} className={classNames(classes.picto, iconClassName)} />
           <div className={classes.header}>{children}</div>
         </div>

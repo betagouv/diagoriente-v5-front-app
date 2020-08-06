@@ -40,9 +40,9 @@ const ProfilComponent = () => {
     callJobs();
   });
 
-  const persoSkills = parcours?.skills.filter((p) => p.theme.type === 'personal') || [];
+  const persoSkills = parcours?.skills.filter((p) => p.theme?.type === 'personal') || [];
 
-  const proSkills = parcours?.skills.filter((p) => p.theme.type === 'professional') || [];
+  const proSkills = parcours?.skills.filter((p) => p.theme?.type === 'professional') || [];
 
   const topJobs: Jobs[] = [];
   if (stateJobs.data && stateJobs.data.myJobs.length) {

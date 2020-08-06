@@ -11,6 +11,7 @@ import Img from 'assets/images/fleche_fu.png';
 import userContext from 'contexts/UserContext';
 import { setAuthorizationBearer, client } from 'requests/client';
 import classNames from 'utils/classNames';
+import { useUpdateParcour } from 'requests/parcours';
 
 import useStyles from './styles';
 
@@ -33,6 +34,7 @@ const PrivateDrawer = () => {
   /* const [variant, setVariant] = useState<'persistent' | 'temporary'>(
     window.innerWidth < 768 ? 'temporary' : 'persistent',
   ); */
+  const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
   const { setUser, user } = useContext(userContext);
@@ -55,13 +57,21 @@ const PrivateDrawer = () => {
   };
   const links = user?.role === 'user' ? userLinks : adminLinks;
   useEffect(() => {
-    if (!ParcourRef.current) {
-      if (parcours?.completed) {
-        setOpen(true);
-      }
+    if (!ParcourRef.current && path === 'jobs') {
+      setOpen(true);
     }
-  }, [parcours?.completed, setOpen, parcours]);
-
+  }, [setOpen, path]);
+  const onSubmit = () => {
+    setOpen(false);
+    if (!parcours?.completed) {
+      updateCompleteCall({ variables: { completed: true } });
+    }
+  };
+  useEffect(() => {
+    if (updateCompeteState.data) {
+      setParcours(updateCompeteState.data.updateParcour);
+    }
+  }, [updateCompeteState.data, setParcours]);
   return (
     <>
       <Drawer
@@ -85,7 +95,7 @@ const PrivateDrawer = () => {
                 <div
                   className={classNames(
                     path === 'jobs' ? classes.linkJob : classes.link,
-                    !ParcourRef.current && parcours?.completed && e.text === 'MON DASHBOARD' && classes.firstUseLink,
+                    !ParcourRef.current && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
                   )}
                 >
                   {e.text}
@@ -95,7 +105,7 @@ const PrivateDrawer = () => {
           ))}
         </List>
       </Drawer>
-      {!ParcourRef.current && parcours?.completed && open && (
+      {!ParcourRef.current && !parcours?.completed && open && (
         <div
           style={{
             position: 'absolute',
@@ -113,7 +123,7 @@ const PrivateDrawer = () => {
               Pour compléter ton profil et retrouver à tout moment toutes tes informations, rend toi dans ton tableau de
               bord, accessible via le menu.
             </div>
-            <Button className={classes.btn} onClick={() => setOpen(false)}>
+            <Button className={classes.btn} onClick={onSubmit}>
               <div className={classes.btnLabel}>Compris !</div>
             </Button>
           </div>

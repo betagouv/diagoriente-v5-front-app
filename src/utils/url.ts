@@ -1,10 +1,12 @@
 import { map } from 'lodash';
 
-export function encodeUri(params: { [key: string]: string }): string {
-  const searchParams = map(
-    params,
-    (param: string, key) => `${encodeURIComponent(key)}=${encodeURIComponent(param)}`,
-  ).join('&');
+export function encodeUri(params: { [key: string]: string | number }): string {
+  const searchParams = map(params, (param: string, key) => {
+    if (!param) return '';
+    return `${encodeURIComponent(key)}=${encodeURIComponent(param)}`;
+  })
+    .filter(Boolean)
+    .join('&');
   return `?${searchParams}`;
 }
 

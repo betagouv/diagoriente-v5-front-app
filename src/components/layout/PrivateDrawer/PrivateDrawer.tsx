@@ -9,15 +9,20 @@ import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
 import Img from 'assets/images/fleche_fu.png';
 import userContext from 'contexts/UserContext';
-import { client, setAuthorizationBearer } from 'requests/client';
+import { setAuthorizationBearer, client } from 'requests/client';
 import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
-export const links = [
+export const userLinks = [
   { text: 'MON DASHBOARD', path: '/' },
   { text: 'Aide', path: '/' },
   { text: 'FAQ', path: '/' },
+  { text: 'DÉCONNEXION', path: '/' },
+];
+
+const adminLinks = [
+  { text: 'Thèmes', path: '/admin/themes' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
@@ -30,7 +35,7 @@ const PrivateDrawer = () => {
   ); */
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
-  const { setUser } = useContext(userContext);
+  const { setUser, user } = useContext(userContext);
   const ParcourRef = useRef(parcours?.completed);
   const logout = () => {
     localforage.removeItem('auth');
@@ -48,6 +53,7 @@ const PrivateDrawer = () => {
   const onClose = () => {
     setOpen(false);
   };
+  const links = user?.role === 'user' ? userLinks : adminLinks;
   useEffect(() => {
     if (!ParcourRef.current) {
       if (parcours?.completed) {
@@ -90,7 +96,15 @@ const PrivateDrawer = () => {
         </List>
       </Drawer>
       {!ParcourRef.current && parcours?.completed && open && (
-        <div style={{ position: 'absolute', top: 65, left: 200, zIndex: 9999, display: 'flex' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 65,
+            left: 200,
+            zIndex: 9999,
+            display: 'flex',
+          }}
+        >
           <div>
             <img alt="" src={Img} />
           </div>

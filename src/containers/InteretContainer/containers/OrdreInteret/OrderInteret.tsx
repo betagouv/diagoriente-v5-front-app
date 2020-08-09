@@ -16,6 +16,7 @@ import useStyles from './styles';
 
 const OrderInteret = ({ history, location }: RouteComponentProps) => {
   const [updateCall, updateState] = useUpdateParcour();
+  const [error, setError] = useState('');
   const { selectedInterest } = useContext(interestContext);
   const { setParcours } = useContext(ParcourContext);
   const classes = useStyles();
@@ -42,6 +43,11 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
 
     setOrderedArray(copySelected);
   };
+  useEffect(() => {
+    if (orderedArray.length === selectedInterest?.length || orderedArray.length === 0) {
+      setError('');
+    }
+  }, [selectedInterest, orderedArray]);
 
   useEffect(() => {
     if (updateState.data && !updateState.error) {
@@ -55,7 +61,11 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
   if (!selectedInterest) return <Redirect to="/interet/parcours" />;
   const onUpdate = () => {
     const dataToSend = orderedArray.map((el) => el.id) || selectedInterest;
-    updateCall({ variables: { families: dataToSend } });
+    if (orderedArray.length === selectedInterest.length) {
+      updateCall({ variables: { families: dataToSend } });
+    } else {
+      setError("Merci de compléter l'ordre du(es) centre(s) d‘intérêt(s) sélectionné(s)");
+    }
   };
 
   return (
@@ -96,6 +106,9 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
               />
             ))}
             {renderPlaceholder()}
+          </div>
+          <div className={classes.errorContainer}>
+            <div className={classes.text}>{error}</div>
           </div>
           <div className={classes.btnContainer}>
             <NextButton

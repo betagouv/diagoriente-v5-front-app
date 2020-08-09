@@ -20,6 +20,7 @@ import Edit from 'assets/svg/edit.svg';
 import LogoLocation from 'assets/form/location.png';
 import msg from 'assets/svg/msgorange.svg';
 import attention from 'assets/svg/attentionpink.svg';
+import { decodeUri } from 'utils/url';
 
 import Loupe from 'assets/svg/loupe';
 
@@ -32,7 +33,7 @@ import Switch from '../../components/Switch/Switch';
 import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
-const ImmersionContainer = ({ location }: RouteComponentProps) => {
+const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: string }>) => {
   const classes = useStyles();
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
@@ -52,9 +53,9 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
   const [immersionCall, immersionState] = useImmersion();
-  const dataToSend = (location.state as any)?.detail;
-
-  const param = location.pathname.substr(16);
+  const { search } = location;
+  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
+  const param = match.params.id;
   const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
@@ -112,11 +113,18 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
   });
 
   useEffect(() => {
-    if (dataToSend) {
-      const args = { ...dataToSend, page, distance: Number(state.values.distance.replace(' km', '')) };
+    if (romeCodes && latitude && longitude && pageSize && distances) {
+      const args = {
+        rome_codes: romeCodes,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        page_size: Number(pageSize),
+        page: Number(page),
+        distance: Number(state.values.distance.replace(' km', '')),
+      };
       immersionCall({ variables: args });
     }
-  }, [dataToSend, immersionCall, page, state.values.distance]);
+  }, [romeCodes, latitude, longitude, pageSize, distances, immersionCall, page, state.values.distance]);
 
   const tri = [
     {
@@ -194,8 +202,6 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
     }
   };
   const onChangeDistance = (s: string) => {
-    const str = Number(s.substring(0, s.length - 2));
-
     if (state.values.distance === s) {
       actions.setValues({ distance: '' });
     } else {
@@ -286,8 +292,20 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
                   <div className={classes.textTitle}>MA RECHERCHE</div>
                 </div>
                 <div>
-                  Je recherche une <strong>immersion</strong> pour le métier de
-                  <b> {data?.job.title} </b>à {locationState}.
+                  Je recherche une
+                  {' '}
+                  <strong>immersion</strong>
+                  {' '}
+                  pour le métier de
+                  <b>
+                    {' '}
+                    {data?.job.title}
+                    {' '}
+                  </b>
+                  à
+                  {' '}
+                  {selectedLoc}
+                  .
                 </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />
@@ -402,7 +420,7 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
         backdropColor="#011A5E"
         colorIcon="#DB8F00"
       >
-        {openConseil ? (
+        {!openContact ? (
           <ModalConseil handleClose={handleClose} />
         ) : (
           <ModalContact setOpen={setOpen} openContact={openContact} />
@@ -421,12 +439,15 @@ const ImmersionContainer = ({ location }: RouteComponentProps) => {
           </div>
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
-            Attention : l'immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable rempli
-            une convention avec ta structure d’accueil !{' '}
+            Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
+            rempli une convention avec ta structure d’accueil !
+            {' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span>
+              {' '}
+              <span>!</span>
             </div>
           </Button>
         </div>

@@ -1,7 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<Theme>((theme) => ({
-  modalBody: {},
+  modalBody: {
+    overflow: 'scroll',
+  },
   titleModal: {
     fontFamily: 'ocean',
     fontSize: 32,
@@ -103,5 +105,6 @@ export default makeStyles<Theme>((theme) => ({
     fontFamily: 'ocean',
     color: '#FFFFFF',
     paddingTop: 5,
+    cursor: 'pointer',
   },
 }));

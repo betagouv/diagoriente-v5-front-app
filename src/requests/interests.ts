@@ -10,6 +10,7 @@ export const familiesQuery = gql`
         id
         nom
         category
+        resources
       }
     }
   }
@@ -22,6 +23,7 @@ export interface FamiliesResponse {
       id: string;
       nom: string;
       category: string;
+      resources: string[];
     }[];
   };
 }

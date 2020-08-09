@@ -44,13 +44,13 @@ const SelectModal = () => {
           <div className={classes.titlePerso}>Mes expériences perso</div>
           <div className={classes.themesContainer}>
             {parcours?.skills
-              .filter((p) => p.theme.type === 'personal')
+              .filter((p) => p.theme?.type === 'personal')
               .map((pr) => (
                 <div key={pr.theme.id} className={classes.themeContainer}>
                   <Avatar size={65}>
                     <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
                   </Avatar>
-                  <div className={classes.themeTitle}>{pr.theme.title}</div>
+                  <div className={classes.themeTitle}>{pr.theme.title.replace(/\//g, '')}</div>
                   <CheckBox
                     onChange={() => addTheme(pr.theme.id)}
                     name={pr.theme.title}
@@ -65,7 +65,7 @@ const SelectModal = () => {
           <div className={classes.titlePro}>Mes expériences pro</div>
           <div className={classes.themesContainer}>
             {parcours?.skills
-              .filter((p) => p.theme.type === 'professional')
+              .filter((p) => p.theme?.type === 'professional')
               .map((pr) => (
                 <div key={pr.theme.id} className={classes.themeContainer}>
                   <Avatar size={65} />

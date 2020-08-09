@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import htmlToCanvas from 'html2canvas';
 import JsPdf from 'jspdf';
 
@@ -8,14 +8,13 @@ export default function usePdf(): [JSX.Element | null, () => void, JsPdf | null]
   const [isDownloading, setIsDownloading] = useState(false);
   const [pdfFile, setPdfFile] = useState(null as JsPdf | null);
   const pdfRef = useRef<HTMLDivElement>(null);
-
   const pdfElement = isDownloading ? <PdfContent ref={pdfRef} /> : null;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isDownloading && pdfRef.current) {
+      window.scrollTo({ top: 0, left: 0 });
       htmlToCanvas(pdfRef.current).then((canvas) => {
         const img = canvas.toDataURL('image/jpeg');
-
         const pdf = new JsPdf('p', 'in', 'a4');
 
         const imgWidth = pdf.internal.pageSize.width;

@@ -50,7 +50,12 @@ const Input = ({
             <div className={classes.labelContainer}>
               <div className={classes.label}>
                 {label}
-                {required ? <span className={classes.requiredInput}>*</span> : null}
+                {required ? (
+                  <>
+                    <span className={classes.requiredInput}>*</span>
+                    <span> :</span>
+                  </>
+                ) : null}
               </div>
               <div className={classes.subTitle}>{subTitle}</div>
             </div>

@@ -5,12 +5,13 @@ import { useLocalQuery } from 'hooks/apollo';
 
 export const familiesQuery = gql`
   query Families {
-    families(sort:"order",order:1) {
+    families(sort:"order",order:-1) {
       data {
         id
         nom
         category
         resources
+        order
       }
     }
   }

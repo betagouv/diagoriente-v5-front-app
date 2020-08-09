@@ -5,7 +5,7 @@ import { useLocalQuery } from 'hooks/apollo';
 
 export const familiesQuery = gql`
   query Families {
-    families {
+    families(sort:"order",order:1) {
       data {
         id
         nom

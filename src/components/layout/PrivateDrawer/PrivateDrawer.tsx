@@ -55,7 +55,7 @@ const PrivateDrawer = () => {
   const onClose = () => {
     setOpen(false);
   };
-  const links = user?.role === 'user' ? userLinks : adminLinks;
+  const links = user?.role === 'user' ? userLinks : userLinks;
   useEffect(() => {
     if (!ParcourRef.current && path === 'jobs') {
       setOpen(true);

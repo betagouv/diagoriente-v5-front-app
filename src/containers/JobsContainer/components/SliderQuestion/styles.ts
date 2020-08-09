@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) => ({
   root: {
     width: '60% !important',
+    outline: 0,
   },
   content: {
     paddingTop: 20,
@@ -10,6 +11,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    outline: 0,
   },
 
   question: {

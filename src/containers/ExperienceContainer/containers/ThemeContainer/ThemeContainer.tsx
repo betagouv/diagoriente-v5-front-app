@@ -12,6 +12,7 @@ import Selection from 'components/theme/ThemeSelection/ThemeSelection';
 import parcoursContext from 'contexts/ParcourContext';
 import Tooltip from '@material-ui/core/Tooltip';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
+import Spinner from 'components/SpinnerXp/Spinner';
 
 import blueline from 'assets/svg/blueline.svg';
 import classNames from 'utils/classNames';
@@ -71,22 +72,28 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           </p>
           <div className={classes.gridContainer}>
             <Grid className={classes.circleContainer} container spacing={2}>
-              {loading && <div className={classes.loadingContainer}>...loading</div>}
+              {loading && (
+                <div className={classes.loadingContainer}>
+                  <Spinner />
+                </div>
+              )}
 
               {data?.themes.data
-                .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
+                .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id))
                 .map((theme, index) => (
                   <Grid key={theme.id} item xs={12} sm={3} md={2}>
                     <Tooltip
-                      classes={{ tooltipPlacementRight: classes.tooltipRight, tooltipPlacementLeft: classes.tooltipLeft }}
-
-                      title={(
+                      classes={{
+                        tooltipPlacementRight: classes.tooltipRight,
+                        tooltipPlacementLeft: classes.tooltipLeft,
+                      }}
+                      title={
                         <Child key={index}>
                           {theme.activities.map((act) => (
                             <li className={classes.dot}>{act.title}</li>
                           ))}
                         </Child>
-                      )}
+                      }
                       arrow
                       placement="right"
                     >
@@ -97,15 +104,17 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                           titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
                           className={classes.circle}
                           onClick={() => showAvatar(theme)}
-                          avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                          avatarCircleBackground={
+                            selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''
+                          }
                         >
                           <img
                             src={theme.resources?.icon}
                             alt=""
                             className={classNames(
-                            classes.avatarStyle,
-                            selectedTheme?.id === theme.id && classes.selectedImg,
-                          )}
+                              classes.avatarStyle,
+                              selectedTheme?.id === theme.id && classes.selectedImg,
+                            )}
                           />
                         </Avatar>
                       </Child>

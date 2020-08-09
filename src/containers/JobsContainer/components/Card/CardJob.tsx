@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Dotdotdot from 'react-dotdotdot';
 import Button from 'components/button/Button';
 import fullHeart from 'assets/svg/fullHeart.svg';
 
@@ -12,9 +13,7 @@ interface IProps {
   id: string;
   favoris: any;
 }
-const CardJob = ({
-  title, description, accessibility, id, favoris,
-}: IProps) => {
+const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => {
   const [selected, setSelected] = useState(false);
   const onHover = () => setSelected(true);
   const onLeave = () => setSelected(false);
@@ -22,8 +21,13 @@ const CardJob = ({
 
   return (
     <div className={classes.root} onMouseEnter={onHover} onMouseLeave={onLeave}>
-      <div className={classes.title}>{title}</div>
-      <div className={classes.description}>{description}</div>
+      <div className={classes.title}>
+        <Dotdotdot clamp={5}>{title}</Dotdotdot>
+      </div>
+
+      <div className={classes.description}>
+        <Dotdotdot clamp={5}>{description}</Dotdotdot>
+      </div>
       {selected && (
         <div className={classes.btnContainer}>
           <Link to={`/jobs/job/${id}`}>

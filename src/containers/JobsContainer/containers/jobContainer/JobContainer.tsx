@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useJob, useJobs } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Link, useParams } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import LogoLocation from 'assets/form/location.png';
@@ -25,7 +25,6 @@ import useStyles from './styles';
 
 const JobContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
-
   const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
@@ -33,14 +32,13 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadJobs, { data: listJobs }] = useJobs();
-  const [loadFav, { data: FavData }] = useListFavoris();
+  const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
     loadFav();
     loadJobs();
   });
-  const isFav = FavData?.favorites.data.find((el) => el.job === param);
 
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
@@ -50,6 +48,15 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [errorLocation, setErrorLocation] = useState(false);
+  const [isFav, setIsFav] = useState('');
+  useEffect(() => {
+    if (!loadingFav && FavData) {
+      const fav = FavData?.favorites.data.find((el) => el.job === param);
+      if (fav?.id) {
+        setIsFav(fav.id);
+      }
+    }
+  }, [FavData, loadingFav, param]);
 
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;
@@ -106,21 +113,26 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     };
     addFavCall({ variables: dataFav });
   };
+  useEffect(() => {
+    if (!addFavState.loading && addFavState.data) {
+      setIsFav(addFavState.data.createFavorite.id);
+      loadFav();
+    }
+  }, [addFavState, loadFav]);
   const deleteFromFav = () => {
-    deleteFavCall({ variables: { id: isFav?.id } });
+    setIsFav('');
+    deleteFavCall({ variables: { id: isFav } });
   };
   const onClickImmersion = () => {
-    const dataToSend = {
-      rome_codes: selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      page_size: 6,
-      distance: 5,
-    };
     setErrorLocation(true);
-
-    if (selectedLocation)
-      history.push({ pathname: `/jobs/immersion/${param}`, state: { detail: { ...dataToSend, selectedLocation } } });
+    if (selectedLocation) {
+      history.push({
+        pathname: `/jobs/immersion/${param}`,
+        search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
+          coordinates[0]
+        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}`,
+      });
+    }
   };
   useEffect(() => {
     if (data?.job) {
@@ -255,7 +267,11 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
         colorIcon="#DB8F00"
         size={70}
       >
-        {openInfo ? <ModalContainerInfo job={data?.job} /> : <ModalQuestion job={data?.job} />}
+        {openInfo ? (
+          <ModalContainerInfo job={data?.job} />
+        ) : (
+          <ModalQuestion job={data?.job} handleClose={handleClose} />
+        )}
       </ModalContainer>
     </div>
   );

@@ -87,7 +87,7 @@ const ThemeContainerPro = ({ location, history }: RouteComponentProps) => {
               <Grid className={classes.circleContainer} container spacing={2}>
                 {valueSearch
                   && data?.themes.data
-                    .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme.id))
+                    .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id))
                     .map((theme, index) => {
                       const tooltip = theme.activities;
                       const t = theme.title.replace(new RegExp('[//,]', 'g'), '\n');

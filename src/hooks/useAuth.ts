@@ -5,14 +5,10 @@ import localforage from 'localforage';
 import { setAuthorizationBearer } from 'requests/client';
 import { useGetUserParcour } from 'requests/parcours';
 import { User, Token } from 'requests/types';
+import { graphQLResult } from 'utils/graphql';
 
 import ParcourContext from 'contexts/ParcourContext';
 import UserContext from 'contexts/UserContext';
-
-function extractAuth(data: { [key: string]: { user: User; token: Token } }) {
-  const keys = Object.keys(data);
-  return data[keys[0]];
-}
 
 function useAuth<Arguments, Result extends { [key: string]: { user: User; token: Token } }>(
   fn: (options?: MutationHookOptions<Result, Arguments>) => MutationTuple<Result, Arguments>,
@@ -23,11 +19,21 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
   const [call, state] = fn();
   const [parcourCall, parcourState] = useGetUserParcour();
 
+  function persistUser(data: { user: User; token: Token }) {
+    const result = { ...data };
+    if (!stayConnected) {
+      delete result.token.refreshToken;
+    }
+    localforage.setItem('auth', JSON.stringify(result));
+    setUser(result.user);
+  }
+
   useEffect(() => {
     if (state.data) {
-      const result = extractAuth(state.data);
+      const result = graphQLResult(state.data);
       setAuthorizationBearer(result.token.accessToken);
-      parcourCall();
+      if (result.user.role === 'user') parcourCall();
+      else persistUser(result);
     }
     // eslint-disable-next-line
   }, [state.data]);
@@ -35,12 +41,8 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
   useEffect(() => {
     if (parcourState.data && state.data) {
       setParcours(parcourState.data.userParcour);
-      const result = extractAuth(state.data);
-      if (!stayConnected) {
-        delete result.token.refreshToken;
-      }
-      localforage.setItem('auth', JSON.stringify(result));
-      setUser(result.user);
+      const result = graphQLResult(state.data);
+      persistUser(result);
     }
     // eslint-disable-next-line
   }, [parcourState.data]);

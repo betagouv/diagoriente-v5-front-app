@@ -36,7 +36,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const [rowSize, setRowSize] = useState(window.innerWidth < 1280 ? 2 : 3);
   const type = decodeUri(location.search).type || 'personal';
   const [deleteSkill, stateSkill] = useDeleteSkill();
-  const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme.type === type).length % rowSize === 0;
+  const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme?.type === type).length % rowSize === 0;
 
   useEffect(() => {
     if (stateSkill.data) {
@@ -98,7 +98,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
       <div className={classes.cardGridContainer}>
         <Grid container spacing={4}>
           {parcours?.skills
-            .filter((s) => s.theme.type === type)
+            .filter((s) => s.theme?.type === type)
             .map((s) => (
               <Grid key={s.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
                 <Card

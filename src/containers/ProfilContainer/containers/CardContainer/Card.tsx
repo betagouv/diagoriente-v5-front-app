@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import usePdf from 'hooks/usePdf';
 
 import { encodeUri } from 'utils/url';
-
 import Paper from '@material-ui/core/Paper/Paper';
-
 import carte from 'assets/svg/carte.svg';
-
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
 import CardIcons from './components/CardIcons/CardIcons';
@@ -18,14 +15,26 @@ import useStyles from './styles';
 
 const CardContainer = () => {
   const classes = useStyles();
+  const [type, setType] = useState('');
+
   const [element, createPdf, pdf] = usePdf();
-  const icons = <CardIcons onDownload={createPdf} />;
+
+  const onCreate = (i: string) => {
+    setType(i);
+    createPdf();
+  };
+  const icons = <CardIcons onDownload={onCreate} onPrint={onCreate} />;
 
   useEffect(() => {
     if (pdf) {
-      pdf.save('competences.pdf');
+      if (type !== 'print') {
+        pdf.save('competences.pdf');
+      } else {
+        pdf.autoPrint();
+        pdf.output('dataurlnewwindow')
+      }
     }
-  }, [pdf]);
+  }, [pdf, type]);
 
   return (
     <div className={classes.container}>

@@ -7,12 +7,14 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     width: 222,
   },
   inputBase: {
-    height: 35,
+    height: 36,
     background: '#FFFFFF',
     width: 228,
   },
   inputRoot: {
-    width: 185,
+    width: 201,
+    fontFamily: 'Andika New Basic',
+    fontWeight: 'bold',
   },
   containerAutoComp: {
     '& .MuiOutlinedInput-adornedStart': {

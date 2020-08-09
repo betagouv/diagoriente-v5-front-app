@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+
 const MAX_WIDTH = 700;
 const FONT_SIZE = 16;
 const PADDING = '0px 50px 30px 50px';
@@ -21,6 +22,7 @@ export default makeStyles(() => ({
     fontFamily: 'ocean',
     marginTop: 25,
     textAlign: 'center',
+    textTransform: "uppercase",
   },
 
   contactContainer: {
@@ -130,7 +132,7 @@ export default makeStyles(() => ({
     marginTop: 20,
     marginBottom: 50,
   },
-  
+
   message: {
     color: '#FF0060',
     fontSize: 14,

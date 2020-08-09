@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles({
   part: {
     padding: '30px 0',
     borderBottom: '1px solid #6B6B6A',
@@ -15,12 +15,12 @@ export default makeStyles((theme) => ({
     lineHeight: 1,
     fontSize: 42,
     top: 2,
-    color: theme.palette.background.default,
+    color: '#D60051',
     fontFamily: 'Ocean',
     textTransform: 'uppercase',
   },
   subTitle: {
-    color: theme.palette.background.default,
+    color: '#D60051',
     fontSize: 12,
   },
   competences: { marginTop: 25 },
@@ -49,4 +49,4 @@ export default makeStyles((theme) => ({
   emptyCompetencesBold: {
     fontWeight: 'bold',
   },
-}));
+});

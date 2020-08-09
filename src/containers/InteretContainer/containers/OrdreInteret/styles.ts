@@ -48,7 +48,7 @@ export default makeStyles<Theme>((theme) => ({
     height: '100%',
     position: 'relative',
     paddingBottom: 10,
-    marginBottom: 50,
+    marginBottom: 35,
   },
   subTitle: {
     fontSize: 18,
@@ -103,5 +103,17 @@ export default makeStyles<Theme>((theme) => ({
   },
   btnLabel: {
     color: '#fff',
+  },
+  errorContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    marginTop: 20,
+  },
+  text: {
+    fontSize: 12,
+    color: '#FF0060',
   },
 }));

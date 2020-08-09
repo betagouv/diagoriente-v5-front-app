@@ -21,7 +21,7 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
   const [open, setOpen] = React.useState(false);
   const { parcours } = useContext(ParcourContext);
 
-  const skill = parcours?.skills.find((e) => e.theme.id === match.params.themeId);
+  const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -43,7 +43,7 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
             <img src={check} alt="check" className={classes.checked} />
           </div>
         ) : (
-          <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked>
+          <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked className={classes.imgContainer}>
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
         )}

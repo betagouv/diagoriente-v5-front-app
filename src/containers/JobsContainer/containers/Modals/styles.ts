@@ -61,5 +61,6 @@ export default makeStyles((theme) => ({
     width: 'fit-content',
     margin: 3,
     color: '#424242',
+    cursor: 'pointer',
   },
 }));

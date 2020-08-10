@@ -271,7 +271,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
         size={70}
       >
         {openInfo ? (
-          <ModalContainerInfo job={data?.job} />
+          <ModalContainerInfo job={data?.job} handleClose={handleClose}  />
         ) : (
           <ModalQuestion job={data?.job} handleClose={handleClose} />
         )}

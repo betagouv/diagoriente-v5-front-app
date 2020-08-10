@@ -3,7 +3,6 @@ import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import ParcoursContext from 'contexts/ParcourContext';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { useUpdateParcour } from 'requests/parcours';
 import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
@@ -28,6 +27,7 @@ const JobsContainer = () => {
   const divAcc = useRef<HTMLDivElement>(null);
 
   const { parcours, setParcours } = useContext(ParcoursContext);
+  const refCompleted = useRef<boolean | undefined>(parcours?.completed);
 
   const [clearMessage, setClearMessage] = useState<null | boolean>(null);
   const setMessage = async () => {
@@ -44,7 +44,6 @@ const JobsContainer = () => {
     c();
   }, []);
 
-  const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
   const [search, setSearch] = useState<string | undefined>('');
   const [environments, setJob] = useState<string[] | undefined>([]);
@@ -84,9 +83,11 @@ const JobsContainer = () => {
   }, [data]);
 
   useEffect(() => {
-    const fn = data ? refetch : loadJobs;
-    fn();
-  }, [loadJobs, data, refetch]);
+    if (parcours?.completed) {
+      const fn = data ? refetch : loadJobs;
+      fn();
+    }
+  }, [loadJobs, refetch, parcours]);
 
   const onSelect = (label?: string) => {
     setSearch(label);
@@ -135,17 +136,7 @@ const JobsContainer = () => {
       setJob(array);
     }
   };
-  useDidMount(() => {
-    if (!parcours?.completed) {
-      updateCompleteCall({ variables: { completed: true } });
-    }
-    loadJobs();
-  });
-  useEffect(() => {
-    if (updateCompeteState.data) {
-      setParcours(updateCompeteState.data.updateParcour);
-    }
-  }, [updateCompeteState.data, setParcours]);
+
   return (
     <div>
       {clearMessage && (
@@ -249,7 +240,8 @@ const JobsContainer = () => {
             </div>
           ) : (
             <div className={classes.boxsContainer}>
-              {filtredJob?.length === 0
+              {!parcours?.completed && <Spinner />}
+              {data?.myJobs?.length === 0
                 ? 'Aucun resultat trouvé !'
                 : (filteredArray?.length ? filteredArray : filtredJob)?.map((el) => {
                     return (

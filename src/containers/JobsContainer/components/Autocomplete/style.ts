@@ -12,7 +12,8 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     width: 228,
   },
   inputRoot: {
-    width: 201,
+    width: 'fit-content',
+    flex: 1,
     fontFamily: 'Andika New Basic',
     fontWeight: 'bold',
   },

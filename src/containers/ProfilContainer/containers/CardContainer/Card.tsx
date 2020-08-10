@@ -16,14 +16,19 @@ import useStyles from './styles';
 const CardContainer = () => {
   const classes = useStyles();
   const [type, setType] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [element, createPdf, pdf] = usePdf();
 
-  const onCreate = (i: string) => {
-    setType(i);
+  const onCreate = () => {
     createPdf();
   };
-  const icons = <CardIcons onDownload={onCreate} onPrint={onCreate} />;
+  const onPrint = (i: string) => {
+    setType(i);
+    setLoading(true);
+    createPdf();
+  };
+  const icons = <CardIcons onDownload={onCreate} onPrint={onPrint} fetching={loading} />;
 
   useEffect(() => {
     if (pdf) {
@@ -31,7 +36,8 @@ const CardContainer = () => {
         pdf.save('competences.pdf');
       } else {
         pdf.autoPrint();
-        pdf.output('dataurlnewwindow')
+        pdf.output('dataurlnewwindow');
+        setLoading(false);
       }
     }
   }, [pdf, type]);

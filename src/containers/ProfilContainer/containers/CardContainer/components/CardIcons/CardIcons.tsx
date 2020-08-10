@@ -3,15 +3,17 @@ import React from 'react';
 import download from 'assets/svg/download.svg';
 import print from 'assets/svg/print.svg';
 import partage from 'assets/svg/partage.svg';
+import Spinner from '../loading/Spinner';
 
 import useStyles from './styles';
 
 interface CardIcons {
   onDownload: (i: string) => void;
   onPrint: (i: string) => void;
+  fetching?: boolean;
 }
 
-const CardIcons = ({ onDownload, onPrint }: CardIcons) => {
+const CardIcons = ({ onDownload, onPrint, fetching }: CardIcons) => {
   const classes = useStyles();
 
   return (
@@ -22,8 +24,16 @@ const CardIcons = ({ onDownload, onPrint }: CardIcons) => {
       </div>
       <div className={classes.headerIcon} onClick={() => onPrint('print')}>
         <img className={classes.headerIconImage} src={print} alt="" />
-        Imprimer
+
+        {fetching ? (
+          <div className={classes.spinnerContainer}>
+            <Spinner />
+          </div>
+        ) : (
+          "Imprimer"
+        )}
       </div>
+
       <div className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={partage} alt="" />
         Partager

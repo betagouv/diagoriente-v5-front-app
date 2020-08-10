@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from 'components/button/Button';
 import List from '@material-ui/core/List';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, matchPath } from 'react-router-dom';
 import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -29,7 +29,7 @@ const adminLinks = [
 
 const PrivateDrawer = () => {
   const location = useLocation();
-  const path = location.pathname.split(/[//]/)[1];
+  const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
   const classes = useStyles();
   /* const [variant, setVariant] = useState<'persistent' | 'temporary'>(
     window.innerWidth < 768 ? 'temporary' : 'persistent',
@@ -38,7 +38,6 @@ const PrivateDrawer = () => {
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
   const { setUser, user } = useContext(userContext);
-  const ParcourRef = useRef(parcours?.completed);
   const logout = () => {
     localforage.removeItem('auth');
     setAuthorizationBearer('');
@@ -52,26 +51,32 @@ const PrivateDrawer = () => {
     if (nextVariant !== variant) setVariant(nextVariant);
   });
 */
+
   const onClose = () => {
     setOpen(false);
   };
+
   const links = user?.role === 'user' ? userLinks : adminLinks;
+
   useEffect(() => {
-    if (!ParcourRef.current && path === 'jobs') {
+    if (!parcours?.completed && isJobs) {
       setOpen(true);
     }
-  }, [setOpen, path]);
+  }, [parcours, setOpen, isJobs]);
+
   const onSubmit = () => {
     setOpen(false);
     if (!parcours?.completed) {
       updateCompleteCall({ variables: { completed: true } });
     }
   };
+
   useEffect(() => {
     if (updateCompeteState.data) {
       setParcours(updateCompeteState.data.updateParcour);
     }
   }, [updateCompeteState.data, setParcours]);
+
   return (
     <>
       <Drawer
@@ -94,8 +99,8 @@ const PrivateDrawer = () => {
               <Link to={e.path}>
                 <div
                   className={classNames(
-                    path === 'jobs' ? classes.linkJob : classes.link,
-                    !ParcourRef.current && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
+                    isJobs ? classes.linkJob : classes.link,
+                    !parcours?.completed && isJobs && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
                   )}
                 >
                   {e.text}
@@ -105,7 +110,7 @@ const PrivateDrawer = () => {
           ))}
         </List>
       </Drawer>
-      {!ParcourRef.current && !parcours?.completed && open && (
+      {!parcours?.completed && isJobs && open && (
         <div
           style={{
             position: 'absolute',

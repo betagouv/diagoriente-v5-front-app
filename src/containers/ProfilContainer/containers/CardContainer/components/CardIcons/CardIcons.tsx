@@ -7,19 +7,20 @@ import partage from 'assets/svg/partage.svg';
 import useStyles from './styles';
 
 interface CardIcons {
-  onDownload?: () => void;
+  onDownload: (i: string) => void;
+  onPrint: (i: string) => void;
 }
 
-const CardIcons = ({ onDownload }: CardIcons) => {
+const CardIcons = ({ onDownload, onPrint }: CardIcons) => {
   const classes = useStyles();
 
   return (
     <div className={classes.headerIcons}>
-      <div onClick={onDownload} className={classes.headerIcon}>
+      <div onClick={() => onDownload('download')} className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={download} alt="" />
         Télécharger
       </div>
-      <div className={classes.headerIcon}>
+      <div className={classes.headerIcon} onClick={() => onPrint('print')}>
         <img className={classes.headerIconImage} src={print} alt="" />
         Imprimer
       </div>

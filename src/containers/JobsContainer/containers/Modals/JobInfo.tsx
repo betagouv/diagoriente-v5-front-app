@@ -2,7 +2,7 @@ import React from 'react';
 import timeLogo from 'assets/svg/time.svg';
 import reseauLogo from 'assets/svg/reseau.svg';
 import Chart from 'components/Graph/PieChart';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { useJobs } from 'requests/jobs';
 import Spinner from 'components/Spinner/Spinner';
@@ -11,9 +11,11 @@ import useStyles from './styles';
 
 interface IProps {
   job: any;
+  handleClose: () => void;
 }
 
-const JobInfo = ({ job }: IProps) => {
+const JobInfo = ({ job, handleClose }: IProps) => {
+  const history = useHistory();
   const classes = useStyles();
   const [loadJobs, { data: JobsList, loading: loadingList }] = useJobs({
     variables: { secteur: job.secteur[0].id },
@@ -21,6 +23,10 @@ const JobInfo = ({ job }: IProps) => {
   useDidMount(() => {
     loadJobs();
   });
+  const onNavigate = (id: string) => {
+    history.push(`/jobs/job/${id}`);
+    handleClose();
+  };
   return (
     <div>
       <div className={classes.titleContainer}>
@@ -57,11 +63,9 @@ const JobInfo = ({ job }: IProps) => {
             <div className={classes.metiersContainer}>
               <div>{loadingList && <Spinner />}</div>
               {JobsList?.myJobs.slice(0, 6).map((i) => (
-                <Link to={`job/${i.id}`}>
-                  <div key={i.id} className={classes.metierItem}>
-                    {i.title}
-                  </div>
-                </Link>
+                <div key={i.id} className={classes.metierItem} onClick={() => onNavigate(i.id)}>
+                  {i.title}
+                </div>
               ))}
             </div>
           </div>

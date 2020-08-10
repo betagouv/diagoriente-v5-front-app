@@ -19,19 +19,6 @@ export const jobsQuery = gql`
         id
         title
       }
-      niveau {
-        id
-      }
-
-      formations {
-        id
-      }
-      environments {
-        id
-      }
-      questionJobs {
-        id
-      }
       favorite {
         id
         interested

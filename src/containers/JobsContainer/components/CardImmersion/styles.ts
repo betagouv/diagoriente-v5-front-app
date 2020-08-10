@@ -101,6 +101,7 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     width: '33.33%',
     cursor: 'pointer',
+    alignItems: 'center',
   },
   titleLogo: {
     fontWeight: 'bold',

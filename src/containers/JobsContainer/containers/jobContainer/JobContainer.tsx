@@ -1,8 +1,10 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, {
+ useContext, useState, useRef, useEffect,
+} from 'react';
 import { useJob, useJobs } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { RouteComponentProps, Link, useParams } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import LogoLocation from 'assets/form/location.png';
@@ -235,7 +237,8 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>{' '}
+                </span>
+                {' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>
@@ -268,7 +271,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
         size={70}
       >
         {openInfo ? (
-          <ModalContainerInfo job={data?.job} />
+          <ModalContainerInfo job={data?.job} handleClose={handleClose}  />
         ) : (
           <ModalQuestion job={data?.job} handleClose={handleClose} />
         )}

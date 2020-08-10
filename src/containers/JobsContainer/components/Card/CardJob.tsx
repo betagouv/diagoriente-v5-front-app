@@ -13,7 +13,9 @@ interface IProps {
   id: string;
   favoris: any;
 }
-const CardJob = ({ title, description, accessibility, id, favoris }: IProps) => {
+const CardJob = ({
+ title, description, accessibility, id, favoris,
+}: IProps) => {
   const [selected, setSelected] = useState(false);
   const onHover = () => setSelected(true);
   const onLeave = () => setSelected(false);

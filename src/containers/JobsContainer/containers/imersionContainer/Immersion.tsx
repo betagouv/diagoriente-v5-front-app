@@ -53,7 +53,9 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
   const [items, setItems] = useState<number[]>([]);
   const [immersionCall, immersionState] = useImmersion();
   const { search } = location;
-  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
+  const {
+ romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
+} = decodeUri(search);
   const param = match.params.id;
   const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });

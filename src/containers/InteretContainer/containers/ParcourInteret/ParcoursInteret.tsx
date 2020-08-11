@@ -11,7 +11,6 @@ import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
-import { decodeUri } from 'utils/url';
 import Spinner from '../../components/SpinnerInterest/Spinner';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
@@ -37,8 +36,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
       })),
     [data],
   );
-
-  const { profil } = decodeUri(location.search);
 
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];

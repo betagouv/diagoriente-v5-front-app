@@ -5,12 +5,12 @@ import { useCompetence } from 'requests/competences';
 import Point from 'assets/svg/point.svg';
 import useStyles from './styles';
 
-interface Iprops {
+interface IProps {
   competencesrequises: { _id: { id: string; title: string }; weight: number }[] | undefined;
   competenceUser: { id: string; value: number; count: number; title: string }[] | undefined;
 }
 
-const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
+const GraphCompetence = ({ competencesrequises, competenceUser }: IProps) => {
   const [select, setSelect] = useState('jobCompetence');
 
   const classes = useStyles({ select });
@@ -19,7 +19,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
   const isExist = (id: string) => {
     let res = false;
     if (competenceUser?.length) {
-      competenceUser.map((el) => {
+      competenceUser.forEach((el) => {
         if (el.id === id && el.value !== 0) {
           res = true;
         }
@@ -39,12 +39,17 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: Iprops) => {
     return widthBlue;
   };
   const isLess = (id: string) => {
+    let value = false;
     const valueRequis = competencesrequises?.find((selected) => selected._id.id === id);
     const valueUser = competenceUser?.find((el) => el.id === id);
     if (valueUser && valueRequis) {
-      if (valueUser.value < valueRequis.weight) return true;
-      return false;
+      if (valueUser.value < valueRequis.weight) {
+        value = true;
+      } else {
+        value = false;
+      }
     }
+    return value;
   };
   return (
     <div className={classes.root}>

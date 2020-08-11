@@ -17,27 +17,35 @@ const CardContainer = () => {
   const classes = useStyles();
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [loadingPrint, setLoadingPrint] = useState(false);
   const [element, createPdf, pdf] = usePdf();
 
-  const onCreate = () => {
-    createPdf();
-  };
-  const onPrint = (i: string) => {
+  const onClickIcon = (i: string) => {
     setType(i);
-    setLoading(true);
+    if (i === 'print') setLoadingPrint(true);
+    if (i === 'download') setLoading(true);
     createPdf();
   };
-  const icons = <CardIcons onDownload={onCreate} onPrint={onPrint} fetching={loading} />;
+  const icons = (
+    <CardIcons
+      onDownload={onClickIcon}
+      onPrint={onClickIcon}
+      fetching={loading}
+      fetchingPrint={loadingPrint}
+    />
+);
 
   useEffect(() => {
     if (pdf) {
-      if (type !== 'print') {
+      if (type === 'download') {
         pdf.save('competences.pdf');
-      } else {
+        setLoading(false);
+        setType('');
+      } else if (type === 'print') {
         pdf.autoPrint();
         pdf.output('dataurlnewwindow');
-        setLoading(false);
+        setLoadingPrint(false);
+        setType('');
       }
     }
   }, [pdf, type]);

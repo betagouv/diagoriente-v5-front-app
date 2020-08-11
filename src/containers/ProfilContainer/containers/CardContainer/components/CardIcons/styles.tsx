@@ -21,4 +21,11 @@ export default makeStyles({
     width: 30,
     marginRight: 11,
   },
+  spinnerContainer: {
+    width: 68,
+    justifyContent: 'center',
+    display: 'flex',
+    paddingBottom: 30,
+    paddingRight: 31,
+  },
 });

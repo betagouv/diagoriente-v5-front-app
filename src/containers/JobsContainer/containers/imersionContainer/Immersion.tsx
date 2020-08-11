@@ -48,14 +48,25 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
-
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
+
+  const [state, actions] = useForm({
+    initialValues: {
+      tri: '',
+      taille: '',
+      rayon: '',
+      distance: '5 km',
+      switch: true,
+      switchRayon: '',
+    },
+  });
+
   const [immersionCall, immersionState] = useImmersion();
   const { search } = location;
   const {
- romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
-} = decodeUri(search);
+    romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
+  } = decodeUri(search);
   const param = match.params.id;
   const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
@@ -92,22 +103,6 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
       openContactState(null);
     }
   }, [open, openContact]);
-
-  const getData = (pg: number) => {
-    setPage(pg);
-  };
-
-  const [state, actions] = useForm({
-    initialValues: {
-      tri: '',
-      taille: '',
-      rayon: '',
-      distance: '5 km',
-      switch: true,
-      switchRayon: '',
-    },
-  });
-
   useEffect(() => {
     if (romeCodes && latitude && longitude && pageSize && distances) {
       const args = {
@@ -121,6 +116,10 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
       immersionCall({ variables: args });
     }
   }, [romeCodes, latitude, longitude, pageSize, distances, immersionCall, page, state.values.distance]);
+
+  const getData = (pg: number) => {
+    setPage(pg);
+  };
 
   const tri = [
     {
@@ -288,20 +287,8 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
                   <div className={classes.textTitle}>MA RECHERCHE</div>
                 </div>
                 <div>
-                  Je recherche une
-                  {' '}
-                  <strong>immersion</strong>
-                  {' '}
-                  pour le métier de
-                  <b>
-                    {' '}
-                    {data?.job.title}
-                    {' '}
-                  </b>
-                  à
-                  {' '}
-                  {selectedLoc}
-                  .
+                  Je recherche une <strong>immersion</strong> pour le métier de
+                  <b> {data?.job.title} </b>à {selectedLoc}.
                 </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />
@@ -436,14 +423,11 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
             Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
-            rempli une convention avec ta structure d’accueil !
-            {' '}
+            rempli une convention avec ta structure d’accueil !{' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span>
-              {' '}
-              <span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

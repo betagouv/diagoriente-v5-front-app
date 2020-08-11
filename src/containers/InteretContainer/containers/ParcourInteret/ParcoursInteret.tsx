@@ -1,5 +1,7 @@
-import React, { useState, useContext, useMemo, useEffect } from 'react';
-import { useFamilies } from 'requests/interests';
+import React, {
+ useState, useContext, useMemo, useEffect,
+} from 'react';
+import { useFamilies } from 'requests/familles';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
 import { Link, RouteComponentProps } from 'react-router-dom';

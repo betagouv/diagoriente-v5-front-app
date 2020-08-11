@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +32,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
       justifyContent: 'center',
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
@@ -187,5 +187,4 @@ export default makeStyles((theme: Theme) =>
     popupDescription: {
       textAlign: 'center',
     },
-  }),
-);
+  }));

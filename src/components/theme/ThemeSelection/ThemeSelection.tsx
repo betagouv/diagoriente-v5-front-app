@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import SelectionContext from 'contexts/SelectionContext';
 
-import { Theme, Activity } from 'requests/types';
+import { Theme } from 'requests/types';
 
 import Avatar from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
@@ -14,7 +14,7 @@ import useStyles from './styles';
 
 interface Props {
   theme?: Omit<Theme, 'activities'> | null;
-  activities: Activity[];
+  activities: Theme['activities'];
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {

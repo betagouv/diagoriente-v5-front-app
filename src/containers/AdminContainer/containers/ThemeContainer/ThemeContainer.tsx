@@ -1,65 +1,60 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Header } from 'components/ui/Table/Table';
 import {
- useThemes, useLazyTheme, useCreateTheme, useDeleteTheme, useUpdateTheme,
+ useThemes, useLazyTheme, useAddTheme, useDeleteTheme, useUpdateTheme,
 } from 'requests/themes';
 import { Theme } from 'requests/types';
+
+import { formatType } from 'utils/generic';
 
 import Crud from 'components/ui/Crud/Crud';
 import ThemeForm from 'containers/AdminContainer/components/ThemeForm/ThemeForm';
 import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
 import ThemeFilter from 'components/filters/ThemeFilter/ThemeFilter';
+import VerifiedIcon from '../../components/VerifiedIcon/VerifiedIcon';
 
-import Done from '@material-ui/icons/Done';
-import Clear from '@material-ui/icons/Clear';
-
-import useStyles from './styles';
+const headers: Header<Theme>[] = [
+  {
+    dataIndex: 'title',
+    title: 'Titre',
+    key: 'title',
+  },
+  {
+    dataIndex: 'type',
+    title: 'Type',
+    key: 'type',
+    render: formatType,
+  },
+  {
+    dataIndex: 'verified',
+    title: 'Visible',
+    key: 'verified',
+    render: (value: boolean) => <VerifiedIcon verified={value} />,
+  },
+  {
+    dataIndex: 'description',
+    key: 'description',
+    title: 'Description',
+  },
+  {
+    dataIndex: 'activities',
+    key: 'activities',
+    title: "Nombre d'activités",
+    render: (row: any[]) => String(row ? row.length : 0),
+  },
+];
 
 const ThemeContainer = (props: RouteComponentProps) => {
-  const classes = useStyles();
   const theme = useLazyTheme();
-  const createTheme = useCreateTheme();
+  const addTheme = useAddTheme();
   const deleteTheme = useDeleteTheme();
   const updateTheme = useUpdateTheme();
 
-  const headers: Header<Theme>[] = useMemo(
-    () => [
-      {
-        dataIndex: 'title',
-        title: 'Titre',
-        key: 'title',
-      },
-      { dataIndex: 'type', title: 'Type', key: 'type' },
-      {
-        dataIndex: 'verified',
-        title: 'Visible',
-        key: 'verified',
-        render: (value: boolean) => (
-          <div className={classes.iconsContainer}>
-            {value ? <Done className={classes.success} /> : <Clear color="error" />}
-          </div>
-        ),
-      },
-      {
-        dataIndex: 'description',
-        key: 'description',
-        title: 'Description',
-      },
-      {
-        dataIndex: 'activities',
-        key: 'activities',
-        title: "Nombre d'activités",
-        render: (row: any[]) => String(row ? row.length : 0),
-      },
-    ],
-    [classes],
-  );
-
   return (
     <Crud
-      formTitles={{ create: 'Ajouter un theme' }}
+      formTitles={{ create: 'Ajouter un theme', update: 'Modifier le theme' }}
       Form={ThemeForm}
       Filter={(p) => (
         <DefaultFilter {...p}>{(onChange, uri) => <ThemeFilter uri={uri} onChange={onChange} />}</DefaultFilter>
@@ -67,7 +62,7 @@ const ThemeContainer = (props: RouteComponentProps) => {
       title="Themes"
       list={useThemes}
       get={theme}
-      create={createTheme}
+      create={addTheme}
       delete={deleteTheme}
       update={updateTheme}
       headers={headers}

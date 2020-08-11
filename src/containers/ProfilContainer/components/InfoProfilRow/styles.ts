@@ -1,5 +1,4 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles(() =>
   createStyles({

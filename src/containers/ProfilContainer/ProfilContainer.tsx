@@ -11,8 +11,6 @@ import InfoProfil from './components/InfoProfil/InfoProfil';
 
 import CardContainer from './containers/CardContainer';
 
-export const CONTAINER_PADDING = '30px 70px 80px 70px';
-
 const theme = createMuiTheme({
   palette: {
     primary: { main: '#223A7A' },

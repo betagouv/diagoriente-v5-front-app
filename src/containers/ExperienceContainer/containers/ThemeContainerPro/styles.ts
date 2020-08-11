@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +34,7 @@ export default makeStyles((theme: Theme) =>
     },
 
     gridContainer: {
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
       [theme.breakpoints.down('md')]: {
         padding: '40px 15px',
       },

@@ -42,7 +42,7 @@ function MySnackbarContentWrapper(props: Props) {
       message={(
         <span className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
-          {message}
+          {message ? message[0].toUpperCase() + message.slice(1) : ''}
         </span>
       )}
       action={[
@@ -65,7 +65,7 @@ export default function CustomizedSnackbars(props: PrimaryProps) {
   const {
  variant, open, handleClose, message,
 } = props;
-const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <Snackbar

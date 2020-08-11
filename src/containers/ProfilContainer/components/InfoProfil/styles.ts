@@ -1,11 +1,11 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from "utils/generic";
 
 export default makeStyles((theme) =>
   createStyles({
     InfoContainer: {
       display: 'flex',
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 34,

@@ -24,6 +24,7 @@ export const userLinks = [
 
 const adminLinks = [
   { text: 'Thèmes', path: '/admin/themes' },
+  { text: 'Activités', path: '/admin/activities' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 

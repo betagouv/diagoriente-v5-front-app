@@ -2,7 +2,6 @@ import React from 'react';
 import Trait from 'assets/images/trait_violet.png';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import InterestLogo from 'assets/svg/interetHome.svg';
-import AvatarImage from 'components/common/Avatar/Avatar';
 import GifIntro from 'assets/gif/intro_interets.gif';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';

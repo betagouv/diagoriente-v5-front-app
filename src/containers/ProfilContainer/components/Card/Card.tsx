@@ -1,6 +1,4 @@
 import React from 'react';
-import Circle from 'components/common/Avatar/Avatar';
-
 import classNames from 'utils/classNames';
 import Echelon from 'components/common/CompetenceEchelon/CompetenceEchelon';
 import Button from 'components/actionsButton/ActionsButton';

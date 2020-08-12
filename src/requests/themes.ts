@@ -80,15 +80,11 @@ export const themeQuery = gql`
 export interface ThemeResponse {
   theme: Theme;
 }
+export const useTheme = (options: QueryHookOptions<ThemeResponse, { id: string }> = {}) =>
+  useLocalQuery(themeQuery, options);
 
-export interface ThemeArguments {
-  id: string;
-}
-export const useTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
-  useLocalQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
-
-export const useLazyTheme = (options: QueryHookOptions<ThemeResponse, ThemeArguments> = {}) =>
-  useLocalLazyQuery<ThemeResponse, ThemeArguments>(themeQuery, options);
+export const useLazyTheme = (options: QueryHookOptions<ThemeResponse, { id: string }> = {}) =>
+  useLocalLazyQuery(themeQuery, options);
 
 export const secteurQuery = gql`
   query Themes($type: String) {
@@ -124,7 +120,7 @@ export const useSecteurs = (options: QueryHookOptions<SectureResponse, SecteurAr
   useLocalQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
 
 export const createThemeMutation = gql`
-  mutation CreateTheme(
+  mutation AddTheme(
     $title: String!
     $description: String!
     $type: String!
@@ -134,7 +130,7 @@ export const createThemeMutation = gql`
     $activities: [String]
     $icon: Upload
   ) {
-    createTheme(
+    addTheme(
       title: $title
       description: $description
       type: $type
@@ -162,7 +158,7 @@ export const createThemeMutation = gql`
   }
 `;
 
-interface CreateThemeParams {
+interface AddThemeParams {
   title: string;
   description: string;
   type: string;
@@ -173,7 +169,7 @@ interface CreateThemeParams {
   icon?: File;
 }
 
-export const useCreateTheme = (options?: MutationHookOptions<{ createTheme: Theme }, CreateThemeParams>) =>
+export const useAddTheme = (options?: MutationHookOptions<{ addTheme: Theme }, AddThemeParams>) =>
   useLocalMutation(createThemeMutation, options);
 
 export const deleteThemeMutation = gql`
@@ -227,7 +223,7 @@ export const updateThemeMutation = gql`
   }
 `;
 
-interface UpdateThemeParams extends Partial<CreateThemeParams> {
+interface UpdateThemeParams extends Partial<AddThemeParams> {
   id: string;
 }
 

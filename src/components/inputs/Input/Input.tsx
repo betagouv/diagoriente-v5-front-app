@@ -77,7 +77,7 @@ const Input = ({
                 },
                 startAdornment: (
                   <InputAdornment position="start">
-                    {(name === 'location' || icon) && <img src={icon || LogoLocation} alt="location" />}
+                    <div>{(name === 'location' || icon) && <img src={icon || LogoLocation} alt="location" />}</div>
                   </InputAdornment>
                 ),
                 endAdornment: (

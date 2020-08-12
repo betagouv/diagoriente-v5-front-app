@@ -8,6 +8,7 @@ import UserContext from 'contexts/UserContext';
 import Route from 'components/ui/Route/Route';
 
 import ThemeContainer from './containers/ThemeContainer';
+import ActivityContainer from './containers/ActivityContainer';
 
 import useStyles from './styles';
 
@@ -34,6 +35,7 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
           <div className={classes.container}>
             <Switch>
               <BaseRoute path="/admin/themes" component={ThemeContainer} />
+              <BaseRoute path="/admin/activities" component={ActivityContainer} />
             </Switch>
           </div>
         );

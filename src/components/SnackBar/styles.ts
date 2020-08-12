@@ -16,7 +16,7 @@ export default makeStyles((theme: Theme) => ({
   },
   icon: {
     fontSize: 20,
-    color: "#fff",
+    color: '#fff',
   },
   iconVariant: {
     opacity: 0.9,

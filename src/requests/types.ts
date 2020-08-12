@@ -29,7 +29,7 @@ export interface Families {
   id: string;
   nom: string;
   category: string;
-  resources: string[]
+  resources: string[];
 }
 
 export interface Theme {
@@ -54,6 +54,10 @@ export interface Activity {
   id: string;
   title: string;
   description: string;
+  type: string;
+  verified: boolean;
+  interests: Interests[];
+  options: string[];
 }
 export interface Competence {
   id: string;

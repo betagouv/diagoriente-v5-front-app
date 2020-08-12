@@ -7,7 +7,7 @@ import Label from '../Label/Label';
 
 import useStyles from './styles';
 
-interface AdminTextFieldProps extends Omit<OutlinedTextFieldProps, 'error' | 'label'> {
+interface AdminTextFieldProps extends Omit<OutlinedTextFieldProps, 'error' | 'label' | 'variant'> {
   error?: string;
   label?: string;
 }
@@ -20,7 +20,7 @@ const AdminTextField = ({
     <div className={classNames(classes.fullWidth, className)}>
       <div className={classes.container}>
         {label && <Label>{label}</Label>}
-        <TextField className={classes.fullWidth} error={!!error} {...rest} />
+        <TextField className={classes.fullWidth} variant="outlined" error={!!error} {...rest} />
         {error && <div className={classes.error}>{error}</div>}
       </div>
     </div>

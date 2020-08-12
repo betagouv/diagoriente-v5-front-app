@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, {
+ useEffect, useState, useRef, useContext,
+} from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -204,12 +206,12 @@ const Register = () => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password &&
-                errors.password !== '' &&
-                hasUppercase(values.password) &&
-                hasLowercase(values.password) &&
-                hasNumber(values.password) &&
-                hasSpecial(values.password)
+                touched.password
+                && errors.password !== ''
+                && hasUppercase(values.password)
+                && hasLowercase(values.password)
+                && hasNumber(values.password)
+                && hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -308,8 +310,11 @@ const Register = () => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les{' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
+                      J&lsquo;accepte les
+                      {' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
+                      {' '}
+                      de Diagoriente
                       <span className={classes.start}>*</span>
                     </div>
                   </div>

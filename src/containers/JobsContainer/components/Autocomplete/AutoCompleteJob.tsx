@@ -72,7 +72,9 @@ const AutoCompleteJob = ({
               <InputAdornment position="start">
                 <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
               </InputAdornment>
-            ) : null,
+            ) : (
+              <div />
+            ),
         }}
       />
       {open && (

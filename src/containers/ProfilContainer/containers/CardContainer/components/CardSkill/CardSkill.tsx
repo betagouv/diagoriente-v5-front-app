@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UserParcour } from 'requests/types';
-import { Unpacked } from 'containers/ProfilContainer/components/ExperienceComponent/ExperienceProfil';
+import { Unpacked } from 'utils/types';
 
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip';

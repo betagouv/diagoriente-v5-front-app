@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-import { QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalQuery } from 'hooks/apollo';
+import { QueryHookOptions, MutationHookOptions } from '@apollo/react-hooks';
+import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo';
 
 import { Activity } from './types';
 
@@ -16,6 +16,8 @@ export const activitiesQuery = gql`
         id
         title
         description
+        verified
+        type
       }
     }
   }
@@ -30,7 +32,7 @@ export interface ActivitiesArguments {
 
 export interface ActivitiesResponse {
   activities: {
-    data: Activity[];
+    data: Omit<Activity, 'interests' | 'options'>[];
     perPage: number;
     page: number;
     totalPages: number;
@@ -40,3 +42,116 @@ export interface ActivitiesResponse {
 
 export const useActivities = (options: QueryHookOptions<ActivitiesResponse, ActivitiesArguments> = {}) =>
   useLocalQuery<ActivitiesResponse, ActivitiesArguments>(activitiesQuery, options);
+
+export const activityQuery = gql`
+  query Activity($id: ID!) {
+    activity(id: $id) {
+      id
+      title
+      type
+      description
+      verified
+      interests {
+        id
+        nom
+      }
+      options
+    }
+  }
+`;
+
+export interface ActivityResponse {
+  activity: Activity;
+}
+
+export const useActivity = (options: QueryHookOptions<ActivityResponse, { id: string }> = {}) =>
+  useLocalLazyQuery(activityQuery, options);
+
+export const addActivityMutation = gql`
+  mutation AddActivity(
+    $title: String!
+    $description: String!
+    $type: String!
+    $verified: Boolean!
+    $interests: [ID]
+    $options: [String]
+  ) {
+    addActivity(
+      title: $title
+      description: $description
+      type: $type
+      verified: $verified
+      interests: $interests
+      options: $options
+    ) {
+      id
+      title
+      description
+      verified
+      type
+    }
+  }
+`;
+
+export interface AddActivityParams {
+  title: string;
+  description: string;
+  type: string;
+  verified: boolean;
+  interests?: string[];
+  options?: string[];
+}
+
+export const useAddActivity = (options?: MutationHookOptions<{ addActivity: Activity }, AddActivityParams>) =>
+  useLocalMutation(addActivityMutation, options);
+
+export const updateActivityMutation = gql`
+  mutation UpdateActivity(
+    $id: ID!
+    $title: String
+    $description: String
+    $type: String
+    $verified: Boolean
+    $interests: [ID]
+    $options: [String]
+  ) {
+    updateActivity(
+      id: $id
+      title: $title
+      description: $description
+      type: $type
+      verified: $verified
+      interests: $interests
+      options: $options
+    ) {
+      id
+      title
+      description
+      verified
+      type
+    }
+  }
+`;
+
+export interface UpdateActivityParams {
+  id: string;
+  title?: string;
+  description?: string;
+  type?: string;
+  verified?: boolean;
+  interests?: string[];
+  options?: string[];
+}
+
+export const useUpdateActivity = (options?: MutationHookOptions<{ updateActivity: Activity }, UpdateActivityParams>) =>
+  useLocalMutation(updateActivityMutation, options);
+
+export const deleteActivityMutation = gql`
+  mutation DeleteActivity($id: ID, $ids: [ID]) {
+    deleteActivity(id: $id, ids: $ids)
+  }
+`;
+
+export const useDeleteActivity = (
+  options?: MutationHookOptions<{ deleteActivity: string }, { id?: string; ids?: string[] }>,
+) => useLocalMutation(deleteActivityMutation, options);

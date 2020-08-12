@@ -1,5 +1,7 @@
-import React, { useState, useContext, useMemo, useEffect } from 'react';
-import { useFamilies } from 'requests/interests';
+import React, {
+ useState, useContext, useMemo, useEffect,
+} from 'react';
+import { useFamilies } from 'requests/familles';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
 import { Link, RouteComponentProps } from 'react-router-dom';
@@ -9,7 +11,6 @@ import Arrow from 'assets/svg/arrow';
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
-import { decodeUri } from 'utils/url';
 import Spinner from '../../components/SpinnerInterest/Spinner';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
 import useStyles from './styles';
@@ -35,8 +36,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
       })),
     [data],
   );
-
-  const { profil } = decodeUri(location.search);
 
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];

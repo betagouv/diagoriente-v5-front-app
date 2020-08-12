@@ -242,7 +242,7 @@ const ProfilComponent = () => {
       title: "MES EXPERIENCES D'ENGAGEMENT",
       background: '#4D6EC5',
       color: '#fff',
-      path: '/profile/experience',
+      path: '/profile/experience?type=engagement',
       className: classes.experienceCard,
       children: persoSkills.length ? (
         <Grid container spacing={1}>

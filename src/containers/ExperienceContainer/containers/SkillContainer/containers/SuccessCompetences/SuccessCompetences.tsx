@@ -34,7 +34,11 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
         </div>
         <div className={classes.description}>
           <p className={classes.text}>
-            Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
+            Tu as ajouté une expérience
+            {' '}
+            {skill?.theme.type === 'engagement' ? <span>d'engagement </span> : <span>personnelle </span>}
+            à ton parcours,
+            et tu as identifié de nouvelles compétences.
           </p>
         </div>
         {skill?.theme.type === 'professional' ? (
@@ -43,7 +47,13 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
             <img src={check} alt="check" className={classes.checked} />
           </div>
         ) : (
-          <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked className={classes.imgContainer}>
+          <Avatar
+            title={theme.title}
+            size={170}
+            titleClassName={classes.classNameTitle}
+            checked
+            className={classes.imgContainer}
+          >
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
         )}

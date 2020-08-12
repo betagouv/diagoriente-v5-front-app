@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles({
+export default makeStyles((theme) => ({
   wrapper: {
     flex: '1 1 0',
     display: 'flex',
@@ -23,9 +23,30 @@ export default makeStyles({
   verified: { gridArea: 'verified' },
   interests: { gridArea: 'interests' },
   options: { gridArea: 'options' },
+  option: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 10,
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+  optionValue: { flex: '1 1 0', fontSize: 16, padding: 8 },
+  optionVerify: { margin: '0 8px', color: theme.palette.success.main },
+  optionClear: { margin: '0 8px', color: theme.palette.error.main },
+  optionRemove: { marginLeft: 8, color: theme.palette.error.main },
   button: {
     height: 44,
     alignSelf: 'center',
     width: '60%',
   },
-});
+  optionsInput: {
+    paddingRight: 80,
+  },
+  add: {
+    right: 15,
+    position: 'absolute',
+    color: theme.palette.primary.main,
+  },
+}));

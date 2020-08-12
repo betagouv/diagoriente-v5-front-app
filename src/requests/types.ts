@@ -20,6 +20,13 @@ export interface Token {
   refreshToken: string;
   expiresIn: string;
 }
+
+export interface Context {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: string;
+}
 export interface Interests {
   id: string;
   nom: string;

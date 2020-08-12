@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, {
+ useState, useEffect, useContext, useMemo,
+} from 'react';
 import path from 'path';
-import { RouteComponentProps, Switch, Route, Redirect, matchPath } from 'react-router-dom';
+import {
+ RouteComponentProps, Switch, Route, Redirect, matchPath,
+} from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill } from 'requests/skills';

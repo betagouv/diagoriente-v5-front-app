@@ -1,31 +1,41 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions } from '@apollo/react-hooks';
+import { QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalQuery } from 'hooks/apollo';
 
-export const familiesQuery = gql`
-  query Families {
-    families {
+import { Interests } from './types';
+
+export const interestsQuery = gql`
+  query Interests($search: String, $page: Int, $perPage: Int) {
+    interests(search: $search, page: $page, perPage: $perPage) {
+      perPage
+      page
+      totalPages
+      count
       data {
         id
         nom
-        category
-        resources
+        rank
       }
     }
   }
 `;
 
-export interface FamiliesArguments {}
-export interface FamiliesResponse {
-  families: {
-    data: {
-      id: string;
-      nom: string;
-      category: string;
-      resources: string[];
-    }[];
+export interface InterestsArguments {
+  search?: string;
+  page?: number;
+  perPage?: number;
+}
+
+export interface InterestsResponse {
+  activities: {
+    data: Interests[];
+    perPage: number;
+    page: number;
+    totalPages: number;
+    count: number;
   };
 }
-export const useFamilies = (options: MutationHookOptions<FamiliesResponse, FamiliesArguments> = {}) =>
-  useLocalQuery<FamiliesResponse, FamiliesArguments>(familiesQuery, options);
+
+export const useInterests = (options: QueryHookOptions<InterestsResponse, InterestsArguments> = {}) =>
+  useLocalQuery<InterestsResponse, InterestsArguments>(interestsQuery, options);

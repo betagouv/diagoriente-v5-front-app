@@ -7,13 +7,11 @@ import SelectionContext from 'contexts/SelectionContext';
 
 import ExperienceComponent from './containers/Experience/Experience';
 import ThemeContainer from './containers/ThemeContainer';
-import ThemeContainerPro from './containers/ThemeContainerPro/ThemeContainerPro';
+import ThemeContainerPro from './containers/ThemeContainerPro';
 import SkillContainer from './containers/SkillContainer';
 import EngagementActivities from './containers/SkillContainer/containers/EngagementActivities/EngagementActivities';
 import EngagementContext from './containers/SkillContainer/containers/EngagementContext/EngagementContext';
 import EngagementDate from './containers/SkillContainer/containers/EngagementDate/EngagementDate';
-
-export const CONTAINER_PADDING = '30px 70px 80px 70px';
 
 const theme = createMuiTheme({
   palette: {

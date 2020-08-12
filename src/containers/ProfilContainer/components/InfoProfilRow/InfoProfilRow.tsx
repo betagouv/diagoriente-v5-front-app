@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'utils/classNames';
 
 import useStyles from './styles';
@@ -11,7 +11,7 @@ interface Props {
   children?: React.ReactChild;
 }
 const InfoProfilRow = ({
- title, className, logo, children,
+ title, className, children,
 }: Props) => {
   const classes = useStyles();
 

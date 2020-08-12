@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
-import { Activity, Theme } from 'requests/types';
+import { Theme } from 'requests/types';
 import { Tooltip } from '@material-ui/core';
 
 import classNames from 'utils/classNames';
@@ -20,7 +20,10 @@ import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
 import blueline from 'assets/svg/blueline.svg';
 
+import { Unpacked } from 'utils/types';
 import useStyles from './styles';
+
+type Activity = Unpacked<Theme['activities']>;
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
@@ -29,7 +32,9 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean; 
 }
 
-const ExperienceActivity = ({ match, activities, setActivities, history, theme, isCreate, location }: Props) => {
+const ExperienceActivity = ({
+ match, activities, setActivities, history, theme, isCreate, location,
+}: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {

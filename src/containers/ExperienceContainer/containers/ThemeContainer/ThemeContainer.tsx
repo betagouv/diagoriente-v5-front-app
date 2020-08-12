@@ -90,7 +90,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                       title={
                         <Child key={index}>
                           {theme.activities.map((act) => (
-                            <li className={classes.dot}>{act.title}</li>
+                            <li className={classes.dot} key={act.title}>{act.title}</li>
                           ))}
                         </Child>
                       }

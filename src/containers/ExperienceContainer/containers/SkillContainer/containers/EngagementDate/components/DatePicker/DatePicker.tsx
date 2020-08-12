@@ -8,45 +8,51 @@ import useStyles from './styles';
 import 'moment/locale/fr';
 
 interface Props {
-  handleChange: (e: React.ChangeEvent<any>, type: 'day' | 'month' | 'year') => void;
+  handleChange: (e: any) => void;
   day?: string | number;
   month?: string | number;
   year?: string | number;
+  days: any;
+  months: any;
+  years: any;
 }
 moment.locale('fr');
-const days = [...new Array(31)].map((el, index) => ({ value: index + 1, label: index + 1 }));
-const years = [...new Array(201)].map((el, index) => ({
-  value: moment().year() - 101 + index,
-  label: moment().year() - 101 + index,
-}));
-const months = moment
-  .months()
-  .map((month, index) => ({ value: index + 1, label: month[0].toUpperCase() + month.slice(1) }));
-const DatePicker = ({ handleChange, day, month, year }: Props) => {
+const DatePicker = ({
+ handleChange, day, month, year, days, months, years,
+}: Props) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Select
-        onChange={(e) => handleChange(e, 'day')}
+        onChange={(e) => handleChange(`${year}-${month}-${e.target.value}`)}
         value={day}
         options={days}
         className={classNames(classes.selectContainer, classes.day)}
         arrowDate={arrow}
+        disabledClassName={classes.disabledClassName}
+        menuItemClassName={classes.menuItemClassName}
+
       />
       <Select
-        onChange={(e) => handleChange(e, 'month')}
+        onChange={(e) => handleChange(`${year}-${e.target.value}-${day}`)}
         value={month}
         options={months}
         className={classNames(classes.selectContainer, classes.month)}
         arrowDate={arrow}
+        disabledClassName={classes.disabledClassName}
+        menuItemClassName={classes.menuItemClassName}
+
       />
       <Select
         value={year}
         options={years}
-        onChange={(e) => handleChange(e, 'year')}
+        onChange={(e) => handleChange(`${e.target.value}-${month}-${day}`)}
         className={classNames(classes.selectContainer, classes.year)}
         arrowDate={arrow}
+        disabledClassName={classes.disabledClassName}
+        menuItemClassName={classes.menuItemClassName}
+
       />
     </div>
   );

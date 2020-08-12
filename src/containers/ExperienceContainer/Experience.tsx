@@ -9,9 +9,6 @@ import ExperienceComponent from './containers/Experience/Experience';
 import ThemeContainer from './containers/ThemeContainer';
 import ThemeContainerPro from './containers/ThemeContainerPro';
 import SkillContainer from './containers/SkillContainer';
-import EngagementActivities from './containers/SkillContainer/containers/EngagementActivities/EngagementActivities';
-import EngagementContext from './containers/SkillContainer/containers/EngagementContext/EngagementContext';
-import EngagementDate from './containers/SkillContainer/containers/EngagementDate/EngagementDate';
 
 const theme = createMuiTheme({
   palette: {
@@ -59,9 +56,6 @@ const Experience = () => {
           <Route path="/experience/theme" exact component={ThemeContainer} />
           <Route path="/experience/theme-pro" exact component={ThemeContainerPro} />
           <Route path="/experience/skill/:themeId" component={SkillContainer} />
-          <Route component={EngagementActivities} path={'/experience/engagement-activities'} exact />
-          <Route component={EngagementContext} path={'/experience/engagement-context'} exact />
-          <Route component={EngagementDate} path={'/experience/engagement-date'} exact />
           <Route component={NotFoundPage} />
         </Switch>
       </SelectionContext.Provider>

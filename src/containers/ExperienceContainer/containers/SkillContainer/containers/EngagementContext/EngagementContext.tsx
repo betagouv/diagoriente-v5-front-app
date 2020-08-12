@@ -7,31 +7,35 @@ import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
-import Context from './components/Context/Context';
 
 import RestLogo from 'components/common/Rest/Rest';
 
 import blueline from 'assets/svg/blueline.svg';
+import Context from './components/Context/Context';
 
 import useStyles from './styles';
 
-interface Props extends RouteComponentProps<{ themeId: string }> {}
-const EngagementContext = ({ history }: Props) => {
+interface Props extends RouteComponentProps<{ themeId: string }> {
+  setContext: (e: string) => void;
+  contextCheck: string;
+}
+const EngagementContext = ({
+ history, setContext, contextCheck, match, location,
+}: Props) => {
   const classes = useStyles();
 
-  const [checked, setChecked] = useState('');
   const { data } = useContext();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    setChecked(e.target.checked ? id : '');
+    setContext(e.target.checked ? id : '');
   };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title={'MES EXPÉRIENCES D’ENGAGEMENT'} color="#223A7A" size={26} />
+          <Title title="MES EXPÉRIENCES D’ENGAGEMENT" color="#223A7A" size={26} />
           <RestLogo
             onClick={() => {
-              let path = '/experience';
+              const path = '/experience';
               history.replace(path);
             }}
             color="#4D6EC5"
@@ -43,23 +47,28 @@ const EngagementContext = ({ history }: Props) => {
           <p className={classes.title}>
             Dans quel cadre s’est déroulée cette expérience
             <br />
-            d’engagement <br />
+            d’engagement
+            {' '}
+            <br />
           </p>
-          <Grid container spacing={0} className={classes.contextContainer} >
+          <Grid container spacing={0} className={classes.contextContainer}>
             {data?.contexts.data.map((context) => (
               <Context
                 title={context.title}
-                checked={context.id === checked}
+                checked={context.id === contextCheck}
                 handleChange={(e) => handleChange(e, context.id)}
               />
-            ))}
+              ))}
           </Grid>
-          <Link to={'/experience/engagement-date'} className={classes.hideLine}>
+          <Link to={`/experience/skill/${match.params.themeId}/date${location.search}`} className={classes.hideLine}>
             <NextButton />
           </Link>
         </div>
 
-        <Link to={''} className={classes.btnpreced}>
+        <Link
+          to={`/experience/skill/${match.params.themeId}/competencesValues${location.search}`}
+          className={classes.btnpreced}
+        >
           <CancelButton />
           Précedent
         </Link>

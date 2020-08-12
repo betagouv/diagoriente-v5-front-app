@@ -61,18 +61,14 @@ const Experience = () => {
           </div>
         </div>
         <div className={classes.circleContainer}>
-            <Avatar
-              title="Ajouter une"
-              size={200}
-              titleClassName={classes.marginTitle}
-           />
-             
-            <Link to="/experience/theme?type=engagement" className={classes.hideLine}>
-              <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
-                <div className={classes.btnLabel}>Expérience d'engagement</div>
-              </Button>
-            </Link>
-          </div>
+          <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
+
+          <Link to="/experience/theme?type=engagement" className={classes.hideLine}>
+            <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
+              <div className={classes.btnLabel}>Expérience d'engagement</div>
+            </Button>
+          </Link>
+        </div>
       </div>
       <div className={classes.help}>
         <img src={help} alt="help" />

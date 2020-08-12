@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Activity, Theme } from 'requests/types';
+import { ActivityEngagement, Theme } from 'requests/types';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
 import Select from 'components/Select/Select';
+import { useAddActivityOption } from 'requests/activitiyOption';
 
 import RestLogo from 'components/common/Rest/Rest';
 
@@ -16,48 +17,60 @@ import useStyles from './styles';
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
-  activities: Activity[];
-  setActivities: (activities: Activity[]) => void;
+  setEngagementActivities: (activities: ActivityEngagement[]) => void;
   isCreate?: boolean;
+  activitiesEngagement: ActivityEngagement[];
+  refetch?: any;
 }
-const values = [
-  { value: '1', label: ' Jencadre ?' },
-  { value: '4', label: ' Jencdssfsdfsffsfsfsfadre ?' },
-  { value: '5', label: ' Jeddkdkdkdkdkkdkdkdkdkdkncadre ?' },
-];
-const B = [{ value: '2', label: 'Avec qui ? ' }];
-const C = [{ value: '3', label: 'Dans quel contexte ? ' }];
-const EngagementActivities = ({ history, match, theme, isCreate, location }: Props) => {
+
+const EngagementActivities = ({
+  history,
+  match,
+  theme,
+  isCreate,
+  location,
+  activitiesEngagement,
+  setEngagementActivities,
+  refetch,
+}: Props) => {
   const classes = useStyles();
-  const [data, setData] = useState('');
   const [open, setOpen] = useState(false);
   const [addValue, setAddValue] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<any>) => {
-    setData(e.target.value);
-  };
-
+  const [addActivityOptionCall, addActivityOptionState] = useAddActivityOption();
   const openActivity = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-    values.push({ value: addValue, label: addValue });
+  const handleClose = (id: string) => {
+    if (addValue.length > 2) {
+      addActivityOptionCall({ variables: { option: addValue, id } });
+      setOpen(false);
+    }
   };
-
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setAddValue(value);
+  };
+  useEffect(() => {
+    if (addActivityOptionState.data) refetch();
+    setAddValue('');
+  }, [addActivityOptionState.data, refetch]);
+
+  const handleChange = (e: React.ChangeEvent<any>, index: number) => {
+    const nextActivitiesEngagement = [...activitiesEngagement];
+    const newValues = { ...nextActivitiesEngagement[index] };
+    newValues.option = e.target.value;
+    nextActivitiesEngagement[index] = newValues;
+    setEngagementActivities(nextActivitiesEngagement);
   };
 
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Title title={'MES EXPÉRIENCES D’ENGAGEMENT'} color="#223A7A" size={26} />
+          <Title title="MES EXPÉRIENCES D’ENGAGEMENT" color="#223A7A" size={26} />
           <RestLogo
             onClick={() => {
-              let path = '/experience';
+              const path = '/experience';
               history.replace(path);
             }}
             color="#4D6EC5"
@@ -76,67 +89,25 @@ const EngagementActivities = ({ history, match, theme, isCreate, location }: Pro
           <div className={classes.selectRoot}>
             <div>
               <span>Choisis en déroulant les menus ou ajoute tes propre activités</span>
-              <div className={classes.selectContainer}>
-                <Select
-                  label="Ton action ? "
-                  value={data}
-                  onChange={handleChange}
-                  options={values}
-                  open={open}
-                  openActivity={openActivity}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  onChangeValue={onChangeValue}
-                  rootClassName={classes.rootClassName}
-                />
-                <Select
-                  label="Avec qui ? "
-                  value={data}
-                  onChange={handleChange}
-                  options={B}
-                  open={open}
-                  openActivity={openActivity}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  onChangeValue={onChangeValue}
-                  rootClassName={classes.rootClassName}
-                />
-                <Select
-                  label="Dans quel contexte ?"
-                  value={data}
-                  onChange={handleChange}
-                  options={C}
-                  open={open}
-                  openActivity={openActivity}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  onChangeValue={onChangeValue}
-                  rootClassName={classes.rootClassName}
-                />
-                <Select
-                  label="Dans quel contexte ?"
-                  value={data}
-                  onChange={handleChange}
-                  options={C}
-                  open={open}
-                  openActivity={openActivity}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  onChangeValue={onChangeValue}
-                  rootClassName={classes.rootClassName}
-                />
-                <Select
-                  label="Dans quel contexte ?"
-                  value={data}
-                  onChange={handleChange}
-                  options={C}
-                  open={open}
-                  openActivity={openActivity}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  onChangeValue={onChangeValue}
-                  rootClassName={classes.rootClassName}
-                />
+              <div className={classes.selectGrid}>
+                {theme.activities.map((activity, index) => (
+                  <div className={classes.selectContainer}>
+                    <Select
+                      label={activity.title}
+                      value={activitiesEngagement[index] ? activitiesEngagement[index].option : ''}
+                      onChange={(e) => handleChange(e, index)}
+                      options={activity.options.map((value) => ({ value: value.value, label: value.value }))}
+                      open={open}
+                      openActivity={openActivity}
+                      setOpen={setOpen}
+                      handleClose={() => handleClose(activity.id)}
+                      onChangeValue={onChangeValue}
+                      rootClassName={classes.rootClassName}
+                      styleSelectClassName={classes.styleSelect}
+                      className={classes.borderSelect}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -144,7 +115,9 @@ const EngagementActivities = ({ history, match, theme, isCreate, location }: Pro
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton />
+            <NextButton
+              disabled={activitiesEngagement.length !== activitiesEngagement.filter((e) => e.option !== '').length}
+            />
           </Link>
         </div>
         {isCreate && (

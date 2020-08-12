@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -10,6 +9,8 @@ export default makeStyles((theme: Theme) =>
       width: 'auto',
       background: '#fff',
       borderRadius: '5px',
+      fontWeight: 'normal',
+      color: '#5A6170',
       '& fieldset': {
         borderColor: '#D1D5DE',
         background: 'transparent',
@@ -28,10 +29,20 @@ export default makeStyles((theme: Theme) =>
     },
     month: {
       width: '128px !important',
-      textTransform:'capitalize'
+      textTransform: 'capitalize',
     },
     year: {
       width: '93px !important',
     },
-  }),
-);
+
+    disabledClassName: {
+      display: 'none',
+    },
+
+    menuItemClassName: {
+      margin: '0px 15px !important',
+      paddingTop: '5px !important',
+      paddingLeft: '0px !important',
+      paddingBottom: '10px !important',
+    },
+  }));

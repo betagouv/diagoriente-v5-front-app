@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -24,5 +23,4 @@ export default makeStyles((theme: Theme) =>
     titleChecked: {
       fontWeight: 'bold',
     },
-  }),
-);
+  }));

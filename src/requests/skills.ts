@@ -6,8 +6,8 @@ import { parcourResult } from 'requests/parcours';
 import { UserParcour, PublicSkill } from './types';
 
 export const addSkillMutation = gql`
-  mutation AddSkill($theme: ID!, $activities: [ID]!, $competences: [skillCompetenceType]!) {
-    addSkill(theme: $theme, activities: $activities, competences: $competences) {
+  mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput) {
+    addSkill(theme: $theme, activities: $activities, competences: $competences , engagement:$engagement) {
       ${parcourResult}
     }
   }
@@ -15,11 +15,20 @@ export const addSkillMutation = gql`
 
 export interface addSkillArguments {
   theme: string;
-  activities: string[];
+  activities?: string[];
   competences: {
     _id: string;
     value: number;
   }[];
+  engagement?: {
+    startDate: string;
+    endDate: string;
+    context: string;
+    activities: {
+      activity: string;
+      option: string;
+    }[];
+  };
 }
 
 export const useAddSkill = (options: MutationHookOptions<{ addSkill: UserParcour }, addSkillArguments> = {}) =>

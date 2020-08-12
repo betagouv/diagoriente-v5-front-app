@@ -55,7 +55,10 @@ export const activityQuery = gql`
         id
         nom
       }
-      options
+      options {
+        value
+        verified
+      }
     }
   }
 `;
@@ -74,7 +77,7 @@ export const addActivityMutation = gql`
     $type: String!
     $verified: Boolean!
     $interests: [ID]
-    $options: [String]
+    $options: [optionInput]
   ) {
     addActivity(
       title: $title
@@ -99,7 +102,7 @@ export interface AddActivityParams {
   type: string;
   verified: boolean;
   interests?: string[];
-  options?: string[];
+  options?: { value: string; verified: boolean }[];
 }
 
 export const useAddActivity = (options?: MutationHookOptions<{ addActivity: Activity }, AddActivityParams>) =>
@@ -113,7 +116,7 @@ export const updateActivityMutation = gql`
     $type: String
     $verified: Boolean
     $interests: [ID]
-    $options: [String]
+    $options: [optionInput]
   ) {
     updateActivity(
       id: $id
@@ -133,14 +136,8 @@ export const updateActivityMutation = gql`
   }
 `;
 
-export interface UpdateActivityParams {
+export interface UpdateActivityParams extends Partial<AddActivityParams> {
   id: string;
-  title?: string;
-  description?: string;
-  type?: string;
-  verified?: boolean;
-  interests?: string[];
-  options?: string[];
 }
 
 export const useUpdateActivity = (options?: MutationHookOptions<{ updateActivity: Activity }, UpdateActivityParams>) =>

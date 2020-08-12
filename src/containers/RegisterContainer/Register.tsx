@@ -33,6 +33,8 @@ const Register = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [registerCall, registerState] = useAuth(useRegister);
+  const [search, setSearch] = useState('');
+  const { data, loading } = useLocation({ variables: { search } });
 
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
@@ -64,7 +66,6 @@ const Register = () => {
   const { values, errors, touched } = state;
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
-  const { data, loading } = useLocation({ variables: { search: values.location } });
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
@@ -112,9 +113,7 @@ const Register = () => {
   const onShowPassword = () => {
     setShowPasswoed(!showPasswordState);
   };
-  const onSelect = (e: string | null) => {
-    if (e) setSelectedLocation(e);
-  };
+
   const onAvatarClick = (url: string) => {
     if (values.logo === url) {
       actions.setValues({
@@ -131,6 +130,10 @@ const Register = () => {
   if (user) {
     return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
   }
+
+  const onSelect = (location: string | null) => {
+    if (location) actions.setValues({ location });
+  };
   return (
     <div className={classes.root}>
       <div className={classes.registerContainer}>
@@ -263,7 +266,9 @@ const Register = () => {
             </div>
             <AutoComplete
               label="Ton emplacement géographique"
-              onChange={actions.handleChange}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
               onSelectText={onSelect}
               value={values.location}
               name="location"

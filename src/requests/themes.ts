@@ -33,7 +33,7 @@ export const themesQuery = gql`
 `;
 
 export interface ThemesArguments {
-  type?: 'professional' | 'personal';
+  type?: 'professional' | 'personal' | 'engagement';
   search?: string;
   page?: number;
   perPage?: number;
@@ -68,6 +68,9 @@ export const themeQuery = gql`
         id
         title
         description
+        options {
+          value
+        }
       }
       tooltips {
         competenceId
@@ -218,6 +221,9 @@ export const updateThemeMutation = gql`
         id
         title
         description
+        options {
+          value
+        }
       }
     }
   }

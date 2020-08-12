@@ -27,6 +27,9 @@ interface Props extends Omit<SelectProps, 'variant'> {
   inputBase?: string;
   menuClassName?: string;
   rootClassName?: string;
+  menuItemClassName?: string;
+  styleSelectClassName?: string;
+  disabledClassName?: string;
   value?: string | number;
 }
 
@@ -44,6 +47,9 @@ const Select = ({
   inputBase,
   menuClassName,
   rootClassName,
+  menuItemClassName,
+  styleSelectClassName,
+  disabledClassName,
   ...rest
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
@@ -54,7 +60,7 @@ const Select = ({
   const selectRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState('auto' as number | string);
 
-  const classes = useStyles({ left: dimension[0], top: dimension[1], width: width });
+  const classes = useStyles({ left: dimension[0], top: dimension[1], width });
   useOnclickOutside(menuRef, () => {
     if (setOpenSelect) setOpenSelect(false);
   });
@@ -79,7 +85,9 @@ const Select = ({
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
-      const { top, left, height, width } = selectRef.current?.getBoundingClientRect();
+      const {
+ top, left, height, width,
+} = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
       setWidth(width);
     }
@@ -88,16 +96,26 @@ const Select = ({
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width: width }}
+        style={{ width }}
         value={value || '__label__'}
         ref={selectRef}
         MenuProps={{
           classes: { paper: classNames(classes.menu, menuClassName), list: classes.paddingBottom },
           PaperProps: { ref: menuRef },
         }}
-        className={classNames(classes.selectContainer, className, !arrowDate && classes.padding)}
+        classes={{
+          selectMenu: classes.selectMenu,
+          disabled: classes.disabled,
+          root: classes.rootBackground,
+        }}
+        className={classNames(
+          classes.selectContainer,
+          className,
+          !arrowDate && classes.padding,
+          value && styleSelectClassName,
+        )}
         IconComponent={() =>
-          !arrowDate ? (
+          (!arrowDate ? (
             <div className={classNames(classes.circle, openSelect && classes.darkcircle)}>
               <img
                 src={openSelect ? darkarrow : arrow}
@@ -117,8 +135,7 @@ const Select = ({
             >
               <img src={arrowDate} alt="" />
             </div>
-          )
-        }
+          ))}
         inputProps={{
           classes: {
             root: classes.select,
@@ -133,15 +150,20 @@ const Select = ({
         }}
         open={openSelect}
       >
-        <MenuItem onClick={selectClose} value={'__label__'} className={classes.menuItemDisabled}>
+        <MenuItem onClick={selectClose} value="__label__" disabled className={disabledClassName}>
           {label}
         </MenuItem>
-        {options.map((option,index) => (
+        {options.map((option, index) => (
           <MenuItem
             onClick={selectClose}
             key={option.value}
             value={option.value}
-            className={classNames(classes.menuItem, index === options.length -1 && open && classes.lastChildBorder)}
+            className={classNames(
+              classes.menuItem,
+              menuItemClassName,
+              index === options.length - 1 && open && classes.lastChildBorder,
+              option.value === value ? classes.backgroundRow : '',
+            )}
           >
             {option.label}
           </MenuItem>
@@ -151,7 +173,7 @@ const Select = ({
             {!open ? (
               <div onClick={openActivity} className={classes.addContainer}>
                 <span className={classes.add}>Ajouter</span>
-                <img src={add} alt="" height={30} />
+                <img src={add} alt="" height={28} />
               </div>
             ) : (
               <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
@@ -161,6 +183,7 @@ const Select = ({
                   variant="outlined"
                   inputProps={{ className: classes.input }}
                   className={classes.inputRoot}
+                  onKeyDown={(e) => e.stopPropagation()}
                 />
                 <img src={check} alt="" onClick={handleClose} height={25} />
               </div>

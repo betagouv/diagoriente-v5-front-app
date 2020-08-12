@@ -30,7 +30,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
   };
-  const { data, loading } = useThemes({ variables: { type: type === 'professional' ? 'professional' : 'personal' } });
+  const { data, loading } = useThemes({ variables: { type: type === 'engagement' ? 'engagement' : 'personal' } });
   const { parcours } = useContext(parcoursContext);
 
   useEffect(() => {
@@ -87,13 +87,13 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                         tooltipPlacementRight: classes.tooltipRight,
                         tooltipPlacementLeft: classes.tooltipLeft,
                       }}
-                      title={
+                      title={(
                         <Child key={index}>
                           {theme.activities.map((act) => (
                             <li className={classes.dot} key={act.title}>{act.title}</li>
                           ))}
                         </Child>
-                      }
+                      )}
                       arrow
                       placement="right"
                     >

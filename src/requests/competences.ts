@@ -4,8 +4,8 @@ import { QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalQuery } from 'hooks/apollo';
 
 export const CompetencesQuery = gql`
-  {
-    competences {
+  query Competences($type: String) {
+    competences(type: $type) {
       data {
         id
         title
@@ -31,5 +31,5 @@ export interface CompetencesResponse {
   };
 }
 
-export const useCompetence = (options: QueryHookOptions<CompetencesResponse> = {}) =>
+export const useCompetence = (options: QueryHookOptions<CompetencesResponse, { type?: 'engagement' }> = {}) =>
   useLocalQuery<CompetencesResponse>(CompetencesQuery, options);

@@ -2,12 +2,15 @@ import React, {
  useState, useEffect, useContext, useMemo,
 } from 'react';
 import path from 'path';
+import moment from 'moment';
+
 import {
  RouteComponentProps, Switch, Route, Redirect, matchPath,
 } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill } from 'requests/skills';
+import { ActivityEngagement } from 'requests/types';
 
 import ParcourContext from 'contexts/ParcourContext';
 
@@ -22,19 +25,16 @@ import SkillCompetences from './containers/SkillCompetences';
 import SkillCompetencesValues from './containers/SkillCompetencesValues/SkillCompetencesValues';
 import SuccessCompetences from './containers/SuccessCompetences/SuccessCompetences';
 import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
-import Engagement from './containers/EngagementActivities/EngagementActivities';
+import EngagementActivites from './containers/EngagementActivities/EngagementActivities';
 import EngagementContext from './containers/EngagementContext/EngagementContext';
+import EngagementDate from './containers/EngagementDate/EngagementDate';
+
 import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const classes = useStyles();
 
-  const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
-
-  //for testing engagement type
-  /*  if (data) {
-    (data as any).theme.type = 'engagement';
-  } */
+  const { data, loading, refetch } = useTheme({ variables: { id: match.params.themeId } });
 
   const { parcours, setParcours } = useContext(ParcourContext);
   const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId), [
@@ -46,6 +46,32 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [competencesValues, setCompetencesValues] = useState(
     selectedSkill?.competences.map((c) => ({ id: c._id.id, value: c.value })) || [],
   );
+  const [activitiesEngagement, setEngagementActivities] = useState([] as ActivityEngagement[]);
+  const [context, setContext] = useState('');
+  const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
+  const [endDate, setEndDate] = useState(moment().format('YYYY-MM-DD'));
+
+  // date picker
+  const days = [...new Array(31)].map((el, index) => ({ value: index + 1, label: index + 1 }));
+  const years = [...new Array(101)].map((el, index) => ({
+    value: moment().year() - 100 + index,
+    label: moment().year() - 100 + index,
+  }));
+  const months = moment
+    .months()
+    .map((month, index) => ({ value: index + 1, label: month[0].toUpperCase() + month.slice(1) }));
+
+  useEffect(() => {
+    if (data) {
+      setEngagementActivities((prevActivities) => data.theme.activities.map((activity) => {
+          const prevActivity = prevActivities.find((act) => act.activity === activity.id);
+          return {
+            activity: activity.id,
+            option: prevActivity ? prevActivity.option : '',
+          };
+        }));
+    }
+  }, [data]);
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
 
@@ -55,6 +81,15 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     `${match.path}/competences`,
     `${match.path}/competencesValues`,
   ]);
+
+  useEffect(() => {
+    const d = localStorage.getItem('activitiesEngagement');
+    if (d) {
+      const activityData = JSON.parse(d);
+      setEngagementActivities(activityData.theme === match.params.themeId ? activityData.activitiesEngagement : []);
+    }
+    // eslint-disable-next-line
+  }, [match.params.themeId]);
 
   useEffect(() => {
     const d = localStorage.getItem('activities');
@@ -87,6 +122,14 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [match.params.themeId]);
 
   useEffect(() => {
+    const d = localStorage.getItem('context');
+    if (d && !selectedSkill) {
+      const contextData = JSON.parse(d);
+      setContext(contextData.theme === match.params.themeId ? contextData.context : '');
+    } // eslint-disable-next-line
+  }, [match.params.themeId]);
+
+  useEffect(() => {
     if (!selectedSkill) {
       localStorage.setItem('competences', JSON.stringify({ theme: match.params.themeId, competences }));
     } // eslint-disable-next-line
@@ -97,6 +140,22 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.setItem('competencesValues', JSON.stringify({ theme: match.params.themeId, competencesValues }));
     } // eslint-disable-next-line
   }, [competencesValues, match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem(
+        'activitiesEngagement',
+        JSON.stringify({ theme: match.params.themeId, activitiesEngagement }),
+      );
+    } // eslint-disable-next-line
+  }, [activitiesEngagement, match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem('context', JSON.stringify({ theme: match.params.themeId, context }));
+    } // eslint-disable-next-line
+  }, [context, match.params.themeId]);
+  // context pour la date debut et fin
 
   const addSkill = () => {
     if (data?.theme.type === 'engagement') {
@@ -110,6 +169,31 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         },
       });
     }
+  };
+
+  console.log(
+    'activitiesEngagement',
+    activitiesEngagement.map((e) => e.option),
+  );
+  const addSkillEngagement = () => {
+    if (data) {
+      addSkillCall({
+        variables: {
+          theme: data.theme.id,
+          competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+          engagement: {
+            startDate,
+            endDate,
+            context,
+            activities: activitiesEngagement,
+          },
+        },
+      });
+    }
+    console.log(
+      'zzzzzz',
+      activitiesEngagement.map((e) => e.option),
+    );
   };
 
   const editSkill = () => {
@@ -163,22 +247,23 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
   return (
     <>
-      <SnackBar
+      {/*  <SnackBar
         variant="error"
         message={addSkillState.error ? addSkillState.error.graphQLErrors[0].message : ''}
         open={!!addSkillState.error}
-      />
+      /> */}
 
       <Switch>
         <Route
           render={(props) =>
-            data.theme.type === 'engagement' ? (
-              <Engagement
+            (data.theme.type === 'engagement' ? (
+              <EngagementActivites
                 {...props}
                 isCreate={!selectedSkill}
-                activities={activities}
-                setActivities={setActivities}
                 theme={data.theme}
+                activitiesEngagement={activitiesEngagement}
+                setEngagementActivities={setEngagementActivities}
+                refetch={refetch}
               />
             ) : (
               <SkillActivities
@@ -188,24 +273,21 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setActivities={setActivities}
                 theme={data.theme}
               />
-            )
-          }
+            ))}
           path={`${match.path}/activities`}
           exact
         />
         <Route
-          render={(props) => {
+          render={(props) => (
             // if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
-            return (
-              <SkillCompetences
-                {...props}
-                competences={competences}
-                setCompetences={setCompetences}
-                theme={data.theme}
-                isCreate={!selectedSkill}
-              />
-            );
-          }}
+            <SkillCompetences
+              {...props}
+              competences={competences}
+              setCompetences={setCompetences}
+              theme={data.theme}
+              isCreate={!selectedSkill}
+            />
+          )}
           path={`${match.path}/competences`}
           exact
         />
@@ -228,6 +310,30 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
           path={`${match.path}/competencesValues`}
           exact
         />
+
+        <Route
+          render={(props) => <EngagementContext {...props} setContext={setContext} contextCheck={context} />}
+          path={`${match.path}/context`}
+          exact
+        />
+        <Route
+          render={(props) => (
+            <EngagementDate
+              {...props}
+              setStartDate={setStartDate}
+              startDate={startDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              addSkill={addSkillEngagement}
+              addSkillState={addSkillState.loading}
+              days={days}
+              months={months}
+              years={years}
+            />
+          )}
+          path={`${match.path}/date`}
+          exact
+        />
         <Route
           render={(props) => <SuccessCompetences {...props} theme={data.theme} />}
           path={`${match.path}/success`}
@@ -238,8 +344,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
           path={`${match.path}/done`}
           exact
         />
-        <Route component={EngagementContext} path={`${match.path}/context`} exact />
-
         <Route component={NotFoundPage} />
       </Switch>
       {showSelection && <Selection activities={activities} theme={data.theme} />}

@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +31,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
@@ -141,10 +141,16 @@ export default makeStyles((theme: Theme) =>
       padding: '0px 50px',
       justifyContent: 'center',
     },
-    selectContainer: {
+
+    selectGrid: {
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
+      alignItems: 'center',
+    },
+
+    selectContainer: {
+      display: 'flex',
       alignItems: 'center',
     },
 
@@ -157,5 +163,15 @@ export default makeStyles((theme: Theme) =>
     rootClassName: {
       marginTop: 20,
     },
-  }),
-);
+
+    styleSelect: {
+      border: '2px solid #00CFFF',
+      color: '#00B2DB',
+      WebkitTextStroke: '#00B2DB',
+      WebkitTextStrokeWidth: '0.1px',
+    },
+
+    borderSelect: {
+      border: '1px solid #00CFFF',
+    },
+  }));

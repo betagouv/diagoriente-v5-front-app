@@ -33,7 +33,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 
 const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
   const classes = useStyles();
-  const { data, loading } = useCompetence();
+  const { data, loading } = useCompetence({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
   const { redirect } = decodeUri(location.search);
 

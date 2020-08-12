@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +32,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
@@ -166,7 +166,7 @@ export default makeStyles((theme: Theme) =>
     date: {
       display: 'flex',
       alignItems: 'center',
-      marginTop: 24,
+      marginTop: 15,
     },
 
     text: {
@@ -179,5 +179,13 @@ export default makeStyles((theme: Theme) =>
     dateContainer: {
       marginTop: 35,
     },
-  }),
-);
+
+    errorText: {
+      display: 'flex',
+      alignItems: 'center',
+      height: 20,
+      fontSize: 14,
+      color: theme.palette.error.main,
+      marginLeft: 32,
+    },
+  }));

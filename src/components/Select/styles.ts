@@ -15,17 +15,11 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       overflow: 'hidden',
       borderRadius: 30,
       fontWeight: 'bold',
+      background: 'rgba(122, 230, 255, 0.2)',
+      border: '1px solid #D1D5DE',
+
       '& fieldset': {
-        borderColor: '#00CFFF',
-        background: 'rgba(122, 230, 255, 0.2)',
-        '&:focus-within': {
-          borderColor: '#00CFFF !important',
-          background: 'transparent',
-        },
-        '&:hover': {
-          borderColor: '#00CFFF !important',
-          background: 'transparent',
-        },
+        display: 'none',
       },
     },
 
@@ -46,7 +40,7 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       left: (props) => props.left,
       width: (props) => props.width,
       overflow: 'auto',
-      maxHeight: 300,
+      maxHeight: 200,
       flex: 1,
       borderRadius: 20,
       boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
@@ -54,12 +48,14 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
     },
 
     menuItem: {
-      borderBottom: '0.5px solid #C9C9C7 ',
-      margin: '0px 20px',
+      borderBottom: '0.5px solid rgba(201, 201, 199, 0.5) ',
+      margin: '0px 15px',
+      paddingTop: 5,
+      paddingBottom: 10,
       paddingLeft: 0,
       paddingRight: 0,
-      paddingTop: 15,
-      paddingBottom: 15,
+      backgroundColor: 'transparent !important',
+
       '&:last-child': {
         borderBottom: 'none',
         paddingTop: 0,
@@ -92,7 +88,7 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       width: '100%',
       fontWeight: 'bold',
       background: 'transparent',
-      height: 76,
+      padding: 15,
     },
 
     addContainerInput: {
@@ -100,15 +96,16 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       alignItems: 'center',
       width: '100%',
       fontWeight: 'bold',
-      height: 76,
-      padding: '0px 20px',
+      padding: '15px',
     },
 
     add: {
       color: '#00B2DB',
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: 'bold',
       paddingRight: 10,
+      position: 'relative',
+      bottom: 3,
     },
 
     select: { padding: 10 },
@@ -170,5 +167,21 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
     paddingBottom: {
       paddingBottom: 0,
     },
-  }),
-);
+
+    rootBackground: {
+      backgroundColor: 'transparent !important',
+      border: 'none !important',
+    },
+
+    backgroundRow: {
+      // backgroundColor: 'rgba(122, 230, 255, 0.2) !important',
+      color: '#00B2DB',
+      WebkitTextStroke: '#00B2DB',
+      WebkitTextStrokeWidth: '0.1px',
+    },
+
+    disabledClassName: {
+      fontWeight: 'bold',
+      background: 'red !important',
+    },
+  }));

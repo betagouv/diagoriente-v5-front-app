@@ -35,6 +35,9 @@ export default makeStyles((theme: Theme) =>
 
     gridContainer: {
       padding: SKILL_CONTAINER_PADDING,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
       [theme.breakpoints.down('md')]: {
         padding: '30px 30px',
       },

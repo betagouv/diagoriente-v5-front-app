@@ -67,7 +67,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     window.removeEventListener('resize', onWindowResize);
   });
 
-  if (type !== 'personal' && type !== 'professional') {
+  if (type !== 'personal' && type !== 'professional' && type !== 'engagement') {
     return <NotFoundPage />;
   }
 

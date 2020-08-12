@@ -11,7 +11,6 @@ import AdminCheckBox from 'components/inputs/AdminCheckbox/AdminCheckbox';
 import Button from '@material-ui/core/Button/Button';
 import AdminSelect from 'components/inputs/AdminSelect/AdminSelect';
 import AdminAutocomplete from 'components/inputs/AdminAutocomplete/AdminAutocomplete';
-import AdminTags from 'components/inputs/AdminTags/AdminTags';
 
 import useStyles from './styles';
 
@@ -21,7 +20,7 @@ interface ActivityFormValues {
   type: string;
   verified: boolean;
   interests: string[];
-  options?: string[];
+  options?: { value: string; verified: boolean }[];
 }
 
 interface ThemeFormProps {
@@ -38,7 +37,7 @@ const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
       type: '',
       verified: false,
       interests: [] as { label: string; value: string }[],
-      options: [] as string[],
+      options: [] as { value: string; verified: boolean }[],
     },
   });
   const { values } = state;
@@ -60,7 +59,7 @@ const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = { ...values };
-    if (data.type !== 'engagement') delete data.options;
+    delete data.options;
     onSubmit({ ...data, interests: values.interests.map((interest) => interest.value) });
   }
 
@@ -105,15 +104,6 @@ const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
           onChange={(e, value) => setValues({ interests: value })}
           className={classes.interests}
         />
-
-        {values.type === 'engagement' && (
-          <AdminTags
-            className={classes.options}
-            onChange={(value) => setValues({ options: value })}
-            value={values.options}
-            label="Options"
-          />
-        )}
 
         <AdminCheckBox
           name="verified"

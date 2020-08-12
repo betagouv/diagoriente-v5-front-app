@@ -43,7 +43,6 @@ function DefaultFilter({ onChange, children }: DefaultFilterProps) {
               <TextField
                 InputProps={{ className: classes.input }}
                 InputLabelProps={{ className: classes.label }}
-                variant="outlined"
                 value={search}
                 onChange={onSearchChange}
                 label="Search"

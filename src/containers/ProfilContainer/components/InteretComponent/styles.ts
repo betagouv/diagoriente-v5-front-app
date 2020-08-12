@@ -1,5 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles(() =>
   createStyles({
@@ -12,7 +12,7 @@ export default makeStyles(() =>
       alignItems: 'center',
       paddingTop: 34,
       flex: 1,
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
     },
 
     interestCardContainer: {
@@ -37,7 +37,6 @@ export default makeStyles(() =>
       fontSize: '2.2em',
       lineHeight: 1,
       paddingTop: 9,
-
     },
 
     interestGrid: {
@@ -89,5 +88,4 @@ export default makeStyles(() =>
     empty: {
       width: 160,
     },
-
   }));

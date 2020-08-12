@@ -1,35 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import { THEME_TYPES_OPTIONS } from 'utils/generic';
 
 import { useForm } from 'hooks/useInputs';
-import { useActivities } from 'requests/activities';
-import { Theme } from 'requests/types';
+import { useInterests } from 'requests/interests';
+import { Activity } from 'requests/types';
 
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
 import AdminCheckBox from 'components/inputs/AdminCheckbox/AdminCheckbox';
 import Button from '@material-ui/core/Button/Button';
 import AdminSelect from 'components/inputs/AdminSelect/AdminSelect';
 import AdminAutocomplete from 'components/inputs/AdminAutocomplete/AdminAutocomplete';
-import AdminFileUpload from 'components/inputs/AdminFileUpload/AdminFileUpload';
 
 import useStyles from './styles';
 
-interface ThemeFormValues {
+interface ActivityFormValues {
   title: string;
   description: string;
   type: string;
   verified: boolean;
-  activities: string[];
-  icon?: File;
+  interests: string[];
+  options?: { value: string; verified: boolean }[];
 }
 
 interface ThemeFormProps {
-  onSubmit: (values: ThemeFormValues) => void;
-  theme?: Theme;
+  onSubmit: (values: ActivityFormValues) => void;
+  activity?: Activity;
 }
 
-const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
+const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
   const classes = useStyles();
   const [state, actions] = useForm({
     initialValues: {
@@ -37,42 +36,31 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
       description: '',
       type: '',
       verified: false,
-      activities: [] as { label: string; value: string }[],
-      icon: undefined as File | undefined,
+      interests: [] as { label: string; value: string }[],
+      options: [] as { value: string; verified: boolean }[],
     },
   });
   const { values } = state;
   const { handleChange, setValues } = actions;
-  const activitiesCapture = useRef(false);
 
   useEffect(() => {
-    if (!activitiesCapture.current) {
-      setValues({ activities: [] });
-    } else {
-      activitiesCapture.current = false;
-    }
-    // eslint-disable-next-line
-  }, [values.type]);
-
-  useEffect(() => {
-    if (theme) {
-      activitiesCapture.current = true;
+    if (activity) {
       setValues({
-        ...theme,
-        activities: theme.activities.map((activity) => ({
-          label: activity.title,
-          value: activity.id,
+        ...activity,
+        interests: activity.interests.map((interest) => ({
+          label: interest.nom,
+          value: interest.id,
         })),
       });
     }
     // eslint-disable-next-line
-  }, [theme]);
+  }, [activity]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = { ...values };
-    if (!data.icon) delete data.icon;
-    onSubmit({ ...data, activities: values.activities.map((act) => act.value) });
+    delete data.options;
+    onSubmit({ ...data, interests: values.interests.map((interest) => interest.value) });
   }
 
   return (
@@ -87,12 +75,13 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
           className={classes.title}
         />
 
-        <AdminFileUpload
-          defaultImage={theme?.resources?.icon || undefined}
+        <AdminSelect
+          name="type"
+          value={values.type}
           onChange={handleChange}
-          name="icon"
-          className={classes.icons}
-          label="Icon"
+          label="Type"
+          options={THEME_TYPES_OPTIONS}
+          className={classes.type}
         />
 
         <AdminTextField
@@ -105,30 +94,23 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
           label="Description"
           color="primary"
         />
+
+        <AdminAutocomplete
+          handleOptions={(interest) => ({ label: interest.nom, value: interest.id })}
+          value={values.interests}
+          label="Intérêts"
+          multiple
+          list={useInterests}
+          onChange={(e, value) => setValues({ interests: value })}
+          className={classes.interests}
+        />
+
         <AdminCheckBox
           name="verified"
           checked={values.verified}
           onChange={handleChange}
           className={classes.verified}
           label="Verified"
-        />
-        <AdminSelect
-          name="type"
-          value={values.type}
-          onChange={handleChange}
-          label="Type"
-          options={THEME_TYPES_OPTIONS}
-          className={classes.type}
-        />
-        <AdminAutocomplete
-          handleOptions={(activity) => ({ label: activity.title, value: activity.id })}
-          value={values.activities}
-          label="Activités"
-          multiple
-          list={useActivities}
-          onChange={(e, value) => setValues({ activities: value })}
-          className={classes.activities}
-          variables={{ type: values.type }}
         />
       </div>
       <Button type="submit" className={classes.button} variant="contained" color="primary">
@@ -138,4 +120,4 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
   );
 };
 
-export default ThemeForm;
+export default ActivityForm;

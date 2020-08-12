@@ -1,5 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { CONTAINER_PADDING } from 'containers/ExperienceContainer/Experience';
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles(() =>
   createStyles({
@@ -12,7 +12,7 @@ export default makeStyles(() =>
       alignItems: 'center',
       paddingTop: 34,
       flex: 1,
-      padding: CONTAINER_PADDING,
+      padding: SKILL_CONTAINER_PADDING,
     },
 
     cardGridContainer: {
@@ -113,7 +113,6 @@ export default makeStyles(() =>
       marginTop: 40,
       maxWidth: '100%',
       background: 'transparent',
-
     },
 
     link: {
@@ -125,7 +124,7 @@ export default makeStyles(() =>
       borderRadius: 10,
       flex: 1,
       maxWidth: 'calc(33.333333% - 32px)',
-     /*  [theme.breakpoints.down(1265)]: {
+      /*  [theme.breakpoints.down(1265)]: {
         maxWidth: '100%',
         background: 'transparent',
       }, */

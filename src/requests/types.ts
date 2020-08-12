@@ -57,7 +57,7 @@ export interface Activity {
   type: string;
   verified: boolean;
   interests: Interests[];
-  options: string[];
+  options: { value: string; verified: boolean }[];
 }
 export interface Competence {
   id: string;

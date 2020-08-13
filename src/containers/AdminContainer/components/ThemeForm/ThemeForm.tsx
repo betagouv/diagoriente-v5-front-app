@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { THEME_TYPES_OPTIONS } from 'utils/generic';
 
@@ -26,10 +26,10 @@ interface ThemeFormValues {
 
 interface ThemeFormProps {
   onSubmit: (values: ThemeFormValues) => void;
-  prevData: Theme | null;
+  theme?: Theme;
 }
 
-const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
+const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
   const classes = useStyles();
   const [state, actions] = useForm({
     initialValues: {
@@ -43,24 +43,30 @@ const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
   });
   const { values } = state;
   const { handleChange, setValues } = actions;
+  const activitiesCapture = useRef(false);
 
   useEffect(() => {
-    setValues({ activities: [] });
+    if (!activitiesCapture.current) {
+      setValues({ activities: [] });
+    } else {
+      activitiesCapture.current = false;
+    }
     // eslint-disable-next-line
   }, [values.type]);
 
   useEffect(() => {
-    if (prevData) {
+    if (theme) {
+      activitiesCapture.current = true;
       setValues({
-        ...prevData,
-        activities: prevData.activities.map((activity) => ({
+        ...theme,
+        activities: theme.activities.map((activity) => ({
           label: activity.title,
           value: activity.id,
         })),
       });
     }
     // eslint-disable-next-line
-  }, [prevData]);
+  }, [theme]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -77,13 +83,12 @@ const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
           value={values.title}
           onChange={handleChange}
           label="Titre"
-          variant="outlined"
           color="primary"
           className={classes.title}
         />
 
         <AdminFileUpload
-          defaultImage={prevData?.resources?.icon || undefined}
+          defaultImage={theme?.resources?.icon || undefined}
           onChange={handleChange}
           name="icon"
           className={classes.icons}
@@ -98,7 +103,6 @@ const ThemeForm = ({ onSubmit, prevData }: ThemeFormProps) => {
           multiline
           rows={6}
           label="Description"
-          variant="outlined"
           color="primary"
         />
         <AdminCheckBox

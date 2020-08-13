@@ -6,6 +6,7 @@ import Input from 'components/inputs/Input/Input';
 import Popup from 'components/common/Popup/Popup';
 import CancelButton from 'components/cancelButton/CancelButton';
 import NameFormator from 'utils/NameFormator';
+import { Unpacked } from 'utils/types';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Button from 'components/button/Button';
 
@@ -22,21 +23,15 @@ import msg from 'assets/svg/msg.svg';
 
 import useStyles from './styles';
 
-type Unpacked<T> = T extends (infer U)[]
-  ? U
-  : T extends (...args: any[]) => infer U
-  ? U
-  : T extends Promise<infer U>
-  ? U
-  : T;
-
 interface Props {
   skill: Unpacked<UserParcour['skills']>;
   open: boolean;
   setOpen: (open: boolean) => void;
   onSuccess?: () => void;
 }
-const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
+const RecommendationModal = ({
+ skill, open, setOpen, onSuccess,
+}: Props) => {
   const classes = useStyles();
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
@@ -60,9 +55,9 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},\n${user &&
-          NameFormator(user?.profile.firstName)} ${user &&
-          NameFormator(
+        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},\n${user
+          && NameFormator(user?.profile.firstName)} ${user
+          && NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
           )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
@@ -203,7 +198,8 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
             Le message pour
             {/* eslint-disable-next-line */}
             {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
-            {`${state.values.email}`})
+            {`${state.values.email}`}
+            )
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -271,7 +267,9 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
             Veux-tu vraiment quitter ?
-            <br /> Tes modifications ne seront pas enregistrées.
+            <br />
+            {' '}
+            Tes modifications ne seront pas enregistrées.
           </p>
           <Button
             className={classes.incluse}

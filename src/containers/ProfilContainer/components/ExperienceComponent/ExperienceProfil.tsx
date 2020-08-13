@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDeleteSkill } from 'requests/skills';
 import { UserParcour } from 'requests/types';
+import { Unpacked } from 'utils/types';
 
 import { decodeUri, encodeUri } from 'utils/url';
 import { useWillUnmount } from 'hooks/useLifeCycle';
@@ -17,14 +18,6 @@ import Card from '../Card/Card';
 import Arrow from '../Arrow/Arrow';
 
 import useStyles from './styles';
-
-export type Unpacked<T> = T extends (infer U)[]
-  ? U
-  : T extends (...args: any[]) => infer U
-  ? U
-  : T extends Promise<infer U>
-  ? U
-  : T;
 
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();

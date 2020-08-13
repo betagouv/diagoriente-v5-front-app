@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { MutationTuple, QueryTuple } from '@apollo/react-hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import { MutationTuple, QueryTuple, QueryOptions } from '@apollo/react-hooks';
 import { ApolloError } from 'apollo-boost';
 import { QueryResult } from '@apollo/react-common';
 import {
@@ -9,10 +9,13 @@ import path from 'path';
 import { decodeUri, encodeUri } from 'utils/url';
 import { graphQLResult } from 'utils/graphql';
 
+import { useError } from 'hooks/apollo';
+
 import Loader from '@material-ui/core/CircularProgress/CircularProgress';
 import Button from '@material-ui/core/Button/Button';
 import Table, { Header, useActionsHeader } from 'components/ui/Table/Table';
 import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
+import Snackbar from 'components/SnackBar/SnackBar';
 import Popup from 'components/common/Popup/Popup';
 import KeyboardBack from '@material-ui/icons/KeyboardBackspace';
 
@@ -21,65 +24,59 @@ import useStyle from './styles';
 
 export const PER_PAGE = 10;
 
+type MutationParams<T> = T extends MutationTuple<any, infer R> ? R : never;
+type LazyQueryReturnType<T> = T extends QueryTuple<infer R, any> ? R : never;
+
 interface Props<
-  ListKey extends string,
-  GetKey extends string,
-  CreateKey extends string,
-  UpdateKey extends string,
+  K extends string,
   T extends { id: string },
-  ListParams extends { [key: string]: any },
-  CreateParams extends { [key: string]: any },
+  L extends { page?: number; perPage?: number },
+  C extends MutationTuple<any, any>,
+  U extends MutationTuple<any, { id: string } & Partial<MutationParams<C>>>,
+  G extends (options: QueryOptions<any, { id: string }>) => QueryTuple<any, { id: string }>,
   P extends {
     error?: ApolloError;
-    onSubmit: (values: CreateParams) => void;
+    onSubmit: (values: MutationParams<C>) => void;
     fetching?: boolean;
-    prevData: T | null;
-  }
+  } & Partial<LazyQueryReturnType<G>>
 > extends RouteComponentProps {
   list: (
     options?: any,
-  ) => QueryResult<
-    { [key in ListKey]: { data: T[]; perPage: number; page: number; totalPages: number; count: number } },
-    ListParams
-  >;
-  handleUri: (uri: Record<string, string>) => ListParams;
-  create?: MutationTuple<{ [key in CreateKey]: T }, CreateParams>;
-  update?: MutationTuple<{ [key in UpdateKey]: T }, Partial<CreateParams> & { id: string }>;
+  ) => QueryResult<{ [key in K]: { data: T[]; perPage: number; page: number; totalPages: number; count: number } }, L>;
+  handleUri: (uri: Record<string, string>) => L;
+  create?: C;
+  update?: U;
   delete?: MutationTuple<any, { id?: string; ids?: string[] }>;
-  get?: QueryTuple<{ [key in GetKey]: T }, { id: string }>;
+  get?: G;
   Form?: React.ComponentType<P>;
-  View?: React.ComponentType<Partial<T>>;
   formProps: {
-    create: Exclude<P, 'onSubmit' | 'errors' | 'submitText' | 'fetching' | keyof T>;
-    update: Exclude<P, 'onSubmit' | 'errors' | 'submitText' | 'fetching' | keyof T>;
+    create: Exclude<P, 'onSubmit' | 'errors' | 'submitText' | 'fetching' | keyof LazyQueryReturnType<G>>;
+    update: Exclude<P, 'onSubmit' | 'errors' | 'submitText' | 'fetching' | keyof LazyQueryReturnType<G>>;
   };
-  Filter: React.ComponentType<{ onChange: (d: Omit<ListParams, 'perPage' | 'page'>) => void }>;
+  Filter: React.ComponentType<{ onChange: (d: Omit<L, 'perPage' | 'page'>) => void }>;
   headers: Header<T>[];
   title: string;
   formTitles: { create?: string; update?: string };
 }
 
 const Crud = <
-  ListKey extends string,
-  GetKey extends string,
-  CreateKey extends string,
-  UpdateKey extends string,
+  K extends string,
   T extends { id: string },
-  ListParams extends { [key: string]: any },
-  CreateParams extends { [key: string]: any },
+  L extends { page?: number; perPage?: number },
+  C extends MutationTuple<any, any>,
+  U extends MutationTuple<any, { id: string } & Partial<MutationParams<C>>>,
+  G extends (options: QueryOptions<any, { id: string }>) => QueryTuple<any, { id: string }>,
   P extends {
-    errors: any | null;
-    submitFetch?: boolean;
-    onSubmit: (values: CreateParams) => void;
+    error?: ApolloError;
+    onSubmit: (values: MutationParams<C>) => void;
     fetching?: boolean;
-    prevData: T | null;
-  }
+  } & Partial<LazyQueryReturnType<G>>
 >({
   list: useList,
   create,
   update,
   delete: remove,
-  get,
+  get: useGet,
   headers,
   Form,
   Filter,
@@ -90,7 +87,7 @@ const Crud = <
   history,
   handleUri,
   formTitles,
-}: Props<ListKey, GetKey, CreateKey, UpdateKey, T, ListParams, CreateParams, P>) => {
+}: Props<K, T, L, C, U, G, P>) => {
   const classes = useStyle();
 
   const mutationPlaceholder = <T, V>(): MutationTuple<T, V> => [() => {}, {}] as any;
@@ -101,10 +98,12 @@ const Crud = <
   /* ----- Requests handlers ----- */
   const list = useList({ variables: { perPage: PER_PAGE, ...(handleUri(uri) as any), page: Number(uri.page) || 1 } });
 
-  const [getCall, getState] = get || getQueryPlaceholder();
+  // eslint-disable-next-line
+  const [getCall, getState] = useGet ? useGet({ fetchPolicy: 'network-only' } as any) : getQueryPlaceholder();
   const [createCall, createState] = create || mutationPlaceholder();
   const [updateCall, updateState] = update || mutationPlaceholder();
   const [deleteCall, deleteState] = remove || mutationPlaceholder();
+  const [error, setError] = useState('');
 
   const {
  data, page: currentPage, totalPages, count,
@@ -202,6 +201,26 @@ const Crud = <
     // eslint-disable-next-line
   }, [!!isUpdate]);
 
+  useError(list, (e) => {
+    setError(e);
+  });
+
+  useError(getState, (e) => {
+    setError(e);
+  });
+
+  useError(createState, (e) => {
+    setError(e);
+  });
+
+  useError(updateState, (e) => {
+    setError(e);
+  });
+
+  useError(deleteState, (e) => {
+    setError(e);
+  });
+
   /* ----- Open modals functions ----- */
 
   function closeModal() {
@@ -209,7 +228,7 @@ const Crud = <
   }
 
   /* ----- Submit create or edit ----- */
-  function onSubmit(values: CreateParams) {
+  function onSubmit(values: MutationParams<C>) {
     if (isCreate) {
       createCall({ variables: values });
     } else if (isUpdate) {
@@ -222,73 +241,105 @@ const Crud = <
   }
 
   return (
-    <Switch>
-      <Route
-        path={[match.path, path.join(match.path, '/delete/:id')]}
-        exact
-        render={() => (
-          <div className={classes.container}>
-            {fetching && (
-              <div className={classes.loader}>
-                <Loader />
+    <div>
+      <Switch>
+        <Route
+          path={[match.path, path.join(match.path, '/delete/:id')]}
+          exact
+          render={() => (
+            <div className={classes.container}>
+              {fetching && (
+                <div className={classes.loader}>
+                  <Loader />
+                </div>
+              )}
+
+              <div className={classes.titleContainer}>
+                <div className={classes.title}>{title.toUpperCase()}</div>
+                {create && (
+                  <Link replace to={{ pathname: path.join(match.path, '/create'), search: location.search }}>
+                    <Button variant="contained" color="primary">
+                      Ajouter
+                    </Button>
+                  </Link>
+                )}
+              </div>
+
+              <Filter onChange={(d) => history.replace({ pathname: location.pathname, search: encodeUri(d as any) })} />
+
+              <Table
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+                totalPages={totalPages}
+                headers={improvedHeaders}
+                data={data}
+                count={count}
+              />
+              <Popup open={!!isDelete} handleClose={closeModal}>
+                <div className={classes.popupContainer}>
+                  <p className={classes.popupDescription}>
+                    Êtes-vous sûr ?
+                    <br />
+                    Souhaitez-vous vraiment supprimer
+                    {' '}
+                    {isDelete && isDelete.params.id.split(',').length > 1 ? 'ces documents' : 'ce document'}
+                    {' '}
+                    ?
+                    <br />
+                    Ce processus est irréversible !
+                  </p>
+                  <Button
+                    className={classes.incluse}
+                    onClick={() => {
+                      const ids = isDelete?.params.id.split(',') || [];
+                      if (ids.length === 1) deleteCall({ variables: { id: ids[0] } });
+                      else deleteCall({ variables: { ids } });
+                    }}
+                  >
+                    Oui, supprimer
+                  </Button>
+                  <Link className={classes.link} replace to={{ pathname: match.path, search: location.search }}>
+                    Annuler
+                  </Link>
+                </div>
+              </Popup>
+            </div>
+          )}
+        />
+
+        {Form && (
+          <Route
+            render={() => (
+              <div className={classes.container}>
+                <div className={classes.titleContainer}>
+                  <Link
+                    to={{ pathname: match.path, search: location.search }}
+                    className={classNames(classes.arrowContainer, classes.arrowContainerWidth)}
+                  >
+                    <KeyboardBack className={classes.arrow} />
+                    Retour à la list
+                  </Link>
+                  <div className={classNames(classes.title, classes.modalTitle)}>
+                    {formTitles.create || `Ajouter un ${title}`}
+                  </div>
+                  <div className={classes.arrowContainerWidth} />
+                </div>
+                <Form
+                  {...formProps.create}
+                  title={`Ajouter ${title}`}
+                  fetching={createState.loading}
+                  error={createState.error}
+                  onSubmit={onSubmit}
+                />
               </div>
             )}
-
-            <div className={classes.titleContainer}>
-              <div className={classes.title}>{title.toUpperCase()}</div>
-              {create && (
-                <Link replace to={{ pathname: path.join(match.path, '/create'), search: location.search }}>
-                  <Button variant="contained" color="primary">
-                    Ajouter
-                  </Button>
-                </Link>
-              )}
-            </div>
-
-            <Filter onChange={(d) => history.replace({ pathname: location.pathname, search: encodeUri(d as any) })} />
-
-            <Table
-              currentPage={currentPage}
-              onPageChange={onPageChange}
-              totalPages={totalPages}
-              headers={improvedHeaders}
-              data={data}
-              count={count}
-            />
-            <Popup open={!!isDelete} handleClose={closeModal}>
-              <div className={classes.popupContainer}>
-                <p className={classes.popupDescription}>
-                  Êtes-vous sûr ?
-                  <br />
-                  Souhaitez-vous vraiment supprimer
-                  {' '}
-                  {isDelete && isDelete.params.id.split(',').length > 1 ? 'ces documents' : 'ce document'}
-                  {' '}
-                  ?
-                  <br />
-                  Ce processus est irréversible !
-                </p>
-                <Button
-                  className={classes.incluse}
-                  onClick={() => {
-                    const ids = isDelete?.params.id.split(',') || [];
-                    if (ids.length === 1) deleteCall({ variables: { id: ids[0] } });
-                    else deleteCall({ variables: { ids } });
-                  }}
-                >
-                  Oui, supprimer
-                </Button>
-                <Link className={classes.link} replace to={{ pathname: match.path, search: location.search }}>
-                  Annuler
-                </Link>
-              </div>
-            </Popup>
-          </div>
+            exact
+            path={path.join(match.path, '/create')}
+          />
         )}
-      />
-
-      {Form && (
         <Route
+          exact
+          path={path.join(match.path, '/update/:id')}
           render={() => (
             <div className={classes.container}>
               <div className={classes.titleContainer}>
@@ -300,55 +351,26 @@ const Crud = <
                   Retour à la list
                 </Link>
                 <div className={classNames(classes.title, classes.modalTitle)}>
-                  {formTitles.create || `Ajouter un ${title}`}
+                  {formTitles.update || `Modifier un ${title}`}
                 </div>
                 <div className={classes.arrowContainerWidth} />
               </div>
-              <Form
-                {...formProps.create}
-                title={`Ajouter ${title}`}
-                fetching={createState.loading}
-                error={createState.error}
-                onSubmit={onSubmit}
-              />
+              {Form && getState.data && (
+                <Form
+                  {...formProps.update}
+                  {...getState.data}
+                  title={`Modifier ${title}`}
+                  fetching={updateState.loading}
+                  error={updateState.error}
+                  onSubmit={onSubmit}
+                />
+              )}
             </div>
           )}
-          exact
-          path={path.join(match.path, '/create')}
         />
-      )}
-      <Route
-        exact
-        path={path.join(match.path, '/update/:id')}
-        render={() => (
-          <div className={classes.container}>
-            <div className={classes.titleContainer}>
-              <Link
-                to={{ pathname: match.path, search: location.search }}
-                className={classNames(classes.arrowContainer, classes.arrowContainerWidth)}
-              >
-                <KeyboardBack className={classes.arrow} />
-                Retour à la list
-              </Link>
-              <div className={classNames(classes.title, classes.modalTitle)}>
-                {formTitles.update || `Modifier un ${title}`}
-              </div>
-              <div className={classes.arrowContainerWidth} />
-            </div>
-            {Form && getState.data && (
-              <Form
-                {...formProps.update}
-                prevData={graphQLResult(getState.data)}
-                title={`Modifier ${title}`}
-                fetching={updateState.loading}
-                error={updateState.error}
-                onSubmit={onSubmit}
-              />
-            )}
-          </div>
-        )}
-      />
-    </Switch>
+      </Switch>
+      <Snackbar variant="error" open={Boolean(error)} message={error} handleClose={() => setError('')} />
+    </div>
   );
 };
 

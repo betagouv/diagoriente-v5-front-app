@@ -31,9 +31,6 @@ const PrivateDrawer = () => {
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
   const classes = useStyles();
-  /* const [variant, setVariant] = useState<'persistent' | 'temporary'>(
-    window.innerWidth < 768 ? 'temporary' : 'persistent',
-  ); */
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
@@ -46,11 +43,6 @@ const PrivateDrawer = () => {
     localStorage.clear();
     client.clearStore();
   };
-  /* useListener('resize', () => {
-    const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
-    if (nextVariant !== variant) setVariant(nextVariant);
-  });
-*/
 
   const onClose = () => {
     setOpen(false);

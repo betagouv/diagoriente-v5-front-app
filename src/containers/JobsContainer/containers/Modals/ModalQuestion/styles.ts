@@ -32,6 +32,10 @@ export default makeStyles((theme) => ({
     color: theme.palette.success.main,
     marginTop: 15,
   },
+  errorQuestion: {
+    marginTop: 15,
+    textAlign: 'center',
+  },
   sliderContainer: {
     marginTop: 20,
     display: 'flex',

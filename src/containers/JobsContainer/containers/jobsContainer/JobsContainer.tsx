@@ -1,17 +1,12 @@
-import React, {
- useContext, useState, useEffect, useRef, useMemo, useLayoutEffect,
-} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
-import ParcoursContext from 'contexts/ParcourContext';
 import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
-import { useAccessibility } from 'requests/accessibility';
-import { useTypeJob } from 'requests/environment';
-import { useJobs } from 'requests/jobs';
+import ParcoursContext from 'contexts/ParcourContext';
+
 import { Jobs } from 'requests/types';
-import { useSecteurs } from 'requests/themes';
 import Trait from 'assets/images/trait_jaune.svg';
 import Reset from 'components/common/Rest/Rest';
 import Spinner from 'components/Spinner/Spinner';
@@ -20,14 +15,46 @@ import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
 import useStyles from './styles';
 
-const JobsContainer = () => {
-  const classes = useStyles();
+interface IProps {
+  jobs?: Jobs[];
+  domaine?: string[];
+  search?: string;
+  environments?: string[];
+  accessibility?: string[];
+  loading: boolean;
+  setDomaine: (d: string[]) => void;
+  setSearch: (s?: string) => void;
+  setJob: (d: string[]) => void;
+  setAccessibility: (d: string[]) => void;
+  listAccData?: { id: string; name: string }[];
+  listTypeData?: { id: string; title: string }[];
+  listSecteurData?: {
+    activities: string[];
+    id: string;
+    title: string;
+    resources: { backgroundColor: string; icon: string };
+  }[];
+}
 
-  const [renderedJobs, setRenderedJobs] = useState(0);
-  const [domaine, setDomaine] = useState<string[] | undefined>([]);
-  const [search, setSearch] = useState<string | undefined>('');
-  const [environments, setJob] = useState<string[] | undefined>([]);
-  const [accessibility, setAccessibility] = useState<string[] | undefined>([]);
+const JobsContainer = ({
+  jobs,
+  domaine,
+  search,
+  environments,
+  accessibility,
+  loading,
+  setDomaine,
+  setSearch,
+  setJob,
+  setAccessibility,
+  listAccData,
+  listTypeData,
+  listSecteurData,
+}: IProps) => {
+  console.log('setSearch', setSearch);
+  const classes = useStyles();
+  const { parcours } = useContext(ParcoursContext);
+
   const [openType, setOpenType] = useState(false);
   const [openDomain, setOpenDomain] = useState(false);
   const [openAcc, setOpenAcc] = useState(false);
@@ -37,27 +64,7 @@ const JobsContainer = () => {
   const divType = useRef<HTMLDivElement>(null);
   const divAcc = useRef<HTMLDivElement>(null);
 
-  const { parcours } = useContext(ParcoursContext);
-
   const [clearMessage, setClearMessage] = useState<null | boolean>(null);
-  const variables: { search?: string; niveau?: string[]; environments?: string[]; secteur?: string[] } = {};
-  if (accessibility?.length !== 0) variables.niveau = accessibility;
-  if (environments?.length !== 0) variables.environments = environments;
-  if (domaine?.length !== 0) variables.secteur = domaine;
-  if (domaine) variables.search = search;
-  const [loadJobs, { data, loading, refetch }] = useJobs({ variables });
-  const { data: listAccData, loading: listAccLoading } = useAccessibility();
-  const { data: listTypeData, loading: listTypeLoading } = useTypeJob();
-  const { data: listSecteurData, loading: listSecteurLoading } = useSecteurs({ variables: { type: 'secteur' } });
-
-  useEffect(() => {
-    if (parcours?.completed) {
-      const fn = data ? refetch : loadJobs;
-      fn();
-    }
-
-    // eslint-disable-next-line
-  }, [parcours, accessibility, environments, domaine, domaine]);
 
   useEffect(() => {
     async function c() {
@@ -68,22 +75,6 @@ const JobsContainer = () => {
     }
     c();
   }, []);
-
-  useLayoutEffect(() => {
-    const timeout = setTimeout(() => {
-      const length = Number(data?.myJobs.length);
-      if (renderedJobs < length) {
-        setRenderedJobs(Math.min(renderedJobs + 10, length));
-      }
-    }, 50);
-    return () => clearTimeout(timeout);
-  }, [renderedJobs, data]);
-
-  useEffect(() => {
-    if (data) setRenderedJobs(10);
-  }, [data]);
-
-  const jobs = useMemo(() => data?.myJobs.slice(0, renderedJobs) || [], [data, renderedJobs]);
 
   useOnclickOutside(divDomaine, () => {
     if (openDomain) {
@@ -106,8 +97,7 @@ const JobsContainer = () => {
   const onChangeSelect = (e: any) => {
     const v = e.target.value;
     setSearch(v);
-    setFiltredArray(data?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(v.toLowerCase()) !== -1));
-    // setOpen(true);
+    setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(v.toLowerCase()) !== -1));
   };
   const onSelectDomaine = (label?: string) => {
     if (label) {
@@ -154,19 +144,15 @@ const JobsContainer = () => {
             <div className={classes.text}>
               <div>Pour voir une sélection personnalisée de métiers qui pourraient te plaire,</div>
               <div>
-                commence à remplir ton profil en ajoutant tes
-                {' '}
+                commence à remplir ton profil en ajoutant tes{' '}
                 <Link to="/experience">
                   {' '}
                   <span className={classes.clearTextBold}>expériences</span>
-                </Link>
-                {' '}
-                et tes
-                {' '}
+                </Link>{' '}
+                et tes{' '}
                 <Link to="/interet">
                   <span className={classes.clearTextBold}>centres d'intérêts</span>
-                </Link>
-                {' '}
+                </Link>{' '}
               </div>
             </div>
             <div>
@@ -210,7 +196,7 @@ const JobsContainer = () => {
               /* open={open} */
             />
             <Select
-              options={listSecteurData?.themes.data}
+              options={listSecteurData}
               onSelectText={onSelectDomaine}
               name="domaine"
               value={domaine}
@@ -219,11 +205,10 @@ const JobsContainer = () => {
               open={openDomain}
               fullSelect
               onClick={() => setOpenDomain(!openDomain)}
-              loading={listSecteurLoading}
               reference={divDomaine}
             />
             <Select
-              options={listTypeData?.environments.data}
+              options={listTypeData}
               onSelectText={onSelectType}
               name="job"
               value={environments}
@@ -231,11 +216,10 @@ const JobsContainer = () => {
               className={classes.containerAutoComp}
               open={openType}
               onClick={() => setOpenType(!openType)}
-              loading={listTypeLoading}
               reference={divType}
             />
             <Select
-              options={listAccData?.accessibilities.data}
+              options={listAccData}
               onSelectText={onSelectAcc}
               name="accessibility"
               placeholder="Niveau d’accès"
@@ -243,7 +227,6 @@ const JobsContainer = () => {
               className={classes.containerAutoComp}
               open={openAcc}
               onClick={() => setOpenAcc(!openAcc)}
-              loading={listAccLoading}
               reference={divAcc}
             />
           </div>
@@ -254,17 +237,17 @@ const JobsContainer = () => {
           ) : (
             <div className={classes.boxsContainer}>
               {!parcours?.completed && <Spinner />}
-              {data?.myJobs?.length === 0
+              {jobs?.length === 0
                 ? 'Aucun resultat trouvé !'
-                : jobs.map((el) => (
-                  <JobCard
-                    key={el.id}
-                    id={el.id}
-                    title={el.title}
-                    description={el.description}
-                    accessibility={el.accessibility}
-                    favoris={el.favorite}
-                  />
+                : jobs?.map((el) => (
+                    <JobCard
+                      key={el.id}
+                      id={el.id}
+                      title={el.title}
+                      description={el.description}
+                      accessibility={el.accessibility}
+                      favoris={el.favorite}
+                    />
                   ))}
             </div>
           )}

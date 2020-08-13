@@ -6,7 +6,6 @@ export default makeStyles((theme) => ({
     outline: 0,
   },
   content: {
-    paddingTop: 20,
     height: 250,
     display: 'flex',
     flexDirection: 'column',
@@ -23,6 +22,7 @@ export default makeStyles((theme) => ({
   },
   btnContainer: {
     display: 'flex',
+    paddingTop: 25
   },
   btn: {
     backgroundColor: theme.palette.primary.main,

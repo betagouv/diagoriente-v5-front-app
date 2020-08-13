@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useLayoutEffect, useEffect, useState, useMemo, useContext } from 'react';
 import { Switch, useLocation } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { useJobs } from 'requests/jobs';
+import { useDidMount } from 'hooks/useLifeCycle';
+import { useAccessibility } from 'requests/accessibility';
+import { useTypeJob } from 'requests/environment';
+import { useSecteurs } from 'requests/themes';
+import { useLocation as locationcall } from 'requests/location';
+import ParcoursContext from 'contexts/ParcourContext';
+
 import CloseIcon from 'assets/svg/close_drawer.svg';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
@@ -24,14 +32,75 @@ const theme = createMuiTheme({
 const Jobs = () => {
   const location = useLocation();
   const path = location.pathname.split(/[//]/)[1];
+  const { parcours } = useContext(ParcoursContext);
+
+  const [renderedJobs, setRenderedJobs] = useState(0);
+  const [domaine, setDomaine] = useState<string[] | undefined>([]);
+  const [search, setSearch] = useState<string | undefined>('');
+  const [environments, setJob] = useState<string[] | undefined>([]);
+  const [accessibility, setAccessibility] = useState<string[] | undefined>([]);
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  const variables: { search?: string; niveau?: string[]; environments?: string[]; secteur?: string[] } = {};
+  if (accessibility?.length !== 0) variables.niveau = accessibility;
+  if (environments?.length !== 0) variables.environments = environments;
+  if (domaine?.length !== 0) variables.secteur = domaine;
+  if (domaine) variables.search = search;
+  const [loadJobs, { data, loading, refetch }] = useJobs({ variables });
+  const { data: listAccData } = useAccessibility();
+  const { data: listTypeData } = useTypeJob();
+  const { data: listSecteurData } = useSecteurs({ variables: { type: 'secteur' } });
+  const [locationCall, { data: listLocation }] = locationcall({ variables: { search: selectedLocation } });
+
+  useDidMount(() => {
+    loadJobs();
+  });
+  useLayoutEffect(() => {
+    const timeout = setTimeout(() => {
+      const length = Number(data?.myJobs.length);
+      if (renderedJobs < length) {
+        setRenderedJobs(Math.min(renderedJobs + 10, length));
+      }
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, [renderedJobs, data]);
+
+  useEffect(() => {
+    if (data) setRenderedJobs(10);
+  }, [data]);
+
+  const jobs = useMemo(() => data?.myJobs.slice(0, renderedJobs) || [], [data, renderedJobs]);
+  useEffect(() => {
+    if (parcours?.completed) {
+      const fn = data ? refetch : loadJobs;
+      fn();
+    }
+    // eslint-disable-next-line
+  }, [parcours]);
   return (
     <ThemeProvider theme={theme}>
       <Switch>
         <Route
           protected
+          render={() => (
+            <JobsContainer
+              jobs={jobs}
+              domaine={domaine}
+              search={search}
+              environments={environments}
+              accessibility={accessibility}
+              loading={loading}
+              setDomaine={setDomaine}
+              setSearch={setSearch}
+              setJob={setJob}
+              setAccessibility={setAccessibility}
+              listAccData={listAccData?.accessibilities.data}
+              listTypeData={listTypeData?.environments.data}
+              listSecteurData={listSecteurData?.themes.data}
+            />
+          )}
           exact
           path="/jobs"
-          component={JobsContainer}
           privateHeaderProps={
             path === 'jobs'
               ? {
@@ -46,7 +115,16 @@ const Jobs = () => {
         <Route
           protected
           path="/jobs/job/:id"
-          component={JobContainer}
+          render={(props) => (
+            <JobContainer
+              {...props}
+              jobs={jobs}
+              locationCall={locationCall}
+              listLocation={listLocation?.location}
+              setSelectedLocation={setSelectedLocation}
+              selectedLocation={selectedLocation}
+            />
+          )}
           privateHeaderProps={
             path === 'jobs'
               ? {
@@ -61,7 +139,16 @@ const Jobs = () => {
         <Route
           protected
           path="/jobs/immersion/:id"
-          component={ImmersionContainer}
+          render={(props) => (
+            <ImmersionContainer
+              {...props}
+              jobs={jobs}
+              locationCall={locationCall}
+              listLocation={listLocation?.location}
+              setSelectedLocation={setSelectedLocation}
+              selectedLocation={selectedLocation}
+            />
+          )}
           privateHeaderProps={
             path === 'jobs'
               ? {

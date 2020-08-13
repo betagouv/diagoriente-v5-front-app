@@ -5,7 +5,7 @@ import useStyles from './styles';
 interface Props {
   label?: string;
   checked?: boolean;
-  onChange: (e: any) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   name: string;
   color?: string;

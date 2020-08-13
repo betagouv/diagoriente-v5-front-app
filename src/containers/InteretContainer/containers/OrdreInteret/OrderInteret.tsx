@@ -33,11 +33,11 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
   };
   const isChecked = (id?: string): boolean => !!orderedArray.find((elem) => elem.id === id);
 
-  const handelClick = (item?: any) => {
+  const handelClick = (item?: Families) => {
     let copySelected: Families[] = [...orderedArray];
-    if (isChecked(item.id)) {
+    if (isChecked(item?.id)) {
       copySelected = orderedArray.filter((ele) => ele.id !== item?.id);
-    } else if (orderedArray.length < 5) {
+    } else if (orderedArray.length < 5 && item) {
       copySelected.push(item);
     }
 

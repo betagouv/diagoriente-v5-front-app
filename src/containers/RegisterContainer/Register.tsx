@@ -62,7 +62,7 @@ const Register = () => {
   const { values, errors, touched } = state;
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
-  const { data, loading } = useLocation({ variables: { search: values.location } });
+  const [locationCall, { data, loading }] = useLocation({ variables: { search: values.location } });
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
@@ -81,6 +81,11 @@ const Register = () => {
       actions.setAllTouched(true);
     }
   };
+  useEffect(() => {
+    if (values.location.length > 0) {
+      locationCall();
+    }
+  }, [values.location, locationCall]);
   useEffect(() => {
     if (registerState.error) {
       if (!registerState.error.graphQLErrors.length) {

@@ -29,7 +29,9 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceActivity = ({ match, activities, setActivities, history, theme, isCreate, location }: Props) => {
+const ExperienceActivity = ({
+  match, activities, setActivities, history, theme, isCreate, location,
+}: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {

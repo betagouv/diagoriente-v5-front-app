@@ -20,6 +20,13 @@ export interface Token {
   refreshToken: string;
   expiresIn: string;
 }
+
+export interface Context {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: string;
+}
 export interface Interests {
   id: string;
   nom: string;
@@ -29,7 +36,7 @@ export interface Families {
   id: string;
   nom: string;
   category: string;
-  resources: string[]
+  resources: string[];
 }
 
 export interface Theme {
@@ -54,6 +61,10 @@ export interface Activity {
   id: string;
   title: string;
   description: string;
+  type: string;
+  verified: boolean;
+  interests: Interests[];
+  options: { value: string; verified: boolean }[];
 }
 export interface Competence {
   id: string;

@@ -1,6 +1,6 @@
 import React, { forwardRef, Ref } from 'react';
 import { UserParcour } from 'requests/types';
-import { Unpacked } from 'containers/ProfilContainer/components/ExperienceComponent/ExperienceProfil';
+import { Unpacked } from 'utils/types';
 
 import classNames from 'utils/classNames';
 

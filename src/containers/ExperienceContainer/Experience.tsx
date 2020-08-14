@@ -40,6 +40,9 @@ const theme = createMuiTheme({
       },
     },
   },
+  typography: {
+    fontFamily: 'Andika New Basic',
+  },
 });
 
 const Experience = () => {
@@ -59,5 +62,4 @@ const Experience = () => {
     </ThemeProvider>
   );
 };
-
 export default Experience;

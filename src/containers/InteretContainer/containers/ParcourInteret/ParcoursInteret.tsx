@@ -18,6 +18,8 @@ import useStyles from './styles';
 const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
+  // eslint-disable-next-line
+  const [index, setIndex] = useState(0);
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),

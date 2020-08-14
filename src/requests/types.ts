@@ -50,6 +50,9 @@ export interface Theme {
     id: string;
     title: string;
     description: string;
+    options: {
+      value: string;
+    }[];
   }[];
   tooltips: {
     competenceId: string;
@@ -65,6 +68,11 @@ export interface Activity {
   verified: boolean;
   interests: Interests[];
   options: { value: string; verified: boolean }[];
+}
+
+export interface ActivityEngagement {
+  activity: string;
+  option: string;
 }
 export interface Competence {
   id: string;
@@ -98,7 +106,7 @@ export interface UserParcour {
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
-    activities: { id: string; title: string; description: string }[];
+    activities: { id: string; title: string; description: string; options: { value: string }[] }[];
     competences: { _id: Competence; value: number }[];
     comment: {
       id: string;
@@ -109,12 +117,29 @@ export interface UserParcour {
       email: string;
       location: string;
     }[];
+    engagement: {
+      id: string;
+      startDate: string;
+      endDate: string;
+      context: {
+        id: string;
+        title: string;
+        description: string;
+        icon: string;
+      };
+      activities: {
+        activity: Activity;
+        option: string;
+      }[];
+    };
   }[];
+
   globalCompetences: {
     id: string;
     title: string;
     value: number;
     count: number;
+    type: string;
     niveau: { title: string; sub_title: string };
   }[];
 }

@@ -117,6 +117,10 @@ export interface UserParcour {
         title: string;
         description: string;
       };
+      activities: {
+        activity: Activity;
+        option: string;
+      }[];
     };
   }[];
 

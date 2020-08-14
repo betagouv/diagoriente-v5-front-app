@@ -49,6 +49,7 @@ const CompetenceForm = ({ onSubmit, competence }: ContextFormProps) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = { ...values };
+    if (!data.type || data.type === 'default') delete data.type;
     onSubmit(data);
   }
 

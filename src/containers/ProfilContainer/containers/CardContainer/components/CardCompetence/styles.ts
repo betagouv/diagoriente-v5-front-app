@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles({
   part: {
     padding: '30px 0',
-    borderBottom: '1px solid #6B6B6A',
     display: 'flex',
     flexDirection: 'column',
+    width: '47%',
     '&:last-child': {
       borderBottom: 'none',
     },
@@ -31,7 +31,7 @@ export default makeStyles({
     fontWeight: 'bold',
   },
   competencesPart: {
-    width: '50%',
+    width: '80%',
     display: 'flex',
     flexDirection: 'column',
   },

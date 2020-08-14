@@ -9,6 +9,7 @@ export default makeStyles(() =>
       background: '#fff',
       boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       borderRadius: 10,
+      position: "relative",
     },
 
     root: {
@@ -94,6 +95,12 @@ export default makeStyles(() =>
     image: {
       maxHeight: '100%',
       maxWidth: '100%',
+    },
+
+    icon: {
+      position: 'absolute',
+      top: 12,
+      right: 12,
     },
 
     themeTitle: {

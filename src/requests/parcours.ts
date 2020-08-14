@@ -53,12 +53,31 @@ export const getUserParcourQuery = gql`
           email
           location
         }
+        engagement {
+          id
+          startDate
+          endDate
+          context {
+            id
+            title
+            description
+            icon
+          }
+          activities {
+            activity {
+              id
+              title
+            }
+            option
+          }
+        }
       }
       globalCompetences {
         id
         count
         value
         title
+        type
         niveau {
           title
           sub_title

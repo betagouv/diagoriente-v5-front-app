@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Select from 'components/Select/Select';
 import classNames from 'utils/classNames';
@@ -32,7 +32,6 @@ const DatePicker = ({
         arrowDate={arrow}
         disabledClassName={classes.disabledClassName}
         menuItemClassName={classes.menuItemClassName}
-
       />
       <Select
         onChange={(e) => handleChange(`${year}-${e.target.value}-${day}`)}
@@ -42,7 +41,6 @@ const DatePicker = ({
         arrowDate={arrow}
         disabledClassName={classes.disabledClassName}
         menuItemClassName={classes.menuItemClassName}
-
       />
       <Select
         value={year}
@@ -52,10 +50,22 @@ const DatePicker = ({
         arrowDate={arrow}
         disabledClassName={classes.disabledClassName}
         menuItemClassName={classes.menuItemClassName}
-
       />
     </div>
   );
 };
-
+DatePicker.defaultProps = {
+  days: [...new Array(31)].map((el, index) => ({
+    value: index + 1 < 10 ? `0${index + 1}` : String(index + 1),
+    label: index + 1,
+  })),
+  years: [...new Array(101)].map((el, index) => ({
+    value: moment().year() - 100 + index,
+    label: moment().year() - 100 + index,
+  })),
+  months: moment.months().map((month, index) => ({
+    value: index + 1 < 10 ? `0${index + 1}` : String(index + 1),
+    label: month[0].toUpperCase() + month.slice(1),
+  })),
+};
 export default DatePicker;

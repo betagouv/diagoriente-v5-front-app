@@ -56,11 +56,13 @@ const EngagementActivities = ({
   }, [addActivityOptionState.data, refetch]);
 
   const handleChange = (e: React.ChangeEvent<any>, index: number) => {
-    const nextActivitiesEngagement = [...activitiesEngagement];
-    const newValues = { ...nextActivitiesEngagement[index] };
-    newValues.option = e.target.value;
-    nextActivitiesEngagement[index] = newValues;
-    setEngagementActivities(nextActivitiesEngagement);
+    if (e.target.value) {
+      const nextActivitiesEngagement = [...activitiesEngagement];
+      const newValues = { ...nextActivitiesEngagement[index] };
+      newValues.option = e.target.value;
+      nextActivitiesEngagement[index] = newValues;
+      setEngagementActivities(nextActivitiesEngagement);
+    }
   };
 
   return (

@@ -177,4 +177,7 @@ export default makeStyles((theme: Theme) =>
         opacity: 1,
       },
     },
+    errorMessage: {
+      color: theme.palette.error.main,
+    },
   }));

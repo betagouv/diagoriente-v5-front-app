@@ -46,24 +46,27 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [competencesValues, setCompetencesValues] = useState(
     selectedSkill?.competences.map((c) => ({ id: c._id.id, value: c.value })) || [],
   );
-  const [activitiesEngagement, setEngagementActivities] = useState([] as ActivityEngagement[]);
-  const [context, setContext] = useState('');
-  const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
-  const [endDate, setEndDate] = useState(moment().format('YYYY-MM-DD'));
+  const [activitiesEngagement, setEngagementActivities] = useState(
+    selectedSkill?.engagement.activities?.map((act) => ({ activity: act.activity.id, option: act.option }))
+      || ([] as ActivityEngagement[]),
+  );
 
-  // date picker
-  const days = [...new Array(31)].map((el, index) => ({ value: index + 1, label: index + 1 }));
-  const years = [...new Array(101)].map((el, index) => ({
-    value: moment().year() - 100 + index,
-    label: moment().year() - 100 + index,
-  }));
-  const months = moment
-    .months()
-    .map((month, index) => ({ value: index + 1, label: month[0].toUpperCase() + month.slice(1) }));
+  const [context, setContext] = useState(selectedSkill?.engagement.context.id || '');
+  const [startDate, setStartDate] = useState(
+    selectedSkill?.engagement.startDate
+      ? moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD')
+      : moment().format('YYYY-MM-DD'),
+  );
+  const [endDate, setEndDate] = useState(
+    selectedSkill?.engagement.endDate
+      ? moment(selectedSkill.engagement.endDate).format('YYYY-MM-DD')
+      : moment().format('YYYY-MM-DD'),
+  );
 
   useEffect(() => {
     if (data) {
-      setEngagementActivities((prevActivities) => data.theme.activities.map((activity) => {
+      setEngagementActivities((prevActivities) =>
+        data.theme.activities.map((activity) => {
           const prevActivity = prevActivities.find((act) => act.activity === activity.id);
           return {
             activity: activity.id,
@@ -171,10 +174,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     }
   };
 
-  console.log(
-    'activitiesEngagement',
-    activitiesEngagement.map((e) => e.option),
-  );
   const addSkillEngagement = () => {
     if (data) {
       addSkillCall({
@@ -190,19 +189,34 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         },
       });
     }
-    console.log(
-      'zzzzzz',
-      activitiesEngagement.map((e) => e.option),
-    );
   };
 
   const editSkill = () => {
-    if (selectedSkill) {
+    if (data?.theme.type === 'engagement') {
+      history.push(`/experience/skill/${match.params.themeId}/context`);
+    } else if (selectedSkill) {
       updateSkillCall({
         variables: {
           id: selectedSkill.id,
           activities: activities.map((activity) => activity.id),
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+        },
+      });
+    }
+  };
+
+  const editSkillEngagement = () => {
+    if (selectedSkill) {
+      updateSkillCall({
+        variables: {
+          id: selectedSkill.id,
+          competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+          engagement: {
+            startDate,
+            endDate,
+            context,
+            activities: activitiesEngagement,
+          },
         },
       });
     }
@@ -217,6 +231,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
       localStorage.removeItem('competencesValues');
+      localStorage.removeItem('activitiesEngagement');
+      localStorage.removeItem('context');
     } // eslint-disable-next-line
   }, [addSkillState.data, addSkillState.called]);
 
@@ -228,6 +244,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
       localStorage.removeItem('competencesValues');
+      localStorage.removeItem('activitiesEngagement');
+      localStorage.removeItem('context');
     } // eslint-disable-next-line
   }, [updateSkillState.data, updateSkillState.called]);
 
@@ -247,11 +265,11 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
   return (
     <>
-      {/*  <SnackBar
+      <SnackBar
         variant="error"
         message={addSkillState.error ? addSkillState.error.graphQLErrors[0].message : ''}
         open={!!addSkillState.error}
-      /> */}
+      />
 
       <Switch>
         <Route
@@ -301,7 +319,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setCompetencesValues={setCompetencesValues}
                 competences={competences}
                 addSkill={selectedSkill ? editSkill : addSkill}
-                addSkillState={addSkillState.loading}
+                addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
                 isCreate={!selectedSkill}
               />
@@ -324,11 +342,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
               startDate={startDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              addSkill={addSkillEngagement}
-              addSkillState={addSkillState.loading}
-              days={days}
-              months={months}
-              years={years}
+              addSkill={selectedSkill ? editSkillEngagement : addSkillEngagement}
+              addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
             />
           )}
           path={`${match.path}/date`}

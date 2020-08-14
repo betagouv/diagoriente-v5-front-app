@@ -78,20 +78,25 @@ const Select = ({
 
   useEffect(() => {
     if (selectRef.current) {
-      const { width } = selectRef.current?.getBoundingClientRect();
-      setWidth(width);
+      const { width: w } = selectRef.current?.getBoundingClientRect();
+      setWidth(w);
     }
   }, []);
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
       const {
- top, left, height, width,
+ top, left, height, width: w,
 } = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
-      setWidth(width);
+      setWidth(w);
     }
   });
+
+  useEffect(() => {
+    if (!openSelect && setOpen) setOpen(false);
+    // eslint-disable-next-line
+  }, [openSelect]);
 
   return (
     <div className={classNames(classes.root, rootClassName)}>
@@ -116,15 +121,13 @@ const Select = ({
         )}
         IconComponent={() =>
           (!arrowDate ? (
-            <div className={classNames(classes.circle, openSelect && classes.darkcircle)}>
-              <img
-                src={openSelect ? darkarrow : arrow}
-                alt=""
-                className={classes.img}
-                onClick={() => {
-                  setOpenSelect(true);
-                }}
-              />
+            <div
+              className={classNames(classes.circle, openSelect && classes.darkcircle)}
+              onClick={() => {
+                setOpenSelect(true);
+              }}
+            >
+              <img src={openSelect ? darkarrow : arrow} alt="" className={classes.img} />
             </div>
           ) : (
             <div

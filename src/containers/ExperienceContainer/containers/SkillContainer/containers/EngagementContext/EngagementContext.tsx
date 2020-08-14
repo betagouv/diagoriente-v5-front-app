@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useContext } from 'requests/context';
 import Grid from '@material-ui/core/Grid';
@@ -57,8 +57,9 @@ const EngagementContext = ({
                 title={context.title}
                 checked={context.id === contextCheck}
                 handleChange={(e) => handleChange(e, context.id)}
+                icon={context.icon}
               />
-              ))}
+            ))}
           </Grid>
           <Link to={`/experience/skill/${match.params.themeId}/date${location.search}`} className={classes.hideLine}>
             <NextButton />

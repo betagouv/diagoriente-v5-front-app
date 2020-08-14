@@ -30,7 +30,7 @@ import useStyles from './styles';
 const Register = () => {
   const { user } = useContext(UserContext);
   const [errorCondition, setErrorCondition] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');

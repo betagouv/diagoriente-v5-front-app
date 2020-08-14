@@ -103,6 +103,8 @@ export default makeStyles(() =>
     textButton: {
       color: '#fff',
       fontSize: 18,
+      width: 262,
+
     },
 
     btnLink: {

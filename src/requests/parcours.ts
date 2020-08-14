@@ -61,6 +61,7 @@ export const getUserParcourQuery = gql`
             id
             title
             description
+            icon
           }
           activities {
             activity {
@@ -76,6 +77,7 @@ export const getUserParcourQuery = gql`
         count
         value
         title
+        type
         niveau {
           title
           sub_title

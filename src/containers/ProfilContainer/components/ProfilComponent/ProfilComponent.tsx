@@ -33,7 +33,6 @@ const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
-  console.log(parcours);
   const [callJobs, stateJobs] = useJobs();
 
   useDidMount(() => {
@@ -238,13 +237,13 @@ const ProfilComponent = () => {
       ) : null,
     },
     {
-      titleCard: <Title title="MES EXPERIENCES" color="#424242" size={18} font="42" className={classes.title} />,
+      titleCard: <div className={classes.emptyDiv} />,
       title: "MES EXPERIENCES D'ENGAGEMENT",
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience?type=engagement',
       className: classes.experienceCard,
-      children: persoSkills.length ? (
+      children: engagementSkills.length ? (
         <Grid container spacing={1}>
           {engagementSkills.map((theme) => (
             <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>

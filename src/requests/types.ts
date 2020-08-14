@@ -116,6 +116,7 @@ export interface UserParcour {
         id: string;
         title: string;
         description: string;
+        icon:string;
       };
       activities: {
         activity: Activity;

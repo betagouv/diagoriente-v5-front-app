@@ -1,5 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { SKILL_CONTAINER_PADDING } from "utils/generic";
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme) =>
   createStyles({

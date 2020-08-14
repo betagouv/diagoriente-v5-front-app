@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useForm } from 'hooks/useInputs';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
@@ -21,9 +20,6 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   setEndDate: (e: string) => void;
   addSkill: () => void;
   addSkillState: boolean;
-  days: any;
-  months: any;
-  years: any;
 }
 const EngagementDate = ({
   history,
@@ -35,14 +31,12 @@ const EngagementDate = ({
   addSkillState,
   match,
   location,
-  days,
-  months,
-  years,
 }: Props) => {
   const classes = useStyles();
 
-  const handleChange = (e: any, date: 'Begin' | 'End') => {
-    date === 'Begin' ? setStartDate(e) : setEndDate(e);
+  const handleChange = (date: string, type: 'Begin' | 'End') => {
+    if (type === 'Begin') setStartDate(date);
+    else setEndDate(date);
   };
 
   const startDateEngagement = useMemo(() => moment(startDate), [startDate]);
@@ -52,14 +46,6 @@ const EngagementDate = ({
   const isBeginDateValid = startDateEngagement.month() === Number(moment(startDate).format('MM')) - 1;
   const isEndDateValid = endDateEngagement.month() === Number(moment(endDate).format('MM')) - 1;
   const errorText = 'La date est invalide';
-
-  useEffect(() => {
-    if (isBeginDateValid) setStartDate(startDateEngagement.format('YYYY-MM-DD'));
-  }, [startDateEngagement]);
-
-  useEffect(() => {
-    if (isEndDateValid) setEndDate(moment(endDateEngagement).format('YYYY-MM-DD'));
-  }, [endDateEngagement]);
 
   return (
     <div className={classes.root}>
@@ -81,7 +67,6 @@ const EngagementDate = ({
             Pour finir, à quelles dates s’est déroulée cette
             <br />
             expérience d’engagement
-            {' '}
             <br />
           </p>
           <div className={classes.dateContainer}>
@@ -89,12 +74,9 @@ const EngagementDate = ({
               <span className={classes.text}>Du</span>
               <DatePicker
                 handleChange={(e) => handleChange(e, 'Begin')}
-                day={moment(startDate).format('DD')}
-                month={moment(startDate).month() + 1}
-                year={moment(startDate).year()}
-                days={days}
-                months={months}
-                years={years}
+                day={startDate.slice(8)}
+                month={startDate.slice(5, 7)}
+                year={startDate.slice(0, 4)}
               />
             </div>
             <div className={classes.errorText}>{!isBeginDateValid ? errorText : ''}</div>
@@ -102,12 +84,9 @@ const EngagementDate = ({
               <span className={classes.text}>Au</span>
               <DatePicker
                 handleChange={(e) => handleChange(e, 'End')}
-                day={moment(endDate).format('DD')}
-                month={moment(endDate).month() + 1}
-                year={moment(endDate).year()}
-                days={days}
-                months={months}
-                years={years}
+                day={endDate.slice(8)}
+                month={endDate.slice(5, 7)}
+                year={endDate.slice(0, 4)}
               />
             </div>
             <div className={classes.errorText}>{!isEndDateValid ? errorText : ''}</div>

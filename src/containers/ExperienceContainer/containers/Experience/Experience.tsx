@@ -3,7 +3,6 @@ import Title from 'components/common/TitleImage/TitleImage';
 import blueline from 'assets/svg/blueline.svg';
 import Button from 'components/button/Button';
 import Avatar from 'components/common/Avatar/Avatar';
-import AvatarTheme from 'components/common/AvatarTheme/AvatarTheme';
 
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';

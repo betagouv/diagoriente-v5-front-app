@@ -10,6 +10,7 @@ export const ContextQuery = gql`
         id
         title
         description
+        icon
       }
     }
   }
@@ -21,6 +22,7 @@ export interface ContextResponse {
       id: string;
       title: string;
       description: string;
+      icon:string
     }[];
   };
 }

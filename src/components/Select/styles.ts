@@ -55,6 +55,7 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       paddingLeft: 0,
       paddingRight: 0,
       backgroundColor: 'transparent !important',
+      whiteSpace: 'pre-wrap',
 
       '&:last-child': {
         borderBottom: 'none',
@@ -158,6 +159,8 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       width: 30,
       borderRadius: '50%',
       transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      pointerEvent: 'none',
     },
 
     darkcircle: {

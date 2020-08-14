@@ -26,7 +26,7 @@ const CompetenceForm = ({ onSubmit, competence }: ContextFormProps) => {
       title: '',
       type: '',
       rank: 0,
-      niveau: [new Array(4)].map(() => ({ title: '', sub_title: '' })),
+      niveau: [...new Array(4)].map(() => ({ title: '', sub_title: '' })),
     },
   });
   const { values } = state;

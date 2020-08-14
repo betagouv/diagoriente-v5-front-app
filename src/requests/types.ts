@@ -69,10 +69,12 @@ export interface Activity {
 export interface Competence {
   id: string;
   title: string;
+  rank: number;
   niveau: {
     title: string;
     sub_title: string;
   }[];
+  type?: string;
 }
 export interface CompetenceValues {
   id: string;

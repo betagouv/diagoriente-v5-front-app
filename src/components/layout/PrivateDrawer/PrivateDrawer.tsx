@@ -26,6 +26,7 @@ const adminLinks = [
   { text: 'Thèmes', path: '/admin/themes' },
   { text: 'Activités', path: '/admin/activities' },
   { text: 'Contextes', path: '/admin/contexts' },
+  { text: 'Compétences', path: '/admin/competences' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import { useForm } from 'hooks/useInputs';
 import { Context } from 'requests/types';
@@ -30,11 +30,9 @@ const ContextForm = ({ onSubmit, context }: ContextFormProps) => {
   });
   const { values } = state;
   const { handleChange, setValues } = actions;
-  const activitiesCapture = useRef(false);
 
   useEffect(() => {
     if (context) {
-      activitiesCapture.current = true;
       setValues({ ...context, icon: undefined });
     }
     // eslint-disable-next-line

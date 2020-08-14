@@ -18,7 +18,6 @@ import useStyles from './styles';
 const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
-  const [index, setIndex] = useState(0);
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
@@ -72,9 +71,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
 
     setSelectedInterest(copySelected);
   };
-  const onChangeIndex = (i: number) => {
-    setIndex(i);
-  };
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -85,7 +81,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
                 <Spinner />
               </div>
             ) : (
-              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
+              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
             )}
           </div>
         </div>

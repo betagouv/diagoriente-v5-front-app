@@ -63,7 +63,8 @@ const Jobs = () => {
       }
     }, 50);
     return () => clearTimeout(timeout);
-  }, [renderedJobs, data]);
+    // eslint-disable-next-line
+  }, [renderedJobs]);
 
   useEffect(() => {
     if (data) setRenderedJobs(10);

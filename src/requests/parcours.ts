@@ -57,6 +57,18 @@ export const getUserParcourQuery = gql`
           id
           startDate
           endDate
+          context {
+            id
+            title
+            description
+          }
+          activities {
+            activity {
+              id
+              title
+            }
+            option
+          }
         }
       }
       globalCompetences {

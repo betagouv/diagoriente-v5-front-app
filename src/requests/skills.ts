@@ -47,16 +47,25 @@ export const useDeleteSkill = (options: MutationHookOptions<{ deleteSkill: UserP
 
 export interface updateSkillArguments {
   id: string;
-  activities: string[];
+  activities?: string[];
   competences: {
     _id: string;
     value: number;
   }[];
+  engagement?: {
+    startDate: string;
+    endDate: string;
+    context: string;
+    activities: {
+      activity: string;
+      option: string;
+    }[];
+  };
 }
 
 export const updateSkillMutation = gql`
-  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType]) {
-    updateSkill(id: $id, activities: $activities, competences: $competences) {
+  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType] , $engagement: skillEngagementInput) {
+    updateSkill(id: $id, activities: $activities, competences: $competences , engagement : $engagement) {
       ${parcourResult}
     }
   }

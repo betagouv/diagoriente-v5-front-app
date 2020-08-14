@@ -34,7 +34,6 @@ const Register = () => {
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
-  const { data, loading } = useLocation({ variables: { search } });
 
   const checkBoxRef = useRef(null);
   const [errorForm, setErrorForm] = useState<string>('');
@@ -64,6 +63,7 @@ const Register = () => {
     required: ['firstName', 'lastName', 'email', 'password', 'logo', 'location'],
   });
   const { values, errors, touched } = state;
+  const [locationCall, { data, loading }] = useLocation({ variables: { search } });
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +84,11 @@ const Register = () => {
       actions.setAllTouched(true);
     }
   };
+  useEffect(() => {
+    if (values.location.length > 0) {
+      locationCall();
+    }
+  }, [values.location, locationCall]);
   useEffect(() => {
     if (registerState.error) {
       if (!registerState.error.graphQLErrors.length) {

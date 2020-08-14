@@ -6,7 +6,7 @@ import useStyles from './styles';
 interface Props {
   label?: string;
   checked?: boolean;
-  onChange?: (e: any) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   name?: string;
   color?: string;
@@ -14,7 +14,9 @@ interface Props {
   img?: string;
 }
 const CheckBox = forwardRef(
-  ({ checked, onChange, name, color, border, img, className }: Props, ref: Ref<HTMLInputElement>) => {
+  ({
+ checked, onChange, name, color, border, img, className,
+}: Props, ref: Ref<HTMLInputElement>) => {
     const classes = useStyles({ color, checked, border });
 
     return (

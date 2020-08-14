@@ -1,24 +1,25 @@
 import React from 'react';
 import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
+import { Jobs } from 'requests/types';
 import AutoComplete from '../Autocomplete/AutoCompleteJob';
 import useStyles from './styles';
 
 interface IProps {
-  filteredArray: any;
-  onChangeImmersion: any;
-  onSelectImmersion: any;
-  selectedImmersion: any;
-  openImmersion: any;
-  onChangeLocation: any;
-  onSelect: any;
-  selectedLocation: any;
-  listLocation: any;
-  LogoLocation: any;
-  openLocation: any;
-  onClickImmersion: any;
+  filteredArray?: Jobs[];
+  onChangeImmersion: (e: React.ChangeEvent) => void;
+  onSelectImmersion: (e?: string) => void;
+  selectedImmersion?: string;
+  openImmersion: boolean;
+  onChangeLocation: (e: React.ChangeEvent) => void;
+  onSelect: (e?: string) => void;
+  selectedLocation: string;
+  listLocation?: { label: string; coordinates: string[] }[];
+  LogoLocation: string;
+  openLocation: boolean;
+  onClickImmersion: () => void;
   setOpenLocation?: (open: boolean) => void;
-  errorLocation?:boolean;
+  errorLocation?: boolean;
 }
 
 const ImmersionForm = ({
@@ -65,7 +66,7 @@ const ImmersionForm = ({
           value={selectedLocation}
           name="location"
           placeholder="paris"
-          options={listLocation ? listLocation?.location : []}
+          options={listLocation}
           icon={LogoLocation}
           type="location"
           open={openLocation}

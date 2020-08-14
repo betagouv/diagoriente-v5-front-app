@@ -243,7 +243,7 @@ const RecommendationModal = ({
           <img src={msg} height={90} className={classes.iconBackground} alt=" " />
 
           <div className={classes.descriptionModalContainer}>
-            Le message a bien été envoyé! Une fois rédigée, sa recommandation
+            Le message a bien été envoyé ! Une fois rédigée, sa recommandation
             <br />
             apparaîtra dans ta carte de compétences.
           </div>

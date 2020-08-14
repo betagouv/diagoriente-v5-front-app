@@ -2,7 +2,7 @@ import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useCompetence } from 'requests/competences';
+import { useCompetences } from 'requests/competences';
 import { Competence, Theme } from 'requests/types';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
@@ -31,9 +31,11 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
+const ExperienceCompetence = ({
+ match, competences, setCompetences, theme, history, isCreate, location,
+}: Props) => {
   const classes = useStyles();
-  const { data, loading } = useCompetence({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
+  const { data, loading } = useCompetences({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
   const { redirect } = decodeUri(location.search);
 
@@ -106,7 +108,7 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
                     <Button
                       childrenClassName={classes.margin}
                       className={classNames(classes.competences, selected && classes.selectedCompetence)}
-                      onClick={() => (!selected ? addCompetence(comp) : deleteCompetence(comp.id))}
+                      onClick={() => (!selected ? addCompetence(comp as any) : deleteCompetence(comp.id))}
                     >
                       {comp.title}
                     </Button>

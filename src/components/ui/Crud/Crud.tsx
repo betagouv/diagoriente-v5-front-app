@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { MutationTuple, QueryTuple } from '@apollo/react-hooks';
+import { MutationTuple, QueryTuple, QueryOptions } from '@apollo/react-hooks';
 import { ApolloError } from 'apollo-boost';
 import { QueryResult } from '@apollo/react-common';
 import {
@@ -33,7 +33,7 @@ interface Props<
   L extends { page?: number; perPage?: number },
   C extends MutationTuple<any, any>,
   U extends MutationTuple<any, { id: string } & Partial<MutationParams<C>>>,
-  G extends QueryTuple<any, { id: string }>,
+  G extends (options: QueryOptions<any, { id: string }>) => QueryTuple<any, { id: string }>,
   P extends {
     error?: ApolloError;
     onSubmit: (values: MutationParams<C>) => void;
@@ -65,7 +65,7 @@ const Crud = <
   L extends { page?: number; perPage?: number },
   C extends MutationTuple<any, any>,
   U extends MutationTuple<any, { id: string } & Partial<MutationParams<C>>>,
-  G extends QueryTuple<any, { id: string }>,
+  G extends (options: QueryOptions<any, { id: string }>) => QueryTuple<any, { id: string }>,
   P extends {
     error?: ApolloError;
     onSubmit: (values: MutationParams<C>) => void;
@@ -98,7 +98,8 @@ const Crud = <
   /* ----- Requests handlers ----- */
   const list = useList({ variables: { perPage: PER_PAGE, ...(handleUri(uri) as any), page: Number(uri.page) || 1 } });
 
-  const [getCall, getState] = useGet || getQueryPlaceholder();
+  // eslint-disable-next-line
+  const [getCall, getState] = useGet ? useGet({ fetchPolicy: 'network-only' } as any) : getQueryPlaceholder();
   const [createCall, createState] = create || mutationPlaceholder();
   const [updateCall, updateState] = update || mutationPlaceholder();
   const [deleteCall, deleteState] = remove || mutationPlaceholder();

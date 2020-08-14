@@ -73,9 +73,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
 
     setSelectedInterest(copySelected);
   };
-  const onChangeIndex = (i: number) => {
-    setIndex(i);
-  };
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -86,7 +83,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
                 <Spinner />
               </div>
             ) : (
-              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
+              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
             )}
           </div>
         </div>

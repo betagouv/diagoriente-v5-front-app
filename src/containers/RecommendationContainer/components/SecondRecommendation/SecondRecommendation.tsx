@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import TitleSection from 'components/common/TitleSection/TitleSection';
@@ -24,23 +24,22 @@ const SecondRecommendation = ({ skill, comment, location }: Props) => {
   const classes = useStyles();
   const [selectedLocation, setSelectedLocation] = useState('');
   const [search, setSearch] = useState('');
-  const { data } = useLocation({ variables: { search } });
+  const [locationCall, { data }] = useLocation({ variables: { search } });
   const [value, setValue] = useState('');
   const [updateCall, updateState] = useUpdateSkillComment();
 
   const title = (
     <span>
-      Recommanderiez-vous le travail de
-      {' '}
-      {skill.user.firstName}
-      {' '}
-      {skill.user.lastName}
-      {' '}
-      à des recruteurs
+      Recommanderiez-vous le travail de {skill.user.firstName} {skill.user.lastName} à des recruteurs
       <br />
       (votre réponse restera confidentielle) ?
     </span>
   );
+  useEffect(() => {
+    if (search.length > 0) {
+      locationCall();
+    }
+  }, [search, locationCall]);
 
   const onSubmit = () => {
     updateCall({

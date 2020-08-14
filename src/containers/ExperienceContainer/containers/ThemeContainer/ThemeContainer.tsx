@@ -73,7 +73,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
-          {(themeFiltered.length === 0 && !called) ? (
+          {(themeFiltered.length === 0 && !loading) ? (
             <div className={classes.errorMessage}>
               Il n`&apos;`y a plus de thèmes disponible, vous les avez deja tous choisis !
               {' '}

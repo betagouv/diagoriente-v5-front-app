@@ -51,7 +51,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       || ([] as ActivityEngagement[]),
   );
 
-  const [context, setContext] = useState(selectedSkill?.engagement.context.id || '');
+  const [context, setContext] = useState(selectedSkill?.engagement?.context?.id || '');
   const [startDate, setStartDate] = useState(
     selectedSkill?.engagement.startDate
       ? moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD')

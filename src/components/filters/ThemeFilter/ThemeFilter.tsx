@@ -11,9 +11,13 @@ import useStyles from './styles';
 interface ThemeFilterProps {
   onChange: (data: { type: string }) => void;
   uri: { [key: string]: string };
+  options: {
+    value: string;
+    label: string;
+  }[];
 }
 
-const ThemeFilter = ({ onChange, uri }: ThemeFilterProps) => {
+const ThemeFilter = ({ onChange, uri, options }: ThemeFilterProps) => {
   const classes = useStyles();
   const [type, setType] = useState('');
 
@@ -35,10 +39,14 @@ const ThemeFilter = ({ onChange, uri }: ThemeFilterProps) => {
         onChange={(e) => {
           setType(e.target.value);
         }}
-        options={THEME_TYPES_OPTIONS}
+        options={options}
       />
     </Grid>
   );
+};
+
+ThemeFilter.defaultProps = {
+  options: THEME_TYPES_OPTIONS,
 };
 
 export default ThemeFilter;

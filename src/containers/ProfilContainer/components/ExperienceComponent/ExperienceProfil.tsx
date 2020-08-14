@@ -135,7 +135,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                   title={s.theme.title}
                   src={s.theme.resources?.icon}
                   type={type}
-                  icon={s.engagement.context.icon}
+                  icon={s.engagement.context?.icon}
                 />
               </Grid>
             ))}

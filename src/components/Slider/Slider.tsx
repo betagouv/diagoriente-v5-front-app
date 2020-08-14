@@ -13,9 +13,8 @@ interface IProps {
   data: { title: string; data: Families[] }[];
   handleClick: (e: any) => void;
   isChecked: any;
-  setIndex: (i: number) => void;
 }
-const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
+const Slider = ({ data, handleClick, isChecked }: IProps) => {
   const classes = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hovred, setHovred] = useState('');
@@ -25,6 +24,7 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
   };
   const mouseLeave = () => {
     setHovred('');
+    
   };
   const imgs = [Img1, Img2, Img3];
   return (
@@ -37,7 +37,6 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
               if (currentIndex !== 0) {
                 previousSlide();
                 setCurrentIndex(currentIndex - 1);
-                setIndex(currentIndex - 1);
               }
             }}
             className={classNames(classes.containerBtn, classes.rotatedArrow)}
@@ -59,7 +58,6 @@ const Slider = ({ data, handleClick, isChecked, setIndex }: IProps) => {
               if (currentIndex !== data.length - 1) {
                 nextSlide();
                 setCurrentIndex(currentIndex + 1);
-                setIndex(currentIndex + 1);
               }
             }}
             className={classes.containerBtn}

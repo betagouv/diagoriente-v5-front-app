@@ -51,7 +51,6 @@ const JobsContainer = ({
   listTypeData,
   listSecteurData,
 }: IProps) => {
-  console.log('setSearch', setSearch);
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
 

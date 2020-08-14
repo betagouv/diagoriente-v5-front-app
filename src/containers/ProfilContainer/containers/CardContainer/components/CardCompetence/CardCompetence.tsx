@@ -15,16 +15,15 @@ interface IProps {
 const CardCompetence = ({ title, description, type }: IProps) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcourContext);
-  const globalCompetences = useMemo(() => parcours?.globalCompetences.filter((comp) => comp.value > 0 && comp.type === "default") || [], [
-    parcours,
-  ]);
+  const globalCompetences = useMemo(
+    () => parcours?.globalCompetences.filter((comp) => comp.value > 0 && comp.type === 'default') || [],
+    [parcours],
+  );
   const globalEngagement = useMemo(
     () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement') || [],
     [parcours],
   );
-  console.log('globalCompetences', globalCompetences);
   const globals = type === 'engagement' ? globalEngagement : globalCompetences;
-  console.log('globals', globals);
 
   return (
     <div className={classes.part}>

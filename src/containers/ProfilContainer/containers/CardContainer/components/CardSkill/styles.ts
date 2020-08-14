@@ -9,10 +9,10 @@ export default makeStyles<Theme, { recommended?: Boolean }>(() => ({
   },
   skill: {
     borderRadius: 10,
-    cursor: 'pointer',
     transition: 'all 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     '&:hover': {
       backgroundColor: (props) => (props.recommended ? 'rgba(122, 230, 255, 0.2)' : 'none'),
+      cursor: (props) => props.recommended && 'pointer',
     },
   },
   skillHeader: {

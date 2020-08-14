@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { useJob, useJobs } from 'requests/jobs';
+import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
-import { useDidMount } from 'hooks/useLifeCycle';
+import { useDidMount, useWillUnmount } from 'hooks/useLifeCycle';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
@@ -16,39 +16,56 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import { Jobs } from 'requests/types';
 import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
-import { useLocation } from 'requests/location';
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalContainerInfo from '../Modals/JobInfo';
 import ModalQuestion from '../Modals/ModalQuestion/ModalQuestion';
 import Graph from '../../components/GraphCompetence/GraphCompetence';
 import useStyles from './styles';
 
-const JobContainer = ({ location, history }: RouteComponentProps) => {
+interface IProps extends RouteComponentProps<{ id: string }> {
+  jobs?: Jobs[];
+  locationCall: (i: any) => any;
+  listLocation?: { label: string; coordinates: string[] }[];
+  setSelectedLocation: (i: string) => void;
+  selectedLocation: string;
+}
+
+const JobContainer = ({
+  location,
+  history,
+  jobs,
+  locationCall,
+  listLocation,
+  setSelectedLocation,
+  selectedLocation,
+}: IProps) => {
   const classes = useStyles();
   const divRef = useRef<HTMLDivElement>(null);
   const [openTest, setOpenTest] = useState(false);
   const [openInfo, setInfo] = useState(false);
-  const param = location.pathname.substr(10);
-  const [addFavCall, addFavState] = useAddFavoris();
-  const [deleteFavCall, deleteFavState] = useDeleteFavoris();
-  const [loadJobs, { data: listJobs }] = useJobs();
-  const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
-  const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
-
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState([]);
   const [openImmersion, setOpenImmersion] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [errorLocation, setErrorLocation] = useState(false);
   const [isFav, setIsFav] = useState('');
+  const param = location.pathname.substr(10);
+  const [addFavCall, addFavState] = useAddFavoris();
+  const [deleteFavCall, deleteFavState] = useDeleteFavoris();
+  const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
+  const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
     loadFav();
-    loadJobs();
   });
+  useEffect(() => {
+    if (selectedLocation !== '') {
+      locationCall(selectedLocation);
+    }
+  }, [selectedLocation, locationCall]);
+
   useEffect(() => {
     if (!loadingFav && FavData) {
       const fav = FavData?.favorites.data.find((el) => el.job === param);
@@ -90,7 +107,7 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     const { value } = e.target;
     setSelectedImmersion(value);
     setOpenImmersion(true);
-    setFiltredArray(listJobs?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
   };
 
   const onChangeLocation = (e: any) => {
@@ -98,8 +115,6 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
     setOpenLocation(true);
     setSelectedLocation(value);
   };
-
-  const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
@@ -157,7 +172,9 @@ const JobContainer = ({ location, history }: RouteComponentProps) => {
       });
     }
   };
-
+  useWillUnmount(() => {
+    setSelectedLocation('');
+  });
   return (
     <div className={classes.root}>
       <div className={classes.bandeau}>

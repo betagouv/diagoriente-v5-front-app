@@ -84,7 +84,7 @@ const CompetenceForm = ({ onSubmit, competence }: ContextFormProps) => {
                   setValues({
                     niveau: values.niveau.map((n, i) => (index !== i ? n : { ...n, title: e.target.value })),
                   })}
-                label="Titre du niveau"
+                label={`Titre du niveau ${index + 1}`}
                 value={niveau.title}
                 className={classes.title}
               />
@@ -93,7 +93,7 @@ const CompetenceForm = ({ onSubmit, competence }: ContextFormProps) => {
                   setValues({
                     niveau: values.niveau.map((n, i) => (index !== i ? n : { ...n, sub_title: e.target.value })),
                   })}
-                label="Sous-titre de niveau"
+                label={`Sous-titre de niveau ${index + 1}`}
                 value={niveau.sub_title}
                 className={classes.subTitle}
               />

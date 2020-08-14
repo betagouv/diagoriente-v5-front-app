@@ -116,7 +116,7 @@ export interface UserParcour {
         id: string;
         title: string;
         description: string;
-        icon:string;
+        icon: string;
       };
       activities: {
         activity: Activity;
@@ -130,6 +130,7 @@ export interface UserParcour {
     title: string;
     value: number;
     count: number;
+    type: string;
     niveau: { title: string; sub_title: string };
   }[];
 }

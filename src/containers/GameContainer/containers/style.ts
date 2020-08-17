@@ -32,6 +32,7 @@ export default makeStyles((theme) => ({
   btnContainer: {
     display: 'flex',
     justifyContent: 'space-evenly',
+    width: '100%',
   },
   btn: {
     backgroundColor: '#00CFFF',

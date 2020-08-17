@@ -198,7 +198,7 @@ const JobContainer = ({
               <div className={classes.testContainer}>
                 <img src={TestImage} alt="" className={classes.testLogo} />
                 <div className={classes.textTest} onClick={() => setOpenTest(true)}>
-                  Ce métier est-il fait pour toi ? Fais le test !
+                  Ce métier est-il fait pour toi ?
                 </div>
               </div>
             </div>
@@ -234,8 +234,8 @@ const JobContainer = ({
       <div className={classes.interestInfo}>
         <div className={classes.wrapInterest}>
           <div className={classes.interestTitleContainer}>
-            <span className={classes.interestTitle}>Centres d’intérêts</span>
-            <span className={classes.descriptionTitle}>Voici les centres d’intérêts associés à ce métier :</span>
+            <span className={classes.interestTitle}>Centres d’intérêt</span>
+            <span className={classes.descriptionTitle}>Voici les centres d’intérêt associés à ce métier :</span>
           </div>
           <div className={classes.interestContainer}>
             <div className={classes.interests}>

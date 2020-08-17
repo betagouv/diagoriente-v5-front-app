@@ -89,7 +89,7 @@ const ProfilComponent = () => {
       ),
     },
     {
-      title: 'MES CENTRES D’INTERET',
+      title: 'MES CENTRES D’INTÉRÊT',
       background: '#420FAB',
       color: '#fff',
       path: '/profile/interest',
@@ -176,7 +176,7 @@ const ProfilComponent = () => {
     },
     {
       path: '/profile/card',
-      title: 'MA CARTE DE COMPETENCES',
+      title: 'MA CARTE DE COMPÉTENCES',
       background: '#D60051',
       color: '#fff',
       children: (
@@ -193,8 +193,8 @@ const ProfilComponent = () => {
       ),
     },
     {
-      titleCard: <Title title="MES EXPERIENCES" color="#424242" size={18} font="42" className={classes.title} />,
-      title: 'MES EXPERIENCES PERSONNELLES',
+      titleCard: <Title title="MES EXPÉRIENCES" color="#424242" size={18} font="42" className={classes.title} />,
+      title: 'MES EXPÉRIENCES PERSONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience',
@@ -219,7 +219,7 @@ const ProfilComponent = () => {
     {
       titleCard: <div className={classes.emptyDiv} />,
 
-      title: 'MES EXPERIENCES PROFESSIONNELLES',
+      title: 'MES EXPÉRIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience?type=professional',
@@ -238,7 +238,7 @@ const ProfilComponent = () => {
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-      title: "MES EXPERIENCES D'ENGAGEMENT",
+      title: "MES EXPÉRIENCES D'ENGAGEMENT",
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience?type=engagement',
@@ -263,7 +263,7 @@ const ProfilComponent = () => {
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
-      title: 'MON TOP METIERS',
+      title: 'MON TOP MÉTIERS',
       background: '#FFD382',
       color: '#424242',
       logo: star,
@@ -272,7 +272,7 @@ const ProfilComponent = () => {
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-      title: 'MES METIERS FAVORIS',
+      title: 'MES MÉTIERS FAVORIS',
       background: '#FFD382',
       color: '#424242',
       logo: heart,

@@ -19,6 +19,22 @@ const ResultCompetences = ({ theme, match }: Props) => {
   const { parcours } = useContext(ParcoursContext);
   const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
 
+  let typeXp = '';
+
+  switch (skill?.theme.type) {
+    case 'engagement':
+      typeXp = 'engagement';
+      break;
+    case 'personal':
+      typeXp = 'personnelle';
+      break;
+    case 'professional':
+      typeXp = 'professionnelle';
+      break;
+    default:
+      typeXp = 'personnelle';
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -28,11 +44,8 @@ const ResultCompetences = ({ theme, match }: Props) => {
         <div className={classes.description}>
           <p className={classes.text}>
             Tu as ajouté une expérience
-            {' '}
-            {(skill?.theme.type === 'engagement' ? <span>d'engagement</span> : <span>personnelle</span>)}
-            {' '}
-            à ton parcours,
-            et tu as identifié de nouvelles compétences.
+            {typeXp}
+            à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
         {skill?.theme.type === 'professional' ? (

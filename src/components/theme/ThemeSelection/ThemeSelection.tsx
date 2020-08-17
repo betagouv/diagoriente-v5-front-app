@@ -62,7 +62,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
                 </div>
               </>
             ) : (
-              <div className={classes.emptyChildren}>Tu n’as pas encore choisi de thème</div>
+              <div className={classes.emptyChildren}>Tu n’as pas encore choisi <span className={classes.boldText}>d’expérience pro/perso</span></div>
             )}
             {activities.length ? (
               <div className={classes.activityContainer}>

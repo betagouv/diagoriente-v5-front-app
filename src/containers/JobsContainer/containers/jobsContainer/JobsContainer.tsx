@@ -150,7 +150,7 @@ const JobsContainer = ({
                 </Link>{' '}
                 et tes{' '}
                 <Link to="/interet">
-                  <span className={classes.clearTextBold}>centres d'intérêts</span>
+                  <span className={classes.clearTextBold}>centres d'intérêt</span>
                 </Link>{' '}
               </div>
             </div>
@@ -171,7 +171,7 @@ const JobsContainer = ({
               <img src={Logo} alt="log" />
             </div>
             <Title
-              title={parcours?.completed ? 'MON TOP METIERS' : 'TOUS LES MÉTIERS'}
+              title={parcours?.completed ? 'MON TOP MÉTIERS' : 'TOUS LES MÉTIERS'}
               font="ocean"
               size={42}
               width={225}

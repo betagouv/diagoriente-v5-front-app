@@ -30,7 +30,7 @@ const FirstDashboard = () => {
   };
   if (hasExp) {
     dataToShow = {
-      title: 'MES CENTRES D’INTERET',
+      title: 'MES CENTRES D’INTÉRÊT',
       subTitle: `Renseigne maintenant\nce que tu aimes faire dans la vie`,
       logo: logoInterest,
       color: '#420FAB',

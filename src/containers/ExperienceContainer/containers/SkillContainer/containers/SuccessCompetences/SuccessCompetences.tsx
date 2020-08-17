@@ -25,7 +25,22 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
   const handleOpen = () => {
     setOpen(true);
   };
+  let typeXp = '';
 
+  switch (skill?.theme.type) {
+    case 'engagement':
+      typeXp = 'engagement';
+      break;
+    case 'personal':
+      typeXp = 'personnelle';
+      break;
+    case 'professional':
+      typeXp = 'professionnelle';
+      break;
+    default:
+      typeXp = 'personnelle';
+  }
+  
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -36,7 +51,8 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
           <p className={classes.text}>
             Tu as ajouté une expérience
             {' '}
-            {skill?.theme.type === 'engagement' ? <span>d'engagement </span> : <span>personnelle </span>}
+            {typeXp}
+            {' '}
             à ton parcours,
             et tu as identifié de nouvelles compétences.
           </p>
@@ -60,12 +76,12 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
 
         <div className={classes.textDescription}>
           <p className={classes.text}>
-            Tu peux maintenant demander une recommandation pour cette expérience, cela donne confiance aux recruteurs.
+            Tu peux maintenant demander une recommandation pour cette expérience, elle donnera confiance à tes futurs recruteurs.
           </p>
         </div>
         <div className={classes.btnContainer}>
           <Button className={classes.btn} onClick={() => handleOpen()}>
-            <div className={classes.btnLabel}>Demander une recommandation</div>
+            <div className={classes.btnLabel}>Je demande une recommandation</div>
           </Button>
         </div>
         <Link to={`/experience/skill/${theme.id}/done`} className={classes.info}>

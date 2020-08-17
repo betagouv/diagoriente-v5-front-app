@@ -270,7 +270,7 @@ const Register = () => {
               </Grid>
             </div>
             <AutoComplete
-              label="Ton emplacement géographique"
+              label="Ta ville de résidence"
               onChange={(e) => {
                 setSearch(e.target.value);
               }}

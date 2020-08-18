@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import React, { useContext, forwardRef, Ref } from 'react';
+import React, { useContext, forwardRef, Ref, useMemo } from 'react';
 import ParcourContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 
@@ -18,6 +18,9 @@ import useStyles from './styles';
 
 const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
   const { parcours } = useContext(ParcourContext);
+  /* const globalCompetences = useMemo(() => parcours?.globalCompetences.filter((comp) => comp.value > 0) || [], [
+    parcours,
+  ]); */
   const classes = useStyles();
   const comments = (
     ([] as { title: string; comment: CommentType }[]).concat(
@@ -34,8 +37,10 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
             <span className={classes.title}>CARTE DE COMPÉTENCES</span>
           </div>
         </CardHeader>
-
-        <CardCompetence />
+        <CardCompetence
+          title="COMPÉTENCES TRANSVERSALES"
+          description="En relation avec les expériences personnelles et professionnelles"
+        />
         <CardSkills
           title="Expériences personnelles"
           type="personal"

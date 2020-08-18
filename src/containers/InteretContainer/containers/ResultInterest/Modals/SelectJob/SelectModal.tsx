@@ -35,8 +35,8 @@ const SelectModal = () => {
     <div className={classes.modalBody}>
       <div className={classes.titleModal}>Encore une petite chose !</div>
       <div className={classes.descriptionModal}>
-        <div>Pour nous aider à te proposer des domaines professionnels,</div>
-        <div>coche ce qui compte le plus pour toi dans tes expériences:</div>
+        <div>Pour nous aider à te proposer des pistes métiers,</div>
+        <div>coche les expériences qui comptent le plus pour toi:</div>
         <div className={classes.subTitle}>(Plusieurs choix possibles)</div>
       </div>
       <div className={classes.experienceContainer}>
@@ -83,7 +83,7 @@ const SelectModal = () => {
       </div>
       <div className={classes.btnContainerModal}>
         <Button className={classes.btn} onClick={onValide} fetching={updateState.loading}>
-          <div className={classes.btnLabel}>Valider</div>
+          <div className={classes.btnLabel}>Je valide</div>
         </Button>
       </div>
       <div className={classes.aide}>

@@ -6,8 +6,8 @@ import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo
 import { Competence } from './types';
 
 export const CompetencesQuery = gql`
-  {
-    competences {
+  query Competences($type: String) {
+    competences(type: $type) {
       data {
         id
         title

@@ -15,6 +15,7 @@ import useStyles from './styles';
 
 const CardContainer = () => {
   const classes = useStyles();
+
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
@@ -27,13 +28,8 @@ const CardContainer = () => {
     createPdf();
   };
   const icons = (
-    <CardIcons
-      onDownload={onClickIcon}
-      onPrint={onClickIcon}
-      fetching={loading}
-      fetchingPrint={loadingPrint}
-    />
-);
+    <CardIcons onDownload={onClickIcon} onPrint={onClickIcon} fetching={loading} fetchingPrint={loadingPrint} />
+  );
 
   useEffect(() => {
     if (pdf) {
@@ -49,7 +45,6 @@ const CardContainer = () => {
       }
     }
   }, [pdf, type]);
-
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -62,7 +57,18 @@ const CardContainer = () => {
       </div>
       <Paper className={classes.card}>
         <CardHeader />
-        <CardCompetence />
+        <div className={classes.competenceContainer}>
+          <CardCompetence
+            title="COMPÉTENCES TRANSVERSALES"
+            description="En relation avec les expériences personnelles et professionnelles"
+            type="tranversale"
+          />
+          <CardCompetence
+            title="COMPÉTENCES D’ENGAGEMENT"
+            description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"
+            type="engagement"
+          />
+        </div>
         <CardSkills
           title="Expériences personnelles"
           type="personal"
@@ -76,6 +82,13 @@ const CardContainer = () => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'professional' })}`}
+        />
+        <CardSkills
+          title="Expériences D’ENGAGEMENT"
+          type="engagement"
+          emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
+          emptyButton="J’ajoute une expérience d'engagement"
+          path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
         />
       </Paper>
       <div className={classes.footerIcons}>{icons}</div>

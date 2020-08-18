@@ -1,26 +1,38 @@
 import React, { useContext, useMemo } from 'react';
-import ParcourContext from 'contexts/ParcourContext';
 
 import Grid from '@material-ui/core/Grid/Grid';
-
+import ParcourContext from 'contexts/ParcourContext';
 import CompetenceEchelon from 'components/common/CompetenceEchelon/CompetenceEchelon';
 
 import useStyles from './styles';
 
-const CardCompetence = () => {
-  const { parcours } = useContext(ParcourContext);
+interface IProps {
+  title: string;
+  description: string;
+  type?: string;
+}
+
+const CardCompetence = ({ title, description, type }: IProps) => {
   const classes = useStyles();
-  const globalCompetences = useMemo(() => parcours?.globalCompetences.filter((comp) => comp.value > 0) || [], [
-    parcours,
-  ]);
+  const { parcours } = useContext(ParcourContext);
+  const globalCompetences = useMemo(
+    () => parcours?.globalCompetences.filter((comp) => comp.value > 0 && comp.type === 'default') || [],
+    [parcours],
+  );
+  const globalEngagement = useMemo(
+    () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement') || [],
+    [parcours],
+  );
+  const globals = type === 'engagement' ? globalEngagement : globalCompetences;
+
   return (
     <div className={classes.part}>
       <div className={classes.competencesPart}>
-        <div className={classes.title}>COMPÉTENCES TRANSVERSALES</div>
-        <div className={classes.subTitle}>En relation avec les expériences personnelles et professionnelles</div>
-        {globalCompetences.length ? (
+        <div className={classes.title}>{title}</div>
+        <div className={classes.subTitle}>{description}</div>
+        {globals.length ? (
           <Grid className={classes.competences} container spacing={3}>
-            {globalCompetences.map((comp) => (
+            {globals.map((comp) => (
               <Grid item lg={6} key={comp.id}>
                 <div className={classes.competenceTitle}>{comp.title}</div>
                 <CompetenceEchelon value={comp.value} />
@@ -30,8 +42,7 @@ const CardCompetence = () => {
           </Grid>
         ) : (
           <div className={classes.emptyCompetences}>
-            Pour évaluer tes compétences, tu dois d&lsquo;abord
-            {' '}
+            Pour évaluer tes compétences, tu dois d&lsquo;abord{' '}
             <span className={classes.emptyCompetencesBold}>
               ajouter des expériences personnelles ou professionnelles
             </span>

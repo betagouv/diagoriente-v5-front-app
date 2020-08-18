@@ -76,7 +76,7 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
             <Avatar size={50} className={classes.logoConatienr} avatarCircleBackground="#DDCCFF">
               <img src={InterestLogo} alt="interest" />
             </Avatar>
-            <div className={classes.title}>Mes CENTRES D&lsquo;INTERET</div>
+            <div className={classes.title}>Mes CENTRES D&lsquo;INTÉRÊT</div>
           </div>
           <Link to="/interet">
             <RestLogo color="#420FAB" label="Annuler" />
@@ -84,8 +84,8 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
         </div>
         <div className={classes.wrapper}>
           <div className={classes.subTitle}>
-            <div>Bravo ! Tu as sélectionné tes 5 centres d&lsquo;intérêts.</div>
-            <div>Maintenant choisis celui qui est le plus important pour toi :</div>
+            <div>Bravo ! Tu as sélectionné tes 5 familles d&lsquo;intérêts.</div>
+            <div>Maintenant classe-les par ordre d’importance pour toi :</div>
           </div>
           <div className={classes.listSelected}>
             {selectedInterest?.map((ele, index) => (

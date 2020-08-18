@@ -435,7 +435,8 @@ const ImmersionContainer = ({
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
             Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
-            rempli une convention avec ta structure d’accueil !{' '}
+            rempli une convention avec ta structure d’accueil!
+            {' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>

@@ -13,9 +13,10 @@ import useStyles from './styles';
 
 interface CardSkill extends Unpacked<UserParcour['skills']> {}
 
-const CardSkill = ({ comment: allComments, theme, activities }: CardSkill) => {
+const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
+  const act = theme.type === 'engagement' ? engagement.activities : activities;
 
   return (
     <Tooltip
@@ -32,11 +33,19 @@ const CardSkill = ({ comment: allComments, theme, activities }: CardSkill) => {
           </div>
         </div>
         <ul className={classes.activityContainer}>
-          {activities.map((activity) => (
-            <li className={classes.activity} key={activity.id}>
-              {activity.title}
-            </li>
-          ))}
+          {(act as any).map((activity: any) => {
+            return (
+              <li className={classes.activity} key={activity.id}>
+                {theme.type === 'engagement' ? (
+                  <span style={{ fontWeight: 700 }}>{activity.activity.title}</span>
+                ) : (
+                  activity.title
+                )}
+                {'  '}
+                {activity.option}
+              </li>
+            );
+          })}
         </ul>
       </Grid>
     </Tooltip>

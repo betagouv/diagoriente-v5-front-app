@@ -20,10 +20,11 @@ const CardCompetence = ({ title, description, type }: IProps) => {
     [parcours],
   );
   const globalEngagement = useMemo(
-    () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement') || [],
+    () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement' && comp.niveau !== null) || [],
     [parcours],
   );
   const globals = type === 'engagement' ? globalEngagement : globalCompetences;
+  console.log('globals', globals)
 
   return (
     <div className={classes.part}>
@@ -36,7 +37,7 @@ const CardCompetence = ({ title, description, type }: IProps) => {
               <Grid item lg={6} key={comp.id}>
                 <div className={classes.competenceTitle}>{comp.title}</div>
                 <CompetenceEchelon value={comp.value} />
-                <div className={classes.competenceNiveau}>{`${comp.niveau.title} ${comp.niveau.sub_title}`}</div>
+                <div className={classes.competenceNiveau}>{`${comp.niveau?.title} ${comp.niveau?.sub_title}`}</div>
               </Grid>
             ))}
           </Grid>

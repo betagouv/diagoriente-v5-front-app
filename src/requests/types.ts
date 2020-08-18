@@ -14,6 +14,20 @@ export interface User {
   role: UserRole;
 }
 
+export interface Question {
+  id: string;
+  title: string;
+  parent: Question | null;
+}
+
+export interface Option {
+  id: string;
+  title: string;
+  parent: Option | null;
+  question: Question;
+  verified: boolean;
+}
+
 export interface Token {
   tokenType: string;
   accessToken: string;

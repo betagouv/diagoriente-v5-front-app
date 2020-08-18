@@ -63,13 +63,7 @@ export const getUserParcourQuery = gql`
             description
             icon
           }
-          activities {
-            activity {
-              id
-              title
-            }
-            option
-          }
+        
         }
       }
       globalCompetences {

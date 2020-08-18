@@ -32,7 +32,7 @@ export interface ActivitiesArguments {
 
 export interface ActivitiesResponse {
   activities: {
-    data: Omit<Activity, 'interests' | 'options'>[];
+    data: Omit<Activity, 'interests'>[];
     perPage: number;
     page: number;
     totalPages: number;
@@ -55,10 +55,6 @@ export const activityQuery = gql`
         id
         nom
       }
-      options {
-        value
-        verified
-      }
     }
   }
 `;
@@ -71,22 +67,8 @@ export const useActivity = (options: QueryHookOptions<ActivityResponse, { id: st
   useLocalLazyQuery(activityQuery, options);
 
 export const addActivityMutation = gql`
-  mutation AddActivity(
-    $title: String!
-    $description: String!
-    $type: String!
-    $verified: Boolean!
-    $interests: [ID]
-    $options: [optionInput]
-  ) {
-    addActivity(
-      title: $title
-      description: $description
-      type: $type
-      verified: $verified
-      interests: $interests
-      options: $options
-    ) {
+  mutation AddActivity($title: String!, $description: String!, $type: String!, $verified: Boolean!, $interests: [ID]) {
+    addActivity(title: $title, description: $description, type: $type, verified: $verified, interests: $interests) {
       id
       title
       description
@@ -102,7 +84,6 @@ export interface AddActivityParams {
   type: string;
   verified: boolean;
   interests?: string[];
-  options?: { value: string; verified: boolean }[];
 }
 
 export const useAddActivity = (options?: MutationHookOptions<{ addActivity: Activity }, AddActivityParams>) =>
@@ -116,7 +97,6 @@ export const updateActivityMutation = gql`
     $type: String
     $verified: Boolean
     $interests: [ID]
-    $options: [optionInput]
   ) {
     updateActivity(
       id: $id
@@ -125,7 +105,6 @@ export const updateActivityMutation = gql`
       type: $type
       verified: $verified
       interests: $interests
-      options: $options
     ) {
       id
       title

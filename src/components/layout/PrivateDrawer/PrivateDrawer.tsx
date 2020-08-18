@@ -27,6 +27,8 @@ const adminLinks = [
   { text: 'Activités', path: '/admin/activities' },
   { text: 'Contextes', path: '/admin/contexts' },
   { text: 'Compétences', path: '/admin/competences' },
+  { text: 'Questions', path: '/admin/questions' },
+  { text: 'Options', path: '/admin/options' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
@@ -51,7 +53,7 @@ const PrivateDrawer = () => {
     setOpen(false);
   };
 
-  const links = user?.role === 'user' ? userLinks : adminLinks;
+  const links = user?.role !== 'admin' ? userLinks : adminLinks;
 
   useEffect(() => {
     if (!parcours?.completed && isJobs) {

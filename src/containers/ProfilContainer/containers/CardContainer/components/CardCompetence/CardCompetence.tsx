@@ -24,7 +24,6 @@ const CardCompetence = ({ title, description, type }: IProps) => {
     [parcours],
   );
   const globals = type === 'engagement' ? globalEngagement : globalCompetences;
-  console.log('globals', globals)
 
   return (
     <div className={classes.part}>

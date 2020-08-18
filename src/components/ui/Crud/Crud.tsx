@@ -241,7 +241,7 @@ const Crud = <
   }
 
   return (
-    <div>
+    <div className={classes.container}>
       <Switch>
         <Route
           path={[match.path, path.join(match.path, '/delete/:id')]}

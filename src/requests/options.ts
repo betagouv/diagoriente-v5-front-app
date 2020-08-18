@@ -6,7 +6,7 @@ import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo
 import { Option } from './types';
 
 export const optionsQuery = gql`
-  query Options($search: String, $page: Int, $perPage: Int, $parent: ID) {
+  query Options($search: String, $page: Int, $perPage: Int, $parent: String) {
     options(search: $search, page: $page, perPage: $perPage, parent: $parent) {
       perPage
       page

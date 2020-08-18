@@ -18,13 +18,14 @@ const HomeInteret = () => {
           <img src={InterestLogo} alt="interest" width="104" height="104" />
         </div>
 
-        <TitleImage title="MES CENTRES D’INTERET" color="#420FAB" image={Trait} />
+        <TitleImage title="MES CENTRES D’INTÉRÊT" color="#420FAB" image={Trait} />
         <div className={classes.subTitleContainer}>
           <div className={classes.subTitle}>
             <div>Nous allons te présenter différents centres d&lsquo;intérêts.</div>
             <div>
-              <b>Choisis les 5 qui te parlent le plus </b>
-              dans un contexte professionnel.
+              <b>À toi de choisir ceux qui te plairaient le plus</b>
+              {'  '}
+              en contexte professionnel
             </div>
           </div>
         </div>

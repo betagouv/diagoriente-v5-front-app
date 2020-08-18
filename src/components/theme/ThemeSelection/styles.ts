@@ -14,7 +14,7 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
       borderRadius: '0px 15px 0px 0px',
       flexDirection: 'column',
       transition: 'all 250ms cubic-bezier(0.4, 0, 1, 1) 0ms',
-      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.25)'
+      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.25)',
     },
 
     container: {
@@ -145,4 +145,8 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
       fontSize: 16,
       margin: 0,
     },
-  }));
+    boldText: {
+      fontWeight: 'bold',
+    },
+  }),
+);

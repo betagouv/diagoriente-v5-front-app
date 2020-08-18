@@ -35,7 +35,7 @@ const ExperienceCompetence = ({
  match, competences, setCompetences, theme, history, isCreate, location,
 }: Props) => {
   const classes = useStyles();
-  const { data, loading } = useCompetences();
+  const { data, loading } = useCompetences({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
   const { redirect } = decodeUri(location.search);
 
@@ -59,9 +59,7 @@ const ExperienceCompetence = ({
         <div className={classes.header}>
           <Title
             title={
-              theme && theme.type === 'professional'
-                ? 'MES EXPERIENCES PROFESSIONNELLES'
-                : 'MES EXPERIENCES PERSONNELLES'
+              theme && theme.type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
             size={26}

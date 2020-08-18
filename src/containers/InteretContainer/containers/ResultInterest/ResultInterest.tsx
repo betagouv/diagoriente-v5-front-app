@@ -26,14 +26,14 @@ const ResultInterest = () => {
         </div>
         <div className={classes.description}>
           <div className={classes.text}>
-            <b>Tu as sélectionné et classé 5 centres d&lsquo;intérêts.</b>
+            <b>Tu as sélectionné et classé 5 familles d&lsquo;intérêts.</b>
           </div>
-          <div className={classes.text}>En fonction de tes expériences et de tes centres d&lsquo;intérêts, nous</div>
+          <div className={classes.text}>En fonction de tes expériences et de tes centres d&lsquo;intérêt, nous</div>
           <div className={classes.text}>allons maintenant te proposer des métiers qui peuvent te plaire.</div>
         </div>
         <div className={classes.btnContainer}>
           <Button className={classes.btn} onClick={() => handleOpen()}>
-            <div className={classes.btnLabel}>Voir mes pistes métiers</div>
+            <div className={classes.btnLabel}>Je découvre mes pistes métiers</div>
           </Button>
         </div>
         <Link to="/experience?redirect=profil" className={classes.link}>

@@ -54,7 +54,7 @@ const HomeCompleted = () => {
   const dashboardContent = useMemo(
     () => [
       {
-        title: 'ME CONNAITRE',
+        title: 'ME CONNAÎTRE',
         titleBackground: blueLine,
         background: '#4D6EC5',
         image: IlluMeConnaitre,
@@ -79,9 +79,9 @@ const HomeCompleted = () => {
               { path: '/experience', buttonClassName: classes.blue },
             )}
             {renderContentItem(
-              'MES CENTRES D’INTÉRÊT',
+              'MES CENTRE D’INTÉRÊT',
               // eslint-disable-next-line
-              "Sélectionne tes centres d'intérêts. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
+              "Sélectionne tes centre d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
               { path: '/interet', buttonClassName: classes.purple },
             )}
           </div>
@@ -106,7 +106,7 @@ const HomeCompleted = () => {
         openChildren: renderContentItem(
           'MES PISTES MÉTIERS',
           // eslint-disable-next-line
-          "Dès que tu auras rempli tes expériences et tes centres d'intérêts, explore des métiers qui te correspondent.",
+          "Dès que tu auras rempli tes expériences et tes centres d'intérêt, explore des métiers qui te correspondent.",
           { path: '/jobs', descriptionClassName: classes.black },
         ),
       },

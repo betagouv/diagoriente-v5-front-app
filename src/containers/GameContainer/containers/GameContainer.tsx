@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
+import UploadFile from './Diagoriente_RéférentielRectec.pdf'
 import useStyles from './style';
 
 const GameContainer = () => {
   const classes = useStyles();
+  const donwload = () => {};
 
   return (
     <div className={classes.root}>
@@ -23,6 +25,11 @@ const GameContainer = () => {
               <div className={classes.btnLabel}>Je commence à ajouter mes expériences</div>
             </Button>
           </Link>
+          <Button className={classes.btn} onClick={donwload}>
+            <a className={classes.btnLabel} href={UploadFile} download>
+              Télécharger le Référentiel{' '}
+            </a>
+          </Button>
         </div>
       </div>
     </div>

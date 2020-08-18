@@ -33,7 +33,6 @@ const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
-
   const [callJobs, stateJobs] = useJobs();
 
   useDidMount(() => {
@@ -41,6 +40,7 @@ const ProfilComponent = () => {
   });
 
   const persoSkills = parcours?.skills.filter((p) => p.theme?.type === 'personal') || [];
+  const engagementSkills = parcours?.skills.filter((p) => p.theme?.type === 'engagement') || [];
 
   const proSkills = parcours?.skills.filter((p) => p.theme?.type === 'professional') || [];
 
@@ -89,7 +89,7 @@ const ProfilComponent = () => {
       ),
     },
     {
-      title: 'MES CENTRES D’INTERET',
+      title: 'MES CENTRES D’INTÉRÊT',
       background: '#420FAB',
       color: '#fff',
       path: '/profile/interest',
@@ -114,7 +114,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -131,10 +131,9 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -150,8 +149,7 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           className={classes.root}
         >
           {parcours?.families
@@ -178,7 +176,7 @@ const ProfilComponent = () => {
     },
     {
       path: '/profile/card',
-      title: 'MA CARTE DE COMPETENCES',
+      title: 'MA CARTE DE COMPÉTENCES',
       background: '#D60051',
       color: '#fff',
       children: (
@@ -195,8 +193,8 @@ const ProfilComponent = () => {
       ),
     },
     {
-      titleCard: <Title title="MES EXPERIENCES" color="#424242" size={18} font="42" className={classes.title} />,
-      title: 'MES EXPERIENCES PERSONNELLES',
+      titleCard: <Title title="MES EXPÉRIENCES" color="#424242" size={18} font="42" className={classes.title} />,
+      title: 'MES EXPÉRIENCES PERSONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience',
@@ -221,7 +219,7 @@ const ProfilComponent = () => {
     {
       titleCard: <div className={classes.emptyDiv} />,
 
-      title: 'MES EXPERIENCES PROFESSIONNELLES',
+      title: 'MES EXPÉRIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience?type=professional',
@@ -238,11 +236,34 @@ const ProfilComponent = () => {
         </Grid>
       ) : null,
     },
-    {},
+    {
+      titleCard: <div className={classes.emptyDiv} />,
+      title: "MES EXPÉRIENCES D'ENGAGEMENT",
+      background: '#4D6EC5',
+      color: '#fff',
+      path: '/profile/experience?type=engagement',
+      className: classes.experienceCard,
+      children: engagementSkills.length ? (
+        <Grid container spacing={1}>
+          {engagementSkills.map((theme) => (
+            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+              <div className={classes.themeSelection}>
+                <Circle avatarCircleBackground="transparent" size={100}>
+                  {theme.theme.resources && theme.theme.resources.icon && (
+                    <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
+                  )}
+                </Circle>
+                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+      ) : null,
+    },
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
-      title: 'MON TOP METIERS',
+      title: 'MON TOP MÉTIERS',
       background: '#FFD382',
       color: '#424242',
       logo: star,
@@ -251,17 +272,17 @@ const ProfilComponent = () => {
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-      title: 'MES METIERS FAVORIS',
+      title: 'MES MÉTIERS FAVORIS',
       background: '#FFD382',
       color: '#424242',
       logo: heart,
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-            <div key={j.id} className={classes.favoriContainer}>
-              <img src={littleheart} alt="" height={20} />
-              <div className={classes.job}>{j.title}</div>
-            </div>
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littleheart} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
           ))
         : null,
     },

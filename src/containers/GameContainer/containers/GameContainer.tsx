@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import Button from 'components/button/Button';
-import { Link } from 'react-router-dom';
-import UploadFile from './Diagoriente_RéférentielRectec.pdf'
+import { useHistory } from 'react-router-dom';
+import { useUpdateParcour } from 'requests/parcours';
+import ParcourContext from 'contexts/ParcourContext';
+import UploadFile from './Diagoriente_RéférentielRectec.pdf';
 import useStyles from './style';
 
 const GameContainer = () => {
   const classes = useStyles();
-  const donwload = () => {};
+  const history = useHistory();
+  const { setParcours } = useContext(ParcourContext);
+  const [updateCall, updateState] = useUpdateParcour();
+  const onNavigate = () => {
+    updateCall({ variables: { played: true } });
+    history.push('/experience');
+  };
+  useEffect(() => {
+    if (updateState.data && !updateState.error) {
+      setParcours(updateState.data.updateParcour);
+    }
+  }, [updateState.data, setParcours, updateState.error]);
 
   return (
     <div className={classes.root}>
@@ -20,12 +33,12 @@ const GameContainer = () => {
           />
         </div>
         <div className={classes.btnContainer}>
-          <Link to="/experience">
+          <div onClick={onNavigate}>
             <Button className={classes.btn}>
               <div className={classes.btnLabel}>Je commence à ajouter mes expériences</div>
             </Button>
-          </Link>
-          <Button className={classes.btn} onClick={donwload}>
+          </div>
+          <Button className={classes.btn}>
             <a className={classes.btnLabel} href={UploadFile} download>
               Télécharger le Référentiel{' '}
             </a>

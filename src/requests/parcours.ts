@@ -15,6 +15,7 @@ export const getUserParcourQuery = gql`
         id
         nom
         category
+        resources
       }
       skills {
         id

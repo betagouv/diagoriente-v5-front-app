@@ -87,7 +87,6 @@ export default makeStyles((theme) =>
     alignThemeTitle: {
       textAlign: 'left',
       listStyle: 'inside',
-
     },
 
     emptyDiv: {
@@ -134,6 +133,16 @@ export default makeStyles((theme) =>
       fontWeight: 900,
       fontSize: 24,
       color: theme.palette.secondary.main,
+    },
+    imageContainer: {
+      position: 'relative',
+      width: 60,
+    },
+    testImg: {
+      position: 'absolute',
+      top: 0,
+      width: '100%',
+      left: 0,
     },
 
     bottomTitle: {
@@ -279,4 +288,5 @@ export default makeStyles((theme) =>
       maxHeight: '100%',
       maxWidth: '100%',
     },
-  }));
+  }),
+);

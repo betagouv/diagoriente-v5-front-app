@@ -89,7 +89,7 @@ export interface JobResponse {
     rome_codes: string;
     secteur: string[];
     niveau: string[];
-    interests: { _id: { nom: string; id: string }; __typename: string }[];
+    interests: { _id: { nom: string; id: string; }; __typename: string }[];
     competences: { _id: { id: string; title: string }; weight: number }[];
     formations: string[];
     environments: string[];

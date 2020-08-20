@@ -23,7 +23,7 @@ export interface Question {
 export interface Option {
   id: string;
   title: string;
-  parent: Option[][];
+  parent: { path: Option[] }[];
   question: Question;
   verified: boolean;
 }

@@ -44,8 +44,11 @@ const OptionForm = ({ onSubmit, option }: OptionFormProps) => {
     if (option) {
       setValues({
         ...option,
-        parent: option.parent.map((parentList) =>
-          parentList.map((parent) => ({ label: parent.title, value: parent.id }))),
+        parent:
+          option.parent.length > 0
+            ? option.parent.map((parentList) =>
+                parentList.path.map((parent) => ({ label: parent.title, value: parent.id })))
+            : [[]],
         question: { label: option.question.title, value: option.question.id },
       });
     }

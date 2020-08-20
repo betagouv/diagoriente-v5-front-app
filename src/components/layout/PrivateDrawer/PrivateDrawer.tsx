@@ -17,7 +17,7 @@ import useStyles from './styles';
 
 export const userLinks = [
   { text: 'TABLEAU DE BORD', path: '/' },
-  { text: 'Aide', path: '/' },
+  { text: 'AIDE', path: '/' },
   { text: 'FAQ', path: '/' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
@@ -122,7 +122,7 @@ const PrivateDrawer = () => {
           </div>
           <div>
             <div className={classes.textMsg}>
-              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rend toi dans ton tableau de
+              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rends toi dans ton tableau de
               bord, accessible via le menu.
             </div>
             <Button className={classes.btn} onClick={onSubmit}>

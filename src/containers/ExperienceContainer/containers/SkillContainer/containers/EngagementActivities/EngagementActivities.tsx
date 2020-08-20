@@ -7,7 +7,6 @@ import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
-import { useAddActivityOption } from 'requests/activityOption';
 import { useQuestions } from 'requests/questions';
 import RestLogo from 'components/common/Rest/Rest';
 import add from 'assets/svg/pictoadd.svg';
@@ -35,24 +34,12 @@ const EngagementActivities = ({
 }: Props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [addValue, setAddValue] = useState('');
-  const [addActivityOptionCall] = useAddActivityOption();
 
   const [questions, setQuestions] = useState([] as Question[][]);
 
   const { data } = useQuestions();
   const openActivity = () => {
     setOpen(true);
-  };
-  const handleClose = (id: string) => {
-    if (addValue.length > 2) {
-      addActivityOptionCall({ variables: { option: addValue, id } });
-      setOpen(false);
-    }
-  };
-  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setAddValue(value);
   };
 
   const handleChange = (e: React.ChangeEvent<any>, index: number, i: number) => {
@@ -130,10 +117,8 @@ const EngagementActivities = ({
                               onChange={(e) => handleChange(e, index, i)}
                               value={optionActivities && optionActivities[index][i] ? optionActivities[index][i] : ''}
                               setOpen={setOpen}
-                              handleClose={handleClose}
                               open={open}
                               question={question}
-                              onChangeValue={onChangeValue}
                               parent={optionActivities[index].slice(0, i).join(',')}
                             />
                           </div>

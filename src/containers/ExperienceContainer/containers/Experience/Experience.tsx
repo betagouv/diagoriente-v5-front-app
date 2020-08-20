@@ -23,6 +23,7 @@ const Experience = () => {
 
   useEffect(() => {
     if (!parcours?.played) openModal();
+    // eslint-disable-next-line
   }, [parcours?.played]);
   return (
     <div className={classes.container}>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Theme, Question } from 'requests/types';
-import classNames from 'utils/classNames';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
@@ -12,9 +11,9 @@ import RestLogo from 'components/common/Rest/Rest';
 import add from 'assets/svg/pictoadd.svg';
 
 import blueline from 'assets/svg/blueline.svg';
-import Remove from '@material-ui/icons/RemoveCircle';
-import Select from './components/ActvitySelect/ActivitySelect';
+
 import useStyles from './styles';
+import QuestionList from './components/QuestionList/QuestionList';
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
@@ -33,34 +32,13 @@ const EngagementActivities = ({
   optionActivities,
 }: Props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
 
   const [questions, setQuestions] = useState([] as Question[][]);
 
   const { data } = useQuestions();
-  const openActivity = () => {
-    setOpen(true);
-  };
-
-  const handleChange = (e: React.ChangeEvent<any>, index: number, i: number) => {
-    if (e.target.value && setOptionActivities && optionActivities) {
-      const nextOptionsActivities = [...optionActivities];
-      const newValuesRow = nextOptionsActivities[index];
-      const newOptionsValues = newValuesRow.slice(0, i);
-      newOptionsValues[i] = e.target.value;
-      nextOptionsActivities[index] = newOptionsValues;
-      setOptionActivities(nextOptionsActivities);
-    }
-  };
 
   const addActivityRow = () => {
-    setQuestions([...questions, questions[0]]);
     setOptionActivities([...optionActivities, []]);
-  };
-
-  const deleteActivity = (index: number) => {
-    setQuestions(questions.filter((act, i) => i !== index));
-    setOptionActivities(optionActivities.filter((act, i) => i !== index));
   };
 
   useEffect(() => {
@@ -105,29 +83,8 @@ const EngagementActivities = ({
             <div className={classes.rowActivityWidth}>
               <span>Choisis en déroulant les menus ou ajoute tes propre activités</span>
               <div className={classes.selectGrid}>
-                {questions.map((q, index) => (
-                  <div className={classes.questionRow}>
-                    {q
-                      .filter((q, i) => optionActivities[index].length >= i)
-                      .map((question, i) => (
-                        <div key={question.id} className={classNames(classes.rowActivity)}>
-                          <div className={classes.selectContainer}>
-                            <Select
-                              openActivity={openActivity}
-                              onChange={(e) => handleChange(e, index, i)}
-                              value={optionActivities && optionActivities[index][i] ? optionActivities[index][i] : ''}
-                              setOpen={setOpen}
-                              open={open}
-                              question={question}
-                              parent={optionActivities[index].slice(0, i).join(',')}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    {questions.length !== 1 && (
-                      <Remove className={classes.deleteIcon} onClick={() => deleteActivity(index)} />
-                    )}
-                  </div>
+                {optionActivities.map((q, index) => (
+                  <QuestionList index={index} optionActivities={optionActivities} setOptionActivities={setOptionActivities} />
                 ))}
 
                 <img src={add} alt="" height={28} className={classes.addIcon} onClick={addActivityRow} />

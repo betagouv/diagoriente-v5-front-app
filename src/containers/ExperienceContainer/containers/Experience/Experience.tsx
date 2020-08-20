@@ -21,8 +21,6 @@ const Experience = () => {
   const handleClose = () => setOpen(false);
   const { parcours } = useContext(parcourContext);
 
-console.log('parcours', parcours)
-
   useEffect(() => {
     if (!parcours?.played) openModal();
   }, [parcours]);

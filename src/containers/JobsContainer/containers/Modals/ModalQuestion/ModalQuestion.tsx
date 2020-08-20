@@ -58,7 +58,7 @@ const ModalQuestion = ({ job, handleClose }: IProps) => {
       <div className={classes.titleContainer}>
         <div className={classes.title}>{job?.title}</div>
       </div>
-      <div className={classes.description}>CE METIER EST-IL FAIT POUR TOI ? FAIS LE TEST !</div>
+      <div className={classes.description}>CE METIER EST-IL FAIT POUR TOI ?</div>
 
       {job && job?.questionJobs.length > 0 ? (
         <div className={classes.questionContainer}>{`QUESTION ${currentIndex + 1}/${job?.questionJobs.length}`}</div>

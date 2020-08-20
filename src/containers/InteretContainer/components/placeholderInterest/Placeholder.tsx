@@ -31,15 +31,26 @@ const Placeholder = ({
   footer,
 }: IProps) => {
   const classes = useStyles({
- direction, size, marginTop, full, footer,
-});
+    direction,
+    size,
+    marginTop,
+    full,
+    footer,
+  });
   const nom = famille?.nom;
   const res = nom && nom.replace(/\//g, '');
   return (
     <div className={classNames(classes.root, className)}>
-      <div className={classNames(classes.circle, circleClassName)}>
-        <div className={classes.number}>{index || null}</div>
-      </div>
+      {famille ? (
+        <div className={classes.imageContainer}>
+          <img src={famille.resources[0]} alt="" />
+          <img src={famille.resources[1]} alt="" className={classes.testImg} />
+        </div>
+      ) : (
+        <div className={classNames(classes.circle, circleClassName)}>
+          <div className={classes.number}>{index || null}</div>
+        </div>
+      )}
       {famille ? (
         <div className={classNames(classes.textFamille, textFamilleClassName)}>
           <Dotdotdot clamp={5}>{res}</Dotdotdot>

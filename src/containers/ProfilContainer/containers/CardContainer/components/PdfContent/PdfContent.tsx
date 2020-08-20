@@ -18,9 +18,6 @@ import useStyles from './styles';
 
 const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
   const { parcours } = useContext(ParcourContext);
-  /* const globalCompetences = useMemo(() => parcours?.globalCompetences.filter((comp) => comp.value > 0) || [], [
-    parcours,
-  ]); */
   const classes = useStyles();
   const comments = (
     ([] as { title: string; comment: CommentType }[]).concat(

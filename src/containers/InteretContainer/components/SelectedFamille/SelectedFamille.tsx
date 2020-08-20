@@ -18,7 +18,10 @@ const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => 
   return (
     <div className={classes.root} onClick={() => handleClick(index)}>
       <div className={classes.circle}>
-        <div className={classes.number}>{index + 1}</div>
+        <div className={classes.imageContainer}>
+          <img src={famille.resources[0]} alt="" />
+          <img src={famille.resources[1]} alt="" className={classes.testImg} />
+        </div>
       </div>
       <div className={classes.elements}>
         <Dotdotdot clamp={5}>

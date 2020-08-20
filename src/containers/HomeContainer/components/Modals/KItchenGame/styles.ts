@@ -37,7 +37,7 @@ export default makeStyles((theme) => ({
     },
   },
   labelBtn: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
   infoContainer: {
     marginTop: 13,

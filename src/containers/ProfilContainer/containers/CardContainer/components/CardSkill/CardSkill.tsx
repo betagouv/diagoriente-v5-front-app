@@ -36,6 +36,8 @@ const CardSkill = ({
         </div>
         {/*  <ul className={classes.activityContainer}>
           {(act as any).map((activity: any) => {
+        <ul className={classes.activityContainer}>
+          {(act as any)?.map((activity: any) => {
             return (
               <li className={classes.activity} key={activity.id}>
                 {theme.type === 'engagement' ? (

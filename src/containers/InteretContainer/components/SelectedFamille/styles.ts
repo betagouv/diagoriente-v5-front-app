@@ -13,15 +13,13 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     cursor: 'pointer',
   },
   circle: {
-    width: 77,
-    height: 77,
+    width: 67,
+    height: 67,
     borderRadius: '50%',
-    border: (props) => (props.direction !== 'horizontal' ? `4px solid ${theme.palette.primary.main}` : ''),
     boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   number: {
     fontWeight: 900,
@@ -44,5 +42,15 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     fontSize: 12,
     color: (props) => (props.direction === 'horizontal' ? '#fff' : '#424242'),
     textAlign: (props) => (props.direction === 'horizontal' ? 'left' : 'center'),
+  },
+  imageContainer: {
+    position: 'relative',
+    width: 60,
+  },
+  testImg: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    left: 0,
   },
 }));

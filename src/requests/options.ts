@@ -86,7 +86,8 @@ export const addOptionMutation = gql`
 
 export interface AddOptionParams {
   title: string;
-  parent: string;
+  parent: string[][];
+  question: string;
 }
 
 export const useAddOption = (options?: MutationHookOptions<{ addOption: Option }, AddOptionParams>) =>

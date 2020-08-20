@@ -13,10 +13,12 @@ import useStyles from './styles';
 
 interface CardSkill extends Unpacked<UserParcour['skills']> {}
 
-const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
+const CardSkill = ({
+ comment: allComments, theme, activities, engagement,
+}: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
-  const act = theme.type === 'engagement' ? engagement.activities : activities;
+  // const act = theme.type === 'engagement' ? engagement.activities : activities;
 
   return (
     <Tooltip
@@ -32,7 +34,7 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
             {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
           </div>
         </div>
-        <ul className={classes.activityContainer}>
+        {/*  <ul className={classes.activityContainer}>
           {(act as any).map((activity: any) => {
             return (
               <li className={classes.activity} key={activity.id}>
@@ -46,7 +48,7 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
               </li>
             );
           })}
-        </ul>
+        </ul> */}
       </Grid>
     </Tooltip>
   );

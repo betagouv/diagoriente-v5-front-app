@@ -68,9 +68,6 @@ export const themeQuery = gql`
         id
         title
         description
-        options {
-          value
-        }
       }
       tooltips {
         competenceId

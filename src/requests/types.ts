@@ -141,9 +141,11 @@ export interface UserParcour {
         description: string;
         icon: string;
       };
-      activities: {
-        activity: Activity;
-        option: string;
+      options: {
+        option: {
+          id: string;
+          title: string;
+        }[];
       }[];
     };
   }[];

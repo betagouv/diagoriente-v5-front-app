@@ -6,8 +6,8 @@ import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo
 import { Option } from './types';
 
 export const optionsQuery = gql`
-  query Options($search: String, $page: Int, $perPage: Int, $parent: String) {
-    options(search: $search, page: $page, perPage: $perPage, parent: $parent) {
+  query Options($search: String, $page: Int, $perPage: Int, $parent: String, $question: ID) {
+    options(search: $search, page: $page, perPage: $perPage, parent: $parent, question: $question) {
       perPage
       page
       totalPages
@@ -33,6 +33,8 @@ export interface OptionsArguments {
   search?: string;
   page?: number;
   perPage?: number;
+  question?: string;
+  parent?: string;
 }
 
 export interface OptionsResponse {

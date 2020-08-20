@@ -32,7 +32,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
   };
-  const { data, loading, called } = useThemes({
+  const { data, loading } = useThemes({
     variables: { type: type === 'engagement' ? 'engagement' : 'personal' },
   });
   const { parcours } = useContext(parcoursContext);

@@ -54,16 +54,20 @@ export const getUserParcourQuery = gql`
           location
         }
         engagement {
-          id
           startDate
           endDate
+          options {
+            option {
+              id
+              title
+            }
+          }
           context {
             id
             title
             description
             icon
           }
-        
         }
       }
       globalCompetences {

@@ -44,8 +44,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
         <div className={classes.description}>
           <p className={classes.text}>
             Tu as ajouté une expérience
-            {typeXp}
-            à ton parcours, et tu as identifié de nouvelles compétences.
+            {typeXp}à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
         {skill?.theme.type === 'professional' ? (
@@ -58,30 +57,21 @@ const ResultCompetences = ({ theme, match }: Props) => {
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
         )}
-        {parcours?.completed ? (
-          <div className={classes.btnskillContainer}>
-            <div className={classes.btnContainer}>
-              <Link to="/experience">
-                <Button className={classes.btn}>
-                  <div className={classes.btnLabel}>Ajouter une nouvelle expérience</div>
-                </Button>
-              </Link>
-            </div>
-            <div className={classes.btnSkillCardContainer}>
-              <Link to="/profile/card">
-                <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className={classes.btnskillFirstUser}>
-            <Link to="/">
-              <Button className={classes.btnFirstUse}>
-                <div className={classes.btnLabelFirstUse}>Continuer à découvrir Diagoriente</div>
+
+        <div className={classes.btnskillContainer}>
+          <div className={classes.btnContainer}>
+            <Link to="/experience">
+              <Button className={classes.btn}>
+                <div className={classes.btnLabel}>Ajouter une nouvelle expérience</div>
               </Button>
             </Link>
           </div>
-        )}
+          <div className={classes.btnSkillCardContainer}>
+            <Link to="/profile/card">
+              <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

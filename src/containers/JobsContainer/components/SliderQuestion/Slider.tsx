@@ -46,7 +46,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
             <div className={classes.question}>{el.label}</div>
             <div className={classes.btnContainer}>
               <Button
-                className={classNames(classes.btn, t.response === 'true' && classes.existResponses)}
+                className={classNames(classes.btnTrue, t.response === 'true' && classes.existResponses)}
                 onClick={() =>
                   onClick({
                     response: true,
@@ -59,7 +59,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
                 <div className={classes.labelBtn}>OUI</div>
               </Button>
               <Button
-                className={classNames(classes.btn, t.response === 'false' && classes.existResponses)}
+                className={classNames(classes.btnFalse, t.response === 'false' && classes.existResponses)}
                 onClick={() =>
                   onClick({
                     response: false,

@@ -20,8 +20,10 @@ export const optionsQuery = gql`
           title
         }
         parent {
-          id
-          title
+          path {
+            id
+            title
+          }
         }
         verified
       }
@@ -60,8 +62,10 @@ export const optionQuery = gql`
         title
       }
       parent {
-        id
-        title
+        path {
+          id
+          title
+        }
       }
       verified
     }

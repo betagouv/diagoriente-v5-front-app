@@ -59,7 +59,6 @@ const Select = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState('auto' as number | string);
-
   const classes = useStyles({ left: dimension[0], top: dimension[1], width });
   useOnclickOutside(menuRef, () => {
     if (setOpenSelect) setOpenSelect(false);
@@ -98,11 +97,16 @@ const Select = ({
     // eslint-disable-next-line
   }, [openSelect]);
 
+  const getValue = () => {
+    if (width === 'auto') return '__label__';
+    return value || '__label__';
+  };
+
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
         style={{ width }}
-        value={value || '__label__'}
+        value={getValue()}
         ref={selectRef}
         MenuProps={{
           classes: { paper: classNames(classes.menu, menuClassName), list: classes.paddingBottom },

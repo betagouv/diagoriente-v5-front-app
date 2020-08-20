@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import React, { useContext, forwardRef, Ref, useMemo } from 'react';
+import React, { useContext, forwardRef, Ref } from 'react';
 import ParcourContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 

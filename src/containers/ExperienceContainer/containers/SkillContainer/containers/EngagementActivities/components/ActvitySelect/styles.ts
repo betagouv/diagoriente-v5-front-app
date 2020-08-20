@@ -144,9 +144,9 @@ export default makeStyles((theme: Theme) =>
 
     selectGrid: {
       display: 'flex',
-      flexDirection: 'column',
       width: '100%',
-      position: 'relative',
+      flexWrap: 'wrap',
+      alignItems: 'center',
     },
 
     selectContainer: {
@@ -174,32 +174,5 @@ export default makeStyles((theme: Theme) =>
     borderSelect: {
       border: '1px solid #00CFFF',
     },
-    addIcon: {
-      position: 'absolute',
-      bottom: 5,
-      right: -60,
-    },
 
-    deleteIcon: {
-      position: 'absolute',
-      bottom: 5,
-      right: -20,
-      color: theme.palette.error.main,
-      fontSize: 28,
-    },
-    questionRow: {
-      display: 'flex',
-      width: '100%',
-      position: 'relative',
-    },
-    rowActivityWidth: {
-      width: 800,
-    },
-    rowActivity: {
-      display: 'flex',
-      position: 'relative',
-    },
-    rowActivityHidden: {
-      opacity: 0,
-    },
   }));

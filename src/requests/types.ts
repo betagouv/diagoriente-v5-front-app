@@ -23,7 +23,7 @@ export interface Question {
 export interface Option {
   id: string;
   title: string;
-  parent: Option[][];
+  parent: { path: Option[] }[];
   question: Question;
   verified: boolean;
 }
@@ -141,9 +141,11 @@ export interface UserParcour {
         description: string;
         icon: string;
       };
-      activities: {
-        activity: Activity;
-        option: string;
+      options: {
+        option: {
+          id: string;
+          title: string;
+        }[];
       }[];
     };
   }[];

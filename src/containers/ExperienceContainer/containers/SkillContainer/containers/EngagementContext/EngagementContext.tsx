@@ -58,6 +58,7 @@ const EngagementContext = ({
                 checked={context.id === contextCheck}
                 handleChange={(e) => handleChange(e, context.id)}
                 icon={context.icon}
+                key={context.id}
               />
             ))}
           </Grid>

@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { ActivityEngagement, Theme } from 'requests/types';
+import { Theme, Question } from 'requests/types';
+import classNames from 'utils/classNames';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
-import Select from 'components/Select/Select';
-import { useAddActivityOption } from 'requests/activitiyOption';
-
+import { useQuestions } from 'requests/questions';
 import RestLogo from 'components/common/Rest/Rest';
+import add from 'assets/svg/pictoadd.svg';
 
 import blueline from 'assets/svg/blueline.svg';
-
+import Remove from '@material-ui/icons/RemoveCircle';
+import Select from './components/ActvitySelect/ActivitySelect';
 import useStyles from './styles';
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
-  setEngagementActivities: (activities: ActivityEngagement[]) => void;
   isCreate?: boolean;
-  activitiesEngagement: ActivityEngagement[];
-  refetch?: any;
+  setOptionActivities: (optionsActivities: string[][]) => void;
+  optionActivities: string[][];
 }
 
 const EngagementActivities = ({
@@ -29,41 +29,54 @@ const EngagementActivities = ({
   theme,
   isCreate,
   location,
-  activitiesEngagement,
-  setEngagementActivities,
-  refetch,
+  setOptionActivities,
+  optionActivities,
 }: Props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [addValue, setAddValue] = useState('');
-  const [addActivityOptionCall, addActivityOptionState] = useAddActivityOption();
+
+  const [questions, setQuestions] = useState([] as Question[][]);
+
+  const { data } = useQuestions();
   const openActivity = () => {
     setOpen(true);
   };
-  const handleClose = (id: string) => {
-    if (addValue.length > 2) {
-      addActivityOptionCall({ variables: { option: addValue, id } });
-      setOpen(false);
-    }
-  };
-  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setAddValue(value);
-  };
-  useEffect(() => {
-    if (addActivityOptionState.data) refetch();
-    setAddValue('');
-  }, [addActivityOptionState.data, refetch]);
 
-  const handleChange = (e: React.ChangeEvent<any>, index: number) => {
-    if (e.target.value) {
-      const nextActivitiesEngagement = [...activitiesEngagement];
-      const newValues = { ...nextActivitiesEngagement[index] };
-      newValues.option = e.target.value;
-      nextActivitiesEngagement[index] = newValues;
-      setEngagementActivities(nextActivitiesEngagement);
+  const handleChange = (e: React.ChangeEvent<any>, index: number, i: number) => {
+    if (e.target.value && setOptionActivities && optionActivities) {
+      const nextOptionsActivities = [...optionActivities];
+      const newValuesRow = nextOptionsActivities[index];
+      const newOptionsValues = newValuesRow.slice(0, i);
+      newOptionsValues[i] = e.target.value;
+      nextOptionsActivities[index] = newOptionsValues;
+      setOptionActivities(nextOptionsActivities);
     }
   };
+
+  const addActivityRow = () => {
+    setQuestions([...questions, questions[0]]);
+    setOptionActivities([...optionActivities, []]);
+  };
+
+  const deleteActivity = (index: number) => {
+    setQuestions(questions.filter((act, i) => i !== index));
+    setOptionActivities(optionActivities.filter((act, i) => i !== index));
+  };
+
+  useEffect(() => {
+    if (data) {
+      const question = data.questions.data.sort((a, b) => {
+        if (!a.parent) return -1;
+        if (!b.parent) return 1;
+        if (a.id === b.parent.id) return -1;
+        if (b.id === a.parent.id) return 1;
+        return 0;
+      });
+      setQuestions(optionActivities.map(() => question));
+    }
+
+    // eslint-disable-next-line
+  }, [data?.questions.data]);
 
   return (
     <div className={classes.root}>
@@ -89,27 +102,35 @@ const EngagementActivities = ({
             <br />
           </p>
           <div className={classes.selectRoot}>
-            <div>
+            <div className={classes.rowActivityWidth}>
               <span>Choisis en déroulant les menus ou ajoute tes propre activités</span>
               <div className={classes.selectGrid}>
-                {theme.activities.map((activity, index) => (
-                  <div className={classes.selectContainer}>
-                    <Select
-                      label={activity.title}
-                      value={activitiesEngagement[index] ? activitiesEngagement[index].option : ''}
-                      onChange={(e) => handleChange(e, index)}
-                      options={activity.options.map((value) => ({ value: value.value, label: value.value }))}
-                      open={open}
-                      openActivity={openActivity}
-                      setOpen={setOpen}
-                      handleClose={() => handleClose(activity.id)}
-                      onChangeValue={onChangeValue}
-                      rootClassName={classes.rootClassName}
-                      styleSelectClassName={classes.styleSelect}
-                      className={classes.borderSelect}
-                    />
+                {questions.map((q, index) => (
+                  <div className={classes.questionRow}>
+                    {q
+                      .filter((q, i) => optionActivities[index].length >= i)
+                      .map((question, i) => (
+                        <div key={question.id} className={classNames(classes.rowActivity)}>
+                          <div className={classes.selectContainer}>
+                            <Select
+                              openActivity={openActivity}
+                              onChange={(e) => handleChange(e, index, i)}
+                              value={optionActivities && optionActivities[index][i] ? optionActivities[index][i] : ''}
+                              setOpen={setOpen}
+                              open={open}
+                              question={question}
+                              parent={optionActivities[index].slice(0, i).join(',')}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    {questions.length !== 1 && (
+                      <Remove className={classes.deleteIcon} onClick={() => deleteActivity(index)} />
+                    )}
                   </div>
                 ))}
+
+                <img src={add} alt="" height={28} className={classes.addIcon} onClick={addActivityRow} />
               </div>
             </div>
           </div>
@@ -118,13 +139,16 @@ const EngagementActivities = ({
             className={classes.hideLine}
           >
             <NextButton
-              disabled={activitiesEngagement.length !== activitiesEngagement.filter((e) => e.option !== '').length}
+              disabled={!!optionActivities.find((o, i) => o.length !== (questions[i] && questions[i].length))}
             />
           </Link>
         </div>
         {isCreate && (
           <Link
-            to={`/experience/${theme.type === 'engagement' ? 'theme?type=engagement' : 'theme'}${location.search}`}
+            to={{
+              pathname: '/experience/theme',
+              search: location.search ? `${location.search}&type=${theme.type}` : `?type=${theme.type}`,
+            }}
             className={classes.btnpreced}
           >
             <CancelButton />

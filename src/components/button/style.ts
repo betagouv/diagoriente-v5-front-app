@@ -10,6 +10,8 @@ export default makeStyles(() => ({
     fontFamily: 'Andika New Basic',
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
   },
   loaderContainer: {
     marginLeft: 7,

@@ -55,7 +55,7 @@ export const getUserParcourQuery = gql`
           location
         }
         engagement {
-          id
+          
           startDate
           endDate
           context {

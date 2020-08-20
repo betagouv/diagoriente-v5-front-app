@@ -54,4 +54,14 @@ export default makeStyles<
     textAlign: 'center',
     color: theme.palette.primary.main,
   },
+  imageContainer: {
+    position: 'relative',
+    width: 60,
+  },
+  testImg: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    left: 0,
+  },
 }));

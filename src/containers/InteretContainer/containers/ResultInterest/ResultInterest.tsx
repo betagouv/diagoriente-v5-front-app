@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
-import parcoursContext from 'contexts/ParcourContext';
+import React from 'react';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
 import ModalSelect from './Modals/SelectJob/SelectModal';
-import ModalWarning from './Modals/Warnings/WarningModal';
 import useStyles from './styles';
 
 const ResultInterest = () => {
   const classes = useStyles();
-  const { parcours } = useContext(parcoursContext);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -41,7 +38,7 @@ const ResultInterest = () => {
         </Link>
       </div>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#420FAB" size={70}>
-        {parcours?.completed ? <ModalSelect /> : <ModalWarning />}
+        <ModalSelect />
       </ModalContainer>
     </div>
   );

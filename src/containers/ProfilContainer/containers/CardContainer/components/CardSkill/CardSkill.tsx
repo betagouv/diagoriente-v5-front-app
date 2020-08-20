@@ -33,7 +33,7 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
           </div>
         </div>
         <ul className={classes.activityContainer}>
-          {(act as any).map((activity: any) => {
+          {(act as any)?.map((activity: any) => {
             return (
               <li className={classes.activity} key={activity.id}>
                 {theme.type === 'engagement' ? (

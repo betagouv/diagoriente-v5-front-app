@@ -25,6 +25,7 @@ export interface addSkillArguments {
     endDate: string;
     context: string;
     options: string[][];
+    activity: string;
   };
 }
 
@@ -54,6 +55,8 @@ export interface updateSkillArguments {
     endDate: string;
     context: string;
     options: string[][];
+    activity: string;
+
   };
 }
 

@@ -184,13 +184,14 @@ export default makeStyles((theme: Theme) =>
       position: 'absolute',
       bottom: 5,
       right: -20,
-      color: theme.palette.error.main,
+      color: '#FF0060',
       fontSize: 28,
     },
     questionRow: {
       display: 'flex',
       width: '100%',
       position: 'relative',
+      flexWrap: 'wrap',
     },
     rowActivityWidth: {
       width: 800,
@@ -201,37 +202,5 @@ export default makeStyles((theme: Theme) =>
     },
     rowActivityHidden: {
       opacity: 0,
-    },
-    activityTitle: {
-      border: '1px solid #00CFFF',
-      background: 'rgba(122, 230, 255, 0.2)',
-      borderRadius: 30,
-      color: '#00B2DB',
-      WebkitTextStroke: '#00B2DB',
-      WebkitTextStrokeWidth: '0.1px',
-      fontWeight: 'bold',
-      padding: '9px 15px',
-      marginTop: 45,
-    },
-
-    textArea: {
-      background: '#FFFF',
-      borderRadius: 5,
-      resize: 'none',
-      width: '100%',
-      maxWidth: '800px',
-    },
-
-    defaultValue: {
-      fontSize: 14,
-      color: '#6B6B6A',
-    },
-
-    activityCaracter: {
-      margin: 2,
-      color: theme.palette.error.main,
-      width: 800,
-      display: "flex",
-      justifyContent: "flex-end",
     },
   }));

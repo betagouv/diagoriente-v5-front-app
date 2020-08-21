@@ -23,7 +23,7 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
   const [orderedArray, setOrderedArray] = useState([] as Families[]);
 
   const heights = [226, 216, 206, 196, 186];
-  console.log('selectedInterest', selectedInterest);
+
   const renderPlaceholder = () => {
     const array: JSX.Element[] = [];
     for (let i = orderedArray.length + 1; i <= (selectedInterest?.length || 0); i += 1) {

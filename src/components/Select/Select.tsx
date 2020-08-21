@@ -101,6 +101,7 @@ const Select = ({
     if (width === 'auto') return '__label__';
     return value || '__label__';
   };
+  const labelPlus = options.find((o) => o.label === '___plus___');
 
   return (
     <div className={classNames(classes.root, rootClassName)}>
@@ -160,23 +161,25 @@ const Select = ({
         <MenuItem onClick={selectClose} value="__label__" disabled className={disabledClassName}>
           {label}
         </MenuItem>
-        {options.map((option, index) => (
-          <MenuItem
-            onClick={selectClose}
-            key={option.value}
-            value={option.value}
-            className={classNames(
-              classes.menuItem,
-              menuItemClassName,
-              index === options.length - 1 && open && classes.lastChildBorder,
-              option.value === value ? classes.backgroundRow : '',
-            )}
-          >
-            {option.label}
-          </MenuItem>
-        ))}
-        {!arrowDate ? (
-          <MenuItem className={classes.menuItem}>
+        {options
+          .filter((o) => o.label !== '___plus___')
+          .map((option, index) => (
+            <MenuItem
+              onClick={selectClose}
+              key={option.value}
+              value={option.value}
+              className={classNames(
+                classes.menuItem,
+                menuItemClassName,
+                index === options.length - 1 && open && classes.lastChildBorder,
+                option.value === value ? classes.backgroundRow : '',
+              )}
+            >
+              {option.label}
+            </MenuItem>
+          ))}
+        {!arrowDate && labelPlus ? (
+          <MenuItem className={classNames(classes.menuItem, classes.menuItemChild)}>
             {!open ? (
               <div onClick={openActivity} className={classes.addContainer}>
                 <span className={classes.add}>Ajouter</span>

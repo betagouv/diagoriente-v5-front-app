@@ -23,7 +23,7 @@ const Experience = () => {
 
   useEffect(() => {
     if (!parcours?.played) openModal();
-  }, [parcours?.played]);
+  }, [parcours]);
   return (
     <div className={classes.container}>
       <Title title="MES EXPERIENCES" image={blueline} color="#223A7A" />

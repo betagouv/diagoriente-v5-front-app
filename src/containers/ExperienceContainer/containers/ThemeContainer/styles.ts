@@ -52,6 +52,11 @@ export default makeStyles((theme: Theme) =>
     circle: {
       width: '100%',
       minWidth: 130,
+      padding: 10,
+
+      '&:hover': {
+        background: 'rgba(122, 230, 255, 0.2)',
+      },
     },
     searchContainer: {},
     boxSearch: {
@@ -119,9 +124,6 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       maxHeight: '100%',
       maxWidth: '100%',
-      '&:hover': {
-        opacity: 0.6,
-      },
     },
 
     themeRoot: {

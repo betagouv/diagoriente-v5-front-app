@@ -73,7 +73,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
-          {(themeFiltered.length === 0 && !loading) ? (
+          {themeFiltered.length === 0 && !loading ? (
             <div className={classes.errorMessage}>
               Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !
               {' '}
@@ -99,15 +99,19 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                       tooltipPlacementRight: classes.tooltipRight,
                       tooltipPlacementLeft: classes.tooltipLeft,
                     }}
-                    title={(
-                      <Child>
-                        {theme.activities.map((act) => (
-                          <li className={classes.dot} key={act.title}>
-                            {act.title}
-                          </li>
-                        ))}
-                      </Child>
-                    )}
+                    title={
+                      theme.activities.length ? (
+                        <Child>
+                          {theme.activities.map((act) => (
+                            <li className={classes.dot} key={act.title}>
+                              {act.title}
+                            </li>
+                          ))}
+                        </Child>
+                      ) : (
+                        ''
+                      )
+                    }
                     arrow
                     placement="right"
                   >

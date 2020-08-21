@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Theme, Question } from 'requests/types';
+import { Theme } from 'requests/types';
+import TextField from '@material-ui/core/TextField/TextField';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
-import { useQuestions } from 'requests/questions';
 import RestLogo from 'components/common/Rest/Rest';
 import add from 'assets/svg/pictoadd.svg';
 
@@ -20,6 +20,8 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
   setOptionActivities: (optionsActivities: string[][]) => void;
   optionActivities: string[][];
+  activity: string;
+  setActivity: (activity: string) => void;
 }
 
 const EngagementActivities = ({
@@ -30,32 +32,29 @@ const EngagementActivities = ({
   location,
   setOptionActivities,
   optionActivities,
+  activity,
+  setActivity,
 }: Props) => {
   const classes = useStyles();
-
-  const [questions, setQuestions] = useState([] as Question[][]);
-
-  const { data } = useQuestions();
+  const [valid, setValid] = useState([] as boolean[]);
 
   const addActivityRow = () => {
     setOptionActivities([...optionActivities, []]);
   };
 
-  useEffect(() => {
-    if (data) {
-      const question = data.questions.data.sort((a, b) => {
-        if (!a.parent) return -1;
-        if (!b.parent) return 1;
-        if (a.id === b.parent.id) return -1;
-        if (b.id === a.parent.id) return 1;
-        return 0;
-      });
-      setQuestions(optionActivities.map(() => question));
-    }
+  const activityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 140) setActivity(e.target.value);
+  };
 
-    // eslint-disable-next-line
-  }, [data?.questions.data]);
+  const handleValidate = (isValid: boolean, index: number) => {
+    const nextValid = [...valid];
+    nextValid[index] = isValid;
+    setValid(nextValid);
+  };
 
+  const clearValid = (index: number) => {
+    setValid(valid.filter((v, i) => i !== index));
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -84,20 +83,46 @@ const EngagementActivities = ({
               <span>Choisis en déroulant les menus ou ajoute tes propre activités</span>
               <div className={classes.selectGrid}>
                 {optionActivities.map((q, index) => (
-                  <QuestionList index={index} optionActivities={optionActivities} setOptionActivities={setOptionActivities} />
+                  <QuestionList
+                    index={index}
+                    optionActivities={optionActivities}
+                    setOptionActivities={setOptionActivities}
+                    handleValidate={handleValidate}
+                    clearValid={clearValid}
+                  />
                 ))}
 
                 <img src={add} alt="" height={28} className={classes.addIcon} onClick={addActivityRow} />
               </div>
             </div>
+            <p className={classes.activityTitle}>Écris toi même une activité</p>
+
+            <TextField
+              name="activity"
+              value={activity}
+              placeholder="Ecrivez ici votre activité (xxx caractères max)"
+              onChange={activityChange}
+              InputProps={{
+                classes: {
+                  input: classes.defaultValue,
+                },
+              }}
+              rows={3}
+              multiline
+              className={classes.textArea}
+              variant="outlined"
+            />
+            <p className={classes.activityCaracter}>
+              {140 - activity.length}
+              {' '}
+              caractère restant
+            </p>
           </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton
-              disabled={!!optionActivities.find((o, i) => o.length !== (questions[i] && questions[i].length))}
-            />
+            <NextButton disabled={valid.findIndex((e) => !e) !== -1} />
           </Link>
         </div>
         {isCreate && (

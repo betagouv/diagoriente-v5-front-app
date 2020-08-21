@@ -218,9 +218,6 @@ export const updateThemeMutation = gql`
         id
         title
         description
-        options {
-          value
-        }
       }
     }
   }

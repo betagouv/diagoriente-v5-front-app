@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react';
 
 import { UserParcour } from 'requests/types';
@@ -13,12 +14,10 @@ import useStyles from './styles';
 
 interface CardSkill extends Unpacked<UserParcour['skills']> {}
 
-const CardSkill = ({
- comment: allComments, theme, activities, engagement,
-}: CardSkill) => {
+const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
-  // const act = theme.type === 'engagement' ? engagement.activities : activities;
+  const act = theme.type === 'engagement' ? engagement?.options : activities;
 
   return (
     <Tooltip
@@ -34,23 +33,21 @@ const CardSkill = ({
             {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
           </div>
         </div>
-        {/*  <ul className={classes.activityContainer}>
-          {(act as any).map((activity: any) => {
         <ul className={classes.activityContainer}>
           {(act as any)?.map((activity: any) => {
             return (
               <li className={classes.activity} key={activity.id}>
                 {theme.type === 'engagement' ? (
-                  <span style={{ fontWeight: 700 }}>{activity.activity.title}</span>
+                  <span style={{ fontWeight: 700 }}>
+                    {activity.option.map((el: { title: string; id: string }) => el.title).join(' ')}
+                  </span>
                 ) : (
                   activity.title
                 )}
-                {'  '}
-                {activity.option}
               </li>
             );
           })}
-        </ul> */}
+        </ul>
       </Grid>
     </Tooltip>
   );

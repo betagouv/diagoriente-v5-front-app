@@ -61,7 +61,10 @@ const QuestionForm = ({ onSubmit, question }: QuestionFormProps) => {
         />
         <AdminAutocomplete
           list={useQuestions}
-          handleOptions={(option) => ({ label: option.title, value: option.id })}
+          handleOptions={(option) => ({
+            label: `${option.title} ${option.parent ? `(${option.parent.title})` : ''}`,
+            value: option.id,
+          })}
           value={values.parent}
           onChange={(e, value) => setValues({ parent: value })}
           multiple={false}

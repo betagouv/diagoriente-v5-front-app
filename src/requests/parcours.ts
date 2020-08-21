@@ -57,6 +57,7 @@ export const getUserParcourQuery = gql`
         engagement {
           startDate
           endDate
+          activity
           options {
             option {
               id

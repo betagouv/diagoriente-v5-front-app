@@ -48,23 +48,23 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
   const [context, setContext] = useState(selectedSkill?.engagement?.context?.id || '');
   const [startDate, setStartDate] = useState(
-    selectedSkill?.engagement.startDate
+    selectedSkill?.engagement?.startDate
       ? moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD')
       : moment().format('YYYY-MM-DD'),
   );
   const [endDate, setEndDate] = useState(
-    selectedSkill?.engagement.endDate
+    selectedSkill?.engagement?.endDate
       ? moment(selectedSkill.engagement.endDate).format('YYYY-MM-DD')
       : moment().format('YYYY-MM-DD'),
   );
 
   const [optionActivities, setOptionActivities] = useState(
-    selectedSkill?.engagement.options.map((question) => question.option.map((q) => q.id)) || [[]],
+    selectedSkill?.engagement?.options.map((question) => question.option.map((q) => q.id)) || [[]],
   );
 
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
-
+  const [activity, setActivity] = useState(selectedSkill?.engagement?.activity || '');
   const showSelection = matchPath(location.pathname, [
     `${match.path}/activities`,
 
@@ -150,7 +150,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       addSkillCall({
         variables: {
           theme: data.theme.id,
-          activities: activities.map((activity) => activity.id),
+          activities: activities.map((a) => a.id),
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
@@ -168,6 +168,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             endDate,
             context,
             options: optionActivities.filter((o) => o.length > 0),
+            activity,
           },
         },
       });
@@ -181,7 +182,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       updateSkillCall({
         variables: {
           id: selectedSkill.id,
-          activities: activities.map((activity) => activity.id),
+          activities: activities.map((a) => a.id),
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
@@ -199,6 +200,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             endDate,
             context,
             options: optionActivities,
+            activity,
           },
         },
       });
@@ -264,6 +266,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 theme={data.theme}
                 setOptionActivities={setOptionActivities}
                 optionActivities={optionActivities}
+                activity={activity}
+                setActivity={setActivity}
               />
             ) : (
               <SkillActivities

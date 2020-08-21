@@ -184,13 +184,14 @@ export default makeStyles((theme: Theme) =>
       position: 'absolute',
       bottom: 5,
       right: -20,
-      color: theme.palette.error.main,
+      color: '#FF0060',
       fontSize: 28,
     },
     questionRow: {
       display: 'flex',
       width: '100%',
       position: 'relative',
+      flexWrap: 'wrap',
     },
     rowActivityWidth: {
       width: 800,

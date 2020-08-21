@@ -12,15 +12,41 @@ interface Props {
   setOptionActivities: (optionsActivities: string[][]) => void;
   optionActivities: string[][];
   index: number;
+  handleValidate?: (valid: boolean, index: number) => void;
+  clearValid?: (index: number) => void;
 }
 
-const QuestionList = ({ setOptionActivities, optionActivities, index }: Props) => {
+const QuestionList = ({
+ setOptionActivities, optionActivities, index, handleValidate, clearValid,
+}: Props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const [questions, setQuestions] = useState([] as Question[]);
 
   const { data } = useQuestions({ variables: { path: optionActivities[index] } });
+
+  useEffect(() => {
+    if (data) {
+      const question = data.questions.data.sort((a, b) => {
+        if (!a.parent) return -1;
+        if (!b.parent) return 1;
+        if (a.id === b.parent.id) return -1;
+        if (b.id === a.parent.id) return 1;
+        return 0;
+      });
+      setQuestions(question);
+    }
+
+    // eslint-disable-next-line
+  }, [data?.questions.data]);
+
+  useEffect(() => {
+    if (handleValidate) {
+      handleValidate(!questions.find((q, i) => !optionActivities[index][i]), index);
+    }
+  }, [questions, optionActivities]);
+
   const openActivity = () => {
     setOpen(true);
   };
@@ -37,23 +63,9 @@ const QuestionList = ({ setOptionActivities, optionActivities, index }: Props) =
   };
 
   const deleteActivity = () => {
+    if (clearValid) clearValid(index);
     setOptionActivities(optionActivities.filter((act, i) => i !== index));
   };
-
-  useEffect(() => {
-    if (data) {
-      const question = data.questions.data.sort((a, b) => {
-        if (!a.parent) return -1;
-        if (!b.parent) return 1;
-        if (a.id === b.parent.id) return -1;
-        if (b.id === a.parent.id) return 1;
-        return 0;
-      });
-      setQuestions(question);
-    }
-
-    // eslint-disable-next-line
-  }, [data?.questions.data]);
 
   return (
     <div className={classes.questionRow}>

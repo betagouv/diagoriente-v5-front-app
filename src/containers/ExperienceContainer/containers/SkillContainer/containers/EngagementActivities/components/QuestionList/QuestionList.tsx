@@ -71,8 +71,6 @@ const QuestionList = ({
       setOptionActivities([[]]);
     }
   };
-  console.log('option', openActivity.length);
-  console.log(questions.length);
 
   return (
     <div className={classes.questionRow}>

@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import ParcourContext from 'contexts/ParcourContext';
 import CompetenceEchelon from 'components/common/CompetenceEchelon/CompetenceEchelon';
-
+import { isEmpty } from 'lodash';
 import useStyles from './styles';
 
 interface IProps {
@@ -20,7 +20,7 @@ const CardCompetence = ({ title, description, type }: IProps) => {
     [parcours],
   );
   const globalEngagement = useMemo(
-    () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement' && comp.niveau !== null) || [],
+    () => parcours?.globalCompetences.filter((comp) => comp.type === 'engagement' && !isEmpty(comp.niveau)) || [],
     [parcours],
   );
   const globals = type === 'engagement' ? globalEngagement : globalCompetences;
@@ -36,7 +36,7 @@ const CardCompetence = ({ title, description, type }: IProps) => {
               <Grid item lg={6} key={comp.id}>
                 <div className={classes.competenceTitle}>{comp.title}</div>
                 <CompetenceEchelon value={comp.value} />
-                <div className={classes.competenceNiveau}>{`${comp.niveau?.title} ${comp.niveau?.sub_title}`}</div>
+                <div className={classes.competenceNiveau}>{`${comp?.niveau?.title} ${comp.niveau?.sub_title}`}</div>
               </Grid>
             ))}
           </Grid>

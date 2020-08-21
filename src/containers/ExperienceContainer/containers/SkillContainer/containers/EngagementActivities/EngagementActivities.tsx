@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Theme, Question } from 'requests/types';
-import classNames from 'utils/classNames';
+import { Theme } from 'requests/types';
+import TextField from '@material-ui/core/TextField/TextField';
 
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
-import { useQuestions } from 'requests/questions';
 import RestLogo from 'components/common/Rest/Rest';
 import add from 'assets/svg/pictoadd.svg';
 
 import blueline from 'assets/svg/blueline.svg';
-import Remove from '@material-ui/icons/RemoveCircle';
-import Select from './components/ActvitySelect/ActivitySelect';
+
 import useStyles from './styles';
+import QuestionList from './components/QuestionList/QuestionList';
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
   isCreate?: boolean;
   setOptionActivities: (optionsActivities: string[][]) => void;
   optionActivities: string[][];
+  activity: string;
+  setActivity: (activity: string) => void;
 }
 
 const EngagementActivities = ({
@@ -31,53 +32,29 @@ const EngagementActivities = ({
   location,
   setOptionActivities,
   optionActivities,
+  activity,
+  setActivity,
 }: Props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  const [questions, setQuestions] = useState([] as Question[][]);
-
-  const { data } = useQuestions();
-  const openActivity = () => {
-    setOpen(true);
-  };
-
-  const handleChange = (e: React.ChangeEvent<any>, index: number, i: number) => {
-    if (e.target.value && setOptionActivities && optionActivities) {
-      const nextOptionsActivities = [...optionActivities];
-      const newValuesRow = nextOptionsActivities[index];
-      const newOptionsValues = newValuesRow.slice(0, i);
-      newOptionsValues[i] = e.target.value;
-      nextOptionsActivities[index] = newOptionsValues;
-      setOptionActivities(nextOptionsActivities);
-    }
-  };
+  const [valid, setValid] = useState([] as boolean[]);
 
   const addActivityRow = () => {
-    setQuestions([...questions, questions[0]]);
     setOptionActivities([...optionActivities, []]);
   };
 
-  const deleteActivity = (index: number) => {
-    setQuestions(questions.filter((act, i) => i !== index));
-    setOptionActivities(optionActivities.filter((act, i) => i !== index));
+  const activityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 140) setActivity(e.target.value);
   };
 
-  useEffect(() => {
-    if (data) {
-      const question = data.questions.data.sort((a, b) => {
-        if (!a.parent) return -1;
-        if (!b.parent) return 1;
-        if (a.id === b.parent.id) return -1;
-        if (b.id === a.parent.id) return 1;
-        return 0;
-      });
-      setQuestions(optionActivities.map(() => question));
-    }
+  const handleValidate = (isValid: boolean, index: number) => {
+    const nextValid = [...valid];
+    nextValid[index] = isValid;
+    setValid(nextValid);
+  };
 
-    // eslint-disable-next-line
-  }, [data?.questions.data]);
-
+  const clearValid = (index: number) => {
+    setValid(valid.filter((v, i) => i !== index));
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -105,42 +82,47 @@ const EngagementActivities = ({
             <div className={classes.rowActivityWidth}>
               <span>Choisis en déroulant les menus ou ajoute tes propre activités</span>
               <div className={classes.selectGrid}>
-                {questions.map((q, index) => (
-                  <div className={classes.questionRow}>
-                    {q
-                      .filter((q, i) => optionActivities[index].length >= i)
-                      .map((question, i) => (
-                        <div key={question.id} className={classNames(classes.rowActivity)}>
-                          <div className={classes.selectContainer}>
-                            <Select
-                              openActivity={openActivity}
-                              onChange={(e) => handleChange(e, index, i)}
-                              value={optionActivities && optionActivities[index][i] ? optionActivities[index][i] : ''}
-                              setOpen={setOpen}
-                              open={open}
-                              question={question}
-                              parent={optionActivities[index].slice(0, i).join(',')}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    {questions.length !== 1 && (
-                      <Remove className={classes.deleteIcon} onClick={() => deleteActivity(index)} />
-                    )}
-                  </div>
+                {optionActivities.map((q, index) => (
+                  <QuestionList
+                    index={index}
+                    optionActivities={optionActivities}
+                    setOptionActivities={setOptionActivities}
+                    handleValidate={handleValidate}
+                    clearValid={clearValid}
+                  />
                 ))}
 
                 <img src={add} alt="" height={28} className={classes.addIcon} onClick={addActivityRow} />
               </div>
             </div>
+            <p className={classes.activityTitle}>Écris toi même une activité</p>
+
+            <TextField
+              name="activity"
+              value={activity}
+              placeholder="Ecrivez ici votre activité (xxx caractères max)"
+              onChange={activityChange}
+              InputProps={{
+                classes: {
+                  input: classes.defaultValue,
+                },
+              }}
+              rows={3}
+              multiline
+              className={classes.textArea}
+              variant="outlined"
+            />
+            <p className={classes.activityCaracter}>
+              {140 - activity.length}
+              {' '}
+              caractère restant
+            </p>
           </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton
-              disabled={!!optionActivities.find((o, i) => o.length !== (questions[i] && questions[i].length))}
-            />
+            <NextButton disabled={valid.findIndex((e) => !e) !== -1} />
           </Link>
         </div>
         {isCreate && (

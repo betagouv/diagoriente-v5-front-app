@@ -57,19 +57,18 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       backgroundColor: 'transparent !important',
       whiteSpace: 'pre-wrap',
 
-      '&:last-child': {
-        borderBottom: 'none',
-        paddingTop: 0,
-        paddingBottom: 0,
-        margin: 0,
-      },
-
       '&:hover': {
         color: '#00B2DB',
         background: 'transparent',
       },
     },
 
+    menuItemChild: {
+      borderBottom: 'none',
+      paddingTop: 0,
+      paddingBottom: 0,
+      margin: 0,
+    },
     lastChildBorder: {
       borderBottom: 'none !important',
     },

@@ -131,10 +131,11 @@ export interface UserParcour {
       email: string;
       location: string;
     }[];
-    engagement: {
+    engagement?: {
       id: string;
       startDate: string;
       endDate: string;
+      activity: string;
       context: {
         id: string;
         title: string;

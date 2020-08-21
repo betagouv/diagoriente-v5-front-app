@@ -6,8 +6,8 @@ import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo
 import { Question } from './types';
 
 export const questionsQuery = gql`
-  query Questions($search: String, $page: Int, $perPage: Int) {
-    questions(search: $search, page: $page, perPage: $perPage) {
+  query Questions($search: String, $page: Int, $perPage: Int, $path: [ID]) {
+    questions(search: $search, page: $page, perPage: $perPage, path: $path) {
       perPage
       page
       totalPages
@@ -28,6 +28,7 @@ export interface QuestionsArguments {
   search?: string;
   page?: number;
   perPage?: number;
+  path?: string[];
 }
 
 export interface QuestionsResponse {

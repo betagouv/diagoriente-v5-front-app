@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Theme } from 'requests/types';
 import TextField from '@material-ui/core/TextField/TextField';

@@ -45,6 +45,7 @@ const QuestionList = ({
     if (handleValidate) {
       handleValidate(!questions.find((q, i) => !optionActivities[index][i]), index);
     }
+    // eslint-disable-next-line
   }, [questions, optionActivities]);
 
   const openActivity = () => {
@@ -70,8 +71,8 @@ const QuestionList = ({
       setOptionActivities([[]]);
     }
   };
-console.log('option', openActivity.length)
-console.log(questions.length)
+  console.log('option', openActivity.length);
+  console.log(questions.length);
 
   return (
     <div className={classes.questionRow}>
@@ -90,7 +91,9 @@ console.log(questions.length)
           </div>
         </div>
       ))}
-      {(optionActivities.length > 1 || questions.length > 1) && <Remove className={classes.deleteIcon} onClick={deleteActivity} />}
+      {(optionActivities.length > 1 || questions.length > 1) && (
+        <Remove className={classes.deleteIcon} onClick={deleteActivity} />
+      )}
     </div>
   );
 };

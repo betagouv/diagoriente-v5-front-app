@@ -27,7 +27,7 @@ const QuestionContainer = (props: RouteComponentProps) => {
 
   return (
     <Crud
-      formTitles={{ create: 'Ajouter un question' }}
+      formTitles={{ create: 'Ajouter une question', update: 'Modifier une question' }}
       title="Question"
       list={useQuestions}
       get={useQuestion}

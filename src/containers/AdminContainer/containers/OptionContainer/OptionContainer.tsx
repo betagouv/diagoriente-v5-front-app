@@ -35,7 +35,7 @@ const OptionContainer = (props: RouteComponentProps) => {
 
   return (
     <Crud
-      formTitles={{ create: 'Ajouter un option' }}
+      formTitles={{ create: 'Ajouter une option', update: 'Modifier une option' }}
       title="Option"
       list={useOptions}
       get={useOption}

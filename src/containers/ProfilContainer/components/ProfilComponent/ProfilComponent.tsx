@@ -33,7 +33,6 @@ const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
-
   const [callJobs, stateJobs] = useJobs();
 
   useDidMount(() => {
@@ -41,6 +40,7 @@ const ProfilComponent = () => {
   });
 
   const persoSkills = parcours?.skills.filter((p) => p.theme?.type === 'personal') || [];
+  const engagementSkills = parcours?.skills.filter((p) => p.theme?.type === 'engagement') || [];
 
   const proSkills = parcours?.skills.filter((p) => p.theme?.type === 'professional') || [];
 
@@ -89,7 +89,7 @@ const ProfilComponent = () => {
       ),
     },
     {
-      title: 'MES CENTRES D’INTERET',
+      title: 'MES CENTRES D’INTÉRÊT',
       background: '#420FAB',
       color: '#fff',
       path: '/profile/interest',
@@ -167,7 +167,11 @@ const ProfilComponent = () => {
               <Grid key={index} container className={classes.interestItem}>
                 {families.map((family) => (
                   <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
-                    <Circle size={70} />
+                    <div className={classes.imageContainer}>
+                      <img src={family.resources[0]} alt="" />
+                      <img src={family.resources[1]} alt="" className={classes.testImg} />
+                    </div>
+
                     <p className={classes.themeTile}>{family.nom.replace(new RegExp('[//,]', 'g'), '\n')}</p>
                   </Grid>
                 ))}
@@ -178,7 +182,7 @@ const ProfilComponent = () => {
     },
     {
       path: '/profile/card',
-      title: 'MA CARTE DE COMPETENCES',
+      title: 'MA CARTE DE COMPÉTENCES',
       background: '#D60051',
       color: '#fff',
       children: (
@@ -195,8 +199,8 @@ const ProfilComponent = () => {
       ),
     },
     {
-      titleCard: <Title title="MES EXPERIENCES" color="#424242" size={18} font="42" className={classes.title} />,
-      title: 'MES EXPERIENCES PERSONNELLES',
+      titleCard: <Title title="MES EXPÉRIENCES" color="#424242" size={18} font="42" className={classes.title} />,
+      title: 'MES EXPÉRIENCES PERSONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience',
@@ -221,7 +225,7 @@ const ProfilComponent = () => {
     {
       titleCard: <div className={classes.emptyDiv} />,
 
-      title: 'MES EXPERIENCES PROFESSIONNELLES',
+      title: 'MES EXPÉRIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
       path: '/profile/experience?type=professional',
@@ -238,11 +242,34 @@ const ProfilComponent = () => {
         </Grid>
       ) : null,
     },
-    {},
+    {
+      titleCard: <div className={classes.emptyDiv} />,
+      title: "MES EXPÉRIENCES D'ENGAGEMENT",
+      background: '#4D6EC5',
+      color: '#fff',
+      path: '/profile/experience?type=engagement',
+      className: classes.experienceCard,
+      children: engagementSkills.length ? (
+        <Grid container spacing={1}>
+          {engagementSkills.map((theme) => (
+            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+              <div className={classes.themeSelection}>
+                <Circle avatarCircleBackground="transparent" size={100}>
+                  {theme.theme.resources && theme.theme.resources.icon && (
+                    <img className={classes.themeImage} src={theme.theme.resources.icon} alt="theme" />
+                  )}
+                </Circle>
+                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+      ) : null,
+    },
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
-      title: 'MON TOP METIERS',
+      title: 'MON TOP MÉTIERS',
       background: '#FFD382',
       color: '#424242',
       logo: star,
@@ -251,7 +278,7 @@ const ProfilComponent = () => {
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-      title: 'MES METIERS FAVORIS',
+      title: 'MES MÉTIERS FAVORIS',
       background: '#FFD382',
       color: '#424242',
       logo: heart,

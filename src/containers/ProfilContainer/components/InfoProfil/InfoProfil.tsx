@@ -17,9 +17,9 @@ import Title from 'components/common/Title/Title';
 import LogoLocation from 'assets/svg/locationlogo.svg';
 import edit from 'assets/svg/editIcon.svg';
 import SnackBar from 'components/SnackBar/SnackBar';
+import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import InfoProfilRow from '../InfoProfilRow/InfoProfilRow';
 import Arrow from '../Arrow/Arrow';
-import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 
 import useStyles from './styles';
 
@@ -59,7 +59,7 @@ const InfoProfil = () => {
   const [search, setSearch] = useState('');
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
-  const { data, loading } = useLocation({ variables: { search } });
+  const [locationCall, { data, loading }] = useLocation({ variables: { search } });
 
   const onShowPassword = () => {
     setShowPassword(!showPassword);
@@ -82,6 +82,11 @@ const InfoProfil = () => {
   const onSelect = (location: string | null) => {
     if (location) actions.setValues({ location });
   };
+  useEffect(() => {
+    if (search.length > 0) {
+      locationCall();
+    }
+  }, [search, locationCall]);
 
   useEffect(() => {
     if (error && !open) {
@@ -317,9 +322,9 @@ const InfoProfil = () => {
           }}
         >
           {open ? (
-            <span className={classes.textButton}>Enregistrer les modifications</span>
+            <span className={classes.textButton}>J’enregistre les modifications</span>
           ) : (
-            <span className={classes.textButton}>Modifier</span>
+            <span className={classes.textButton}>Je modifie”</span>
           )}
         </Button>
         {open && (

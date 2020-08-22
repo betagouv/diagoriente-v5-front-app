@@ -20,10 +20,11 @@ interface Props {
   recommendation?: (id: string) => void;
   src?: string;
   type?: string;
+  icon?: string;
 }
 
 const Card = ({
- title, src, className, competence, id, edit, remove, recommendation, type,
+ title, src, className, competence, id, edit, remove, recommendation, type, icon,
 }: Props) => {
   const classes = useStyles();
   const Tab = [
@@ -54,11 +55,11 @@ const Card = ({
       <div className={classes.root}>
         {type === 'professional' ? (
           <li className={classNames(classes.title, classes.themeTitle)}>{title}</li>
-
         ) : (
           <div className={classes.titleContainer}>
-            {src && <img src={src} alt="theme" className={classes.image} height={65} width={65} />}
+            {src && <img src={src} alt="" className={classes.image} height={65} width={65} />}
             <span className={classes.title}>{title}</span>
+            {icon && <img src={icon} alt="" className={classes.icon} height={44} width={44} />}
           </div>
         )}
         {competence.map((comp) => (

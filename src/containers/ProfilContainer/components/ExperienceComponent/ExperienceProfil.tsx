@@ -67,25 +67,57 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     window.removeEventListener('resize', onWindowResize);
   });
 
-  if (type !== 'personal' && type !== 'professional') {
+  if (type !== 'personal' && type !== 'professional' && type !== 'engagement') {
     return <NotFoundPage />;
   }
+
+  const getTitle = () => {
+    switch (type) {
+      case 'professional':
+        return 'MES EXPÉRIENCES PROFESSIONNELLES';
+      case 'engagement':
+        return 'MES EXPÉRIENCES D’ENGAGEMENT';
+      default:
+        return 'MES EXPÉRIENCES PERSONNELLES';
+    }
+  };
+
+  const getSubTitle = () => {
+    switch (type) {
+      case 'professional':
+        return 'pro';
+      case 'engagement':
+        return 'd’engagement';
+      default:
+        return 'perso';
+    }
+  };
+
+  const getUrl = () => {
+    switch (type) {
+      case 'professional':
+        return `/experience/theme-pro${encodeUri({
+          redirect: '/profile/experience?type=professional',
+        })}`;
+      case 'engagement':
+        return `/experience/theme${encodeUri({ redirect: '/profile/experience?type=engagement', type: 'engagement' })}`;
+      default:
+        return `/experience/theme${encodeUri({ redirect: '/profile/experience' })}`;
+    }
+  };
 
   return (
     <div className={classes.profilContainer}>
       <div className={classes.titleContainer}>
         <Arrow />
-        <Title
-          title={type === 'professional' ? 'MES EXPÉRIENCES PROFESSIONNELLES' : 'MES EXPÉRIENCES PERSONNELLES'}
-          color="#4D6EC5"
-          size={42}
-          className={classes.title}
-        />
+        <Title title={getTitle()} color="#4D6EC5" size={42} className={classes.title} />
         <div className={classes.empty} />
       </div>
       <span className={classes.text}>
         Liste des expériences
-        {type === 'professional' ? ' pro ' : ' perso '}
+        {' '}
+        {getSubTitle()}
+        {' '}
         que tu as renseignées
       </span>
       <div className={classes.cardGridContainer}>
@@ -103,26 +135,17 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                   title={s.theme.title}
                   src={s.theme.resources?.icon}
                   type={type}
+                  icon={s?.engagement?.context?.icon}
                 />
               </Grid>
             ))}
 
-          <Link
-            to={
-              type === 'professional'
-                ? `/experience/theme-pro${encodeUri({
-                    type: 'professional',
-                    redirect: '/profile/experience?type=professional',
-                  })}`
-                : `/experience/theme${encodeUri({ redirect: '/profile/experience' })}`
-            }
-            className={classNames(showAddCard ? classes.btnLink : classes.link)}
-          >
+          <Link to={getUrl()} className={classNames(showAddCard ? classes.btnLink : classes.link)}>
             <Button className={classes.btn}>
               <span className={classes.textButton}>
                 J’ajoute une expérience
                 {' '}
-                {type === 'professional' ? ' pro ' : ' perso '}
+                {getSubTitle()}
               </span>
             </Button>
           </Link>

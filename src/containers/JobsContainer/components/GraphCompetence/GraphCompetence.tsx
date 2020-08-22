@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 import React, { useState, useRef } from 'react';
 import { echelon } from 'utils/generic';
-import { useCompetence } from 'requests/competences';
+import { useCompetences } from 'requests/competences';
 import Point from 'assets/svg/point.svg';
 import useStyles from './styles';
 
@@ -15,7 +15,7 @@ const GraphCompetence = ({ competencesrequises, competenceUser }: IProps) => {
 
   const classes = useStyles({ select });
   const arrowRef = useRef(null as HTMLDivElement | null);
-  const { data: competences } = useCompetence();
+  const { data: competences } = useCompetences();
   const isExist = (id: string) => {
     let res = false;
     if (competenceUser?.length) {

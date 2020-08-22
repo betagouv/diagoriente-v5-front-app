@@ -137,7 +137,6 @@ const SkillCompetencesValues = ({
                       />
                       {echelonValue.map((value, index) => (
                         <Tooltip
-                          open={!competence.niveau[index].sub_title ? false : undefined}
                           key={value}
                           title={(
                             <Child className={classes.tooltipContainer}>

@@ -34,8 +34,19 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
             <span className={classes.title}>CARTE DE COMPÉTENCES</span>
           </div>
         </CardHeader>
+        <div className={classes.competenceContainer}>
+          <CardCompetence
+            title="COMPÉTENCES TRANSVERSALES"
+            description="En relation avec les expériences personnelles et professionnelles"
+            type="tranversale"
+          />
+          <CardCompetence
+            title="COMPÉTENCES D’ENGAGEMENT"
+            description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"
+            type="engagement"
+          />
+        </div>
 
-        <CardCompetence />
         <CardSkills
           title="Expériences personnelles"
           type="personal"
@@ -48,6 +59,13 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           type="professional"
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
+          path=""
+        />
+        <CardSkills
+          title="Expériences D’ENGAGEMENT"
+          type="engagement"
+          emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
+          emptyButton="J’ajoute une expérience d'engagement"
           path=""
         />
         <CardPart title="RECOMMANDATIONS">

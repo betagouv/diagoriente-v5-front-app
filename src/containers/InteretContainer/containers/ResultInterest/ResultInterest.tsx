@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
-import parcoursContext from 'contexts/ParcourContext';
+import React from 'react';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import Button from 'components/button/Button';
 import { Link } from 'react-router-dom';
 import ModalSelect from './Modals/SelectJob/SelectModal';
-import ModalWarning from './Modals/Warnings/WarningModal';
 import useStyles from './styles';
 
 const ResultInterest = () => {
   const classes = useStyles();
-  const { parcours } = useContext(parcoursContext);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -26,14 +23,14 @@ const ResultInterest = () => {
         </div>
         <div className={classes.description}>
           <div className={classes.text}>
-            <b>Tu as sélectionné et classé 5 centres d&lsquo;intérêts.</b>
+            <b>Tu as sélectionné et classé 5 familles d&lsquo;intérêts.</b>
           </div>
-          <div className={classes.text}>En fonction de tes expériences et de tes centres d&lsquo;intérêts, nous</div>
+          <div className={classes.text}>En fonction de tes expériences et de tes centres d&lsquo;intérêt, nous</div>
           <div className={classes.text}>allons maintenant te proposer des métiers qui peuvent te plaire.</div>
         </div>
         <div className={classes.btnContainer}>
           <Button className={classes.btn} onClick={() => handleOpen()}>
-            <div className={classes.btnLabel}>Voir mes pistes métiers</div>
+            <div className={classes.btnLabel}>Je découvre mes pistes métiers</div>
           </Button>
         </div>
         <Link to="/experience?redirect=profil" className={classes.link}>
@@ -41,7 +38,7 @@ const ResultInterest = () => {
         </Link>
       </div>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#420FAB" size={70}>
-        {parcours?.completed ? <ModalSelect /> : <ModalWarning />}
+        <ModalSelect />
       </ModalContainer>
     </div>
   );

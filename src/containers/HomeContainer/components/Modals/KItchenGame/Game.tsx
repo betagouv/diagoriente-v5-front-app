@@ -2,26 +2,29 @@ import React, { useContext, useEffect } from 'react';
 import GameLogo from 'assets/svg/game.svg';
 import { useUpdateParcour } from 'requests/parcours';
 import Button from 'components/button/Button';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ParcourContext from 'contexts/ParcourContext';
-
 import useStyles from './styles';
 
-const Game = () => {
+interface IProps {
+  onHandelClose: () => void;
+}
+
+const Game = ({ onHandelClose }: IProps) => {
   const classes = useStyles();
-  const history = useHistory();
   const [updateCall, updateState] = useUpdateParcour();
   const { setParcours } = useContext(ParcourContext);
 
   const onNavigate = () => {
     updateCall({ variables: { played: true } });
-    history.push('/experience');
   };
+
   useEffect(() => {
-    if (updateState.data && !updateState.error) {
+    if (updateState.data) {
       setParcours(updateState.data.updateParcour);
+      onHandelClose();
     }
-  }, [updateState.data, setParcours, updateState.error]);
+  }, [updateState.data, setParcours, onHandelClose]);
   return (
     <div className={classes.root}>
       <div className={classes.titleContainer}>
@@ -29,7 +32,7 @@ const Game = () => {
         <div className={classes.subTitle}>
           Pour t&apos;aider à identifier tes compétences, tu peux commencer
           <br />
-          par jouer à un petit jeu. Tu verras qu’à travers chaque expérience se
+          par jouer à un jeu très court. Tu verras qu’à travers chaque expérience se
           <br />
           cachent des compétences !
         </div>

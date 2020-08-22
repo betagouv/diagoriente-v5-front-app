@@ -18,6 +18,7 @@ import useStyles from './styles';
 const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
+  // eslint-disable-next-line
   const [index, setIndex] = useState(0);
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
@@ -72,9 +73,6 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
 
     setSelectedInterest(copySelected);
   };
-  const onChangeIndex = (i: number) => {
-    setIndex(i);
-  };
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -85,7 +83,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
                 <Spinner />
               </div>
             ) : (
-              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} setIndex={onChangeIndex} />
+              <Slider data={formattedData} handleClick={handleClick} isChecked={isChecked} />
             )}
           </div>
         </div>
@@ -93,8 +91,8 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
         <div className={classes.footer}>
           <div className={classes.footerContent}>
             <div className={classes.descriptionContainer}>
-              <div className={classes.description}>Sélectionne 5 groupes de</div>
-              <div className={classes.description}>centres d’intérêts en tout :</div>
+              <div className={classes.description}>Sélectionne 5 familles </div>
+              <div className={classes.description}>d’intérêt en tout :</div>
             </div>
             {loading
               ? renderAllPlaceholder()

@@ -32,20 +32,19 @@ const headers: Header<Omit<Activity, 'interests' | 'options'>>[] = [
 ];
 
 const ActivityContainer = (props: RouteComponentProps) => {
-  const activity = useActivity();
   const addActivity = useAddActivity();
   const updateActivity = useUpdateActivity();
   const deleteActivity = useDeleteActivity();
 
   return (
     <Crud
-      formTitles={{ create: 'Ajouter une activité' }}
+      formTitles={{ create: 'Ajouter une activité', update: 'Modifier activité' }}
       Filter={(p) => (
         <DefaultFilter {...p}>{(onChange, uri) => <ThemeFilter uri={uri} onChange={onChange} />}</DefaultFilter>
       )}
       title="Activités"
       list={useActivities}
-      get={activity}
+      get={useActivity}
       create={addActivity}
       update={updateActivity}
       delete={deleteActivity}

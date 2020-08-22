@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
-
-import { useJob, useJobs } from 'requests/jobs';
+import { useJob } from 'requests/jobs';
 import { useImmersion } from 'requests/immersion';
-import { useLocation } from 'requests/location';
 import { Company, Jobs } from 'requests/types';
 
 import { useForm } from 'hooks/useInputs';
@@ -33,7 +31,23 @@ import Switch from '../../components/Switch/Switch';
 import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
-const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: string }>) => {
+interface IProps extends RouteComponentProps<{ id: string }> {
+  jobs: Jobs[];
+  locationCall: (i: any) => any;
+  listLocation?: { label: string; coordinates: string[] }[];
+  setSelectedLocation: (i: string) => void;
+  selectedLocation: string;
+}
+
+const ImmersionContainer = ({
+  location,
+  match,
+  jobs,
+  locationCall,
+  listLocation,
+  setSelectedLocation,
+  selectedLocation,
+}: IProps) => {
   const classes = useStyles();
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
@@ -43,8 +57,6 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
   // form state
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
-  const [locationState, setLocation] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState([]);
@@ -65,15 +77,11 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
 
   const [immersionCall, immersionState] = useImmersion();
   const { search } = location;
-  const {
-    romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
-  } = decodeUri(search);
+  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
   const param = match.params.id;
-  const [loadJobs, { data: listJobs }] = useJobs();
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
-    loadJobs();
   });
   useEffect(() => {
     if (location?.state) {
@@ -94,8 +102,11 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
     setOpen(false);
   };
   const PAGES = immersionState.data?.immersions.companies_count / 6;
-  const { data: listLocation } = useLocation({ variables: { search: selectedLocation } });
-
+  useEffect(() => {
+    if (selectedLocation !== '') {
+      locationCall(selectedLocation);
+    }
+  }, [selectedLocation, locationCall]);
   useEffect(() => {
     if (PAGES) {
       const lengthItem = Math.round(PAGES);
@@ -214,7 +225,7 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
     const { value } = e.target;
     setSelectedImmersion(value);
     setOpenImmersion(true);
-    setFiltredArray(listJobs?.myJobs.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
   };
   const onChangeLocation = (e: any) => {
     const { value } = e.target;
@@ -429,7 +440,8 @@ const ImmersionContainer = ({ location, match }: RouteComponentProps<{ id: strin
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
             Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
-            rempli une convention avec ta structure d’accueil !{' '}
+            rempli une convention avec ta structure d’accueil!
+            {' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>

@@ -47,7 +47,6 @@ const headers: Header<Theme>[] = [
 ];
 
 const ThemeContainer = (props: RouteComponentProps) => {
-  const theme = useLazyTheme();
   const addTheme = useAddTheme();
   const deleteTheme = useDeleteTheme();
   const updateTheme = useUpdateTheme();
@@ -61,7 +60,7 @@ const ThemeContainer = (props: RouteComponentProps) => {
       )}
       title="Themes"
       list={useThemes}
-      get={theme}
+      get={useLazyTheme}
       create={addTheme}
       delete={deleteTheme}
       update={updateTheme}

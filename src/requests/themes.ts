@@ -33,7 +33,7 @@ export const themesQuery = gql`
 `;
 
 export interface ThemesArguments {
-  type?: 'professional' | 'personal';
+  type?: 'professional' | 'personal' | 'engagement';
   search?: string;
   page?: number;
   perPage?: number;

@@ -25,7 +25,22 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
   const handleOpen = () => {
     setOpen(true);
   };
+  let typeXp = '';
 
+  switch (skill?.theme.type) {
+    case 'engagement':
+      typeXp = 'engagement';
+      break;
+    case 'personal':
+      typeXp = 'personnelle';
+      break;
+    case 'professional':
+      typeXp = 'professionnelle';
+      break;
+    default:
+      typeXp = 'personnelle';
+  }
+  
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -34,7 +49,12 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
         </div>
         <div className={classes.description}>
           <p className={classes.text}>
-            Tu as ajouté une expérience personnelle à ton parcours, et tu as identifié de nouvelles compétences.
+            Tu as ajouté une expérience
+            {' '}
+            {typeXp}
+            {' '}
+            à ton parcours,
+            et tu as identifié de nouvelles compétences.
           </p>
         </div>
         {skill?.theme.type === 'professional' ? (
@@ -43,19 +63,25 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
             <img src={check} alt="check" className={classes.checked} />
           </div>
         ) : (
-          <Avatar title={theme.title} size={170} titleClassName={classes.classNameTitle} checked className={classes.imgContainer}>
+          <Avatar
+            title={theme.title}
+            size={170}
+            titleClassName={classes.classNameTitle}
+            checked
+            className={classes.imgContainer}
+          >
             <img src={theme.resources?.icon} alt="" />
           </Avatar>
         )}
 
         <div className={classes.textDescription}>
           <p className={classes.text}>
-            Tu peux maintenant demander une recommandation pour cette expérience, cela donne confiance aux recruteurs.
+            Tu peux maintenant demander une recommandation pour cette expérience, elle donnera confiance à tes futurs recruteurs.
           </p>
         </div>
         <div className={classes.btnContainer}>
           <Button className={classes.btn} onClick={() => handleOpen()}>
-            <div className={classes.btnLabel}>Demander une recommandation</div>
+            <div className={classes.btnLabel}>Je demande une recommandation</div>
           </Button>
         </div>
         <Link to={`/experience/skill/${theme.id}/done`} className={classes.info}>

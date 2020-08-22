@@ -30,7 +30,7 @@ const FirstDashboard = () => {
   };
   if (hasExp) {
     dataToShow = {
-      title: 'MES CENTRES D’INTERET',
+      title: 'MES CENTRES D’INTÉRÊT',
       subTitle: `Renseigne maintenant\nce que tu aimes faire dans la vie`,
       logo: logoInterest,
       color: '#420FAB',
@@ -80,7 +80,7 @@ const FirstDashboard = () => {
       </div>
       {!parcours?.played && (
         <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
-          <GameContainer />
+          <GameContainer onHandelClose={handleClose} />
         </ModalContainer>
       )}
     </div>

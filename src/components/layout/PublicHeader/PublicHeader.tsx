@@ -16,8 +16,9 @@ import useStyles from './styles';
 
 export const links = [
   { text: 'Qui sommes nous?', path: '/Who' },
+  { text: 'Notre démarche', path: '/demarche' },
   { text: 'Actualités', path: '/News' },
-  { text: 'DiagOvidéo', path: '/DiagOvidéo' },
+  { text: 'vidéo', path: '/DiagOvidéo' },
   { text: 'Statistiques', path: '/Statistics' },
   { text: 'FAQ', path: '/FAQ' },
 ];

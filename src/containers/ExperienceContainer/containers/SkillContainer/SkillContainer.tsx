@@ -2,6 +2,8 @@ import React, {
  useState, useEffect, useContext, useMemo,
 } from 'react';
 import path from 'path';
+import moment from 'moment';
+
 import {
  RouteComponentProps, Switch, Route, Redirect, matchPath,
 } from 'react-router-dom';
@@ -22,12 +24,17 @@ import SkillCompetences from './containers/SkillCompetences';
 import SkillCompetencesValues from './containers/SkillCompetencesValues/SkillCompetencesValues';
 import SuccessCompetences from './containers/SuccessCompetences/SuccessCompetences';
 import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
+import EngagementActivites from './containers/EngagementActivities/EngagementActivities';
+import EngagementContext from './containers/EngagementContext/EngagementContext';
+import EngagementDate from './containers/EngagementDate/EngagementDate';
+
 import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const classes = useStyles();
 
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
+
   const { parcours, setParcours } = useContext(ParcourContext);
   const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId), [
     parcours,
@@ -38,15 +45,47 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [competencesValues, setCompetencesValues] = useState(
     selectedSkill?.competences.map((c) => ({ id: c._id.id, value: c.value })) || [],
   );
+
+  const [context, setContext] = useState(selectedSkill?.engagement?.context?.id || '');
+  const [startDate, setStartDate] = useState(
+    selectedSkill?.engagement?.startDate
+      ? moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD')
+      : moment().format('YYYY-MM-DD'),
+  );
+  const [endDate, setEndDate] = useState(
+    selectedSkill?.engagement?.endDate
+      ? moment(selectedSkill.engagement.endDate).format('YYYY-MM-DD')
+      : moment().format('YYYY-MM-DD'),
+  );
+
+  const [optionActivities, setOptionActivities] = useState(
+    selectedSkill?.engagement?.options.map((question) => question.option.map((q) => q.id)) || [[]],
+  );
+
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
-
+  const [activity, setActivity] = useState(selectedSkill?.engagement?.activity || '');
   const showSelection = matchPath(location.pathname, [
     `${match.path}/activities`,
 
     `${match.path}/competences`,
     `${match.path}/competencesValues`,
   ]);
+
+  useEffect(() => {
+    const d = localStorage.getItem('optionActivities');
+    if (d) {
+      const activityData = JSON.parse(d);
+      setOptionActivities(activityData.theme === match.params.themeId ? activityData.optionActivities : [[]]);
+    }
+    // eslint-disable-next-line
+  }, [match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem('optionActivities', JSON.stringify({ theme: match.params.themeId, optionActivities }));
+    } // eslint-disable-next-line
+  }, [optionActivities, match.params.themeId]);
 
   useEffect(() => {
     const d = localStorage.getItem('activities');
@@ -71,6 +110,12 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [match.params.themeId]);
 
   useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem('competences', JSON.stringify({ theme: match.params.themeId, competences }));
+    } // eslint-disable-next-line
+  }, [competences, match.params.themeId]);
+
+  useEffect(() => {
     const d = localStorage.getItem('competencesValues');
     if (d && !selectedSkill) {
       const competencesData = JSON.parse(d);
@@ -80,35 +125,83 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
   useEffect(() => {
     if (!selectedSkill) {
-      localStorage.setItem('competences', JSON.stringify({ theme: match.params.themeId, competences }));
-    } // eslint-disable-next-line
-  }, [competences, match.params.themeId]);
-
-  useEffect(() => {
-    if (!selectedSkill) {
       localStorage.setItem('competencesValues', JSON.stringify({ theme: match.params.themeId, competencesValues }));
     } // eslint-disable-next-line
   }, [competencesValues, match.params.themeId]);
 
+  useEffect(() => {
+    const d = localStorage.getItem('context');
+    if (d && !selectedSkill) {
+      const contextData = JSON.parse(d);
+      setContext(contextData.theme === match.params.themeId ? contextData.context : '');
+    } // eslint-disable-next-line
+  }, [match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem('context', JSON.stringify({ theme: match.params.themeId, context }));
+    } // eslint-disable-next-line
+  }, [context, match.params.themeId]);
+
   const addSkill = () => {
-    if (data) {
+    if (data?.theme.type === 'engagement') {
+      history.push(`/experience/skill/${match.params.themeId}/context`);
+    } else if (data) {
       addSkillCall({
         variables: {
           theme: data.theme.id,
-          activities: activities.map((activity) => activity.id),
+          activities: activities.map((a) => a.id),
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
     }
   };
 
+  const addSkillEngagement = () => {
+    if (data) {
+      addSkillCall({
+        variables: {
+          theme: data.theme.id,
+          competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+          engagement: {
+            startDate,
+            endDate,
+            context,
+            options: optionActivities.filter((o) => o.length > 0),
+            activity,
+          },
+        },
+      });
+    }
+  };
+
   const editSkill = () => {
+    if (data?.theme.type === 'engagement') {
+      history.push(`/experience/skill/${match.params.themeId}/context`);
+    } else if (selectedSkill) {
+      updateSkillCall({
+        variables: {
+          id: selectedSkill.id,
+          activities: activities.map((a) => a.id),
+          competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+        },
+      });
+    }
+  };
+
+  const editSkillEngagement = () => {
     if (selectedSkill) {
       updateSkillCall({
         variables: {
           id: selectedSkill.id,
-          activities: activities.map((activity) => activity.id),
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+          engagement: {
+            startDate,
+            endDate,
+            context,
+            options: optionActivities,
+            activity,
+          },
         },
       });
     }
@@ -123,6 +216,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
       localStorage.removeItem('competencesValues');
+      localStorage.removeItem('optionActivities');
+      localStorage.removeItem('context');
     } // eslint-disable-next-line
   }, [addSkillState.data, addSkillState.called]);
 
@@ -134,6 +229,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
       localStorage.removeItem('competencesValues');
+      localStorage.removeItem('optionActivities');
+      localStorage.removeItem('context');
     } // eslint-disable-next-line
   }, [updateSkillState.data, updateSkillState.called]);
 
@@ -161,31 +258,40 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
       <Switch>
         <Route
-          render={(props) => (
-            <SkillActivities
-              {...props}
-              isCreate={!selectedSkill}
-              activities={activities}
-              setActivities={setActivities}
-              theme={data.theme}
-            />
-          )}
+          render={(props) =>
+            (data.theme.type === 'engagement' ? (
+              <EngagementActivites
+                {...props}
+                isCreate={!selectedSkill}
+                theme={data.theme}
+                setOptionActivities={setOptionActivities}
+                optionActivities={optionActivities}
+                activity={activity}
+                setActivity={setActivity}
+              />
+            ) : (
+              <SkillActivities
+                {...props}
+                isCreate={!selectedSkill}
+                activities={activities}
+                setActivities={setActivities}
+                theme={data.theme}
+              />
+            ))}
           path={`${match.path}/activities`}
           exact
         />
         <Route
-          render={(props) => {
-            if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
-            return (
-              <SkillCompetences
-                {...props}
-                competences={competences}
-                setCompetences={setCompetences}
-                theme={data.theme}
-                isCreate={!selectedSkill}
-              />
-            );
-          }}
+          render={(props) => (
+            // if (!activities.length) return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
+            <SkillCompetences
+              {...props}
+              competences={competences}
+              setCompetences={setCompetences}
+              theme={data.theme}
+              isCreate={!selectedSkill}
+            />
+          )}
           path={`${match.path}/competences`}
           exact
         />
@@ -199,13 +305,34 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setCompetencesValues={setCompetencesValues}
                 competences={competences}
                 addSkill={selectedSkill ? editSkill : addSkill}
-                addSkillState={addSkillState.loading}
+                addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
                 isCreate={!selectedSkill}
               />
             );
           }}
           path={`${match.path}/competencesValues`}
+          exact
+        />
+
+        <Route
+          render={(props) => <EngagementContext {...props} setContext={setContext} contextCheck={context} />}
+          path={`${match.path}/context`}
+          exact
+        />
+        <Route
+          render={(props) => (
+            <EngagementDate
+              {...props}
+              setStartDate={setStartDate}
+              startDate={startDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              addSkill={selectedSkill ? editSkillEngagement : addSkillEngagement}
+              addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
+            />
+          )}
+          path={`${match.path}/date`}
           exact
         />
         <Route

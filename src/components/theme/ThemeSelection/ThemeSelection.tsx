@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-
+import { useWillUnmount } from 'hooks/useLifeCycle';
 import SelectionContext from 'contexts/SelectionContext';
 import { matchPath, useLocation } from 'react-router-dom';
 import { Theme } from 'requests/types';
-
 import Avatar from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
 
@@ -22,6 +21,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
   const location = useLocation();
   const isTheme = Boolean(matchPath(location.pathname, { path: '/experience/theme', exact: true }));
   const isAct = Boolean(matchPath(location.pathname, { path: '/experience/skill/:id/activities', exact: true }));
+  const [isFirstTheme, setIsFirstTheme] = useState(false);
   const [isFirst, setIsFirst] = useState(false);
   const actRef = useRef(activities.length);
   const [EffectState, setEffectState] = useState(false);
@@ -31,14 +31,24 @@ const PrivateHeader = ({ theme, activities }: Props) => {
   };
 
   useEffect(() => {
-    if (theme && isTheme) {
+    if (theme && isTheme && !isFirstTheme) {
       setOpen(true);
+      setIsFirstTheme(true);
     }
-  }, [theme, isTheme, setOpen]);
+   /*  if (isTheme && isFirstTheme) {
+      setOpen(false);
+    } */
+  }, [theme, isTheme, isFirstTheme, setOpen]);
+
+  /* useEffect(() => {
+    if (!theme && isTheme) {
+      console.log('here 2')
+      setOpen(SelectionContext);
+    }
+  }, [theme, isTheme, setOpen]); */
 
   useEffect(() => {
     if (isAct && activities.length === 0) setOpen(false);
-
     if (!isFirst && activities.length === 1) {
       // eslint-disable-next-line
       setIsFirst(true);
@@ -56,15 +66,17 @@ const PrivateHeader = ({ theme, activities }: Props) => {
         setEffectState(false);
       }, 500);
     }
+  }, [EffectState]);
+  useWillUnmount(() => {
+    setOpen(false);
   });
-
   return (
     <div className={classes.appBar}>
       <div onClick={toggle} className={classes.container}>
         <p className={classes.titleSelection}>Ta sélection</p>
-        {isAct && activities.length > 0 &&  (
+        {((isAct && activities.length > 0) || (isTheme && theme)) && (
           <div className={classNames(classes.blob, EffectState && classes.animation)}>
-            <div className={classes.badgeText}>{activities.length}</div>
+            <div className={classes.badgeText}>{(isAct && activities.length) || (isTheme && theme && '1')}</div>
           </div>
         )}
         <img

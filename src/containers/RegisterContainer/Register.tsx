@@ -134,7 +134,6 @@ const Register = () => {
   }
 
   const onSelect = (location: string | null) => {
-    console.log('location', location);
     if (location) actions.setValues({ location });
   };
   return (

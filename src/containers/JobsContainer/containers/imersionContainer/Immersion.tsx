@@ -54,7 +54,6 @@ const ImmersionContainer = ({
   const [open, setOpen] = React.useState(false);
 
   const [update, setUpdate] = useState(false);
-  // form state
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);

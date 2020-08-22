@@ -23,7 +23,11 @@ const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint }: CardIcons) 
   return (
     <div className={classes.headerIcons}>
       <div className={classes.headerIcon} onClick={onNavigate}>
-        <img alt="game" src={game} className={classes.headerIconImage} />
+        <div
+          className={classes.gameIcon}
+        >
+          <img alt="game" src={game} className={classes.gameIconImage} width="80%" />
+        </div>
         Jouer
       </div>
       <div onClick={() => onDownload('download')} className={classes.headerIcon}>

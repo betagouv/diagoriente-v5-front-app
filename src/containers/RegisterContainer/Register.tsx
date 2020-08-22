@@ -84,6 +84,7 @@ const Register = () => {
       actions.setAllTouched(true);
     }
   };
+  console.log('values.location', values.location)
   useEffect(() => {
     if (values.location.length > 0) {
       locationCall();
@@ -137,6 +138,7 @@ const Register = () => {
   }
 
   const onSelect = (location: string | null) => {
+    console.log('location', location)
     if (location) actions.setValues({ location });
   };
   return (
@@ -272,7 +274,8 @@ const Register = () => {
             <AutoComplete
               label="Ta ville de résidence"
               onChange={(e) => {
-                setSearch(e.target.value);
+                setSearch(e.target.value)
+                actions.handleChange(e)
               }}
               onSelectText={onSelect}
               value={values.location}

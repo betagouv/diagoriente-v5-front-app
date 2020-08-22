@@ -62,7 +62,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
     <div className={classes.appBar}>
       <div onClick={toggle} className={classes.container}>
         <p className={classes.titleSelection}>Ta sélection</p>
-        {isAct && (
+        {isAct && activities.length > 0 &&  (
           <div className={classNames(classes.blob, EffectState && classes.animation)}>
             <div className={classes.badgeText}>{activities.length}</div>
           </div>

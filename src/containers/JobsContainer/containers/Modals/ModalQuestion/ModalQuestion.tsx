@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Jobs } from 'requests/types';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useResponseJob, useUpdateResponseJob, useGetResponseJob } from 'requests/jobs';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Button from 'components/button/Button';

@@ -17,13 +17,14 @@ const Game = ({ onHandelClose }: IProps) => {
 
   const onNavigate = () => {
     updateCall({ variables: { played: true } });
-    onHandelClose();
   };
+
   useEffect(() => {
     if (updateState.data) {
       setParcours(updateState.data.updateParcour);
+      onHandelClose();
     }
-  }, [updateState.data, setParcours]);
+  }, [updateState.data, setParcours, onHandelClose]);
   return (
     <div className={classes.root}>
       <div className={classes.titleContainer}>

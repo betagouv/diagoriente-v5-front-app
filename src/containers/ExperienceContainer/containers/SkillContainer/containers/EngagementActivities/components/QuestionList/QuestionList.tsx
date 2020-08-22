@@ -45,6 +45,7 @@ const QuestionList = ({
     if (handleValidate) {
       handleValidate(!questions.find((q, i) => !optionActivities[index][i]), index);
     }
+    // eslint-disable-next-line
   }, [questions, optionActivities]);
 
   const openActivity = () => {
@@ -63,8 +64,12 @@ const QuestionList = ({
   };
 
   const deleteActivity = () => {
-    if (clearValid) clearValid(index);
-    setOptionActivities(optionActivities.filter((act, i) => i !== index));
+    if (optionActivities.length > 1) {
+      if (clearValid) clearValid(index);
+      setOptionActivities(optionActivities.filter((act, i) => i !== index));
+    } else {
+      setOptionActivities([[]]);
+    }
   };
 
   return (
@@ -84,7 +89,9 @@ const QuestionList = ({
           </div>
         </div>
       ))}
-      {optionActivities.length !== 1 && <Remove className={classes.deleteIcon} onClick={deleteActivity} />}
+      {(optionActivities.length > 1 || questions.length > 1) && (
+        <Remove className={classes.deleteIcon} onClick={deleteActivity} />
+      )}
     </div>
   );
 };

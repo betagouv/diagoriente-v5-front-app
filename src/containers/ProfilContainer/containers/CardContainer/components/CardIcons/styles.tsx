@@ -21,6 +21,19 @@ export default makeStyles({
     width: 30,
     marginRight: 11,
   },
+  gameIcon: {
+    width: 30,
+    height: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ff6ea3',
+    borderRadius: '50%',
+    marginRight: 11
+  },
+  gameIconImage: {
+    width: 22,
+  },
   spinnerContainer: {
     width: 68,
     justifyContent: 'center',

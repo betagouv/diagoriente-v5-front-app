@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Jobs } from 'requests/types';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useResponseJob, useUpdateResponseJob, useGetResponseJob } from 'requests/jobs';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Button from 'components/button/Button';
@@ -71,11 +71,9 @@ const ModalQuestion = ({ job, handleClose }: IProps) => {
             <div className={classes.textDescription}>immersion sur le terrain !</div>
           </div>
           <div className={classes.btnContainer}>
-            <Link to="/jobs">
-              <Button className={classes.btn}>
-                <div className={classes.btnLabel}>Chercher une immersion</div>
-              </Button>
-            </Link>
+            <Button className={classes.btn} onClick={handleClose}>
+              <div className={classes.btnLabel}>je recherche mon immersion</div>
+            </Button>
           </div>
         </div>
       ) : (

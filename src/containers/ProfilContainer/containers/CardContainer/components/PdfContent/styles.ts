@@ -23,6 +23,12 @@ export default makeStyles({
     alignItems: 'center',
     marginTop: 19,
   },
+  competenceContainer: {
+    display: 'flex',
+    width: '100%',
+    borderBottom: '1px solid #6B6B6A',
+    justifyContent: 'space-between',
+  },
   title: {
     position: 'relative',
     lineHeight: 1,

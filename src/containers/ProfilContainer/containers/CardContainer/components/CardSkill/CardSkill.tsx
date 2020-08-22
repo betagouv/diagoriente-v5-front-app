@@ -34,9 +34,9 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
           </div>
         </div>
         <ul className={classes.activityContainer}>
-          {(act as any)?.map((activity: any) => {
+          {(act as any)?.map((activity: any, i: number) => {
             return (
-              <li className={classes.activity} key={activity.id}>
+              <li className={classes.activity} key={activity.id || i}>
                 {theme.type === 'engagement' ? (
                   <span style={{ fontWeight: 700 }}>
                     {activity.option.map((el: { title: string; id: string }) => el.title).join(' ')}
@@ -47,6 +47,7 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
               </li>
             );
           })}
+          {theme.type === 'engagement' && <div className={classes.activity}>{engagement?.activity}</div>}
         </ul>
       </Grid>
     </Tooltip>

@@ -88,7 +88,7 @@ const CardContainer = () => {
           type="engagement"
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"
-          path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
+          path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
         />
       </Paper>
       <div className={classes.footerIcons}>{icons}</div>

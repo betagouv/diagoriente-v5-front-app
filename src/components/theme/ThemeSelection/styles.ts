@@ -148,5 +148,42 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     boldText: {
       fontWeight: 'bold',
     },
+    blob: {
+      background: 'rgba(255, 255,255, 0.5)',
+      borderRadius: '50%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 10,
+      height: 26,
+      width: 26,
+    },
+    badgeText: {
+      color: theme.palette.background.default,
+      fontWeight: 'bold',
+      lineHeight: '17px',
+    },
+    animation: {
+      boxShadow: '0 0 0 0 rgba(255, 255,255, 1)',
+      transform: 'scale(1)',
+      animationName: '$pulse',
+      animationDuration: '1500ms',
+    },
+    '@keyframes pulse': {
+      from: {
+        transform: 'scale(1.5)',
+        boxShadow: '0 0 0 0 rgba(255, 255,255, 0.7)',
+        width: 0,
+        height: 0,
+
+      },
+      to: {
+        transform: 'scale(1)',
+        boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)',
+        width: 40,
+        height: 40,
+
+      },
+    },
   }),
 );

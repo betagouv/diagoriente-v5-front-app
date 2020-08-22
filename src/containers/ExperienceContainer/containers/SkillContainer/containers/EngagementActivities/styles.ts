@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
+export const WIDTH = 1000;
 export default makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -174,26 +175,21 @@ export default makeStyles((theme: Theme) =>
     borderSelect: {
       border: '1px solid #00CFFF',
     },
+
     addIcon: {
       position: 'absolute',
       bottom: 5,
-      right: -60,
+      right: 0,
+      cursor: 'pointer',
     },
 
-    deleteIcon: {
-      position: 'absolute',
-      bottom: 5,
-      right: -20,
-      color: theme.palette.error.main,
-      fontSize: 28,
-    },
     questionRow: {
       display: 'flex',
       width: '100%',
       position: 'relative',
     },
     rowActivityWidth: {
-      width: 800,
+      width: WIDTH,
     },
     rowActivity: {
       display: 'flex',
@@ -219,7 +215,7 @@ export default makeStyles((theme: Theme) =>
       borderRadius: 5,
       resize: 'none',
       width: '100%',
-      maxWidth: '800px',
+      maxWidth: WIDTH,
     },
 
     defaultValue: {
@@ -230,8 +226,8 @@ export default makeStyles((theme: Theme) =>
     activityCaracter: {
       margin: 2,
       color: theme.palette.error.main,
-      width: 800,
-      display: "flex",
-      justifyContent: "flex-end",
+      width: WIDTH,
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
   }));

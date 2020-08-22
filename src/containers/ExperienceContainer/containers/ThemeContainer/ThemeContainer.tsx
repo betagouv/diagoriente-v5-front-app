@@ -122,7 +122,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                         titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
                         className={classes.circle}
                         onClick={() => showAvatar(theme)}
-                        avatarCircleBackground={selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''}
+                        avatarCircleBackground={selectedTheme?.id === theme.id ? 'rgba(122, 230, 255, 0.2)' : ''}
                       >
                         <img
                           src={theme.resources?.icon}

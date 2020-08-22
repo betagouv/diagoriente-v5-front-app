@@ -20,7 +20,6 @@ const Experience = () => {
   const openModal = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { parcours } = useContext(parcourContext);
-
   useEffect(() => {
     if (!parcours?.played) openModal();
   }, [parcours]);

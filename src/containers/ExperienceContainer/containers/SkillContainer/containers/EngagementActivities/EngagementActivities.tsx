@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Theme } from 'requests/types';
 import TextField from '@material-ui/core/TextField/TextField';
@@ -55,6 +55,7 @@ const EngagementActivities = ({
   const clearValid = (index: number) => {
     setValid(valid.filter((v, i) => i !== index));
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -100,7 +101,7 @@ const EngagementActivities = ({
             <TextField
               name="activity"
               value={activity}
-              placeholder="Ecrivez ici votre activité (xxx caractères max)"
+              placeholder="Ecrivez ici votre activité (140 caractères max)"
               onChange={activityChange}
               InputProps={{
                 classes: {
@@ -115,14 +116,16 @@ const EngagementActivities = ({
             <p className={classes.activityCaracter}>
               {140 - activity.length}
               {' '}
-              caractère restant
+              caractères restant
             </p>
           </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton disabled={valid.findIndex((e) => !e) !== -1} />
+            <NextButton
+              disabled={optionActivities[0].length === 0 ? !activity.length : valid.findIndex((e) => !e) !== -1}
+            />
           </Link>
         </div>
         {isCreate && (

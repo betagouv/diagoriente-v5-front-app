@@ -183,9 +183,10 @@ export default makeStyles((theme: Theme) =>
     deleteIcon: {
       position: 'absolute',
       bottom: 5,
-      right: -20,
+      right: 40,
       color: '#FF0060',
       fontSize: 28,
+      cursor: 'pointer',
     },
     questionRow: {
       display: 'flex',

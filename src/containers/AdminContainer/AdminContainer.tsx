@@ -10,7 +10,7 @@ import Route from 'components/ui/Route/Route';
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import ThemeContainer from './containers/ThemeContainer';
 import ActivityContainer from './containers/ActivityContainer';
-import ContextContainer from './containers/QuestionContainer/QuestionContainer';
+import ContextContainer from './containers/ContextContainer/ContextContainer';
 import CompetenceContainer from './containers/CompetenceContainer';
 import QuestionContainer from './containers/QuestionContainer';
 import OptionContainer from './containers/OptionContainer';

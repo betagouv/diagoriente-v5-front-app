@@ -13,13 +13,13 @@ const GameContainer = () => {
   const [updateCall, updateState] = useUpdateParcour();
   const onNavigate = () => {
     updateCall({ variables: { played: true } });
-    history.push('/experience');
   };
   useEffect(() => {
-    if (updateState.data && !updateState.error) {
+    if (updateState.data) {
       setParcours(updateState.data.updateParcour);
+      history.push('/experience');
     }
-  }, [updateState.data, setParcours, updateState.error]);
+  }, [updateState.data, setParcours, updateState.error, history]);
 
   return (
     <div className={classes.root}>

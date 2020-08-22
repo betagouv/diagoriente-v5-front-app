@@ -26,6 +26,7 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 34,
+      minHeight: '76vh',
     },
 
     themeTitle: {
@@ -35,6 +36,9 @@ export default makeStyles((theme: Theme) =>
 
     gridContainer: {
       padding: SKILL_CONTAINER_PADDING,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
       [theme.breakpoints.down('md')]: {
         padding: '30px 30px',
       },
@@ -49,6 +53,11 @@ export default makeStyles((theme: Theme) =>
     circle: {
       width: '100%',
       minWidth: 130,
+      padding: 10,
+
+      '&:hover': {
+        background: 'rgba(122, 230, 255, 0.2)',
+      },
     },
     searchContainer: {},
     boxSearch: {
@@ -116,9 +125,6 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
       maxHeight: '100%',
       maxWidth: '100%',
-      '&:hover': {
-        opacity: 0.6,
-      },
     },
 
     themeRoot: {
@@ -174,4 +180,8 @@ export default makeStyles((theme: Theme) =>
         opacity: 1,
       },
     },
-  }));
+    errorMessage: {
+      color: theme.palette.error.main,
+    },
+  }),
+);

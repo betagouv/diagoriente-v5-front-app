@@ -17,7 +17,7 @@ import useStyles from './styles';
 
 export const userLinks = [
   { text: 'TABLEAU DE BORD', path: '/' },
-  { text: 'Aide', path: '/' },
+  { text: 'AIDE', path: '/' },
   { text: 'FAQ', path: '/' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
@@ -25,6 +25,10 @@ export const userLinks = [
 const adminLinks = [
   { text: 'Thèmes', path: '/admin/themes' },
   { text: 'Activités', path: '/admin/activities' },
+  { text: 'Contextes', path: '/admin/contexts' },
+  { text: 'Compétences', path: '/admin/competences' },
+  { text: 'Questions', path: '/admin/questions' },
+  { text: 'Options', path: '/admin/options' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
@@ -32,9 +36,6 @@ const PrivateDrawer = () => {
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
   const classes = useStyles();
-  /* const [variant, setVariant] = useState<'persistent' | 'temporary'>(
-    window.innerWidth < 768 ? 'temporary' : 'persistent',
-  ); */
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
@@ -47,17 +48,12 @@ const PrivateDrawer = () => {
     localStorage.clear();
     client.clearStore();
   };
-  /* useListener('resize', () => {
-    const nextVariant = window.innerWidth < 768 ? 'temporary' : 'persistent';
-    if (nextVariant !== variant) setVariant(nextVariant);
-  });
-*/
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const links = user?.role === 'user' ? userLinks : adminLinks;
+  const links = user?.role !== 'admin' ? userLinks : adminLinks;
 
   useEffect(() => {
     if (!parcours?.completed && isJobs) {
@@ -126,7 +122,7 @@ const PrivateDrawer = () => {
           </div>
           <div>
             <div className={classes.textMsg}>
-              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rend toi dans ton tableau de
+              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rends toi dans ton tableau de
               bord, accessible via le menu.
             </div>
             <Button className={classes.btn} onClick={onSubmit}>

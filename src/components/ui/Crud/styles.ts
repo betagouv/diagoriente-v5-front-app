@@ -29,6 +29,7 @@ export default makeStyles((theme) => ({
     lineHeight: '42px',
     flex: '1 1 0%',
     paddingRight: 40,
+    textTransform: 'uppercase',
   },
   popupContainer: {
     display: 'flex',

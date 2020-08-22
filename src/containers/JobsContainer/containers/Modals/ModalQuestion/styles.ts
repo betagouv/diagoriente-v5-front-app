@@ -16,6 +16,9 @@ export default makeStyles((theme) => ({
     fontFamily: 'ocean',
     textTransform: 'uppercase',
   },
+  titleQuestion: {
+    paddingTop: 30,
+  },
   description: {
     fontWeight: 900,
     fontSize: 26,
@@ -25,12 +28,44 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: 10,
   },
+  descriptionContainer: {
+    paddingTop: 30,
+  },
+  lastContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  textDescription: {
+    textAlign: 'center',
+    fontWeight: 900,
+  },
+  btnLabel: {
+    fontSize: 15,
+    fontWeight: 900,
+  },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: 40,
+  },
   questionContainer: {
     fontFamily: 'ocean',
     fontSize: 42,
     textAlign: 'center',
     color: theme.palette.success.main,
     marginTop: 15,
+  },
+  errorQuestion: {
+    marginTop: 15,
+    textAlign: 'center',
+  },
+  btn: {
+    backgroundColor: theme.palette.primary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
   sliderContainer: {
     marginTop: 20,

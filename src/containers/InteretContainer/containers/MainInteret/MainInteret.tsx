@@ -9,10 +9,6 @@ const MainInteret = () => {
   return (
     <div className={classes.container}>
       <div className={classes.titleContainer}>COMMENT ÇA MARCHE ?</div>
-      <div className={classes.description}>
-        Les centres d’intérêts sont classés en
-        <b>3 grandes familles :</b>
-      </div>
       <div className={classes.title}>Travailler avec sa tête / avec ses mains / avec d’autres personnes</div>
       <div className={classes.imgContainer}>
         <img src={mainInterest} alt="" />

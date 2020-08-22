@@ -14,11 +14,32 @@ export interface User {
   role: UserRole;
 }
 
+export interface Question {
+  id: string;
+  title: string;
+  parent: Question | null;
+}
+
+export interface Option {
+  id: string;
+  title: string;
+  parent: { path: Option[] }[];
+  question: Question;
+  verified: boolean;
+}
+
 export interface Token {
   tokenType: string;
   accessToken: string;
   refreshToken: string;
   expiresIn: string;
+}
+
+export interface Context {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: string;
 }
 export interface Interests {
   id: string;
@@ -43,6 +64,9 @@ export interface Theme {
     id: string;
     title: string;
     description: string;
+    options: {
+      value: string;
+    }[];
   }[];
   tooltips: {
     competenceId: string;
@@ -57,15 +81,22 @@ export interface Activity {
   type: string;
   verified: boolean;
   interests: Interests[];
-  options: string[];
+  options: { value: string; verified: boolean }[];
+}
+
+export interface ActivityEngagement {
+  activity: string;
+  option: string;
 }
 export interface Competence {
   id: string;
   title: string;
+  rank: number;
   niveau: {
     title: string;
     sub_title: string;
   }[];
+  type?: string;
 }
 export interface CompetenceValues {
   id: string;
@@ -89,7 +120,7 @@ export interface UserParcour {
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
-    activities: { id: string; title: string; description: string }[];
+    activities: { id: string; title: string; description: string; options: { value: string }[] }[];
     competences: { _id: Competence; value: number }[];
     comment: {
       id: string;
@@ -100,12 +131,32 @@ export interface UserParcour {
       email: string;
       location: string;
     }[];
+    engagement?: {
+      id: string;
+      startDate: string;
+      endDate: string;
+      activity: string;
+      context: {
+        id: string;
+        title: string;
+        description: string;
+        icon: string;
+      };
+      options: {
+        option: {
+          id: string;
+          title: string;
+        }[];
+      }[];
+    };
   }[];
+
   globalCompetences: {
     id: string;
     title: string;
     value: number;
     count: number;
+    type: string;
     niveau: { title: string; sub_title: string };
   }[];
 }

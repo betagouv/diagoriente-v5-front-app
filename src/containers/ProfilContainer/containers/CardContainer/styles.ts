@@ -35,6 +35,12 @@ export default makeStyles({
     fontFamily: 'Ocean',
     textTransform: 'uppercase',
   },
+  competenceContainer: {
+    display: 'flex',
+    width: '100%',
+    borderBottom: '1px solid #6B6B6A',
+    justifyContent: 'space-between',
+  },
   card: {
     marginTop: 24,
     display: 'flex',

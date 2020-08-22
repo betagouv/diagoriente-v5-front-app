@@ -3,6 +3,7 @@ import Carousel from 'nuka-carousel';
 import Button from 'components/button/Button';
 import classNames from 'utils/classNames';
 import Dots from './Dots';
+import TopControl from './TopControl';
 import useStyles from './styles';
 
 interface IProps {
@@ -27,6 +28,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
     }
     return { idResponse: res?.id, response: exist };
   };
+
   return (
     <Carousel
       ref={ref}
@@ -34,10 +36,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
       renderCenterLeftControls={null}
       renderCenterRightControls={null}
       renderBottomCenterControls={(props) => <Dots {...props} />}
-      renderTopCenterControls={({ currentSlide }) => {
-        setCurrentIndex(currentSlide);
-        return <div />;
-      }}
+      renderTopCenterControls={(props) => <TopControl {...props} setCurrentIndex={setCurrentIndex} />}
       className={classes.root}
     >
       {questions?.map((el) => {
@@ -47,7 +46,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
             <div className={classes.question}>{el.label}</div>
             <div className={classes.btnContainer}>
               <Button
-                className={classNames(classes.btn, t.response === 'true' && classes.existResponses)}
+                className={classNames(classes.btnTrue, t.response === 'true' && classes.existResponses)}
                 onClick={() =>
                   onClick({
                     response: true,
@@ -60,7 +59,7 @@ const Slider = forwardRef(({ questions, setCurrentIndex, onClick, list }: IProps
                 <div className={classes.labelBtn}>OUI</div>
               </Button>
               <Button
-                className={classNames(classes.btn, t.response === 'false' && classes.existResponses)}
+                className={classNames(classes.btnFalse, t.response === 'false' && classes.existResponses)}
                 onClick={() =>
                   onClick({
                     response: false,

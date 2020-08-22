@@ -15,6 +15,7 @@ export const getUserParcourQuery = gql`
         id
         nom
         category
+        resources
       }
       skills {
         id
@@ -53,12 +54,30 @@ export const getUserParcourQuery = gql`
           email
           location
         }
+        engagement {
+          startDate
+          endDate
+          activity
+          options {
+            option {
+              id
+              title
+            }
+          }
+          context {
+            id
+            title
+            description
+            icon
+          }
+        }
       }
       globalCompetences {
         id
         count
         value
         title
+        type
         niveau {
           title
           sub_title

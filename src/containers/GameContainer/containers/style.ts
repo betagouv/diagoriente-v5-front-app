@@ -29,7 +29,11 @@ export default makeStyles((theme) => ({
     width: '100%',
     height: '100%',
   },
-  btnContainer: {},
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    width: '100%',
+  },
   btn: {
     backgroundColor: '#00CFFF',
     '&:hover': {

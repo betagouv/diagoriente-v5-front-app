@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+ useState, useEffect, useContext, useMemo,
+} from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
@@ -30,8 +32,14 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
   };
-  const { data, loading } = useThemes({ variables: { type: type === 'professional' ? 'professional' : 'personal' } });
+  const { data, loading } = useThemes({
+    variables: { type: type === 'engagement' ? 'engagement' : 'personal' },
+  });
   const { parcours } = useContext(parcoursContext);
+  const themeFiltered = useMemo(
+    () => (data ? data.themes.data.filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id)) : []),
+    [data, parcours],
+  );
 
   useEffect(() => {
     if (data) {
@@ -46,13 +54,12 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
       localStorage.setItem('theme', selectedTheme?.id);
     }
   }, [selectedTheme]);
-
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
-            title={type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            title={type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'}
             color="#223A7A"
             size={42}
           />
@@ -66,10 +73,17 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
-          <p className={classes.themeTitle}>
-            Choisis un
-            <span className={classes.themeText}> thème :</span>
-          </p>
+          {themeFiltered.length === 0 && !loading ? (
+            <div className={classes.errorMessage}>
+              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !
+              {' '}
+            </div>
+          ) : (
+            <p className={classes.themeTitle}>
+              Choisis un
+              <span className={classes.themeText}> thème :</span>
+            </p>
+          )}
           <div className={classes.gridContainer}>
             <Grid className={classes.circleContainer} container spacing={2}>
               {loading && (
@@ -78,49 +92,51 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                 </div>
               )}
 
-              {data?.themes.data
-                .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id))
-                .map((theme, index) => (
-                  <Grid key={theme.id} item xs={12} sm={3} md={2}>
-                    <Tooltip
-                      classes={{
-                        tooltipPlacementRight: classes.tooltipRight,
-                        tooltipPlacementLeft: classes.tooltipLeft,
-                      }}
-                      title={
-                        <Child key={index}>
+              {themeFiltered.map((theme) => (
+                <Grid key={theme.id} item xs={12} sm={3} md={2}>
+                  <Tooltip
+                    classes={{
+                      tooltipPlacementRight: classes.tooltipRight,
+                      tooltipPlacementLeft: classes.tooltipLeft,
+                    }}
+                    title={
+                      theme.activities.length ? (
+                        <Child>
                           {theme.activities.map((act) => (
-                            <li className={classes.dot} key={act.title}>{act.title}</li>
+                            <li className={classes.dot} key={act.title}>
+                              {act.title}
+                            </li>
                           ))}
                         </Child>
-                      }
-                      arrow
-                      placement="right"
-                    >
-                      <Child>
-                        <Avatar
-                          title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-                          size={62}
-                          titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
-                          className={classes.circle}
-                          onClick={() => showAvatar(theme)}
-                          avatarCircleBackground={
-                            selectedTheme?.id === theme.id ? theme.resources?.backgroundColor : ''
-                          }
-                        >
-                          <img
-                            src={theme.resources?.icon}
-                            alt=""
-                            className={classNames(
-                              classes.avatarStyle,
-                              selectedTheme?.id === theme.id && classes.selectedImg,
-                            )}
-                          />
-                        </Avatar>
-                      </Child>
-                    </Tooltip>
-                  </Grid>
-                ))}
+                      ) : (
+                        ''
+                      )
+                    }
+                    arrow
+                    placement="right"
+                  >
+                    <Child>
+                      <Avatar
+                        title={theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
+                        size={62}
+                        titleClassName={selectedTheme?.id === theme.id ? classes.textSelected : classes.marginTitle}
+                        className={classes.circle}
+                        onClick={() => showAvatar(theme)}
+                        avatarCircleBackground={selectedTheme?.id === theme.id ? 'rgba(122, 230, 255, 0.2)' : ''}
+                      >
+                        <img
+                          src={theme.resources?.icon}
+                          alt=""
+                          className={classNames(
+                            classes.avatarStyle,
+                            selectedTheme?.id === theme.id && classes.selectedImg,
+                          )}
+                        />
+                      </Avatar>
+                    </Child>
+                  </Tooltip>
+                </Grid>
+              ))}
             </Grid>
           </div>
           <Link

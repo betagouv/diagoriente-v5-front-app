@@ -32,7 +32,7 @@ export interface ActivitiesArguments {
 
 export interface ActivitiesResponse {
   activities: {
-    data: Omit<Activity, 'interests' | 'options'>[];
+    data: Omit<Activity, 'interests'>[];
     perPage: number;
     page: number;
     totalPages: number;
@@ -55,7 +55,6 @@ export const activityQuery = gql`
         id
         nom
       }
-      options
     }
   }
 `;
@@ -68,22 +67,8 @@ export const useActivity = (options: QueryHookOptions<ActivityResponse, { id: st
   useLocalLazyQuery(activityQuery, options);
 
 export const addActivityMutation = gql`
-  mutation AddActivity(
-    $title: String!
-    $description: String!
-    $type: String!
-    $verified: Boolean!
-    $interests: [ID]
-    $options: [String]
-  ) {
-    addActivity(
-      title: $title
-      description: $description
-      type: $type
-      verified: $verified
-      interests: $interests
-      options: $options
-    ) {
+  mutation AddActivity($title: String!, $description: String!, $type: String!, $verified: Boolean!, $interests: [ID]) {
+    addActivity(title: $title, description: $description, type: $type, verified: $verified, interests: $interests) {
       id
       title
       description
@@ -99,7 +84,6 @@ export interface AddActivityParams {
   type: string;
   verified: boolean;
   interests?: string[];
-  options?: string[];
 }
 
 export const useAddActivity = (options?: MutationHookOptions<{ addActivity: Activity }, AddActivityParams>) =>
@@ -113,7 +97,6 @@ export const updateActivityMutation = gql`
     $type: String
     $verified: Boolean
     $interests: [ID]
-    $options: [String]
   ) {
     updateActivity(
       id: $id
@@ -122,7 +105,6 @@ export const updateActivityMutation = gql`
       type: $type
       verified: $verified
       interests: $interests
-      options: $options
     ) {
       id
       title
@@ -133,14 +115,8 @@ export const updateActivityMutation = gql`
   }
 `;
 
-export interface UpdateActivityParams {
+export interface UpdateActivityParams extends Partial<AddActivityParams> {
   id: string;
-  title?: string;
-  description?: string;
-  type?: string;
-  verified?: boolean;
-  interests?: string[];
-  options?: string[];
 }
 
 export const useUpdateActivity = (options?: MutationHookOptions<{ updateActivity: Activity }, UpdateActivityParams>) =>

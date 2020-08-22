@@ -6,7 +6,6 @@ export default makeStyles((theme) => ({
     outline: 0,
   },
   content: {
-    paddingTop: 20,
     height: 250,
     display: 'flex',
     flexDirection: 'column',
@@ -23,14 +22,25 @@ export default makeStyles((theme) => ({
   },
   btnContainer: {
     display: 'flex',
+    paddingTop: 25,
   },
-  btn: {
-    backgroundColor: theme.palette.primary.main,
+  btnTrue: {
+    backgroundColor: '#4d6dc6',
     padding: '5px 30px',
     width: 169,
     height: 50,
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: '#4d6dc6',
+    },
+    margin: '5px 10px',
+  },
+  btnFalse: {
+    backgroundColor: '#d60050',
+    padding: '5px 30px',
+    width: 169,
+    height: 50,
+    '&:hover': {
+      backgroundColor: '#d60050',
     },
     margin: '5px 10px',
   },
@@ -38,7 +48,7 @@ export default makeStyles((theme) => ({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#011A5E',
+    color: '#fff',
   },
   dotsContainer: {
     listStyleType: 'none',

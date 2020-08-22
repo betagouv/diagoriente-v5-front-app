@@ -1,6 +1,4 @@
-import React, {
- useEffect, useState, useRef, useContext,
-} from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -30,7 +28,6 @@ import useStyles from './styles';
 const Register = () => {
   const { user } = useContext(UserContext);
   const [errorCondition, setErrorCondition] = useState('');
-  const [selectedLocation] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
@@ -70,7 +67,7 @@ const Register = () => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
-        const res = { ...values, location: selectedLocation };
+        const res = { ...values };
         registerCall({
           variables: res,
         });
@@ -84,7 +81,6 @@ const Register = () => {
       actions.setAllTouched(true);
     }
   };
-  console.log('values.location', values.location)
   useEffect(() => {
     if (values.location.length > 0) {
       locationCall();
@@ -138,7 +134,7 @@ const Register = () => {
   }
 
   const onSelect = (location: string | null) => {
-    console.log('location', location)
+    console.log('location', location);
     if (location) actions.setValues({ location });
   };
   return (
@@ -216,12 +212,12 @@ const Register = () => {
               placeholder="*******"
               autoComplete="off"
               error={
-                touched.password
-                && errors.password !== ''
-                && hasUppercase(values.password)
-                && hasLowercase(values.password)
-                && hasNumber(values.password)
-                && hasSpecial(values.password)
+                touched.password &&
+                errors.password !== '' &&
+                hasUppercase(values.password) &&
+                hasLowercase(values.password) &&
+                hasNumber(values.password) &&
+                hasSpecial(values.password)
               }
               errorText={touched.password ? errors.password : ''}
             />
@@ -274,8 +270,8 @@ const Register = () => {
             <AutoComplete
               label="Ta ville de résidence"
               onChange={(e) => {
-                setSearch(e.target.value)
-                actions.handleChange(e)
+                setSearch(e.target.value);
+                actions.handleChange(e);
               }}
               onSelectText={onSelect}
               value={values.location}
@@ -323,11 +319,8 @@ const Register = () => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les
-                      {' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-                      {' '}
-                      de Diagoriente
+                      J&lsquo;accepte les{' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
                       <span className={classes.start}>*</span>
                     </div>
                   </div>

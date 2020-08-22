@@ -97,5 +97,8 @@ export default makeStyles((theme: Theme) =>
     circleStyle: {
       width: 220,
     },
+    circleStyleEng: {
+      width: 240,
+    },
   }),
 );

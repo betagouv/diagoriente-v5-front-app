@@ -8,7 +8,7 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import GameContainer from 'containers/HomeContainer/components/Modals/KItchenGame/Game';
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
-
+import illExpEng from 'assets/images/illu_xp_engagement.png';
 import help from 'assets/svg/help.svg';
 import { Link } from 'react-router-dom';
 
@@ -69,7 +69,16 @@ const Experience = () => {
           </div>
         </div>
         <div className={classes.circleContainer}>
-          <Avatar title="Ajouter une" size={200} titleClassName={classes.marginTitle} />
+          <Avatar
+            title="Ajouter une"
+            avatarCircleBackground="transparent"
+            size={200}
+            titleClassName={classes.marginTitle}
+            circleClassName={classes.circleStyleEng}
+
+          >
+            <img src={illExpEng} alt="ill" className={classes.illus} />
+          </Avatar>
           <Link to="/experience/theme?type=engagement" className={classes.hideLine}>
             <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
               <div className={classes.btnLabel}>Expérience d'engagement</div>

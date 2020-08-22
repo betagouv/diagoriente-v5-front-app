@@ -26,6 +26,7 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       paddingTop: 34,
+      minHeight: '76vh',
     },
 
     themeTitle: {
@@ -182,4 +183,5 @@ export default makeStyles((theme: Theme) =>
     errorMessage: {
       color: theme.palette.error.main,
     },
-  }));
+  }),
+);

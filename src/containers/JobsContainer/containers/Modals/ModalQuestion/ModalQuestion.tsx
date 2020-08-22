@@ -73,7 +73,7 @@ const ModalQuestion = ({ job, handleClose }: IProps) => {
           <div className={classes.btnContainer}>
             <Link to="/jobs">
               <Button className={classes.btn}>
-                <div className={classes.btnLabel}>Chercher une immersion</div>
+                <div className={classes.btnLabel}>je recherche mon immersion</div>
               </Button>
             </Link>
           </div>

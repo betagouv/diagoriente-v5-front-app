@@ -56,7 +56,7 @@ const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
     if (activity) {
       setValues({
         ...activity,
-        options: activity.options.map((opt) => ({ value: opt.value, verified: opt.verified })),
+        options: activity.options?.map((opt) => ({ value: opt.value, verified: opt.verified })) || [],
         interests: activity.interests.map((interest) => ({
           label: interest.nom,
           value: interest.id,

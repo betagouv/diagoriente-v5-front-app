@@ -25,7 +25,7 @@ const CardContainer = () => {
     setType(i);
     if (i === 'print') setLoadingPrint(true);
     if (i === 'download') setLoading(true);
-    createPdf();
+      createPdf();
   };
   const icons = (
     <CardIcons onDownload={onClickIcon} onPrint={onClickIcon} fetching={loading} fetchingPrint={loadingPrint} />

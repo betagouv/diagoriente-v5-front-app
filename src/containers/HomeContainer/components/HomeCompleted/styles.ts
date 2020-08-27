@@ -94,4 +94,11 @@ export default makeStyles({
   purple: {
     color: '#420FAB',
   },
+  textModal: {
+    fontSize: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '200px',
+  },
 });

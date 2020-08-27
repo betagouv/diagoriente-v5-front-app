@@ -9,6 +9,7 @@ import ExperienceComponent from './containers/Experience/Experience';
 import ThemeContainer from './containers/ThemeContainer';
 import ThemeContainerPro from './containers/ThemeContainerPro';
 import SkillContainer from './containers/SkillContainer';
+import GameContainer from './containers/Game/GameContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -54,6 +55,7 @@ const Experience = () => {
         <Switch>
           <Route exact path="/experience" component={ExperienceComponent} />
           <Route path="/experience/theme" exact component={ThemeContainer} />
+          <Route path="/experience/game" exact component={GameContainer} />
           <Route path="/experience/theme-pro" exact component={ThemeContainerPro} />
           <Route path="/experience/skill/:themeId" component={SkillContainer} />
           <Route component={NotFoundPage} />

@@ -10,6 +10,7 @@ export const getUserParcourQuery = gql`
     userParcour {
       id
       played
+      playedEng
       completed
       families {
         id
@@ -103,8 +104,8 @@ export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData>
   useLocalLazyQuery(getUserParcourQuery, options);
 
 export const updateParcours = gql`
-  mutation UpdateParcous($families: [ID],$skillsAlgo: [ID],$played: Boolean,$completed: Boolean ) {
-    updateParcour(families: $families, skillsAlgo: $skillsAlgo, played: $played,completed: $completed) {
+  mutation UpdateParcous($families: [ID],$skillsAlgo: [ID],$played: Boolean,$completed: Boolean, $playedEng: Boolean ) {
+    updateParcour(families: $families, skillsAlgo: $skillsAlgo, played: $played,completed: $completed, playedEng:$playedEng) {
       ${parcourResult}
     }
   }
@@ -114,6 +115,7 @@ export interface UpdateParcourArgument {
   skillsAlgo?: string[];
   played?: boolean;
   completed?: boolean;
+  playedEng?: boolean;
 }
 export const useUpdateParcour = (
   options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateParcourArgument> = {},

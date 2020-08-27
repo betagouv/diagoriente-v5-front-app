@@ -10,19 +10,37 @@ import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
 import illExpEng from 'assets/images/illu_xp_engagement.png';
 import help from 'assets/svg/help.svg';
-import { Link } from 'react-router-dom';
-
+import { Link, useHistory } from 'react-router-dom';
+import Game from '../Game/gameModal/GameModal';
 import useStyles from './styles';
 
 const Experience = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [openEng, setOpenEng] = useState(false);
+
   const openModal = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const openModalEng = () => setOpenEng(true);
+  const handleEngClose = () => setOpenEng(false);
+
   const { parcours } = useContext(parcourContext);
+
   useEffect(() => {
     if (!parcours?.played) openModal();
   }, [parcours]);
+
+  const onClickEng = () => {
+    const p = '/experience/theme?type=engagement';
+    if (!parcours?.playedEng) {
+      openModalEng();
+    } else {
+      history.push(p);
+    }
+  };
+
   return (
     <div className={classes.container}>
       <Title title="MES EXPERIENCES" image={blueline} color="#223A7A" />
@@ -75,15 +93,14 @@ const Experience = () => {
             size={200}
             titleClassName={classes.marginTitle}
             circleClassName={classes.circleStyleEng}
-
           >
             <img src={illExpEng} alt="ill" className={classes.illus} />
           </Avatar>
-          <Link to="/experience/theme?type=engagement" className={classes.hideLine}>
+          <div onClick={onClickEng} className={classes.hideLine}>
             <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
               <div className={classes.btnLabel}>Expérience d'engagement</div>
             </Button>
-          </Link>
+          </div>
         </div>
       </div>
       <div className={classes.help}>
@@ -92,6 +109,9 @@ const Experience = () => {
 
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
         <GameContainer onHandelClose={handleClose} />
+      </ModalContainer>
+      <ModalContainer open={openEng} handleClose={handleEngClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
+        <Game />
       </ModalContainer>
     </div>
   );

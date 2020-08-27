@@ -1,8 +1,6 @@
-import React, {
- useContext, useState, useMemo, useCallback,
-} from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
 import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png';
@@ -10,7 +8,7 @@ import IlluMengager from 'assets/images/illu_dashboard_sengager.png';
 import blueLine from 'assets/svg/trait_bleu_tres_fonce.svg';
 import yellowLine from 'assets/svg/trait_jaune_fonce.svg';
 import pinkLine from 'assets/svg/trait_rose.svg';
-
+import ModalContainer from 'components/common/Modal/ModalContainer';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
 import Button from '@material-ui/core/Button/Button';
@@ -21,8 +19,10 @@ import useStyles from './styles';
 
 const HomeCompleted = () => {
   const classes = useStyles();
+  const history = useHistory();
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(-1);
+  const [openModal, setOpenModal] = useState(false);
 
   const getState = (index: number) => {
     switch (open) {
@@ -34,7 +34,14 @@ const HomeCompleted = () => {
         return 'closed';
     }
   };
-
+  const onClickItem = (t: string, p?: string) => {
+    console.log('openModal', t);
+    if (t === 'MES DÉMARCHES') {
+      console.log('here')
+      setOpenModal(true);
+    }
+    if (p) history.push(`${p}`);
+  };
   const renderContentItem = useCallback(
     (
       title: string,
@@ -42,9 +49,12 @@ const HomeCompleted = () => {
       c: { path?: string; buttonClassName?: string; descriptionClassName?: string } = {},
     ) => (
       <div className={classes.itemContainer}>
-        <Link className={classes.itemLink} to={c.path || ''}>
+        {/* <Link className={classes.itemLink} to={c.path || ''}>
           <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
-        </Link>
+        </Link> */}
+        <div className={classes.itemLink} onClick={() => onClickItem(title, c.path)}>
+          <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
+        </div>
         <p className={classNames(classes.itemDescription, c.descriptionClassName)}>{description}</p>
       </div>
     ),
@@ -60,14 +70,8 @@ const HomeCompleted = () => {
         image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes
-            {' '}
-            <span className={classes.bold}>compétences</span>
-            <br />
-            {' '}
-            et explorer mes
-            {' '}
-            <span className={classes.bold}>intérêts</span>
+            Identifier mes <span className={classes.bold}>compétences</span>
+            <br /> et explorer mes <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -79,9 +83,9 @@ const HomeCompleted = () => {
               { path: '/experience', buttonClassName: classes.blue },
             )}
             {renderContentItem(
-              'MES CENTRE D’INTÉRÊT',
+              'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
-              "Sélectionne tes centre d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
+              "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
               { path: '/interet', buttonClassName: classes.purple },
             )}
           </div>
@@ -94,12 +98,7 @@ const HomeCompleted = () => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des
-            {' '}
-            <span className={classes.bold}>métiers</span>
-            {' '}
-            et identifier mon
-            {' '}
+            Découvrir des <span className={classes.bold}>métiers</span> et identifier mon{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -117,15 +116,8 @@ const HomeCompleted = () => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes
-            {' '}
-            <span className={classes.bold}>choix</span>
-            {' '}
-            et identifier des
-            {' '}
-            <span className={classes.bold}>entreprises</span>
-            {' '}
-            à contacter
+            Faire mes <span className={classes.bold}>choix</span> et identifier des{' '}
+            <span className={classes.bold}>entreprises</span> à contacter
           </div>
         ),
         openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
@@ -135,24 +127,34 @@ const HomeCompleted = () => {
   );
 
   return (
-    <div className={classes.container}>
-      <div className={classes.profileHeader}>MON PROFIL</div>
-      <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
-      <div className={classes.info}>Ma carte de compétences, mes infos..</div>
-      <Link className={classes.link} to="/profile">
-        Voir mon profil
-      </Link>
-      <div className={classes.content}>
-        {dashboardContent.map((content, index) => (
-          <DashboardStep
-            key={content.title}
-            onClick={() => setOpen(open === index ? -1 : index)}
-            {...content}
-            state={getState(index)}
-          />
-        ))}
+    <>
+      <div className={classes.container}>
+        <div className={classes.profileHeader}>MON PROFIL</div>
+        <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
+        <div className={classes.info}>Ma carte de compétences, mes infos..</div>
+        <Link className={classes.link} to="/profile">
+          Voir mon profil
+        </Link>
+        <div className={classes.content}>
+          {dashboardContent.map((content, index) => (
+            <DashboardStep
+              key={content.title}
+              onClick={() => setOpen(open === index ? -1 : index)}
+              {...content}
+              state={getState(index)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      <ModalContainer
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+        backdropColor="#011A5E"
+        colorIcon="#D60051"
+      >
+        <div className={classes.textModal}>Cette fonctionnalité arrive bientôt</div>
+      </ModalContainer>
+    </>
   );
 };
 

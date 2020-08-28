@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import GameLogo from 'assets/svg/game.svg';
+import GameLogo from 'assets/images/ServiceCivique_RéférentielRectec-page-001.jpg';
 import { useUpdateParcour } from 'requests/parcours';
 import Button from 'components/button/Button';
 import { Link, useHistory } from 'react-router-dom';
@@ -26,22 +26,22 @@ const Game = () => {
   return (
     <div className={classes.root}>
       <div className={classes.titleContainer}>
-        <div className={classes.title}>Jeu service civique</div>
+        <div className={classes.title}>JEU DE CARTES</div>
         <div className={classes.subTitle}>
-          Pour t&apos;aider à identifier tes compétences, tu peux commencer
+          Tu ne maîtrises pas totalement la notion de compétence et souhaiterais
           <br />
-          par jouer à un jeu très court. Tu verras qu’à travers chaque expérience se
+          en apprendre davantage ? Entraîne-toi à manipuler le référentiel RECTEC-
           <br />
-          cachent des compétences !
+          Engagement à l’aide de notre jeu de cartes numérique.
         </div>
       </div>
       <div className={classes.imageContainer}>
-        <img src={GameLogo} alt="" />
+        <img src={GameLogo} alt="" className={classes.imgref} />
       </div>
       <div className={classes.btnContainer}>
         <Link to="/experience/game">
           <Button className={classes.btn}>
-            <span className={classes.labelBtn}>Jouer</span>
+            <span className={classes.labelBtn}>Je commence l’entraînement</span>
           </Button>
         </Link>
       </div>

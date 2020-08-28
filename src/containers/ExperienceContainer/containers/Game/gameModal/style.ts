@@ -23,9 +23,18 @@ export default makeStyles((theme) => ({
   subTitle: {
     fontSize: 18,
     textAlign: 'center',
+    color: '#011A5E',
   },
   imageContainer: {
     marginTop: 15,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  imgref: {
+    width: 360,
+    height: 'auto',
+    border: '2px solid #223A7A',
+    borderRadius: 20,
   },
   btnContainer: {
     marginTop: 25,

@@ -1,7 +1,7 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import bluearrow from 'assets/svg/bluearrow.svg';
 import darkbluearrow from 'assets/svg/darkbluearrow.svg';
-import { SKILL_CONTAINER_PADDING } from "utils/generic";
+import { SKILL_CONTAINER_PADDING } from 'utils/generic';
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -210,5 +210,42 @@ export default makeStyles((theme: Theme) =>
 
     hideLine: {
       textDecoration: 'none',
+    },
+
+    echelonBackground: {
+      background: '#ffff',
+      padding: '12px 56px',
+      width: 650,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    avatarStyle: {
+      position: 'relative',
+      maxHeight: '100%',
+      maxWidth: '100%',
+    },
+
+    circleClassName: {
+      padding: 0,
+    },
+    themeAvatar: {
+      paddingRight: 2,
+      alignItems: 'flex-start',
+    },
+    squareContainerClassName: {
+      alignSelf: 'center',
+      height: 90,
+      width: 90,
+    },
+    dataOptions: {
+      display: 'flex',
+      flexDirection: 'column',
+      color: '#00B2DB',
+      fontSize: 14,
+      marginLeft: 50,
+      fontWeight: 'bold',
+    },
+    titleClassName: {
+      margin: 0,
     },
   }));

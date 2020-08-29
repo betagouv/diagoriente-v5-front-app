@@ -138,6 +138,7 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
     },
     circleClassName: {
       padding: 0,
+      background: 'transparent',
     },
     dot: {
       textAlign: 'left',
@@ -163,6 +164,12 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
       fontWeight: 'bold',
       lineHeight: '17px',
     },
+
+    squareContainerClassName: {
+      height: 90,
+      width: 90,
+    },
+
     animation: {
       boxShadow: '0 0 0 0 rgba(255, 255,255, 1)',
       transform: 'scale(1)',
@@ -175,15 +182,12 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
         boxShadow: '0 0 0 0 rgba(255, 255,255, 0.7)',
         width: 0,
         height: 0,
-
       },
       to: {
         transform: 'scale(1)',
         boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)',
         width: 40,
         height: 40,
-
       },
     },
-  }),
-);
+  }));

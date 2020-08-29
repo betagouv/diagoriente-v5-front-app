@@ -65,12 +65,13 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
   const [activity, setActivity] = useState(selectedSkill?.engagement?.activity || '');
-  const showSelection = matchPath(location.pathname, [
-    `${match.path}/activities`,
-
-    `${match.path}/competences`,
-    `${match.path}/competencesValues`,
-  ]);
+  const showSelection = data?.theme.type === 'personal'
+      ? matchPath(location.pathname, [`${match.path}/activities`, `${match.path}/competences`])
+      : matchPath(location.pathname, [
+          `${match.path}/activities`,
+          `${match.path}/competences`,
+          `${match.path}/competencesValues`,
+        ]);
 
   useEffect(() => {
     const d = localStorage.getItem('optionActivities');
@@ -308,6 +309,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
                 isCreate={!selectedSkill}
+                activities={activities}
               />
             );
           }}

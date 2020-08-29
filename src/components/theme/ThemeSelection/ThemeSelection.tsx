@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+ useContext, useEffect, useRef, useState,
+} from 'react';
 import { useWillUnmount } from 'hooks/useLifeCycle';
 import SelectionContext from 'contexts/SelectionContext';
 import { matchPath, useLocation } from 'react-router-dom';
@@ -99,6 +101,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
                       className={classes.themeAvatar}
                       avatarCircleBackground={theme.resources?.backgroundColor}
                       circleClassName={classes.circleClassName}
+
                     >
                       <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
                     </Avatar>

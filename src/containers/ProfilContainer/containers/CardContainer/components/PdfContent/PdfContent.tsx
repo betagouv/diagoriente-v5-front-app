@@ -24,7 +24,8 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
       ...parcours?.skills.map((skill) => skill.comment.map((comment) => ({ title: skill.theme.title, comment }))),
     ) || []
   ).filter(({ comment }) => comment.status === 'accepted');
-
+  const showBtn = parcours?.skills.length === 0;
+  const showBtnEng = parcours?.skills.filter((el) => el.theme.type === 'engagement').length === 0;
   return createPortal(
     <div className={classes.container}>
       <div ref={ref} className={classes.pdf}>
@@ -53,6 +54,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience personnelle"
           emptyButton="J’ajoute une expérience perso"
           path=""
+          showBtn={showBtn}
         />
         <CardSkills
           title="Expériences professionnelles"
@@ -60,6 +62,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path=""
+          showBtn={showBtn}
         />
         <CardSkills
           title="Expériences D’ENGAGEMENT"
@@ -67,6 +70,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"
           path=""
+          showBtn={showBtnEng}
         />
         <CardPart title="RECOMMANDATIONS">
           <Grid className={classes.commentContainer} container spacing={3}>

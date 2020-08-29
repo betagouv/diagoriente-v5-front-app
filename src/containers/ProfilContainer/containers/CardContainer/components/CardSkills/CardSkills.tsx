@@ -15,11 +15,10 @@ interface CardSkillsProps {
   emptyMessage: string;
   emptyButton: string;
   path: string;
+  showBtn?: boolean;
 }
 
-const CardSkills = ({
- type, title, path, emptyButton, emptyMessage,
-}: CardSkillsProps) => {
+const CardSkills = ({ type, title, path, emptyButton, emptyMessage, showBtn }: CardSkillsProps) => {
   const { parcours } = useContext(ParcourContext);
   const classes = useStyles();
   const skills = parcours?.skills.filter((skill) => skill.theme?.type === type) || [];
@@ -34,11 +33,13 @@ const CardSkills = ({
       ) : (
         <>
           <div className={classes.emptyMessage}>{emptyMessage}</div>
-          <Link to={path}>
-            <Button className={classes.emptyButton} variant="contained">
-              {emptyButton}
-            </Button>
-          </Link>
+          {!showBtn && (
+            <Link to={path}>
+              <Button className={classes.emptyButton} variant="contained">
+                {emptyButton}
+              </Button>
+            </Link>
+          )}
         </>
       )}
     </CardPart>

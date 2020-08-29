@@ -119,7 +119,7 @@ const InfoProfil = () => {
         oldPassword: '',
         location: user?.location || '',
         institution: '',
-        codeGroupe: '',
+        codeGroupe: user.codeGroupe,
       });
       actions.setAllTouched(false);
     }

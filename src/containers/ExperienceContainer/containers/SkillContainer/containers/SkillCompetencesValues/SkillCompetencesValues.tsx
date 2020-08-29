@@ -31,7 +31,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   addSkillState: boolean;
   theme: Theme | null;
   isCreate?: boolean;
-  activities: Theme['activities'];
+  activities: string[];
 }
 
 const SkillCompetencesValues = ({
@@ -76,7 +76,6 @@ const SkillCompetencesValues = ({
     setCompetencesValues(competencesValues.filter((comp) => competences.find((id) => comp.id === id.id)));
     // eslint-disable-next-line
   }, [competences]);
-  console.log(activities);
 
   return (
     <div className={classes.root}>
@@ -105,26 +104,24 @@ const SkillCompetencesValues = ({
         <div className={classes.themeContainer}>
           <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>Pour chacune de ces compétences que tu as choisies, comment te sens-tu ?</p>
-          {theme?.type === 'personal' ? (
-            <div className={classes.echelonBackground}>
-              <Avatar
-                title={theme?.title}
-                size={95}
-                className={classes.themeAvatar}
-                squareContainerClassName={classes.squareContainerClassName}
-                titleClassName={classes.titleClassName}
-              >
-                <img src={theme?.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
-              </Avatar>
-              <div className={classes.dataOptions}>
-                {activities.map((activity) => (
-                  <div>{activity.title}</div>
+
+          <div className={classes.echelonBackground}>
+            <Avatar
+              title={theme?.title}
+              size={95}
+              className={classes.themeAvatar}
+              squareContainerClassName={classes.squareContainerClassName}
+              titleClassName={classes.titleClassName}
+            >
+              <img src={theme?.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
+            </Avatar>
+            <div className={classes.dataOptions}>
+              {activities.slice(0, 4).map((activity) => (
+                <div>{activity}</div>
               ))}
-              </div>
             </div>
-          ) : (
-            undefined
-          )}
+          </div>
+
           <div className={classes.echelonContainer}>
             <div className={classes.echelon}>
               <div className={classes.empty} />

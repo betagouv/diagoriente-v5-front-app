@@ -244,6 +244,7 @@ export default makeStyles((theme: Theme) =>
       fontSize: 14,
       marginLeft: 50,
       fontWeight: 'bold',
+      flex: '1 1 0',
     },
     titleClassName: {
       margin: 0,

@@ -59,19 +59,15 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   );
 
   const [optionActivities, setOptionActivities] = useState(
-    selectedSkill?.engagement?.options.map((question) => question.option.map((q) => q.id)) || [[]],
+    selectedSkill?.engagement?.options.map((question) =>
+      question.option.map((q) => ({ id: q.id, title: q.title })),
+    ) || [[]],
   );
 
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
   const [activity, setActivity] = useState(selectedSkill?.engagement?.activity || '');
-  const showSelection = data?.theme.type === 'personal'
-      ? matchPath(location.pathname, [`${match.path}/activities`, `${match.path}/competences`])
-      : matchPath(location.pathname, [
-          `${match.path}/activities`,
-          `${match.path}/competences`,
-          `${match.path}/competencesValues`,
-        ]);
+  const showSelection = matchPath(location.pathname, [`${match.path}/activities`, `${match.path}/competences`]);
 
   useEffect(() => {
     const d = localStorage.getItem('optionActivities');
@@ -87,6 +83,21 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.setItem('optionActivities', JSON.stringify({ theme: match.params.themeId, optionActivities }));
     } // eslint-disable-next-line
   }, [optionActivities, match.params.themeId]);
+
+  useEffect(() => {
+    const d = localStorage.getItem('activity');
+    if (d) {
+      const activityData = JSON.parse(d);
+      setActivity(activityData.theme === match.params.themeId ? activityData.activity : '');
+    }
+    // eslint-disable-next-line
+  }, [match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkill) {
+      localStorage.setItem('activity', JSON.stringify({ theme: match.params.themeId, activity }));
+    } // eslint-disable-next-line
+  }, [activity, match.params.themeId]);
 
   useEffect(() => {
     const d = localStorage.getItem('activities');
@@ -168,7 +179,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             startDate,
             endDate,
             context,
-            options: optionActivities.filter((o) => o.length > 0),
+            options: optionActivities.filter((o) => o.length > 0).map((option) => option.map((o) => o.id)),
             activity,
           },
         },
@@ -200,7 +211,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             startDate,
             endDate,
             context,
-            options: optionActivities,
+            options: optionActivities.map((option) => option.map((o) => o.id)),
             activity,
           },
         },
@@ -249,6 +260,10 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
   }
 
+  const activitiesTitles = data?.theme.type === 'engagement'
+      ? optionActivities.map((e) => e.map((o) => o.title).join(' '))
+      : activities.map((a) => a.title);
+  if (data?.theme.type === 'engagement' && activity) activitiesTitles.push(activity);
   return (
     <>
       <SnackBar
@@ -309,7 +324,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 addSkillState={selectedSkill ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
                 isCreate={!selectedSkill}
-                activities={activities}
+                activities={activitiesTitles}
               />
             );
           }}
@@ -349,7 +364,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         />
         <Route component={NotFoundPage} />
       </Switch>
-      {showSelection && <Selection activities={activities} theme={data.theme} />}
+      {showSelection && <Selection activities={activitiesTitles} theme={data.theme} />}
     </>
   );
 };

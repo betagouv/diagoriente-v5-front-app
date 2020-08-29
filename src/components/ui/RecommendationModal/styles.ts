@@ -101,7 +101,8 @@ export default makeStyles((theme) => ({
 
   modalContainer: {
     display: 'flex',
-    paddingTop: '15px',
+    paddingTop: '30px',
+    paddingBottom: '20px',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -144,7 +145,7 @@ export default makeStyles((theme) => ({
   fontInput: {
     fontSize: 14,
     '&::placeholder': {
-      color: '#C9C9C7', 
+      color: '#C9C9C7',
       opacity: 1,
     },
 
@@ -301,6 +302,7 @@ export default makeStyles((theme) => ({
   hideText: {
     opacity: '0',
     margin: 0,
+    height: 20,
   },
 
   errorName: {

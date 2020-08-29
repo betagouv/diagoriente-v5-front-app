@@ -97,7 +97,6 @@ const InfoProfil = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
     if (updateUserState.error) {
-      console.log('err',updateUserState.error.graphQLErrors[0].message)
       setError(updateUserState.error.graphQLErrors[0].message);
       timeout = setTimeout(() => {
         setError('');
@@ -120,7 +119,7 @@ const InfoProfil = () => {
         oldPassword: '',
         location: user?.location || '',
         institution: '',
-        codeGroupe: '',
+        codeGroupe: user.codeGroupe,
       });
       actions.setAllTouched(false);
     }

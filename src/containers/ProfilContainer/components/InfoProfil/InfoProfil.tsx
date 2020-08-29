@@ -97,7 +97,6 @@ const InfoProfil = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
     if (updateUserState.error) {
-      console.log('err',updateUserState.error.graphQLErrors[0].message)
       setError(updateUserState.error.graphQLErrors[0].message);
       timeout = setTimeout(() => {
         setError('');

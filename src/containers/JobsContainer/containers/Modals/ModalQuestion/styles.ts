@@ -36,6 +36,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+    marginBottom: 40,
   },
   textDescription: {
     textAlign: 'center',

@@ -52,6 +52,9 @@ export interface OptionsResponse {
 export const useOptions = (options: QueryHookOptions<OptionsResponse, OptionsArguments> = {}) =>
   useLocalQuery<OptionsResponse, OptionsArguments>(optionsQuery, options);
 
+export const useLazyOptions = (options: QueryHookOptions<OptionsResponse, OptionsArguments> = {}) =>
+  useLocalLazyQuery<OptionsResponse, OptionsArguments>(optionsQuery, options);
+
 export const optionQuery = gql`
   query Option($id: ID!) {
     option(id: $id) {

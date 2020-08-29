@@ -115,6 +115,7 @@ export interface Location {
 export interface UserParcour {
   id: string;
   played: boolean;
+  playedEng: boolean;
   completed: boolean;
   families: { id: string; nom: string; category: string; resources: string[] }[];
   skills: {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useForm } from 'hooks/useInputs';
 import { Option } from 'requests/types';
-import { useOptions } from 'requests/options';
+import { useLazyOptions } from 'requests/options';
 import { useQuestions } from 'requests/questions';
 
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
@@ -98,7 +98,7 @@ const OptionForm = ({ onSubmit, option }: OptionFormProps) => {
             // eslint-disable-next-line
             <div key={index} className={classes.parentContainer}>
               <AdminAutocomplete
-                list={useOptions}
+                list={useLazyOptions}
                 handleOptions={(o) => ({
                   label: o.title,
                   value: o.id,
@@ -108,6 +108,7 @@ const OptionForm = ({ onSubmit, option }: OptionFormProps) => {
                 variables={{ parent: parentList.map(({ value }) => value).join(',') }}
                 multiple
                 className={classes.parentInput}
+                lazy
               />
 
               {values.parent.length > 1 && (

@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+ useContext, useEffect, useRef, useState,
+} from 'react';
 import { useWillUnmount } from 'hooks/useLifeCycle';
 import SelectionContext from 'contexts/SelectionContext';
 import { matchPath, useLocation } from 'react-router-dom';
@@ -13,7 +15,7 @@ import useStyles from './styles';
 
 interface Props {
   theme?: Omit<Theme, 'activities'> | null;
-  activities: Theme['activities'];
+  activities: string[];
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {
@@ -35,7 +37,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
       setOpen(true);
       setIsFirstTheme(true);
     }
-   /*  if (isTheme && isFirstTheme) {
+    /*  if (isTheme && isFirstTheme) {
       setOpen(false);
     } */
   }, [theme, isTheme, isFirstTheme, setOpen]);
@@ -120,15 +122,15 @@ const PrivateHeader = ({ theme, activities }: Props) => {
             )}
             {activities.length ? (
               <div className={classes.activityContainer}>
-                {activities.map((e) => (
+                {activities.map((activity) => (
                   <Button
                     variant="outlined"
-                    key={e.id}
+                    key={activity}
                     className={classes.activitySelected}
                     childrenClassName={classes.selected}
                     disabled
                   >
-                    {e.title}
+                    {activity}
                   </Button>
                 ))}
               </div>

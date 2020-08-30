@@ -119,7 +119,7 @@ const InfoProfil = () => {
         oldPassword: '',
         location: user?.location || '',
         institution: '',
-        codeGroupe: '',
+        codeGroupe: user.codeGroupe,
       });
       actions.setAllTouched(false);
     }
@@ -281,32 +281,31 @@ const InfoProfil = () => {
                 </div>
               )}
             </InfoProfilRow>
-            {user.codeGroupe && (
-              <>
-                <InfoProfilRow title=" Code groupe" className={classes.paddingClassName}>
-                  {open ? (
-                    <div>
-                      <Input
-                        onChange={actions.handleChange}
-                        value={values.codeGroupe}
-                        name="codeGroupe"
-                        placeholder="ex: codeGroupe1"
-                        error={touched.codeGroupe && errors.codeGroupe}
-                        errorText={touched.codeGroupe ? errors.codeGroupe : ''}
-                      />
-                    </div>
-                  ) : (
-                    <span className={classes.userInfo}>{user.codeGroupe}</span>
-                  )}
-                </InfoProfilRow>
-                {open && (
-                  <div className={classes.passwordRoot}>
-                    <div className={classes.emptyDiv} />
-                    <span>Si tu es dans un groupe, renseigne ici le code qui t'a été remis.</span>
+
+            <>
+              <InfoProfilRow title=" Code groupe" className={classes.paddingClassName}>
+                {open ? (
+                  <div>
+                    <Input
+                      onChange={actions.handleChange}
+                      value={values.codeGroupe}
+                      name="codeGroupe"
+                      placeholder="ex: codeGroupe1"
+                      error={touched.codeGroupe && errors.codeGroupe}
+                      errorText={touched.codeGroupe ? errors.codeGroupe : ''}
+                    />
                   </div>
+                ) : (
+                  <span className={classes.userInfo}>{user.codeGroupe}</span>
                 )}
-              </>
-            )}
+              </InfoProfilRow>
+              {open && (
+                <div className={classes.passwordRoot}>
+                  <div className={classes.emptyDiv} />
+                  <span>Si tu es dans un groupe, renseigne ici le code qui t'a été remis.</span>
+                </div>
+              )}
+            </>
           </div>
         )}
         <Button

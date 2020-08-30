@@ -16,6 +16,7 @@ import { TextField } from '@material-ui/core';
 import { useForm } from 'hooks/useInputs';
 import { validateEmail } from 'utils/validation';
 import { useAddSkillComment } from 'requests/skillComment';
+import classNames from 'utils/classNames';
 
 import UserContext from 'contexts/UserContext';
 
@@ -48,6 +49,16 @@ const RecommendationModal = ({
     },
     validation: {
       email: validateEmail,
+      firstName: (value) => {
+        if (!value) return 'Champ requis ';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        return '';
+      },
+      lastName: (value) => {
+        if (!value) return 'Champ requis ';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        return '';
+      },
     },
     required: ['firstName', 'lastName', 'email', 'comment'],
   });
@@ -67,7 +78,13 @@ const RecommendationModal = ({
   }, [secondOpen]);
 
   const handleSecondOpen = () => {
-    if (!state.values.email || !state.values.firstName || !state.values.lastName) {
+    if (
+      !state.values.email
+      || !state.values.firstName
+      || !state.values.lastName
+      || state.values.firstName.length < 3
+      || state.values.lastName.length < 3
+    ) {
       actions.setAllTouched(true);
       setSecondOpen(false);
     } else {
@@ -121,6 +138,7 @@ const RecommendationModal = ({
   const reset = () => {
     setOpenPopup(true);
   };
+
   return (
     <>
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5">
@@ -151,6 +169,14 @@ const RecommendationModal = ({
               inputClassName={classes.fontInput}
               required
             />
+            <span
+              className={classNames(
+                classes.hideText,
+                state.touched.firstName && state.errors.firstName && classes.errorName,
+              )}
+            >
+              {state.errors.firstName}
+            </span>
             <Input
               label="Prénom"
               name="lastName"
@@ -162,6 +188,14 @@ const RecommendationModal = ({
               inputClassName={classes.fontInput}
               required
             />
+            <span
+              className={classNames(
+                classes.hideText,
+                state.touched.lastName && state.errors.lastName && classes.errorName,
+              )}
+            >
+              {state.errors.lastName}
+            </span>
 
             <Input
               label="Email"
@@ -174,6 +208,14 @@ const RecommendationModal = ({
               inputClassName={classes.fontInput}
               required
             />
+            <span
+              className={classNames(
+                classes.hideText,
+                state.touched.email && validateEmail(state.values.email) && classes.errorName,
+              )}
+            >
+              {!state.values.email ? 'Champ requis ' : 'Email invalide'}
+            </span>
           </form>
           <div className={classes.btnContainerModal}>
             <Button className={classes.btn} onClick={() => handleSecondOpen()}>

@@ -12,7 +12,7 @@ import useStyles from './styles';
 
 interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   label?: string;
-  errorText?: string;
+  errorText?: string | boolean;
   subTitle?: string;
   errorForm?: string;
   showPassword?: () => void;

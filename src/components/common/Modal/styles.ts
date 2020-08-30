@@ -24,7 +24,7 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
   header: {
     display: 'flex',
     justifyContent: 'center',
-    margin: '20px 14px',
+    margin: '20px 14px 0px 14px',
     position: 'relative',
     height: 33,
     alignItems: 'center',

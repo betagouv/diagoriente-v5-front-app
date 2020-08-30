@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Question } from 'requests/types';
+import { Question, Option } from 'requests/types';
 import Select from 'components/Select/Select';
 import { useOptions, useAddOption } from 'requests/options';
 import useStyles from './styles';
 
 interface Props {
   question: Question;
-  onChange?: (event: React.ChangeEvent<{ name?: string; value: unknown }>, child: React.ReactNode) => void;
+  onChange?: (option: Option) => void;
   open: boolean;
   value: string;
   openActivity: () => void;
@@ -42,11 +42,21 @@ const ActivitySelect = ({
     const valueOption = e.target.value;
     setAddValue(valueOption);
   };
+
+  const handleChange = (
+    e: React.ChangeEvent<{
+      name?: string | undefined;
+      value: unknown;
+    }>,
+  ) => {
+    const option = dataOption?.options.data.find((o) => o.id === e.target.value);
+    if (option && onChange) onChange(option);
+  };
   return (
     <Select
       label={question.title}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       options={options}
       open={open}
       openActivity={openActivity}

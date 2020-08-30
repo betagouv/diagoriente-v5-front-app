@@ -12,13 +12,22 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   children?: React.ReactChild | boolean | null;
   avatarCircleBackground?: string;
   checked?: boolean;
+  squareContainerClassName?: string;
 }
 
 const AvatarTheme = forwardRef(
   (
     {
- title, size, className, titleClassName, children, avatarCircleBackground, checked, ...rest
-}: Props,
+      title,
+      size,
+      className,
+      titleClassName,
+      children,
+      avatarCircleBackground,
+      checked,
+      squareContainerClassName,
+      ...rest
+    }: Props,
     ref: Ref<HTMLDivElement>,
   ) => {
     const classes = useStyles({
@@ -27,7 +36,7 @@ const AvatarTheme = forwardRef(
     });
     return (
       <div className={classNames(classes.circle, className)} {...rest} ref={ref}>
-        <div className={classes.squareContainer}>{children}</div>
+        <div className={classNames(classes.squareContainer, squareContainerClassName)}>{children}</div>
         {title && (
           <p className={classNames(classes.title, titleClassName)}>
             {title}

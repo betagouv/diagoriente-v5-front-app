@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   root: {
-    marginTop: 20,
+    marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -23,9 +23,18 @@ export default makeStyles((theme) => ({
   subTitle: {
     fontSize: 18,
     textAlign: 'center',
+    color: '#011A5E',
   },
   imageContainer: {
     marginTop: 15,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  imgref: {
+    width: 360,
+    height: 'auto',
+    border: '2px solid #223A7A',
+    borderRadius: 20,
   },
   btnContainer: {
     marginTop: 25,

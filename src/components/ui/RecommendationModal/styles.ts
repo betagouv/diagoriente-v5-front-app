@@ -101,7 +101,8 @@ export default makeStyles((theme) => ({
 
   modalContainer: {
     display: 'flex',
-    paddingTop: '15px',
+    paddingTop: '30px',
+    paddingBottom: '20px',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -138,7 +139,7 @@ export default makeStyles((theme) => ({
   },
 
   marginInput: {
-    margin: '13px 0px 0px 0px',
+    margin: '6px 0px 0px 0px',
   },
 
   fontInput: {
@@ -174,7 +175,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 28,
+    marginBottom: 15,
     paddingLeft: 91,
     paddingRight: 107,
   },
@@ -292,5 +293,20 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     textDecoration: 'none',
     marginTop: 14,
+  },
+
+  inputRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  hideText: {
+    opacity: '0',
+    margin: 0,
+    height: 20,
+  },
+
+  errorName: {
+    color: theme.palette.error.main,
+    opacity: '1',
   },
 }));

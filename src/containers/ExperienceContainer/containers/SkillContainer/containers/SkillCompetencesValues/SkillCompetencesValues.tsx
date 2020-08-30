@@ -12,6 +12,7 @@ import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
 import Button from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
+import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 
@@ -30,6 +31,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   addSkillState: boolean;
   theme: Theme | null;
   isCreate?: boolean;
+  activities: string[];
 }
 
 const SkillCompetencesValues = ({
@@ -43,10 +45,12 @@ const SkillCompetencesValues = ({
   theme,
   isCreate,
   location,
+  activities,
 }: Props) => {
   const classes = useStyles();
   const circleRef = useRef([] as (HTMLDivElement | null)[]);
   const arrowRef = useRef(null as HTMLDivElement | null);
+
   // eslint-disable-next-line
   const [fixRef, setFixRef] = useState(0);
   const { redirect } = decodeUri(location.search);
@@ -99,11 +103,25 @@ const SkillCompetencesValues = ({
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
-          <p className={classes.title}>
-            Et enfin, pour chacune de ces compétences
-            <br />
-            que tu as choisies, comment te sens-tu ?
-          </p>
+          <p className={classes.title}>Pour chacune de ces compétences que tu as choisies, comment te sens-tu ?</p>
+
+          <div className={classes.echelonBackground}>
+            <Avatar
+              title={theme?.title}
+              size={95}
+              className={classes.themeAvatar}
+              squareContainerClassName={classes.squareContainerClassName}
+              titleClassName={classes.titleClassName}
+            >
+              <img src={theme?.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
+            </Avatar>
+            <div className={classes.dataOptions}>
+              {activities.slice(0, 4).map((activity) => (
+                <div>{activity}</div>
+              ))}
+            </div>
+          </div>
+
           <div className={classes.echelonContainer}>
             <div className={classes.echelon}>
               <div className={classes.empty} />

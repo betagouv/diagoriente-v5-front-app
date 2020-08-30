@@ -18,8 +18,8 @@ import QuestionList from './components/QuestionList/QuestionList';
 interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
   isCreate?: boolean;
-  setOptionActivities: (optionsActivities: string[][]) => void;
-  optionActivities: string[][];
+  setOptionActivities: (optionsActivities: { id: string; title: string }[][]) => void;
+  optionActivities: { id: string; title: string }[][];
   activity: string;
   setActivity: (activity: string) => void;
 }

@@ -15,7 +15,9 @@ interface CardIcons {
   fetchingPrint?: boolean;
 }
 
-const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint }: CardIcons) => {
+const CardIcons = ({
+ onDownload, onPrint, fetching, fetchingPrint,
+}: CardIcons) => {
   const classes = useStyles();
   const history = useHistory();
   const onNavigate = () => history.push('/profile/game');

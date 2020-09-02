@@ -1,12 +1,8 @@
-import React, {
- useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import path from 'path';
 import moment from 'moment';
 
-import {
- RouteComponentProps, Switch, Route, Redirect, matchPath,
-} from 'react-router-dom';
+import { RouteComponentProps, Switch, Route, Redirect, matchPath } from 'react-router-dom';
 
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill } from 'requests/skills';
@@ -36,10 +32,11 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
 
   const { parcours, setParcours } = useContext(ParcourContext);
-  const selectedSkill = useMemo(() => parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId), [
-    parcours,
-    match.params.themeId,
-  ]);
+  const selectedSkill = useMemo(
+    () =>
+      parcours?.skills.find((skill) => skill.theme?.id === match.params.themeId && skill.theme.type !== 'engagement'),
+    [parcours, match.params.themeId],
+  );
   const [activities, setActivities] = useState(selectedSkill?.activities || []);
   const [competences, setCompetences] = useState(selectedSkill?.competences.map((c) => c._id) || []);
   const [competencesValues, setCompetencesValues] = useState(
@@ -65,7 +62,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
   const [activity, setActivity] = useState(selectedSkill?.engagement?.activity || '');
-  const showSelection = data?.theme.type === 'personal'
+  const showSelection =
+    data?.theme.type === 'personal'
       ? matchPath(location.pathname, [`${match.path}/activities`, `${match.path}/competences`])
       : matchPath(location.pathname, [
           `${match.path}/activities`,
@@ -260,7 +258,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       <Switch>
         <Route
           render={(props) =>
-            (data.theme.type === 'engagement' ? (
+            data.theme.type === 'engagement' ? (
               <EngagementActivites
                 {...props}
                 isCreate={!selectedSkill}
@@ -278,7 +276,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setActivities={setActivities}
                 theme={data.theme}
               />
-            ))}
+            )
+          }
           path={`${match.path}/activities`}
           exact
         />

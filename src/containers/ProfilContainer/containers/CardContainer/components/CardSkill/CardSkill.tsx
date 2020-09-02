@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react';
 
-import { UserParcour } from 'requests/types';
-import { Unpacked } from 'utils/types';
+import { SkillType } from 'requests/types';
 
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -12,9 +11,11 @@ import Comment from '../Comment/Comment';
 
 import useStyles from './styles';
 
-interface CardSkill extends Unpacked<UserParcour['skills']> {}
+interface CardSkill extends SkillType {}
 
-const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
+const CardSkill = ({
+ comment: allComments, theme, activities, engagement,
+}: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
   const act = theme.type === 'engagement' ? engagement?.options : activities;
@@ -34,19 +35,17 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
           </div>
         </div>
         <ul className={classes.activityContainer}>
-          {(act as any)?.map((activity: any, i: number) => {
-            return (
-              <li className={classes.activity} key={activity.id || i}>
-                {theme.type === 'engagement' ? (
-                  <span style={{ fontWeight: 700 }}>
-                    {activity.option.map((el: { title: string; id: string }) => el.title).join(' ')}
-                  </span>
-                ) : (
-                  activity.title
-                )}
-              </li>
-            );
-          })}
+          {(act as any)?.map((activity: any, i: number) => (
+            <li className={classes.activity} key={activity.id || i}>
+              {theme.type === 'engagement' ? (
+                <span style={{ fontWeight: 700 }}>
+                  {activity.option.map((el: { title: string; id: string }) => el.title).join(' ')}
+                </span>
+              ) : (
+                activity.title
+              )}
+            </li>
+          ))}
           {theme.type === 'engagement' && <div className={classes.activity}>{engagement?.activity}</div>}
         </ul>
       </Grid>

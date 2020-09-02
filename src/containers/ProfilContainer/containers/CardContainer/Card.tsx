@@ -5,6 +5,7 @@ import usePdf from 'hooks/usePdf';
 import { encodeUri } from 'utils/url';
 import Paper from '@material-ui/core/Paper/Paper';
 import carte from 'assets/svg/carte.svg';
+import useParcourSkills from 'hooks/useParcourSkills';
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
 import CardIcons from './components/CardIcons/CardIcons';
@@ -15,17 +16,20 @@ import useStyles from './styles';
 
 const CardContainer = () => {
   const classes = useStyles();
-
+  const skillsState = useParcourSkills();
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
+
   const [element, createPdf, pdf] = usePdf();
+
+  const skills = skillsState.data?.skills.data || [];
 
   const onClickIcon = (i: string) => {
     setType(i);
     if (i === 'print') setLoadingPrint(true);
     if (i === 'download') setLoading(true);
-      createPdf();
+    createPdf();
   };
   const icons = (
     <CardIcons onDownload={onClickIcon} onPrint={onClickIcon} fetching={loading} fetchingPrint={loadingPrint} />
@@ -70,22 +74,22 @@ const CardContainer = () => {
           />
         </div>
         <CardSkills
+          skills={skills.filter((skill) => skill.theme.type === 'personal')}
           title="Expériences personnelles"
-          type="personal"
           emptyMessage="Tu n’as pas encore renseigné d'expérience personnelle"
           emptyButton="J’ajoute une expérience perso"
           path={`/experience/theme${encodeUri({ redirect: '/profile/card' })}`}
         />
         <CardSkills
+          skills={skills.filter((skill) => skill.theme.type === 'professional')}
           title="Expériences professionnelles"
-          type="professional"
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'professional' })}`}
         />
         <CardSkills
+          skills={skills.filter((skill) => skill.theme.type === 'engagement')}
           title="Expériences D’ENGAGEMENT"
-          type="engagement"
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"
           path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}

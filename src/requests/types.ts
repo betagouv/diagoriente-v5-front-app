@@ -84,10 +84,6 @@ export interface Activity {
   options: { value: string; verified: boolean }[];
 }
 
-export interface ActivityEngagement {
-  activity: string;
-  option: string;
-}
 export interface Competence {
   id: string;
   title: string;
@@ -112,6 +108,40 @@ export interface Location {
   label: string;
 }
 
+export interface SkillType {
+  id: string;
+  theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
+  activities: { id: string; title: string; description: string; options: { value: string }[] }[];
+  competences: { _id: Competence; value: number }[];
+  comment: {
+    id: string;
+    lastName: string;
+    firstName: string;
+    commentText: string;
+    status: 'pending' | 'accepted' | 'refused';
+    email: string;
+    location: string;
+  }[];
+  engagement?: {
+    id: string;
+    startDate: string;
+    endDate: string;
+    activity: string;
+    context: {
+      id: string;
+      title: string;
+      description: string;
+      icon: string;
+    };
+    options: {
+      option: {
+        id: string;
+        title: string;
+      }[];
+    }[];
+  };
+}
+
 export interface UserParcour {
   id: string;
   played: boolean;
@@ -121,35 +151,6 @@ export interface UserParcour {
   skills: {
     id: string;
     theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
-    activities: { id: string; title: string; description: string; options: { value: string }[] }[];
-    competences: { _id: Competence; value: number }[];
-    comment: {
-      id: string;
-      lastName: string;
-      firstName: string;
-      commentText: string;
-      status: 'pending' | 'accepted' | 'refused';
-      email: string;
-      location: string;
-    }[];
-    engagement?: {
-      id: string;
-      startDate: string;
-      endDate: string;
-      activity: string;
-      context: {
-        id: string;
-        title: string;
-        description: string;
-        icon: string;
-      };
-      options: {
-        option: {
-          id: string;
-          title: string;
-        }[];
-      }[];
-    };
   }[];
 
   globalCompetences: {

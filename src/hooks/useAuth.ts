@@ -25,24 +25,24 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
       delete result.token.refreshToken;
     }
     localforage.setItem('auth', JSON.stringify(result));
-    setUser(result.user);
   }
 
   useEffect(() => {
     if (state.data) {
       const result = graphQLResult(state.data);
       setAuthorizationBearer(result.token.accessToken);
+      persistUser(result);
       if (result.user.role === 'user') parcourCall();
-      else persistUser(result);
+      else setUser(result.user);
     }
     // eslint-disable-next-line
   }, [state.data]);
 
   useEffect(() => {
     if (parcourState.data && state.data) {
-      setParcours(parcourState.data.userParcour);
       const result = graphQLResult(state.data);
-      persistUser(result);
+      setParcours(parcourState.data.userParcour);
+      setUser(result.user);
     }
     // eslint-disable-next-line
   }, [parcourState.data]);

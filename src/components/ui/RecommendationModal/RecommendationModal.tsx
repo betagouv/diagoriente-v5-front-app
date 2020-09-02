@@ -49,6 +49,16 @@ const RecommendationModal = ({
     },
     validation: {
       email: validateEmail,
+      firstName: (value) => {
+        if (!value) return 'Champ requis ';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        return '';
+      },
+      lastName: (value) => {
+        if (!value) return 'Champ requis ';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        return '';
+      },
     },
     required: ['firstName', 'lastName', 'email', 'comment'],
   });
@@ -153,7 +163,7 @@ const RecommendationModal = ({
               name="firstName"
               value={state.values.firstName}
               onChange={actions.handleChange}
-              errorText={state.touched.firstName && state.values.firstName.length < 3}
+              errorText={state.touched.firstName && state.errors.firstName}
               className={classes.marginInput}
               placeholder="ex : Marie"
               inputClassName={classes.fontInput}
@@ -162,17 +172,17 @@ const RecommendationModal = ({
             <span
               className={classNames(
                 classes.hideText,
-                state.touched.firstName && state.values.firstName.length < 3 && classes.errorName,
+                state.touched.firstName && state.errors.firstName && classes.errorName,
               )}
             >
-              {!state.values.firstName ? 'Champ requis ' : 'Nom invalide (3 caractères minimum)'}
+              {state.errors.firstName}
             </span>
             <Input
               label="Prénom"
               name="lastName"
               value={state.values.lastName}
               onChange={actions.handleChange}
-              errorText={state.touched.lastName && state.values.lastName.length < 3}
+              errorText={state.touched.lastName && state.errors.lastName}
               className={classes.marginInput}
               placeholder="ex : Dupont"
               inputClassName={classes.fontInput}
@@ -181,10 +191,10 @@ const RecommendationModal = ({
             <span
               className={classNames(
                 classes.hideText,
-                state.touched.lastName && state.values.lastName.length < 3 && classes.errorName,
+                state.touched.lastName && state.errors.lastName && classes.errorName,
               )}
             >
-              {!state.values.lastName ? 'Champ requis ' : 'Prénom invalide (3 caractères minimum)'}
+              {state.errors.lastName}
             </span>
 
             <Input

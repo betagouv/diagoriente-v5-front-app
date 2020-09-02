@@ -15,7 +15,7 @@ import useStyles from './styles';
 
 interface Props {
   theme?: Omit<Theme, 'activities'> | null;
-  activities: Theme['activities'];
+  activities: string[];
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {
@@ -37,7 +37,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
       setOpen(true);
       setIsFirstTheme(true);
     }
-   /*  if (isTheme && isFirstTheme) {
+    /*  if (isTheme && isFirstTheme) {
       setOpen(false);
     } */
   }, [theme, isTheme, isFirstTheme, setOpen]);
@@ -101,7 +101,6 @@ const PrivateHeader = ({ theme, activities }: Props) => {
                       className={classes.themeAvatar}
                       avatarCircleBackground={theme.resources?.backgroundColor}
                       circleClassName={classes.circleClassName}
-
                     >
                       <img src={theme.resources?.icon} alt="" className={classes.avatarStyle} height={90} />
                     </Avatar>
@@ -123,15 +122,15 @@ const PrivateHeader = ({ theme, activities }: Props) => {
             )}
             {activities.length ? (
               <div className={classes.activityContainer}>
-                {activities.map((e) => (
+                {activities.map((activity) => (
                   <Button
                     variant="outlined"
-                    key={e.id}
+                    key={activity}
                     className={classes.activitySelected}
                     childrenClassName={classes.selected}
                     disabled
                   >
-                    {e.title}
+                    {activity}
                   </Button>
                 ))}
               </div>

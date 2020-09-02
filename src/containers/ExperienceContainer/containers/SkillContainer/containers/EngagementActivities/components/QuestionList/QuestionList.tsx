@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Question } from 'requests/types';
+import { Question, Option } from 'requests/types';
 import classNames from 'utils/classNames';
 
 import { useQuestions } from 'requests/questions';
@@ -9,8 +9,8 @@ import Select from '../QuestionSelect/ActivitySelect';
 import useStyles from './styles';
 
 interface Props {
-  setOptionActivities: (optionsActivities: string[][]) => void;
-  optionActivities: string[][];
+  setOptionActivities: (optionsActivities: { id: string; title: string }[][]) => void;
+  optionActivities: { id: string; title: string }[][];
   index: number;
   handleValidate?: (valid: boolean, index: number) => void;
   clearValid?: (index: number) => void;
@@ -24,7 +24,7 @@ const QuestionList = ({
 
   const [questions, setQuestions] = useState([] as Question[]);
 
-  const { data } = useQuestions({ variables: { path: optionActivities[index] } });
+  const { data } = useQuestions({ variables: { path: optionActivities[index].map((o) => o.id) } });
 
   useEffect(() => {
     if (data) {
@@ -52,15 +52,13 @@ const QuestionList = ({
     setOpen(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<any>, i: number) => {
-    if (e.target.value && setOptionActivities && optionActivities) {
-      const nextOptionsActivities = [...optionActivities];
-      const newValuesRow = nextOptionsActivities[index];
-      const newOptionsValues = newValuesRow.slice(0, i);
-      newOptionsValues[i] = e.target.value;
-      nextOptionsActivities[index] = newOptionsValues;
-      setOptionActivities(nextOptionsActivities);
-    }
+  const handleChange = (option: Option, i: number) => {
+    const nextOptionsActivities = [...optionActivities];
+    const newValuesRow = nextOptionsActivities[index];
+    const newOptionsValues = newValuesRow.slice(0, i);
+    newOptionsValues[i] = { id: option.id, title: option.title };
+    nextOptionsActivities[index] = newOptionsValues;
+    setOptionActivities(nextOptionsActivities);
   };
 
   const deleteActivity = () => {
@@ -80,11 +78,14 @@ const QuestionList = ({
             <Select
               openActivity={openActivity}
               onChange={(e) => handleChange(e, i)}
-              value={optionActivities && optionActivities[index][i] ? optionActivities[index][i] : ''}
+              value={optionActivities && optionActivities[index][i] ? optionActivities[index][i].id : ''}
               setOpen={setOpen}
               open={open}
               question={question}
-              parent={optionActivities[index].slice(0, i).join(',')}
+              parent={optionActivities[index]
+                .slice(0, i)
+                .map((e) => e.id)
+                .join(',')}
             />
           </div>
         </div>

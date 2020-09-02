@@ -24,7 +24,7 @@ const CardContainer = () => {
   const [element, createPdf, pdf] = usePdf();
 
   const skills = skillsState.data?.skills.data || [];
-  console.log(skills);
+
   const onClickIcon = (i: string) => {
     setType(i);
     if (i === 'print') setLoadingPrint(true);

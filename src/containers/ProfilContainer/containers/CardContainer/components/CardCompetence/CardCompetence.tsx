@@ -42,7 +42,8 @@ const CardCompetence = ({ title, description, type }: IProps) => {
           </Grid>
         ) : (
           <div className={classes.emptyCompetences}>
-            Pour évaluer tes compétences, tu dois d&lsquo;abord{' '}
+            Pour évaluer tes compétences, tu dois d&lsquo;abord
+            {' '}
             <span className={classes.emptyCompetencesBold}>
               ajouter des expériences personnelles ou professionnelles
             </span>

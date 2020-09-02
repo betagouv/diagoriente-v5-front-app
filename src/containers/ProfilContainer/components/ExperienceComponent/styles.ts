@@ -31,7 +31,12 @@ export default makeStyles(() =>
       width: '100%',
       justifyContent: 'space-between',
     },
-
+    spinner: {
+      flex: '1 1 0',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     title: {
       fontFamily: 'Ocean',
       fontWeight: 900,
@@ -104,7 +109,6 @@ export default makeStyles(() =>
       color: '#fff',
       fontSize: 18,
       width: 262,
-
     },
 
     btnLink: {

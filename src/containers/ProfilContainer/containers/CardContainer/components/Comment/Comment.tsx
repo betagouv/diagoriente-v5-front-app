@@ -1,13 +1,12 @@
 import React, { forwardRef, Ref } from 'react';
-import { UserParcour } from 'requests/types';
+import { SkillType } from 'requests/types';
 import { Unpacked } from 'utils/types';
 
 import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
-type Skill = Unpacked<UserParcour['skills']>;
-export type CommentType = Unpacked<Unpacked<Skill>['comment']>;
+export type CommentType = Unpacked<SkillType['comment']>;
 
 interface Props extends CommentType {
   className?: string;

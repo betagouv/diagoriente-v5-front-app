@@ -6,6 +6,7 @@ import { Unpacked } from 'utils/types';
 
 import { decodeUri, encodeUri } from 'utils/url';
 import { useWillUnmount } from 'hooks/useLifeCycle';
+import useParcourSkills from 'hooks/useParcourSkills';
 import parcoursContext from 'contexts/ParcourContext';
 import classNames from 'utils/classNames';
 import Grid from '@material-ui/core/Grid';
@@ -14,22 +15,29 @@ import Popup from 'components/common/Popup/Popup';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import Title from 'components/common/Title/Title';
 import Button from 'components/button/Button';
+import Spinner from 'components/SpinnerXp/Spinner';
 import Card from '../Card/Card';
 import Arrow from '../Arrow/Arrow';
 
 import useStyles from './styles';
 
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
+  const type = decodeUri(location.search).type || 'personal';
+
   const classes = useStyles();
+  const skillState = useParcourSkills(type);
   const [open, setOpen] = useState(false);
   const [skill, setSkill] = useState(null as Unpacked<UserParcour['skills']> | null);
   const [deleteId, setDeleteId] = useState('');
 
-  const { parcours, setParcours } = useContext(parcoursContext);
+  const { setParcours } = useContext(parcoursContext);
   const [rowSize, setRowSize] = useState(window.innerWidth < 1280 ? 2 : 3);
-  const type = decodeUri(location.search).type || 'personal';
+
   const [deleteSkill, stateSkill] = useDeleteSkill();
-  const showAddCard = parcours?.skills && parcours?.skills.filter((p) => p.theme?.type === type).length % rowSize === 0;
+
+  const skills = skillState.data?.skills.data;
+
+  const showAddCard = !skills || skills.length % rowSize !== 0;
 
   useEffect(() => {
     if (stateSkill.data) {
@@ -39,11 +47,11 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   }, [stateSkill.data, setParcours]);
 
   const onEdit = (id: string) => {
-    const selectedSkill = parcours?.skills.find((s) => s.id === id);
+    const selectedSkill = skills?.find((s) => s.id === id);
     if (selectedSkill) history.push(`/experience/skill/${selectedSkill.theme.id}`);
   };
   const handleRecommendation = (id: string) => {
-    const selectedSkill = parcours?.skills.find((s) => s.id === id) || null;
+    const selectedSkill = skills?.find((s) => s.id === id) || null;
     setSkill(selectedSkill);
     setOpen(true);
   };
@@ -120,37 +128,43 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         {' '}
         que tu as renseignées
       </span>
-      <div className={classes.cardGridContainer}>
-        <Grid container spacing={4}>
-          {parcours?.skills
-            .filter((s) => s.theme?.type === type)
-            .map((s) => (
-              <Grid key={s.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
-                <Card
-                  edit={onEdit}
-                  recommendation={handleRecommendation}
-                  remove={handleDelete}
-                  id={s.id}
-                  competence={s.competences}
-                  title={s.theme.title}
-                  src={s.theme.resources?.icon}
-                  type={type}
-                  icon={s?.engagement?.context?.icon}
-                />
-              </Grid>
-            ))}
+      {skillState.loading ? (
+        <div className={classes.spinner}>
+          <Spinner />
+        </div>
+      ) : (
+        <div className={classes.cardGridContainer}>
+          <Grid container spacing={4}>
+            {skills
+              ?.filter((s) => s.theme?.type === type)
+              .map((s) => (
+                <Grid key={s.id} item xs={12} sm={12} md={6} lg={4} className={classes.cardGrid}>
+                  <Card
+                    edit={onEdit}
+                    recommendation={handleRecommendation}
+                    remove={handleDelete}
+                    id={s.id}
+                    competence={s.competences}
+                    title={s.theme.title}
+                    src={s.theme.resources?.icon}
+                    type={type}
+                    icon={s?.engagement?.context?.icon}
+                  />
+                </Grid>
+              ))}
 
-          <Link to={getUrl()} className={classNames(showAddCard ? classes.btnLink : classes.link)}>
-            <Button className={classes.btn}>
-              <span className={classes.textButton}>
-                J’ajoute une expérience
-                {' '}
-                {getSubTitle()}
-              </span>
-            </Button>
-          </Link>
-        </Grid>
-      </div>
+            <Link to={getUrl()} className={classNames(!showAddCard ? classes.btnLink : classes.link)}>
+              <Button className={classes.btn}>
+                <span className={classes.textButton}>
+                  J’ajoute une expérience
+                  {' '}
+                  {getSubTitle()}
+                </span>
+              </Button>
+            </Link>
+          </Grid>
+        </div>
+      )}
       {skill && <Recommendation skill={skill} open={open} setOpen={setOpen} />}
 
       <Popup open={!!deleteId} handleClose={() => setDeleteId('')}>

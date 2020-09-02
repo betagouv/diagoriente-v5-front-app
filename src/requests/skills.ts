@@ -1,9 +1,150 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions, LazyQueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery, useLocalLazyQuery } from 'hooks/apollo';
 import { parcourResult } from 'requests/parcours';
-import { UserParcour, PublicSkill } from './types';
+import { PublicSkill, SkillType, UserParcour } from './types';
+
+export const getSkillsQuery = gql`
+  query Skills($ids: String) {
+    skills(ids: $ids) {
+      data {
+        id
+        theme {
+          title
+          id
+          type
+          resources {
+            icon
+            backgroundColor
+          }
+        }
+        activities {
+          title
+          description
+          id
+        }
+        competences {
+          _id {
+            title
+            rank
+            id
+            niveau {
+              title
+              sub_title
+            }
+          }
+          value
+        }
+        comment {
+          id
+          lastName
+          firstName
+          commentText
+          status
+          email
+          location
+        }
+        engagement {
+          startDate
+          endDate
+          activity
+          options {
+            option {
+              id
+              title
+            }
+          }
+          context {
+            id
+            title
+            description
+            icon
+          }
+        }
+      }
+    }
+  }
+`;
+export interface SkillsArguments {
+  ids?: string;
+}
+export interface SkillsData {
+  skills: { data: SkillType[] };
+}
+
+export const useLazySkills = (options: LazyQueryHookOptions<SkillsData, SkillsArguments> = {}) =>
+  useLocalLazyQuery(getSkillsQuery, options);
+
+export const getSkillQuery = gql`
+  query Skill($id: ID!) {
+    skill(id: $id) {
+      id
+      theme {
+        title
+        id
+        type
+        resources {
+          icon
+          backgroundColor
+        }
+      }
+      activities {
+        title
+        description
+        id
+      }
+      competences {
+        _id {
+          title
+          rank
+          id
+          niveau {
+            title
+            sub_title
+          }
+        }
+        value
+      }
+      comment {
+        id
+        lastName
+        firstName
+        commentText
+        status
+        email
+        location
+      }
+      engagement {
+        startDate
+        endDate
+        activity
+        options {
+          option {
+            id
+            title
+          }
+        }
+        context {
+          id
+          title
+          description
+          icon
+        }
+      }
+    }
+  }
+`;
+
+export interface SkillArguments {
+  id: string;
+}
+export interface SkillData {
+  skill: SkillType;
+}
+
+export const useLazySkill = (options: LazyQueryHookOptions<SkillData, SkillArguments> = {}) =>
+  useLocalLazyQuery(getSkillQuery, options);
 
 export const addSkillMutation = gql`
   mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput) {
@@ -56,7 +197,6 @@ export interface updateSkillArguments {
     context: string;
     options: string[][];
     activity: string;
-
   };
 }
 
@@ -71,7 +211,7 @@ export const updateSkillMutation = gql`
 export const useUpdateSkill = (options: MutationHookOptions<{ updateSkill: UserParcour }, updateSkillArguments> = {}) =>
   useLocalMutation(updateSkillMutation, options);
 
-export const getSkillQuery = gql`
+export const getPublicSkillQuery = gql`
   query PublicSkill($token: String!) {
     publicSkill(token: $token) {
       id
@@ -107,4 +247,4 @@ export const getSkillQuery = gql`
 `;
 
 export const useGetSkill = (options: QueryHookOptions<{ publicSkill: PublicSkill }, { token: string }>) =>
-  useLocalQuery(getSkillQuery, options);
+  useLocalQuery(getPublicSkillQuery, options);

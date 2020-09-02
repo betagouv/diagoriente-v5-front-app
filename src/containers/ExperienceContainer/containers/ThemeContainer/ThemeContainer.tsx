@@ -1,6 +1,4 @@
-import React, {
- useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
@@ -36,10 +34,18 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
     variables: { type: type === 'engagement' ? 'engagement' : 'personal' },
   });
   const { parcours } = useContext(parcoursContext);
-  const themeFiltered = useMemo(
+
+  const themeFiltereds = useMemo(
     () => (data ? data.themes.data.filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id)) : []),
     [data, parcours],
   );
+  const themeNotFiltered = useMemo(() => (data ? data.themes.data : []), [data]);
+
+  const themeFiltered = useMemo(() => (type === 'engagement' ? themeNotFiltered : themeFiltereds), [
+    themeFiltereds,
+    themeNotFiltered,
+    type,
+  ]);
 
   useEffect(() => {
     if (data) {
@@ -75,8 +81,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
           {themeFiltered.length === 0 && !loading ? (
             <div className={classes.errorMessage}>
-              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !
-              {' '}
+              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !{' '}
             </div>
           ) : (
             <p className={classes.themeTitle}>

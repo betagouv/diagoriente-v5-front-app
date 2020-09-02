@@ -11,31 +11,35 @@ export default function usePdf(): [JSX.Element | null, () => void, JsPdf | null]
   const pdfElement = isDownloading ? <PdfContent ref={pdfRef} /> : null;
 
   useLayoutEffect(() => {
-    if (isDownloading && pdfRef.current) {
-      window.scrollTo({ top: 0, left: 0 });
-      htmlToCanvas(pdfRef.current).then((canvas) => {
-        const img = canvas.toDataURL('image/jpeg');
-        const pdf = new JsPdf('p', 'in', 'a4');
+    const interval = setInterval(() => {
+      if (isDownloading && pdfRef.current) {
+        clearInterval(interval);
+        window.scrollTo({ top: 0, left: 0 });
+        htmlToCanvas(pdfRef.current).then((canvas) => {
+          const img = canvas.toDataURL('image/jpeg');
+          const pdf = new JsPdf('p', 'in', 'a4');
 
-        const imgWidth = pdf.internal.pageSize.width;
-        const pageHeight = pdf.internal.pageSize.height;
-        const imgHeight = canvas.height / (pageHeight * 50);
-        let heightLeft = imgHeight;
-        let position = 0;
-        pdf.internal.scaleFactor = 50;
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          if (position !== 0) {
-            pdf.addPage();
+          const imgWidth = pdf.internal.pageSize.width;
+          const pageHeight = pdf.internal.pageSize.height;
+          const imgHeight = canvas.height / (pageHeight * 50);
+          let heightLeft = imgHeight;
+          let position = 0;
+          pdf.internal.scaleFactor = 50;
+          while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            if (position !== 0) {
+              pdf.addPage();
+            }
+
+            pdf.addImage(img, 'jpeg', 0, position, imgWidth, pageHeight);
+            heightLeft -= pageHeight;
           }
-
-          pdf.addImage(img, 'jpeg', 0, position, imgWidth, pageHeight);
-          heightLeft -= pageHeight;
-        }
-        setPdfFile(pdf);
-        setIsDownloading(false);
-      });
-    }
+          setPdfFile(pdf);
+          setIsDownloading(false);
+        });
+      }
+    }, 200);
+    return () => clearInterval(interval);
   }, [isDownloading]);
 
   async function createPdf() {

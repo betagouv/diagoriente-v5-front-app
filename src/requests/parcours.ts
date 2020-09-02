@@ -29,49 +29,6 @@ export const getUserParcourQuery = gql`
             backgroundColor
           }
         }
-        activities {
-          title
-          description
-          id
-        }
-        competences {
-          _id {
-            title
-            rank
-            id
-            niveau {
-              title
-              sub_title
-            }
-          }
-          value
-        }
-        comment {
-          id
-          lastName
-          firstName
-          commentText
-          status
-          email
-          location
-        }
-        engagement {
-          startDate
-          endDate
-          activity
-          options {
-            option {
-              id
-              title
-            }
-          }
-          context {
-            id
-            title
-            description
-            icon
-          }
-        }
       }
       globalCompetences {
         id

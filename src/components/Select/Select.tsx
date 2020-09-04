@@ -84,9 +84,7 @@ const Select = ({
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
-      const {
- top, left, height, width: w,
-} = selectRef.current?.getBoundingClientRect();
+      const { top, left, height, width: w } = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
       setWidth(w);
     }
@@ -125,7 +123,7 @@ const Select = ({
           value && styleSelectClassName,
         )}
         IconComponent={() =>
-          (!arrowDate ? (
+          !arrowDate ? (
             <div
               className={classNames(classes.circle, openSelect && classes.darkcircle)}
               onClick={() => {
@@ -143,7 +141,8 @@ const Select = ({
             >
               <img src={arrowDate} alt="" />
             </div>
-          ))}
+          )
+        }
         inputProps={{
           classes: {
             root: classes.select,
@@ -180,24 +179,17 @@ const Select = ({
           ))}
         {!arrowDate && labelPlus ? (
           <MenuItem className={classNames(classes.menuItem, classes.menuItemChild)}>
-            {!open ? (
-              <div onClick={openActivity} className={classes.addContainer}>
-                <span className={classes.add}>Ajouter</span>
-                <img src={add} alt="" height={28} />
-              </div>
-            ) : (
-              <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
-                <Input
-                  placeholder="Écris ici ton activité"
-                  onChange={onChangeValue}
-                  variant="outlined"
-                  inputProps={{ className: classes.input }}
-                  className={classes.inputRoot}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-                <img src={check} alt="" onClick={handleClose} height={25} />
-              </div>
-            )}
+            <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
+              <Input
+                placeholder="Écris ici ton activité"
+                onChange={onChangeValue}
+                variant="outlined"
+                inputProps={{ className: classes.input }}
+                className={classes.inputRoot}
+                onKeyDown={(e) => e.stopPropagation()}
+              />
+              <img src={check} alt="" onClick={handleClose} height={25} />
+            </div>
           </MenuItem>
         ) : (
           undefined

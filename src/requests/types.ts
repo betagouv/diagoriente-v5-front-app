@@ -127,6 +127,7 @@ export interface SkillType {
     startDate: string;
     endDate: string;
     activity: string;
+    organization:string;
     context: {
       id: string;
       title: string;

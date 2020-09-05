@@ -16,9 +16,7 @@ interface Props {
   clearValid?: (index: number) => void;
 }
 
-const QuestionList = ({
- setOptionActivities, optionActivities, index, handleValidate, clearValid,
-}: Props) => {
+const QuestionList = ({ setOptionActivities, optionActivities, index, handleValidate, clearValid }: Props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -76,6 +74,7 @@ const QuestionList = ({
         <div key={question.id} className={classNames(classes.rowActivity)}>
           <div className={classes.selectContainer}>
             <Select
+              index={i}
               openActivity={openActivity}
               onChange={(e) => handleChange(e, i)}
               value={optionActivities && optionActivities[index][i] ? optionActivities[index][i].id : ''}

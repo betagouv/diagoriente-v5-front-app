@@ -202,6 +202,11 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       marginTop: 45,
     },
+    'MuiTextField-root': {
+      '& fieldset': {
+        display: 'none',
+      },
+    },
 
     textArea: {
       background: '#FFFF',
@@ -210,12 +215,6 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       maxWidth: WIDTH,
       border: '1px solid #00CFFF',
-      '& .PrivateNotchedOutline-root-167': {
-        border: 'none',
-      },
-      '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      },
     },
 
     defaultValue: {

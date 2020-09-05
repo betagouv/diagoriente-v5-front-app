@@ -31,6 +31,7 @@ interface Props extends Omit<SelectProps, 'variant'> {
   styleSelectClassName?: string;
   disabledClassName?: string;
   value?: string | number;
+  index?: number;
 }
 
 const Select = ({
@@ -50,6 +51,8 @@ const Select = ({
   menuItemClassName,
   styleSelectClassName,
   disabledClassName,
+  tabIndex,
+  index,
   ...rest
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
@@ -101,10 +104,18 @@ const Select = ({
   };
   const labelPlus = options.find((o) => o.label === '___plus___');
 
+  const t = () => {
+    if (typeof width === 'number') {
+      if (index === 0) return width - 30;
+      if (index === 1) return width + 50;
+      if (index === 2) return width + 50;
+    }
+    return width;
+  };
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width }}
+        style={{ width: t() }}
         value={getValue()}
         ref={selectRef}
         MenuProps={{

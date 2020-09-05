@@ -108,6 +108,7 @@ const EngagementActivities = ({
                   input: classes.defaultValue,
                 },
               }}
+              classes={{ root: classes['MuiTextField-root'] }}
               rows={3}
               multiline
               className={classes.textArea}

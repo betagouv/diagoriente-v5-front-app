@@ -199,7 +199,17 @@ const Select = ({
                 className={classes.inputRoot}
                 onKeyDown={(e) => e.stopPropagation()}
               />
-              <img src={check} alt="" onClick={handleClose} height={25} />
+              <img
+                src={check}
+                alt=""
+                onClick={() => {
+                  if (handleClose) {
+                    handleClose();
+                    setOpenSelect(false);
+                  }
+                }}
+                height={25}
+              />
             </div>
           </MenuItem>
         ) : (

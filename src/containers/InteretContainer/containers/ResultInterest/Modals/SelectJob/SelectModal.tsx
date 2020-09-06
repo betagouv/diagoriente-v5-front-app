@@ -16,7 +16,6 @@ const SelectModal = () => {
   const isChecked = (id: string) => selectedThemes.includes(id);
 
   const addTheme = (id: string) => {
-    console.log('e', isChecked(id));
     const array = [...selectedThemes];
     if (isChecked(id)) {
       const index = array.indexOf(id);

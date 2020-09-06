@@ -49,7 +49,6 @@ const CardContainer = () => {
       }
     }
   }, [pdf, type]);
-  console.log('skills', skills);
   return (
     <div className={classes.container}>
       <div className={classes.header}>

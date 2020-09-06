@@ -23,12 +23,6 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
   const options = dataOption
     ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title }))
     : [];
-
-  useEffect(() => {
-    if (addActivityOptionState.data) refetch();
-    setAddValue('');
-  }, [addActivityOptionState.data, refetch]);
-
   const handleClose = (id: string) => {
     if (addValue.length > 2) {
       addActivityOptionCall({
@@ -37,6 +31,20 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
       setOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (addActivityOptionState.data) {
+      refetch();
+      if (onChange && addActivityOptionState.data?.addOption) {
+        onChange(addActivityOptionState.data?.addOption);
+        setOpen(false);
+        //openActivity(false)
+      }
+    }
+    setAddValue('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addActivityOptionState.data, refetch, setOpen]);
+
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valueOption = e.target.value;
     setAddValue(valueOption);

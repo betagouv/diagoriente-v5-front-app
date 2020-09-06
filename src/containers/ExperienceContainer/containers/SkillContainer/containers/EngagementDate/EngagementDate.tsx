@@ -78,12 +78,12 @@ const EngagementDate = ({
           </p>
           <div className={classes.dateContainer}>
             <div className={classes.date}>
-              <span className={classes.text}>Organization</span>
+              <span className={classes.text}>Nom de l’organisation</span>
               <Input
                 name="organization"
                 onChange={handelChangeInput}
                 value={organization}
-                placeholder="organization"
+                placeholder="Nom de l’organisation"
                 required
                 withOutIcons
               />

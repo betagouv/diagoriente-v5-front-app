@@ -13,9 +13,7 @@ import useStyles from './styles';
 
 interface CardSkill extends SkillType {}
 
-const CardSkill = ({
- comment: allComments, theme, activities, engagement,
-}: CardSkill) => {
+const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
   const act = theme.type === 'engagement' ? engagement?.options : activities;
@@ -46,7 +44,9 @@ const CardSkill = ({
               )}
             </li>
           ))}
-          {theme.type === 'engagement' && <div className={classes.activity}>{engagement?.activity}</div>}
+          {theme.type === 'engagement' && engagement?.activity && (
+            <div className={classes.activity}>{engagement?.activity}</div>
+          )}
         </ul>
       </Grid>
     </Tooltip>

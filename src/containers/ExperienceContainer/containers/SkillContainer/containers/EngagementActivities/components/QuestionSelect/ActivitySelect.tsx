@@ -12,10 +12,9 @@ interface Props {
   openActivity: () => void;
   setOpen: (open: boolean) => void;
   parent?: string;
+  index?: number;
 }
-const ActivitySelect = ({
- question, onChange, open, value, openActivity, setOpen, parent,
-}: Props) => {
+const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen, parent, index }: Props) => {
   const classes = useStyles();
   const { data: dataOption, refetch } = useOptions({ variables: { question: question.id, parent } });
   const [addValue, setAddValue] = useState('');
@@ -54,6 +53,7 @@ const ActivitySelect = ({
   };
   return (
     <Select
+      index={index}
       label={question.title}
       value={value}
       onChange={handleChange}

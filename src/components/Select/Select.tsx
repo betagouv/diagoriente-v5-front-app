@@ -31,6 +31,7 @@ interface Props extends Omit<SelectProps, 'variant'> {
   styleSelectClassName?: string;
   disabledClassName?: string;
   value?: string | number;
+  index?: number;
 }
 
 const Select = ({
@@ -50,6 +51,8 @@ const Select = ({
   menuItemClassName,
   styleSelectClassName,
   disabledClassName,
+  tabIndex,
+  index,
   ...rest
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
@@ -84,9 +87,7 @@ const Select = ({
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
-      const {
- top, left, height, width: w,
-} = selectRef.current?.getBoundingClientRect();
+      const { top, left, height, width: w } = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
       setWidth(w);
     }
@@ -103,10 +104,18 @@ const Select = ({
   };
   const labelPlus = options.find((o) => o.label === '___plus___');
 
+  const t = () => {
+    if (typeof width === 'number') {
+      if (index === 0) return width - 30;
+      if (index === 1) return width + 50;
+      if (index === 2) return width + 50;
+    }
+    return width;
+  };
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width }}
+        style={{ width: t() }}
         value={getValue()}
         ref={selectRef}
         MenuProps={{
@@ -125,7 +134,7 @@ const Select = ({
           value && styleSelectClassName,
         )}
         IconComponent={() =>
-          (!arrowDate ? (
+          !arrowDate ? (
             <div
               className={classNames(classes.circle, openSelect && classes.darkcircle)}
               onClick={() => {
@@ -143,7 +152,8 @@ const Select = ({
             >
               <img src={arrowDate} alt="" />
             </div>
-          ))}
+          )
+        }
         inputProps={{
           classes: {
             root: classes.select,
@@ -180,24 +190,17 @@ const Select = ({
           ))}
         {!arrowDate && labelPlus ? (
           <MenuItem className={classNames(classes.menuItem, classes.menuItemChild)}>
-            {!open ? (
-              <div onClick={openActivity} className={classes.addContainer}>
-                <span className={classes.add}>Ajouter</span>
-                <img src={add} alt="" height={28} />
-              </div>
-            ) : (
-              <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
-                <Input
-                  placeholder="Écris ici ton activité"
-                  onChange={onChangeValue}
-                  variant="outlined"
-                  inputProps={{ className: classes.input }}
-                  className={classes.inputRoot}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-                <img src={check} alt="" onClick={handleClose} height={25} />
-              </div>
-            )}
+            <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
+              <Input
+                placeholder="Écris ici ton activité"
+                onChange={onChangeValue}
+                variant="outlined"
+                inputProps={{ className: classes.input }}
+                className={classes.inputRoot}
+                onKeyDown={(e) => e.stopPropagation()}
+              />
+              <img src={check} alt="" onClick={handleClose} height={25} />
+            </div>
           </MenuItem>
         ) : (
           undefined

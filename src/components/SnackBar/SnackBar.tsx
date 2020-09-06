@@ -35,7 +35,7 @@ function MySnackbarContentWrapper(props: Props) {
  className, message, onClose, variant, ...other
 } = props;
   const Icon = variantIcon[variant];
-
+console.log('message',message)
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}

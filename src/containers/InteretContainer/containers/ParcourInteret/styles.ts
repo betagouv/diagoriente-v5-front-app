@@ -62,7 +62,6 @@ export default makeStyles<Theme>((theme) => ({
     flexDirection: 'column',
     padding: '0px 40px',
     backgroundColor: '#E5E5E5',
-
   },
   maxWidth: {
     maxWidth: 1080,
@@ -154,5 +153,9 @@ export default makeStyles<Theme>((theme) => ({
   btnLabel: {
     color: '#fff',
     marginRight: 10,
+  },
+  textModal: {
+    padding: '20px 0px',
+    textAlign: 'center',
   },
 }));

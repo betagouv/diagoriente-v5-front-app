@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-
+import Input from 'components/inputs/Input/Input';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import NextButton from 'components/nextButton/nextButton';
@@ -10,7 +10,6 @@ import moment from 'moment';
 
 import blueline from 'assets/svg/blueline.svg';
 import DatePicker from './components/DatePicker/DatePicker';
-
 import useStyles from './styles';
 
 interface Props extends RouteComponentProps<{ themeId: string }> {
@@ -18,8 +17,10 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   startDate: string;
   endDate: string;
   setEndDate: (e: string) => void;
+  setOrganization: (e: string) => void;
   addSkill: () => void;
   addSkillState: boolean;
+  organization: string;
 }
 const EngagementDate = ({
   history,
@@ -27,16 +28,22 @@ const EngagementDate = ({
   startDate,
   endDate,
   setEndDate,
+  setOrganization,
   addSkill,
   addSkillState,
   match,
   location,
+  organization,
 }: Props) => {
   const classes = useStyles();
 
   const handleChange = (date: string, type: 'Begin' | 'End') => {
     if (type === 'Begin') setStartDate(date);
     else setEndDate(date);
+  };
+  const handelChangeInput = (e: React.ChangeEvent<any>) => {
+    const { value } = e.target;
+    setOrganization(value);
   };
 
   const startDateEngagement = useMemo(() => moment(startDate), [startDate]);
@@ -70,6 +77,17 @@ const EngagementDate = ({
             <br />
           </p>
           <div className={classes.dateContainer}>
+            <div className={classes.date}>
+              <span className={classes.text}>Organization</span>
+              <Input
+                name="organization"
+                onChange={handelChangeInput}
+                value={organization}
+                placeholder="organization"
+                required
+                withOutIcons
+              />
+            </div>
             <div className={classes.date}>
               <span className={classes.text}>Du</span>
               <DatePicker

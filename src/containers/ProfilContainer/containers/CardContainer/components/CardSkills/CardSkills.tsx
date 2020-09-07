@@ -1,27 +1,28 @@
-import React, { useContext } from 'react';
-import ParcourContext from 'contexts/ParcourContext';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid/Grid';
 import Button from '@material-ui/core/Button/Button';
 
+import { SkillType } from 'requests/types';
 import CardPart from '../CardPart/CardPart';
 import CardSkill from '../CardSkill/CardSkill';
 import useStyles from './styles';
 
 interface CardSkillsProps {
-  type: string;
   title: string;
   emptyMessage: string;
   emptyButton: string;
   path: string;
   showBtn?: boolean;
+  skills: SkillType[];
 }
 
-const CardSkills = ({ type, title, path, emptyButton, emptyMessage, showBtn }: CardSkillsProps) => {
-  const { parcours } = useContext(ParcourContext);
+const CardSkills = ({
+ title, path, emptyButton, emptyMessage, showBtn, skills,
+}: CardSkillsProps) => {
   const classes = useStyles();
-  const skills = parcours?.skills.filter((skill) => skill.theme?.type === type) || [];
+
   return (
     <CardPart title={title}>
       {skills.length ? (

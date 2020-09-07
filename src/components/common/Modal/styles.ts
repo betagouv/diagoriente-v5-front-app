@@ -37,7 +37,7 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
     right: 0,
   },
   modalContainerBody: {
-    overflow: 'scroll',
+    overflow: 'auto',
     height: 'auto',
     flex: 1,
   },

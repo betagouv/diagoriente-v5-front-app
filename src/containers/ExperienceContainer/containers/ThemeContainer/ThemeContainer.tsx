@@ -1,9 +1,8 @@
-import React, {
- useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
+import SelectionContext from 'contexts/SelectionContext';
 
 import { useThemes } from 'requests/themes';
 import Button from 'components/nextButton/nextButton';
@@ -24,6 +23,7 @@ import useStyles from './styles';
 
 const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
+  const { setOpen } = useContext(SelectionContext);
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
 
@@ -36,10 +36,18 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
     variables: { type: type === 'engagement' ? 'engagement' : 'personal' },
   });
   const { parcours } = useContext(parcoursContext);
-  const themeFiltered = useMemo(
+
+  const themeFiltereds = useMemo(
     () => (data ? data.themes.data.filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id)) : []),
     [data, parcours],
   );
+  const themeNotFiltered = useMemo(() => (data ? data.themes.data : []), [data]);
+
+  const themeFiltered = useMemo(() => (type === 'engagement' ? themeNotFiltered : themeFiltereds), [
+    themeFiltereds,
+    themeNotFiltered,
+    type,
+  ]);
 
   useEffect(() => {
     if (data) {
@@ -54,6 +62,11 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
       localStorage.setItem('theme', selectedTheme?.id);
     }
   }, [selectedTheme]);
+
+  const onNavigate = () => {
+    if (selectedTheme) history.push(`/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}`);
+    setOpen(false);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -75,8 +88,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
           {themeFiltered.length === 0 && !loading ? (
             <div className={classes.errorMessage}>
-              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !
-              {' '}
+              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !{' '}
             </div>
           ) : (
             <p className={classes.themeTitle}>
@@ -139,12 +151,9 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
               ))}
             </Grid>
           </div>
-          <Link
-            to={selectedTheme ? `/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}` : ''}
-            className={classes.hideLine}
-          >
+          <div onClick={onNavigate} className={classes.hideLine}>
             <Button disabled={!selectedTheme} />
-          </Link>
+          </div>
         </div>
       </div>
 

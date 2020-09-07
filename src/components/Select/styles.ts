@@ -15,7 +15,6 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       overflow: 'hidden',
       borderRadius: 30,
       fontWeight: 'bold',
-      background: 'rgba(122, 230, 255, 0.2)',
       border: '1px solid #D1D5DE',
 
       '& fieldset': {
@@ -68,6 +67,7 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       paddingTop: 0,
       paddingBottom: 0,
       margin: 0,
+      position: 'relative',
     },
     lastChildBorder: {
       borderBottom: 'none !important',
@@ -119,6 +119,7 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       padding: 0,
       height: 35,
       paddingLeft: 10,
+      backgroundColor: '#fff',
     },
 
     inputRoot: {
@@ -186,4 +187,5 @@ export default makeStyles<Theme, { left?: number; top?: number; width?: number |
       fontWeight: 'bold',
       background: 'red !important',
     },
-  }));
+  }),
+);

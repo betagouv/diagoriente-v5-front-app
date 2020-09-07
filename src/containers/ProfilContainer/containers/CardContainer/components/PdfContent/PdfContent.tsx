@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
-import React, { useContext, forwardRef, Ref } from 'react';
-import ParcourContext from 'contexts/ParcourContext';
+import React, { forwardRef, Ref } from 'react';
+import useParcourSkills from 'hooks/useParcourSkills';
+
 import classNames from 'utils/classNames';
 
 import Grid from '@material-ui/core/Grid/Grid';
@@ -17,15 +18,17 @@ import Comment, { CommentType } from '../Comment/Comment';
 import useStyles from './styles';
 
 const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
-  const { parcours } = useContext(ParcourContext);
+  const skillsState = useParcourSkills();
   const classes = useStyles();
+  const skills = skillsState.data?.skills.data || [];
   const comments = (
     ([] as { title: string; comment: CommentType }[]).concat(
-      ...parcours?.skills.map((skill) => skill.comment.map((comment) => ({ title: skill.theme.title, comment }))),
+      ...skills.map((skill) => skill.comment.map((comment) => ({ title: skill.theme.title, comment }))),
     ) || []
   ).filter(({ comment }) => comment.status === 'accepted');
-  const showBtn = parcours?.skills.length === 0;
-  const showBtnEng = parcours?.skills.filter((el) => el.theme.type === 'engagement').length === 0;
+  const showBtn = skills.length === 0;
+  const showBtnEng = skills.filter((el) => el.theme.type === 'engagement').length === 0;
+  if (!skillsState.called || skillsState.loading) return <div />;
   return createPortal(
     <div className={classes.container}>
       <div ref={ref} className={classes.pdf}>
@@ -50,7 +53,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
 
         <CardSkills
           title="Expériences personnelles"
-          type="personal"
+          skills={skills.filter((skill) => skill.theme.type === 'personal')}
           emptyMessage="Tu n’as pas encore renseigné d'expérience personnelle"
           emptyButton="J’ajoute une expérience perso"
           path=""
@@ -58,7 +61,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
         />
         <CardSkills
           title="Expériences professionnelles"
-          type="professional"
+          skills={skills.filter((skill) => skill.theme.type === 'professional')}
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path=""
@@ -66,7 +69,7 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
         />
         <CardSkills
           title="Expériences D’ENGAGEMENT"
-          type="engagement"
+          skills={skills.filter((skill) => skill.theme.type === 'engagement')}
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"
           path=""

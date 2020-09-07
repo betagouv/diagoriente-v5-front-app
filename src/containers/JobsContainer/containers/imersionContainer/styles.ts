@@ -117,6 +117,9 @@ export default makeStyles<Theme>((theme) => ({
     flex: 1,
     paddingLeft: 30,
   },
+  loadingContainer: {
+    paddingBottom: 300,
+  },
   resultTitle: {
     color: theme.palette.success.main,
     fontSize: 28,

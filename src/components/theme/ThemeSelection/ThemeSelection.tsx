@@ -1,6 +1,4 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useWillUnmount } from 'hooks/useLifeCycle';
 import SelectionContext from 'contexts/SelectionContext';
 import { matchPath, useLocation } from 'react-router-dom';
@@ -37,20 +35,9 @@ const PrivateHeader = ({ theme, activities }: Props) => {
       setOpen(true);
       setIsFirstTheme(true);
     }
-    /*  if (isTheme && isFirstTheme) {
-      setOpen(false);
-    } */
   }, [theme, isTheme, isFirstTheme, setOpen]);
 
-  /* useEffect(() => {
-    if (!theme && isTheme) {
-      console.log('here 2')
-      setOpen(SelectionContext);
-    }
-  }, [theme, isTheme, setOpen]); */
-
   useEffect(() => {
-    if (isAct && activities.length === 0) setOpen(false);
     if (!isFirst && activities.length === 1) {
       // eslint-disable-next-line
       setIsFirst(true);

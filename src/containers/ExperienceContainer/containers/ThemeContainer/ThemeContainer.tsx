@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
+import SelectionContext from 'contexts/SelectionContext';
 
 import { useThemes } from 'requests/themes';
 import Button from 'components/nextButton/nextButton';
@@ -22,6 +23,7 @@ import useStyles from './styles';
 
 const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
+  const { setOpen } = useContext(SelectionContext);
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
 
@@ -60,6 +62,11 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
       localStorage.setItem('theme', selectedTheme?.id);
     }
   }, [selectedTheme]);
+
+  const onNavigate = () => {
+    if (selectedTheme) history.push(`/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}`);
+    setOpen(false);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -144,12 +151,9 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
               ))}
             </Grid>
           </div>
-          <Link
-            to={selectedTheme ? `/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}` : ''}
-            className={classes.hideLine}
-          >
+          <div onClick={onNavigate} className={classes.hideLine}>
             <Button disabled={!selectedTheme} />
-          </Link>
+          </div>
         </div>
       </div>
 

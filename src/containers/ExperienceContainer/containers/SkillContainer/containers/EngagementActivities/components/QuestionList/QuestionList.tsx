@@ -49,7 +49,6 @@ const QuestionList = ({ setOptionActivities, optionActivities, index, handleVali
   const openActivity = () => {
     setOpen(true);
   };
-
   const handleChange = (option: Option, i: number) => {
     const nextOptionsActivities = [...optionActivities];
     const newValuesRow = nextOptionsActivities[index];

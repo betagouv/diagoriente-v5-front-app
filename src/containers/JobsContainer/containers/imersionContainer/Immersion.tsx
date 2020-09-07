@@ -359,7 +359,20 @@ const ImmersionContainer = ({
             </div>
           </div>
           <div className={classes.results}>
-            <div>{immersionState.loading && <Spinner />}</div>
+            {immersionState.loading && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                }}
+              >
+                <div className={immersionState.loading ? classes.loadingContainer : ''}>
+                  <Spinner />
+                </div>
+              </div>
+            )}
             {immersionState.data ? (
               <>
                 <div className={classes.resultTitle}>

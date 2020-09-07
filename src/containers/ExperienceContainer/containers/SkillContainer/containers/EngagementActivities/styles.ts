@@ -189,7 +189,8 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
     },
     rowActivityWidth: {
-      width: WIDTH,
+      maxWidth: WIDTH,
+      width: '100%',
     },
     rowActivity: {
       display: 'flex',
@@ -225,7 +226,8 @@ export default makeStyles((theme: Theme) =>
     activityCaracter: {
       margin: 2,
       color: theme.palette.error.main,
-      width: WIDTH,
+      maxWidth: WIDTH,
+      width: '100%',
       display: 'flex',
       justifyContent: 'flex-end',
     },

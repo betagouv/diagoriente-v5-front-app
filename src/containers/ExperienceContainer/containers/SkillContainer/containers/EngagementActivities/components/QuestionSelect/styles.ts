@@ -153,7 +153,21 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-
+    menuItemContainer: {
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      '&:hover $deleteIcon': {
+        display: 'flex',
+      },
+    },
+    deleteIcon: {
+      color: '#FF0060',
+      fontSize: 23,
+      cursor: 'pointer',
+      display: 'none',
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -174,5 +188,5 @@ export default makeStyles((theme: Theme) =>
     borderSelect: {
       border: '1px solid #00CFFF',
     },
-
-  }));
+  }),
+);

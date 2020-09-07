@@ -26,6 +26,7 @@ export interface Option {
   parent: { path: Option[] }[];
   question: Question;
   verified: boolean;
+  user: string;
 }
 
 export interface Token {
@@ -127,7 +128,7 @@ export interface SkillType {
     startDate: string;
     endDate: string;
     activity: string;
-    organization:string;
+    organization: string;
     context: {
       id: string;
       title: string;

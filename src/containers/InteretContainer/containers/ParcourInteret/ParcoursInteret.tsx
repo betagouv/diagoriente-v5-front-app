@@ -69,8 +69,14 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
       }
       setInterest(copySelected);
       setSelectedInterest(copySelected);
-    } else {
-      handelOpen();
+    } else if (copySelected.length === 5) {
+      if (isChecked(e.id)) {
+        copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
+        setInterest(copySelected);
+        setSelectedInterest(copySelected);
+      } else {
+        handelOpen();
+      }
     }
   };
   const deleteFamille = (id: number) => {

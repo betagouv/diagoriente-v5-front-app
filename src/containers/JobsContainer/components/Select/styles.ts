@@ -74,7 +74,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     display: 'flex',
     flexWrap: 'wrap',
     padding: '20px 25px',
-    overflow: 'scroll',
+    overflow: 'auto',
     zIndex: 5,
   },
   itemSecteur: {

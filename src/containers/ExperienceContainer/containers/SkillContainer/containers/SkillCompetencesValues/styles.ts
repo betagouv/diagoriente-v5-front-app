@@ -48,7 +48,6 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
-      alignSelf: 'flex-start',
       padding: SKILL_CONTAINER_PADDING,
     },
 

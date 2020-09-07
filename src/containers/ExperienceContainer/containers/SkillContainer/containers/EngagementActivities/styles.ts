@@ -200,15 +200,13 @@ export default makeStyles((theme: Theme) =>
       opacity: 0,
     },
     activityTitle: {
-      border: '1px solid #00CFFF',
-      background: 'rgba(122, 230, 255, 0.2)',
-      borderRadius: 30,
-      color: '#00B2DB',
-      WebkitTextStroke: '#00B2DB',
-      WebkitTextStrokeWidth: '0.1px',
-      fontWeight: 'bold',
-      padding: '9px 15px',
+      width: '100%',
       marginTop: 45,
+    },
+    'MuiTextField-root': {
+      '& fieldset': {
+        display: 'none',
+      },
     },
 
     textArea: {
@@ -217,6 +215,7 @@ export default makeStyles((theme: Theme) =>
       resize: 'none',
       width: '100%',
       maxWidth: WIDTH,
+      border: '1px solid #00CFFF',
     },
 
     defaultValue: {
@@ -232,4 +231,5 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'flex-end',
     },
-  }));
+  }),
+);

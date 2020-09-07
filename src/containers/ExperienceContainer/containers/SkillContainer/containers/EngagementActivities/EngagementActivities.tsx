@@ -96,7 +96,7 @@ const EngagementActivities = ({
                 <img src={add} alt="" height={28} className={classes.addIcon} onClick={addActivityRow} />
               </div>
             </div>
-            <p className={classes.activityTitle}>Écris toi même une activité</p>
+            <p className={classes.activityTitle}>Ou décris toi-même une activité:</p>
 
             <TextField
               name="activity"
@@ -108,16 +108,13 @@ const EngagementActivities = ({
                   input: classes.defaultValue,
                 },
               }}
+              classes={{ root: classes['MuiTextField-root'] }}
               rows={3}
               multiline
               className={classes.textArea}
               variant="outlined"
             />
-            <p className={classes.activityCaracter}>
-              {140 - activity.length}
-              {' '}
-              caractères restant
-            </p>
+            <p className={classes.activityCaracter}>{140 - activity.length} caractères restant</p>
           </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}

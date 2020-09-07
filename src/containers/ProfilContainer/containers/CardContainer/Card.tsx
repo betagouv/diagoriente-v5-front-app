@@ -74,21 +74,21 @@ const CardContainer = () => {
           />
         </div>
         <CardSkills
-          skills={skills.filter((skill) => skill.theme.type === 'personal')}
+          skills={skills.filter((skill) => skill.theme && skill.theme.type === 'personal')}
           title="Expériences personnelles"
           emptyMessage="Tu n’as pas encore renseigné d'expérience personnelle"
           emptyButton="J’ajoute une expérience perso"
           path={`/experience/theme${encodeUri({ redirect: '/profile/card' })}`}
         />
         <CardSkills
-          skills={skills.filter((skill) => skill.theme.type === 'professional')}
+          skills={skills.filter((skill) => skill.theme && skill.theme.type === 'professional')}
           title="Expériences professionnelles"
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'professional' })}`}
         />
         <CardSkills
-          skills={skills.filter((skill) => skill.theme.type === 'engagement')}
+          skills={skills.filter((skill) => skill.theme && skill.theme.type === 'engagement')}
           title="Expériences D’ENGAGEMENT"
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"

@@ -49,6 +49,7 @@ export const getSkillsQuery = gql`
           startDate
           endDate
           activity
+          organization
           options {
             option {
               id
@@ -119,6 +120,7 @@ export const getSkillQuery = gql`
         startDate
         endDate
         activity
+        organization
         options {
           option {
             id
@@ -167,6 +169,7 @@ export interface addSkillArguments {
     context: string;
     options: string[][];
     activity: string;
+    organization: string;
   };
 }
 
@@ -197,6 +200,7 @@ export interface updateSkillArguments {
     context: string;
     options: string[][];
     activity: string;
+    organization: string;
   };
 }
 

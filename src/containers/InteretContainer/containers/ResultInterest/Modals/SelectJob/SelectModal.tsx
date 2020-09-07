@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
+import classNames from 'utils/classNames';
 import useStyles from './style';
 
 const SelectModal = () => {
@@ -46,17 +47,18 @@ const SelectModal = () => {
             {parcours?.skills
               .filter((p) => p.theme?.type === 'personal')
               .map((pr) => (
-                <div key={pr.theme.id} className={classes.themeContainer}>
+                <div
+                  key={pr.theme.id}
+                  className={classNames(
+                    classes.themeContainer,
+                    isChecked(pr.theme.id) && classes.themeContainerPersoSelected,
+                  )}
+                  onClick={() => addTheme(pr.theme.id)}
+                >
                   <Avatar size={65}>
                     <img src={pr.theme.resources?.icon} alt="" className={classes.avatarStyle} />
                   </Avatar>
                   <div className={classes.themeTitle}>{pr.theme.title.replace(/\//g, '')}</div>
-                  <CheckBox
-                    onChange={() => addTheme(pr.theme.id)}
-                    name={pr.theme.title}
-                    color="#00CFFF"
-                    checked={isChecked(pr.theme.id)}
-                  />
                 </div>
               ))}
           </div>
@@ -67,15 +69,16 @@ const SelectModal = () => {
             {parcours?.skills
               .filter((p) => p.theme?.type === 'professional')
               .map((pr) => (
-                <div key={pr.theme.id} className={classes.themeContainer}>
-                  <Avatar size={65} />
+                <div
+                  key={pr.theme.id}
+                  onClick={() => addTheme(pr.theme.id)}
+                  className={classNames(
+                    classes.themeContainer,
+                    classes.themeContainerPro,
+                    isChecked(pr.theme.id) && classes.themeContainerProSelected,
+                  )}
+                >
                   <div className={classes.themeTitle}>{pr.theme.title}</div>
-                  <CheckBox
-                    onChange={() => addTheme(pr.theme.id)}
-                    name={pr.theme.title}
-                    color="#4D6EC5"
-                    checked={isChecked(pr.theme.id)}
-                  />
                 </div>
               ))}
           </div>

@@ -12,10 +12,9 @@ interface Props {
   openActivity: () => void;
   setOpen: (open: boolean) => void;
   parent?: string;
+  index?: number;
 }
-const ActivitySelect = ({
- question, onChange, open, value, openActivity, setOpen, parent,
-}: Props) => {
+const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen, parent, index }: Props) => {
   const classes = useStyles();
   const { data: dataOption, refetch } = useOptions({ variables: { question: question.id, parent } });
   const [addValue, setAddValue] = useState('');
@@ -24,12 +23,6 @@ const ActivitySelect = ({
   const options = dataOption
     ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title }))
     : [];
-
-  useEffect(() => {
-    if (addActivityOptionState.data) refetch();
-    setAddValue('');
-  }, [addActivityOptionState.data, refetch]);
-
   const handleClose = (id: string) => {
     if (addValue.length > 2) {
       addActivityOptionCall({
@@ -38,6 +31,20 @@ const ActivitySelect = ({
       setOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (addActivityOptionState.data) {
+      refetch();
+      if (onChange && addActivityOptionState.data?.addOption) {
+        onChange(addActivityOptionState.data?.addOption);
+        setOpen(false);
+        //openActivity(false)
+      }
+    }
+    setAddValue('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addActivityOptionState.data, refetch, setOpen]);
+
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valueOption = e.target.value;
     setAddValue(valueOption);
@@ -54,6 +61,7 @@ const ActivitySelect = ({
   };
   return (
     <Select
+      index={index}
       label={question.title}
       value={value}
       onChange={handleChange}

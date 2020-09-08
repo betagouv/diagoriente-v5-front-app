@@ -1,10 +1,6 @@
 import React, { useContext } from 'react';
-
 import Drawer from '@material-ui/core/Drawer';
-
 import List from '@material-ui/core/List';
-import { links } from 'components/layout/PublicHeader/PublicHeader';
-import { Link } from 'react-router-dom';
 import Select from 'components/inputs/Select/Select';
 import beta from 'assets/images/marianne.png';
 import betaGouv from 'assets/images/beta_gov.png';
@@ -14,6 +10,15 @@ import logo from 'assets/svg/diagoriente_logo.svg';
 import useStyles from './styles';
 
 const Sidebar = () => {
+  const p = process.env.REACT_APP_PUBLIC_URL;
+  const links = [
+    { text: 'Qui sommes nous?', path: `${p}/info` },
+    { text: 'Notre démarche', path: `${p}/approach` },
+    { text: 'Actualités', path: `${p}/actualites` },
+    { text: 'vidéo', path: '/DiagOvidéo' },
+    { text: 'Statistiques', path: `${p}/Statistics` },
+    { text: 'FAQ', path: `${p}/faq` },
+  ];
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
 
@@ -39,9 +44,10 @@ const Sidebar = () => {
       <List className={classes.root}>
         {links.map((e) => (
           <li key={e.path} className={classes.linkContainer}>
-            <Link className={classes.link} to={e.path}>
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a className={classes.link} href={e.path} target="_blank">
               {e.text}
-            </Link>
+            </a>
           </li>
         ))}
 

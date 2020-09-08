@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom';
 import Select from 'components/inputs/Select/Select';
 import DrawerContext from 'contexts/DrawerContext';
-
 import logo from 'assets/svg/diagoriente_logo.svg';
 import smallbeta from 'assets/svg/smallbeta.svg';
 import beta from 'assets/images/marianne.png';
@@ -14,15 +13,16 @@ import menu from 'assets/images/menu.png';
 
 import useStyles from './styles';
 
-export const links = [
-  { text: 'Qui sommes nous?', path: '/Who' },
-  { text: 'Notre démarche', path: '/demarche' },
-  { text: 'Actualités', path: '/News' },
-  { text: 'vidéo', path: '/DiagOvidéo' },
-  { text: 'Statistiques', path: '/Statistics' },
-  { text: 'FAQ', path: '/FAQ' },
-];
 const PublicHeader = () => {
+  const p = process.env.REACT_APP_PUBLIC_URL;
+  const links = [
+    { text: 'Qui sommes nous?', path: `http://localhost:8000/info` },
+    { text: 'Notre démarche', path: `${p}/approach` },
+    { text: 'Actualités', path: `${p}/actualites` },
+    { text: 'vidéo', path: '/DiagOvidéo' },
+    { text: 'Statistiques', path: `${p}/Statistics` },
+    { text: 'FAQ', path: `${p}/faq` },
+  ];
   const { open, setOpen } = useContext(DrawerContext);
   const [showlogo, setShowLogo] = useState(window.innerWidth > 768 && window.innerWidth < 1280);
   const toggle = () => {
@@ -39,9 +39,10 @@ const PublicHeader = () => {
       <ul className={classes.headerSection}>
         {links.map((e) => (
           <li key={e.path} className={classes.linkContainer}>
-            <Link className={classes.link} to={e.path}>
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a className={classes.link} href={e.path} target="_blank">
               {e.text}
-            </Link>
+            </a>
           </li>
         ))}
       </ul>

@@ -272,7 +272,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     localStorage.removeItem('context');
     localStorage.removeItem('activity');
   });
-
   if (loading || skillState.loading) {
     return (
       <div className={classes.loadingContainer}>

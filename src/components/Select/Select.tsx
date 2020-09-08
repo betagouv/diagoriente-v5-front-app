@@ -67,7 +67,7 @@ const Select = ({
   const selectRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState('auto' as number | string);
 
-  const t = () => {
+  const changeWidth = () => {
     if (typeof width === 'number') {
       if (index === 0) return width - 20;
       if (index === 1) return width + 60;
@@ -75,7 +75,7 @@ const Select = ({
     }
     return width;
   };
-  const classes = useStyles({ left: dimension[0], top: dimension[1], width: t() });
+  const classes = useStyles({ left: dimension[0], top: dimension[1], width: changeWidth() });
 
   useOnclickOutside(menuRef, () => {
     if (setOpenSelect) setOpenSelect(false);
@@ -121,7 +121,7 @@ const Select = ({
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width: t() }}
+        style={{ width: changeWidth() }}
         value={getValue()}
         ref={selectRef}
         MenuProps={{

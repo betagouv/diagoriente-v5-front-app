@@ -16,7 +16,7 @@ import useStyles from './styles';
 const PublicHeader = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const links = [
-    { text: 'Qui sommes nous?', path: `http://localhost:8000/info` },
+    { text: 'Qui sommes nous?', path: `${p}/info` },
     { text: 'Notre démarche', path: `${p}/approach` },
     { text: 'Actualités', path: `${p}/actualites` },
     { text: 'vidéo', path: '/DiagOvidéo' },

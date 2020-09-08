@@ -202,6 +202,7 @@ export default makeStyles((theme: Theme) =>
     activityTitle: {
       width: '100%',
       marginTop: 45,
+      maxWidth: WIDTH,
     },
     'MuiTextField-root': {
       '& fieldset': {

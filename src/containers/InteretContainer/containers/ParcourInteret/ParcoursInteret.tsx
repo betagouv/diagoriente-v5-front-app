@@ -7,6 +7,8 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { groupBy } from 'lodash';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
+import mainInterest from 'assets/svg/mainInterest.svg';
+
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
@@ -20,10 +22,11 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
   // eslint-disable-next-line
-  const [index, setIndex] = useState(0);
+  const [openWarning, setWarning] = useState(false);
   const [open, setOpen] = useState(false);
   const handelOpen = () => setOpen(true);
   const onHandelClose = () => setOpen(false);
+  const onHandelCloseWarning = () => setWarning(false);
 
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
@@ -69,10 +72,21 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
       }
       setInterest(copySelected);
       setSelectedInterest(copySelected);
-    } else {
-      handelOpen();
+    } else if (copySelected.length === 5) {
+      if (isChecked(e.id)) {
+        copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
+        setInterest(copySelected);
+        setSelectedInterest(copySelected);
+      } else {
+        handelOpen();
+      }
     }
   };
+  useEffect(() => {
+    const test = selectedInterest?.every((interet) => interet.category === "avec d'autres personnes");
+    if (selectedInterest?.length === 5 && test) setWarning(true);
+  }, [selectedInterest]);
+
   const deleteFamille = (id: number) => {
     const familleSelected = selectedInterests[id];
     let copySelected: Families[] = [...selectedInterests];
@@ -139,6 +153,23 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
           </div>
           <div>
             <Button onClick={onHandelClose} className={classes.btn}>
+              <div className={classes.btnLabel}>J'ai compris !</div>
+            </Button>
+          </div>
+        </div>
+      </ModalContainer>
+      <ModalContainer open={openWarning} backdropColor="#011A5E" colorIcon="#420FAB">
+        <div style={{ height: "80%", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 40 }}>
+          <div className={classes.titleContainerModal}>UNE PETITE MINUTE...</div>
+          <div className={classes.textModal}>
+            Tu as choisi tes familles d’intérêts seulement dans la 1ère partie, es-tu sûr.e d’avoir exploré toutes les
+            familles d’intérêts
+          </div>
+          <div className={classes.imgContainer}>
+            <img src={mainInterest} alt="" className={classes.imgContainerWarning}/>
+          </div>
+          <div>
+            <Button onClick={onHandelCloseWarning} className={classes.btn}>
               <div className={classes.btnLabel}>J'ai compris !</div>
             </Button>
           </div>

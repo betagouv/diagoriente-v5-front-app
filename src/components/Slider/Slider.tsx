@@ -3,9 +3,9 @@ import Carousel from 'nuka-carousel';
 import { Families } from 'requests/types';
 import Arrow from 'assets/svg/arrow';
 import classNames from 'utils/classNames';
-import Img1 from 'assets/svg/tete-01.svg';
+import Img3 from 'assets/svg/tete-01.svg';
 import Img2 from 'assets/svg/mains-01.svg';
-import Img3 from 'assets/svg/personnes-01.svg';
+import Img1 from 'assets/svg/personnes-01.svg';
 import Avatar from 'components/common/Avatar/Avatar';
 import useStyles from './styles';
 

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Question, Option } from 'requests/types';
 import Select from 'components/Select/Select';
-import { useOptions, useAddOption } from 'requests/options';
+import { useOptions, useAddOption, useDeleteOption } from 'requests/options';
+import Remove from '@material-ui/icons/DeleteForever';
+import UserContext from 'contexts/UserContext';
+
 import useStyles from './styles';
 
 interface Props {
@@ -16,12 +19,19 @@ interface Props {
 }
 const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen, parent, index }: Props) => {
   const classes = useStyles();
+  const { user } = useContext(UserContext);
+  const ownOption = (id: string) => {
+    const res = user?.id === id;
+    return res;
+  };
+
   const { data: dataOption, refetch } = useOptions({ variables: { question: question.id, parent } });
   const [addValue, setAddValue] = useState('');
   const [addActivityOptionCall, addActivityOptionState] = useAddOption();
+  const [deleteOptionCall, deleteOptionState] = useDeleteOption();
 
   const options = dataOption
-    ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title }))
+    ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title, user: option.user }))
     : [];
   const handleClose = (id: string) => {
     if (addValue.length > 2) {
@@ -31,6 +41,14 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
       setOpen(false);
     }
   };
+  useEffect(() => {
+    if (deleteOptionState.data) {
+      refetch();
+      /* if (onChange) {
+        onChange(options[0]);
+      } */
+    }
+  }, [deleteOptionState.data, refetch, onChange, options]);
 
   useEffect(() => {
     if (addActivityOptionState.data) {
@@ -38,11 +56,10 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
       if (onChange && addActivityOptionState.data?.addOption) {
         onChange(addActivityOptionState.data?.addOption);
         setOpen(false);
-        //openActivity(false)
       }
     }
     setAddValue('');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addActivityOptionState.data, refetch, setOpen]);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +76,31 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
     const option = dataOption?.options.data.find((o) => o.id === e.target.value);
     if (option && onChange) onChange(option);
   };
+  const onDeleteOption = (id: string) => {
+    deleteOptionCall({
+      variables: { id },
+    });
+  };
+  const renderOption = (
+    option: { label: string | number; value: string | number; user: string },
+    openSelect: boolean,
+  ) => {
+    return (
+      <div className={classes.menuItemContainer}>
+        {option.label}
+        {ownOption(option.user) && openSelect && (
+          <Remove
+            className={classes.deleteIcon}
+            onClick={(e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onDeleteOption(option.value as string);
+            }}
+          />
+        )}
+      </div>
+    );
+  };
   return (
     <Select
       index={index}
@@ -74,6 +116,7 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
       rootClassName={classes.rootClassName}
       styleSelectClassName={classes.styleSelect}
       className={classes.borderSelect}
+      renderOption={renderOption}
     />
   );
 };

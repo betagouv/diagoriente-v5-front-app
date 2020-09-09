@@ -9,14 +9,13 @@ import useOnclickOutside from 'hooks/useOnclickOutside';
 import arrow from 'assets/svg/arrowblue.svg';
 import darkarrow from 'assets/svg/darkarrowblue.svg';
 
-import add from 'assets/svg/pictoadd.svg';
 import check from 'assets/svg/pictocheck.svg';
 
 import useStyles from './styles';
 
 interface Props extends Omit<SelectProps, 'variant'> {
   label?: string;
-  options: { label: string | number; value: string | number }[];
+  options: { label: string | number; value: string | number; user: string }[];
   className?: string;
   openActivity?: () => void;
   open?: boolean;
@@ -32,6 +31,10 @@ interface Props extends Omit<SelectProps, 'variant'> {
   disabledClassName?: string;
   value?: string | number;
   index?: number;
+  renderOption: (
+    option: { label: string | number; value: string | number; user: string },
+    openSelect: boolean,
+  ) => JSX.Element;
 }
 
 const Select = ({
@@ -53,6 +56,7 @@ const Select = ({
   disabledClassName,
   tabIndex,
   index,
+  renderOption,
   ...rest
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
@@ -62,7 +66,17 @@ const Select = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState('auto' as number | string);
-  const classes = useStyles({ left: dimension[0], top: dimension[1], width });
+
+  const changeWidth = () => {
+    if (typeof width === 'number') {
+      if (index === 0) return width - 20;
+      if (index === 1) return width + 60;
+      if (index === 2) return width + 80;
+    }
+    return width;
+  };
+  const classes = useStyles({ left: dimension[0], top: dimension[1], width: changeWidth() });
+
   useOnclickOutside(menuRef, () => {
     if (setOpenSelect) setOpenSelect(false);
   });
@@ -104,18 +118,10 @@ const Select = ({
   };
   const labelPlus = options.find((o) => o.label === '___plus___');
 
-  const t = () => {
-    if (typeof width === 'number') {
-      if (index === 0) return width - 30;
-      if (index === 1) return width + 50;
-      if (index === 2) return width + 50;
-    }
-    return width;
-  };
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width: t() }}
+        style={{ width: changeWidth() }}
         value={getValue()}
         ref={selectRef}
         MenuProps={{
@@ -185,7 +191,7 @@ const Select = ({
                 option.value === value ? classes.backgroundRow : '',
               )}
             >
-              {option.label}
+              {renderOption(option, openSelect)}
             </MenuItem>
           ))}
         {!arrowDate && labelPlus ? (
@@ -218,6 +224,10 @@ const Select = ({
       </SelectBase>
     </div>
   );
+};
+
+Select.defaultProps = {
+  renderOption: (option: { label: string | number; value: string | number; user: string }) => option.label,
 };
 
 export default Select;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import path from 'path';
 import moment from 'moment';
+import { useWillUnmount } from 'hooks/useLifeCycle';
 
 import { RouteComponentProps, Switch, Route, Redirect, matchPath } from 'react-router-dom';
-
 import { useTheme } from 'requests/themes';
 import { useAddSkill, useUpdateSkill, useLazySkill } from 'requests/skills';
 
@@ -263,7 +263,15 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('context');
     } // eslint-disable-next-line
   }, [updateSkillState.data, updateSkillState.called]);
-
+  useWillUnmount(() => {
+    localStorage.removeItem('theme');
+    localStorage.removeItem('activities');
+    localStorage.removeItem('competences');
+    localStorage.removeItem('competencesValues');
+    localStorage.removeItem('optionActivities');
+    localStorage.removeItem('context');
+    localStorage.removeItem('activity');
+  });
   if (loading || skillState.loading) {
     return (
       <div className={classes.loadingContainer}>

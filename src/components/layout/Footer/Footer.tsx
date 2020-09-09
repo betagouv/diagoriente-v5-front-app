@@ -18,6 +18,8 @@ interface IProps {
 }
 
 const Footer = ({ onChange, name }: IProps) => {
+  const p = process.env.REACT_APP_PUBLIC_URL;
+
   const classes = useStyles();
   return (
     <footer className={classes.footerContainer}>
@@ -36,15 +38,25 @@ const Footer = ({ onChange, name }: IProps) => {
       <Grid container spacing={3} className={classes.gridContainer}>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <p className={classes.textTop}>
-            Documentation
+            <a className={classes.link} href={`${p}/documentation`} target="_blank">
+              Documentation
+            </a>
             <br />
-            Statistiques
+            <a className={classes.link} href={`${p}/statistique`} target="_blank">
+              Statistiques
+            </a>
             <br />
-            Code source
+            <a className={classes.link} href={"/"} target="_blank">
+              Code source
+            </a>
             <br />
-            CGU
+            <a className={classes.link} href={`${p}/cgu`} target="_blank">
+              CGU
+            </a>
             <br />
-            Mentions légales
+            <a className={classes.link} href={`${p}/mention`} target="_blank">
+              Mentions légales
+            </a>
           </p>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={4} className={classes.newsteller}>

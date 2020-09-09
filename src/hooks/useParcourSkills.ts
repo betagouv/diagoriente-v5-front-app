@@ -9,7 +9,7 @@ function useParcourSkills(type?: string) {
     [parcours, type],
   );
 
-  const [skillsCall, skillsState] = useLazySkills();
+  const [skillsCall, skillsState] = useLazySkills({ fetchPolicy: 'network-only' });
 
   useEffect(() => {
     if (skills.length) skillsCall({ variables: { ids: skills.map((skill) => skill.id).join(',') } });

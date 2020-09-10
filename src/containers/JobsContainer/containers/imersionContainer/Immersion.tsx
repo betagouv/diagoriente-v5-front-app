@@ -57,6 +57,7 @@ const ImmersionContainer = ({
   const [update, setUpdate] = useState(false);
 
   const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
+  const [selectedDistance, setSelectedDistance] = useState('5 km');
 
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
 
@@ -73,7 +74,7 @@ const ImmersionContainer = ({
       tri: '',
       taille: 'all',
       rayon: '',
-      distance: '5 km',
+      distance: '5',
       switch: true,
       switchRayon: '',
     },
@@ -126,20 +127,19 @@ const ImmersionContainer = ({
     }
   }, [open, openContact]);
   useEffect(() => {
-    if (romeCodes && latitude && longitude && pageSize && distances && state.values.taille && state.values.tri) {
+    if (romeCodes && latitude && longitude && pageSize && distances) {
       const args = {
         rome_codes: romeCodes,
         latitude: Number(latitude),
         longitude: Number(longitude),
         page_size: Number(pageSize),
         page: Number(page),
-        distance: Number(state.values.distance.replace(' km', '')),
+        distance: Number(state.values.distance),
         headcount: state.values.taille,
-        sort: state.values.tri,
       };
-      immersionCall({ variables: args });
+      const dataToSend = state.values.tri ? { ...args, sort: state.values.tri } : args;
+      immersionCall({ variables: dataToSend });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     romeCodes,
     latitude,
@@ -149,6 +149,8 @@ const ImmersionContainer = ({
     state.values.distance,
     state.values.taille,
     state.values.tri,
+    immersionCall,
+    page,
   ]);
 
   const getData = (pg: number) => {
@@ -178,23 +180,23 @@ const ImmersionContainer = ({
   const distance = [
     {
       label: '5 km',
-      value: 5,
+      value: '5',
     },
     {
       label: '10 km',
-      value: 10,
+      value: '10',
     },
     {
       label: '30 km',
-      value: 30,
+      value: '30',
     },
     {
       label: '50 km',
-      value: 50,
+      value: '50',
     },
     {
       label: '100 km',
-      value: 100,
+      value: '100',
     },
     {
       label: '+ de 100 km',
@@ -227,11 +229,13 @@ const ImmersionContainer = ({
       actions.setValues({ switchRayon: s });
     }
   };
-  const onChangeDistance = (s: string) => {
-    if (state.values.distance === s) {
+  const onChangeDistance = (el: { label: string; value: string }) => {
+    if (selectedDistance === el.label) {
       actions.setValues({ distance: '' });
+      setSelectedDistance('');
     } else {
-      actions.setValues({ distance: s });
+      setSelectedDistance(el.label);
+      actions.setValues({ distance: el.value });
       setPage(1);
     }
   };
@@ -353,16 +357,16 @@ const ImmersionContainer = ({
                 ))}
               </div>
 
-              <div className={classes.filterTitle}>Rayon de recherche</div>
-              <SwitchRayon checked={state.values.switchRayon} onClick={onChangeRayon} />
+              {/*  <div className={classes.filterTitle}>Rayon de recherche</div>
+              <SwitchRayon checked={state.values.switchRayon} onClick={onChangeRayon} /> */}
               <div className={classes.distanceContainer}>
                 <div className={classes.filterTitle}>Distance</div>
                 {distance.map((el) => (
                   <CheckBox
                     key={el.label}
                     label={el.label}
-                    value={state.values.distance}
-                    onClick={() => onChangeDistance(el.label)}
+                    value={selectedDistance}
+                    onClick={() => onChangeDistance(el)}
                   />
                 ))}
               </div>

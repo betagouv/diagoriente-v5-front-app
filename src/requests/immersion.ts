@@ -21,7 +21,7 @@ export const GetImmersion = gql`
       longitude: $longitude
       distance: $distance
       headcount: $headcount
-      sort:$sort
+      sort: $sort
       page_size: $page_size
       page: $page
     ) {

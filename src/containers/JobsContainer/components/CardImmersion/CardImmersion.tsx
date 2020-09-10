@@ -14,9 +14,10 @@ interface IProps {
   data: any;
   onClickContact: () => void;
   onClickConseil: () => void;
+  showMap?: boolean;
 }
 
-const CardImmersion = ({ data, onClickContact, onClickConseil }: IProps) => {
+const CardImmersion = ({ data, onClickContact, onClickConseil, showMap }: IProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   return (
@@ -81,9 +82,11 @@ const CardImmersion = ({ data, onClickContact, onClickConseil }: IProps) => {
               </div>
             </div>
           </div>
-          <div style={{ width: '100%', height: 203 }}>
-            <Map lat={data.lat} lng={data.lon} name={data.title} />
-          </div>
+          {showMap && (
+            <div style={{ width: '100%', height: 203 }}>
+              <Map lat={data.lat} lng={data.lon} name={data.title} />
+            </div>
+          )}
         </div>
       )}
     </div>

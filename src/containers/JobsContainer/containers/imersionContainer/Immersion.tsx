@@ -52,14 +52,15 @@ const ImmersionContainer = ({
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
   const [open, setOpen] = React.useState(false);
-
-  const [update, setUpdate] = useState(false);
-  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
+  const [update, setUpdate] = useState(false);
+
+  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
-  const [coordinates, setCoordinates] = useState([]);
+  const [coordinates, setCoordinates] = useState<number[]>([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
 
@@ -82,6 +83,12 @@ const ImmersionContainer = ({
   useDidMount(() => {
     loadJob();
   });
+  useEffect(() => {
+    setSelectedImmersion(data?.job.title);
+    setSelectedLocation(selectedLoc);
+    setSelectedImmersionCode(romeCodes);
+    setCoordinates([Number(longitude), Number(latitude)]);
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation]);
 
   const handleClose = () => {
     openContactState(null);

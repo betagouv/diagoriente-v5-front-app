@@ -12,12 +12,12 @@ import useStyles from './styles';
 const Sidebar = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const links = [
-    { text: 'Qui sommes nous?', path: `${p}/info` },
-    { text: 'Notre démarche', path: `${p}/approach` },
-    { text: 'Actualités', path: `${p}/actualites` },
+    { text: 'Qui sommes nous?', path: `${p}/info/` },
+    { text: 'Notre démarche', path: `${p}/approach/` },
+    { text: 'Actualités', path: `${p}/actualites/` },
     { text: 'vidéo', path: '/DiagOvidéo' },
-    { text: 'Statistiques', path: `${p}/statistique` },
-    { text: 'FAQ', path: `${p}/faq` },
+    { text: 'Statistiques', path: `${p}/statistique/` },
+    { text: 'FAQ', path: `${p}/faq/` },
   ];
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);

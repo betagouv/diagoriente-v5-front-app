@@ -13,7 +13,7 @@ export const GetImmersion = gql`
     $page_size: Int
     $page: Int
     $headcount: String
-    sort: String
+    $sort: String
   ) {
     immersions(
       rome_codes: $rome_codes

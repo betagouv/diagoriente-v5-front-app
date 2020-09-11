@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
-
+import { useDidMount } from 'hooks/useLifeCycle';
 import TitleSection from 'components/common/TitleSection/TitleSection';
 import RadioButton from 'components/radioButton/RadioButton';
 import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
@@ -21,6 +21,9 @@ interface Props extends RouteComponentProps {
 }
 
 const SecondRecommendation = ({ skill, comment, location }: Props) => {
+  useDidMount(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  });
   const classes = useStyles();
   const [selectedLocation, setSelectedLocation] = useState('');
   const [search, setSearch] = useState('');

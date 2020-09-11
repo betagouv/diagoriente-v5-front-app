@@ -12,7 +12,7 @@ function useParcourSkills(type?: string) {
   const [skillsCall, skillsState] = useLazySkills({ fetchPolicy: 'network-only' });
 
   useEffect(() => {
-    if (skills.length) skillsCall({ variables: { ids: skills.map((skill) => skill.id).join(',') } });
+    if (skills) skillsCall({ variables: { ids: skills.map((skill) => skill.id).join(',') } });
     // eslint-disable-next-line
   }, [skills]);
 

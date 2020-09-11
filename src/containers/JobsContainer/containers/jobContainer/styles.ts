@@ -171,10 +171,16 @@ export default makeStyles<Theme>((theme) => ({
     margin: 10,
   },
   gifInterest: {
-    width: 77,
+    width: 80,
     height: 77,
-    backgroundColor: '#C4C4C4',
+    position: 'relative',
     borderRadius: '50%',
+  },
+  testImg: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    left: 0,
   },
   titleInterest: {
     width: '56%',

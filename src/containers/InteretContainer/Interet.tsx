@@ -38,9 +38,9 @@ const Interet = () => {
           <Route protected path="/interet/result" component={ResultInteret} />
           <Route component={NotFoundPage} />
         </Switch>
-        <div className={classes.aide}>
+       {/*  <div className={classes.aide}>
           <div className={classes.aideText}>?</div>
-        </div>
+        </div> */}
       </InterestContext.Provider>
     </ThemeProvider>
   );

@@ -103,9 +103,9 @@ const Experience = () => {
           </div>
         </div>
       </div>
-      <div className={classes.help}>
+      {/* <div className={classes.help}>
         <img src={help} alt="help" />
-      </div>
+      </div> */}
 
       <ModalContainer open={open} handleClose={handleClose} backdropColor="#011A5E" colorIcon="#4D6EC5" size={70}>
         <GameContainer onHandelClose={handleClose} />

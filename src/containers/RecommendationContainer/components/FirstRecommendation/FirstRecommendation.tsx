@@ -81,7 +81,7 @@ const FirstRecommendation = ({
       <TextField
         name="comment"
         value={comment}
-        placeholder="Ecrivez ici votre recommandation (xxx caractères max)"
+        placeholder="Ecrivez ici votre recommandation"
         onChange={commentChange}
         InputProps={{
           classes: {

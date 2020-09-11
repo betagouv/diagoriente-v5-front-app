@@ -54,10 +54,10 @@ const CardIcons = ({
         )}
       </div>
 
-      <div className={classes.headerIcon}>
+      {/* <div className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={partage} alt="" />
         Partager
-      </div>
+      </div> */}
     </div>
   );
 };

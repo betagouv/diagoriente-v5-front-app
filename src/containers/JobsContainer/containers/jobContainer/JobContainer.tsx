@@ -62,6 +62,7 @@ const JobContainer = ({
   });
   useEffect(() => {
     if (selectedLocation !== '') {
+      console.log('jobCobtainze', selectedLocation)
       locationCall(selectedLocation);
     }
   }, [selectedLocation, locationCall]);

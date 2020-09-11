@@ -24,7 +24,7 @@ const CardContainer = () => {
   const [element, createPdf, pdf] = usePdf();
 
   const skills = skillsState.data?.skills.data || [];
-
+  console.log('skills', skills);
   const onClickIcon = (i: string) => {
     setType(i);
     if (i === 'print') setLoadingPrint(true);
@@ -67,11 +67,13 @@ const CardContainer = () => {
             description="En relation avec les expériences personnelles et professionnelles"
             type="tranversale"
           />
-          <CardCompetence
-            title="COMPÉTENCES D’ENGAGEMENT"
-            description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"
-            type="engagement"
-          />
+          {skills.filter((s) => s.theme.type === 'engagement').length !== 0 && (
+            <CardCompetence
+              title="COMPÉTENCES D’ENGAGEMENT"
+              description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"
+              type="engagement"
+            />
+          )}
         </div>
         <CardSkills
           skills={skills.filter((skill) => skill.theme && skill.theme.type === 'personal')}

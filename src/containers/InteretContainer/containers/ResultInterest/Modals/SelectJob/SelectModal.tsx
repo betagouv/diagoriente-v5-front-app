@@ -89,9 +89,9 @@ const SelectModal = () => {
           <div className={classes.btnLabel}>Je valide</div>
         </Button>
       </div>
-      <div className={classes.aide}>
+     {/*  <div className={classes.aide}>
         <div className={classes.aideText}>?</div>
-      </div>
+      </div> */}
     </div>
   );
 };

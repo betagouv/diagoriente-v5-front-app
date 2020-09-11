@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, {
+  useState, useEffect, useContext, useMemo,
+} from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
@@ -6,7 +8,7 @@ import SelectionContext from 'contexts/SelectionContext';
 
 import { useThemes } from 'requests/themes';
 import Button from 'components/nextButton/nextButton';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';

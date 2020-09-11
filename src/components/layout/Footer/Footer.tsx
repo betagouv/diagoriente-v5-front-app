@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 
 import classNames from 'utils/classNames';
@@ -46,7 +47,7 @@ const Footer = ({ onChange, name }: IProps) => {
               Statistiques
             </a>
             <br />
-            <a className={classes.link} href={"/"} target="_blank">
+            <a className={classes.link} href="/" target="_blank">
               Code source
             </a>
             <br />

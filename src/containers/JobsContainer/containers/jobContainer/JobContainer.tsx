@@ -1,4 +1,6 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, {
+  useContext, useState, useRef, useEffect,
+} from 'react';
 import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount, useWillUnmount } from 'hooks/useLifeCycle';
@@ -57,7 +59,7 @@ const JobContainer = ({
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
-  const { data: loadFamille, loading: familleState } = useFamilies();
+  const { data: loadFamille } = useFamilies();
 
   useDidMount(() => {
     loadJob();
@@ -264,7 +266,8 @@ const JobContainer = ({
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>{' '}
+                </span>
+                {' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>

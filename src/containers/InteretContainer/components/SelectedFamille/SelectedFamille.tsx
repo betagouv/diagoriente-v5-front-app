@@ -10,7 +10,9 @@ interface IProps {
   index: number;
   direction: 'vertical' | 'horizontal';
 }
-const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => {
+const SelectedFamille = ({
+  handleClick, famille, index, direction,
+}: IProps) => {
   const classes = useStyles({ direction });
 
   const nom = famille?.nom;

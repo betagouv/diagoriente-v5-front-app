@@ -9,10 +9,11 @@ import GameContainer from 'containers/HomeContainer/components/Modals/KItchenGam
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
 import illExpEng from 'assets/images/illu_xp_engagement.png';
-import help from 'assets/svg/help.svg';
 import { Link, useHistory } from 'react-router-dom';
 import Game from '../Game/gameModal/GameModal';
 import useStyles from './styles';
+
+// import help from 'assets/svg/help.svg';
 
 const Experience = () => {
   const classes = useStyles();

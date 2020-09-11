@@ -28,7 +28,7 @@ import ModalContact from '../Modals/ContactModal/ContactModal';
 import CardImmersion from '../../components/CardImmersion/CardImmersion';
 import CheckBox from '../../components/checkBox/ChexBox';
 import Switch from '../../components/Switch/Switch';
-import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
+// import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
 interface IProps extends RouteComponentProps<{ id: string }> {
@@ -82,7 +82,9 @@ const ImmersionContainer = ({
 
   const [immersionCall, immersionState] = useImmersion();
   const { search } = location;
-  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
+  const {
+    romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
+  } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
@@ -110,6 +112,7 @@ const ImmersionContainer = ({
   const PAGES = immersionState.data?.immersions.companies_count / 6;
   useEffect(() => {
     if (selectedLocation !== '') {
+      console.log('jobs here')
       locationCall(selectedLocation);
     }
   }, [selectedLocation, locationCall]);
@@ -222,13 +225,13 @@ const ImmersionContainer = ({
     }
   };
 
-  const onChangeRayon = (s: string) => {
+ /*  const onChangeRayon = (s: string) => {
     if (state.values.switchRayon === s) {
       actions.setValues({ switchRayon: '' });
     } else {
       actions.setValues({ switchRayon: s });
     }
-  };
+  }; */
   const onChangeDistance = (el: { label: string; value: string }) => {
     if (selectedDistance === el.label) {
       actions.setValues({ distance: '' });

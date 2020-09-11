@@ -112,7 +112,6 @@ const ImmersionContainer = ({
   const PAGES = immersionState.data?.immersions.companies_count / 6;
   useEffect(() => {
     if (selectedLocation !== '') {
-      console.log('jobs here')
       locationCall(selectedLocation);
     }
   }, [selectedLocation, locationCall]);

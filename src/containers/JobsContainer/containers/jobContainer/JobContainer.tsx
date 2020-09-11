@@ -1,6 +1,4 @@
-import React, {
-  useContext, useState, useRef, useEffect,
-} from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount, useWillUnmount } from 'hooks/useLifeCycle';
@@ -72,7 +70,7 @@ const JobContainer = ({
   }, [selectedLocation, locationCall]);
 
   useEffect(() => {
-    if (!loadingFav && FavData) {
+    if (FavData) {
       const fav = FavData?.favorites.data.find((el) => el.job === param);
       if (fav?.id) {
         setIsFav(fav.id);
@@ -266,8 +264,7 @@ const JobContainer = ({
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${d.length} intérêts sur ${data?.job.interests.length}`}
-                </span>
-                {' '}
+                </span>{' '}
                 en commun avec les tiens.
               </div>
               <div> Ce métier semble plutôt bien te correspondre ! </div>

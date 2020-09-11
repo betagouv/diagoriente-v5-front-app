@@ -239,14 +239,14 @@ const JobsContainer = ({
               {jobs?.length === 0
                 ? 'Aucun resultat trouvé !'
                 : jobs?.map((el) => (
-                    <JobCard
-                      key={el.id}
-                      id={el.id}
-                      title={el.title}
-                      description={el.description}
-                      accessibility={el.accessibility}
-                      favoris={el.favorite}
-                    />
+                  <JobCard
+                    key={el.id}
+                    id={el.id}
+                    title={el.title}
+                    description={el.description}
+                    accessibility={el.accessibility}
+                    favoris={el.favorite}
+                  />
                   ))}
             </div>
           )}

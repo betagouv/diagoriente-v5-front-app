@@ -10,7 +10,7 @@ import MainInteret from './containers/MainInteret';
 import ParcoursInteret from './containers/ParcourInteret';
 import OrdreInteret from './containers/OrdreInteret/OrderInteret';
 import ResultInteret from './containers/ResultInterest/ResultInterest';
-import useStyle from './styles';
+// import useStyle from './styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
 
 const Interet = () => {
   const [selectedInterest, setInterest] = useState<Families[] | null>(null);
-  const classes = useStyle();
+  // const classes = useStyle();
   return (
     <ThemeProvider theme={theme}>
       <InterestContext.Provider value={{ selectedInterest, setInterest }}>
@@ -38,9 +38,9 @@ const Interet = () => {
           <Route protected path="/interet/result" component={ResultInteret} />
           <Route component={NotFoundPage} />
         </Switch>
-        <div className={classes.aide}>
-          <div className={classes.aideText}>?</div>
-        </div>
+        {/*  <div className={classes.aide}>
+            <div className={classes.aideText}>?</div>
+          </div> */}
       </InterestContext.Provider>
     </ThemeProvider>
   );

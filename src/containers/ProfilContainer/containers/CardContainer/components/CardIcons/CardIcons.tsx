@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import download from 'assets/svg/download.svg';
 import print from 'assets/svg/print.svg';
-import partage from 'assets/svg/partage.svg';
+// import partage from 'assets/svg/partage.svg';
 import game from 'assets/svg/gamepad.svg';
 import Spinner from '../loading/Spinner';
 
@@ -54,10 +54,10 @@ const CardIcons = ({
         )}
       </div>
 
-      <div className={classes.headerIcon}>
+      {/* <div className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={partage} alt="" />
         Partager
-      </div>
+      </div> */}
     </div>
   );
 };

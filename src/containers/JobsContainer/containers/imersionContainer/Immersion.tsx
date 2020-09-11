@@ -28,7 +28,7 @@ import ModalContact from '../Modals/ContactModal/ContactModal';
 import CardImmersion from '../../components/CardImmersion/CardImmersion';
 import CheckBox from '../../components/checkBox/ChexBox';
 import Switch from '../../components/Switch/Switch';
-import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
+// import SwitchRayon from '../../components/SwitchRayon/SwitchRayon';
 import useStyles from './styles';
 
 interface IProps extends RouteComponentProps<{ id: string }> {
@@ -52,23 +52,29 @@ const ImmersionContainer = ({
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
   const [open, setOpen] = React.useState(false);
-
-  const [update, setUpdate] = useState(false);
-  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
+  const [update, setUpdate] = useState(false);
+
+  const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
+  const [selectedDistance, setSelectedDistance] = useState('5 km');
+
+  const [selectedTri, setSelectedTri] = useState('Toutes tailles');
+
+  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
-  const [coordinates, setCoordinates] = useState([]);
+  const [coordinates, setCoordinates] = useState<number[]>([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
 
   const [state, actions] = useForm({
     initialValues: {
       tri: '',
-      taille: '',
+      taille: 'all',
       rayon: '',
-      distance: '5 km',
+      distance: '5',
       switch: true,
       switchRayon: '',
     },
@@ -76,12 +82,20 @@ const ImmersionContainer = ({
 
   const [immersionCall, immersionState] = useImmersion();
   const { search } = location;
-  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc } = decodeUri(search);
+  const {
+    romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
+  } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
   });
+  useEffect(() => {
+    setSelectedImmersion(data?.job.title);
+    setSelectedLocation(selectedLoc);
+    setSelectedImmersionCode(romeCodes);
+    setCoordinates([Number(longitude), Number(latitude)]);
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation]);
 
   const handleClose = () => {
     openContactState(null);
@@ -122,11 +136,24 @@ const ImmersionContainer = ({
         longitude: Number(longitude),
         page_size: Number(pageSize),
         page: Number(page),
-        distance: Number(state.values.distance.replace(' km', '')),
+        distance: Number(state.values.distance),
+        headcount: state.values.taille,
       };
-      immersionCall({ variables: args });
+      const dataToSend = state.values.tri ? { ...args, sort: state.values.tri } : args;
+      immersionCall({ variables: dataToSend });
     }
-  }, [romeCodes, latitude, longitude, pageSize, distances, immersionCall, page, state.values.distance]);
+  }, [
+    romeCodes,
+    latitude,
+    longitude,
+    pageSize,
+    distances,
+    state.values.distance,
+    state.values.taille,
+    state.values.tri,
+    immersionCall,
+    page,
+  ]);
 
   const getData = (pg: number) => {
     setPage(pg);
@@ -134,84 +161,83 @@ const ImmersionContainer = ({
 
   const tri = [
     {
-      label: 'Tri optimisé',
-      value: 'Tri optimisé',
-    },
-    {
       label: 'Distance',
-      value: 'Distance',
-    },
-    {
-      label: 'Ordre alphabétique',
-      value: 'Ordre alphabétique',
+      value: 'distance',
     },
   ];
   const taille = [
     {
       label: 'Toutes tailles',
-      value: 'Toutes tailles',
+      value: 'all',
     },
     {
       label: 'Moins de 50 salariés',
-      value: 'Moins de 50 salariés',
+      value: 'small',
     },
     {
       label: 'Plus de 50 salariés',
-      value: 'Plus de 50 salariés',
+      value: 'big',
     },
   ];
   const distance = [
     {
       label: '5 km',
-      value: 5,
+      value: '5',
     },
     {
       label: '10 km',
-      value: 10,
+      value: '10',
     },
     {
       label: '30 km',
-      value: 30,
+      value: '30',
     },
     {
       label: '50 km',
-      value: 50,
+      value: '50',
     },
     {
       label: '100 km',
-      value: 100,
+      value: '100',
     },
     {
       label: '+ de 100 km',
       value: '+ de 100 km',
     },
   ];
-  const onChangeTri = (label: string) => {
-    if (state.values.tri === label) {
-      actions.setValues({ tri: label });
+  const onChangeTri = (el: { label: string; value: string }) => {
+    if (selectedTri === el.label) {
+      actions.setValues({ tri: '' });
+      setSelectedTri('');
     } else {
-      actions.setValues({ tri: label });
+      setSelectedTri(el.label);
+      actions.setValues({ tri: el.value });
     }
   };
-  const onChangeTaille = (label: string) => {
-    if (state.values.taille === label) {
-      actions.setValues({ taille: label });
+  const onChangeTaille = (el: { label: string; value: string }) => {
+    if (selectedTaille === el.label) {
+      actions.setValues({ taille: '' });
+      setSelectedTaille('');
     } else {
-      actions.setValues({ taille: label });
+      setSelectedTaille(el.label);
+      actions.setValues({ taille: el.value });
     }
   };
-  const onChangeRayon = (s: string) => {
+
+ /*  const onChangeRayon = (s: string) => {
     if (state.values.switchRayon === s) {
       actions.setValues({ switchRayon: '' });
     } else {
       actions.setValues({ switchRayon: s });
     }
-  };
-  const onChangeDistance = (s: string) => {
-    if (state.values.distance === s) {
+  }; */
+  const onChangeDistance = (el: { label: string; value: string }) => {
+    if (selectedDistance === el.label) {
       actions.setValues({ distance: '' });
+      setSelectedDistance('');
     } else {
-      actions.setValues({ distance: s });
+      setSelectedDistance(el.label);
+      actions.setValues({ distance: el.value });
       setPage(1);
     }
   };
@@ -320,12 +346,7 @@ const ImmersionContainer = ({
               <div className={classes.TrierContainer}>
                 <div className={classes.filterMainTitle}>Trier</div>
                 {tri.map((el) => (
-                  <CheckBox
-                    key={el.label}
-                    label={el.label}
-                    onClick={() => onChangeTri(el.label)}
-                    value={state.values.tri}
-                  />
+                  <CheckBox key={el.label} label={el.label} onClick={() => onChangeTri(el)} value={selectedTri} />
                 ))}
               </div>
               <hr className={classes.bar} />
@@ -334,25 +355,20 @@ const ImmersionContainer = ({
               <div className={classes.tailleContainer}>
                 <div className={classes.filterTitle}>Taille de l’entreprise</div>
                 {taille.map((el) => (
-                  <CheckBox
-                    key={el.label}
-                    label={el.label}
-                    value={state.values.taille}
-                    onClick={() => onChangeTaille(el.label)}
-                  />
+                  <CheckBox key={el.label} label={el.label} value={selectedTaille} onClick={() => onChangeTaille(el)} />
                 ))}
               </div>
 
-              <div className={classes.filterTitle}>Rayon de recherche</div>
-              <SwitchRayon checked={state.values.switchRayon} onClick={onChangeRayon} />
+              {/*  <div className={classes.filterTitle}>Rayon de recherche</div>
+              <SwitchRayon checked={state.values.switchRayon} onClick={onChangeRayon} /> */}
               <div className={classes.distanceContainer}>
                 <div className={classes.filterTitle}>Distance</div>
                 {distance.map((el) => (
                   <CheckBox
                     key={el.label}
                     label={el.label}
-                    value={state.values.distance}
-                    onClick={() => onChangeDistance(el.label)}
+                    value={selectedDistance}
+                    onClick={() => onChangeDistance(el)}
                   />
                 ))}
               </div>
@@ -385,6 +401,7 @@ const ImmersionContainer = ({
                     key={e.siret}
                     onClickContact={() => openContactState(e)}
                     onClickConseil={() => openConseilState(true)}
+                    showMap={state.values.switch}
                   />
                 ))}
                 {immersionState.data?.immersions.companies.length !== 0 && (

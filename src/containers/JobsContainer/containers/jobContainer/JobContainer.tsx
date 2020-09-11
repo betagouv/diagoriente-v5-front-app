@@ -15,6 +15,7 @@ import parcoursContext from 'contexts/ParcourContext';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import { Jobs } from 'requests/types';
+import { useFamilies } from 'requests/familles';
 import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalContainerInfo from '../Modals/JobInfo';
@@ -56,6 +57,8 @@ const JobContainer = ({
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
+  const { data: loadFamille } = useFamilies();
+
   useDidMount(() => {
     loadJob();
     loadFav();
@@ -67,7 +70,7 @@ const JobContainer = ({
   }, [selectedLocation, locationCall]);
 
   useEffect(() => {
-    if (!loadingFav && FavData) {
+    if (FavData) {
       const fav = FavData?.favorites.data.find((el) => el.job === param);
       if (fav?.id) {
         setIsFav(fav.id);
@@ -80,7 +83,7 @@ const JobContainer = ({
       setSelectedImmersion(data?.job.title);
       setSelectedImmersionCode(data.job.rome_codes);
     }
-  }, [data]);
+  }, [data, loadFamille]);
 
   useEffect(() => {
     if (addFavState.data) {
@@ -242,9 +245,13 @@ const JobContainer = ({
               {data?.job.interests.map((el) => {
                 const { nom } = el._id;
                 const res = nom && nom.replace(/\//g, '');
+                const f = loadFamille?.families.data.find((fm) => fm.nom === el._id.nom);
                 return (
                   <div className={classes.infoInterstDescription} key={el._id.id}>
-                    <div className={classes.gifInterest} />
+                    <div className={classes.gifInterest}>
+                      <img src={f?.resources[0]} alt="" />
+                      <img src={f?.resources[1]} alt="" className={classes.testImg} />
+                    </div>
                     <div className={classes.titleInterest}>{res}</div>
                   </div>
                 );

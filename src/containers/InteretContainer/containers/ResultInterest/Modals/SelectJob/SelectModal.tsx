@@ -3,7 +3,7 @@ import parcoursContext from 'contexts/ParcourContext';
 import { useUpdateParcour } from 'requests/parcours';
 import { Redirect } from 'react-router-dom';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
-import CheckBox from 'components/inputs/CheckBox/CheckBox';
+// import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import classNames from 'utils/classNames';
 import useStyles from './style';
@@ -89,9 +89,9 @@ const SelectModal = () => {
           <div className={classes.btnLabel}>Je valide</div>
         </Button>
       </div>
-      <div className={classes.aide}>
-        <div className={classes.aideText}>?</div>
-      </div>
+      {/*  <div className={classes.aide}>
+          <div className={classes.aideText}>?</div>
+        </div> */}
     </div>
   );
 };

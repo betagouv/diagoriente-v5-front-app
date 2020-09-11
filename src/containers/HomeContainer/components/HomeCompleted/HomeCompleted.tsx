@@ -1,6 +1,4 @@
-import React, {
- useContext, useState, useMemo, useCallback,
-} from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
 import { Link, useHistory } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
@@ -58,6 +56,7 @@ const HomeCompleted = () => {
         <p className={classNames(classes.itemDescription, c.descriptionClassName)}>{description}</p>
       </div>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [classes],
   );
 
@@ -70,14 +69,8 @@ const HomeCompleted = () => {
         image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes
-            {' '}
-            <span className={classes.bold}>compétences</span>
-            <br />
-            {' '}
-            et explorer mes
-            {' '}
-            <span className={classes.bold}>intérêts</span>
+            Identifier mes <span className={classes.bold}>compétences</span>
+            <br /> et explorer mes <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -104,12 +97,7 @@ const HomeCompleted = () => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des
-            {' '}
-            <span className={classes.bold}>métiers</span>
-            {' '}
-            et identifier mon
-            {' '}
+            Découvrir des <span className={classes.bold}>métiers</span> et identifier mon{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -127,15 +115,8 @@ const HomeCompleted = () => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes
-            {' '}
-            <span className={classes.bold}>choix</span>
-            {' '}
-            et identifier des
-            {' '}
-            <span className={classes.bold}>entreprises</span>
-            {' '}
-            à contacter
+            Faire mes <span className={classes.bold}>choix</span> et identifier des{' '}
+            <span className={classes.bold}>entreprises</span> à contacter
           </div>
         ),
         openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),

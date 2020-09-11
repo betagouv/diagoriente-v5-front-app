@@ -13,7 +13,7 @@ export default makeStyles<Theme>((theme) => ({
     padding: 25,
   },
   height2: {
-    height: 520,
+    height: 'auto',
     transition: '1s ease-in-out',
   },
   titleCard: {
@@ -68,12 +68,12 @@ export default makeStyles<Theme>((theme) => ({
   },
   extends: {
     width: '100%',
-    height: 356,
+    height: 'auto',
   },
   headerInfo: {
     backgroundColor: '#ffe9c3',
-    height: 159,
-    padding: 23,
+    height: 182,
+    padding: '23px 23px 0px 23px',
     position: 'relative',
   },
   arrow: {

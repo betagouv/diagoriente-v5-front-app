@@ -12,12 +12,16 @@ export const GetImmersion = gql`
     $distance: Int!
     $page_size: Int
     $page: Int
+    $headcount: String
+    $sort: String
   ) {
     immersions(
       rome_codes: $rome_codes
       latitude: $latitude
       longitude: $longitude
       distance: $distance
+      headcount: $headcount
+      sort: $sort
       page_size: $page_size
       page: $page
     ) {

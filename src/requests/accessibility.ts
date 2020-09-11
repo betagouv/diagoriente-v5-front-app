@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 import { QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalQuery } from 'hooks/apollo';
+import { useLocalLazyQuery } from 'hooks/apollo';
 
 export const accessibilityQuery = gql`
   {
@@ -24,4 +24,4 @@ export interface AccessibilityResponse {
 }
 
 export const useAccessibility = (options: QueryHookOptions<AccessibilityResponse> = {}) =>
-  useLocalQuery<AccessibilityResponse>(accessibilityQuery, options);
+  useLocalLazyQuery<AccessibilityResponse>(accessibilityQuery, options);

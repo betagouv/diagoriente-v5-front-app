@@ -117,7 +117,7 @@ export interface SectureResponse {
 }
 
 export const useSecteurs = (options: QueryHookOptions<SectureResponse, SecteurArguments> = {}) =>
-  useLocalQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
+useLocalLazyQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
 
 export const createThemeMutation = gql`
   mutation AddTheme(

@@ -46,14 +46,17 @@ const Jobs = () => {
   if (environments?.length !== 0) variables.environments = environments;
   if (domaine?.length !== 0) variables.secteur = domaine;
   if (domaine) variables.search = search;
-  const [loadJobs, { data, loading, refetch }] = useJobs({ variables });
-  const { data: listAccData } = useAccessibility();
-  const { data: listTypeData } = useTypeJob();
-  const { data: listSecteurData } = useSecteurs({ variables: { type: 'secteur' } });
+  const [loadJobs, { data, loading, refetch }] = useJobs({ variables, fetchPolicy: 'network-only' });
+  const [accessibilityCall, { data: listAccData }] = useAccessibility();
+  const [typeCall, { data: listTypeData }] = useTypeJob();
+  const [secteurCall, { data: listSecteurData }] = useSecteurs({ variables: { type: 'secteur' } });
   const [locationCall, { data: listLocation }] = locationcall({ variables: { search: selectedLocation } });
 
   useDidMount(() => {
     loadJobs();
+    accessibilityCall();
+    typeCall();
+    secteurCall();
   });
   useLayoutEffect(() => {
     const timeout = setTimeout(() => {

@@ -39,10 +39,10 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap }: IProps
           </div>
         </div>
         <div className={classes.rightInfo}>
-          <div className={classes.favorisText}>
-            Ajouter à mes favoris
-            <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} />
-          </div>
+          {<div className={classes.favorisText}>
+          {/*   Ajouter à mes favoris
+            <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} /> */}
+          </div>}
           {!open && (
             <div>
               <Button className={classes.btnContainer} onClick={() => setOpen(!open)}>

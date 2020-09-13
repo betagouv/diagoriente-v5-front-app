@@ -46,7 +46,7 @@ const JobContainer = ({
   const [openInfo, setInfo] = useState(false);
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
-  const [coordinates, setCoordinates] = useState([]);
+  const [coordinates, setCoordinates] = useState<string[]>([]);
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
@@ -105,6 +105,14 @@ const JobContainer = ({
       loadFav();
     }
   }, [addFavState, loadFav]);
+  useEffect(() => {
+    if (listLocation) {
+      const t = listLocation.find((el) => el.label === selectedLocation);
+      if (t) {
+        setCoordinates(t.coordinates);
+      }
+    }
+  }, [listLocation, selectedLocation]);
 
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;

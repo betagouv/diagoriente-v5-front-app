@@ -64,7 +64,7 @@ const Jobs = () => {
       if (renderedJobs < length) {
         setRenderedJobs(Math.min(renderedJobs + 10, length));
       }
-    }, 50);
+    }, 5000);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line
   }, [renderedJobs]);

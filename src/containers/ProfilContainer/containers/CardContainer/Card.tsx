@@ -66,7 +66,7 @@ const CardContainer = () => {
             description="En relation avec les expériences personnelles et professionnelles"
             type="tranversale"
           />
-          {skills.filter((s) => s.theme.type === 'engagement').length !== 0 && (
+          {skills.filter((s) => s?.theme?.type === 'engagement').length !== 0 && (
             <CardCompetence
               title="COMPÉTENCES D’ENGAGEMENT"
               description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"

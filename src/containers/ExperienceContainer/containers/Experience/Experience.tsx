@@ -46,7 +46,7 @@ const Experience = () => {
     <div className={classes.container}>
       <Title title="MES EXPERIENCES" image={blueline} color="#223A7A" />
       <p className={classes.title}>
-        Nous apprenons de toutes nos expériences. 
+        Nous apprenons de toutes nos expériences.
         <br />
         Ajoute à ton profil tes expériences,
         <br />

@@ -20,7 +20,7 @@ const PublicHeader = () => {
     { text: 'Notre démarche', path: `${p}/approach/` },
     { text: 'Actualités', path: `${p}/actualites/` },
     { text: 'vidéo', path: '/DiagOvidéo' },
-    { text: 'Statistiques', path: `${p}/statistique/` },
+    { text: 'Statistiques', path: `${p}/statistiques/` },
     { text: 'FAQ', path: `${p}/faq/` },
   ];
   const { open, setOpen } = useContext(DrawerContext);

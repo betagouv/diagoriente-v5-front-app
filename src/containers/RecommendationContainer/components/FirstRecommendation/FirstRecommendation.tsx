@@ -53,10 +53,10 @@ const FirstRecommendation = ({
             <span className={classes.themeHeader}>{skill.theme.title}</span>
             {/*  <span className={classes.themeHeader}>{skill.theme.date}</span> */}
           </div>
-          <div className={classes.errorContainer}>
+         {/*  <div className={classes.errorContainer}>
             <img src={attention} alt="attention" height={15} />
             <span className={classes.errorText}>Signaler une erreur</span>
-          </div>
+          </div> */}
         </div>
         <div className={classes.bodyCard}>
           <span className={classes.competenceTitle}>
@@ -81,7 +81,7 @@ const FirstRecommendation = ({
       <TextField
         name="comment"
         value={comment}
-        placeholder="Ecrivez ici votre recommandation (minimum 5 caractères)"
+        placeholder="Ecrivez ici votre recommandation"
         onChange={commentChange}
         InputProps={{
           classes: {

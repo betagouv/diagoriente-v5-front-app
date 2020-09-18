@@ -43,7 +43,7 @@ const Footer = ({ onChange, name }: IProps) => {
               Documentation
             </a>
             <br />
-            <a className={classes.link} href={`${p}/statistique/`} target="_blank">
+            <a className={classes.link} href={`${p}/statistiques/`} target="_blank">
               Statistiques
             </a>
             <br />

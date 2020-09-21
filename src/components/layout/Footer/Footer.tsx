@@ -26,14 +26,19 @@ const Footer = ({ onChange, name }: IProps) => {
     <footer className={classes.footerContainer}>
       <div className={classes.iconContainer}>
         <div className={classNames(classes.circle, classes.circleTwitter)}>
-          <img src={twitter} alt="twitter" />
+          <a href="https://twitter.com/diagoriente">
+            <img src={twitter} alt="twitter" />
+          </a>
         </div>
         <div className={classNames(classes.circle, classes.circleLinkedin, classes.marginIcons)}>
-          <img src={linkedin} alt="linkedin" />
+          <a href="http://www.linkedin.com/company/diagoriente/">
+            <img src={linkedin} alt="linkedin" />
+          </a>
         </div>
-
         <div className={classes.circle}>
-          <img src={youtube} alt="youtube" />
+          <a href="https://www.youtube.com/channel/UCfh-72vbjMaa-ZFzKIAF1Dw">
+            <img src={youtube} alt="youtube" />
+          </a>
         </div>
       </div>
       <Grid container spacing={3} className={classes.gridContainer}>

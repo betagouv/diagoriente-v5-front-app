@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Families } from 'requests/types';
 import Dotdotdot from 'react-dotdotdot';
 import Reset from 'components/common/Rest/Rest';
@@ -12,10 +12,17 @@ interface IProps {
   direction: 'vertical' | 'horizontal';
 }
 const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => {
-  const classes = useStyles({ direction });
+  const [hover, setHover] = useState(false);
+  const classes = useStyles({ direction, hover });
 
   const nom = famille?.nom;
   const res = nom && nom.replace(/\//g, '');
+  const mouseEnter = () => {
+    setHover(true);
+  };
+  const mouseLeave = () => {
+    setHover(false);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.circle}>
@@ -25,7 +32,7 @@ const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => 
               <Reset color="#420FAB" size={20} />
             </div>
           )}
-          <div className={classes.imageContainer}>
+          <div className={classes.imageContainer} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
             <img src={famille.resources[2]} alt="" />
           </div>
         </div>

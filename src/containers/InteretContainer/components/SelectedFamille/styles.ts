@@ -1,6 +1,7 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
 
-export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((theme) => ({
+export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; hover: boolean }>((theme) => ({
   root: {
     display: 'flex',
     flexDirection: (props) => (props.direction === 'horizontal' ? 'row' : 'column'),
@@ -44,6 +45,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     textAlign: (props) => (props.direction === 'horizontal' ? 'left' : 'center'),
   },
   imgWrapper: { position: 'relative' },
+
   closeContainer: {
     position: 'absolute',
     top: -2,
@@ -51,10 +53,8 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     width: 20,
     height: 20,
     borderRadius: '50%',
-    display: 'flex',
-    justifyContent: ' center',
-    alignItems: 'center',
     zIndex: 1500,
+    display: (props) => (props.hover ? 'block' : 'none'),
   },
 
   imageContainer: {
@@ -63,11 +63,5 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     '&:hover': {
       opacity: (props) => (props.direction === 'horizontal' ? 0.7 : 1),
     },
-  },
-  testImg: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    left: 0,
   },
 }));

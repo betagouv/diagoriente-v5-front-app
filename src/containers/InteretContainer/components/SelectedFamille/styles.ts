@@ -43,9 +43,26 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal' }>((them
     color: (props) => (props.direction === 'horizontal' ? '#fff' : '#424242'),
     textAlign: (props) => (props.direction === 'horizontal' ? 'left' : 'center'),
   },
+  imgWrapper: { position: 'relative' },
+  closeContainer: {
+    position: 'absolute',
+    top: -2,
+    right: 0,
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: ' center',
+    alignItems: 'center',
+    zIndex: 1500,
+  },
+
   imageContainer: {
     position: 'relative',
     width: 60,
+    '&:hover': {
+      opacity: (props) => (props.direction === 'horizontal' ? 0.7 : 1),
+    },
   },
   testImg: {
     position: 'absolute',

@@ -26,14 +26,19 @@ const SelectedFamille = ({ handleClick, famille, index, direction, type }: IProp
   };
   return (
     <div className={classes.root}>
-      <div className={classes.circle} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
+      <div className={classes.circle}>
         <div className={classes.imgWrapper}>
-          {direction && (
-            <div onClick={type !== 'ordre' ? () => handleClick(index) : () => {}} className={classes.closeContainer}>
-              <Reset color="#420FAB" size={20} />
-            </div>
-          )}
-          <div className={classes.imageContainer} onClick={type === 'ordre' ? () => handleClick(index) : () => {}}>
+          <div
+            className={classes.imageContainer}
+            onClick={type === 'ordre' ? () => handleClick(index) : () => {}}
+            onMouseEnter={mouseEnter}
+            onMouseLeave={mouseLeave}
+          >
+            {direction && (
+              <div onClick={type !== 'ordre' ? () => handleClick(index) : () => {}} className={classes.closeContainer}>
+                <Reset color="#420FAB" size={20} />
+              </div>
+            )}
             <img src={famille.resources[2]} alt="" />
           </div>
         </div>

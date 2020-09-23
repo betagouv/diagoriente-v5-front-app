@@ -30,12 +30,14 @@ import location from 'assets/svg/localisation.svg';
 import heart from 'assets/svg/heart.svg';
 import littleheart from 'assets/svg/littleheart.svg';
 
+import SecteurContext from 'contexts/SecteurContext';
 import useStyles from './styles';
 
 const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
+  const { data: secteurs } = useContext(SecteurContext);
   const [callJobs, stateJobs] = useJobs();
 
   useDidMount(() => {
@@ -117,7 +119,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -134,10 +136,9 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -153,8 +154,7 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           className={classes.root}
         >
           {parcours?.families
@@ -241,13 +241,19 @@ const ProfilComponent = () => {
       className: classes.experienceCard,
       children: proSkills.length ? (
         <Grid container spacing={1}>
-          {proSkills.map((theme) => (
-            <Grid item xs={4} sm={12} key={theme.id}>
-              <li className={classNames(classes.themeTile, classes.alignThemeTitle)}>
-                {theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-              </li>
-            </Grid>
-          ))}
+          {proSkills.map((theme) => {
+            const icon = secteurs?.themes.data.find((secteur) => theme.theme.parentId === secteur.id)?.resources?.icon;
+            return (
+              <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+                <div className={classes.themeSelection}>
+                  <Circle avatarCircleBackground="transparent" size={100}>
+                    {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
+                  </Circle>
+                  <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+                </div>
+              </Grid>
+            );
+          })}
         </Grid>
       ) : (
         <Link to="/experience/theme-pro">
@@ -280,9 +286,9 @@ const ProfilComponent = () => {
           ))}
         </Grid>
       ) : (
-        <Link to={'/experience/theme?type=engagement'}>
+        <Link to="/experience/theme?type=engagement">
           <Button className={classes.btn}>
-            <span className={classes.textButton}>J’ajoute une expérience d'engagement</span>
+            <span className={classes.textButton}>J’ajoute une expérience d&apos;engagement</span>
           </Button>
         </Link>
       ),
@@ -306,10 +312,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-            <div key={j.id} className={classes.favoriContainer}>
-              <img src={littleheart} alt="" height={20} />
-              <div className={classes.job}>{j.title}</div>
-            </div>
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littleheart} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
           ))
         : null,
     },

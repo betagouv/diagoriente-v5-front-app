@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import Arrow from 'assets/svg/arrow';
 import Menu from 'assets/svg/Group.svg';
 import classNames from 'utils/classNames';
+import { useTheme } from '@material-ui/core';
 import OptionList from '../optionsList/OptionsList';
 import useStyles from './styles';
 
@@ -10,7 +11,7 @@ interface IProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSelectText: (e: string | undefined) => void;
   value?: string[] | undefined;
-  name: string;
+  name?: string;
   placeholder?: string;
   error?: boolean;
   errorText?: string;
@@ -22,7 +23,7 @@ interface IProps {
   onClick: () => void;
   fullSelect?: boolean;
   loading?: boolean;
-  reference: any;
+  reference?: any;
 }
 
 const SelectJobs = ({
@@ -39,6 +40,7 @@ const SelectJobs = ({
 }: IProps) => {
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
+  const theme = useTheme();
   return (
     <div className={classes.content} ref={reference}>
       <div className={classes.inputWrapper} onClick={onClick}>
@@ -49,7 +51,12 @@ const SelectJobs = ({
         )}
         <input onChange={onChange} name={name} placeholder={placeholder} className={classes.inputContainer} disabled />
         <div className={classes.logoContainer}>
-          <Arrow color="#DB8F00" width="9" height="14" className={open ? classes.rotatedBase : classes.rotated} />
+          <Arrow
+            color={theme.palette.success.main}
+            width="9"
+            height="14"
+            className={open ? classes.rotatedBase : classes.rotated}
+          />
         </div>
       </div>
       {open && (

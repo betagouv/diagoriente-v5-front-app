@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+ useState, useEffect, useContext, useMemo,
+} from 'react';
 import { Question, Option } from 'requests/types';
 import Select from 'components/Select/Select';
 import { useOptions, useAddOption, useDeleteOption } from 'requests/options';
@@ -17,7 +19,9 @@ interface Props {
   parent?: string;
   index?: number;
 }
-const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen, parent, index }: Props) => {
+const ActivitySelect = ({
+ question, onChange, open, value, openActivity, setOpen, parent, index,
+}: Props) => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const ownOption = (id: string) => {
@@ -30,9 +34,10 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
   const [addActivityOptionCall, addActivityOptionState] = useAddOption();
   const [deleteOptionCall, deleteOptionState] = useDeleteOption();
 
-  const options = dataOption
-    ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title, user: option.user }))
-    : [];
+  const options = useMemo(
+    () => (dataOption ? dataOption.options.data.map((option) => ({ value: option.id, label: option.title })) : []),
+    [dataOption],
+  );
   const handleClose = (id: string) => {
     if (addValue.length > 2) {
       addActivityOptionCall({
@@ -44,9 +49,6 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
   useEffect(() => {
     if (deleteOptionState.data) {
       refetch();
-      /* if (onChange) {
-        onChange(options[0]);
-      } */
     }
   }, [deleteOptionState.data, refetch, onChange, options]);
 
@@ -81,14 +83,12 @@ const ActivitySelect = ({ question, onChange, open, value, openActivity, setOpen
       variables: { id },
     });
   };
-  const renderOption = (
-    option: { label: string | number; value: string | number; user: string },
-    openSelect: boolean,
-  ) => {
+  const renderOption = (option: { label: string | number; value: string | number }, openSelect: boolean) => {
+    const optionUser = dataOption?.options.data.find((o) => o.id === option.value)?.user;
     return (
       <div className={classes.menuItemContainer}>
         {option.label}
-        {ownOption(option.user) && openSelect && (
+        {optionUser && ownOption(optionUser) && openSelect && (
           <Remove
             className={classes.deleteIcon}
             onClick={(e: any) => {

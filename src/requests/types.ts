@@ -73,6 +73,7 @@ export interface Theme {
     competenceId: string;
     tooltip: string;
   }[];
+  parentId?: string;
 }
 
 export interface Activity {
@@ -111,7 +112,13 @@ export interface Location {
 
 export interface SkillType {
   id: string;
-  theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
+  theme: {
+    title: string;
+    type: string;
+    id: string;
+    resources?: { icon: string; backgroundColor: string };
+    parentId?: string;
+  };
   activities: { id: string; title: string; description: string; options: { value: string }[] }[];
   competences: { _id: Competence; value: number }[];
   comment: {
@@ -152,7 +159,13 @@ export interface UserParcour {
   families: { id: string; nom: string; category: string; resources: string[] }[];
   skills: {
     id: string;
-    theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
+    theme: {
+      title: string;
+      type: string;
+      id: string;
+      resources?: { icon: string; backgroundColor: string };
+      parentId?: string;
+    };
   }[];
 
   globalCompetences: {

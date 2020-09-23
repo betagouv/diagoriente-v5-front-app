@@ -47,10 +47,13 @@ const AdminSelect = ({
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        MenuProps={{ PaperProps: { style: { minWidth: rects.width } } }}
+        MenuProps={{
+          PaperProps: { style: { minWidth: rects.width }, className: classes.paper },
+        }}
         variant="outlined"
         error={!!error}
       >
+        <MenuItem value="">Choisir ...</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}

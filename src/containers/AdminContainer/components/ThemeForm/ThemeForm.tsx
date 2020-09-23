@@ -4,6 +4,7 @@ import { THEME_TYPES_OPTIONS } from 'utils/generic';
 
 import { useForm } from 'hooks/useInputs';
 import { useActivities } from 'requests/activities';
+import { useThemes } from 'requests/themes';
 import { Theme } from 'requests/types';
 
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
@@ -30,7 +31,7 @@ interface ThemeFormProps {
 }
 
 const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
-  const classes = useStyles();
+  const { data: secteurs } = useThemes({ variables: { type: 'secteur' }, fetchPolicy: 'network-only' });
   const [state, actions] = useForm({
     initialValues: {
       title: '',
@@ -39,9 +40,12 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
       verified: false,
       activities: [] as { label: string; value: string }[],
       icon: undefined as File | undefined,
+      parentId: '',
     },
   });
   const { values } = state;
+  const classes = useStyles({ type: values.type });
+
   const { handleChange, setValues } = actions;
   const activitiesCapture = useRef(false);
 
@@ -58,11 +62,17 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
     if (theme) {
       activitiesCapture.current = true;
       setValues({
-        ...theme,
-        activities: theme.activities.map((activity) => ({
-          label: activity.title,
-          value: activity.id,
-        })),
+        title: theme.title,
+        description: theme.description || '',
+        type: theme.type,
+        verified: theme.verified,
+        parentId: theme.parentId,
+        activities: theme.activities
+          ? theme.activities.map((activity) => ({
+              label: activity.title,
+              value: activity.id,
+            }))
+          : [],
       });
     }
     // eslint-disable-next-line
@@ -70,9 +80,10 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = { ...values };
-    if (!data.icon) delete data.icon;
-    onSubmit({ ...data, activities: values.activities.map((act) => act.value) });
+    const data = { ...values, activities: values.activities.map((act) => act.value) };
+    if (!data.icon || values.type === 'professional') delete data.icon;
+    if (data.type === 'secteur') delete (data as any).activities;
+    onSubmit(data);
   }
 
   return (
@@ -87,13 +98,26 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
           className={classes.title}
         />
 
-        <AdminFileUpload
-          defaultImage={theme?.resources?.icon || undefined}
-          onChange={handleChange}
-          name="icon"
-          className={classes.icons}
-          label="Icon"
-        />
+        {values.type !== 'professional' ? (
+          <AdminFileUpload
+            defaultImage={theme?.resources?.icon || undefined}
+            onChange={handleChange}
+            name="icon"
+            className={classes.icons}
+            label="Icon"
+          />
+        ) : (
+          <AdminSelect
+            label="Parent"
+            name="parentId"
+            className={classes.secteur}
+            value={values.parentId}
+            onChange={handleChange}
+            options={
+              secteurs ? secteurs.themes.data.map((secteur) => ({ value: secteur.id, label: secteur.title })) : []
+            }
+          />
+        )}
 
         <AdminTextField
           name="description"
@@ -119,17 +143,20 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
           label="Type"
           options={THEME_TYPES_OPTIONS}
           className={classes.type}
+          disabled={!!theme}
         />
-        <AdminAutocomplete
-          handleOptions={(activity) => ({ label: activity.title, value: activity.id })}
-          value={values.activities}
-          label="Activités"
-          multiple
-          list={useActivities}
-          onChange={(e, value) => setValues({ activities: value })}
-          className={classes.activities}
-          variables={{ type: values.type }}
-        />
+        {values.type !== 'secteur' && (
+          <AdminAutocomplete
+            handleOptions={(activity) => ({ label: activity.title, value: activity.id })}
+            value={values.activities}
+            label="Activités"
+            multiple
+            list={useActivities}
+            onChange={(e, value) => setValues({ activities: value })}
+            className={classes.activities}
+            variables={{ type: values.type }}
+          />
+        )}
       </div>
       <Button type="submit" className={classes.button} variant="contained" color="primary">
         Submit

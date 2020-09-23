@@ -17,4 +17,7 @@ export default makeStyles<Theme>((theme) => ({
     position: 'absolute',
     top: 'calc(100% - 19px)',
   },
+  paper: {
+    maxHeight: 250,
+  },
 }));

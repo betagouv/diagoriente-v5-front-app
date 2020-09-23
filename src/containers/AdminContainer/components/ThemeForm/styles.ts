@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles({
+export default makeStyles<Theme, { type: string }>({
   wrapper: {
     flex: '1 1 0',
     display: 'flex',
@@ -10,7 +10,12 @@ export default makeStyles({
   container: {
     flex: '1 0 auto',
     display: 'grid',
-    gridTemplateAreas: '"title type" "icon description"  "activities activities" "verified verified"',
+    gridTemplateAreas: ({ type }) => {
+      if (type === 'professional') {
+        return '"title type" "secteur icon" "description description"  "activities activities" "verified verified"';
+      }
+      return '"title type" "icon description"  "activities activities" "verified verified"';
+    },
     gridGap: 20,
     paddingTop: 5,
   },
@@ -19,6 +24,7 @@ export default makeStyles({
   },
   type: { gridArea: 'type' },
   description: { gridArea: 'description' },
+  secteur: { gridArea: 'secteur' },
   icons: { gridArea: 'icon' },
   verified: { gridArea: 'verified' },
   activities: { gridArea: 'activities' },

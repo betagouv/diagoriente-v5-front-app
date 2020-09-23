@@ -1,4 +1,6 @@
-import React, { useLayoutEffect, useEffect, useState, useMemo, useContext } from 'react';
+import React, {
+ useEffect, useState, useMemo, useContext,
+} from 'react';
 import { Switch, useLocation } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -34,7 +36,6 @@ const Jobs = () => {
   const path = location.pathname.split(/[//]/)[1];
   const { parcours } = useContext(ParcoursContext);
 
-  const [renderedJobs, setRenderedJobs] = useState(0);
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
   const [search, setSearch] = useState<string | undefined>('');
   const [environments, setJob] = useState<string[] | undefined>([]);
@@ -51,29 +52,14 @@ const Jobs = () => {
   const [typeCall, { data: listTypeData }] = useTypeJob();
   const [secteurCall, { data: listSecteurData }] = useSecteurs({ variables: { type: 'secteur' } });
   const [locationCall, { data: listLocation }] = locationcall({ variables: { search: selectedLocation } });
-
+  const jobs = useMemo(() => data?.myJobs || [], [data]);
   useDidMount(() => {
     loadJobs();
     accessibilityCall();
     typeCall();
     secteurCall();
   });
-  useLayoutEffect(() => {
-    const timeout = setTimeout(() => {
-      const length = Number(data?.myJobs.length);
-      if (renderedJobs < length) {
-        setRenderedJobs(Math.min(renderedJobs + 10, length));
-      }
-    }, 5000);
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line
-  }, [renderedJobs]);
 
-  useEffect(() => {
-    if (data) setRenderedJobs(10);
-  }, [data]);
-
-  const jobs = useMemo(() => data?.myJobs.slice(0, renderedJobs) || [], [data, renderedJobs]);
   useEffect(() => {
     if (parcours?.completed) {
       const fn = data ? refetch : loadJobs;

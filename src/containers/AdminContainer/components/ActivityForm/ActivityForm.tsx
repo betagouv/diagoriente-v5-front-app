@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { THEME_TYPES_OPTIONS } from 'utils/generic';
+import { ACTIVITY_TYPES_OPTIONS } from 'utils/generic';
 
 import { useForm } from 'hooks/useInputs';
 import { useInterests } from 'requests/interests';
@@ -77,7 +77,7 @@ const ActivityForm = ({ onSubmit, activity }: ThemeFormProps) => {
           value={values.type}
           onChange={handleChange}
           label="Type"
-          options={THEME_TYPES_OPTIONS}
+          options={ACTIVITY_TYPES_OPTIONS}
           className={classes.type}
         />
 

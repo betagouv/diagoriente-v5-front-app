@@ -1,4 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+ useContext, useState, useEffect, useRef, useMemo, useLayoutEffect,
+} from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import localForage from 'localforage';
@@ -10,6 +12,7 @@ import { Jobs } from 'requests/types';
 import Trait from 'assets/images/trait_jaune.svg';
 import Reset from 'components/common/Rest/Rest';
 import Spinner from 'components/Spinner/Spinner';
+import Button from 'components/button/Button';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
@@ -53,7 +56,7 @@ const JobsContainer = ({
 }: IProps) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
-
+  const [jobsToShow, setJobsToShow] = useState(12);
   const [openType, setOpenType] = useState(false);
   const [openDomain, setOpenDomain] = useState(false);
   const [openAcc, setOpenAcc] = useState(false);
@@ -62,6 +65,7 @@ const JobsContainer = ({
   const divDomaine = useRef<HTMLDivElement>(null);
   const divType = useRef<HTMLDivElement>(null);
   const divAcc = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef(0);
 
   const [clearMessage, setClearMessage] = useState<null | boolean>(null);
 
@@ -74,6 +78,10 @@ const JobsContainer = ({
     }
     c();
   }, []);
+
+  useLayoutEffect(() => {
+    window.scroll({ top: scrollRef.current, behavior: 'auto' });
+  }, [jobsToShow]);
 
   useOnclickOutside(divDomaine, () => {
     if (openDomain) {
@@ -98,6 +106,7 @@ const JobsContainer = ({
     setSearch(v);
     setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(v.toLowerCase()) !== -1));
   };
+
   const onSelectDomaine = (label?: string) => {
     if (label) {
       const array = [...domaine];
@@ -135,23 +144,29 @@ const JobsContainer = ({
     }
   };
 
+  const renderedJobs = jobs?.slice(0, jobsToShow);
+
   return (
-    <div>
+    <div className={classes.wrapper}>
       {clearMessage && (
         <div className={classes.messages}>
           <div className={classes.contentMessage}>
             <div className={classes.text}>
               <div>Pour voir une sélection personnalisée de métiers qui pourraient te plaire,</div>
               <div>
-                commence à remplir ton profil en ajoutant tes{' '}
+                commence à remplir ton profil en ajoutant tes
+                {' '}
                 <Link to="/experience">
                   {' '}
                   <span className={classes.clearTextBold}>expériences</span>
-                </Link>{' '}
-                et tes{' '}
+                </Link>
+                {' '}
+                et tes
+                {' '}
                 <Link to="/interet">
                   <span className={classes.clearTextBold}>centres d'intérêt</span>
-                </Link>{' '}
+                </Link>
+                {' '}
               </div>
             </div>
             <div>
@@ -236,9 +251,9 @@ const JobsContainer = ({
           ) : (
             <div className={classes.boxsContainer}>
               {!parcours?.completed && <Spinner />}
-              {jobs?.length === 0
+              {renderedJobs?.length === 0
                 ? 'Aucun resultat trouvé !'
-                : jobs?.map((el) => (
+                : renderedJobs?.map((el) => (
                   <JobCard
                     key={el.id}
                     id={el.id}
@@ -252,6 +267,17 @@ const JobsContainer = ({
           )}
         </div>
       </div>
+      {jobs && jobsToShow < jobs.length && (
+        <Button
+          onClick={() => {
+            scrollRef.current = window.scrollY;
+            setJobsToShow(jobsToShow + 12);
+          }}
+          className={classes.moreButton}
+        >
+          Voir plus de métiers
+        </Button>
+      )}
     </div>
   );
 };

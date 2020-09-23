@@ -40,7 +40,7 @@ const AdminFileUpload = ({
       {label && <Label>{label}</Label>}
       <Paper className={classes.paper}>
         {image ? (
-          <img className={classes.image} onClick={openInput} src={image} alt="" />
+          <img onError={() => setImage(null)} className={classes.image} onClick={openInput} src={image} alt="" />
         ) : (
           <Fab onClick={openInput}>
             <AddPhotoAlternateIcon color="secondary" />

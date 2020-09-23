@@ -9,8 +9,10 @@ import GameContainer from 'containers/HomeContainer/components/Modals/KItchenGam
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
 import illExpEng from 'assets/images/illu_xp_engagement.png';
+import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import { Link, useHistory } from 'react-router-dom';
 import Game from '../Game/gameModal/GameModal';
+import classNames from 'utils/classNames';
 import useStyles from './styles';
 
 // import help from 'assets/svg/help.svg';
@@ -44,6 +46,32 @@ const Experience = () => {
 
   return (
     <div className={classes.container}>
+      <div className={classes.boxInfo}>
+        <div className={classes.boxInfoImg}>
+          <img src={Picto} alt="" />
+        </div>
+        <div className={classes.boxInfoDescription}>
+          <p className={classes.descriptionBoxInfo}>Familiarise toi avec les</p>
+          <p className={classes.descriptionBoxInfo}>compétences grâce aux modules :</p>
+        </div>
+        <div>
+          <div>
+            <Link to="/experience/game">
+              <p className={classes.linkBoxInfo}>Rectec</p>
+            </Link>
+          </div>
+          <div>
+            <Link to="/experience/gameCard">
+              <p className={classes.linkBoxInfo}>Rectec Engagement</p>
+            </Link>
+          </div>
+          <div>
+            <Link to="/game">
+              <p className={classes.linkBoxInfo}>Burger speed</p>
+            </Link>
+          </div>
+        </div>
+      </div>
       <Title title="MES EXPERIENCES" image={blueline} color="#223A7A" />
       <p className={classes.title}>
         Nous apprenons de toutes nos expériences.

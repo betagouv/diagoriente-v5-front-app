@@ -43,8 +43,7 @@ const Placeholder = ({
     <div className={classNames(classes.root, className)}>
       {famille ? (
         <div className={classes.imageContainer}>
-          <img src={famille.resources[0]} alt="" />
-          <img src={famille.resources[1]} alt="" className={classes.testImg} />
+          <img src={famille.resources[2]} alt="" />
         </div>
       ) : (
         <div className={classNames(classes.circle, circleClassName)}>

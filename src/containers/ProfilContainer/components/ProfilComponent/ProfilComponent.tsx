@@ -171,8 +171,7 @@ const ProfilComponent = () => {
                 {families.map((family) => (
                   <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
                     <div className={classes.imageContainer}>
-                      <img src={family.resources[0]} alt="" />
-                      <img src={family.resources[1]} alt="" className={classes.testImg} />
+                      <img src={family.resources[2]} alt="" />
                     </div>
 
                     <p className={classes.themeTile}>{family.nom.replace(new RegExp('[//,]', 'g'), '\n')}</p>

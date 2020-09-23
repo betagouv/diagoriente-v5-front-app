@@ -257,8 +257,7 @@ const JobContainer = ({
                 return (
                   <div className={classes.infoInterstDescription} key={el._id.id}>
                     <div className={classes.gifInterest}>
-                      <img src={f?.resources[0]} alt="" />
-                      <img src={f?.resources[1]} alt="" className={classes.testImg} />
+                      <img src={f?.resources[2]} alt="" />
                     </div>
                     <div className={classes.titleInterest}>{res}</div>
                   </div>

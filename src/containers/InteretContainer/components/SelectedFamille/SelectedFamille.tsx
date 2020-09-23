@@ -10,8 +10,9 @@ interface IProps {
   handleClick: (id: number) => void;
   index: number;
   direction: 'vertical' | 'horizontal';
+  type?: string;
 }
-const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => {
+const SelectedFamille = ({ handleClick, famille, index, direction, type }: IProps) => {
   const [hover, setHover] = useState(false);
   const classes = useStyles({ direction, hover });
 
@@ -25,14 +26,14 @@ const SelectedFamille = ({ handleClick, famille, index, direction }: IProps) => 
   };
   return (
     <div className={classes.root}>
-      <div className={classes.circle}>
+      <div className={classes.circle} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
         <div className={classes.imgWrapper}>
           {direction && (
-            <div onClick={() => handleClick(index)} className={classes.closeContainer}>
+            <div onClick={type !== 'ordre' ? () => handleClick(index) : () => {}} className={classes.closeContainer}>
               <Reset color="#420FAB" size={20} />
             </div>
           )}
-          <div className={classes.imageContainer} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
+          <div className={classes.imageContainer} onClick={type === 'ordre' ? () => handleClick(index) : () => {}}>
             <img src={famille.resources[2]} alt="" />
           </div>
         </div>

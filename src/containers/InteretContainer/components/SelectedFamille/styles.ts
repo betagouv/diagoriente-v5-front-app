@@ -54,7 +54,7 @@ export default makeStyles<Theme, { direction: 'vertical' | 'horizontal'; hover: 
     height: 20,
     borderRadius: '50%',
     zIndex: 1500,
-    display: (props) => (props.hover ? 'block' : 'none'),
+    display: (props) => (props.hover && props.direction === 'horizontal' ? 'block' : 'none'),
   },
 
   imageContainer: {

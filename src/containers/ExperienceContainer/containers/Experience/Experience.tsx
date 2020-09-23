@@ -56,12 +56,12 @@ const Experience = () => {
         </div>
         <div>
           <div>
-            <Link to="/experience/game">
+            <Link to="/experience/gameCard">
               <p className={classes.linkBoxInfo}>Rectec</p>
             </Link>
           </div>
           <div>
-            <Link to="/experience/gameCard">
+            <Link to="/experience/game">
               <p className={classes.linkBoxInfo}>Rectec Engagement</p>
             </Link>
           </div>

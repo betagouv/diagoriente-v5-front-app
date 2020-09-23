@@ -78,7 +78,7 @@ const Experience = () => {
         <br />
         Ajoute à ton profil tes expériences,
         <br />
-        quel que soit le domaine.
+        <p className={classes.textDescription}>quel que soit le domaine.</p>
       </p>
       <div className={classes.root}>
         <div className={classes.circleContainer}>

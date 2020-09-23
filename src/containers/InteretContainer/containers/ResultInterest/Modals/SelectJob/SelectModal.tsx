@@ -86,8 +86,8 @@ const SelectModal = () => {
                   if (e) setAccessibility(e);
                 }}
                 placeholder={
-                  accessibilityState.data?.accessibilities.data.find((a) => a.id === accessibility)?.name
-                  || 'Niveau de diplôme'
+                  accessibilityState.data?.accessibilities.data.find((a) => a.id === accessibility)?.name ||
+                  'Niveau de diplôme'
                 }
                 options={accessibilityState.data?.accessibilities.data || []}
                 open={open}
@@ -161,13 +161,8 @@ const SelectModal = () => {
           </div>
 
           <div className={classes.btnContainerModal}>
-            <Button
-              disabled={!selectedThemes.length}
-              className={classes.btn}
-              onClick={() => setStep(Steps.ACCESSIBILITY)}
-              fetching={updateState.loading}
-            >
-              <div className={classes.btnLabel}>Suivant</div>
+            <Button className={classes.btn} onClick={() => setStep(Steps.ACCESSIBILITY)} fetching={updateState.loading}>
+              <div className={classes.btnLabel}>{selectedThemes.length > 0 ? 'Suivant' : 'Ignorer'}</div>
             </Button>
           </div>
         </div>

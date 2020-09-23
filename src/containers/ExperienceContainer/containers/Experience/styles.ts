@@ -6,19 +6,20 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      // justifyContent: 'center',
       overflow: 'auto',
-      paddingTop: 30,
-      paddingBottom: 20,
+      paddingTop: 110,
       position: 'relative',
-      background: "#F3F2F4"
+      background: '#F3F2F4',
+      height: '100vh',
     },
     boxInfo: {
       width: '289px',
       height: '269px',
       position: 'absolute',
       backgroundColor: 'white',
-      top: 20,
-      right: 20,
+      top: 50,
+      right: 50,
       borderRadius: 10,
       boxShadow: '0px 0px 5px -3px rgba(0, 0, 0, 0.75)',
       display: 'flex',
@@ -45,6 +46,9 @@ export default makeStyles((theme: Theme) =>
       lineHeight: '20px',
       marginTop: 12,
       marginBottom: 12,
+    },
+    textDescription: {
+      marginTop: 30,
     },
 
     textColor: {

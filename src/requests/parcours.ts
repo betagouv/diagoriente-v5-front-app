@@ -28,6 +28,7 @@ export const getUserParcourQuery = gql`
             icon
             backgroundColor
           }
+          parentId
         }
       }
       globalCompetences {
@@ -61,8 +62,22 @@ export const useGetUserParcour = (options: LazyQueryHookOptions<UserParcourData>
   useLocalLazyQuery(getUserParcourQuery, options);
 
 export const updateParcours = gql`
-  mutation UpdateParcous($families: [ID],$skillsAlgo: [ID],$played: Boolean,$completed: Boolean, $playedEng: Boolean ) {
-    updateParcour(families: $families, skillsAlgo: $skillsAlgo, played: $played,completed: $completed, playedEng:$playedEng) {
+  mutation UpdateParcour(
+    $families: [ID]
+    $skillsAlgo: [ID]
+    $played: Boolean
+    $completed: Boolean
+    $playedEng: Boolean
+    $accessibility: ID
+  ) {
+    updateParcour(
+      families: $families
+      skillsAlgo: $skillsAlgo
+      played: $played
+      completed: $completed
+      playedEng: $playedEng
+      accessibility: $accessibility
+    ) {
       ${parcourResult}
     }
   }
@@ -73,6 +88,7 @@ export interface UpdateParcourArgument {
   played?: boolean;
   completed?: boolean;
   playedEng?: boolean;
+  accessibility?: string;
 }
 export const useUpdateParcour = (
   options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateParcourArgument> = {},

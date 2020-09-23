@@ -31,18 +31,18 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceCompetence = ({
- match, competences, setCompetences, theme, history, isCreate, location,
-}: Props) => {
+const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
   const classes = useStyles();
   const { data, loading } = useCompetences({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
+  const [text, setText] = React.useState('');
   const { redirect } = decodeUri(location.search);
 
   const addCompetence = (competence: Competence) => {
     if (competences.length < 4) {
       setCompetences([...competences, competence]);
-    } else {
+    } else if (competences.length === 4) {
+      setText('Tu as déjà choisi 4 compétences');
       setOpen(true);
     }
   };
@@ -52,7 +52,13 @@ const ExperienceCompetence = ({
   };
   const handleClose = () => {
     setOpen(false);
-  };
+  }
+  const onclickBtn = () => {
+    if (competences.length === 0) {
+      setText('Tu as déjà choisi 4 compétences');
+      setOpen(true);
+    }
+  }
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -135,11 +141,7 @@ const ExperienceCompetence = ({
       </div>
       <Popup open={open} handleClose={handleClose} iconClassName={classes.iconClassName}>
         <div className={classes.popupContainer}>
-          <p className={classes.popupDescription}>
-            Tu dois choisir au minimum une compétence !
-            <br />
-            /Tu as déjà choisi 4 compétences
-          </p>
+          <p className={classes.popupDescription}>{text}</p>
           <Button className={classes.incluse} onClick={handleClose}>
             compris
           </Button>

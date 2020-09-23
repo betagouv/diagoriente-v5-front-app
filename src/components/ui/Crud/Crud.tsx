@@ -20,6 +20,7 @@ import Popup from 'components/common/Popup/Popup';
 import KeyboardBack from '@material-ui/icons/KeyboardBackspace';
 
 import classNames from 'utils/classNames';
+import { isEmpty } from 'lodash';
 import useStyle from './styles';
 
 export const PER_PAGE = 10;
@@ -168,7 +169,11 @@ const Crud = <
   useEffect(() => {
     if (updateState.data && !updateState.loading && !updateState.error) {
       list.refetch();
-      history.replace(match.url);
+      const { page, ...rest } = uri;
+      let search = '';
+      if (!isEmpty(rest)) search = encodeUri(rest);
+
+      history.replace({ pathname: match.url, search });
     }
     // eslint-disable-next-line
   }, [updateState.data, updateState.loading]);

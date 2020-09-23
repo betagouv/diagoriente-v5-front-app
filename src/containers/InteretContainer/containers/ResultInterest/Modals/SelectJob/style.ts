@@ -12,12 +12,13 @@ export default makeStyles<Theme>((theme) => ({
     textTransform: 'uppercase',
   },
   descriptionModal: {
-    fontSize: 18,
+    fontSize: 14,
     textAlign: 'center',
     marginTop: 40,
   },
   subTitle: {
     fontSize: 14,
+    marginTop: 15,
   },
 
   experienceContainer: {
@@ -120,5 +121,11 @@ export default makeStyles<Theme>((theme) => ({
     color: '#FFFFFF',
     paddingTop: 5,
     cursor: 'pointer',
+  },
+  accessibility: {
+    paddingTop: 80,
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBottom: 150,
   },
 }));

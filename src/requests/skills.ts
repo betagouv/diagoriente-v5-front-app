@@ -18,6 +18,7 @@ export const getSkillsQuery = gql`
             icon
             backgroundColor
           }
+          parentId
         }
         activities {
           title
@@ -89,6 +90,7 @@ export const getSkillQuery = gql`
           icon
           backgroundColor
         }
+        parentId
       }
       activities {
         title

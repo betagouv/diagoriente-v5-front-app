@@ -16,6 +16,7 @@ import NotFoundPage from 'components/layout/NotFoundPage';
 import Title from 'components/common/Title/Title';
 import Button from 'components/button/Button';
 import Spinner from 'components/SpinnerXp/Spinner';
+import SecteurContext from 'contexts/SecteurContext';
 import Card from '../Card/Card';
 import Arrow from '../Arrow/Arrow';
 
@@ -29,6 +30,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const [open, setOpen] = useState(false);
   const [skill, setSkill] = useState(null as Unpacked<UserParcour['skills']> | null);
   const [deleteId, setDeleteId] = useState('');
+  const { data: secteurs } = useContext(SecteurContext);
 
   const { setParcours } = useContext(parcoursContext);
   const [rowSize, setRowSize] = useState(window.innerWidth < 1280 ? 2 : 3);
@@ -146,7 +148,11 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                     id={s.id}
                     competence={s.competences}
                     title={s.theme.title}
-                    src={s.theme.resources?.icon}
+                    src={
+                      type === 'professional'
+                        ? secteurs?.themes.data.find((secteur) => secteur.id === s.theme.parentId)?.resources?.icon
+                        : s.theme.resources?.icon
+                    }
                     type={type}
                     icon={s?.engagement?.context?.icon}
                   />

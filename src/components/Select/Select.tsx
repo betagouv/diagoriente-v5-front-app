@@ -15,7 +15,7 @@ import useStyles from './styles';
 
 interface Props extends Omit<SelectProps, 'variant'> {
   label?: string;
-  options: { label: string | number; value: string | number; user: string }[];
+  options: { label: string | number; value: string | number }[];
   className?: string;
   openActivity?: () => void;
   open?: boolean;
@@ -31,10 +31,7 @@ interface Props extends Omit<SelectProps, 'variant'> {
   disabledClassName?: string;
   value?: string | number;
   index?: number;
-  renderOption: (
-    option: { label: string | number; value: string | number; user: string },
-    openSelect: boolean,
-  ) => JSX.Element;
+  renderOption: (option: { label: string | number; value: string | number }, openSelect: boolean) => JSX.Element;
 }
 
 const Select = ({
@@ -101,7 +98,9 @@ const Select = ({
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
-      const { top, left, height, width: w } = selectRef.current?.getBoundingClientRect();
+      const {
+ top, left, height, width: w,
+} = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
       setWidth(w);
     }
@@ -140,7 +139,7 @@ const Select = ({
           value && styleSelectClassName,
         )}
         IconComponent={() =>
-          !arrowDate ? (
+          (!arrowDate ? (
             <div
               className={classNames(classes.circle, openSelect && classes.darkcircle)}
               onClick={() => {
@@ -158,8 +157,7 @@ const Select = ({
             >
               <img src={arrowDate} alt="" />
             </div>
-          )
-        }
+          ))}
         inputProps={{
           classes: {
             root: classes.select,

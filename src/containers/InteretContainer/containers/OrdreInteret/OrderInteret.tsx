@@ -90,7 +90,13 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
           <div className={classes.listSelected}>
             {selectedInterest?.map((ele, index) => (
               <div className={classNames(classes.item, isChecked(ele.id) && classes.disable)} key={ele.id}>
-                <FamileSelected famille={ele} index={index} handleClick={() => handelClick(ele)} direction="vertical" />
+                <FamileSelected
+                  famille={ele}
+                  index={index}
+                  handleClick={() => handelClick(ele)}
+                  direction="vertical"
+                  type="ordre"
+                />
               </div>
             ))}
           </div>

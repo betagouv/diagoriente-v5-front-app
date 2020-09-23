@@ -18,11 +18,8 @@ interface CardSkillsProps {
   skills: SkillType[];
 }
 
-const CardSkills = ({
- title, path, emptyButton, emptyMessage, showBtn, skills,
-}: CardSkillsProps) => {
+const CardSkills = ({ title, path, emptyButton, emptyMessage, showBtn, skills }: CardSkillsProps) => {
   const classes = useStyles();
-
   return (
     <CardPart title={title}>
       {skills.length ? (

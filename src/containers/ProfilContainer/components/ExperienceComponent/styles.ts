@@ -79,6 +79,7 @@ export default makeStyles(() =>
       overflow: 'hidden',
       textAlign: 'center',
       whiteSpace: 'pre-wrap',
+      textOverflow: 'ellipsis',
     },
 
     emptyDiv: {

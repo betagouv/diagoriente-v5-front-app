@@ -1,30 +1,23 @@
 import React, { ReactElement } from 'react';
 import Arrow from 'assets/svg/arrow';
-import Menu from 'assets/svg/Group.svg';
 import classNames from 'utils/classNames';
 import { useTheme } from '@material-ui/core';
-import OptionList from '../optionsList/OptionsList';
-import useStyles from './styles';
+import useStyles from './style';
 
 interface IProps {
   label?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onSelectText: (e: string | undefined) => void;
-  value?: string[] | undefined;
+  onSelectText: (e: number | undefined) => void;
+  value?: number | undefined;
   name?: string;
   placeholder?: string;
-  error?: boolean;
-  errorText?: string;
-  options: any[] | undefined;
+  options: number[] | undefined;
   icon?: ReactElement;
   className?: string;
-  errorForm?: string;
   open?: boolean;
   onClick: () => void;
-  fullSelect?: boolean;
   loading?: boolean;
   reference?: any;
-  small?:boolean 
 }
 
 const SelectJobs = ({
@@ -36,21 +29,13 @@ const SelectJobs = ({
   open,
   onSelectText,
   onClick,
-  fullSelect,
   reference,
-  small,
 }: IProps) => {
-  const classes = useStyles({ fullSelect, open });
-  const isInclude = (id: string) => value && value.includes(id);
+  const classes = useStyles({ open });
   const theme = useTheme();
   return (
     <div className={classes.content} ref={reference}>
       <div className={classes.inputWrapper} onClick={onClick}>
-        {fullSelect && (
-          <div className={classes.menu}>
-            <img src={Menu} alt="menu" />
-          </div>
-        )}
         <input onChange={onChange} name={name} placeholder={placeholder} className={classes.inputContainer} disabled />
         <div className={classes.logoContainer}>
           <Arrow
@@ -63,21 +48,13 @@ const SelectJobs = ({
       </div>
       {open && (
         <div className={classes.optionsContainer}>
-          {fullSelect ? (
-            <div className={classes.secteurContainer}>
-              {options?.map((el) => (
-                <div
-                  key={el.title}
-                  className={classNames(classes.itemSecteur, isInclude(el.id) && classes.itemSecteurSelected)}
-                  onClick={() => onSelectText(el.id)}
-                >
-                  <span className={classNames(classes.item, isInclude(el.id) && classes.selected)}>{el.title}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <OptionList options={options} onSelectText={onSelectText} selected={value} name={name} />
-          )}
+          <div className={classes.secteurContainer}>
+            {options?.map((el) => (
+              <div key={el} className={classNames(classes.itemSecteur)} onClick={() => onSelectText(el)}>
+                <span className={classNames(classes.item && classes.selected)}>{el}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

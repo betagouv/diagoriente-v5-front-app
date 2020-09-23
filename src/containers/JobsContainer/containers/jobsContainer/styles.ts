@@ -124,4 +124,22 @@ export default makeStyles((theme) => ({
       backgroundColor: '#DB8F00',
     },
   },
+  textSelect: {
+    padding: '0px 10px',
+  },
+  footerContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  footerContent: {
+    maxWidth: '1080px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemFooter: { width: '33%' },
+  centerItem: { display: 'flex', justifyContent: 'center' },
+  rightItem: { display: 'flex', justifyContent: 'flex-end', alignItems: 'center' },
 }));

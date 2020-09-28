@@ -32,6 +32,9 @@ export default makeStyles({
     marginTop: 5,
     position: 'relative',
     zIndex: 3,
+    '&:hover': {
+      color: '#00CFFF',
+    },
   },
   content: {
     display: 'flex',

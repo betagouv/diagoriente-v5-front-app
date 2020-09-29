@@ -3,7 +3,7 @@ import { useListener } from 'hooks/useListener';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom';
-import Select from 'components/inputs/Select/Select';
+import Select from 'components/selectpublic/Select';
 import DrawerContext from 'contexts/DrawerContext';
 import logo from 'assets/svg/diagoriente_logo.svg';
 import smallbeta from 'assets/svg/smallbeta.svg';
@@ -19,8 +19,7 @@ const PublicHeader = () => {
     { text: 'Qui sommes nous?', path: `${p}/info/` },
     { text: 'Notre démarche', path: `${p}/approach/` },
     { text: 'Actualités', path: `${p}/actualites/` },
-    { text: 'vidéo', path: '/DiagOvidéo' },
-    { text: 'Statistiques', path: `${p}/statistiques/` },
+    // { text: 'vidéo', path: '/DiagOvidéo' },
     { text: 'FAQ', path: `${p}/faq/` },
   ];
   const { open, setOpen } = useContext(DrawerContext);

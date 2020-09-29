@@ -12,13 +12,12 @@ interface IProps {
   iconClassName?: string;
 }
 
-const ModalContainer = ({
- open, handleClose, children, iconClassName,
-}: IProps) => {
+const ModalContainer = ({ open, handleClose, children, iconClassName }: IProps) => {
   const classes = useStyles();
   return (
     <Modal
       BackdropProps={{ className: classes.backdrop }}
+      style={{ zIndex: 2300 }}
       open={open}
       onClose={handleClose}
       disablePortal

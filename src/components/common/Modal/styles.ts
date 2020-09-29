@@ -19,7 +19,7 @@ export default makeStyles<Theme, { backdropColor: string; size?: number }>((them
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: 15,
     width: (props) => `${props.size ? props.size : 60}%`,
-    maxHeight: '80%',
+    maxHeight: '89%',
   },
   header: {
     display: 'flex',

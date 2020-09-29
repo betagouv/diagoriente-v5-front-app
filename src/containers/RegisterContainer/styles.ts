@@ -196,6 +196,9 @@ export default makeStyles((theme: Theme) => ({
     textDecoration: 'underline',
     marginTop: 30,
     textAlign: 'center',
+    '&:hover': {
+      color: '#00CFFF',
+    },
   },
   requiredInput: {
     color: theme.palette.success.main,

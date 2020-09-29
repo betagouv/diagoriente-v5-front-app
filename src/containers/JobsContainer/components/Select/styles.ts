@@ -28,6 +28,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     outline: 0,
     position: 'relative',
     fontWeight: 'bold',
+    color: '#424242',
     fontSize: 14,
     '&:focus-within': {
       borderColor: theme.palette.success.main,
@@ -85,10 +86,8 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
       color: theme.palette.primary.main,
     },
     padding: '3px 0px',
-
   },
   itemSecteurSelected: {
- 
     '&:hover': {
       color: '#424242',
     },

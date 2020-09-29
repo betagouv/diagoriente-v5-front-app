@@ -28,6 +28,7 @@ const ModalContainer = ({
   const classes = useStyles({ backdropColor, size });
   return (
     <Modal
+      style={{ zIndex: 2200 }}
       open={open}
       onClose={handleClose}
       disablePortal

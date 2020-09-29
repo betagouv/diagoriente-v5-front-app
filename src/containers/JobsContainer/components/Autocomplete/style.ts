@@ -16,6 +16,8 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     flex: 1,
     fontFamily: 'Andika New Basic',
     fontWeight: 'bold',
+    fontSize: 14,
+    color: '#424242',
   },
   containerAutoComp: {
     '& .MuiOutlinedInput-adornedStart': {

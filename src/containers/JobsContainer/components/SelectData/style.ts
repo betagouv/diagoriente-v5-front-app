@@ -29,6 +29,7 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     position: 'relative',
     fontWeight: 'bold',
     paddingLeft: 15,
+    color: '#424242',
     fontSize: 14,
     '&:focus-within': {
       borderColor: theme.palette.success.main,

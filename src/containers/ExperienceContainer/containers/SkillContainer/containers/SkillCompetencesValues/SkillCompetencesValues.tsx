@@ -103,7 +103,7 @@ const SkillCompetencesValues = ({
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
-          <p className={classes.title}>Pour chacune de ces compétences que tu as choisies, comment te sens-tu ?</p>
+          <p className={classes.title}>En rapport avec les compétences que tu as choisies, comment te sens-tu ?</p>
 
           <div className={classes.echelonBackground}>
             <Avatar
@@ -156,7 +156,7 @@ const SkillCompetencesValues = ({
                       {echelonValue.map((value, index) => (
                         <Tooltip
                           key={value}
-                          title={(
+                          title={
                             <Child className={classes.tooltipContainer}>
                               <strong>{echelon[index]}</strong>
 
@@ -173,7 +173,7 @@ const SkillCompetencesValues = ({
                               <strong>{competence.niveau[index].title}</strong>
                               {competence.niveau[index].sub_title}
                             </Child>
-                          )}
+                          }
                           arrow
                           placement="right"
                         >

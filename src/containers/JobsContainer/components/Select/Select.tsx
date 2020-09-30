@@ -24,7 +24,8 @@ interface IProps {
   fullSelect?: boolean;
   loading?: boolean;
   reference?: any;
-  small?:boolean 
+  small?: boolean;
+  parcourAcc?: { id: string };
 }
 
 const SelectJobs = ({
@@ -38,7 +39,7 @@ const SelectJobs = ({
   onClick,
   fullSelect,
   reference,
-  small,
+  parcourAcc,
 }: IProps) => {
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
@@ -76,7 +77,12 @@ const SelectJobs = ({
               ))}
             </div>
           ) : (
-            <OptionList options={options} onSelectText={onSelectText} selected={value} name={name} />
+            <OptionList
+              options={options}
+              onSelectText={onSelectText}
+              selected={value}
+              name={name}
+            />
           )}
         </div>
       )}

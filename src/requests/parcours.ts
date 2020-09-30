@@ -12,6 +12,9 @@ export const getUserParcourQuery = gql`
       played
       playedEng
       completed
+      accessibility {
+        id
+      }
       families {
         id
         nom
@@ -31,6 +34,7 @@ export const getUserParcourQuery = gql`
           parentId
         }
       }
+
       globalCompetences {
         id
         count

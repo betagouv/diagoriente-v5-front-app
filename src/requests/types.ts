@@ -156,6 +156,7 @@ export interface UserParcour {
   played: boolean;
   playedEng: boolean;
   completed: boolean;
+  accessibility: { id: string };
   families: { id: string; nom: string; category: string; resources: string[] }[];
   skills: {
     id: string;

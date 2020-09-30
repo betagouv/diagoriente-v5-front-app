@@ -122,6 +122,14 @@ const JobsContainer = ({
       setDomaine(array);
     }
   };
+  useEffect(() => {
+    const array = [...accessibility];
+    if (parcours?.accessibility.id) {
+      array.push(parcours?.accessibility.id);
+    }
+    setAccessibility(array);
+  }, [parcours?.accessibility.id]);
+
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...accessibility];
@@ -248,6 +256,7 @@ const JobsContainer = ({
               open={openAcc}
               onClick={() => setOpenAcc(!openAcc)}
               reference={divAcc}
+              parcourAcc={parcours?.accessibility}
             />
           </div>
           {loading ? (

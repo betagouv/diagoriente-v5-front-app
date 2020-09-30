@@ -3,7 +3,7 @@ import parcoursContext from 'contexts/ParcourContext';
 import { updateParcours, useUpdateParcour } from 'requests/parcours';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Select from 'containers/JobsContainer/components/Select/Select';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 // import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
@@ -28,10 +28,11 @@ const selectTheme = createMuiTheme({
 });
 
 const SelectModal = () => {
+  const history = useHistory();
   const classes = useStyles();
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const [accessibilityCall, accessibilityState] = useAccessibility();
-  const { parcours } = useContext(parcoursContext);
+  const { parcours, setParcours } = useContext(parcoursContext);
   const [step, setStep] = useState<Steps>(Steps.THEMES);
   const [updateCall, updateState] = useUpdateParcour();
   const [open, setOpen] = useState(false);
@@ -59,9 +60,13 @@ const SelectModal = () => {
     updateCall({ variables: { skillsAlgo: selectedThemes, accessibility } });
   };
 
-  if (updateState.data && !updateState.error) {
-    return <Redirect to="/jobs" />;
-  }
+  useEffect(() => {
+    if (updateState.data) {
+      setParcours(updateState.data.updateParcour);
+      history.push('/jobs');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateState.data]);
 
   switch (step) {
     case Steps.ACCESSIBILITY:

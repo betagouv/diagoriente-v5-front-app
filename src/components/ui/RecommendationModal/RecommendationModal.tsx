@@ -66,7 +66,7 @@ const RecommendationModal = ({
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `Bonjour ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)},\n${user
+        comment: `${user
           && NameFormator(user?.profile.firstName)} ${user
           && NameFormator(
             user?.profile.lastName,

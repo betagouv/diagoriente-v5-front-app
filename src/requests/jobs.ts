@@ -5,8 +5,20 @@ import { useLocalLazyQuery, useLocalMutation } from 'hooks/apollo';
 import { Jobs } from 'requests/types';
 
 export const jobsQuery = gql`
-  query myJobs($environments: [String], $niveau: [String], $secteur: [String], $accessibility: [String]) {
-    myJobs(environments: $environments, niveau: $niveau, secteur: $secteur, accessibility: $accessibility) {
+  query myJobs(
+    $environments: [String]
+    $niveau: [String]
+    $secteur: [String]
+    $accessibility: [String]
+    $search: String
+  ) {
+    myJobs(
+      environments: $environments
+      niveau: $niveau
+      secteur: $secteur
+      accessibility: $accessibility
+      search: $search
+    ) {
       id
       title
       description
@@ -88,7 +100,7 @@ export interface JobResponse {
     rome_codes: string;
     secteur: string[];
     niveau: string[];
-    interests: { _id: { nom: string; id: string; resources:any }; __typename: string }[];
+    interests: { _id: { nom: string; id: string; resources: any }; __typename: string }[];
     competences: { _id: { id: string; title: string }; weight: number }[];
     formations: string[];
     environments: string[];

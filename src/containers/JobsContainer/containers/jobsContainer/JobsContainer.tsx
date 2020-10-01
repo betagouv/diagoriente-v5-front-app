@@ -124,10 +124,11 @@ const JobsContainer = ({
   };
   useEffect(() => {
     const array = [...accessibility];
-    if (parcours?.accessibility.id) {
+    if (parcours?.accessibility) {
       array.push(parcours?.accessibility.id);
     }
     setAccessibility(array);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parcours?.accessibility]);
 
   const onSelectAcc = (label?: string) => {

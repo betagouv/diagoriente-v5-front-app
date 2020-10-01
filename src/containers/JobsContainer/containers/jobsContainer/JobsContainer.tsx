@@ -128,7 +128,7 @@ const JobsContainer = ({
       array.push(parcours?.accessibility.id);
     }
     setAccessibility(array);
-  }, [parcours?.accessibility.id]);
+  }, [parcours?.accessibility]);
 
   const onSelectAcc = (label?: string) => {
     if (label) {

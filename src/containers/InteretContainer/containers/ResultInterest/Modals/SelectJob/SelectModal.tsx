@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import parcoursContext from 'contexts/ParcourContext';
+import useOnclickOutside from 'hooks/useOnclickOutside';
 import { updateParcours, useUpdateParcour } from 'requests/parcours';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Select from 'containers/JobsContainer/components/Select/Select';
@@ -28,6 +29,7 @@ const selectTheme = createMuiTheme({
 });
 
 const SelectModal = () => {
+  const divSelect = useRef(null)
   const history = useHistory();
   const classes = useStyles();
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
@@ -43,6 +45,10 @@ const SelectModal = () => {
     accessibilityCall();
     // eslint-disable-next-line
   }, []);
+
+  useOnclickOutside(divSelect, () => {
+    if (open) setOpen(false);
+  });
 
   const addTheme = (id: string) => {
     const array = [...selectedThemes];
@@ -90,6 +96,7 @@ const SelectModal = () => {
                 onSelectText={(e) => {
                   if (e) setAccessibility(e);
                 }}
+                reference={divSelect}
                 placeholder={
                   accessibilityState.data?.accessibilities.data.find((a) => a.id === accessibility)?.name ||
                   'Niveau de diplôme'

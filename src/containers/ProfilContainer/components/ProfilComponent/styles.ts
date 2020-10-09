@@ -321,5 +321,6 @@ export default makeStyles((theme) =>
       flex: 1,
       maxWidth: 'calc(33.333333% - 32px)',
     },
+    avis: { position: 'fixed', bottom: 0, right: 30 },
   }),
 );

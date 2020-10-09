@@ -119,7 +119,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -136,9 +136,10 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            (parcours && parcours.families.length > 3 ? (
+            parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -154,7 +155,8 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null)}
+            ) : null
+          }
           className={classes.root}
         >
           {parcours?.families
@@ -311,10 +313,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-          <div key={j.id} className={classes.favoriContainer}>
-            <img src={littleheart} alt="" height={20} />
-            <div className={classes.job}>{j.title}</div>
-          </div>
+            <div key={j.id} className={classes.favoriContainer}>
+              <img src={littleheart} alt="" height={20} />
+              <div className={classes.job}>{j.title}</div>
+            </div>
           ))
         : null,
     },
@@ -352,6 +354,20 @@ const ProfilComponent = () => {
             </Grid>
           ))}
         </Grid>
+      </div>
+      <div style={{ display: 'fixed', bottom: 0, right: 80 }}>
+        <a
+          href="https://voxusagers.numerique.gouv.fr/Demarches/2453?&view-mode=formulaire-avis&nd_mode=en-ligne-enti%C3%A8rement&nd_source=button&key=74fff875f8b11d24367e9267b73ed92c"
+          target="_blank"
+        >
+          <img
+            src="https://voxusagers.numerique.gouv.fr/static/bouton-bleu.svg"
+            alt="Je donne mon avis"
+            title="Je donne mon avis sur cette démarche"
+            width="100%"
+            height="50px"
+          />
+        </a>
       </div>
     </div>
   );

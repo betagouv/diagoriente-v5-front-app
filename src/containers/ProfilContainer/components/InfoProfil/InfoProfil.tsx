@@ -264,6 +264,7 @@ const InfoProfil = () => {
                 <AutoComplete
                   onChange={(e) => {
                     setSearch(e.target.value);
+                    actions.setValues({ location: e.target.value })
                   }}
                   onSelectText={onSelect}
                   value={values.location}

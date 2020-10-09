@@ -22,6 +22,7 @@ import InfoProfilRow from '../InfoProfilRow/InfoProfilRow';
 import Arrow from '../Arrow/Arrow';
 
 import useStyles from './styles';
+import { useDidUpdate } from 'hooks/useLifeCycle';
 
 const InfoProfil = () => {
   const { user, setUser } = useContext(UserContext);
@@ -125,15 +126,13 @@ const InfoProfil = () => {
     }
     // eslint-disable-next-line
   }, [open, user]);
-  useEffect(() => {
+  useDidUpdate(() => {
     if (updateUserState.data) {
       setUser(updateUserState.data.updateUser);
-
       setOpen(false);
     }
     // eslint-disable-next-line
-  }, [updateUserState.data]);
-
+  }, [updateUserState.data, setUser]);
   return (
     <>
       <SnackBar variant="error" message={error} open={!!error} />
@@ -264,7 +263,7 @@ const InfoProfil = () => {
                 <AutoComplete
                   onChange={(e) => {
                     setSearch(e.target.value);
-                    actions.setValues({ location: e.target.value })
+                    actions.setValues({ location: e.target.value });
                   }}
                   onSelectText={onSelect}
                   value={values.location}

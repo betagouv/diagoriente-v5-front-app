@@ -355,7 +355,7 @@ const ProfilComponent = () => {
           ))}
         </Grid>
       </div>
-      <div style={classes.avis}>
+      <div className={classes.avis}>
         <a
           href="https://voxusagers.numerique.gouv.fr/Demarches/2453?&view-mode=formulaire-avis&nd_mode=en-ligne-enti%C3%A8rement&nd_source=button&key=74fff875f8b11d24367e9267b73ed92c"
           target="_blank"

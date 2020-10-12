@@ -50,7 +50,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
 
   const onEdit = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id);
-    if (selectedSkill) history.push(`/experience/skill/${selectedSkill.theme.id}`);
+    if (selectedSkill) history.push({ pathname: `/experience/skill/${selectedSkill.theme.id}`, search: 'edit' });
   };
   const handleRecommendation = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id) || null;
@@ -123,13 +123,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         <Title title={getTitle()} color="#4D6EC5" size={42} className={classes.title} />
         <div className={classes.empty} />
       </div>
-      <span className={classes.text}>
-        Liste des expériences
-        {' '}
-        {getSubTitle()}
-        {' '}
-        que tu as renseignées
-      </span>
+      <span className={classes.text}>Liste des expériences {getSubTitle()} que tu as renseignées</span>
       {skillState.loading ? (
         <div className={classes.spinner}>
           <Spinner />
@@ -161,11 +155,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
 
             <Link to={getUrl()} className={classNames(!showAddCard ? classes.btnLink : classes.link)}>
               <Button className={classes.btn}>
-                <span className={classes.textButton}>
-                  J’ajoute une expérience
-                  {' '}
-                  {getSubTitle()}
-                </span>
+                <span className={classes.textButton}>J’ajoute une expérience {getSubTitle()}</span>
               </Button>
             </Link>
           </Grid>

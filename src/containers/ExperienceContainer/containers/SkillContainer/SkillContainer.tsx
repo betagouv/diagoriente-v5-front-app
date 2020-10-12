@@ -215,8 +215,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
-      history.push(`/experience/skill/${match.params.themeId}/success`);
-
     }
   };
 
@@ -257,6 +255,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     if (updateSkillState.called && updateSkillState.data) {
       setParcours(updateSkillState.data.updateSkill);
       // history.push(`/profile/experience?type=${data?.theme.type}`);
+      history.push({ pathname: `/experience/skill/${match.params.themeId}/success`, search: 'edit' });
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');

@@ -62,9 +62,9 @@ const ProfilComponent = () => {
   const renderTopJobs = useMemo(() => {
     if (topJobs.length) {
       return topJobs.map((j) => (
-        <div key={j.id} className={classes.favoriContainer}>
+        <div key={j?.id} className={classes.favoriContainer}>
           <img src={littlestar} alt="" height={20} />
-          <div className={classes.job}>{j.title}</div>
+          <div className={classes.job}>{j?.title}</div>
         </div>
       ));
     }

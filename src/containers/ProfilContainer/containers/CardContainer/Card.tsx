@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import usePdf from 'hooks/usePdf';
-
+import { Link } from 'react-router-dom';
+import ModalContainer from 'components/common/Modal/ModalContainer';
 import { encodeUri } from 'utils/url';
 import Paper from '@material-ui/core/Paper/Paper';
 import carte from 'assets/svg/carte.svg';
+import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import useParcourSkills from 'hooks/useParcourSkills';
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
@@ -20,18 +22,26 @@ const CardContainer = () => {
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
-
   const [element, createPdf, pdf] = usePdf();
-
+  const [toggle, setToggle] = useState(false);
+  const openModal = () => setToggle(true);
+  const closeModal = () => setToggle(false);
   const skills = skillsState.data?.skills.data || [];
   const onClickIcon = (i: string) => {
     setType(i);
     if (i === 'print') setLoadingPrint(true);
     if (i === 'download') setLoading(true);
+    if (i === 'game') openModal();
     createPdf();
   };
   const icons = (
-    <CardIcons onDownload={onClickIcon} onPrint={onClickIcon} fetching={loading} fetchingPrint={loadingPrint} />
+    <CardIcons
+      onDownload={onClickIcon}
+      onPrint={onClickIcon}
+      onGame={onClickIcon}
+      fetching={loading}
+      fetchingPrint={loadingPrint}
+    />
   );
 
   useEffect(() => {
@@ -98,6 +108,34 @@ const CardContainer = () => {
       </Paper>
       <div className={classes.footerIcons}>{icons}</div>
       {element}
+      <ModalContainer open={toggle} handleClose={closeModal} backdropColor="#011A5E" colorIcon="#D60051">
+        <div className={classes.boxInfo}>
+          <div className={classes.boxInfoImg}>
+            <img src={Picto} alt="" />
+          </div>
+          <div className={classes.boxInfoDescription}>
+            <p className={classes.descriptionBoxInfo}>Familiarise toi avec les</p>
+            <p className={classes.descriptionBoxInfo}>compétences grâce aux modules :</p>
+          </div>
+          <div>
+            <div>
+              <Link to="/experience/gameCard">
+                <p className={classes.linkBoxInfo}>Rectec</p>
+              </Link>
+            </div>
+            <div>
+              <Link to="/experience/game">
+                <p className={classes.linkBoxInfo}>Rectec Engagement</p>
+              </Link>
+            </div>
+            <div>
+              <Link to="/game">
+                <p className={classes.linkBoxInfo}>Burger speed</p>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </ModalContainer>
     </div>
   );
 };

@@ -64,4 +64,33 @@ export default makeStyles({
       borderBottom: 'none',
     },
   },
+  boxInfo: {
+    height: '269px',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  boxInfoImg: {
+    marginTop: 19,
+    marginBottom: 24,
+  },
+  boxInfoDescription: {
+    marginBottom: 10,
+  },
+  descriptionBoxInfo: {
+    marginTop: 2,
+    marginBottom: 2,
+    textAlign: 'center',
+  },
+  linkBoxInfo: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#D60051',
+    lineHeight: '20px',
+    marginTop: 12,
+    marginBottom: 12,
+  },
 });

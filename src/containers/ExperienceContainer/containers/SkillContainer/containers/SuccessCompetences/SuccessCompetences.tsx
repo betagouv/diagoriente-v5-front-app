@@ -21,7 +21,6 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
   const [open, setOpen] = React.useState(false);
   const { parcours } = useContext(ParcourContext);
   const isEdit = location.search;
-  console.log('isEdit',isEdit)
   const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
   const handleOpen = () => {
     setOpen(true);
@@ -89,7 +88,10 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
         <Recommendation
           // eslint-disable-next-line no-confusing-arrow
           onSuccess={() =>
-            isEdit === '?edit' || isEdit === '?add'
+            isEdit === '?edit' ||
+            isEdit === '?add' ||
+            isEdit === `?/profile/experience?type=${skill?.theme.type}` ||
+            isEdit === '?/profile/experience'
               ? history.push(`/profile/experience?type=${skill?.theme.type}`)
               : history.push(`/experience/skill/${skill.theme.id}/done`)
           }

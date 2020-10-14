@@ -240,8 +240,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   useEffect(() => {
     if (addSkillState.called && addSkillState.data) {
       setParcours(addSkillState.data.addSkill);
-      const { redirect } = decodeUri(location.search);
-      history.push(redirect || `/experience/skill/${match.params.themeId}/success`);
+      history.push({ pathname: `/experience/skill/${match.params.themeId}/success`, search: 'add' });
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');

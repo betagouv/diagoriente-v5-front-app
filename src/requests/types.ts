@@ -270,3 +270,24 @@ export interface Company {
   url: string;
   website: string;
 }
+export interface Institution {
+  id: string;
+  label: string;
+  nom: string;
+  longitude: number;
+  latitude: number;
+}
+export interface Addresse {
+  type: string;
+  query: string[];
+  attribution: string;
+  features: {
+    text: string;
+    place_name: string;
+    center: number[];
+    geometry: {
+      coordinates: number[];
+      type: string;
+    };
+  }[];
+}

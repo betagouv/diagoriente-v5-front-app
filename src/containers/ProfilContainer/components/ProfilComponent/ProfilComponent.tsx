@@ -227,7 +227,7 @@ const ProfilComponent = () => {
       ) : (
         <Link to="/experience/theme">
           <Button className={classes.btn}>
-            <span className={classes.textButton}>J’ajoute une expérience personnelles</span>
+            <span className={classes.textButton}>J’ajoute une expérience personnelle</span>
           </Button>
         </Link>
       ),
@@ -259,7 +259,7 @@ const ProfilComponent = () => {
       ) : (
         <Link to="/experience/theme-pro">
           <Button className={classes.btn}>
-            <span className={classes.textButton}>J’ajoute une expérience professionnelles</span>
+            <span className={classes.textButton}>J’ajoute une expérience professionnelle</span>
           </Button>
         </Link>
       ),

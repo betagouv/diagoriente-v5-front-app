@@ -88,7 +88,10 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
         <Recommendation
           // eslint-disable-next-line no-confusing-arrow
           onSuccess={() =>
-            isEdit === '?edit'
+            isEdit === '?edit' ||
+            isEdit === '?add' ||
+            isEdit === `?/profile/experience?type=${skill?.theme.type}` ||
+            isEdit === '?/profile/experience'
               ? history.push(`/profile/experience?type=${skill?.theme.type}`)
               : history.push(`/experience/skill/${skill.theme.id}/done`)
           }

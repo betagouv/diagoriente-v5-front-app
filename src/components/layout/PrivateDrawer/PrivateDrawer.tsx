@@ -29,6 +29,7 @@ const adminLinks = [
   { text: 'Compétences', path: '/admin/competences' },
   { text: 'Questions', path: '/admin/questions' },
   { text: 'Options', path: '/admin/options' },
+  { text: 'Institution', path: '/admin/institution' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
@@ -122,8 +123,8 @@ const PrivateDrawer = () => {
           </div>
           <div>
             <div className={classes.textMsg}>
-              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rends toi dans ton tableau de
-              bord, accessible via le menu.
+              Pour compléter ton profil et retrouver à tout moment toutes tes informations, rends toi dans ton tableau
+              de bord, accessible via le menu.
             </div>
             <Button className={classes.btn} onClick={onSubmit}>
               <div className={classes.btnLabel}>Compris !</div>

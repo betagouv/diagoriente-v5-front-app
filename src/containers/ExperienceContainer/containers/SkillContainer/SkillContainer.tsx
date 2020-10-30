@@ -29,6 +29,7 @@ import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const classes = useStyles();
+  const { redirect } = decodeUri(location.search);
 
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
   const [skillCall, skillState] = useLazySkill();
@@ -236,12 +237,13 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       });
     }
   };
-
   useEffect(() => {
     if (addSkillState.called && addSkillState.data) {
       setParcours(addSkillState.data.addSkill);
-      const { redirect } = decodeUri(location.search);
-      history.push(redirect || `/experience/skill/${match.params.themeId}/success`);
+      history.push({
+        pathname: `/experience/skill/${match.params.themeId}/success`,
+        search: redirect ? redirect : 'add',
+      });
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');
@@ -255,7 +257,10 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     if (updateSkillState.called && updateSkillState.data) {
       setParcours(updateSkillState.data.updateSkill);
       // history.push(`/profile/experience?type=${data?.theme.type}`);
-      history.push({ pathname: `/experience/skill/${match.params.themeId}/success`, search: 'edit' });
+      history.push({
+        pathname: `/experience/skill/${match.params.themeId}/success`,
+        search: location.search || 'edit',
+      });
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
       localStorage.removeItem('competences');

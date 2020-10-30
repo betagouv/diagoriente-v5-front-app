@@ -39,6 +39,7 @@ const AutoCompleteJob = ({
   open,
   type,
   error,
+  className,
   onSelectText,
   setOpen,
 }: IProps) => {
@@ -54,7 +55,7 @@ const AutoCompleteJob = ({
   });
 
   return (
-    <div className={classes.root} ref={inputRef}>
+    <div className={classNames(classes.root, className)} ref={inputRef}>
       <TextField
         autoComplete="off"
         autoCorrect="off"
@@ -65,10 +66,11 @@ const AutoCompleteJob = ({
         label={label}
         name={name}
         withOutIcons
+        type="location_admin"
         InputProps={{
-          classes: { input: classNames(classes.inputRoot), root: classes.inputBase },
+          classes: { input: classNames(classes.inputRoot, className), root: classNames(classes.inputBase, className) },
           startAdornment:
-            type === 'location' || type === 'jobs' ? (
+            type === 'location' || type === 'jobs' || type === 'location_admin' ? (
               <InputAdornment position="start">
                 <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
               </InputAdornment>

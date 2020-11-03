@@ -309,4 +309,7 @@ export default makeStyles((theme) => ({
     color: theme.palette.error.main,
     opacity: '1',
   },
+  marginText: {
+    marginLeft: '28%',
+  },
 }));

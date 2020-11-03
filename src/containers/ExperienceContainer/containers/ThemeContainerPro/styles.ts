@@ -54,7 +54,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '30px 100px',
+      padding: '30px 98px',
     },
     itemData: {
       border: '1px solid #00CFFF',

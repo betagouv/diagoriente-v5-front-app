@@ -52,16 +52,16 @@ const RecommendationModal = ({
       email: validateEmail,
       firstName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum)';
         return '';
       },
       lastName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum)';
         return '';
       },
     },
-    required: ['firstName', 'lastName', 'email', 'comment'],
+    required: ['firstName', 'lastName', 'email', 'comment', 'confirmEmail'],
   });
 
   useEffect(() => {
@@ -78,7 +78,9 @@ const RecommendationModal = ({
   }, [secondOpen]);
 
   useEffect(() => {
-    if (state.values.email !== state.values.confirmEmail) {
+    if (!state.values.confirmEmail) {
+      actions.setErrors({ confirmEmail: 'Champ requis' });
+    } else if (state.values.email !== state.values.confirmEmail) {
       actions.setErrors({ confirmEmail: 'Email et Confirm email ne correspondent pas' });
     } else {
       actions.setErrors({ confirmEmail: '' });
@@ -94,7 +96,7 @@ const RecommendationModal = ({
       || state.values.firstName.length < 3
       || state.values.lastName.length < 3
     ) {
-      actions.setTouched({ email: true, firstName: true, lastName: true });
+      actions.setAllTouched(true);
       setSecondOpen(false);
     } else {
       setOpen(false);
@@ -227,7 +229,7 @@ const RecommendationModal = ({
             </span>
 
             <Input
-              label="Confirm email :"
+              label="Confirmez votre email"
               name="confirmEmail"
               placeholder="ex : mail@exemple.com "
               value={state.values.confirmEmail}
@@ -235,12 +237,12 @@ const RecommendationModal = ({
               errorText={state.touched.confirmEmail && state.errors.confirmEmail}
               className={classes.marginInput}
               inputClassName={classes.fontInput}
+              required
             />
             <span
               className={classNames(
                 classes.hideText,
                 state.touched.confirmEmail && state.errors.confirmEmail && classes.errorName,
-                classes.marginText,
               )}
             >
               {state.touched.confirmEmail && state.errors.confirmEmail}
@@ -250,6 +252,10 @@ const RecommendationModal = ({
             <Button className={classes.btn} onClick={() => handleSecondOpen()}>
               <div className={classes.btnLabel}>Suivant</div>
             </Button>
+          </div>
+          <div className={classes.required}>
+            <span className={classes.start}>* </span>
+            Champs obligatoires
           </div>
         </div>
       </ModalContainer>

@@ -30,9 +30,7 @@ interface Props {
   setOpen: (open: boolean) => void;
   onSuccess?: () => void;
 }
-const RecommendationModal = ({
- skill, open, setOpen, onSuccess,
-}: Props) => {
+const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
   const classes = useStyles();
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
@@ -52,12 +50,12 @@ const RecommendationModal = ({
       email: validateEmail,
       firstName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum)';
         return '';
       },
       lastName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum)';
         return '';
       },
     },
@@ -67,8 +65,8 @@ const RecommendationModal = ({
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `${user && NameFormator(user?.profile.firstName)} ${user
-          && NameFormator(
+        comment: `${user && NameFormator(user?.profile.firstName)} ${user &&
+          NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
           )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
@@ -79,7 +77,7 @@ const RecommendationModal = ({
 
   useEffect(() => {
     if (state.values.email !== state.values.confirmEmail) {
-      actions.setErrors({ confirmEmail: 'Email et Confirm email ne correspondent pas' });
+      actions.setErrors({ confirmEmail: 'Les adresses email ne correspondent pas' });
     } else {
       actions.setErrors({ confirmEmail: '' });
     }
@@ -88,11 +86,11 @@ const RecommendationModal = ({
 
   const handleSecondOpen = () => {
     if (
-      !state.values.email
-      || !state.values.firstName
-      || !state.values.lastName
-      || state.values.firstName.length < 3
-      || state.values.lastName.length < 3
+      !state.values.email ||
+      !state.values.firstName ||
+      !state.values.lastName ||
+      state.values.firstName.length < 3 ||
+      state.values.lastName.length < 3
     ) {
       actions.setTouched({ email: true, firstName: true, lastName: true });
       setSecondOpen(false);
@@ -227,7 +225,7 @@ const RecommendationModal = ({
             </span>
 
             <Input
-              label="Confirm email :"
+              label="Confirmez votre email :"
               name="confirmEmail"
               placeholder="ex : mail@exemple.com "
               value={state.values.confirmEmail}
@@ -251,6 +249,10 @@ const RecommendationModal = ({
               <div className={classes.btnLabel}>Suivant</div>
             </Button>
           </div>
+          <div className={classes.required}>
+            <span className={classes.start}>* </span>
+            Champs obligatoires
+          </div>
         </div>
       </ModalContainer>
       <ModalContainer
@@ -269,8 +271,7 @@ const RecommendationModal = ({
             Le message pour
             {/* eslint-disable-next-line */}
             {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
-            {`${state.values.email}`}
-            )
+            {`${state.values.email}`})
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -338,9 +339,7 @@ const RecommendationModal = ({
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
             Veux-tu vraiment quitter ?
-            <br />
-            {' '}
-            Tes modifications ne seront pas enregistrées.
+            <br /> Tes modifications ne seront pas enregistrées.
           </p>
           <Button
             className={classes.incluse}

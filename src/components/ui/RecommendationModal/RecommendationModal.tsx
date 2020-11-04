@@ -52,12 +52,12 @@ const RecommendationModal = ({
       email: validateEmail,
       firstName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum)';
         return '';
       },
       lastName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum)';
         return '';
       },
     },
@@ -229,7 +229,7 @@ const RecommendationModal = ({
             </span>
 
             <Input
-              label="Confirm email :"
+              label="Confirmez votre email"
               name="confirmEmail"
               placeholder="ex : mail@exemple.com "
               value={state.values.confirmEmail}
@@ -252,6 +252,10 @@ const RecommendationModal = ({
             <Button className={classes.btn} onClick={() => handleSecondOpen()}>
               <div className={classes.btnLabel}>Suivant</div>
             </Button>
+          </div>
+          <div className={classes.required}>
+            <span className={classes.start}>* </span>
+            Champs obligatoires
           </div>
         </div>
       </ModalContainer>

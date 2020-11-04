@@ -312,4 +312,27 @@ export default makeStyles((theme) => ({
   marginText: {
     marginLeft: '28%',
   },
+  start: {
+    color: '#00CFFF',
+    fontWeight: 'bold',
+  },
+  required: {
+    fontSize: 14,
+    marginTop: 15,
+    textAlign: 'center',
+    paddingLeft: 20,
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: 20,
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: 15,
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: 0,
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 9,
+      width: '95%',
+    },
+  },
 }));

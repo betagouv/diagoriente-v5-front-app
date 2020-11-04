@@ -46,6 +46,7 @@ const RecommendationModal = ({
       firstName: '',
       lastName: '',
       comment: '',
+      confirmEmail: '',
     },
     validation: {
       email: validateEmail,
@@ -66,8 +67,7 @@ const RecommendationModal = ({
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `${user
-          && NameFormator(user?.profile.firstName)} ${user
+        comment: `${user && NameFormator(user?.profile.firstName)} ${user
           && NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
@@ -77,6 +77,15 @@ const RecommendationModal = ({
     // eslint-disable-next-line
   }, [secondOpen]);
 
+  useEffect(() => {
+    if (state.values.email !== state.values.confirmEmail) {
+      actions.setErrors({ confirmEmail: 'Email et Confirm email ne correspondent pas' });
+    } else {
+      actions.setErrors({ confirmEmail: '' });
+    }
+    // eslint-disable-next-line
+  }, [state.values.email, state.values.confirmEmail]);
+
   const handleSecondOpen = () => {
     if (
       !state.values.email
@@ -85,7 +94,7 @@ const RecommendationModal = ({
       || state.values.firstName.length < 3
       || state.values.lastName.length < 3
     ) {
-      actions.setAllTouched(true);
+      actions.setTouched({ email: true, firstName: true, lastName: true });
       setSecondOpen(false);
     } else {
       setOpen(false);
@@ -215,6 +224,26 @@ const RecommendationModal = ({
               )}
             >
               {!state.values.email ? 'Champ requis ' : 'Email invalide'}
+            </span>
+
+            <Input
+              label="Confirm email :"
+              name="confirmEmail"
+              placeholder="ex : mail@exemple.com "
+              value={state.values.confirmEmail}
+              onChange={actions.handleChange}
+              errorText={state.touched.confirmEmail && state.errors.confirmEmail}
+              className={classes.marginInput}
+              inputClassName={classes.fontInput}
+            />
+            <span
+              className={classNames(
+                classes.hideText,
+                state.touched.confirmEmail && state.errors.confirmEmail && classes.errorName,
+                classes.marginText,
+              )}
+            >
+              {state.touched.confirmEmail && state.errors.confirmEmail}
             </span>
           </form>
           <div className={classes.btnContainerModal}>

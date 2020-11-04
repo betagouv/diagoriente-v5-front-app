@@ -322,7 +322,7 @@ const InfoProfil = () => {
           {open ? (
             <span className={classes.textButton}>J’enregistre les modifications</span>
           ) : (
-            <span className={classes.textButton}>Je modifie”</span>
+            <span className={classes.textButton}>Je modifie</span>
           )}
         </Button>
         {open && (

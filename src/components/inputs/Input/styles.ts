@@ -77,7 +77,7 @@ export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme) =
   },
   input: {
     flex: '1 1 0%',
-    fontSize: 19,
+    fontSize: 14,
     padding: 0,
 
     color: (props) => (props.error ? theme.palette.error.main : '#424242'),

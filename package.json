@@ -26,6 +26,7 @@
     "graphql-to-json-schema": "^1.0.0",
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
+    "leaflet": "^1.7.1",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
@@ -67,7 +68,6 @@
     "eslint-plugin-react": "^7.18.0",
     "eslint-plugin-react-hooks": "^2.4.0",
     "eslint-plugin-tslint": "^3.1.0",
-    "leaflet": "^1.6.0",
     "prettier": "^1.19.1",
     "prettier-eslint": "^9.0.1",
     "typescript": "~3.7.2"

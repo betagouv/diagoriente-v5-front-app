@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean }>((theme) => ({
+export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -77,8 +77,9 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
   },
   input: {
     flex: '1 1 0%',
-    fontSize: 14,
+    fontSize: 19,
     padding: 0,
+
     color: (props) => (props.error ? theme.palette.error.main : '#424242'),
     '&::placeholder': {
       color: '#C9C9C7 !important',
@@ -140,7 +141,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     color: theme.palette.error.main,
   },
   requiredInput: {
-    color: "#00CFFF",
+    color: '#00CFFF',
   },
   showPasswordImage: {
     cursor: 'pointer',

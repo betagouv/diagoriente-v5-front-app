@@ -34,6 +34,15 @@ export default makeStyles<Theme>({
   },
   inputClass: {
     height: 60,
-    width: '100%',
+  },
+  styleMap: {
+    height: '500px !important',
+    width: '70% !important',
+  },
+  mapWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 30,
+    marginBottom: 30,
   },
 });

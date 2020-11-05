@@ -24,6 +24,7 @@ interface IProps {
   errorForm?: string;
   open?: boolean;
   type?: string;
+  isfull?: boolean;
   setOpen?: (open: boolean) => void;
 }
 
@@ -42,8 +43,9 @@ const AutoCompleteJob = ({
   className,
   onSelectText,
   setOpen,
+  isfull,
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm) });
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull });
   const data = options?.map((el: any) => ({
     label: el.title || el.label,
     value: type === 'immersion' ? el.rome_codes : el,
@@ -67,6 +69,7 @@ const AutoCompleteJob = ({
         name={name}
         withOutIcons
         type="location_admin"
+        isfull
         InputProps={{
           classes: { input: classNames(classes.inputRoot, className), root: classNames(classes.inputBase, className) },
           startAdornment:

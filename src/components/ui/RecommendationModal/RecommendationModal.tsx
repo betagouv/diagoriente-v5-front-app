@@ -46,28 +46,28 @@ const RecommendationModal = ({
       firstName: '',
       lastName: '',
       comment: '',
+      confirmEmail: '',
     },
     validation: {
       email: validateEmail,
       firstName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Nom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Nom invalide (3 caractères minimum)';
         return '';
       },
       lastName: (value) => {
         if (!value) return 'Champ requis ';
-        if (value.length < 3) return 'Prénom invalide (3 caractères minimum';
+        if (value.length < 3) return 'Prénom invalide (3 caractères minimum)';
         return '';
       },
     },
-    required: ['firstName', 'lastName', 'email', 'comment'],
+    required: ['firstName', 'lastName', 'email', 'comment', 'confirmEmail'],
   });
 
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `${user
-          && NameFormator(user?.profile.firstName)} ${user
+        comment: `${user && NameFormator(user?.profile.firstName)} ${user
           && NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
@@ -76,6 +76,17 @@ const RecommendationModal = ({
     }
     // eslint-disable-next-line
   }, [secondOpen]);
+
+  useEffect(() => {
+    if (!state.values.confirmEmail) {
+      actions.setErrors({ confirmEmail: 'Champ requis' });
+    } else if (state.values.email !== state.values.confirmEmail) {
+      actions.setErrors({ confirmEmail: 'Email et Confirm email ne correspondent pas' });
+    } else {
+      actions.setErrors({ confirmEmail: '' });
+    }
+    // eslint-disable-next-line
+  }, [state.values.email, state.values.confirmEmail]);
 
   const handleSecondOpen = () => {
     if (
@@ -216,11 +227,35 @@ const RecommendationModal = ({
             >
               {!state.values.email ? 'Champ requis ' : 'Email invalide'}
             </span>
+
+            <Input
+              label="Confirmez votre email"
+              name="confirmEmail"
+              placeholder="ex : mail@exemple.com "
+              value={state.values.confirmEmail}
+              onChange={actions.handleChange}
+              errorText={state.touched.confirmEmail && state.errors.confirmEmail}
+              className={classes.marginInput}
+              inputClassName={classes.fontInput}
+              required
+            />
+            <span
+              className={classNames(
+                classes.hideText,
+                state.touched.confirmEmail && state.errors.confirmEmail && classes.errorName,
+              )}
+            >
+              {state.touched.confirmEmail && state.errors.confirmEmail}
+            </span>
           </form>
           <div className={classes.btnContainerModal}>
             <Button className={classes.btn} onClick={() => handleSecondOpen()}>
               <div className={classes.btnLabel}>Suivant</div>
             </Button>
+          </div>
+          <div className={classes.required}>
+            <span className={classes.start}>* </span>
+            Champs obligatoires
           </div>
         </div>
       </ModalContainer>

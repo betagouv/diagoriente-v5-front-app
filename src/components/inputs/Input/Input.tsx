@@ -21,6 +21,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   inputBaseClassName?: string;
   withOutIcons?: boolean;
   icon?: any;
+  isfull?: boolean;
 }
 
 const Input = ({
@@ -38,15 +39,16 @@ const Input = ({
   icon,
   inputClassName,
   inputBaseClassName,
+  isfull,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm) });
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull });
 
   return (
     <div className={classNames(classes.root, className)}>
       <Grid container spacing={0}>
         {label && (
-          <Grid item xs={12} sm={4} md={5} lg={5}>
+          <Grid item xs={12} sm={isfull ? 12 : 4} md={isfull ? 12 : 5} lg={isfull ? 12 : 5}>
             <div className={classes.labelContainer}>
               <div className={classes.label}>
                 {label}
@@ -61,7 +63,7 @@ const Input = ({
             </div>
           </Grid>
         )}
-        <Grid item xs={12} sm={8} md={7} lg={7}>
+        <Grid item xs={12} sm={isfull ? 12 : 8} md={isfull ? 12 : 7} lg={isfull ? 12 : 7}>
           <div className={classes.wrapperInput}>
             <TextField
               value={value}

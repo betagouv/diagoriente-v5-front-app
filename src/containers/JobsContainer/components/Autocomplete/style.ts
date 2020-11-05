@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
+export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme: Theme) => ({
   root: {
     height: 35,
     position: 'relative',
@@ -9,7 +9,7 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
   inputBase: {
     height: 36,
     background: '#FFFFFF',
-    width: 228,
+    width: (props) => (props.isfull ? 600 : 228),
   },
   inputRoot: {
     width: 'fit-content',
@@ -73,14 +73,14 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     },
   },
   optionsContainer: {
-    width: 222,
+    width: (props) => (props.isfull ? 600 : 222),
     background: '#FFFFFF',
     border: '1px solid #C9C9C7',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
     borderRadius: 5,
     position: 'absolute',
     padding: 9,
-    top: 37,
+    top: (props) => (props.isfull ? 63 : 37),
     zIndex: 1300,
     maxHeight: 300,
     overflow: 'auto',

@@ -1,6 +1,4 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
@@ -9,6 +7,7 @@ import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
+import Recaptcha from 'utils/recaptch';
 
 import { useForm } from 'hooks/useInputs';
 
@@ -28,6 +27,9 @@ const Login = ({ location }: RouteComponentProps) => {
   });
 
   const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
+  const [errorCount, setErrorCount] = useState(0);
+  const [openVerif, setOpenVerif] = useState(false);
+  const [checkedVerif, setCheckedVerif] = useState(false);
 
   const [errorForm, setErrorForm] = useState<string>('');
   const checkBoxRef = useRef(null);
@@ -37,21 +39,29 @@ const Login = ({ location }: RouteComponentProps) => {
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'object'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'object'
       ) {
         setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
       } else if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'string'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'string'
       ) {
+        setErrorCount(errorCount + 1);
+
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
     }
     if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
       setErrorForm(loginState.error?.message);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginState.error]);
+  useEffect(() => {
+    if (errorCount === 3) {
+      setOpenVerif(true);
+    }
+  }, [errorCount]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -114,6 +124,11 @@ const Login = ({ location }: RouteComponentProps) => {
               </Grid>
             </Grid>
           </div>
+          {openVerif && (
+            <div className={classes.groupTextContainer}>
+              <Recaptcha />
+            </div>
+          )}
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
               <Grid item xs={12} sm={4} md={5} lg={5}>

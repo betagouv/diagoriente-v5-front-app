@@ -38,6 +38,6 @@ export default function App() {
     setHumanKey('');
   };
   return (
-    <ReCAPTCHA sitekey="6LeF2eAZAAAAACV2S5IBFxnyaLXfFJKOJa1-LDWe" onChange={verifyCaptcha} onExpired={expireCaptcha} />
+    <ReCAPTCHA sitekey="6LdP2uAZAAAAABWB_Bp207VEqYOop2_N0_DiTq69" onChange={verifyCaptcha} onExpired={expireCaptcha} />
   );
 }

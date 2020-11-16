@@ -23,9 +23,7 @@ export interface Props {
   showUser: boolean;
 }
 
-const PrivateHeader = ({
- openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser,
-}: Props) => {
+const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
   const { user } = useContext(UserContext);

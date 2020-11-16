@@ -23,11 +23,20 @@ const CardSkills = ({ title, path, emptyButton, emptyMessage, showBtn, skills }:
   return (
     <CardPart title={title}>
       {skills.length ? (
-        <Grid className={classes.skillsContainer} container spacing={3}>
-          {skills.map((skill) => (
-            <CardSkill key={skill.id} {...skill} />
-          ))}
-        </Grid>
+        <>
+          <div>
+            <Grid className={classes.skillsContainer} container spacing={3}>
+              {skills.map((skill) => (
+                <CardSkill key={skill.id} {...skill} />
+              ))}
+            </Grid>
+          </div>
+          <Link to={path}>
+            <Button className={classes.emptyButton} variant="contained">
+              {emptyButton}
+            </Button>
+          </Link>
+        </>
       ) : (
         <>
           <div className={classes.emptyMessage}>{emptyMessage}</div>

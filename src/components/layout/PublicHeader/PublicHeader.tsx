@@ -55,9 +55,9 @@ const PublicHeader = () => {
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={menu} alt="menu" height={26} className={classes.menuIcon} onClick={toggle} />
-          <Link to="/" className={classes.logoLink}>
+          <a href={p || '/'} className={classes.logoLink}>
             <img src={logo} alt="diagoriente_logo" className={classes.logoIcon} />
-          </Link>
+          </a>
           <div className={classes.imageWrapper}>
             {showlogo ? (
               <img src={smallbeta} alt="menu" height={13} width={77} className={classes.smallbeta} />

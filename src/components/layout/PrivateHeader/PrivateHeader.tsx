@@ -24,7 +24,6 @@ export interface Props {
 }
 
 const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
-  const URL_PUBLIC = process.env.REACT_APP_PUBLIC_URL;
   const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
   const { user } = useContext(UserContext);
@@ -40,9 +39,9 @@ const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, class
       <Toolbar className={classes.toolbarContainer}>
         <div className={classes.flexCenter}>
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
-          <a href={URL_PUBLIC || '/'} className={classes.logoContainer}>
+          <Link to="/" className={classes.logoContainer}>
             <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
-          </a>
+          </Link>
         </div>
         {showUser && (
           <div className={classes.flexCenter}>

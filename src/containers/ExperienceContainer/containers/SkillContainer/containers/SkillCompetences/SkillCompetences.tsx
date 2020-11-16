@@ -33,6 +33,12 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 
 const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
   const classes = useStyles();
+  const favComp = [
+    'Mobiliser son engagement dans les principes de l’intérêt général',
+    'Valoriser l’expérience de service civique dans son parcours',
+    'Construire son parcours',
+  ];
+
   const { data, loading } = useCompetences({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
   const [text, setText] = React.useState('');
@@ -52,13 +58,17 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
   };
   const handleClose = () => {
     setOpen(false);
-  }
+  };
+  const isExist = (comp: string) => {
+    const res = favComp.includes(comp);
+    return res;
+  };
   const onclickBtn = () => {
     if (competences.length === 0) {
       setText('Tu as déjà choisi 4 compétences');
       setOpen(true);
     }
-  }
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -113,7 +123,11 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
                   >
                     <Button
                       childrenClassName={classes.margin}
-                      className={classNames(classes.competences, selected && classes.selectedCompetence)}
+                      className={classNames(
+                        classes.competences,
+                        selected && classes.selectedCompetence,
+                        isExist(comp.title) && classes.FavCompetence,
+                      )}
                       onClick={() => (!selected ? addCompetence(comp as any) : deleteCompetence(comp.id))}
                     >
                       {comp.title}

@@ -214,4 +214,13 @@ export default makeStyles<Theme>((theme) => ({
   okText: {
     marginRight: 10,
   },
+  loadinContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  descriptionAide: {
+    height: 60,
+  },
 }));

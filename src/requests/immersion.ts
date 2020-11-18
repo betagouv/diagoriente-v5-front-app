@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 import { LazyQueryHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery } from 'hooks/apollo';
-import { Company } from './types';
+import { Company, Formation } from './types';
 
 export const GetImmersion = gql`
   query immersions(
@@ -56,3 +56,35 @@ export interface ImmersionResponseType {
 }
 
 export const useImmersion = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetImmersion, options);
+
+export const GetFormation = gql`
+  query formation($romes: String!, $latitude: Float!, $longitude: Float!, $radius: Int!) {
+    formation(romes: $romes, latitude: $latitude, longitude: $longitude, radius: $radius) {
+      title
+      longTitle
+      contact {
+        email
+      }
+      place {
+        fullAddress
+        city
+        latitude
+        longitude
+      }
+      diplomaLevel
+      company {
+        name
+        headquarter {
+          place {
+            address
+            city
+          }
+        }
+      }
+    }
+  }
+`;
+export interface FormationResponseType {
+  formation: Formation[];
+}
+export const useFormation = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetFormation, options);

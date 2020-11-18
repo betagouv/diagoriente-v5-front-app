@@ -291,3 +291,24 @@ export interface Addresse {
     };
   }[];
 }
+export interface Formation {
+  title: string;
+  longTitle: string;
+  contact: { email: string };
+  place: {
+    fullAddress: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+  };
+  diplomaLevel: string;
+  company: {
+    name: string;
+    headquarter: {
+      place: {
+        address: string;
+        city: string;
+      };
+    };
+  };
+}

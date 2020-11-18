@@ -24,10 +24,33 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap }: IProps
     <div className={classNames(classes.root, open && classes.height2)}>
       <div className={classes.infoImmersion}>
         <div className={classes.leftInfo}>
-          <div className={classes.titleCard}>{data.name}</div>
-          <div className={classes.description}>{data.naf_text}</div>
+          <div className={classes.titleCard}>{data.name || data.title}</div>
+          <div className={classes.description}>{data.naf_text || data.longTitle}</div>
           <div>{data.headcount_text}</div>
-          <div className={classes.icons}>
+          {data.place && (
+            <div>
+              Addresse:
+              {' '}
+              {data.place.fullAddress}
+            </div>
+            )}
+          {data.diplomaLevel && (
+            <div>
+              {' '}
+              <strong>Niveau d'acces: </strong> {data.diplomaLevel}
+            </div>
+          )}
+          {data.company && (
+            <div>
+              <strong>Entreprise:</strong> {data.company.name}
+            </div>
+          )}
+          {data.contact && (
+            <div>
+              <strong>Contact:</strong> {data.contact.email}
+            </div>
+          )}
+          {/* <div className={classes.icons}>
             <div className={classes.logoItemDescription}>
               <img src={Location} alt="" />
               <div className={classes.textLogo}>1.9 km de ton lieu de recherche</div>
@@ -36,13 +59,15 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap }: IProps
               <img src={Car} alt="" />
               <div className={classes.textLogo}>4 min en voiture</div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={classes.rightInfo}>
-          {<div className={classes.favorisText}>
-          {/*   Ajouter à mes favoris
+          {
+            <div className={classes.favorisText}>
+              {/*   Ajouter à mes favoris
             <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} /> */}
-          </div>}
+            </div>
+          }
           {!open && (
             <div>
               <Button className={classes.btnContainer} onClick={() => setOpen(!open)}>

@@ -225,5 +225,10 @@ export default makeStyles<Theme>((theme) => ({
   },
   mapFormation: {
     height: '491px !important',
+    marginTop: 20,
+  },
+  wrapperSwitchMap: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 }));

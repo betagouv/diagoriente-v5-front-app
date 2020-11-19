@@ -146,7 +146,6 @@ const ImmersionContainer = ({
     typeApiImmersion,
     page,
   ]);
-
   useEffect(() => {
     if (
       (immersionState.data && typeApiImmersion === 'entreprise') ||
@@ -345,6 +344,7 @@ const ImmersionContainer = ({
     };
     immersionCall({ variables: dataTo });
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -485,7 +485,20 @@ const ImmersionContainer = ({
                 <div>{dataToRender.data.length === 0 && 'Augmente ta zone de recherche pour plus de résultats'}</div>
                 <div>
                   {dataToRender.type === 'formations' && (
-                    <Map type="formation" dataList={dataToRender.data} className={classes.mapFormation} />
+                    <>
+                      <div className={classes.wrapperSwitchMap}>
+                        <div className={classes.switchMask}>
+                          <Switch
+                            checked={state.values.switch}
+                            onClick={() => actions.setValues({ switch: !state.values.switch })}
+                          />
+                          <div className={classes.maskTitle}>Masquer la carte</div>
+                        </div>
+                      </div>
+                      {state.values.switch && (
+                        <Map type="formation" dataList={dataToRender.data} className={classes.mapFormation} />
+                      )}
+                    </>
                   )}
                 </div>
                 {dataToRender.data.map((e: Company) => (
@@ -495,6 +508,9 @@ const ImmersionContainer = ({
                     onClickContact={() => openContactState(e)}
                     onClickConseil={() => openConseilState(true)}
                     showMap={state.values.switch}
+                    typeApiImmersion={typeApiImmersion}
+                    lng={Number(longitude)}
+                    lat={Number(latitude)}
                   />
                 ))}
                 {dataToRender.data.length !== 0 && (

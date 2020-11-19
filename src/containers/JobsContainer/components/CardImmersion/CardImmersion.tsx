@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'components/button/Button';
 import Car from 'assets/svg/car.svg';
+import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
 import Heart from 'assets/svg/picto_add_favoris.svg';
+import orangeMessage from 'assets/svg/orange_message.svg';
 import Location from 'assets/svg/location.svg';
 import Mail from 'assets/svg/picto_mail.svg';
 import Idea from 'assets/svg/picto_ampoule.svg';
@@ -23,8 +25,6 @@ interface IProps {
 const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiImmersion, lng, lat }: IProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
-  // Converts numeric degrees to radians
   const toRad = (Value: number) => {
     return (Value * Math.PI) / 180;
   };
@@ -46,7 +46,11 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
     <div className={classNames(classes.root, open && classes.height2)}>
       <div className={classes.infoImmersion}>
         <div className={classes.leftInfo}>
-          <div className={classes.titleCard}>{data.name || data.title}</div>
+          <div className={classes.WrapperTitle}>
+            {typeApiImmersion !== 'entreprise' && <img src={LogoApprentissage} alt="logo" />}
+            <div className={classes.titleCard}>{data.name || data.title}</div>
+          </div>
+
           <div className={classes.description}>{data.naf_text || data.longTitle}</div>
           <div>{data.headcount_text}</div>
           {data.place && <div>Addresse: {data.place.fullAddress}</div>}
@@ -70,26 +74,33 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
             <div className={classes.logoItemDescription}>
               <img src={Location} alt="" />
               <div className={classes.textLogo}>
-                {typeApiImmersion === 'entreprise'
-                  ? calcCrow(data.lat, data.lon, lat, lng)
-                  : calcCrow(data.place.latitude, data.place.longitude, lat, lng)}{' Km '}
+                {typeApiImmersion !== 'entreprise' &&
+                  calcCrow(data?.place?.latitude, data?.place?.longitude, lat, lng)}
+                {typeApiImmersion === 'entreprise' && calcCrow(data.lat, data.lon, lat, lng)}
+                {' Km '}
                 de ton lieu de recherche
               </div>
             </div>
-            {/*  <div className={classes.logoItemDescription}>
-              <img src={Car} alt="" />
-              <div className={classes.textLogo}>4 min en voiture</div>
-            </div> */}
+            {typeApiImmersion === 'entreprise' ? (
+              <div className={classes.logoItemDescription}>
+                <img src={Car} alt="" />
+                <div className={classes.textLogo}>4 min en voiture</div>
+              </div>
+            ) : (
+              <div className={classes.logoItem} onClick={onClickContact}>
+                <img src={orangeMessage} alt="" width={25} height={25} />
+                <div className={classes.titleLogo}>Contacter par mail</div>
+              </div>
+            )}
           </div>
         </div>
         <div className={classes.rightInfo}>
-          {
-            <div className={classes.favorisText}>
-              {/*   Ajouter à mes favoris
-            <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} /> */}
-            </div>
-          }
-          {!open && (
+          {/* <div className={classes.favorisText}>
+            Ajouter à mes favoris
+            <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} />
+          </div>*/}
+
+          {!open && typeApiImmersion === 'entreprise' && (
             <div>
               <Button className={classes.btnContainer} onClick={() => setOpen(!open)}>
                 <div className={classes.btnLabel}>+ d’infos et contact</div>

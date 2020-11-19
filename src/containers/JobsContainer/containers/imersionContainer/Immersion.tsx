@@ -63,6 +63,7 @@ const ImmersionContainer = ({
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
   const [typeApiImmersion, setTypeApi] = useState('');
+  const [checkedTypeApiImmersion, checkedSetTypeApi] = useState('');
 
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
@@ -104,8 +105,10 @@ const ImmersionContainer = ({
     setSelectedLocation(selectedLoc);
     setSelectedImmersionCode(romeCodes);
     setTypeApi(typeApi);
+    checkedSetTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
   }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi]);
+
   useEffect(() => {
     if (romeCodes && latitude && longitude && pageSize && distances) {
       const argsImmersion = {
@@ -125,12 +128,13 @@ const ImmersionContainer = ({
         radius: Number(state.values.distance),
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
-      if (typeApiImmersion === 'entreprise') {
+      if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
-      } else {
+      } else if (checkedTypeApiImmersion === 'formations') {
         formationCall({ variables: dArgsFormation });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     romeCodes,
     latitude,
@@ -143,9 +147,10 @@ const ImmersionContainer = ({
     state.values.tri,
     immersionCall,
     formationCall,
-    typeApiImmersion,
     page,
+    typeApiImmersion,
   ]);
+
   useEffect(() => {
     if (
       (immersionState.data && typeApiImmersion === 'entreprise') ||
@@ -159,7 +164,10 @@ const ImmersionContainer = ({
         fetching: false,
       });
     }
-    if (immersionState.loading || formationState.loading) {
+    if (
+      (immersionState.loading && typeApiImmersion === 'entreprise') ||
+      (formationState.loading && typeApiImmersion === 'formations')
+    ) {
       setDataToRender({
         type: '',
         data: [],
@@ -204,10 +212,10 @@ const ImmersionContainer = ({
     setPage(pg);
   };
   const onTypeFilterApi = (el: { label: string }) => {
-    if (typeApiImmersion === el.label) {
-      setTypeApi('');
+    if (checkedTypeApiImmersion === el.label) {
+      checkedSetTypeApi('');
     } else {
-      setTypeApi(el.label);
+      checkedSetTypeApi(el.label);
     }
   };
   const tri = [
@@ -342,7 +350,18 @@ const ImmersionContainer = ({
       page_size: 6,
       distance: 5,
     };
-    immersionCall({ variables: dataTo });
+    const argsFormation = {
+      romes: romeCodes,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      radius: Number(state.values.distance),
+    };
+    setTypeApi(checkedTypeApiImmersion);
+    if (checkedTypeApiImmersion === 'entreprise') {
+      immersionCall({ variables: dataTo });
+    } else {
+      formationCall({ variables: argsFormation });
+    }
   };
 
   return (
@@ -378,7 +397,7 @@ const ImmersionContainer = ({
                   onChangeLocation={onChangeLocation}
                   onSelect={onSelect}
                   onChangeTypeApi={onTypeFilterApi}
-                  typeApi={typeApiImmersion}
+                  typeApi={checkedTypeApiImmersion}
                   selectedLocation={selectedLocation}
                   listLocation={listLocation}
                   LogoLocation={LogoLocation}
@@ -457,7 +476,7 @@ const ImmersionContainer = ({
               </div>
               {typeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
-                  <div className={classes.filterTitle}>Diplôme</div>
+                  <div className={classes.filterTitle}>Niveau de diplôme souhaité :</div>
                   {diplomeFilter.map((el) => (
                     <CheckBox
                       key={el.label}

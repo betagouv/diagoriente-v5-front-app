@@ -1,6 +1,7 @@
 import React from 'react';
 import { Map as LeafletMap, Marker, Popup, TileLayer } from 'react-leaflet';
 import Leaflet from 'leaflet';
+import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Formation } from 'requests/types';
 import 'leaflet-make-cluster-group/LeafletMakeCluster.css';
@@ -17,6 +18,11 @@ interface props {
 }
 
 const MapContainer = ({ lat, lng, name, type, className, handleClick, dataList }: props) => {
+  const iconPerson = new Leaflet.Icon({
+    iconUrl: LogoApprentissage,
+    iconRetinaUrl: LogoApprentissage,
+    iconSize: new Leaflet.Point(50, 50),
+  });
   return (
     <LeafletMap
       center={lat && lng ? [lat, lng] : [48.864716, 2.349014]}
@@ -46,7 +52,7 @@ const MapContainer = ({ lat, lng, name, type, className, handleClick, dataList }
                 const { longitude } = el.place;
                 const { latitude } = el.place;
                 return (
-                  <Marker key={el.title} position={[latitude, longitude]}>
+                  <Marker key={el.title} position={[latitude, longitude]} icon={iconPerson}>
                     <Popup>
                       <b>Institution: </b> {el.title}
                       <br />
@@ -55,7 +61,6 @@ const MapContainer = ({ lat, lng, name, type, className, handleClick, dataList }
                   </Marker>
                 );
               })}
-          
             </MarkerClusterGroup>
           )}
         </>

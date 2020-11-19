@@ -7,10 +7,10 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
   },
   content: {
-    maxWidth: '1080px',
+    //maxWidth: '1080px',
     width: '100%',
     marginTop: 30,
-    padding: 4,
+    padding: '4px 10%',
   },
   titleContainer: {
     display: 'flex',

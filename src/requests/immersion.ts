@@ -58,8 +58,8 @@ export interface ImmersionResponseType {
 export const useImmersion = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetImmersion, options);
 
 export const GetFormation = gql`
-  query formation($romes: String!, $latitude: Float!, $longitude: Float!, $radius: Int!) {
-    formation(romes: $romes, latitude: $latitude, longitude: $longitude, radius: $radius) {
+  query formation($romes: String!, $latitude: Float!, $longitude: Float!, $radius: Int!, $diploma:String) {
+    formation(romes: $romes, latitude: $latitude, longitude: $longitude, radius: $radius, diploma:$diploma) {
       title
       longTitle
       contact {

@@ -17,7 +17,6 @@ interface props {
 }
 
 const MapContainer = ({ lat, lng, name, type, className, handleClick, dataList }: props) => {
-  console.log('type', type, dataList);
   return (
     <LeafletMap
       center={lat && lng ? [lat, lng] : [48.864716, 2.349014]}

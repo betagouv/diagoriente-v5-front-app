@@ -223,4 +223,7 @@ export default makeStyles<Theme>((theme) => ({
   descriptionAide: {
     height: 60,
   },
+  mapFormation: {
+    height: '491px !important',
+  },
 }));

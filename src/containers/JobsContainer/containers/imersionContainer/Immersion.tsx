@@ -16,8 +16,6 @@ import Map from 'components/Map/Map';
 import Arrow from 'assets/svg/arrow';
 import TraitJaune from 'assets/images/trait_jaune.svg';
 import Edit from 'assets/svg/edit.svg';
-import LogoFormation from 'assets/svg/picto_formation.svg';
-import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
 
 import LogoLocation from 'assets/form/location.png';
 import msg from 'assets/svg/msgorange.svg';
@@ -64,6 +62,7 @@ const ImmersionContainer = ({
   const [selectedDistance, setSelectedDistance] = useState('5 km');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
+  const [typeApiImmersion, setTypeApi] = useState('');
 
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
@@ -87,6 +86,7 @@ const ImmersionContainer = ({
       distance: '5',
       switch: true,
       switchRayon: '',
+      diplome: '',
     },
   });
 
@@ -103,8 +103,9 @@ const ImmersionContainer = ({
     setSelectedImmersion(data?.job.title);
     setSelectedLocation(selectedLoc);
     setSelectedImmersionCode(romeCodes);
+    setTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
-  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation]);
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi]);
   useEffect(() => {
     if (romeCodes && latitude && longitude && pageSize && distances) {
       const argsImmersion = {
@@ -123,10 +124,11 @@ const ImmersionContainer = ({
         longitude: Number(longitude),
         radius: Number(state.values.distance),
       };
-      if (typeApi === 'entreprise') {
+      const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
+      if (typeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
       } else {
-        formationCall({ variables: argsFormation });
+        formationCall({ variables: dArgsFormation });
       }
     }
   }, [
@@ -134,23 +136,27 @@ const ImmersionContainer = ({
     latitude,
     longitude,
     pageSize,
+    state.values.diplome,
     distances,
     state.values.distance,
     state.values.taille,
     state.values.tri,
     immersionCall,
     formationCall,
-    typeApi,
+    typeApiImmersion,
     page,
   ]);
 
   useEffect(() => {
-    if (immersionState.data || formationState.data) {
-      const result = typeApi === 'entreprise' ? immersionState.data : formationState.data;
+    if (
+      (immersionState.data && typeApiImmersion === 'entreprise') ||
+      (formationState.data && typeApiImmersion === 'formations')
+    ) {
+      const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
-        type: typeApi,
-        data: typeApi === 'entreprise' ? result.immersions.companies : result.formation,
-        count: typeApi === 'entreprise' ? result.immersions.companies_count : result.formation.length,
+        type: typeApiImmersion,
+        data: typeApiImmersion === 'entreprise' ? result.immersions?.companies : result.formation,
+        count: typeApiImmersion === 'entreprise' ? result.immersions.companies_count : result.formation.length,
         fetching: false,
       });
     }
@@ -162,7 +168,7 @@ const ImmersionContainer = ({
         fetching: true,
       });
     }
-  }, [formationState.loading, immersionState.loading, formationState.data, immersionState.data, typeApi]);
+  }, [formationState.loading, immersionState.loading, formationState.data, immersionState.data, typeApiImmersion]);
   const handleClose = () => {
     openContactState(null);
     openConseilState(false);
@@ -198,7 +204,13 @@ const ImmersionContainer = ({
   const getData = (pg: number) => {
     setPage(pg);
   };
-
+  const onTypeFilterApi = (el: { label: string }) => {
+    if (typeApiImmersion === el.label) {
+      setTypeApi('');
+    } else {
+      setTypeApi(el.label);
+    }
+  };
   const tri = [
     {
       label: 'Distance',
@@ -245,21 +257,12 @@ const ImmersionContainer = ({
       value: '+ de 100 km',
     },
   ];
-  const typeFilter = [
-    {
-      label: 'Formations',
-      value: 'formation',
-      logo: LogoFormation,
-    },
-    {
-      label: 'Entreprise',
-      value: 'entreprise',
-      logo: LogoApprentissage,
-    },
-    {
-      label: 'Tout',
-      value: 'all',
-    },
+  const diplomeFilter = [
+    { label: 'Cap', value: '3 (CAP...)' },
+    { label: 'Bac', value: '4 (BAC...)' },
+    { label: 'BTS, DUT', value: '5 (BTS, DUT...)' },
+    { label: 'Licence', value: '6 (Licence...)' },
+    { label: 'Master, titre ingénieur', value: '7 (Master, titre ingénieur...)' },
   ];
   const onChangeTri = (el: { label: string; value: string }) => {
     if (selectedTri === el.label) {
@@ -297,13 +300,13 @@ const ImmersionContainer = ({
       setPage(1);
     }
   };
-  const onTypeFilter = (el: { label: string; value: string }) => {
+  const onTypeFilterDiplome = (el: { label: string; value: string }) => {
     if (selectedTypeFilter === el.label) {
-      actions.setValues({ distance: '' });
+      actions.setValues({ diplome: '' });
       setSelectedTypeFilter('');
     } else {
       setSelectedTypeFilter(el.label);
-      actions.setValues({ distance: el.value });
+      actions.setValues({ diplome: el.value });
       setPage(1);
     }
   };
@@ -353,7 +356,7 @@ const ImmersionContainer = ({
             </div>
           </Link>
           <ImageTitle
-            title={`TROUVER UNE ${typeApi === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
+            title={`TROUVER UNE ${typeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
             color="#DB8F00"
             image={TraitJaune}
             size={42}
@@ -374,6 +377,8 @@ const ImmersionContainer = ({
                   openImmersion={openImmersion}
                   onChangeLocation={onChangeLocation}
                   onSelect={onSelect}
+                  onChangeTypeApi={onTypeFilterApi}
+                  typeApi={typeApiImmersion}
                   selectedLocation={selectedLocation}
                   listLocation={listLocation}
                   LogoLocation={LogoLocation}
@@ -401,7 +406,7 @@ const ImmersionContainer = ({
               </div>
             )}
             <div className={classes.filters}>
-              {typeApi === 'entreprise' && (
+              {typeApiImmersion === 'entreprise' && (
                 <div className={classes.switchMask}>
                   <Switch
                     checked={state.values.switch}
@@ -410,7 +415,7 @@ const ImmersionContainer = ({
                   <div className={classes.maskTitle}>Masquer la carte</div>
                 </div>
               )}
-              {typeApi === 'entreprise' && (
+              {typeApiImmersion === 'entreprise' && (
                 <>
                   <div className={classes.TrierContainer}>
                     <div className={classes.filterMainTitle}>Trier</div>
@@ -423,7 +428,7 @@ const ImmersionContainer = ({
               )}
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
 
-              {typeApi === 'entreprise' && (
+              {typeApiImmersion === 'entreprise' && (
                 <div className={classes.tailleContainer}>
                   <div className={classes.filterTitle}>Taille de l’entreprise</div>
                   {taille.map((el) => (
@@ -450,16 +455,15 @@ const ImmersionContainer = ({
                   />
                 ))}
               </div>
-              {typeApi !== 'entreprise' && (
+              {typeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
-                  <div className={classes.filterTitle}>Afficher</div>
-                  {typeFilter.map((el) => (
+                  <div className={classes.filterTitle}>Diplôme</div>
+                  {diplomeFilter.map((el) => (
                     <CheckBox
                       key={el.label}
                       label={el.label}
-                      logo={el.logo}
                       value={selectedTypeFilter}
-                      onClick={() => onTypeFilter(el)}
+                      onClick={() => onTypeFilterDiplome(el)}
                     />
                   ))}
                 </div>
@@ -479,7 +483,11 @@ const ImmersionContainer = ({
                 <div className={classes.resultTitle}>{`${dataToRender.count} résultats`}</div>
 
                 <div>{dataToRender.data.length === 0 && 'Augmente ta zone de recherche pour plus de résultats'}</div>
-                <div>{dataToRender.type === 'formations' && <Map type="formation" dataList={dataToRender.data} />}</div>
+                <div>
+                  {dataToRender.type === 'formations' && (
+                    <Map type="formation" dataList={dataToRender.data} className={classes.mapFormation} />
+                  )}
+                </div>
                 {dataToRender.data.map((e: Company) => (
                   <CardImmersion
                     data={e}

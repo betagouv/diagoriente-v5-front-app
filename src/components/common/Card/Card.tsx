@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import classNames from 'utils/classNames';
-
 import useStyles from './styles';
-
 interface Props {
   className?: string;
   title: string;
@@ -16,7 +13,6 @@ interface Props {
   path?: string;
   childrenCardClassName?: string;
 }
-
 const Card = ({
   title,
   titleCard,
@@ -29,21 +25,21 @@ const Card = ({
   childrenCardClassName,
 }: Props) => {
   const classes = useStyles({ background, color });
-  const Component = !path ? 'div' : Link;
+  const component = !path ? <div /> : <Link to={path} />;
   return (
     <div className={classNames(classes.cardContainer, className)}>
       {titleCard}
-      <Component to={path || ''} className={classes.link}>
+      {React.cloneElement(
+        component,
+        { className: classes.link },
         <div className={classNames(classes.titleContainer, logo && classes.titleSpacing)}>
           {logo && <img src={logo} alt=" " height={40} className={classes.logo} />}
           {title}
           {logo && <div className={classes.logo} />}
-        </div>
-      </Component>
-
+        </div>,
+      )}
       <div className={classNames(classes.childrenCard, childrenCardClassName)}>{children}</div>
     </div>
   );
 };
-
 export default Card;

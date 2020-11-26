@@ -12,6 +12,11 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
+  wc2023: {
+    perimeter: number;
+    birthdate: string;
+    degree: number;
+  };
 }
 
 export interface Question {

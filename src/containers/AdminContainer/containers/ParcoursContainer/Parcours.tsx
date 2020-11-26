@@ -1,7 +1,5 @@
 import React from 'react';
 
-const Parcours = () => {
-  return <div>parcour</div>;
-};
+const Parcours = () => <div>parcour</div>;
 
 export default Parcours;

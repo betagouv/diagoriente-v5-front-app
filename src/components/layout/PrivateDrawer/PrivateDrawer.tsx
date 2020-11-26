@@ -33,6 +33,11 @@ const adminLinks = [
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
+const advisorLinks = [
+  { text: 'Parcours', path: '/admin/parcours' },
+  { text: 'DÉCONNEXION', path: '/' },
+];
+
 const PrivateDrawer = () => {
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
@@ -54,8 +59,25 @@ const PrivateDrawer = () => {
     setOpen(false);
   };
 
-  const links = user?.role !== 'admin' ? userLinks : adminLinks;
-
+  /* const links = user?.role === 'user' ? userLinks : adminLinks; */
+  let links = [];
+  switch (user?.role) {
+    case 'advisor': {
+      links = advisorLinks;
+      break;
+    }
+    case 'user': {
+      links = userLinks;
+      break;
+    }
+    case 'admin': {
+      links = adminLinks;
+      break;
+    }
+    default: {
+      links = userLinks;
+    }
+  }
   useEffect(() => {
     if (!parcours?.completed && isJobs) {
       setOpen(true);

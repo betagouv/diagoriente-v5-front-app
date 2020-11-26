@@ -1,3 +1,3 @@
-import createLazyComponent from 'common/utils/createLazyComponent';
+import createLazyComponent from 'utils/createLazyComponent';
 
 export default createLazyComponent(() => import('./Parcours'));

@@ -12,6 +12,11 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
+  wc2023: {
+    perimeter: number;
+    birthdate: string;
+    degree: number;
+  };
 }
 
 export interface Question {
@@ -311,4 +316,17 @@ export interface Formation {
       };
     };
   };
+}
+
+export interface StructureWC2023 {
+  id: string,
+  club_code: string,
+  name: string,
+  city: string,
+  licensed_text: string,
+  licensed_count: number,
+  geolocation: {
+    lat: number,
+    lng: number
+  }
 }

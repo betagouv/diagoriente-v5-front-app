@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import classNames from 'utils/classNames';
-
 import useStyles from './styles';
-
 interface Props {
   className?: string;
   title: string;
@@ -16,7 +13,6 @@ interface Props {
   path?: string;
   childrenCardClassName?: string;
 }
-
 const Card = ({
   title,
   titleCard,
@@ -50,5 +46,4 @@ const Card = ({
     </div>
   );
 };
-
 export default Card;

@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Dialog, Grid, Card, CardContent, Typography } from '@material-ui/core';
+import { Modal, Dialog, Grid, Card, CardContent, Typography, IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import path from 'path';
+import carte from 'assets/svg/carte.svg';
 import UserContext from '../../../../contexts/UserContext';
 import { useMyGroup } from '../../../../requests/groupes';
 import { useDidMount } from '../../../../hooks/useLifeCycle';
 import Table, { Header } from '../../../../components/ui/Table/Table';
 import Button from '../../../../components/button/Button';
 import { StructureWC2023 } from '../../../../requests/types';
+import useStyle from '../../../../components/ui/Crud/styles';
 
 const Parcours = () => {
   const { user } = useContext(UserContext);
@@ -41,9 +45,18 @@ const Parcours = () => {
       title: 'Carte de compétences',
       key: 'competenceCard',
       render: () => (
-        <Button variant="contained" onClick={() => handleOpenCompetenceCard()}>
-          Voir
-        </Button>
+        <span onClick={() => handleOpenCompetenceCard()} style={{ cursor: "pointer" }}>
+          <img width={32} height={32} src={carte} alt="Voir la carte de compétences" />
+        </span>
+      ),
+    },
+    {
+      title: 'Parcours validé',
+      key: 'validatedParcours',
+      render: () => (
+        <span role="img" aria-label="Validé">
+          ✅
+        </span>
       ),
     },
     {
@@ -54,8 +67,14 @@ const Parcours = () => {
     },
   ];
 
+  const classes = useStyle();
+
   return (
     <>
+      <div className={classes.titleContainer}>
+        <div className={classes.title}>SUIVI DES CANDIDATS</div>
+      </div>
+
       {loading && <p>Chargement des données ...</p>}
       {!loading && (
         <Grid container spacing={3}>
@@ -73,11 +92,22 @@ const Parcours = () => {
           </Grid>
           <Grid item xs={4}>
             {structures.map((v) => (
-              <div key={v.id}>
+              <div key={v.id} style={{ marginBottom: '1em' }}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6">{v.name}</Typography>
-                    <Typography color="textSecondary">{v.licensed_text}</Typography>
+                    <Typography color="primary">
+                      <strong>{v.name}</strong>
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {`${v.licensed_text} • ${v.city}`}
+                    </Typography>
+
+                    <ul>
+                      <strong>Besoins :</strong>
+                      {v.expectations.map((v) => (
+                        <li key={v.id}>{v.name}</li>
+                      ))}
+                    </ul>
                   </CardContent>
                 </Card>
               </div>

@@ -319,14 +319,20 @@ export interface Formation {
 }
 
 export interface StructureWC2023 {
-  id: string,
-  club_code: string,
-  name: string,
-  city: string,
-  licensed_text: string,
-  licensed_count: number,
+  id: string;
+  club_code: string;
+  name: string;
+  city: string;
+  licensed_text: string;
+  licensed_count: number;
   geolocation: {
-    lat: number,
-    lng: number
-  }
+    lat: number;
+    lng: number;
+  };
+  expectations: [
+    {
+      id: string;
+      name: string;
+    },
+  ];
 }

@@ -1,7 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Modal, Dialog, Grid, Card, CardContent, Typography, IconButton } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import path from 'path';
+import React, { useContext, useMemo, useState } from 'react';
+import { Dialog, Grid, Card, CardContent, Typography, DialogContent, DialogTitle, Tooltip } from '@material-ui/core';
 import carte from 'assets/svg/carte.svg';
 import UserContext from '../../../../contexts/UserContext';
 import { useMyGroup } from '../../../../requests/groupes';
@@ -10,19 +8,30 @@ import Table, { Header } from '../../../../components/ui/Table/Table';
 import Button from '../../../../components/button/Button';
 import { StructureWC2023 } from '../../../../requests/types';
 import useStyle from '../../../../components/ui/Crud/styles';
+import CompetenceEchelon from '../../../../components/common/CompetenceEchelon/CompetenceEchelon';
+import { useGetUserParcourByUserId } from '../../../../requests/parcours';
 
 const Parcours = () => {
-  const { user } = useContext(UserContext);
-  const [loadParcours, { data, loading }] = useMyGroup();
+  const [loadMyGroup, { data, loading }] = useMyGroup();
   const [showModal, setShowModal] = useState(false);
   const [structures, setStructures] = useState<StructureWC2023[]>([]);
+  const [loadParcoursById, { data: userParcoursData, loading: userParcoursLoading }] = useGetUserParcourByUserId();
   const myGroup = data?.myGroup;
 
   useDidMount(() => {
-    loadParcours();
+    loadMyGroup();
   });
 
-  const handleOpenCompetenceCard = () => {
+  const globalCompetences = useMemo(
+    () =>
+      userParcoursData?.userParcourByUserId?.globalCompetences.filter(
+        (comp: any) => comp.value > 0 && comp.type === 'default',
+      ) || [],
+    [userParcoursData],
+  );
+
+  const handleOpenCompetenceCard = (userId: string) => {
+    loadParcoursById({ variables: { userId } });
     setShowModal(true);
   };
 
@@ -43,9 +52,10 @@ const Parcours = () => {
     { title: 'Formation choisie', key: 'selectedFormation' },
     {
       title: 'Carte de compétences',
+      dataIndex: 'id',
       key: 'competenceCard',
-      render: () => (
-        <span onClick={() => handleOpenCompetenceCard()} style={{ cursor: "pointer" }}>
+      render: (value) => (
+        <span onClick={() => handleOpenCompetenceCard(value)} style={{ cursor: 'pointer' }}>
           <img width={32} height={32} src={carte} alt="Voir la carte de compétences" />
         </span>
       ),
@@ -63,7 +73,11 @@ const Parcours = () => {
       title: "Structures d'accueil potentielles",
       key: 'structures',
       dataIndex: 'eligibleStructuresWC2023',
-      render: (value) => <Button onClick={() => setStructures(value)}>Voir les structures</Button>,
+      render: (value) => (
+        <Button onClick={() => setStructures(value)}>
+          <span>{`Voir les structures (${value.length})`}</span>
+        </Button>
+      ),
     },
   ];
 
@@ -105,7 +119,11 @@ const Parcours = () => {
                     <ul>
                       <strong>Besoins :</strong>
                       {v.expectations.map((v) => (
-                        <li key={v.id}>{v.name}</li>
+                        <li key={v.id}>
+                          <Tooltip title="Afficher ici la description des besoins">
+                            <span>{v.name}</span>
+                          </Tooltip>
+                        </li>
                       ))}
                     </ul>
                   </CardContent>
@@ -116,7 +134,21 @@ const Parcours = () => {
         </Grid>
       )}
       <Dialog open={showModal} onClose={() => setShowModal(false)}>
-        HELLO !!!
+        <DialogTitle>Carte de compétences</DialogTitle>
+        <DialogContent dividers>
+          {userParcoursLoading && <p>Chargement du profil utilisateur ...</p>}
+          {!userParcoursLoading && userParcoursData && (
+            <div>
+              {!globalCompetences.length && <p>Cet utilisateur n'a pas ajouté d'expériences !</p>}
+              {globalCompetences.map((v: any) => (
+                <div>
+                  <strong>{v.title}</strong>
+                  <CompetenceEchelon value={v.value} />
+                </div>
+              ))}
+            </div>
+          )}
+        </DialogContent>
       </Dialog>
     </>
   );

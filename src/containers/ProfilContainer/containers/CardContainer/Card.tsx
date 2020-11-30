@@ -15,10 +15,14 @@ import CardCompetence from './components/CardCompetence/CardCompetence';
 import CardSkills from './components/CardSkills/CardSkills';
 
 import useStyles from './styles';
+import { UserParcour } from 'requests/types';
+interface IProps {
+  Userparcours?: UserParcour | undefined
+}
 
-const CardContainer = () => {
+const CardContainer = ({ Userparcours }: IProps) => {
   const classes = useStyles();
-  const skillsState = useParcourSkills();
+  const skillsState = useParcourSkills(undefined, Userparcours);
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
@@ -41,6 +45,7 @@ const CardContainer = () => {
       onGame={onClickIcon}
       fetching={loading}
       fetchingPrint={loadingPrint}
+      showGame={!Userparcours}
     />
   );
 
@@ -61,12 +66,12 @@ const CardContainer = () => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <Arrow />
+        {!Userparcours && <Arrow />}
         <div className={classes.headerTitle}>
           <img className={classes.headerImage} src={carte} alt="" />
           <span className={classes.title}>CARTE DE COMPÉTENCES</span>
         </div>
-        {icons}
+        {!Userparcours && icons}
       </div>
       <Paper className={classes.card}>
         <CardHeader />
@@ -90,6 +95,7 @@ const CardContainer = () => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience personnelle"
           emptyButton="J’ajoute une expérience perso"
           path={`/experience/theme${encodeUri({ redirect: '/profile/card' })}`}
+          show={!Userparcours}
         />
         <CardSkills
           skills={skills.filter((skill) => skill.theme && skill.theme.type === 'professional')}
@@ -97,6 +103,7 @@ const CardContainer = () => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience professionnelle"
           emptyButton="J’ajoute une expérience pro"
           path={`/experience/theme-pro${encodeUri({ redirect: '/profile/card', type: 'professional' })}`}
+          show={!Userparcours}
         />
         <CardSkills
           skills={skills.filter((skill) => skill.theme && skill.theme.type === 'engagement')}
@@ -104,9 +111,10 @@ const CardContainer = () => {
           emptyMessage="Tu n’as pas encore renseigné d'expérience d'engagement"
           emptyButton="J’ajoute une expérience d'engagement"
           path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
+          show={!Userparcours}
         />
       </Paper>
-      <div className={classes.footerIcons}>{icons}</div>
+      <div className={classes.footerIcons}>{!Userparcours && icons}</div>
       {element}
       <ModalContainer open={toggle} handleClose={closeModal} backdropColor="#011A5E" colorIcon="#D60051">
         <div className={classes.boxInfo}>

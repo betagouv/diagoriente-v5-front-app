@@ -17,10 +17,11 @@ import CardSkills from './components/CardSkills/CardSkills';
 import useStyles from './styles';
 import { UserParcour } from 'requests/types';
 interface IProps {
-  Userparcours?: UserParcour | undefined
+  Userparcours?: UserParcour | undefined;
+  infoUser?: { firstName: string; lastName: string };
 }
 
-const CardContainer = ({ Userparcours }: IProps) => {
+const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   const classes = useStyles();
   const skillsState = useParcourSkills(undefined, Userparcours);
   const [type, setType] = useState('');
@@ -74,7 +75,7 @@ const CardContainer = ({ Userparcours }: IProps) => {
         {!Userparcours && icons}
       </div>
       <Paper className={classes.card}>
-        <CardHeader />
+        <CardHeader infoUser={infoUser} />
         <div className={classes.competenceContainer}>
           <CardCompetence
             title="COMPÉTENCES TRANSVERSALES"

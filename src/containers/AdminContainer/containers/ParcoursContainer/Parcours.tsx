@@ -1,25 +1,30 @@
 import React, { useContext, useState } from 'react';
 import { Modal, Dialog, Grid, Card, CardContent, Typography } from '@material-ui/core';
-import UserContext from '../../../../contexts/UserContext';
-import { useMyGroup } from '../../../../requests/groupes';
-import { useDidMount } from '../../../../hooks/useLifeCycle';
-import Table, { Header } from '../../../../components/ui/Table/Table';
-import Button from '../../../../components/button/Button';
-import { StructureWC2023 } from '../../../../requests/types';
+import UserContext from 'contexts/UserContext';
+import { useMyGroup } from 'requests/groupes';
+import { useDidMount } from 'hooks/useLifeCycle';
+import Table, { Header } from 'components/ui/Table/Table';
+import Button from 'components/button/Button';
+import { StructureWC2023 } from 'requests/types';
+import { useGetUserParcour } from 'requests/parcours';
+import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
+import ModalContainer from 'components/common/Modal/ModalContainer';
 
 const Parcours = () => {
   const { user } = useContext(UserContext);
   const [loadParcours, { data, loading }] = useMyGroup();
   const [showModal, setShowModal] = useState(false);
   const [structures, setStructures] = useState<StructureWC2023[]>([]);
+  const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const myGroup = data?.myGroup;
 
   useDidMount(() => {
     loadParcours();
   });
 
-  const handleOpenCompetenceCard = () => {
+  const handleOpenCompetenceCard = (idUser: String) => {
     setShowModal(true);
+    getParcoursCall({ variables: { idUser } })
   };
 
   const headers: Header<any>[] = [
@@ -40,8 +45,9 @@ const Parcours = () => {
     {
       title: 'Carte de compétences',
       key: 'competenceCard',
-      render: () => (
-        <Button variant="contained" onClick={() => handleOpenCompetenceCard()}>
+      dataIndex: 'id',
+      render: (value) => (
+        <Button variant="contained" onClick={() => handleOpenCompetenceCard(value)}>
           Voir
         </Button>
       ),
@@ -85,9 +91,9 @@ const Parcours = () => {
           </Grid>
         </Grid>
       )}
-      <Dialog open={showModal} onClose={() => setShowModal(false)}>
-        HELLO !!!
-      </Dialog>
+      {getParcoursState.data?.userParcour && <ModalContainer open={showModal} handleClose={() => setShowModal(false)} backdropColor="#011A5E" colorIcon="#4D6EC5" size={90}>
+        <CardContainer Userparcours={getParcoursState.data?.userParcour} />
+      </ModalContainer>}
     </>
   );
 };

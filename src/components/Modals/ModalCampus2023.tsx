@@ -83,23 +83,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     state.values.accessibility,
     state.values.location,
   ]);
-  /*  useEffect(() => {
-    if (user) {
-        console.log('here')
-      actions.setValues({
-        location: user.location,
-        firstName: user.profile.firstName,
-        lastName: user.profile.lastName,
-      });
-      if (user.wc2023) {
-        const acc: any = [];
-        acc.push(user.wc2023.degree);
-        actions.setValues({
-          accessibility: acc,
-        });
-      }
-    }
-  }, []); */
+
   useEffect(() => {
     if (user) {
       const acc: any = [];

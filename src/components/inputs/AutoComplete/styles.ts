@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean }>((theme) => ({
+export default makeStyles<Theme, { error: boolean, isCampus?: boolean }>((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -29,7 +29,7 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     },
     '& .MuiInputBase-root': {
       height: 35,
-      width: 229,
+      width: (props) => props.isCampus ? 235 : 229,
       background: '#FFFFFF',
       border: (props) => `1px solid ${props.error ? theme.palette.error.main : '#C9C9C7'}`,
       borderRadius: 5,
@@ -87,7 +87,9 @@ export default makeStyles<Theme, { error: boolean }>((theme) => ({
     },
   },
   label: {
-    marginRight: 14,
+    fontSize: (props) => props.isCampus ? 16 : 14,
+    color: (props) => props.isCampus ? 'black' : "#424242",
+    marginRight: 18,
     fontWeight: 'bold',
   },
   wrapperInput: {

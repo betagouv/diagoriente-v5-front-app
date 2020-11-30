@@ -26,6 +26,16 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     paddingBottom: '6.2vh',
     cursor: 'pointer',
     transition,
+    position: 'relative'
+  },
+  disableClass: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#6a6a6b80',
+    zIndex: 3
   },
   title: {
     color: '#FFFFFF',
@@ -83,4 +93,12 @@ export default makeStyles<Theme, { background?: string; state?: 'closed' | 'init
     zIndex: -1,
     transition,
   },
+  btnValidate: {
+    backgroundColor: 'rgb(255, 77, 0)',
+    color: '#fff',
+    "&:hover": {
+      backgroundColor: 'rgb(255, 77, 0)',
+    }
+  },
+  styleBtn: { position: 'absolute', right: 20, top: 50 }
 }));

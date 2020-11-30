@@ -151,4 +151,14 @@ export default makeStyles((theme) => ({
   checked: {
     marginLeft: 10,
   },
+  btnValidate: {
+    backgroundColor: 'rgb(255, 77, 0)',
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    width: 340,
+    '&:hover': {
+      backgroundColor: 'rgb(255, 77, 0)',
+    },
+  },
 }));

@@ -1,4 +1,10 @@
 export type UserRole = 'user' | 'admin' | 'advisor';
+export interface WC2023 {
+  birthdate?: string;
+  degree?: string;
+  formation?:string;
+  perimeter?: number;
+}
 export interface User {
   id: string;
   email: string;
@@ -12,11 +18,8 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
-  wc2023: {
-    perimeter: number;
-    birthdate: string;
-    degree: number;
-  };
+  wc2023: WC2023
+  isCampus: boolean
 }
 
 export interface Question {

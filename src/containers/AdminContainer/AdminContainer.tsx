@@ -15,7 +15,6 @@ import CompetenceContainer from './containers/CompetenceContainer';
 import QuestionContainer from './containers/QuestionContainer';
 import OptionContainer from './containers/OptionContainer';
 import InstitutionContainer from './containers/InstitutionContainer';
-import ParcoursContainer from './containers/ParcoursContainer';
 
 import useStyles from './styles';
 
@@ -35,7 +34,7 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
   const children = (
     <Route
       protected
-      authorizedRole={'admin' || 'advisor'}
+      authorizedRole={'admin'}
       render={() => {
         if (match.isExact) return <Redirect to="/admin/themes" />;
         return (
@@ -48,7 +47,6 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
               <BaseRoute path="/admin/questions" component={QuestionContainer} />
               <BaseRoute path="/admin/options" component={OptionContainer} />
               <BaseRoute path="/admin/institution" component={InstitutionContainer} />
-              <BaseRoute path="/admin/parcours" component={ParcoursContainer} />
               <NotFoundPage />
             </Switch>
           </div>

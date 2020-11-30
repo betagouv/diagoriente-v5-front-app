@@ -34,14 +34,14 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
       borderColor: theme.palette.success.main,
     },
     '&::placeholder': {
-      color: (props) => (props.open ? theme.palette.success.main : '#424242'),
+      color: '#424242',
       fontSize: 14,
       fontWeight: 'bold',
     },
   },
   logoContainer: {
     position: 'absolute',
-    right: 12,
+    right: 1,
     top: 14,
     backgroundColor: '#fff',
   },

@@ -42,7 +42,7 @@ const Input = ({
   isfull,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm), isfull });
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull, required });
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -93,8 +93,8 @@ const Input = ({
               {...rest}
               variant="outlined"
             />
-            {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-            {value && !errorText && !errorForm && !withOutIcons && (
+            {(errorText || errorForm) && required && <img src={LogoRose} className={classes.logo} alt="check" />}
+            {value && !errorText && !errorForm && required && !withOutIcons && (
               <img src={LogoCheked} className={classes.logo} alt="check" />
             )}
           </div>

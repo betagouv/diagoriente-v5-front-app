@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme) => ({
+export default makeStyles<Theme, { error: boolean; isfull?: boolean, required?:boolean }>((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -113,6 +113,8 @@ export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme) =
   label: {
     marginRight: 14,
     fontWeight: 'bold',
+    fontSize: (props) => props.required ? 14 : 16,
+    color: (props) => props.required ? "#424242": 'black'
   },
   subTitle: {
     fontSize: 12,

@@ -2,7 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
   root: {
-    backgroundColor: '#E5E5E5',
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
@@ -15,14 +14,14 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     fontWeight: 900,
     fontSize: 56,
     textAlign: 'center',
-    color: (props) => props.isCampus ? "#ff4d00" : theme.palette.info.main,
-    marginBottom: (props) => props.isCampus ? 10 : 40,
+    color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
+    marginBottom: (props) => (props.isCampus ? 10 : 40),
   },
   titleDesc: {
-    fontWeight: "bolder",
+    fontWeight: 'bolder',
     fontSize: 36,
     textAlign: 'center',
-    color: (props) => props.isCampus ? "#ff4d00" : theme.palette.info.main,
+    color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
     marginBottom: 40,
   },
   subTitle: {
@@ -54,12 +53,12 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     marginTop: 30,
   },
   btn: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#ff4d00',
     height: 50,
     width: 'max-content',
     padding: '0px 25px',
     '&:hover': {
-      backgroundColor: '#223A7A',
+      backgroundColor: '#ff4d00',
       borderRadius: 10,
     },
   },
@@ -75,33 +74,34 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
   },
   forms: {
     marginTop: 30,
-    justifySelf: 'center'
+    justifySelf: 'center',
+    width: '100%',
   },
   containerAutoComp: {
     '& .MuiAutocomplete-inputRoot-228': {
       padding: 0,
     },
     width: '235px !important',
-    position: 'relative'
+    position: 'relative',
   },
   selectwrapper: {
     display: ' flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   labelSelect: {
     fontWeight: 'bolder',
     fontSize: 16,
-    color: "black",
-    marginRight: 20
+    color: 'black',
+    marginRight: 20,
   },
   labelContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-end",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    height: "100%"
+    height: '100%',
   },
   requiredInput: {
     color: theme.palette.success.main,
-  }
+  },
 }));

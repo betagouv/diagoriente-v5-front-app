@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { MutationHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation } from 'hooks/apollo';
 
-import { User } from './types';
+import { User, WC2023 } from './types';
 
 export const updateUserMutation = gql`
   mutation User(
@@ -15,6 +15,7 @@ export const updateUserMutation = gql`
     $location: String
     $codeGroupe: String
     $oldPassword: String
+    $wc2023: wc2023Input
   ) {
     updateUser(
       password: $password
@@ -25,6 +26,7 @@ export const updateUserMutation = gql`
       location: $location
       logo: $logo
       email:$email
+      wc2023:$wc2023
     ) {
       id
       email
@@ -36,6 +38,13 @@ export const updateUserMutation = gql`
       codeGroupe
       location
       logo
+      wc2023 {
+        degree
+        formation
+        perimeter
+        birthdate
+      }
+      isCampus
     }
   }
 `;
@@ -48,6 +57,7 @@ export interface UpdateUserArguments {
   location?: string;
   logo?: string;
   codeGroupe?: string;
+  wc2023?: WC2023;
 }
 
 export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User }, UpdateUserArguments> = {}) =>

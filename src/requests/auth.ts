@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 
-import { User, Token } from './types';
+import { User, Token, WC2023 } from './types';
 
 export const registerMutation = gql`
   mutation Register(
@@ -39,6 +39,12 @@ export const registerMutation = gql`
         location
         logo
         isCampus
+        wc2023 {
+          formation
+          degree
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -82,6 +88,12 @@ export const loginMutation = gql`
           institution
         }
         isCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -136,6 +148,12 @@ export const refreshMutation = gql`
           institution
         }
         isCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -193,6 +211,12 @@ export const resetMutation = gql`
           institution
         }
         isCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType

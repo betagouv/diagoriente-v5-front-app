@@ -34,7 +34,7 @@ const adminLinks = [
 ];
 
 const advisorLinks = [
-  { text: 'Parcours', path: '/admin/parcours' },
+  { text: 'Parcours', path: '/advisor/parcours' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 

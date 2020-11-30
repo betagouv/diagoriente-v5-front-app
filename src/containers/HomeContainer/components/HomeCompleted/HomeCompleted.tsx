@@ -21,6 +21,7 @@ const HomeCompleted = () => {
   const classes = useStyles();
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const isCampus = user?.isCampus;
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
 
@@ -124,7 +125,7 @@ const HomeCompleted = () => {
     ],
     [classes, renderContentItem],
   );
-
+  console.log('user', user);
   return (
     <>
       <div className={classes.container}>
@@ -140,7 +141,7 @@ const HomeCompleted = () => {
               key={content.title}
               onClick={() => setOpen(open === index ? -1 : index)}
               {...content}
-              state={getState(index)}
+              state={isCampus ? (index === 0 ? 'open' : 'closed') : getState(index)}
             />
           ))}
         </div>

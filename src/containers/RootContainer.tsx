@@ -26,6 +26,7 @@ import SecteurContext from 'contexts/SecteurContext';
 import Recommendation from 'containers/RecommendationContainer';
 import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
+import AdvisorContainer from 'containers/AdvisorContainer';
 
 const theme = createMuiTheme({
   palette: {
@@ -80,6 +81,7 @@ const RootContainer = () => {
               <BaseRoute path="/jobs" component={jobsContainer} />
               <BaseRoute path="/game" component={GameContainer} />
               <BaseRoute path="/admin" component={AdminContainer} />
+              <BaseRoute path="/advisor" component={AdvisorContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

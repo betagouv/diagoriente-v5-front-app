@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles({
+export default makeStyles<Theme, { isCampus?: boolean }>({
   header: {
-    backgroundColor: 'transparent',
+    backgroundColor: (props) => props.isCampus ? "#3f30b3" : 'transparent',
     boxShadow: 'none',
   },
 });

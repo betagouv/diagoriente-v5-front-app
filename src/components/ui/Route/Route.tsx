@@ -51,7 +51,7 @@ const Route = ({
       return <Redirect to={`/login${encodeUri({ from: window.location.pathname + window.location.search })}`} />;
     }
     if (user?.role === 'admin' && authorizedRole === 'user') return <Redirect to="/admin" />;
-    if (user?.role === 'advisor' && authorizedRole === 'user') return <Redirect to="/admin" />;
+    if (user?.role === 'advisor' && authorizedRole === 'user') return <Redirect to="/advisor" />;
   }
 
   function renderRoute() {

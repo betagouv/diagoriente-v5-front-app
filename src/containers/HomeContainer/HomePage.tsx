@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import logCampus from 'assets/images/diagorient-campus.png'
 import open from 'assets/svg/menu_close.svg';
+import whiteMenu from 'assets/images/menu.png';
+import UserContext from 'contexts/UserContext';
 
 import useStyles from './styles';
 
@@ -21,7 +24,9 @@ const theme = createMuiTheme({
 });
 
 const HomeContainer = () => {
-  const classes = useStyles();
+  const { user } = useContext(UserContext);
+  const isCampus = user?.isCampus;
+  const classes = useStyles({ isCampus });
 
   return (
     <ThemeProvider theme={theme}>
@@ -30,8 +35,8 @@ const HomeContainer = () => {
           protected
           component={HomeCompleted}
           privateHeaderProps={{
-            closeLogoIcon: logo,
-            openIcon: open,
+            closeLogoIcon: isCampus ? logCampus : logo,
+            openIcon: isCampus ? whiteMenu : open,
             className: classes.header,
             showUser: false,
           }}

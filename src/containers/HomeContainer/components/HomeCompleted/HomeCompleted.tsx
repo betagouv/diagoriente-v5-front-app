@@ -91,7 +91,7 @@ const HomeCompleted = () => {
               'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
               "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
-              { path: '/interet', buttonClassName: classes.purple, disable: user?.isCampus },
+              { path: '/interet', buttonClassName: classes.purple, disable: (user?.isCampus && !user?.validateCampus) },
             )}
           </div>
         ),
@@ -145,7 +145,7 @@ const HomeCompleted = () => {
               key={content.title}
               onClick={() => setOpen(open === index ? -1 : index)}
               {...content}
-              state={isCampus ? (index === 0 ? 'open' : 'closed') : getState(index)}
+              state={(isCampus && !user?.validateCampus) ? ((index === 0) ? 'open' : 'closed') : getState(index)}
             />
           ))}
         </div>

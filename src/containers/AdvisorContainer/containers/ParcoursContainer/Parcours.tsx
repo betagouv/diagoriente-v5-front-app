@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Modal, Dialog, Grid, Card, CardContent, Typography } from '@material-ui/core';
-import UserContext from 'contexts/UserContext';
+import React, { useState } from 'react';
+import { Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -10,15 +9,16 @@ import { useGetUserParcour } from 'requests/parcours';
 
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
+import carte from 'assets/svg/carte.svg';
 
 const Parcours = () => {
-  const { user } = useContext(UserContext);
   const [loadParcours, { data, loading }] = useMyGroup();
   const [showModal, setShowModal] = useState(false);
   const [structures, setStructures] = useState<StructureWC2023[]>([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
-   lastName: '', firstName: '' ,
+    lastName: '',
+    firstName: '',
   });
   const myGroup = data?.myGroup;
 
@@ -47,24 +47,50 @@ const Parcours = () => {
       render: (value) => value.firstName,
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
-    { title: 'Formation choisie', key: 'selectedFormation' },
+    {
+      title: 'Formation choisie',
+      key: 'selectedFormation',
+      dataIndex: 'wc2023',
+      render: (value) => value?.formation || '',
+    },
+    {
+      title: 'Parcours validé',
+      key: 'validated',
+      dataIndex: 'validateCampus',
+      render: (value) => (value ? '✔️' : '❌'),
+    },
     {
       title: 'Carte de compétences',
       key: 'competenceCard',
       dataIndex: 'id',
       render: (value, row) => (
-        <Button variant="contained" onClick={() => handleOpenCompetenceCard(value, row)}>
-          Voir
-        </Button>
+        <span onClick={() => handleOpenCompetenceCard(value, row)} style={{ cursor: 'pointer' }}>
+          <img width={32} height={32} src={carte} alt="Voir la carte de compétences" />
+        </span>
       ),
     },
     {
       title: "Structures d'accueil potentielles",
       key: 'structures',
       dataIndex: 'eligibleStructuresWC2023',
-      render: (value) => <Button onClick={() => setStructures(value)}>Voir les structures</Button>,
+      render: (value) => (
+        <Button onClick={() => setStructures(value)}>
+          <span>{`Voir les structures (${value.length})`}</span>
+        </Button>
+      ),
     },
   ];
+
+  const getTooltipData = (competences: any[]) => (
+    <Typography variant="caption">
+      <ul>
+        {competences.map((c: any) => (
+          <li>{`${c.id.title}: Niveau ${c.minimumLevel + 1}`}</li>
+        ))}
+      </ul>
+    </Typography>
+  );
+
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
@@ -87,8 +113,24 @@ const Parcours = () => {
               <div key={v.id}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6">{v.name}</Typography>
-                    <Typography color="textSecondary">{v.licensed_text}</Typography>
+                    <Typography color="primary">
+                      <strong>{v.name}</strong>
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {`${v.licensed_text} • ${v.city}`}
+                    </Typography>
+                    {v.expectations.length > 0 && (
+                      <ul>
+                        <strong>Besoins :</strong>
+                        {v.expectations.map((e: any) => (
+                          <li key={e.id}>
+                            <Tooltip title={getTooltipData(e.competences)}>
+                              <span>{e.name}</span>
+                            </Tooltip>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </CardContent>
                 </Card>
               </div>

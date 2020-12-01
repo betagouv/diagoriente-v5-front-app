@@ -156,8 +156,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.title}>BRAVO !</div>
-        <div className={classes.subTitle}>Merci d’avoir utiliser Diagoriente x Campus2023 !</div>
+        <div className={classes.title}>C&apos;EST ENVOYÉ !</div>
+        <div className={classes.subTitle}>Merci d’avoir utilisé Diagoriente x Campus2023 !</div>
         <div className={classes.subTitle}>Tes données ont été envoyées à ton conseiller Pôle Emploi.</div>
         <div className={classes.subTitle}>
           Pense à vérifier que tes informations ci-dessous sont exactes avant de continuer !

@@ -37,7 +37,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
     case 'professional':
       typeXp = 'professionnelle';
       break;
-      case 'sport':
+    case 'sport':
       typeXp = 'sport';
       break;
     default:
@@ -67,10 +67,17 @@ const ResultCompetences = ({ theme, match }: Props) => {
         )}
 
         <div className={classes.btnskillContainer}>
+          <div className={classes.btnSkillCardContainer}>
+            <Link to="/profile/card">
+              <Button className={classes.btnSkillCard}>
+                J&apos;affiche et continue d&apos;enrichir ma carte de compétences
+              </Button>
+            </Link>
+          </div>
           <div className={classes.btnContainer}>
             {user?.isCampus ? (
               <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
-                Valider ma candidature
+                Je valide ma candidature définitivement
               </Button>
             ) : (
               <Link to="/experience">
@@ -79,11 +86,6 @@ const ResultCompetences = ({ theme, match }: Props) => {
                 </Button>
               </Link>
             )}
-          </div>
-          <div className={classes.btnSkillCardContainer}>
-            <Link to="/profile/card">
-              <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
-            </Link>
           </div>
         </div>
       </div>

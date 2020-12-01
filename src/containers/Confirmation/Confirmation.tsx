@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import { useHistory } from 'react-router-dom';
-import useStyles from './style';
 import UserContext from 'contexts/UserContext';
 import DatePicker from 'components/common/Pickers/DatePicker';
 import { useForm } from 'hooks/useInputs';
@@ -12,6 +11,7 @@ import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useUpdateUser } from 'requests/user';
+import useStyles from './style';
 
 const Confirmation = () => {
   const history = useHistory();
@@ -30,7 +30,12 @@ const Confirmation = () => {
   ];
 
   const [state, actions] = useForm({
-    initialValues: { date: '', location: '', accessibility: [] as string[], formation: [] as string[] },
+    initialValues: {
+      date: '',
+      location: '',
+      accessibility: [] as string[],
+      formation: [] as string[],
+    },
   });
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
   const [isDisabled, setIsDisabled] = useState(false);
@@ -131,18 +136,20 @@ const Confirmation = () => {
             <div className={classes.titleDesc}>DIAGORIENTE x CAMPUS2023</div>
             <div className={classes.subTitle}>Merci d’utiliser Diagoriente x Campus2023 !</div>
             <div className={classes.subTitle}>
-              Tu vas ici pouvoir créer une carte de compétences grâce à tes expériences personnelles et
-              professionnelles. Tes données seront accessibles à ton conseiller Pôle Emploi afin d’évaluer tes aptitudes
-              et te guider vers des structures d’accueil qui te correspondent et à qui tu correspondras !
+              Grâce à la plateforme Diagoriente, tu vas pouvoir créer ta carte de compétences, véritable passeport pour
+              intégrer une des trois formations Campus 2023 autour des métiers du sport ! Tes expériences et multiples
+              compétences que tu as développé au cours de ta vie seront transmis à ton conseiller Pôle Emploi afin
+              d&apos;évaluer tes aptitudes et te guider vers des structures d&apos;accueil qui te correspondent et à qui
+              tu correspondras !
             </div>
             <div className={classes.forms}>
               <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
-              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Ta date de naissance" />
+              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
               <div className={classes.selectAutoComplete}>
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>
                     <div className={classes.labelContainer}>
-                      <label className={classes.labelSelect}>Ton niveau de diplôme</label>
+                      <label className={classes.labelSelect}>Ville de résidence</label>
                     </div>
                   </Grid>
                   <Grid item xs={12} sm={8} md={7} lg={7}>
@@ -171,7 +178,7 @@ const Confirmation = () => {
                   <Grid item xs={12} sm={4} md={5} lg={5}>
                     <div className={classes.labelContainer}>
                       <label className={classes.labelSelect}>
-                        Ton niveau de diplôme
+                        Niveau du dernier diplôme obtenu
                         <span className={classes.requiredInput}>*</span>
                       </label>
                     </div>
@@ -198,7 +205,7 @@ const Confirmation = () => {
                   <Grid item xs={12} sm={4} md={5} lg={5}>
                     <div className={classes.labelContainer}>
                       <label className={classes.labelSelect}>
-                        Formation choisie
+                        Formation visée
                         <span className={classes.requiredInput}>*</span>
                       </label>
                     </div>
@@ -226,7 +233,7 @@ const Confirmation = () => {
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
-              <div className={classes.btnLabel}>Commencer à designer mon avenir !</div>
+              <div className={classes.btnLabel}>Je commence mon parcours</div>
             </Button>
           </div>
         </div>

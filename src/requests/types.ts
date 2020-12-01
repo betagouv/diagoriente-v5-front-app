@@ -337,4 +337,10 @@ export interface StructureWC2023 {
     lat: number;
     lng: number;
   };
+  expectations: [
+    {
+      id: Competence;
+      name: string;
+    },
+  ];
 }

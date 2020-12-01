@@ -98,7 +98,8 @@ const AutoCompleteJob = ({
                 <div
                   key={el.label}
                   onClick={() => {
-                    onSelectText(setCoordinates ? el : el.label);
+                    console.log('el',el)
+                    onSelectText(el.label);
                     if (setCoordinates)
                       setCoordinates({ longititude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
                   }}

@@ -125,7 +125,6 @@ const HomeCompleted = () => {
     ],
     [classes, renderContentItem],
   );
-  console.log('user', user);
   return (
     <>
       <div className={classes.container}>

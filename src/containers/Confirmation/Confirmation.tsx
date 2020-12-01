@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
-import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
@@ -38,6 +38,11 @@ const Confirmation = () => {
   const [openAcc, setOpenAcc] = useState(false);
   const [openFormation, setOpenFormation] = useState(false);
   const [search, setSearch] = useState('');
+  const [openLocation, setOpenLocation] = useState(false);
+  const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
+    lattitude: 0,
+    longitude: 0,
+  });
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUsersState] = useUpdateUser();
@@ -77,9 +82,6 @@ const Confirmation = () => {
       history.push('/');
     }
   }, [updateUsersState.data]);
-  const onSelect = (location: string | null) => {
-    if (location) actions.setValues({ location });
-  };
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...state.values.accessibility];
@@ -95,6 +97,10 @@ const Confirmation = () => {
       actions.setValues({ formation: array });
       setOpenFormation(false);
     }
+  };
+  const onSelect = (location: string | undefined) => {
+    if (location) actions.setValues({ location });
+    setOpenLocation(false);
   };
   const onUpadetUser = () => {
     const dataToSend = {
@@ -132,23 +138,34 @@ const Confirmation = () => {
             <div className={classes.forms}>
               <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
               <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Ta date de naissance" />
-              <AutoComplete
-                label="Ta ville de résidence"
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  actions.handleChange(e);
-                }}
-                onSelectText={onSelect}
-                value={state.values.location}
-                name="location"
-                placeholder="paris"
-                options={!loading && data ? data.location : []}
-                error={state.touched.location && state.errors.location !== ''}
-                errorText={state.touched.location ? state.errors.location : ''}
-                errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
-                icon={LogoLocation}
-                isCampus={isCampus}
-              />
+              <div className={classes.selectAutoComplete}>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} sm={4} md={5} lg={5}>
+                    <div className={classes.labelContainer}>
+                      <label className={classes.labelSelect}>Ton niveau de diplôme</label>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={7} lg={7}>
+                    <AutoComplete
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        actions.handleChange(e);
+                        setOpenLocation(true);
+                      }}
+                      onSelectText={onSelect}
+                      value={state.values.location}
+                      name="location"
+                      placeholder="paris"
+                      options={data?.location}
+                      icon={LogoLocation}
+                      type="location"
+                      open={openLocation}
+                      setOpen={setOpenLocation}
+                      setCoordinates={setCoordinates}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
               <div className={classes.selectwrapper}>
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>

@@ -35,9 +35,9 @@ const DashboardStep = ({
   return (
     <>
       <div {...other} className={classes.container}>
-        {isCampus && state !== 'open' && <div className={classes.disableClass} />}
+        {isCampus && !user?.validateCampus && state !== 'open' && <div className={classes.disableClass} />}
         <div className={classes.styleBtn}>
-          {isCampus && state === 'open' && (
+          {isCampus && !user?.validateCampus && state === 'open' && (
             <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
               Je valide ma candidature
             </Button>

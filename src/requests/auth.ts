@@ -97,6 +97,7 @@ export const loginMutation = gql`
           institution
         }
         isCampus
+        validateCampus
         wc2023 {
           degree
           formation
@@ -157,6 +158,7 @@ export const refreshMutation = gql`
           institution
         }
         isCampus
+        validateCampus
         wc2023 {
           degree
           formation

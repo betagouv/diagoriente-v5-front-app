@@ -1,21 +1,22 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import Button from 'components/button/Button';
-import Grid from '@material-ui/core/Grid';
-import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
-import Input from 'components/inputs/Input/Input';
-import Select from 'containers/JobsContainer/components/Select/Select';
-import { useHistory } from 'react-router-dom';
-import useStyles from './style';
-import UserContext from 'contexts/UserContext';
-import ParcoursContext from 'contexts/ParcourContext';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import Button from "components/button/Button";
+import Grid from "@material-ui/core/Grid";
+import AutoComplete from "containers/JobsContainer/components/Autocomplete/AutoCompleteJob";
+import Input from "components/inputs/Input/Input";
+import Select from "containers/JobsContainer/components/Select/Select";
+import { useHistory } from "react-router-dom";
+import useStyles from "./style";
+import UserContext from "contexts/UserContext";
+import ParcoursContext from "contexts/ParcourContext";
 
-import { useForm } from 'hooks/useInputs';
-import LogoLocation from 'assets/form/location.png';
-import { useLocation } from 'requests/location';
-import useOnclickOutside from 'hooks/useOnclickOutside';
-import { useUpdateUser } from 'requests/user';
-import ModalCampusConfirm from './ModalCampusEnvoyee2023';
-import ModalContainer from '../common/Modal/ModalContainer';
+import { useForm } from "hooks/useInputs";
+import LogoLocation from "assets/form/location.png";
+import { useLocation } from "requests/location";
+import useOnclickOutside from "hooks/useOnclickOutside";
+import { useUpdateUser } from "requests/user";
+import ModalCampusConfirm from "./ModalCampusEnvoyee2023";
+import ModalContainer from "../common/Modal/ModalContainer";
+
 interface IProps {
   handleClose: () => void;
 }
@@ -135,8 +136,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       setOpenFormation(false);
     }
   };
-  const hasCompletedExp = parcours?.skills.length !== 0;
-  const hasCompltedParcourd = hasCompletedExp;
+  const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
     const dataToSend = {
       firstName: state.values.firstName,
@@ -148,7 +148,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         birthdate: user?.wc2023.birthdate,
         perimeter: user?.wc2023.perimeter,
       },
-      validateCampus: hasCompltedParcourd,
+      validateCampus: hasCompletedParcours,
     };
     updateUserCall({ variables: { ...dataToSend } });
   };
@@ -160,9 +160,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     <>
       <div className={classes.root}>
         <div className={classes.loginContainer}>
-          <div className={classes.title}>BRAVO !</div>
-          <div className={classes.subTitle}>Merci d’avoir utilisé Diagoriente x Campus2023 !</div>
-          <div className={classes.subTitle}>Tes données vont être envoyées à ton conseiller Pôle Emploi.</div>
+          <div className={classes.title}>ATTENTION !</div>
+          <div className={classes.subTitle}>
+            Tu es sur le point d&apos;envoyer définitivement ta candidature à ton conseiller, il sera alors impossible
+            de revenir en arrière. Es-tu sûr(e) de vouloir valider définitivement ta candidature ?
+          </div>
           <div className={classes.subTitle}>
             Pense à vérifier que tes informations ci-dessous sont exactes avant de continuer !
           </div>

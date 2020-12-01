@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from 'components/button/Button';
 import { useHistory } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
@@ -12,6 +12,11 @@ const ModalCampusConfirm = ({ handleClose }: IProps) => {
   const { user } = useContext(UserContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
+
+  useEffect(() => {
+    // Update local cached user
+    if (user) user.validateCampus = true;
+  }, []);
 
   const handleContinueToDiago = () => {
     history.push('/');

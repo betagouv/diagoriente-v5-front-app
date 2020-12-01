@@ -1,28 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import Button from "components/button/Button";
-import Grid from "@material-ui/core/Grid";
-import AutoComplete from "containers/JobsContainer/components/Autocomplete/AutoCompleteJob";
-import Input from "components/inputs/Input/Input";
-import Select from "containers/JobsContainer/components/Select/Select";
-import { useHistory } from "react-router-dom";
-import useStyles from "./style";
-import UserContext from "contexts/UserContext";
-import ParcoursContext from "contexts/ParcourContext";
+import React, {
+ useContext, useEffect, useRef, useState,
+} from 'react';
+import Button from 'components/button/Button';
+import Grid from '@material-ui/core/Grid';
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
+import Input from 'components/inputs/Input/Input';
+import Select from 'containers/JobsContainer/components/Select/Select';
+import { useHistory } from 'react-router-dom';
+import UserContext from 'contexts/UserContext';
+import ParcoursContext from 'contexts/ParcourContext';
 
-import { useForm } from "hooks/useInputs";
-import LogoLocation from "assets/form/location.png";
-import { useLocation } from "requests/location";
-import useOnclickOutside from "hooks/useOnclickOutside";
-import { useUpdateUser } from "requests/user";
-import ModalCampusConfirm from "./ModalCampusEnvoyee2023";
-import ModalContainer from "../common/Modal/ModalContainer";
+import { useForm } from 'hooks/useInputs';
+import LogoLocation from 'assets/form/location.png';
+import { useLocation } from 'requests/location';
+import useOnclickOutside from 'hooks/useOnclickOutside';
+import { useUpdateUser } from 'requests/user';
+import useStyles from './style';
+import ModalCampusConfirm from './ModalCampusEnvoyee2023';
+import ModalContainer from '../common/Modal/ModalContainer';
 
 interface IProps {
   handleClose: () => void;
 }
 const ModalValideteForm = ({ handleClose }: IProps) => {
-  const history = useHistory();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { parcours } = useContext(ParcoursContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
@@ -60,7 +61,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   });
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
-  const [updateUserCall, updateUsersState] = useUpdateUser();
+  const [updateUserCall, updateUserState] = useUpdateUser();
 
   useEffect(() => {
     if (state.values.location.length > 0) {
@@ -79,11 +80,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.firstName !== '' &&
-      state.values.lastName !== '' &&
-      state.values.formation.length !== 0 &&
-      state.values.accessibility.length !== 0 &&
-      state.values.location !== ''
+      state.values.firstName !== ''
+      && state.values.lastName !== ''
+      && state.values.formation.length !== 0
+      && state.values.accessibility.length !== 0
+      && state.values.location !== ''
     ) {
       setIsValidForm(true);
     }
@@ -111,11 +112,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     }
   }, [user?.location]);
   useEffect(() => {
-    if (updateUsersState.data) {
-      // handleClose();
+    if (updateUserState.data) {
+      setUser(updateUserState.data.updateUser);
       setShowConfirmationModal(true);
     }
-  }, [updateUsersState.data]);
+  }, [updateUserState.data]);
   const onSelect = (location: string | undefined) => {
     if (location) actions.setValues({ location });
     setOpenLocation(false);
@@ -152,6 +153,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     };
     updateUserCall({ variables: { ...dataToSend } });
   };
+
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
   const divForm = useRef<HTMLDivElement>(null);

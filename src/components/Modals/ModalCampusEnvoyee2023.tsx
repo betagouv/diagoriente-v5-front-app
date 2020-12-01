@@ -13,11 +13,6 @@ const ModalCampusConfirm = ({ handleClose }: IProps) => {
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
 
-  useEffect(() => {
-    // Update local cached user
-    if (user) user.validateCampus = true;
-  }, []);
-
   const handleContinueToDiago = () => {
     history.push('/');
     handleClose();

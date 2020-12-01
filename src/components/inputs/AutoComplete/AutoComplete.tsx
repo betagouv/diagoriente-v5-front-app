@@ -24,9 +24,9 @@ interface IProps {
   errorForm?: string;
   containerClassName?: string;
   freeSolo: boolean;
-  isCampus?: boolean
-  required?: boolean
-
+  isCampus?: boolean;
+  required?: boolean;
+  setCoordinates?: (e: any) => void;
 }
 
 const AutoComplete = ({
@@ -44,11 +44,12 @@ const AutoComplete = ({
   containerClassName,
   isCampus,
   onSelectText,
+  setCoordinates,
   freeSolo,
   required,
 }: IProps) => {
   const classes = useStyles({ isCampus, error: !!(errorText || errorForm) });
-  const Component = isCampus ? "label" : 'div'
+  const Component = isCampus ? 'label' : 'div';
   return (
     <div className={classNames(classes.container, containerClassName)}>
       <Grid container spacing={0}>
@@ -65,15 +66,16 @@ const AutoComplete = ({
         <Grid item xs={12} sm={8} md={7} lg={7}>
           <div style={{ width: isCampus ? 240 : 229 }}>
             <Autocomplete
-              freeSolo={freeSolo}
-              openOnFocus={false}
               disableClearable
-              options={options.map((option) => option.label)}
-              onChange={(event: any, v: string | null) => onSelectText(v)}
+              options={options.map((option) => ({ label: option.label, coordinates: option.coordinates }))}
+              onChange={(event: any, v: any) => {
+                console.log('ents', v);
+                if (setCoordinates) setCoordinates(v);
+                onSelectText(v.label);
+              }}
               fullWidth={false}
               className={className}
               autoComplete={false}
-              value={value}
               classes={{ inputRoot: classes.inputRoot }}
               closeIcon={<div />}
               renderInput={(params) => (
@@ -100,7 +102,9 @@ const AutoComplete = ({
                     }}
                   />
                   {(errorText || errorForm) && !isCampus && <img src={LogoRose} className={classes.logo} alt="check" />}
-                  {value && !errorText && !errorForm && !isCampus && <img src={LogoCheked} className={classes.logo} alt="check" />}
+                  {value && !errorText && !errorForm && !isCampus && (
+                    <img src={LogoCheked} className={classes.logo} alt="check" />
+                  )}
                 </div>
               )}
             />

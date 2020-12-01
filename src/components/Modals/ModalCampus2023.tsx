@@ -7,6 +7,8 @@ import Select from 'containers/JobsContainer/components/Select/Select';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import UserContext from 'contexts/UserContext';
+import ParcoursContext from 'contexts/ParcourContext';
+
 import { useForm } from 'hooks/useInputs';
 import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
@@ -18,6 +20,7 @@ interface IProps {
 const ModalValideteForm = ({ handleClose }: IProps) => {
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const { parcours } = useContext(ParcoursContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
   const listAccData = [
@@ -129,6 +132,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       setOpenFormation(false);
     }
   };
+  const hasCompletedExp = parcours?.skills.length !== 0;
+  const hasCompltedParcourd = hasCompletedExp;
   const onUpadetUser = () => {
     const dataToSend = {
       firstName: state.values.firstName,
@@ -140,7 +145,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         birthdate: user?.wc2023.birthdate,
         perimeter: user?.wc2023.perimeter,
       },
-      completed: true,
+      validateCampus: hasCompltedParcourd,
     };
     updateUserCall({ variables: { ...dataToSend } });
   };

@@ -15,6 +15,8 @@ export const registerMutation = gql`
     $location: String!
     $institution: String
     $codeGroupe: String
+    $coordinates: coordinateLocationInput
+    $validateCampus: Boolean
   ) {
     register(
       email: $email
@@ -25,6 +27,8 @@ export const registerMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
+      coordinates: $coordinates
+      validateCampus: $validateCampus
     ) {
       user {
         id
@@ -39,6 +43,11 @@ export const registerMutation = gql`
         location
         logo
         isCampus
+        validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
         wc2023 {
           formation
           degree

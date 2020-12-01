@@ -2,7 +2,7 @@ export type UserRole = 'user' | 'admin' | 'advisor';
 export interface WC2023 {
   birthdate?: string;
   degree?: string;
-  formation?:string;
+  formation?: string;
   perimeter?: number;
 }
 export interface User {
@@ -18,8 +18,13 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
-  wc2023: WC2023
-  isCampus: boolean
+  wc2023: WC2023;
+  isCampus: boolean;
+  validateCampus: boolean;
+  coordinates: {
+    longitude: number;
+    lattitude: number;
+  };
 }
 
 export interface Question {
@@ -322,14 +327,14 @@ export interface Formation {
 }
 
 export interface StructureWC2023 {
-  id: string,
-  club_code: string,
-  name: string,
-  city: string,
-  licensed_text: string,
-  licensed_count: number,
+  id: string;
+  club_code: string;
+  name: string;
+  city: string;
+  licensed_text: string;
+  licensed_count: number;
   geolocation: {
-    lat: number,
-    lng: number
-  }
+    lat: number;
+    lng: number;
+  };
 }

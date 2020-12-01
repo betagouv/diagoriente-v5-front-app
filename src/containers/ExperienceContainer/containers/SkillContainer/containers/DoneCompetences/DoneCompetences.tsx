@@ -67,10 +67,15 @@ const ResultCompetences = ({ theme, match }: Props) => {
         )}
 
         <div className={classes.btnskillContainer}>
+          <div className={classes.btnSkillCardContainer}>
+            <Link to="/profile/card">
+              <Button className={classes.btnSkillCard}>J'affiche et continue d'enrichir ma carte de compétences</Button>
+            </Link>
+          </div>
           <div className={classes.btnContainer}>
             {user?.isCampus ? (
               <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
-                Valider ma candidature
+                Je valide ma candidature
               </Button>
             ) : (
               <Link to="/experience">
@@ -79,11 +84,6 @@ const ResultCompetences = ({ theme, match }: Props) => {
                 </Button>
               </Link>
             )}
-          </div>
-          <div className={classes.btnSkillCardContainer}>
-            <Link to="/profile/card">
-              <Button className={classes.btnSkillCard}>Voir ma carte de compétences</Button>
-            </Link>
           </div>
         </div>
       </div>

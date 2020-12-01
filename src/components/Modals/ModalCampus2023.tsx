@@ -26,7 +26,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const listAccData = [
     { id: 'bac+1', title: 'Bac + 1' },
     { id: 'bac+3', title: 'Bac + 3' },
-    { is: 'bac+5', title: 'Bac+5' },
+    { id: 'bac+5', title: 'Bac + 5' },
   ];
   const listFormData = [
     { id: 'bac+1', title: 'BAC : Chef de projet junior d’un club sportif' },

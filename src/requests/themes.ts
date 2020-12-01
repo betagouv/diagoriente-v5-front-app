@@ -34,7 +34,7 @@ export const themesQuery = gql`
 `;
 
 export interface ThemesArguments {
-  type?: 'professional' | 'personal' | 'engagement' | 'secteur';
+  type?: 'professional' | 'personal' | 'engagement' | 'secteur' | 'sport';
   search?: string;
   page?: number;
   perPage?: number;

@@ -31,6 +31,9 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
     case 'engagement':
       typeXp = 'engagement';
       break;
+      case 'sport':
+        typeXp = 'sport';
+        break;
     case 'personal':
       typeXp = 'personnelle';
       break;

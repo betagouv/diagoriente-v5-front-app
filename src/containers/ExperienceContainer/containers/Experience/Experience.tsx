@@ -12,6 +12,7 @@ import illExpEng from 'assets/images/illu_xp_engagement.png';
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import { Link, useHistory } from 'react-router-dom';
 import Game from '../Game/gameModal/GameModal';
+import userContext from 'contexts/UserContext';
 import classNames from 'utils/classNames';
 import useStyles from './styles';
 
@@ -30,6 +31,7 @@ const Experience = () => {
   const handleEngClose = () => setOpenEng(false);
 
   const { parcours } = useContext(parcourContext);
+  const { user } = useContext(userContext);
 
   useEffect(() => {
     if (!parcours?.played) openModal();
@@ -42,6 +44,10 @@ const Experience = () => {
     } else {
       history.push(p);
     }
+  };
+  const onClickSport = () => {
+    const p = '/experience/theme?type=sport';
+    history.push(p);
   };
 
   return (
@@ -131,6 +137,24 @@ const Experience = () => {
             </Button>
           </div>
         </div>
+        {user?.isCampus && (
+          <div className={classes.circleContainer}>
+            <Avatar
+              title="Ajouter une"
+              avatarCircleBackground="transparent"
+              size={200}
+              titleClassName={classes.marginTitle}
+              circleClassName={classes.circleStyleEng}
+            >
+              <img src={illExpEng} alt="ill" className={classes.illus} />
+            </Avatar>
+            <div onClick={onClickSport} className={classes.hideLine}>
+              <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
+                <div className={classes.btnLabel}>Expérience Sportife</div>
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
       {/* <div className={classes.help}>
         <img src={help} alt="help" />

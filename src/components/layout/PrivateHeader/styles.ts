@@ -5,7 +5,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme: Theme) =>
   createStyles({
     appBar: {
       height: HEADER_HEIGHT,
-      background: (props) => props.isCampus ? "#3f30b3" : theme.palette.background.default,
+      background: (props) => props.isCampus ? '#19194b' : theme.palette.background.default,
       display: 'flex',
       justifyContent: 'center',
       zIndex: 2000,

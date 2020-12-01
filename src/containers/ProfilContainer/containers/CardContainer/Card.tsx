@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import usePdf from 'hooks/usePdf';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper/Paper';
 import carte from 'assets/svg/carte.svg';
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import useParcourSkills from 'hooks/useParcourSkills';
+import Usercontext from 'contexts/UserContext';
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
 import CardIcons from './components/CardIcons/CardIcons';
@@ -29,6 +30,7 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   const [loadingPrint, setLoadingPrint] = useState(false);
   const [element, createPdf, pdf] = usePdf();
   const [toggle, setToggle] = useState(false);
+  const { user } = useContext(Usercontext);
   const openModal = () => setToggle(true);
   const closeModal = () => setToggle(false);
   const skills = skillsState.data?.skills.data || [];
@@ -114,6 +116,16 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
           path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
           show={!Userparcours}
         />
+        {user?.isCampus && (
+          <CardSkills
+            skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
+            title="Expériences sportives"
+            emptyMessage="Tu n’as pas encore renseigné d'expérience sportife"
+            emptyButton="J’ajoute une expérience sportife"
+            path={`/experience/theme?type=sport${encodeUri({ redirect: '/profile/card', type: 'sport' })}`}
+            show={!Userparcours}
+          />
+        )}
       </Paper>
       <div className={classes.footerIcons}>{!Userparcours && icons}</div>
       {element}

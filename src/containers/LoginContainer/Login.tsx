@@ -57,11 +57,11 @@ const Login = ({ location }: RouteComponentProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginState.error]);
-  useEffect(() => {
+/*   useEffect(() => {
     if (errorCount === 3) {
       setOpenVerif(true);
     }
-  }, [errorCount]);
+  }, [errorCount]); */
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,11 +124,11 @@ const Login = ({ location }: RouteComponentProps) => {
               </Grid>
             </Grid>
           </div>
-          {openVerif && (
+          {/* {openVerif && (
             <div className={classes.groupTextContainer}>
               <Recaptcha />
             </div>
-          )}
+          )} */}
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
               <Grid item xs={12} sm={4} md={5} lg={5}>

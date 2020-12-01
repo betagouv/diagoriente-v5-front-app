@@ -4,12 +4,12 @@ import classNames from 'utils/classNames';
 import useStyles from './styles';
 interface Props {
   className?: string;
-  title: string;
-  titleCard: any;
+  title?: string;
+  titleCard?: any;
   background: string;
   color: string;
   logo?: string;
-  children: React.ReactChild | React.ReactChild[];
+  children?: React.ReactChild | React.ReactChild[];
   path?: string;
   childrenCardClassName?: string;
 }

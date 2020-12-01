@@ -15,6 +15,7 @@ export const MyGroupInfoQuery = gql`
         wc2023 {
           formation
         }
+        validateCampus
         eligibleStructuresWC2023 {
           id
           club_code

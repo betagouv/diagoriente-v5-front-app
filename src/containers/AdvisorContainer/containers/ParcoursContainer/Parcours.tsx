@@ -56,7 +56,7 @@ const Parcours = () => {
     {
       title: 'Parcours validé',
       key: 'validated',
-      dataIndex: 'validatedParcours',
+      dataIndex: 'validateCampus',
       render: (value) => (value ? '✔️' : '❌'),
     },
     {

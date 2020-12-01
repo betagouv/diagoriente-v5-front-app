@@ -5,12 +5,14 @@ export const THEME_TYPES_OPTIONS = [
   { value: 'professional', label: 'Professionnel' },
   { value: 'engagement', label: 'Engagement' },
   { value: 'secteur', label: 'Secteur' },
+  { value: 'sport', label: 'Sport' },
 ];
 
 export const ACTIVITY_TYPES_OPTIONS = [
   { value: 'personal', label: 'Personnel' },
   { value: 'professional', label: 'Professionnel' },
   { value: 'engagement', label: 'Engagement' },
+  { value: 'sport', label: 'Sport' },
 ];
 
 export const SKILL_CONTAINER_PADDING = '30px 70px 80px 70px';

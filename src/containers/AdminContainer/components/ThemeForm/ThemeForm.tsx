@@ -83,6 +83,7 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
     const data = { ...values, activities: values.activities.map((act) => act.value) };
     if (!data.icon || values.type === 'professional') delete data.icon;
     if (data.type === 'secteur') delete (data as any).activities;
+    if (data.type === 'sport') delete (data as any).parentId;
     onSubmit(data);
   }
 

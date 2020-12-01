@@ -10,12 +10,14 @@ import { useGetUserParcour } from 'requests/parcours';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
+import { useEligibleStructures } from '../../../../requests/campus2023';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup();
   const [showModal, setShowModal] = useState(false);
-  const [structures, setStructures] = useState<StructureWC2023[]>([]);
+  const [showStructures, setShowStructures] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
+  const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
@@ -33,6 +35,11 @@ const Parcours = () => {
     setSelectedUser(pro);
   };
 
+  const handleLoadStructures = (idUser: string) => {
+    getStructuresCall({ variables: { userId: idUser } });
+    setShowStructures(true);
+  };
+
   const headers: Header<any>[] = [
     {
       title: 'NOM',
@@ -48,7 +55,7 @@ const Parcours = () => {
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
     {
-      title: 'Formation choisie',
+      title: 'Formation visée',
       key: 'selectedFormation',
       dataIndex: 'wc2023',
       render: (value) => value?.formation || '',
@@ -72,10 +79,10 @@ const Parcours = () => {
     {
       title: "Structures d'accueil potentielles",
       key: 'structures',
-      dataIndex: 'eligibleStructuresWC2023',
-      render: (value) => (
-        <Button onClick={() => setStructures(value)}>
-          <span>{`Voir les structures (${value.length})`}</span>
+      dataIndex: 'eligibleStructuresCountWC2023',
+      render: (value, row) => (
+        <Button onClick={() => handleLoadStructures(row.id)}>
+          <span>{`Voir les structures (${value})`}</span>
         </Button>
       ),
     },
@@ -109,32 +116,39 @@ const Parcours = () => {
             )}
           </Grid>
           <Grid item xs={4}>
-            {structures.map((v) => (
-              <div key={v.id}>
-                <Card>
-                  <CardContent>
-                    <Typography color="primary">
-                      <strong>{v.name}</strong>
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      {`${v.licensed_text} • ${v.city}`}
-                    </Typography>
-                    {v.expectations.length > 0 && (
-                      <ul>
-                        <strong>Besoins :</strong>
-                        {v.expectations.map((e: any) => (
-                          <li key={e.id}>
-                            <Tooltip title={getTooltipData(e.competences)}>
-                              <span>{e.name}</span>
-                            </Tooltip>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+            {showStructures && (
+              <>
+                {!getStructuresState.data && <p>Chargement des données ...</p>}
+                {getStructuresState.data && getStructuresState.data.length <= 0 && <p>Pas de structures !</p>}
+                {getStructuresState.data &&
+                  getStructuresState.data.eligibleStructures.map((v: any) => (
+                    <div key={v.id}>
+                      <Card>
+                        <CardContent>
+                          <Typography color="primary">
+                            <strong>{v.name}</strong>
+                          </Typography>
+                          <Typography variant="subtitle1" color="textSecondary">
+                            {`${v.licensed_text} • ${v.city}`}
+                          </Typography>
+                          {v.expectations.length > 0 && (
+                            <ul>
+                              <strong>Besoins :</strong>
+                              {v.expectations.map((e: any) => (
+                                <li key={e.id}>
+                                  <Tooltip title={getTooltipData(e.competences)}>
+                                    <span>{e.name}</span>
+                                  </Tooltip>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+              </>
+            )}
           </Grid>
         </Grid>
       )}

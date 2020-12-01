@@ -16,24 +16,7 @@ export const MyGroupInfoQuery = gql`
           formation
         }
         validateCampus
-        eligibleStructuresWC2023 {
-          id
-          club_code
-          name
-          city
-          licensed_text
-          licensed_count
-          expectations {
-            id
-            name
-            competences {
-              id {
-                title
-              }
-              minimumLevel
-            }
-          }
-        }
+        eligibleStructuresCountWC2023
       }
     }
   }

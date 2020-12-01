@@ -14,6 +14,8 @@ import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useUpdateUser } from 'requests/user';
+import ModalCampusConfirm from './ModalCampusEnvoyee2023';
+import ModalContainer from '../common/Modal/ModalContainer';
 interface IProps {
   handleClose: () => void;
 }
@@ -26,7 +28,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const listAccData = [
     { id: 'bac+1', title: 'Bac + 1' },
     { id: 'bac+3', title: 'Bac + 3' },
-    { is: 'bac+5', title: 'Bac+5' },
+    { id: 'bac+5', title: 'Bac + 5' },
   ];
   const listFormData = [
     { id: 'bac+1', title: 'BAC : Chef de projet junior d’un club sportif' },
@@ -50,6 +52,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const [openFormation, setOpenFormation] = useState(false);
   const [search, setSearch] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
     lattitude: 0,
     longitude: 0,
@@ -108,8 +111,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [user?.location]);
   useEffect(() => {
     if (updateUsersState.data) {
-      history.push('/');
-      handleClose();
+      // handleClose();
+      setShowConfirmationModal(true);
     }
   }, [updateUsersState.data]);
   const onSelect = (location: string | undefined) => {
@@ -154,123 +157,137 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const divForm = useRef<HTMLDivElement>(null);
   useOnclickOutside(divForm, () => setOpenFormation(false));
   return (
-    <div className={classes.root}>
-      <div className={classes.loginContainer}>
-        <div className={classes.title}>C&apos;EST ENVOYÉ !</div>
-        <div className={classes.subTitle}>Merci d’avoir utilisé Diagoriente x Campus2023 !</div>
-        <div className={classes.subTitle}>Tes données ont été envoyées à ton conseiller Pôle Emploi.</div>
-        <div className={classes.subTitle}>
-          Pense à vérifier que tes informations ci-dessous sont exactes avant de continuer !
-        </div>
-        <div className={classes.forms}>
-          <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
-          <Input
-            name="firstName"
-            label="Ton prénom"
-            onChange={actions.handleChange}
-            value={state.values.firstName}
-            placeholder="prénom"
-            error={state.touched.firstName && state.errors.firstName !== ''}
-            errorText={state.touched.firstName ? state.errors.firstName : ''}
-          />
-          <Input
-            label="Ton nom de famille"
-            onChange={actions.handleChange}
-            value={state.values.lastName}
-            name="lastName"
-            placeholder="nom"
-            error={state.touched.lastName && (state.errors.lastName !== '' || errorFormObject.key === 'lastName')}
-            errorText={state.touched.lastName ? state.errors.lastName : ''}
-          />
-          <div className={classes.selectwrapper}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
-                <div className={classes.labelContainer}>
-                  <label className={classes.labelSelect}>Ton niveau de diplôme</label>
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
-                <AutoComplete
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    actions.handleChange(e);
-                    setOpenLocation(true);
-                  }}
-                  onSelectText={onSelect}
-                  value={state.values.location}
-                  name="location"
-                  placeholder="paris"
-                  options={data?.location}
-                  icon={LogoLocation}
-                  type="location"
-                  open={openLocation}
-                  setOpen={setOpenLocation}
-                  setCoordinates={setCoordinates}
-                />
-              </Grid>
-            </Grid>
+    <>
+      <div className={classes.root}>
+        <div className={classes.loginContainer}>
+          <div className={classes.title}>BRAVO !</div>
+          <div className={classes.subTitle}>Merci d’avoir utilisé Diagoriente x Campus2023 !</div>
+          <div className={classes.subTitle}>Tes données vont être envoyées à ton conseiller Pôle Emploi.</div>
+          <div className={classes.subTitle}>
+            Pense à vérifier que tes informations ci-dessous sont exactes avant de continuer !
           </div>
+          <div className={classes.forms}>
+            <Input
+              name="firstName"
+              label="Prénom"
+              onChange={actions.handleChange}
+              value={state.values.firstName}
+              placeholder="prénom"
+              error={state.touched.firstName && state.errors.firstName !== ''}
+              errorText={state.touched.firstName ? state.errors.firstName : ''}
+            />
+            <Input
+              label="Nom de famille"
+              onChange={actions.handleChange}
+              value={state.values.lastName}
+              name="lastName"
+              placeholder="nom"
+              error={state.touched.lastName && (state.errors.lastName !== '' || errorFormObject.key === 'lastName')}
+              errorText={state.touched.lastName ? state.errors.lastName : ''}
+            />
+            <div className={classes.selectwrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <label className={classes.labelSelect}>Ville de résidence</label>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <AutoComplete
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      actions.handleChange(e);
+                      setOpenLocation(true);
+                    }}
+                    onSelectText={onSelect}
+                    value={state.values.location}
+                    name="location"
+                    placeholder="paris"
+                    options={data?.location}
+                    icon={LogoLocation}
+                    type="location"
+                    open={openLocation}
+                    setOpen={setOpenLocation}
+                    setCoordinates={setCoordinates}
+                  />
+                </Grid>
+              </Grid>
+            </div>
 
-          <div className={classes.selectwrapper}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
-                <div className={classes.labelContainer}>
-                  <label className={classes.labelSelect}>Ton niveau de diplôme</label>
-                </div>
+            <div className={classes.selectwrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <label className={classes.labelSelect}>Niveau du dernier diplôme obtenu</label>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <div className={classes.containerAutoComp}>
+                    <Select
+                      options={listAccData}
+                      onSelectText={onSelectAcc}
+                      name="accessibility"
+                      placeholder="Niveau d’accès"
+                      className={classes.containerSelect}
+                      value={state.values.accessibility}
+                      open={openAcc}
+                      onClick={() => setOpenAcc(!openAcc)}
+                      reference={divAcc}
+                      isCampusDiplome={isCampus}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
-                <div className={classes.containerAutoComp}>
-                  <Select
-                    options={listAccData}
-                    onSelectText={onSelectAcc}
-                    name="accessibility"
-                    placeholder="Niveau d’accès"
-                    className={classes.containerSelect}
-                    value={state.values.accessibility}
-                    open={openAcc}
-                    onClick={() => setOpenAcc(!openAcc)}
-                    reference={divAcc}
-                    isCampusDiplome={isCampus}
-                  />
-                </div>
+            </div>
+            <div className={classes.selectwrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <label className={classes.labelSelect}>Formation visée</label>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <div className={classes.containerAutoComp}>
+                    <Select
+                      options={listFormData}
+                      onSelectText={onSelectForm}
+                      name="formation"
+                      placeholder="Formation"
+                      className={classes.containerSelect}
+                      value={state.values.formation}
+                      open={openFormation}
+                      onClick={() => setOpenFormation(!openFormation)}
+                      reference={divForm}
+                      isCampus={isCampus}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
+            </div>
           </div>
-          <div className={classes.selectwrapper}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={4} md={5} lg={5}>
-                <div className={classes.labelContainer}>
-                  <label className={classes.labelSelect}>Formation choisie</label>
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8} md={7} lg={7}>
-                <div className={classes.containerAutoComp}>
-                  <Select
-                    options={listFormData}
-                    onSelectText={onSelectForm}
-                    name="formation"
-                    placeholder="Formation"
-                    className={classes.containerSelect}
-                    value={state.values.formation}
-                    open={openFormation}
-                    onClick={() => setOpenFormation(!openFormation)}
-                    reference={divForm}
-                    isCampus={isCampus}
-                  />
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
-        <div className={classes.container}>
-          <div className={classes.btnContainer}>
-            <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
-              <div className={classes.btnLabel}>Commencer à designer mon avenir !</div>
-            </Button>
+          <div className={classes.container}>
+            <div className={classes.btnContainer}>
+              <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
+                <div className={classes.btnLabel}>Je valide définitivement ma candidature</div>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ModalContainer
+        open={showConfirmationModal}
+        handleClose={() => setShowConfirmationModal(false)}
+        backdropColor="#011A5E"
+        colorIcon="rgb(255, 77, 0)"
+        size={90}
+      >
+        <div>
+          <div>
+            <ModalCampusConfirm handleClose={() => handleClose()} />
+          </div>
+        </div>
+      </ModalContainer>
+    </>
   );
 };
 export default ModalValideteForm;

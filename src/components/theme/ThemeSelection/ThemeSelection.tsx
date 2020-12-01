@@ -5,6 +5,7 @@ import { matchPath, useLocation } from 'react-router-dom';
 import { Theme } from 'requests/types';
 import Avatar from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
+import userContext from 'contexts/UserContext';
 
 import arrow from 'assets/svg/arrw.svg';
 import classNames from 'utils/classNames';
@@ -17,7 +18,9 @@ interface Props {
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {
-  const classes = useStyles({ theme });
+  const { user } = useContext(userContext);
+
+  const classes = useStyles({ theme, isCampus: user?.isCampus });
   const location = useLocation();
   const isTheme = Boolean(matchPath(location.pathname, { path: '/experience/theme', exact: true }));
   const isAct = Boolean(matchPath(location.pathname, { path: '/experience/skill/:id/activities', exact: true }));

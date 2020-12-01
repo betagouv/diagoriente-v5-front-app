@@ -86,7 +86,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
             onClick={() => {
               history.replace(redirect || '/experience');
             }}
-            color="#4D6EC5"
+            color={type === 'sport' ? '#19194B' : '#4D6EC5'}
             label="Annuler"
           />
         </div>

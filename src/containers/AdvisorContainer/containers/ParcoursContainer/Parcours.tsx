@@ -54,6 +54,12 @@ const Parcours = () => {
       render: (value) => value?.formation || '',
     },
     {
+      title: 'Parcours validé',
+      key: 'validated',
+      dataIndex: 'validatedParcours',
+      render: (value) => (value ? '✔️' : '❌'),
+    },
+    {
       title: 'Carte de compétences',
       key: 'competenceCard',
       dataIndex: 'id',

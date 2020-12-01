@@ -2,7 +2,7 @@ export type UserRole = 'user' | 'admin' | 'advisor';
 export interface WC2023 {
   birthdate?: string;
   degree?: string;
-  formation?:string;
+  formation?: string;
   perimeter?: number;
 }
 export interface User {
@@ -18,8 +18,13 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
-  wc2023: WC2023
-  isCampus: boolean
+  wc2023: WC2023;
+  isCampus: boolean;
+  validateCampus: boolean;
+  coordinates: {
+    longitude: number;
+    lattitude: number;
+  };
 }
 
 export interface Question {
@@ -334,7 +339,7 @@ export interface StructureWC2023 {
   };
   expectations: [
     {
-      id: string;
+      id: Competence;
       name: string;
     },
   ];

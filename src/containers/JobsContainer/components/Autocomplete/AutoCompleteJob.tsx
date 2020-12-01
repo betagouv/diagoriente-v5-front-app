@@ -101,7 +101,7 @@ const AutoCompleteJob = ({
                     console.log('el',el)
                     onSelectText(el.label);
                     if (setCoordinates)
-                      setCoordinates({ longititude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
+                      setCoordinates({ longitude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
                   }}
                   className={classes.item}
                 >

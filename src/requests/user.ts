@@ -7,7 +7,7 @@ import { User, WC2023 } from './types';
 
 export const updateUserMutation = gql`
   mutation User(
-    $email: String 
+    $email: String
     $password: String
     $firstName: String
     $lastName: String
@@ -16,6 +16,8 @@ export const updateUserMutation = gql`
     $codeGroupe: String
     $oldPassword: String
     $wc2023: wc2023Input
+    $validateCampus: Boolean
+    $coordinates: coordinateLocationInput
   ) {
     updateUser(
       password: $password
@@ -25,8 +27,10 @@ export const updateUserMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
-      email:$email
-      wc2023:$wc2023
+      email: $email
+      wc2023: $wc2023
+      validateCampus: $validateCampus
+      coordinates: $coordinates
     ) {
       id
       email
@@ -38,6 +42,11 @@ export const updateUserMutation = gql`
       codeGroupe
       location
       logo
+      validateCampus
+      coordinates {
+        longitude
+        lattitude
+      }
       wc2023 {
         degree
         formation

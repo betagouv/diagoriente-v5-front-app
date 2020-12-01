@@ -73,7 +73,7 @@ const Register = () => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
-        const res = { ...values, coordinates };
+        const res = { ...values, coordinates, validateCampus: false };
         registerCall({
           variables: res,
         });

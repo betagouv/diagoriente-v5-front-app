@@ -22,6 +22,7 @@ const HomeCompleted = () => {
   const history = useHistory();
   const { user } = useContext(UserContext);
   const isCampus = user?.isCampus;
+  const validateCampus = user?.validateCampus || false;
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
 
@@ -91,7 +92,7 @@ const HomeCompleted = () => {
               'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
               "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
-              { path: '/interet', buttonClassName: classes.purple, disable: (user?.isCampus && !user?.validateCampus) },
+              { path: '/interet', buttonClassName: classes.purple, disable: (user?.isCampus && !validateCampus) },
             )}
           </div>
         ),
@@ -128,7 +129,7 @@ const HomeCompleted = () => {
         openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
       },
     ],
-    [classes, renderContentItem],
+    [classes, renderContentItem, validateCampus],
   );
   return (
     <>
@@ -145,7 +146,7 @@ const HomeCompleted = () => {
               key={content.title}
               onClick={() => setOpen(open === index ? -1 : index)}
               {...content}
-              state={(isCampus && !user?.validateCampus) ? ((index === 0) ? 'open' : 'closed') : getState(index)}
+              state={(isCampus && !validateCampus) ? ((index === 0) ? 'open' : 'closed') : getState(index)}
             />
           ))}
         </div>

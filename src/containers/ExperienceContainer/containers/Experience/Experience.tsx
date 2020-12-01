@@ -152,7 +152,7 @@ const Experience = () => {
             </Avatar>
             <div onClick={onClickSport} className={classes.hideLine}>
               <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
-                <div className={classes.btnLabel}>Expériences sportives</div>
+                <div className={classes.btnLabel}>Expérience sportive</div>
               </Button>
             </div>
           </div>

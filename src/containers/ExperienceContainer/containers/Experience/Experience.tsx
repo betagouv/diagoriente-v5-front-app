@@ -9,6 +9,8 @@ import GameContainer from 'containers/HomeContainer/components/Modals/KItchenGam
 import IlluExpPerso from 'assets/images/illu_xp_perso.png';
 import IlluExpPro from 'assets/images/illu_xp_pro.png';
 import illExpEng from 'assets/images/illu_xp_engagement.png';
+import illExpRugby from 'assets/images/rugby.png';
+
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import { Link, useHistory } from 'react-router-dom';
 import Game from '../Game/gameModal/GameModal';
@@ -146,11 +148,11 @@ const Experience = () => {
               titleClassName={classes.marginTitle}
               circleClassName={classes.circleStyleEng}
             >
-              <img src={illExpEng} alt="ill" className={classes.illus} />
+              <img src={illExpRugby} alt="ill" className={classes.illus} />
             </Avatar>
             <div onClick={onClickSport} className={classes.hideLine}>
               <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
-                <div className={classes.btnLabel}>Expérience Sportife</div>
+                <div className={classes.btnLabel}>Expériences sportives</div>
               </Button>
             </div>
           </div>

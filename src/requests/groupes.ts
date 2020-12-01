@@ -12,6 +12,9 @@ export const MyGroupInfoQuery = gql`
           lastName
         }
         location
+        wc2023 {
+          formation
+        }
         eligibleStructuresWC2023 {
           id
           club_code
@@ -22,6 +25,12 @@ export const MyGroupInfoQuery = gql`
           expectations {
             id
             name
+            competences {
+              id {
+                title
+              }
+              minimumLevel
+            }
           }
         }
       }

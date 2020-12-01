@@ -31,9 +31,9 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
     case 'engagement':
       typeXp = 'engagement';
       break;
-      case 'sport':
-        typeXp = 'sport';
-        break;
+    case 'sport':
+      typeXp = 'sport';
+      break;
     case 'personal':
       typeXp = 'personnelle';
       break;
@@ -74,8 +74,8 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
 
         <div className={classes.textDescription}>
           <p className={classes.text}>
-            Tu peux maintenant demander une recommandation pour cette expérience, elle donnera confiance à tes futurs
-            recruteurs.
+            Tu peux maintenant demander une recommandation pour cette expérience, elle crédibilisera ta candidature et
+            t&apos;aidera à te démarquer !
           </p>
         </div>
         <div className={classes.btnContainer}>

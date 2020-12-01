@@ -73,7 +73,9 @@ const ThemeContainerPro = ({ location, history }: RouteComponentProps) => {
           <p className={classes.themeTitle}>Choisis une expérience pro : </p>
           <div className={classes.searchContainer}>
             <div className={classes.boxSearch}>
-              <div className={classes.boxSearchTitle}>Tu as réalisé un petit boulot chez KFC ? Tu bricoles sur ton temps libre ?</div>
+              <div className={classes.boxSearchTitle}>
+                Tu as réalisé un stage en entreprise ? Tu bricoles sur ton temps libre ?
+              </div>
               <div className={classes.boxSearchTitle}>Tape les premières lettres de ton expérience pro</div>
               <div className={classes.inputSearchContainer}>
                 <Input

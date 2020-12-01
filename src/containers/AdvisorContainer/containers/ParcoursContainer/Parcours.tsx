@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Modal, Dialog, Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core';
-import UserContext from 'contexts/UserContext';
+import React, { useState } from 'react';
+import { Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -75,6 +74,17 @@ const Parcours = () => {
       ),
     },
   ];
+
+  const getTooltipData = (competences: any[]) => (
+    <Typography variant="caption">
+      <ul>
+        {competences.map((c: any) => (
+          <li>{`${c.id.title}: Niveau ${c.minimumLevel + 1}`}</li>
+        ))}
+      </ul>
+    </Typography>
+  );
+
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
@@ -106,10 +116,10 @@ const Parcours = () => {
                     {v.expectations.length > 0 && (
                       <ul>
                         <strong>Besoins :</strong>
-                        {v.expectations.map((v) => (
-                          <li key={v.id}>
-                            <Tooltip title="Afficher ici la description des besoins">
-                              <span>{v.name}</span>
+                        {v.expectations.map((e: any) => (
+                          <li key={e.id}>
+                            <Tooltip title={getTooltipData(e.competences)}>
+                              <span>{e.name}</span>
                             </Tooltip>
                           </li>
                         ))}

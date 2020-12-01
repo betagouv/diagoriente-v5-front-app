@@ -25,6 +25,12 @@ export const MyGroupInfoQuery = gql`
           expectations {
             id
             name
+            competences {
+              id {
+                title
+              }
+              minimumLevel
+            }
           }
         }
       }

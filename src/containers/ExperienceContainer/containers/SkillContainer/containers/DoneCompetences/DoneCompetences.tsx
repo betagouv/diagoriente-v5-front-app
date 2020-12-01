@@ -37,6 +37,9 @@ const ResultCompetences = ({ theme, match }: Props) => {
     case 'professional':
       typeXp = 'professionnelle';
       break;
+      case 'sport':
+      typeXp = 'sport';
+      break;
     default:
       typeXp = 'personnelle';
   }

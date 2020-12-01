@@ -12,6 +12,9 @@ export const MyGroupInfoQuery = gql`
           lastName
         }
         location
+        wc2023 {
+          formation
+        }
         eligibleStructuresWC2023 {
           id
           club_code

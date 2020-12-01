@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles<Theme, { isCampus: Boolean | undefined }>((theme) => ({
   drawerPaper: {
     width: '287px',
     height: 'auto',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: (props) => (props.isCampus ? '#19194b' : theme.palette.background.default),
     overflow: 'auto',
     display: 'flex',
     justifyContent: 'center',

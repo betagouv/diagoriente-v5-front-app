@@ -46,7 +46,7 @@ const ProfilComponent = () => {
 
   const persoSkills = parcours?.skills.filter((p) => p.theme?.type === 'personal') || [];
   const engagementSkills = parcours?.skills.filter((p) => p.theme?.type === 'engagement') || [];
-
+  const sportSkills = parcours?.skills.filter((p) => p.theme?.type === 'sport') || [];
   const proSkills = parcours?.skills.filter((p) => p.theme?.type === 'professional') || [];
 
   const topJobs: Jobs[] = [];
@@ -202,6 +202,8 @@ const ProfilComponent = () => {
         </>
       ),
     },
+  ];
+  const cardExp = [
     {
       titleCard: <Title title="MES EXPÉRIENCES" color="#424242" size={18} font="42" className={classes.title} />,
       title: 'MES EXPÉRIENCES PERSONNELLES',
@@ -234,7 +236,6 @@ const ProfilComponent = () => {
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-
       title: 'MES EXPÉRIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
@@ -294,6 +295,39 @@ const ProfilComponent = () => {
         </Link>
       ),
     },
+  ];
+  const sportCard = {
+    titleCard: <div className={classes.emptyDiv} />,
+    title: 'MES EXPÉRIENCES SPORTIVES',
+    background: '#4D6EC5',
+    color: '#fff',
+    path: '/profile/experience?type=sport',
+    className: classes.experienceCard,
+    children: sportSkills.length ? (
+      <Grid container spacing={1}>
+        {sportSkills.map((theme) => {
+          const icon = secteurs?.themes.data.find((secteur) => theme.theme.parentId === secteur.id)?.resources?.icon;
+          return (
+            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+              <div className={classes.themeSelection}>
+                <Circle avatarCircleBackground="transparent" size={100}>
+                  {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
+                </Circle>
+                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+              </div>
+            </Grid>
+          );
+        })}
+      </Grid>
+    ) : (
+      <Link to="/experience/theme?type=sport">
+        <Button className={classes.btn}>
+          <span className={classes.textButton}>J’ajoute une expérience professionnelle</span>
+        </Button>
+      </Link>
+    ),
+  };
+  const cardJobs = [
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
@@ -320,15 +354,11 @@ const ProfilComponent = () => {
           ))
         : null,
     },
-    /*  {
-      titleCard: <div className={classes.emptyDiv} />,
-
-      title: 'MES ENTREPRISES ENREGISTREES',
-      background: '#FFD382',
-      color: '#424242',
-      children: <div>hello</div>,
-    }, */
   ];
+  if (user?.isCampus) {
+    allCard.splice(1, 1);
+    cardExp.push(sportCard);
+  }
   return (
     <div className={classes.profilContainer}>
       <Title title="MON PROFIL" color="#424242" size={18} font="42" className={classes.title} />
@@ -336,23 +366,58 @@ const ProfilComponent = () => {
         <Grid container spacing={3}>
           {allCard.map((e, index) => (
             // eslint-disable-next-line
-            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid, e.className)}>
+            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
               {e.title && e.background && e.children && (
                 <Card
                   className={classes.cardClassName}
-                  titleCard={e.titleCard}
                   title={e.title}
                   background={e.background}
                   color={e.color}
-                  logo={e.logo}
                   path={e.path}
-                  childrenCardClassName={e.childrenCardClassName}
                 >
                   {e.children}
                 </Card>
               )}
             </Grid>
           ))}
+        </Grid>
+        <Grid container spacing={3}>
+          {cardExp.map((e, index) => (
+            // eslint-disable-next-line
+            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
+              {e.title && e.background && e.children && (
+                <Card
+                  className={classes.cardClassName}
+                  title={e.title}
+                  background={e.background}
+                  color={e.color}
+                  path={e.path}
+                >
+                  {e.children}
+                </Card>
+              )}
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={3}>
+          {!user?.isCampus &&
+            cardJobs.map((e, index) => (
+              // eslint-disable-next-line
+              <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
+                {e.title && e.background && e.children && (
+                  <Card
+                    className={classes.cardClassName}
+                    titleCard={e.titleCard}
+                    title={e.title}
+                    background={e.background}
+                    color={e.color}
+                    path={e.path}
+                  >
+                    {e.children}
+                  </Card>
+                )}
+              </Grid>
+            ))}
         </Grid>
       </div>
       <div className={classes.avis}>

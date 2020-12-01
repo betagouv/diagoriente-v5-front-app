@@ -35,24 +35,29 @@ const HomeCompleted = () => {
         return 'closed';
     }
   };
-  const onClickItem = (t: string, p?: string) => {
+  const onClickItem = (t: string, p?: string, d?:boolean) => {
     if (t === 'MES DÉMARCHES') {
       setOpenModal(true);
     }
-    if (p) history.push(`${p}`);
+    if (p && !d) history.push(`${p}`);
   };
   const renderContentItem = useCallback(
     (
       title: string,
       description: string,
-      c: { path?: string; buttonClassName?: string; descriptionClassName?: string } = {},
+      c: { path?: string; buttonClassName?: string; descriptionClassName?: string; disable?: boolean } = {},
     ) => (
       <div className={classes.itemContainer}>
         {/* <Link className={classes.itemLink} to={c.path || ''}>
           <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
         </Link> */}
-        <div className={classes.itemLink} onClick={() => onClickItem(title, c.path)}>
-          <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
+        <div className={classes.itemLink} onClick={() => onClickItem(title, c.path, c.disable)}>
+          <Button
+            className={classNames(classes.itemButton, c.buttonClassName)}
+            disabled={c.disable && c.path === '/interet'}
+          >
+            {title}
+          </Button>
         </div>
         <p className={classNames(classes.itemDescription, c.descriptionClassName)}>{description}</p>
       </div>
@@ -86,7 +91,7 @@ const HomeCompleted = () => {
               'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
               "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
-              { path: '/interet', buttonClassName: classes.purple },
+              { path: '/interet', buttonClassName: classes.purple, disable: user?.isCampus },
             )}
           </div>
         ),

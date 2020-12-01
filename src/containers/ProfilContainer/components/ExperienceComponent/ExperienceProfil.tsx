@@ -24,6 +24,7 @@ import useStyles from './styles';
 
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const type = decodeUri(location.search).type || 'personal';
+  console.log('type', type);
 
   const classes = useStyles();
   const skillState = useParcourSkills(type);
@@ -77,7 +78,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     window.removeEventListener('resize', onWindowResize);
   });
 
-  if (type !== 'personal' && type !== 'professional' && type !== 'engagement') {
+  if (type !== 'personal' && type !== 'professional' && type !== 'engagement' && type !== 'sport') {
     return <NotFoundPage />;
   }
 
@@ -87,6 +88,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         return 'MES EXPÉRIENCES PROFESSIONNELLES';
       case 'engagement':
         return 'MES EXPÉRIENCES D’ENGAGEMENT';
+      case 'sport':
+        return 'MES EXPÉRIENCES SPORTIVES';
       default:
         return 'MES EXPÉRIENCES PERSONNELLES';
     }
@@ -98,6 +101,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         return 'pro';
       case 'engagement':
         return 'd’engagement';
+      case 'sport':
+        return 'sport';
       default:
         return 'perso';
     }
@@ -111,6 +116,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         })}`;
       case 'engagement':
         return `/experience/theme${encodeUri({ redirect: '/profile/experience?type=engagement', type: 'engagement' })}`;
+      case 'sport':
+        return `/experience/theme${encodeUri({ redirect: '/profile/experience?type=sport', type: 'sport' })}`;
       default:
         return `/experience/theme${encodeUri({ redirect: '/profile/experience' })}`;
     }

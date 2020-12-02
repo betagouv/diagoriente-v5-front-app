@@ -36,7 +36,7 @@ const HomeCompleted = () => {
         return 'closed';
     }
   };
-  const onClickItem = (t: string, p?: string, d?:boolean) => {
+  const onClickItem = (t: string, p?: string, d?: boolean) => {
     if (t === 'MES DÉMARCHES') {
       setOpenModal(true);
     }
@@ -77,7 +77,8 @@ const HomeCompleted = () => {
         initialChildren: (
           <div className={classes.contentChild}>
             Identifier mes <span className={classes.bold}>compétences</span>
-            <br /> et explorer mes <span className={classes.bold}>intérêts</span>
+            <br /> et explorer mes
+            <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -85,14 +86,16 @@ const HomeCompleted = () => {
             {renderContentItem(
               'MES EXPÉRIENCES',
               // eslint-disable-next-line
-              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
+              isCampus
+                ? "Complète tes expériences, qu'elles soient professionnelles, personnelles, sportives ou d'engagement, puis évalue tes compétences."
+                : "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}
             {renderContentItem(
               'MES CENTRES D’INTÉRÊT',
               // eslint-disable-next-line
               "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
-              { path: '/interet', buttonClassName: classes.purple, disable: (user?.isCampus && !validateCampus) },
+              { path: '/interet', buttonClassName: classes.purple, disable: user?.isCampus && !validateCampus },
             )}
           </div>
         ),
@@ -146,7 +149,7 @@ const HomeCompleted = () => {
               key={content.title}
               onClick={() => setOpen(open === index ? -1 : index)}
               {...content}
-              state={(isCampus && !validateCampus) ? ((index === 0) ? 'open' : 'closed') : getState(index)}
+              state={isCampus && !validateCampus ? (index === 0 ? 'open' : 'closed') : getState(index)}
             />
           ))}
         </div>

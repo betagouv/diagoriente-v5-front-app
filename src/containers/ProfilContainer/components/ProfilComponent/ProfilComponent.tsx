@@ -192,13 +192,23 @@ const ProfilComponent = () => {
       children: (
         <>
           <img src={carte} alt="" height={90} />
-          <span className={classes.txtCarte}>
-            Toutes tes expériences et compétences
-            <br />
-            au même endroit pour partager à tes
-            <br />
-            futurs employeurs
-          </span>
+          {user?.isCampus ? (
+            <span className={classes.txtCarte}>
+              Toutes tes expériences et compétences et recommandations
+              <br />
+              au même endroit pour partager à ton
+              <br />
+              conseiller Pôle Emploi et valider ta candidature
+            </span>
+          ) : (
+            <span className={classes.txtCarte}>
+              Toutes tes expériences et compétences
+              <br />
+              au même endroit pour partager à tes
+              <br />
+              futurs employeurs
+            </span>
+          )}
         </>
       ),
     },
@@ -322,7 +332,7 @@ const ProfilComponent = () => {
     ) : (
       <Link to="/experience/theme?type=sport">
         <Button className={classes.btn}>
-          <span className={classes.textButton}>J’ajoute une expérience professionnelle</span>
+          <span className={classes.textButton}>J’ajoute une expérience sportive</span>
         </Button>
       </Link>
     ),

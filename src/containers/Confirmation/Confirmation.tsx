@@ -124,8 +124,7 @@ const Confirmation = () => {
       state.values.location === '' ||
       state.values.perimetere == ''
     ) {
-      console.log('heheheh');
-      setTextError('veuillez remplir tous les champs');
+      setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       const dataToSend = {
         birthdate: state.values.date,

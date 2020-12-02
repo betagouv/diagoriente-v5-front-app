@@ -19,8 +19,12 @@ const Confirmation = () => {
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
   const listAccData = [
+    { id: 'niveaubac', title: 'Niveau Bac' },
+    { id: 'bac', title: 'Bac' },
     { id: 'bac+1', title: 'Bac + 1' },
+    { id: 'bac+2', title: 'Bac + 2' },
     { id: 'bac+3', title: 'Bac + 3' },
+    { id: 'bac+4', title: 'Bac + 4' },
     { id: 'bac+5', title: 'Bac + 5' },
   ];
   const listFormData = [
@@ -189,7 +193,7 @@ const Confirmation = () => {
                         options={listAccData}
                         onSelectText={onSelectAcc}
                         name="accessibility"
-                        placeholder="Niveau d’accès"
+                        placeholder="Niveau"
                         value={state.values.accessibility}
                         open={openAcc}
                         onClick={() => setOpenAcc(!openAcc)}

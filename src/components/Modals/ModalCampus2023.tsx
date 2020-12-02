@@ -27,8 +27,12 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
   const listAccData = [
+    { id: 'niveaubac', title: 'Niveau Bac' },
+    { id: 'bac', title: 'Bac' },
     { id: 'bac+1', title: 'Bac + 1' },
+    { id: 'bac+2', title: 'Bac + 2' },
     { id: 'bac+3', title: 'Bac + 3' },
+    { id: 'bac+4', title: 'Bac + 4' },
     { id: 'bac+5', title: 'Bac + 5' },
   ];
   const listFormData = [
@@ -61,6 +65,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUserState] = useUpdateUser();
+  const history = useHistory();
 
   const updateUserdata = async () => {
     const data: string | null = await localforage.getItem('auth');
@@ -251,7 +256,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                       options={listAccData}
                       onSelectText={onSelectAcc}
                       name="accessibility"
-                      placeholder="Niveau d’accès"
+                      placeholder="Niveau"
                       className={classes.containerSelect}
                       value={state.values.accessibility}
                       open={openAcc}
@@ -291,7 +296,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>
-              <Button className={classes.btn} onClick={() => handleClose()}>
+              <Button className={classes.btn} onClick={() => history.push('/profile/card')}>
                 <div className={classes.btnLabel}>
                   Je vérifie et/ou continue d&apos;enrichir ma carte de compétences
                 </div>

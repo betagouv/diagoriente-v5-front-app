@@ -1,5 +1,6 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
+import parcoursContext from 'contexts/ParcourContext';
 import { Link, useHistory } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
@@ -22,6 +23,8 @@ const HomeCompleted = () => {
   const classes = useStyles();
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const { parcours } = useContext(parcoursContext);
+
   const isCampus = user?.isCampus;
   const validateCampus = user?.validateCampus || false;
   const [open, setOpen] = useState(-1);
@@ -72,7 +75,7 @@ const HomeCompleted = () => {
                 <div className={classes.itemLink}>
                   <Button
                     className={classNames(classes.itemButton, c.buttonClassName)}
-                    disabled={!c.validate}
+                    disabled={parcours?.skills.length === 0}
                     onClick={() => setShowModalValidate(true)}
                   >
                     {title}

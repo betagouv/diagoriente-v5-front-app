@@ -120,8 +120,8 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
           <CardSkills
             skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
             title="Expériences sportives"
-            emptyMessage="Tu n’as pas encore renseigné d'expérience sportife"
-            emptyButton="J’ajoute une expérience sportife"
+            emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
+            emptyButton="J’ajoute une expérience sportive"
             path={`/experience/theme?type=sport${encodeUri({ redirect: '/profile/card', type: 'sport' })}`}
             show={!Userparcours}
           />

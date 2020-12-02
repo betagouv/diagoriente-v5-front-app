@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 
 import { User, WC2023 } from './types';
 
@@ -71,3 +71,35 @@ export interface UpdateUserArguments {
 
 export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User }, UpdateUserArguments> = {}) =>
   useLocalMutation(updateUserMutation, options);
+
+export const usersQuery = gql`
+  query($page: Int, $perPage: Int) {
+    users(page: $page, perPage: $perPage) {
+      perPage
+      page
+      totalPages
+      count
+      data {
+        id
+        role
+        email
+        codeGroupe
+        isCampus
+        profile {
+          firstName
+          lastName
+        }
+        wc2023 {
+          birthdate
+          perimeter
+          degree
+          formation
+        }
+        validateCampus
+        eligibleStructuresCountWC2023
+      }
+    }
+  }
+`;
+
+export const useUsers = (options: QueryHookOptions<any, any> = {}) => useLocalQuery<any, any>(usersQuery, options);

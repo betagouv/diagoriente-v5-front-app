@@ -194,19 +194,12 @@ const ProfilComponent = () => {
           <img src={carte} alt="" height={90} />
           {user?.isCampus ? (
             <span className={classes.txtCarte}>
-              Toutes tes expériences et compétences et recommandations
-              <br />
-              au même endroit pour partager à ton
-              <br />
-              conseiller Pôle Emploi et valider ta candidature
+              Toutes tes expériences, compétences et recommandations au même endroit pour partager à ton conseiller Pôle
+              Emploi et valider ta candidature
             </span>
           ) : (
             <span className={classes.txtCarte}>
-              Toutes tes expériences et compétences
-              <br />
-              au même endroit pour partager à tes
-              <br />
-              futurs employeurs
+              Toutes tes expériences et compétences au même endroit pour partager à tes futurs employeurs
             </span>
           )}
         </>

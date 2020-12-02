@@ -27,9 +27,10 @@ const adminLinks = [
   { text: 'Activités', path: '/admin/activities' },
   { text: 'Contextes', path: '/admin/contexts' },
   { text: 'Compétences', path: '/admin/competences' },
-  { text: 'Questions', path: '/admin/questions' },
-  { text: 'Options', path: '/admin/options' },
   { text: 'Institution', path: '/admin/institution' },
+  { text: 'Options', path: '/admin/options' },
+  { text: 'Questions', path: '/admin/questions' },
+  { text: 'Utilisateurs', path: '/admin/users' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 

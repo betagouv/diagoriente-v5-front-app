@@ -384,7 +384,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             </div>
             <div className={classes.btnContainer}>
               <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
-                <div className={classes.btnLabel}>Je valide définitivement ma candidature</div>
+                <div className={classes.btnLabel}>Valider ma candidature définitivement</div>
               </Button>
             </div>
           </div>

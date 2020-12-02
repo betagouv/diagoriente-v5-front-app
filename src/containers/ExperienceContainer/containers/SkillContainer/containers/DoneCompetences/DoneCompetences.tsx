@@ -76,7 +76,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
           <div className={classes.btnContainer}>
             {user?.isCampus && !user?.validateCampus ? (
               <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
-                Je valide ma candidature définitivement
+                Valider ma candidature définitivement
               </Button>
             ) : (
               <Link to="/experience">

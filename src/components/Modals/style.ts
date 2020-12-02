@@ -6,7 +6,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     justifyContent: 'center',
     width: '100%',
     height: 'calc(100vh - 113px)',
-    paddingBottom: 40,
+    marginBottom: 20,
     alignItems: 'center',
   },
   title: {
@@ -34,13 +34,14 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    height: '100%'
   },
   container: {
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 0,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 20,
       width: '95%',

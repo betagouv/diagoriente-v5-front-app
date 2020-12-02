@@ -15,6 +15,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   errorText?: string | boolean;
   subTitle?: string;
   errorForm?: string;
+  type?: string;
   showPassword?: () => void;
   className?: string;
   inputClassName?: string;
@@ -39,6 +40,7 @@ const Input = ({
   icon,
   inputClassName,
   inputBaseClassName,
+  type,
   isfull,
   ...rest
 }: IProps) => {
@@ -69,6 +71,7 @@ const Input = ({
               value={value}
               className={classes.inputRoot}
               name={name}
+              type={type}
               error={!!(errorText || errorForm)}
               InputProps={{
                 classes: {

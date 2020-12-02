@@ -74,9 +74,13 @@ const Register = () => {
     if (actions.validateForm()) {
       if (values.acceptCondition) {
         const res = { ...values, coordinates, validateCampus: false };
-        registerCall({
-          variables: res,
-        });
+        if (values.location.length !== 0) {
+          registerCall({
+            variables: res,
+          });
+        } else {
+          setErrorCondition("Veuillez saisie ta localisation");
+        }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
@@ -310,8 +314,6 @@ const Register = () => {
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
               error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
-              errorText={touched.codeGroupe ? errors.codeGroupe : ''}
-              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>

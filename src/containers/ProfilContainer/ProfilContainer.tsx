@@ -55,7 +55,17 @@ const Profil = () => {
   return (
     <ThemeProvider theme={theme}>
       <Switch>
-        <Route protected exact path="/profile" component={ProfilComponent} />
+        <Route
+          privateHeaderProps={{
+            closeLogoIcon: user?.isCampus ? logCampus : logo,
+            openIcon: user?.isCampus ? whiteMenu : open,
+            showUser: false,
+          }}
+          protected
+          exact
+          path="/profile"
+          component={ProfilComponent}
+        />
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,

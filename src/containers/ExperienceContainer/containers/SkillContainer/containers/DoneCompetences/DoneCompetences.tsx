@@ -43,7 +43,6 @@ const ResultCompetences = ({ theme, match }: Props) => {
     default:
       typeXp = 'personnelle';
   }
-  console.log('user', user);
   return (
     <div className={classes.root}>
       <div className={classes.content}>

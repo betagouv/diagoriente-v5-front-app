@@ -6,9 +6,11 @@ import { useAvatars } from 'requests/auth';
 import { useLocation } from 'requests/location';
 import { useUpdateUser } from 'requests/user';
 import _ from 'lodash';
+import localforage from 'localforage';
+
 // import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
-
+import { User } from 'requests/types';
 import UserContext from 'contexts/UserContext';
 import Input from 'components/inputs/Input/Input';
 import Spinner from 'components/Spinner/Spinner';
@@ -64,10 +66,26 @@ const InfoProfil = () => {
     lattitude: 0,
     longitude: 0,
   });
-
+  console.log('user', user);
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
-
+  const updateUserdata = async (newData: User) => {
+    console.log('newData',newData)
+    const data: string | null = await localforage.getItem('auth');
+    let res = {};
+    if (data) {
+      const parsedData = JSON.parse(data);
+      let newObj = {};
+      const objUser = newData;
+      newObj = {
+        token: parsedData.token,
+        user: objUser,
+      };
+      await localforage.setItem('auth', JSON.stringify(newObj));
+      setUser(objUser);
+    }
+    return res;
+  };
   const onShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -127,7 +145,7 @@ const InfoProfil = () => {
         oldPassword: '',
         location: user?.location || '',
         institution: '',
-        codeGroupe: user.codeGroupe,
+        codeGroupe: user?.codeGroupe,
       });
       actions.setAllTouched(false);
     }
@@ -135,7 +153,7 @@ const InfoProfil = () => {
   }, [open, user]);
   useEffect(() => {
     if (updateUserState.data) {
-      setUser(updateUserState.data.updateUser);
+      updateUserdata(updateUserState.data.updateUser);
       setOpen(false);
     }
     // eslint-disable-next-line

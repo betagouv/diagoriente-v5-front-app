@@ -46,6 +46,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       lastName: '',
       firstName: '',
       location: '',
+      perimetere: '',
       accessibility: [] as string[],
       formation: [] as string[],
     },
@@ -162,9 +163,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   };
   const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
-    if (state.values.firstName === '' || state.values.lastName === '' || state.values.location === '') {
-      console.log('heheheh');
-      setTextError('veuillez remplir tous les champs');
+    if (
+      state.values.firstName === '' ||
+      state.values.lastName === '' ||
+      state.values.location === '' ||
+      state.values.perimetere === ''
+    ) {
+      setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       if (!user?.validateCampus) {
         const dataToSend = {
@@ -172,6 +177,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           lastName: state.values.lastName,
           location: state.values.location,
           coordinates: coordinates,
+          perimeter: Number(state.values.perimetere),
           wc2023: {
             degree: state.values.accessibility[0] || user?.wc2023.degree,
             formation: state.values.formation[0],
@@ -185,7 +191,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     }
   };
   useEffect(() => {
-    if (textError && state.values.firstName !== '' && state.values.lastName !== '' && state.values.location !== '') {
+    if (
+      textError &&
+      state.values.firstName !== '' &&
+      state.values.lastName !== '' &&
+      state.values.location !== '' &&
+      state.values.perimetere !== ''
+    ) {
       setTextError('');
     }
   }, [state.values.firstName, state.values.lastName, state.values.location]);
@@ -333,8 +345,35 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 </Grid>
               </Grid>
             </div>
+            <div className={classes.selectwrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <label className={classes.labelSelect}>
+                      Périmètre
+                      <span className={classes.requiredInput}>*</span>
+                    </label>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <div className={classes.containerAutoComp}>
+                    <Input
+                      label=""
+                      type="number"
+                      onChange={actions.handleChange}
+                      value={state.values.perimetere}
+                      name="perimetere"
+                      placeholder="perimetere"
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
           </div>
           <div className={classes.textError}>{textError}</div>
+          <div className={classes.infoFields}>
+            <span>Chmaps obligatoires</span>
+          </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>
               <Button className={classes.btn} onClick={() => history.push('/profile/card')}>

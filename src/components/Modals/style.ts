@@ -109,4 +109,10 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     color: 'red',
     fontSize: 14,
   },
+  infoFields: {
+    textAlign: 'center',
+    color: 'gray',
+    fontSize: 12,
+
+  },
 }));

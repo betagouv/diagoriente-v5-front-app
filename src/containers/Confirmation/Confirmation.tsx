@@ -290,6 +290,9 @@ const Confirmation = () => {
           </div>
         )}
         <div className={classes.textError}>{textError}</div>
+        <div className={classes.infoFields}>
+            <span>Chmaps obligatoires</span>
+          </div>
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

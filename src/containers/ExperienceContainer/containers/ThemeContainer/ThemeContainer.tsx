@@ -78,7 +78,13 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
-            title={type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'}
+            title={
+              type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
+                : type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
             color="#223A7A"
             size={42}
           />

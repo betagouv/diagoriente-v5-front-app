@@ -85,6 +85,10 @@ const SkillCompetencesValues = ({
             title={
               theme && theme.type === 'professional'
                 ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : theme && theme.type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
                 : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"

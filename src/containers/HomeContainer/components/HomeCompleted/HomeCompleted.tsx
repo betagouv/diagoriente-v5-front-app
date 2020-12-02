@@ -69,8 +69,14 @@ const HomeCompleted = () => {
           <>
             {!c.validate && (
               <div className={classes.itemContainer}>
-                <div className={classes.itemLink} onClick={() => setShowModalValidate(true)}>
-                  <Button className={classNames(classes.itemButton, c.buttonClassName)} >{title}</Button>
+                <div className={classes.itemLink}>
+                  <Button
+                    className={classNames(classes.itemButton, c.buttonClassName)}
+                    disabled={!c.validate}
+                    onClick={() => setShowModalValidate(true)}
+                  >
+                    {title}
+                  </Button>
                 </div>
               </div>
             )}
@@ -106,7 +112,7 @@ const HomeCompleted = () => {
                 : "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}
-            {!user?.isCampus || user?.isCampus && user?.validateCampus
+            {!user?.isCampus || (user?.isCampus && user?.validateCampus)
               ? renderContentItem(
                   'MES CENTRES D’INTÉRÊT',
                   // eslint-disable-next-line

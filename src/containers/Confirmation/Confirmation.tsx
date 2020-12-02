@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
+import moment from 'moment';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -126,13 +127,18 @@ const Confirmation = () => {
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
-      const dataToSend = {
-        birthdate: state.values.date,
-        degree: state.values.accessibility[0],
-        perimeter: Number(state.values.perimetere),
-        formation: state.values.formation[0],
-      };
-      updateUserCall({ variables: { wc2023: dataToSend } });
+      const isValidDate = moment(state.values.date).isBefore(moment());
+      if (isValidDate) {
+        const dataToSend = {
+          birthdate: state.values.date,
+          degree: state.values.accessibility[0],
+          perimeter: Number(state.values.perimetere),
+          formation: state.values.formation[0],
+        };
+        updateUserCall({ variables: { wc2023: dataToSend } });
+      } else {
+        setTextError('Date invalide ');
+      }
     }
   };
   useEffect(() => {
@@ -291,8 +297,8 @@ const Confirmation = () => {
         )}
         <div className={classes.textError}>{textError}</div>
         <div className={classes.infoFields}>
-            <span>Chmaps obligatoires</span>
-          </div>
+          <span>Champs obligatoires</span>
+        </div>
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

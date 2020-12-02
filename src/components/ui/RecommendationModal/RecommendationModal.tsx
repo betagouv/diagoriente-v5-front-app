@@ -30,9 +30,7 @@ interface Props {
   setOpen: (open: boolean) => void;
   onSuccess?: () => void;
 }
-const RecommendationModal = ({
- skill, open, setOpen, onSuccess,
-}: Props) => {
+const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
   const classes = useStyles();
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
@@ -63,15 +61,18 @@ const RecommendationModal = ({
     },
     required: ['firstName', 'lastName', 'email', 'comment', 'confirmEmail'],
   });
-
+  const textCampus =
+    "a effectué une expérience dans votre structure et vous sollicite pour obtenir une recommandation sur la plateforme Diagoriente x Campus 2023.Pour donner une recommandation, rien de plus simple : il suffit de cliquer sur le bouton ci-dessous et compléter le formulaire ! Votre recommandation va peut-être l'aider à décrocher la formation de ses rêves !";
+  const textComment =
+    "a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,";
   useEffect(() => {
     if (secondOpen) {
       actions.setValues({
-        comment: `${user && NameFormator(user?.profile.firstName)} ${user
-          && NameFormator(
+        comment: `${user && NameFormator(user?.profile.firstName)} ${user &&
+          NameFormator(
             user?.profile.lastName,
             // eslint-disable-next-line
-          )} a effectué une expérience professionnelle chez vous et sollicite une recommandation de votre part. Vous pouvez l'aider en montrant que vous validez cette expérience sur la plateforme Diagoriente, l'outil ultime pour trouver son orientation et accéder à l'emploi. Bien cordialement,`,
+          )} ${user?.isCampus ? textCampus : textComment}`,
       });
     }
     // eslint-disable-next-line
@@ -90,11 +91,11 @@ const RecommendationModal = ({
 
   const handleSecondOpen = () => {
     if (
-      !state.values.email
-      || !state.values.firstName
-      || !state.values.lastName
-      || state.values.firstName.length < 3
-      || state.values.lastName.length < 3
+      !state.values.email ||
+      !state.values.firstName ||
+      !state.values.lastName ||
+      state.values.firstName.length < 3 ||
+      state.values.lastName.length < 3
     ) {
       actions.setAllTouched(true);
       setSecondOpen(false);
@@ -275,8 +276,7 @@ const RecommendationModal = ({
             Le message pour
             {/* eslint-disable-next-line */}
             {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
-            {`${state.values.email}`}
-            )
+            {`${state.values.email}`})
           </div>
           <form className={classes.experienceContainer}>
             <TextField
@@ -344,9 +344,7 @@ const RecommendationModal = ({
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
             Veux-tu vraiment quitter ?
-            <br />
-            {' '}
-            Tes modifications ne seront pas enregistrées.
+            <br /> Tes modifications ne seront pas enregistrées.
           </p>
           <Button
             className={classes.incluse}

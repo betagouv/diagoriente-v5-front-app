@@ -177,12 +177,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           lastName: state.values.lastName,
           location: state.values.location,
           coordinates: coordinates,
-          perimeter: Number(state.values.perimetere),
           wc2023: {
             degree: state.values.accessibility[0] || user?.wc2023.degree,
             formation: state.values.formation[0],
             birthdate: user?.wc2023.birthdate,
-            perimeter: user?.wc2023.perimeter,
+            perimeter: Number(state.values.perimetere),
           },
           validateCampus: hasCompletedParcours,
         };
@@ -372,7 +371,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           </div>
           <div className={classes.textError}>{textError}</div>
           <div className={classes.infoFields}>
-            <span>Chmaps obligatoires</span>
+            <span>Champs obligatoires</span>
           </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>

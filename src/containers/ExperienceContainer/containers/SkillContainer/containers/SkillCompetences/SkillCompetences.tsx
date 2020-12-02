@@ -75,7 +75,11 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
         <div className={classes.header}>
           <Title
             title={
-              theme && theme.type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'
+              theme && theme.type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
             size={26}

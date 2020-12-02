@@ -65,7 +65,6 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUserState] = useUpdateUser();
-  const history = useHistory();
 
   const updateUserdata = async () => {
     const data: string | null = await localforage.getItem('auth');

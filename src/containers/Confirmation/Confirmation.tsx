@@ -127,7 +127,7 @@ const Confirmation = () => {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       const dataToSend = {
-        date: state.values.date,
+        birthdate: state.values.date,
         degree: state.values.accessibility[0],
         perimeter: Number(state.values.perimeter),
         formation: state.values.formation[0],

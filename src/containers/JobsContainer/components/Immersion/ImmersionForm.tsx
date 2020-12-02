@@ -3,6 +3,8 @@ import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import { Jobs } from 'requests/types';
 import AutoComplete from '../Autocomplete/AutoCompleteJob';
+import CheckBox from '../checkBox/ChexBox';
+
 import useStyles from './styles';
 
 interface IProps {
@@ -13,6 +15,7 @@ interface IProps {
   openImmersion: boolean;
   onChangeLocation: (e: React.ChangeEvent) => void;
   onSelect: (e?: string) => void;
+  onChangeTypeApi?: (e: { label: string }) => void;
   selectedLocation: string;
   listLocation?: { label: string; coordinates: string[] }[];
   LogoLocation: string;
@@ -20,6 +23,7 @@ interface IProps {
   onClickImmersion: () => void;
   setOpenLocation?: (open: boolean) => void;
   errorLocation?: boolean;
+  typeApi?: string;
 }
 
 const ImmersionForm = ({
@@ -36,15 +40,34 @@ const ImmersionForm = ({
   openLocation,
   onClickImmersion,
   setOpenLocation,
+  onChangeTypeApi,
+  typeApi,
   errorLocation,
 }: IProps) => {
   const classes = useStyles();
+  const typeFilter = [
+    {
+      label: 'formations',
+    },
+    {
+      label: 'entreprise',
+    },
+  ];
   return (
     <div className={classes.immersion}>
       <div className={classes.logoContainer}>
         <Loupe color="#FFA600" width="42" height="42" />
       </div>
       <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
+      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        {onChangeTypeApi &&
+          typeFilter.map((el) => (
+            <div>
+              <CheckBox key={el.label} label={el.label} value={typeApi} onClick={() => onChangeTypeApi(el)} />
+            </div>
+          ))}
+      </div>
+
       <div>Je recherche :</div>
       <div className={classes.autocompleteContainer}>
         <AutoComplete

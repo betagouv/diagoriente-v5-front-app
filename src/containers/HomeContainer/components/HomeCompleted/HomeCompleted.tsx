@@ -1,5 +1,6 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
+import parcoursContext from 'contexts/ParcourContext';
 import { Link, useHistory } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
@@ -12,6 +13,7 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
 import Button from '@material-ui/core/Button/Button';
+import CampusForm from 'components/Modals/ModalCampus2023';
 
 import classNames from 'utils/classNames';
 
@@ -21,8 +23,13 @@ const HomeCompleted = () => {
   const classes = useStyles();
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const { parcours } = useContext(parcoursContext);
+
+  const isCampus = user?.isCampus;
+  const validateCampus = user?.validateCampus || false;
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
+  const [showModalValidate, setShowModalValidate] = useState(false);
 
   const getState = (index: number) => {
     switch (open) {
@@ -40,21 +47,45 @@ const HomeCompleted = () => {
     }
     if (p) history.push(`${p}`);
   };
+
   const renderContentItem = useCallback(
     (
       title: string,
       description: string,
-      c: { path?: string; buttonClassName?: string; descriptionClassName?: string } = {},
+      c: {
+        path?: string;
+        buttonClassName?: string;
+        descriptionClassName?: string;
+        validate?: boolean;
+        isCampus?: boolean;
+      } = {},
     ) => (
-      <div className={classes.itemContainer}>
-        {/* <Link className={classes.itemLink} to={c.path || ''}>
-          <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
-        </Link> */}
-        <div className={classes.itemLink} onClick={() => onClickItem(title, c.path)}>
-          <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
-        </div>
-        <p className={classNames(classes.itemDescription, c.descriptionClassName)}>{description}</p>
-      </div>
+      <>
+        {!c.isCampus ? (
+          <div className={classes.itemContainer}>
+            <div className={classes.itemLink} onClick={() => onClickItem(title, c.path)}>
+              <Button className={classNames(classes.itemButton, c.buttonClassName)}>{title}</Button>
+            </div>
+            <p className={classNames(classes.itemDescription, c.descriptionClassName)}>{description}</p>
+          </div>
+        ) : (
+          <>
+            {!c.validate && (
+              <div className={classes.itemContainer}>
+                <div className={classes.itemLink}>
+                  <Button
+                    className={classNames(classes.itemButton, c.buttonClassName)}
+                    disabled={parcours?.skills.length === 0}
+                    onClick={() => setShowModalValidate(true)}
+                  >
+                    {title}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [classes],
@@ -70,7 +101,8 @@ const HomeCompleted = () => {
         initialChildren: (
           <div className={classes.contentChild}>
             Identifier mes <span className={classes.bold}>compétences</span>
-            <br /> et explorer mes <span className={classes.bold}>intérêts</span>
+            <br /> et explorer mes
+            <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -78,15 +110,29 @@ const HomeCompleted = () => {
             {renderContentItem(
               'MES EXPÉRIENCES',
               // eslint-disable-next-line
-              "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
+              isCampus
+                ? "Complète tes expériences, qu'elles soient professionnelles, personnelles, sportives ou d'engagement, puis évalue tes compétences."
+                : "Complète tes expériences, qu'elles soient professionnelles ou personnelles, puis évalue tes compétences.",
               { path: '/experience', buttonClassName: classes.blue },
             )}
-            {renderContentItem(
-              'MES CENTRES D’INTÉRÊT',
-              // eslint-disable-next-line
-              "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
-              { path: '/interet', buttonClassName: classes.purple },
-            )}
+            {!user?.isCampus || (user?.isCampus && user?.validateCampus)
+              ? renderContentItem(
+                  'MES CENTRES D’INTÉRÊT',
+                  // eslint-disable-next-line
+                  "Sélectionne tes centres d'intérêt. Aimes-tu plutôt être dehors, travailler en équipe, manipuler des outils... ?",
+                  { path: '/interet', buttonClassName: classes.purple },
+                )
+              : renderContentItem(
+                  'Je valide ma candidature',
+                  // eslint-disable-next-line
+                  '',
+                  {
+                    path: '',
+                    buttonClassName: classes.purple,
+                    validate: user?.validateCampus,
+                    isCampus: user?.isCampus,
+                  },
+                )}
           </div>
         ),
       },
@@ -122,9 +168,8 @@ const HomeCompleted = () => {
         openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
       },
     ],
-    [classes, renderContentItem],
+    [classes, renderContentItem, validateCampus],
   );
-
   return (
     <>
       <div className={classes.container}>
@@ -140,7 +185,7 @@ const HomeCompleted = () => {
               key={content.title}
               onClick={() => setOpen(open === index ? -1 : index)}
               {...content}
-              state={getState(index)}
+              state={isCampus && !validateCampus ? (index === 0 ? 'open' : 'closed') : getState(index)}
             />
           ))}
         </div>
@@ -152,6 +197,14 @@ const HomeCompleted = () => {
         colorIcon="#D60051"
       >
         <div className={classes.textModal}>Cette fonctionnalité arrive bientôt</div>
+      </ModalContainer>
+      <ModalContainer
+        open={showModalValidate}
+        handleClose={() => setShowModalValidate(false)}
+        backdropColor={'#19194B'}
+        colorIcon="#19194B"
+      >
+        <CampusForm handleClose={() => setShowModalValidate(false)} />
       </ModalContainer>
     </>
   );

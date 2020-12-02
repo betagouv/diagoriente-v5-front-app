@@ -15,6 +15,7 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   errorText?: string | boolean;
   subTitle?: string;
   errorForm?: string;
+  type?: string;
   showPassword?: () => void;
   className?: string;
   inputClassName?: string;
@@ -22,6 +23,8 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   withOutIcons?: boolean;
   icon?: any;
   isfull?: boolean;
+  step?: number;
+  min?: number;
 }
 
 const Input = ({
@@ -39,10 +42,13 @@ const Input = ({
   icon,
   inputClassName,
   inputBaseClassName,
+  type,
   isfull,
+  step,
+  min,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm), isfull });
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull, required });
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -69,7 +75,10 @@ const Input = ({
               value={value}
               className={classes.inputRoot}
               name={name}
+              type={type}
               error={!!(errorText || errorForm)}
+              inputProps={{ step, min }}
+              // TODO: unused prop
               InputProps={{
                 classes: {
                   inputAdornedStart: classes.adornedPositionStart,
@@ -93,8 +102,8 @@ const Input = ({
               {...rest}
               variant="outlined"
             />
-            {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-            {value && !errorText && !errorForm && !withOutIcons && (
+            {(errorText || errorForm) && required && <img src={LogoRose} className={classes.logo} alt="check" />}
+            {value && !errorText && !errorForm && required && !withOutIcons && (
               <img src={LogoCheked} className={classes.logo} alt="check" />
             )}
           </div>

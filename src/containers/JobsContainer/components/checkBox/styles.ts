@@ -26,5 +26,9 @@ export default makeStyles<Theme, { checked: boolean }>((theme) => ({
   },
   label: {
     fontWeight: (props) => (props.checked ? 'bold' : 'normal'),
+    textTransform: 'capitalize',
+  },
+  logo: {
+    marginRight: 5,
   },
 }));

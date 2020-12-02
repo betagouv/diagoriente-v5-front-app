@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import UserContext from 'contexts/UserContext';
 
 import useStyles from './styles';
 
@@ -22,22 +23,28 @@ const DashboardStep = ({
   titleBackground,
   ...other
 }: Props) => {
+  const { user } = useContext(UserContext);
+  const isCampus = user?.isCampus;
+  const validateCampus = user?.validateCampus;
   const classes = useStyles({ background, state });
 
   return (
-    <div {...other} className={classes.container}>
-      <div className={classes.title}>
-        {title}
-        {titleBackground && <img src={titleBackground} alt="" className={classes.titleBackground} />}
+    <>
+      <div {...other} className={classes.container}>
+        {isCampus && state !== 'open' && !validateCampus && <div className={classes.disableClass} />}
+        <div className={classes.title}>
+          {title}
+          {titleBackground && <img src={titleBackground} alt="" className={classes.titleBackground} />}
+        </div>
+        <div className={classes.avatarContainer}>
+          <div className={classes.avatar}>{image && <img className={classes.image} alt="" src={image} />}</div>
+        </div>
+        <div className={classes.initialChildren}>{initialChildren}</div>
+        <div onClick={(e) => e.stopPropagation()} className={classes.openChildren}>
+          {openChildren}
+        </div>
       </div>
-      <div className={classes.avatarContainer}>
-        <div className={classes.avatar}>{image && <img className={classes.image} alt="" src={image} />}</div>
-      </div>
-      <div className={classes.initialChildren}>{initialChildren}</div>
-      <div onClick={(e) => e.stopPropagation()} className={classes.openChildren}>
-        {openChildren}
-      </div>
-    </div>
+    </>
   );
 };
 

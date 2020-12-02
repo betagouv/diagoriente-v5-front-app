@@ -13,19 +13,20 @@ interface CardIcons {
   onGame: (i: string) => void;
   fetching?: boolean;
   fetchingPrint?: boolean;
+  showGame?: boolean
 }
 
-const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint, onGame }: CardIcons) => {
+const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint, onGame, showGame }: CardIcons) => {
   const classes = useStyles();
 
   return (
     <div className={classes.headerIcons}>
-      <div className={classes.headerIcon} onClick={() => onGame('game')}>
+      {showGame && <div className={classes.headerIcon} onClick={() => onGame('game')}>
         <div className={classes.gameIcon}>
           <img alt="game" src={game} className={classes.gameIconImage} width="80%" />
         </div>
         Jouer
-      </div>
+      </div>}
       <div onClick={() => onDownload('download')} className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={download} alt="" />
         {fetching ? (
@@ -33,8 +34,8 @@ const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint, onGame }: Car
             <Spinner />
           </div>
         ) : (
-          'Télécharger'
-        )}
+            'Télécharger'
+          )}
       </div>
       <div className={classes.headerIcon} onClick={() => onPrint('print')}>
         <img className={classes.headerIconImage} src={print} alt="" />
@@ -44,8 +45,8 @@ const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint, onGame }: Car
             <Spinner />
           </div>
         ) : (
-          'Imprimer'
-        )}
+            'Imprimer'
+          )}
       </div>
     </div>
   );

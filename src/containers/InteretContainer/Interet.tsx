@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Switch } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -10,7 +10,11 @@ import MainInteret from './containers/MainInteret';
 import ParcoursInteret from './containers/ParcourInteret';
 import OrdreInteret from './containers/OrdreInteret/OrderInteret';
 import ResultInteret from './containers/ResultInterest/ResultInterest';
-// import useStyle from './styles';
+import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import open from 'assets/svg/menu_close.svg';
+import logCampus from 'assets/images/diagorient-campus.png';
+import whiteMenu from 'assets/images/menu.png';
+import UserContext from 'contexts/UserContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,22 +29,72 @@ const theme = createMuiTheme({
 });
 
 const Interet = () => {
+  const { user } = useContext(UserContext);
   const [selectedInterest, setInterest] = useState<Families[] | null>(null);
-  // const classes = useStyle();
   return (
     <ThemeProvider theme={theme}>
       <InterestContext.Provider value={{ selectedInterest, setInterest }}>
         <Switch>
-          <Route protected exact path="/interet" component={HomeInteret} />
-          <Route protected path="/interet/main" component={MainInteret} />
-          <Route protected path="/interet/parcours" component={ParcoursInteret} />
-          <Route protected path="/interet/ordre" component={OrdreInteret} />
-          <Route protected path="/interet/result" component={ResultInteret} />
-          <Route component={NotFoundPage} />
+          <Route
+            protected
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            exact
+            path="/interet"
+            component={HomeInteret}
+          />
+          <Route
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            protected
+            path="/interet/main"
+            component={MainInteret}
+          />
+          <Route
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            protected
+            path="/interet/parcours"
+            component={ParcoursInteret}
+          />
+          <Route
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            protected
+            path="/interet/ordre"
+            component={OrdreInteret}
+          />
+          <Route
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            protected
+            path="/interet/result"
+            component={ResultInteret}
+          />
+          <Route
+            privateHeaderProps={{
+              openLogoIcon: logo,
+              closeLogoIcon: user?.isCampus ? logCampus : logo,
+              openIcon: user?.isCampus ? whiteMenu : open,
+            }}
+            component={NotFoundPage}
+          />
         </Switch>
-        {/*  <div className={classes.aide}>
-            <div className={classes.aideText}>?</div>
-          </div> */}
       </InterestContext.Provider>
     </ThemeProvider>
   );

@@ -1,4 +1,10 @@
-export type UserRole = 'user' | 'admin';
+export type UserRole = 'user' | 'admin' | 'advisor';
+export interface WC2023 {
+  birthdate?: string;
+  degree?: string;
+  formation?: string;
+  perimeter?: number;
+}
 export interface User {
   id: string;
   email: string;
@@ -12,6 +18,13 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
+  wc2023: WC2023;
+  isCampus: boolean;
+  validateCampus: boolean;
+  coordinates: {
+    longitude: number;
+    lattitude: number;
+  };
 }
 
 export interface Question {
@@ -128,6 +141,7 @@ export interface SkillType {
     commentText: string;
     status: 'pending' | 'accepted' | 'refused';
     email: string;
+    institution:string;
     location: string;
   }[];
   engagement?: {
@@ -290,4 +304,44 @@ export interface Addresse {
       type: string;
     };
   }[];
+}
+export interface Formation {
+  title: string;
+  longTitle: string;
+  contact: { email: string };
+  place: {
+    fullAddress: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+  };
+  diplomaLevel: string;
+  company: {
+    name: string;
+    headquarter: {
+      place: {
+        address: string;
+        city: string;
+      };
+    };
+  };
+}
+
+export interface StructureWC2023 {
+  id: string;
+  club_code: string;
+  name: string;
+  city: string;
+  licensed_text: string;
+  licensed_count: number;
+  geolocation: {
+    lat: number;
+    lng: number;
+  };
+  expectations: [
+    {
+      id: Competence;
+      name: string;
+    },
+  ];
 }

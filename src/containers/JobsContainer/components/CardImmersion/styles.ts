@@ -21,7 +21,9 @@ export default makeStyles<Theme>((theme) => ({
     fontSize: 18,
     color: theme.palette.success.main,
     marginBottom: 6,
+    width: '100%',
   },
+  WrapperTitle: { display: 'flex', alignItems: 'flex-start' },
   description: {
     fontWeight: 'bold',
   },
@@ -32,6 +34,7 @@ export default makeStyles<Theme>((theme) => ({
   logoItemDescription: {
     display: 'flex',
     paddingRight: 10,
+    alignItems: 'center',
   },
   textLogo: {
     paddingLeft: 10,
@@ -51,6 +54,7 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 14,
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
   heartLogo: {
     paddingLeft: 4,

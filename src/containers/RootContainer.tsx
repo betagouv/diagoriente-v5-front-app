@@ -26,6 +26,12 @@ import SecteurContext from 'contexts/SecteurContext';
 import Recommendation from 'containers/RecommendationContainer';
 import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
+import AdvisorContainer from 'containers/AdvisorContainer';
+
+import logo from 'assets/svg/diagoriente_logo.svg';
+import logCampus from 'assets/images/diagorient-campus.png';
+import open from 'assets/svg/menu_close.svg';
+import whiteMenu from 'assets/images/menu.png';
 
 const theme = createMuiTheme({
   palette: {
@@ -70,16 +76,45 @@ const RootContainer = () => {
               <BaseRoute exact path="/" component={HomeContainer} />
               <Route footer path="/login" exact component={LoginContainer} />
               <Route footer path="/register" exact component={RegisterContainer} />
-              <Route footer path="/confirmation" exact component={ConfiramtionContainer} />
-              <Route footer path="/recommendation" component={Recommendation} />
+              <Route
+              protected
+                privateHeaderProps={{
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : whiteMenu,
+                  showUser: false,
+                }}
+                footer
+                path="/confirmation"
+                exact
+                component={ConfiramtionContainer}
+              />
+              <Route
+                privateHeaderProps={{
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
+                  showUser: false,
+                }}
+                footer
+                path="/recommendation"
+                component={Recommendation}
+              />
               <BaseRoute path="/profile" component={Profil} />
               <BaseRoute path="/interet" component={InteretContainer} />
               <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
               <Route footer path="/reset" exact component={RenewPasswordContainer} />
-              <Route protected path="/experience" component={ExperienceComponent} />
+              <Route
+                privateHeaderProps={{
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  showUser: false,
+                }}
+                protected
+                path="/experience"
+                component={ExperienceComponent}
+              />
               <BaseRoute path="/jobs" component={jobsContainer} />
-              <BaseRoute path="/game" component={GameContainer} />
+              <BaseRoute path="/game" component={GameContainer}  />
               <BaseRoute path="/admin" component={AdminContainer} />
+              <BaseRoute path="/advisor" component={AdvisorContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

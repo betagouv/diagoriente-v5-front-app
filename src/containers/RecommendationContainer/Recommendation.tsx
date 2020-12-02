@@ -3,9 +3,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { useGetSkill } from 'requests/skills';
 
-import {
- Switch, Route, RouteComponentProps, Redirect,
-} from 'react-router-dom';
+import { Switch, Route, RouteComponentProps, Redirect } from 'react-router-dom';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import { decodeUri } from 'utils/url';
 import FirstRecommendation from './components/FirstRecommendation/FirstRecommendation';
@@ -39,7 +37,12 @@ const Recommendation = ({ match, location }: RouteComponentProps) => {
           exact
           path={match.path}
           render={(props) => (
-            <FirstRecommendation {...props} comment={comment} setComment={setComment} skill={data.publicSkill} />
+            <FirstRecommendation
+              {...props}
+              comment={comment}
+              setComment={setComment}
+              skill={data.publicSkill}
+            />
           )}
         />
         <Route

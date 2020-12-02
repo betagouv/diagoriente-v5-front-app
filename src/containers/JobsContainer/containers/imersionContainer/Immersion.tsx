@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useJob } from 'requests/jobs';
-import { useImmersion } from 'requests/immersion';
+import { useImmersion, useFormation } from 'requests/immersion';
 import { Company, Jobs } from 'requests/types';
 
 import { useForm } from 'hooks/useInputs';
@@ -11,10 +11,12 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import ImageTitle from 'components/common/TitleImage/TitleImage';
 import Spinner from 'components/Spinner/Spinner';
 import Button from 'components/nextButton/nextButton';
+import Map from 'components/Map/Map';
 
 import Arrow from 'assets/svg/arrow';
 import TraitJaune from 'assets/images/trait_jaune.svg';
 import Edit from 'assets/svg/edit.svg';
+
 import LogoLocation from 'assets/form/location.png';
 import msg from 'assets/svg/msgorange.svg';
 import attention from 'assets/svg/attentionpink.svg';
@@ -58,13 +60,21 @@ const ImmersionContainer = ({
 
   const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
   const [selectedDistance, setSelectedDistance] = useState('5 km');
-
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
+  const [typeApiImmersion, setTypeApi] = useState('');
+  const [checkedTypeApiImmersion, checkedSetTypeApi] = useState('');
 
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState<number[]>([]);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+  const [dataToRender, setDataToRender] = useState<{ type: string; data: any[]; count: number; fetching: boolean }>({
+    type: '',
+    data: [],
+    count: 0,
+    fetching: false,
+  });
 
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<number[]>([]);
@@ -77,14 +87,14 @@ const ImmersionContainer = ({
       distance: '5',
       switch: true,
       switchRayon: '',
+      diplome: '',
     },
   });
 
   const [immersionCall, immersionState] = useImmersion();
+  const [formationCall, formationState] = useFormation();
   const { search } = location;
-  const {
-    romeCodes, latitude, longitude, pageSize, distances, selectedLoc,
-  } = decodeUri(search);
+  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc, typeApi } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
@@ -94,9 +104,78 @@ const ImmersionContainer = ({
     setSelectedImmersion(data?.job.title);
     setSelectedLocation(selectedLoc);
     setSelectedImmersionCode(romeCodes);
+    setTypeApi(typeApi);
+    checkedSetTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
-  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation]);
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi]);
 
+  useEffect(() => {
+    if (romeCodes && latitude && longitude && pageSize && distances) {
+      const argsImmersion = {
+        rome_codes: romeCodes,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        page_size: Number(pageSize),
+        page: Number(page),
+        distance: Number(state.values.distance),
+        headcount: state.values.taille,
+      };
+      const sArgsImmersion = state.values.tri ? { ...argsImmersion, sort: state.values.tri } : argsImmersion;
+      const argsFormation = {
+        romes: romeCodes,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        radius: Number(state.values.distance),
+      };
+      const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
+      if (checkedTypeApiImmersion === 'entreprise') {
+        immersionCall({ variables: sArgsImmersion });
+      } else if (checkedTypeApiImmersion === 'formations') {
+        formationCall({ variables: dArgsFormation });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    romeCodes,
+    latitude,
+    longitude,
+    pageSize,
+    state.values.diplome,
+    distances,
+    state.values.distance,
+    state.values.taille,
+    state.values.tri,
+    immersionCall,
+    formationCall,
+    page,
+    typeApiImmersion,
+  ]);
+
+  useEffect(() => {
+    if (
+      (immersionState.data && typeApiImmersion === 'entreprise') ||
+      (formationState.data && typeApiImmersion === 'formations')
+    ) {
+      const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
+      setDataToRender({
+        type: typeApiImmersion,
+        data: typeApiImmersion === 'entreprise' ? result.immersions?.companies : result.formation,
+        count: typeApiImmersion === 'entreprise' ? result.immersions.companies_count : result.formation.length,
+        fetching: false,
+      });
+    }
+    if (
+      (immersionState.loading && typeApiImmersion === 'entreprise') ||
+      (formationState.loading && typeApiImmersion === 'formations')
+    ) {
+      setDataToRender({
+        type: '',
+        data: [],
+        count: 0,
+        fetching: true,
+      });
+    }
+  }, [formationState.loading, immersionState.loading, formationState.data, immersionState.data, typeApiImmersion]);
   const handleClose = () => {
     openContactState(null);
     openConseilState(false);
@@ -109,7 +188,7 @@ const ImmersionContainer = ({
   const handleOk = () => {
     setOpen(false);
   };
-  const PAGES = immersionState.data?.immersions.companies_count / 6;
+  const PAGES = dataToRender.count / 6;
   useEffect(() => {
     if (selectedLocation !== '') {
       locationCall(selectedLocation);
@@ -128,37 +207,17 @@ const ImmersionContainer = ({
       openContactState(null);
     }
   }, [open, openContact]);
-  useEffect(() => {
-    if (romeCodes && latitude && longitude && pageSize && distances) {
-      const args = {
-        rome_codes: romeCodes,
-        latitude: Number(latitude),
-        longitude: Number(longitude),
-        page_size: Number(pageSize),
-        page: Number(page),
-        distance: Number(state.values.distance),
-        headcount: state.values.taille,
-      };
-      const dataToSend = state.values.tri ? { ...args, sort: state.values.tri } : args;
-      immersionCall({ variables: dataToSend });
-    }
-  }, [
-    romeCodes,
-    latitude,
-    longitude,
-    pageSize,
-    distances,
-    state.values.distance,
-    state.values.taille,
-    state.values.tri,
-    immersionCall,
-    page,
-  ]);
 
   const getData = (pg: number) => {
     setPage(pg);
   };
-
+  const onTypeFilterApi = (el: { label: string }) => {
+    if (checkedTypeApiImmersion === el.label) {
+      checkedSetTypeApi('');
+    } else {
+      checkedSetTypeApi(el.label);
+    }
+  };
   const tri = [
     {
       label: 'Distance',
@@ -205,6 +264,13 @@ const ImmersionContainer = ({
       value: '+ de 100 km',
     },
   ];
+  const diplomeFilter = [
+    { label: 'Cap', value: '3 (CAP...)' },
+    { label: 'Bac', value: '4 (BAC...)' },
+    { label: 'BTS, DUT', value: '5 (BTS, DUT...)' },
+    { label: 'Licence', value: '6 (Licence...)' },
+    { label: 'Master, titre ingénieur', value: '7 (Master, titre ingénieur...)' },
+  ];
   const onChangeTri = (el: { label: string; value: string }) => {
     if (selectedTri === el.label) {
       actions.setValues({ tri: '' });
@@ -224,7 +290,7 @@ const ImmersionContainer = ({
     }
   };
 
- /*  const onChangeRayon = (s: string) => {
+  /*  const onChangeRayon = (s: string) => {
     if (state.values.switchRayon === s) {
       actions.setValues({ switchRayon: '' });
     } else {
@@ -238,6 +304,16 @@ const ImmersionContainer = ({
     } else {
       setSelectedDistance(el.label);
       actions.setValues({ distance: el.value });
+      setPage(1);
+    }
+  };
+  const onTypeFilterDiplome = (el: { label: string; value: string }) => {
+    if (selectedTypeFilter === el.label) {
+      actions.setValues({ diplome: '' });
+      setSelectedTypeFilter('');
+    } else {
+      setSelectedTypeFilter(el.label);
+      actions.setValues({ diplome: el.value });
       setPage(1);
     }
   };
@@ -274,7 +350,18 @@ const ImmersionContainer = ({
       page_size: 6,
       distance: 5,
     };
-    immersionCall({ variables: dataTo });
+    const argsFormation = {
+      romes: romeCodes,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      radius: Number(state.values.distance),
+    };
+    setTypeApi(checkedTypeApiImmersion);
+    if (checkedTypeApiImmersion === 'entreprise') {
+      immersionCall({ variables: dataTo });
+    } else {
+      formationCall({ variables: argsFormation });
+    }
   };
 
   return (
@@ -288,7 +375,7 @@ const ImmersionContainer = ({
             </div>
           </Link>
           <ImageTitle
-            title="TROUVER UNE IMMERSION"
+            title={`TROUVER UNE ${typeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
             color="#DB8F00"
             image={TraitJaune}
             size={42}
@@ -309,6 +396,8 @@ const ImmersionContainer = ({
                   openImmersion={openImmersion}
                   onChangeLocation={onChangeLocation}
                   onSelect={onSelect}
+                  onChangeTypeApi={onTypeFilterApi}
+                  typeApi={checkedTypeApiImmersion}
                   selectedLocation={selectedLocation}
                   listLocation={listLocation}
                   LogoLocation={LogoLocation}
@@ -336,28 +425,41 @@ const ImmersionContainer = ({
               </div>
             )}
             <div className={classes.filters}>
-              <div className={classes.switchMask}>
-                <Switch
-                  checked={state.values.switch}
-                  onClick={() => actions.setValues({ switch: !state.values.switch })}
-                />
-                <div className={classes.maskTitle}>Masquer la carte</div>
-              </div>
-              <div className={classes.TrierContainer}>
-                <div className={classes.filterMainTitle}>Trier</div>
-                {tri.map((el) => (
-                  <CheckBox key={el.label} label={el.label} onClick={() => onChangeTri(el)} value={selectedTri} />
-                ))}
-              </div>
-              <hr className={classes.bar} />
+              {typeApiImmersion === 'entreprise' && (
+                <div className={classes.switchMask}>
+                  <Switch
+                    checked={state.values.switch}
+                    onClick={() => actions.setValues({ switch: !state.values.switch })}
+                  />
+                  <div className={classes.maskTitle}>Masquer la carte</div>
+                </div>
+              )}
+              {typeApiImmersion === 'entreprise' && (
+                <>
+                  <div className={classes.TrierContainer}>
+                    <div className={classes.filterMainTitle}>Trier</div>
+                    {tri.map((el) => (
+                      <CheckBox key={el.label} label={el.label} onClick={() => onChangeTri(el)} value={selectedTri} />
+                    ))}
+                  </div>
+                  <hr className={classes.bar} />
+                </>
+              )}
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
 
-              <div className={classes.tailleContainer}>
-                <div className={classes.filterTitle}>Taille de l’entreprise</div>
-                {taille.map((el) => (
-                  <CheckBox key={el.label} label={el.label} value={selectedTaille} onClick={() => onChangeTaille(el)} />
-                ))}
-              </div>
+              {typeApiImmersion === 'entreprise' && (
+                <div className={classes.tailleContainer}>
+                  <div className={classes.filterTitle}>Taille de l’entreprise</div>
+                  {taille.map((el) => (
+                    <CheckBox
+                      key={el.label}
+                      label={el.label}
+                      value={selectedTaille}
+                      onClick={() => onChangeTaille(el)}
+                    />
+                  ))}
+                </div>
+              )}
 
               {/*  <div className={classes.filterTitle}>Rayon de recherche</div>
               <SwitchRayon checked={state.values.switchRayon} onClick={onChangeRayon} /> */}
@@ -372,39 +474,65 @@ const ImmersionContainer = ({
                   />
                 ))}
               </div>
+              {typeApiImmersion !== 'entreprise' && (
+                <div className={classes.distanceContainer}>
+                  <div className={classes.filterTitle}>Niveau de diplôme souhaité :</div>
+                  {diplomeFilter.map((el) => (
+                    <CheckBox
+                      key={el.label}
+                      label={el.label}
+                      value={selectedTypeFilter}
+                      onClick={() => onTypeFilterDiplome(el)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className={classes.results}>
             {immersionState.loading && (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
-                }}
-              >
+              <div className={classes.loadinContainer}>
                 <div className={immersionState.loading ? classes.loadingContainer : ''}>
                   <Spinner />
                 </div>
               </div>
             )}
-            {immersionState.data ? (
+            {dataToRender ? (
               <>
-                <div className={classes.resultTitle}>
-                  {`${immersionState.data?.immersions.companies_count} résultats`}
+                <div className={classes.resultTitle}>{`${dataToRender.count} résultats`}</div>
+
+                <div>{dataToRender.data.length === 0 && 'Augmente ta zone de recherche pour plus de résultats'}</div>
+                <div>
+                  {dataToRender.type === 'formations' && (
+                    <>
+                      <div className={classes.wrapperSwitchMap}>
+                        <div className={classes.switchMask}>
+                          <Switch
+                            checked={state.values.switch}
+                            onClick={() => actions.setValues({ switch: !state.values.switch })}
+                          />
+                          <div className={classes.maskTitle}>Masquer la carte</div>
+                        </div>
+                      </div>
+                      {state.values.switch && (
+                        <Map type="formation" dataList={dataToRender.data} className={classes.mapFormation} />
+                      )}
+                    </>
+                  )}
                 </div>
-                <div>{immersionState.data?.immersions.companies.length === 0 && 'Augmente ta zone de recherche pour plus de résultats'}</div>
-                {immersionState.data?.immersions.companies?.map((e: Company) => (
+                {dataToRender.data.map((e: Company) => (
                   <CardImmersion
                     data={e}
                     key={e.siret}
                     onClickContact={() => openContactState(e)}
                     onClickConseil={() => openConseilState(true)}
                     showMap={state.values.switch}
+                    typeApiImmersion={typeApiImmersion}
+                    lng={Number(longitude)}
+                    lat={Number(latitude)}
                   />
                 ))}
-                {immersionState.data?.immersions.companies.length !== 0 && (
+                {dataToRender.data.length !== 0 && (
                   <div className={classes.paginationContainer}>
                     {page >= 3 && (
                       <div className={classNames(classes.itemPage)}>

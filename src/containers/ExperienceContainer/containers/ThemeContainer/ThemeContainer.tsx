@@ -1,6 +1,4 @@
-import React, {
-  useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
@@ -28,14 +26,20 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const { setOpen } = useContext(SelectionContext);
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
+  const [selectedType, setTypeSelecte] = useState('');
 
   const { type, redirect } = decodeUri(location.search);
 
   const showAvatar = (theme: Omit<Theme, 'activities'>) => {
     setSelectedTheme(theme);
   };
+  useEffect(() => {
+    if (type) {
+    }
+  }, []);
+
   const { data, loading } = useThemes({
-    variables: { type: type === 'engagement' ? 'engagement' : 'personal' },
+    variables: { type: type === 'engagement' ? 'engagement' : type === 'sport' ? 'sport' : 'personal' },
   });
   const { parcours } = useContext(parcoursContext);
 
@@ -74,7 +78,13 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
-            title={type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'}
+            title={
+              type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
+                : type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
             color="#223A7A"
             size={42}
           />
@@ -82,7 +92,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
             onClick={() => {
               history.replace(redirect || '/experience');
             }}
-            color="#4D6EC5"
+            color={type === 'sport' ? '#19194B' : '#4D6EC5'}
             label="Annuler"
           />
         </div>

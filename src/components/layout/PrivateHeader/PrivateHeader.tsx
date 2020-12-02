@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from 'assets/svg/diagoriente_logo.svg';
+import logoCampus from 'assets/images/diagorient-campus.png';
 import DrawerContext from 'contexts/DrawerContext';
 import UserContext from 'contexts/UserContext';
 import menu from 'assets/images/menu.png';
@@ -24,14 +25,13 @@ export interface Props {
 }
 
 const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
-  const classes = useStyles();
   const { open, setOpen } = useContext(DrawerContext);
   const { user } = useContext(UserContext);
+  const classes = useStyles({ isCampus: user?.isCampus });
 
   const toggle = () => {
     setOpen(!open);
   };
-
   const userName = `${user?.profile.firstName || ''} ${user?.profile.lastName || ''}`.trim() || user?.email;
 
   return (
@@ -40,7 +40,11 @@ const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, class
         <div className={classes.flexCenter}>
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
           <Link to="/" className={classes.logoContainer}>
-            <img src={open ? openLogoIcon : closeLogoIcon} alt="diagoriente_logo" height={44} />
+            <img
+              src={user?.isCampus ? logoCampus : logo}
+              alt="diagoriente_logo"
+              className={classes.imageDimentions}
+            />
           </Link>
         </div>
         {showUser && (

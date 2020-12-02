@@ -51,6 +51,7 @@ const JobContainer = ({
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [errorLocation, setErrorLocation] = useState(false);
+  const [typeApi, setTypeApi] = useState('entreprise');
   const [isFav, setIsFav] = useState('');
   const param = location.pathname.substr(10);
   const [addFavCall, addFavState] = useAddFavoris();
@@ -98,7 +99,6 @@ const JobContainer = ({
       fn();
     }
   }, [deleteFavState.data, loadJob, FavData, refetch]);
-
   useEffect(() => {
     if (!addFavState.loading && addFavState.data) {
       setIsFav(addFavState.data.createFavorite.id);
@@ -179,8 +179,15 @@ const JobContainer = ({
         pathname: `/jobs/immersion/${param}`,
         search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
           coordinates[0]
-        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}`,
+        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}&typeApi=${typeApi}`,
       });
+    }
+  };
+  const onTypeFilter = (el: { label: string}) => {
+    if (typeApi === el.label) {
+      setTypeApi('');
+    } else {
+      setTypeApi(el.label);
     }
   };
   useWillUnmount(() => {
@@ -230,6 +237,8 @@ const JobContainer = ({
                 openImmersion={openImmersion}
                 onChangeLocation={onChangeLocation}
                 onSelect={onSelect}
+                onChangeTypeApi={onTypeFilter}
+                typeApi={typeApi}
                 selectedLocation={selectedLocation}
                 listLocation={listLocation}
                 LogoLocation={LogoLocation}

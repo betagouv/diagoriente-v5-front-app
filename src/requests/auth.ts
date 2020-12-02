@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 
-import { User, Token } from './types';
+import { User, Token, WC2023 } from './types';
 
 export const registerMutation = gql`
   mutation Register(
@@ -15,6 +15,8 @@ export const registerMutation = gql`
     $location: String!
     $institution: String
     $codeGroupe: String
+    $coordinates: coordinateLocationInput
+    $validateCampus: Boolean
   ) {
     register(
       email: $email
@@ -25,6 +27,8 @@ export const registerMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
+      coordinates: $coordinates
+      validateCampus: $validateCampus
     ) {
       user {
         id
@@ -38,6 +42,18 @@ export const registerMutation = gql`
         codeGroupe
         location
         logo
+        isCampus
+        validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
+        wc2023 {
+          formation
+          degree
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -79,6 +95,14 @@ export const loginMutation = gql`
           firstName
           lastName
           institution
+        }
+        isCampus
+        validateCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
         }
       }
       token {
@@ -132,6 +156,14 @@ export const refreshMutation = gql`
           firstName
           lastName
           institution
+        }
+        isCampus
+        validateCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
         }
       }
       token {
@@ -188,6 +220,13 @@ export const resetMutation = gql`
           firstName
           lastName
           institution
+        }
+        isCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
         }
       }
       token {

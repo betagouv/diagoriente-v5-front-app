@@ -100,7 +100,7 @@ export default makeStyles((theme) => ({
     backgroundColor: '#D60051',
     fontSize: 18,
     fontWeight: 'bold',
-    width: 340,
+    width: 'fit-content',
     color: '#fff',
     '&:hover': {
       backgroundColor: '#FF0060',
@@ -150,5 +150,16 @@ export default makeStyles((theme) => ({
 
   checked: {
     marginLeft: 10,
+  },
+  btnValidate: {
+    backgroundColor: 'rgb(255, 77, 0)',
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    width: 'fit-content',
+    marginTop: 20,
+    '&:hover': {
+      backgroundColor: 'rgb(255, 77, 0)',
+    },
   },
 }));

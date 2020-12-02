@@ -54,7 +54,7 @@ export default makeStyles((theme: Theme) => ({
     flexDirection: 'column',
   },
   avatarsWrapper: {
-    margin: '9px 0px',
+    margin: '12px 0px',
   },
   avatarsContainer: {
     width: '100%',

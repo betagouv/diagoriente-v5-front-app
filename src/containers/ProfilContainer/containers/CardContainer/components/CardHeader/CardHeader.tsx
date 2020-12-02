@@ -6,17 +6,25 @@ import useStyles from './styles';
 
 interface CardHeaderProps {
   children?: React.ReactChild;
+  infoUser?: { firstName: string; lastName: string };
 }
 
-const CardHeader = ({ children }: CardHeaderProps) => {
+const CardHeader = ({ children, infoUser }: CardHeaderProps) => {
   const { user } = useContext(UserContext);
   const classes = useStyles();
   let userInfo = (
     <div className={classes.userInfo}>
       <div className={classes.userName}>
-        {user?.profile.firstName}
-        {' '}
-        {user?.profile.lastName}
+        {infoUser ? (
+          <>
+            {infoUser.firstName} {infoUser.lastName}
+          </>
+        ) : (
+          <>
+            {' '}
+            {user?.profile.firstName} {user?.profile.lastName}
+          </>
+        )}
       </div>
       {user?.location}
     </div>

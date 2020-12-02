@@ -32,9 +32,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceActivity = ({
- match, activities, setActivities, history, theme, isCreate, location,
-}: Props) => {
+const ExperienceActivity = ({ match, activities, setActivities, history, theme, isCreate, location }: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {
@@ -52,7 +50,13 @@ const ExperienceActivity = ({
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
-            title={theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            title={
+              theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
             color="#223A7A"
             size={26}
           />
@@ -118,7 +122,9 @@ const ExperienceActivity = ({
         </div>
         {isCreate && (
           <Link
-            to={`/experience/${theme.type === 'professional' ? 'theme-pro' : 'theme'}${location.search}`}
+            to={`/experience/${
+              theme.type === 'professional' ? 'theme-pro' : theme.type === 'sport' ? 'theme?type=sport' : 'theme'
+            }${location.search}`}
             className={classes.btnpreced}
           >
             <CancelButton />

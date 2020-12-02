@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
-import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+// import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Spinner from 'components/Spinner/Spinner';
@@ -29,6 +30,11 @@ const Register = () => {
   const { user } = useContext(UserContext);
   const [errorCondition, setErrorCondition] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
+  const [openLocation, setOpenLocation] = useState(false);
+  const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
+    lattitude: 0,
+    longitude: 0,
+  });
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
 
@@ -67,10 +73,14 @@ const Register = () => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
-        const res = { ...values };
-        registerCall({
-          variables: res,
-        });
+        const res = { ...values, coordinates, validateCampus: false };
+        if (values.location.length !== 0) {
+          registerCall({
+            variables: res,
+          });
+        } else {
+          setErrorCondition("Veuillez saisie ta localisation");
+        }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
@@ -133,8 +143,9 @@ const Register = () => {
     return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
   }
 
-  const onSelect = (location: string | null) => {
+  const onSelect = (location: string | undefined) => {
     if (location) actions.setValues({ location });
+    setOpenLocation(false);
   };
   return (
     <div className={classes.root}>
@@ -266,22 +277,36 @@ const Register = () => {
                 </Grid>
               </Grid>
             </div>
-            <AutoComplete
-              label="Ta ville de résidence"
-              onChange={(e) => {
-                setSearch(e.target.value);
-                actions.handleChange(e);
-              }}
-              onSelectText={onSelect}
-              value={values.location}
-              name="location"
-              placeholder="paris"
-              options={!loading && data ? data.location : []}
-              error={touched.location && errors.location !== ''}
-              errorText={touched.location ? errors.location : ''}
-              errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
-              icon={LogoLocation}
-            />
+            <div className={classes.avatarsWrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <div className={classes.label}>
+                      Ta ville de résidence <span className={classes.requiredInput}>*</span>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <AutoComplete
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      actions.handleChange(e);
+                      setOpenLocation(true);
+                    }}
+                    onSelectText={onSelect}
+                    value={values.location}
+                    name="location"
+                    placeholder="paris"
+                    options={data?.location}
+                    icon={LogoLocation}
+                    type="location"
+                    open={openLocation}
+                    setOpen={setOpenLocation}
+                    setCoordinates={setCoordinates}
+                  />
+                </Grid>
+              </Grid>
+            </div>
             <Input
               label="Code groupe"
               onChange={actions.handleChange}
@@ -289,8 +314,6 @@ const Register = () => {
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
               error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
-              errorText={touched.codeGroupe ? errors.codeGroupe : ''}
-              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>

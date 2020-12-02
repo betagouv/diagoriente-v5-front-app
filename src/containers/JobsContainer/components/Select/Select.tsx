@@ -26,6 +26,8 @@ interface IProps {
   reference?: any;
   small?: boolean;
   parcourAcc?: { id: string };
+  isCampus?: boolean;
+  isCampusDiplome?: boolean;
 }
 
 const SelectJobs = ({
@@ -39,11 +41,14 @@ const SelectJobs = ({
   onClick,
   fullSelect,
   reference,
+  isCampus,
+  isCampusDiplome,
   parcourAcc,
 }: IProps) => {
   const classes = useStyles({ fullSelect, open });
   const isInclude = (id: string) => value && value.includes(id);
   const theme = useTheme();
+  const hasOne = (value && isCampus) || (value && isCampusDiplome) ? value[0] : '';
   return (
     <div className={classes.content} ref={reference}>
       <div className={classes.inputWrapper} onClick={onClick}>
@@ -52,11 +57,18 @@ const SelectJobs = ({
             <img src={Menu} alt="menu" />
           </div>
         )}
-        <input onChange={onChange} name={name} placeholder={placeholder} className={classes.inputContainer} disabled />
+        <input
+          onChange={onChange}
+          name={name}
+          placeholder={placeholder}
+          className={classes.inputContainer}
+          disabled
+          value={hasOne}
+        />
         <div className={classes.logoContainer}>
           <Arrow
             color={theme.palette.success.main}
-            width="9"
+            width="20"
             height="14"
             className={open ? classes.rotatedBase : classes.rotated}
           />
@@ -82,6 +94,8 @@ const SelectJobs = ({
               onSelectText={onSelectText}
               selected={value}
               name={name}
+              isCampus={isCampus}
+              isCampusDiplome={isCampusDiplome}
             />
           )}
         </div>

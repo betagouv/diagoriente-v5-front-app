@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
-import React, { forwardRef, Ref } from 'react';
+import React, { forwardRef, Ref, useContext } from 'react';
 import useParcourSkills from 'hooks/useParcourSkills';
-
+import userContext from 'contexts/UserContext';
 import classNames from 'utils/classNames';
 
 import Grid from '@material-ui/core/Grid/Grid';
@@ -19,6 +19,7 @@ import useStyles from './styles';
 
 const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
   const skillsState = useParcourSkills();
+  const { user } = useContext(userContext);
   const classes = useStyles();
   const skills = skillsState.data?.skills.data || [];
   const comments = (
@@ -77,6 +78,16 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           path=""
           showBtn={showBtnEng}
         />
+        {user?.isCampus && (
+          <CardSkills
+            skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
+            title="Expériences sportives"
+            emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
+            emptyButton="J’ajoute une expérience sportive"
+            path=""
+            show={showBtn}
+          />
+        )}
         <CardPart title="RECOMMANDATIONS">
           <Grid className={classes.commentContainer} container spacing={3}>
             {comments.map(({ comment, title }) => (

@@ -23,7 +23,7 @@ export interface RouteProps extends BaseRouteProps {
   footer?: boolean;
   header?: boolean;
   privateHeaderProps?: Partial<PrivateHeaderProps>;
-  authorizedRole?: 'user' | 'admin';
+  authorizedRole?: 'user' | 'admin' | 'advisor';
 }
 
 // u can add extra props to customise/add headers/footers/sidebars...
@@ -51,10 +51,14 @@ const Route = ({
       return <Redirect to={`/login${encodeUri({ from: window.location.pathname + window.location.search })}`} />;
     }
     if (user?.role === 'admin' && authorizedRole === 'user') return <Redirect to="/admin" />;
+    if (user?.role === 'advisor' && authorizedRole === 'user') return <Redirect to="/advisor" />;
   }
 
   function renderRoute() {
     if ((!user || user.role === 'user') && authorizedRole === 'admin') {
+      return <NotFoundPage />;
+    }
+    if ((!user || user.role === 'user') && authorizedRole === 'advisor') {
       return <NotFoundPage />;
     }
 

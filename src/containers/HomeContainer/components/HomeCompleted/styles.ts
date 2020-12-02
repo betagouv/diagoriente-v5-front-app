@@ -6,6 +6,7 @@ export default makeStyles({
     flex: '1 1 0%',
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: 20
   },
   profileHeader: {
     color: '#223A7A',

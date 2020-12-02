@@ -6,6 +6,7 @@ import LogoLoupeComponent from 'assets/svg/loupe';
 import LogoLoupeOrange from 'assets/svg/loupeOrange.svg';
 import classNames from 'utils/classNames';
 import useOnclickOutside from 'hooks/useOnclickOutside';
+import LogoLocation from 'assets/form/location.png';
 
 import useStyles from './style';
 
@@ -26,6 +27,7 @@ interface IProps {
   type?: string;
   isfull?: boolean;
   setOpen?: (open: boolean) => void;
+  setCoordinates?: (e: any) => void;
 }
 
 const AutoCompleteJob = ({
@@ -43,6 +45,7 @@ const AutoCompleteJob = ({
   className,
   onSelectText,
   setOpen,
+  setCoordinates,
   isfull,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm), isfull });
@@ -75,7 +78,11 @@ const AutoCompleteJob = ({
           startAdornment:
             type === 'location' || type === 'jobs' || type === 'location_admin' ? (
               <InputAdornment position="start">
-                <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
+                {setCoordinates ? (
+                  <img src={LogoLocation} width="13" height="19" alt="" />
+                ) : (
+                  <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
+                )}
               </InputAdornment>
             ) : (
               <div />
@@ -91,7 +98,9 @@ const AutoCompleteJob = ({
                 <div
                   key={el.label}
                   onClick={() => {
-                    onSelectText(el);
+                    onSelectText(el.label);
+                    if (setCoordinates)
+                      setCoordinates({ longitude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
                   }}
                   className={classes.item}
                 >

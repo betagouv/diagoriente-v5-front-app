@@ -6,7 +6,11 @@ import { useAvatars } from 'requests/auth';
 import { useLocation } from 'requests/location';
 import { useUpdateUser } from 'requests/user';
 import _ from 'lodash';
-import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+import localforage from 'localforage';
+
+// import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
+import { User } from 'requests/types';
 import UserContext from 'contexts/UserContext';
 import Input from 'components/inputs/Input/Input';
 import Spinner from 'components/Spinner/Spinner';
@@ -57,10 +61,31 @@ const InfoProfil = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [search, setSearch] = useState('');
-
+  const [openLocation, setOpenLocation] = useState(false);
+  const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
+    lattitude: 0,
+    longitude: 0,
+  });
+  console.log('user', user);
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
-
+  const updateUserdata = async (newData: User) => {
+    console.log('newData',newData)
+    const data: string | null = await localforage.getItem('auth');
+    let res = {};
+    if (data) {
+      const parsedData = JSON.parse(data);
+      let newObj = {};
+      const objUser = newData;
+      newObj = {
+        token: parsedData.token,
+        user: objUser,
+      };
+      await localforage.setItem('auth', JSON.stringify(newObj));
+      setUser(objUser);
+    }
+    return res;
+  };
   const onShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -79,8 +104,9 @@ const InfoProfil = () => {
       });
     }
   };
-  const onSelect = (location: string | null) => {
-    if (location) actions.setValues({ location });
+  const onSelect = (location: any | undefined) => {
+    if (location) actions.setValues({ location: location.label });
+    setOpenLocation(false);
   };
   useEffect(() => {
     if (search.length > 0) {
@@ -119,7 +145,7 @@ const InfoProfil = () => {
         oldPassword: '',
         location: user?.location || '',
         institution: '',
-        codeGroupe: user.codeGroupe,
+        codeGroupe: user?.codeGroupe,
       });
       actions.setAllTouched(false);
     }
@@ -127,7 +153,7 @@ const InfoProfil = () => {
   }, [open, user]);
   useEffect(() => {
     if (updateUserState.data) {
-      setUser(updateUserState.data.updateUser);
+      updateUserdata(updateUserState.data.updateUser);
       setOpen(false);
     }
     // eslint-disable-next-line
@@ -262,16 +288,19 @@ const InfoProfil = () => {
                 <AutoComplete
                   onChange={(e) => {
                     setSearch(e.target.value);
-                    actions.setValues({ location: e.target.value });
+                    actions.handleChange(e);
+                    setOpenLocation(true);
                   }}
                   onSelectText={onSelect}
                   value={values.location}
                   name="location"
                   placeholder="paris"
-                  options={!loading && data ? data.location : []}
-                  error={touched.location && errors.location !== ''}
-                  errorText={touched.location ? errors.location : ''}
+                  options={data?.location}
                   icon={LogoLocation}
+                  type="location"
+                  open={openLocation}
+                  setOpen={setOpenLocation}
+                  setCoordinates={setCoordinates}
                 />
               ) : (
                 <div className={classes.location}>
@@ -313,7 +342,8 @@ const InfoProfil = () => {
           childrenClassName={open ? '' : classes.childrenClassName}
           onClick={() => {
             if (open) {
-              updateUser({ variables: _.pickBy(values, (value) => value) });
+              const res = { ...values, coordinates };
+              updateUser({ variables: _.pickBy(res, (value) => value) });
             } else {
               setOpen(true);
             }

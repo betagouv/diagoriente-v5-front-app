@@ -27,20 +27,26 @@ const adminLinks = [
   { text: 'Activités', path: '/admin/activities' },
   { text: 'Contextes', path: '/admin/contexts' },
   { text: 'Compétences', path: '/admin/competences' },
-  { text: 'Questions', path: '/admin/questions' },
-  { text: 'Options', path: '/admin/options' },
   { text: 'Institution', path: '/admin/institution' },
+  { text: 'Options', path: '/admin/options' },
+  { text: 'Questions', path: '/admin/questions' },
+  { text: 'Utilisateurs', path: '/admin/users' },
+  { text: 'DÉCONNEXION', path: '/' },
+];
+
+const advisorLinks = [
+  { text: 'Parcours', path: '/advisor/parcours' },
   { text: 'DÉCONNEXION', path: '/' },
 ];
 
 const PrivateDrawer = () => {
-  const location = useLocation();
-  const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
-  const classes = useStyles();
-  const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
-  const { open, setOpen } = useContext(DrawerContext);
   const { setParcours, parcours } = useContext(parcoursContext);
   const { setUser, user } = useContext(userContext);
+  const location = useLocation();
+  const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
+  const classes = useStyles({ isCampus: user?.isCampus && user?.role === "user" });
+  const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
+  const { open, setOpen } = useContext(DrawerContext);
   const logout = () => {
     localforage.removeItem('auth');
     setAuthorizationBearer('');
@@ -54,8 +60,25 @@ const PrivateDrawer = () => {
     setOpen(false);
   };
 
-  const links = user?.role !== 'admin' ? userLinks : adminLinks;
-
+  /* const links = user?.role === 'user' ? userLinks : adminLinks; */
+  let links = [];
+  switch (user?.role) {
+    case 'advisor': {
+      links = advisorLinks;
+      break;
+    }
+    case 'user': {
+      links = userLinks;
+      break;
+    }
+    case 'admin': {
+      links = adminLinks;
+      break;
+    }
+    default: {
+      links = userLinks;
+    }
+  }
   useEffect(() => {
     if (!parcours?.completed && isJobs) {
       setOpen(true);
@@ -97,7 +120,7 @@ const PrivateDrawer = () => {
               <Link to={e.path}>
                 <div
                   className={classNames(
-                    isJobs ? classes.linkJob : classes.link,
+                    isJobs && !user?.isCampus ? classes.linkJob : classes.link,
                     !parcours?.completed && isJobs && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
                   )}
                 >

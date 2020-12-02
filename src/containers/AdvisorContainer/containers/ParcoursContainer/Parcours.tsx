@@ -110,7 +110,7 @@ const Parcours = () => {
                 onPageChange={() => null}
                 count={myGroup.users.length}
                 data={myGroup.users}
-                totalPages={1}
+                totalPages={0}
                 headers={headers}
                 currentPage={1}
               />

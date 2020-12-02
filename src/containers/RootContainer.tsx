@@ -77,6 +77,7 @@ const RootContainer = () => {
               <Route footer path="/login" exact component={LoginContainer} />
               <Route footer path="/register" exact component={RegisterContainer} />
               <Route
+              protected
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
                   openIcon: user?.isCampus ? whiteMenu : whiteMenu,
@@ -97,16 +98,7 @@ const RootContainer = () => {
                 path="/recommendation"
                 component={Recommendation}
               />
-              <BaseRoute
-                privateHeaderProps={{
-                  closeLogoIcon: user?.isCampus ? logCampus : logo,
-                  openIcon: user?.isCampus ? whiteMenu : open,
-                  showUser: false,
-                }}
-                hea
-                path="/profile"
-                component={Profil}
-              />
+              <BaseRoute path="/profile" component={Profil} />
               <BaseRoute path="/interet" component={InteretContainer} />
               <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
               <Route footer path="/reset" exact component={RenewPasswordContainer} />
@@ -120,20 +112,9 @@ const RootContainer = () => {
                 component={ExperienceComponent}
               />
               <BaseRoute path="/jobs" component={jobsContainer} />
-              <BaseRoute
-                privateHeaderProps={{
-                  closeLogoIcon: user?.isCampus ? logCampus : logo,
-                  openIcon: user?.isCampus ? whiteMenu : open,
-                  showUser: false,
-                }}
-                path="/game"
-                component={GameContainer}
-              />
+              <BaseRoute path="/game" component={GameContainer}  />
               <BaseRoute path="/admin" component={AdminContainer} />
-              <BaseRoute
-                path="/advisor"
-                component={AdvisorContainer}
-              />
+              <BaseRoute path="/advisor" component={AdvisorContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

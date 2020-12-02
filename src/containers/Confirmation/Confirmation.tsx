@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
+import Input from 'components/inputs/Input/Input';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import { useHistory } from 'react-router-dom';
@@ -39,6 +40,7 @@ const Confirmation = () => {
       location: '',
       accessibility: [] as string[],
       formation: [] as string[],
+      perimetere: '',
     },
   });
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -46,6 +48,8 @@ const Confirmation = () => {
   const [isValidForm, setIsValidForm] = useState(false);
   const [openAcc, setOpenAcc] = useState(false);
   const [openFormation, setOpenFormation] = useState(false);
+  const [textError, setTextError] = useState('');
+
   const [search, setSearch] = useState('');
   const [openLocation, setOpenLocation] = useState(false);
   const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
@@ -76,6 +80,7 @@ const Confirmation = () => {
       state.values.date !== '' &&
       state.values.formation.length !== 0 &&
       state.values.accessibility.length !== 0 &&
+      state.values.perimetere !== '' &&
       state.values.location !== ''
     ) {
       setIsValidForm(true);
@@ -112,14 +117,38 @@ const Confirmation = () => {
     setOpenLocation(false);
   };
   const onUpadetUser = () => {
-    const dataToSend = {
-      birthdate: state.values.date,
-      degree: state.values.accessibility[0],
-      perimeter: 30,
-      formation: state.values.formation[0],
-    };
-    updateUserCall({ variables: { wc2023: dataToSend } });
+    if (
+      state.values.date === '' ||
+      state.values.accessibility.length === 0 ||
+      state.values.formation.length === 0 ||
+      state.values.location === '' ||
+      state.values.perimetere == ''
+    ) {
+      console.log('heheheh');
+      setTextError('veuillez remplir tous les champs');
+    } else {
+      const dataToSend = {
+        birthdate: state.values.date,
+        degree: state.values.accessibility[0],
+        perimeter: Number(state.values.perimetere),
+        formation: state.values.formation[0],
+      };
+      updateUserCall({ variables: { wc2023: dataToSend } });
+    }
   };
+  useEffect(() => {
+    if (
+      textError &&
+      state.values.date !== '' &&
+      state.values.perimetere !== '' &&
+      state.values.accessibility.length !== 0 &&
+      state.values.location !== '' &&
+      state.values.formation.length !== 0
+    ) {
+      setTextError('');
+    }
+  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimetere]);
+
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
   const divForm = useRef<HTMLDivElement>(null);
@@ -153,7 +182,10 @@ const Confirmation = () => {
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>
                     <div className={classes.labelContainer}>
-                      <label className={classes.labelSelect}>Ville de résidence</label>
+                      <label className={classes.labelSelect}>
+                        Ville de résidence
+                        <span className={classes.requiredInput}>*</span>
+                      </label>
                     </div>
                   </Grid>
                   <Grid item xs={12} sm={8} md={7} lg={7}>
@@ -231,12 +263,37 @@ const Confirmation = () => {
                   </Grid>
                 </Grid>
               </div>
+              <div className={classes.selectwrapper}>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} sm={4} md={5} lg={5}>
+                    <div className={classes.labelContainer}>
+                      <label className={classes.labelSelect}>
+                        Périmètre
+                        <span className={classes.requiredInput}>*</span>
+                      </label>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={7} lg={7}>
+                    <div className={classes.containerAutoComp}>
+                      <Input
+                        label=""
+                        type="number"
+                        onChange={actions.handleChange}
+                        value={state.values.perimetere}
+                        name="perimetere"
+                        placeholder="perimetere"
+                      />
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
             </div>
           </div>
         )}
+        <div className={classes.textError}>{textError}</div>
         <div className={classes.container}>
           <div className={classes.btnContainer}>
-            <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
+            <Button className={classes.btn} onClick={onUpadetUser}>
               <div className={classes.btnLabel}>Je commence mon parcours</div>
             </Button>
           </div>

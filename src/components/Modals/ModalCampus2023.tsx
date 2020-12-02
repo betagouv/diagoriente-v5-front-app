@@ -65,7 +65,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUserState] = useUpdateUser();
-
+  const [textError, setTextError] = useState('');
   const updateUserdata = async () => {
     const data: string | null = await localforage.getItem('auth');
     let res = {};
@@ -137,8 +137,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       updateUserdata();
       setUser(updateUserState.data.updateUser);
       setShowConfirmationModal(true);
+    } else if (updateUserState.error?.message) {
     }
-  }, [updateUserState.data]);
+  }, [updateUserState.data, updateUserState.error]);
   const onSelect = (location: string | undefined) => {
     if (location) actions.setValues({ location });
     setOpenLocation(false);
@@ -161,23 +162,33 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   };
   const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
-    if (!user?.validateCampus) {
-      const dataToSend = {
-        firstName: state.values.firstName,
-        lastName: state.values.lastName,
-        location: state.values.location,
-        coordinates: coordinates,
-        wc2023: {
-          degree: state.values.accessibility[0] || user?.wc2023.degree,
-          formation: state.values.formation[0],
-          birthdate: user?.wc2023.birthdate,
-          perimeter: user?.wc2023.perimeter,
-        },
-        validateCampus: hasCompletedParcours,
-      };
-      updateUserCall({ variables: { ...dataToSend } });
+    if (state.values.firstName === '' || state.values.lastName === '' || state.values.location === '') {
+      console.log('heheheh');
+      setTextError('veuillez remplir tous les champs');
+    } else {
+      if (!user?.validateCampus) {
+        const dataToSend = {
+          firstName: state.values.firstName,
+          lastName: state.values.lastName,
+          location: state.values.location,
+          coordinates: coordinates,
+          wc2023: {
+            degree: state.values.accessibility[0] || user?.wc2023.degree,
+            formation: state.values.formation[0],
+            birthdate: user?.wc2023.birthdate,
+            perimeter: user?.wc2023.perimeter,
+          },
+          validateCampus: hasCompletedParcours,
+        };
+        updateUserCall({ variables: { ...dataToSend } });
+      }
     }
   };
+  useEffect(() => {
+    if (textError && state.values.firstName !== '' && state.values.lastName !== '' && state.values.location !== '') {
+      setTextError('');
+    }
+  }, [state.values.firstName, state.values.lastName, state.values.location]);
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
   const divForm = useRef<HTMLDivElement>(null);
@@ -195,29 +206,55 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             Pense à vérifier que tes informations ci-dessous sont exactes avant de valider :
           </div>
           <div className={classes.forms}>
-            <Input
-              name="firstName"
-              label="Prénom"
-              onChange={actions.handleChange}
-              value={state.values.firstName}
-              placeholder="prénom"
-              error={state.touched.firstName && state.errors.firstName !== ''}
-              errorText={state.touched.firstName ? state.errors.firstName : ''}
-            />
-            <Input
-              label="Nom de famille"
-              onChange={actions.handleChange}
-              value={state.values.lastName}
-              name="lastName"
-              placeholder="nom"
-              error={state.touched.lastName && (state.errors.lastName !== '' || errorFormObject.key === 'lastName')}
-              errorText={state.touched.lastName ? state.errors.lastName : ''}
-            />
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
+                <div className={classes.labelContainer}>
+                  <label className={classes.labelSelect}>
+                    Prénom <span className={classes.requiredInput}>*</span>
+                  </label>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <Input
+                  name="firstName"
+                  label=""
+                  type="text"
+                  onChange={actions.handleChange}
+                  value={state.values.firstName}
+                  placeholder="prénom"
+                  error={state.touched.firstName && state.errors.firstName !== ''}
+                  errorText={state.touched.firstName ? state.errors.firstName : ''}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={4} md={5} lg={5}>
+                <div className={classes.labelContainer}>
+                  <label className={classes.labelSelect}>
+                    Nom de famille <span className={classes.requiredInput}>*</span>
+                  </label>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={8} md={7} lg={7}>
+                <Input
+                  label=""
+                  onChange={actions.handleChange}
+                  value={state.values.lastName}
+                  name="lastName"
+                  type="text"
+                  placeholder="nom"
+                  error={state.touched.lastName && (state.errors.lastName !== '' || errorFormObject.key === 'lastName')}
+                  errorText={state.touched.lastName ? state.errors.lastName : ''}
+                />
+              </Grid>
+            </Grid>
             <div className={classes.selectwrapper}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
-                    <label className={classes.labelSelect}>Ville de résidence</label>
+                    <label className={classes.labelSelect}>
+                      Ville de résidence <span className={classes.requiredInput}>*</span>
+                    </label>
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
@@ -246,7 +283,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
-                    <label className={classes.labelSelect}>Niveau du dernier diplôme obtenu</label>
+                    <label className={classes.labelSelect}>
+                      Niveau du dernier diplôme obtenu <span className={classes.requiredInput}>*</span>
+                    </label>
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
@@ -271,7 +310,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
-                    <label className={classes.labelSelect}>Formation visée</label>
+                    <label className={classes.labelSelect}>
+                      Formation visée <span className={classes.requiredInput}>*</span>
+                    </label>
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
@@ -293,6 +334,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               </Grid>
             </div>
           </div>
+          <div className={classes.textError}>{textError}</div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>
               <Button className={classes.btn} onClick={() => history.push('/profile/card')}>

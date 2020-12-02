@@ -104,4 +104,9 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
   requiredInput: {
     color: theme.palette.success.main,
   },
+  textError: {
+    textAlign: 'center',
+    color: 'red',
+    fontSize: 14,
+  },
 }));

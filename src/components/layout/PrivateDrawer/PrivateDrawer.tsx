@@ -119,7 +119,7 @@ const PrivateDrawer = () => {
               <Link to={e.path}>
                 <div
                   className={classNames(
-                    isJobs ? classes.linkJob : classes.link,
+                    isJobs && !user?.isCampus ? classes.linkJob : classes.link,
                     !parcours?.completed && isJobs && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
                   )}
                 >

@@ -119,7 +119,7 @@ const ProfilComponent = () => {
           )}
           dragging={false}
           renderCenterLeftControls={({ previousSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 0 && classes.hide, classes.wrapperBtn, classes.prevWrap)}
@@ -136,10 +136,9 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
-            parcours && parcours.families.length > 3 ? (
+            (parcours && parcours.families.length > 3 ? (
               <div
                 tabIndex={-1}
                 className={classNames(currentSlide === 1 && classes.hide, classes.wrapperBtn, classes.nextWrap)}
@@ -155,8 +154,7 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null
-          }
+            ) : null)}
           className={classes.root}
         >
           {parcours?.families
@@ -357,10 +355,10 @@ const ProfilComponent = () => {
 
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-            <div key={j.id} className={classes.favoriContainer}>
-              <img src={littleheart} alt="" height={20} />
-              <div className={classes.job}>{j.title}</div>
-            </div>
+          <div key={j.id} className={classes.favoriContainer}>
+            <img src={littleheart} alt="" height={20} />
+            <div className={classes.job}>{j.title}</div>
+          </div>
           ))
         : null,
     },
@@ -410,8 +408,8 @@ const ProfilComponent = () => {
           ))}
         </Grid>
         <Grid container spacing={3}>
-          {!user?.isCampus &&
-            cardJobs.map((e, index) => (
+          {!user?.isCampus
+            && cardJobs.map((e, index) => (
               // eslint-disable-next-line
               <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
                 {e.title && e.background && e.children && (

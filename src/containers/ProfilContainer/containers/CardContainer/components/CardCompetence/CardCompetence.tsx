@@ -5,16 +5,19 @@ import ParcourContext from 'contexts/ParcourContext';
 import CompetenceEchelon from 'components/common/CompetenceEchelon/CompetenceEchelon';
 import { isEmpty } from 'lodash';
 import useStyles from './styles';
+import { UserParcour } from "../../../../../../requests/types";
 
 interface IProps {
   title: string;
   description: string;
   type?: string;
+  userParcours?: UserParcour | undefined;
 }
 
-const CardCompetence = ({ title, description, type }: IProps) => {
+const CardCompetence = ({ title, description, type, userParcours }: IProps) => {
   const classes = useStyles();
-  const { parcours } = useContext(ParcourContext);
+  const { parcours: ctxParcours } = useContext(ParcourContext);
+  const parcours = userParcours || ctxParcours;
   const globalCompetences = useMemo(
     () => parcours?.globalCompetences.filter((comp) => comp.value > 0 && comp.type === 'default') || [],
     [parcours],

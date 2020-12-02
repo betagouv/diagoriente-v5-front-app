@@ -46,7 +46,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       lastName: '',
       firstName: '',
       location: '',
-      perimetere: '',
+      perimeter: '',
       accessibility: [] as string[],
       formation: [] as string[],
     },
@@ -107,7 +107,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.lastName !== '' &&
       state.values.formation.length !== 0 &&
       state.values.accessibility.length !== 0 &&
-      state.values.location !== ''
+      state.values.location !== '' &&
+      state.values.perimeter !== ''
     ) {
       setIsValidForm(true);
     }
@@ -117,6 +118,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     state.values.formation,
     state.values.accessibility,
     state.values.location,
+    state.values.perimeter,
   ]);
   useEffect(() => {
     if (user) {
@@ -130,6 +132,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         lastName: user.profile.lastName,
         formation: form,
         accessibility: acc,
+        perimeter: user.wc2023?.perimeter?.toString() || ""
       });
     }
   }, [user?.location]);
@@ -167,7 +170,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.firstName === '' ||
       state.values.lastName === '' ||
       state.values.location === '' ||
-      state.values.perimetere === ''
+      state.values.perimeter === ''
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
@@ -176,13 +179,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           firstName: state.values.firstName,
           lastName: state.values.lastName,
           location: state.values.location,
-          coordinates: coordinates,
-          perimeter: Number(state.values.perimetere),
+          coordinates,
           wc2023: {
             degree: state.values.accessibility[0] || user?.wc2023.degree,
             formation: state.values.formation[0],
-            birthdate: user?.wc2023.birthdate,
-            perimeter: user?.wc2023.perimeter,
+            perimeter: Number(state.values.perimeter),
           },
           validateCampus: hasCompletedParcours,
         };
@@ -196,7 +197,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.firstName !== '' &&
       state.values.lastName !== '' &&
       state.values.location !== '' &&
-      state.values.perimetere !== ''
+      state.values.perimeter !== ''
     ) {
       setTextError('');
     }
@@ -350,7 +351,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Périmètre
+                      Mobilité souhaitée (en kilomètres)
                       <span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
@@ -361,9 +362,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                       label=""
                       type="number"
                       onChange={actions.handleChange}
-                      value={state.values.perimetere}
-                      name="perimetere"
-                      placeholder="perimetere"
+                      value={state.values.perimeter}
+                      name="perimeter"
+                      placeholder="Périmètre"
+                      step={10}
+                      min={1}
                     />
                   </div>
                 </Grid>
@@ -372,7 +375,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           </div>
           <div className={classes.textError}>{textError}</div>
           <div className={classes.infoFields}>
-            <span>Chmaps obligatoires</span>
+            <span className={classes.requiredInput}>*</span>
+            <span>Champs obligatoires</span>
           </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>

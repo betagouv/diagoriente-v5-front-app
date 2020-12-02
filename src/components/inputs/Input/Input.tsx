@@ -23,6 +23,8 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   withOutIcons?: boolean;
   icon?: any;
   isfull?: boolean;
+  step?: number;
+  min?: number;
 }
 
 const Input = ({
@@ -42,6 +44,8 @@ const Input = ({
   inputBaseClassName,
   type,
   isfull,
+  step,
+  min,
   ...rest
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm), isfull, required });
@@ -73,6 +77,8 @@ const Input = ({
               name={name}
               type={type}
               error={!!(errorText || errorForm)}
+              inputProps={{ step, min }}
+              // TODO: unused prop
               InputProps={{
                 classes: {
                   inputAdornedStart: classes.adornedPositionStart,

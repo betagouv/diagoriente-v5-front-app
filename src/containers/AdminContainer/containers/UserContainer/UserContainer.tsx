@@ -84,7 +84,13 @@ const UserContainer = (props: RouteComponentProps) => {
       render: (value) =>
         moment()
           .diff(value?.birthdate, 'years')
-          .toString(),
+          .toString() + " ans",
+    },
+    {
+      key: 'perimeter',
+      dataIndex: 'wc2023',
+      title: 'Périmètre',
+      render: (value) => (`${value?.perimeter.toString()} km`),
     },
     {
       key: 'eligibleStructures',

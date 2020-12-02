@@ -41,7 +41,7 @@ const Confirmation = () => {
       location: '',
       accessibility: [] as string[],
       formation: [] as string[],
-      perimetere: '',
+      perimeter: '',
     },
   });
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -81,7 +81,7 @@ const Confirmation = () => {
       state.values.date !== '' &&
       state.values.formation.length !== 0 &&
       state.values.accessibility.length !== 0 &&
-      state.values.perimetere !== '' &&
+      state.values.perimeter !== '' &&
       state.values.location !== ''
     ) {
       setIsValidForm(true);
@@ -123,7 +123,7 @@ const Confirmation = () => {
       state.values.accessibility.length === 0 ||
       state.values.formation.length === 0 ||
       state.values.location === '' ||
-      state.values.perimetere == ''
+      state.values.perimeter === ''
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
@@ -132,7 +132,7 @@ const Confirmation = () => {
         const dataToSend = {
           birthdate: state.values.date,
           degree: state.values.accessibility[0],
-          perimeter: Number(state.values.perimetere),
+          perimeter: Number(state.values.perimeter),
           formation: state.values.formation[0],
         };
         updateUserCall({ variables: { wc2023: dataToSend } });
@@ -145,14 +145,14 @@ const Confirmation = () => {
     if (
       textError &&
       state.values.date !== '' &&
-      state.values.perimetere !== '' &&
+      state.values.perimeter !== '' &&
       state.values.accessibility.length !== 0 &&
       state.values.location !== '' &&
       state.values.formation.length !== 0
     ) {
       setTextError('');
     }
-  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimetere]);
+  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
 
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
@@ -273,7 +273,7 @@ const Confirmation = () => {
                   <Grid item xs={12} sm={4} md={5} lg={5}>
                     <div className={classes.labelContainer}>
                       <label className={classes.labelSelect}>
-                        Périmètre
+                        Mobilité souhaitée (en kilomètres)
                         <span className={classes.requiredInput}>*</span>
                       </label>
                     </div>
@@ -284,9 +284,11 @@ const Confirmation = () => {
                         label=""
                         type="number"
                         onChange={actions.handleChange}
-                        value={state.values.perimetere}
-                        name="perimetere"
-                        placeholder="perimetere"
+                        value={state.values.perimeter}
+                        name="perimeter"
+                        placeholder="Périmètre"
+                        step={10}
+                        min={1}
                       />
                     </div>
                   </Grid>
@@ -297,8 +299,9 @@ const Confirmation = () => {
         )}
         <div className={classes.textError}>{textError}</div>
         <div className={classes.infoFields}>
-          <span>Champs obligatoires</span>
-        </div>
+            <span className={classes.requiredInput}>*</span>
+            <span>Champs obligatoires</span>
+          </div>
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

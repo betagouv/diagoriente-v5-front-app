@@ -141,6 +141,7 @@ export interface SkillType {
     commentText: string;
     status: 'pending' | 'accepted' | 'refused';
     email: string;
+    institution:string;
     location: string;
   }[];
   engagement?: {

@@ -39,7 +39,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   }, []);
 
   const { data, loading } = useThemes({
-    variables: { type: type === 'engagement' ? 'engagement' : type === 'personal' ? 'personal' : 'sport' },
+    variables: { type: type === 'engagement' ? 'engagement' : type === 'sport' ? 'sport' : 'personal' },
   });
   const { parcours } = useContext(parcoursContext);
 

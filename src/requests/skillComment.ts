@@ -23,8 +23,20 @@ export const useAddSkillComment = (
 ) => useLocalMutation(addSkillCommentlMutation, options);
 
 export const updateSkillComment = gql`
-  mutation UpdateSkillComment($id: ID!, $commentText: String!, $status: String!, $location: String) {
-    updateSkillComment(id: $id, commentText: $commentText, status: $status, location: $location) {
+  mutation UpdateSkillComment(
+    $id: ID!
+    $commentText: String!
+    $status: String!
+    $location: String
+    $institution: String!
+  ) {
+    updateSkillComment(
+      id: $id
+      commentText: $commentText
+      institution: $institution
+      status: $status
+      location: $location
+    ) {
       id
     }
   }
@@ -34,6 +46,7 @@ export interface updateSkillCommentArguments {
   commentText: string;
   status: 'accepted' | 'refused';
   location: string;
+  institution: string;
   id: string;
 }
 

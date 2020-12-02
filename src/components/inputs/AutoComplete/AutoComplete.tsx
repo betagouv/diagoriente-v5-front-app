@@ -69,7 +69,6 @@ const AutoComplete = ({
               disableClearable
               options={options.map((option) => ({ label: option.label, coordinates: option.coordinates }))}
               onChange={(event: any, v: any) => {
-                console.log('ents', v);
                 if (setCoordinates) setCoordinates(v);
                 onSelectText(v.label);
               }}

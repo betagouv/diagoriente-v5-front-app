@@ -24,8 +24,6 @@ import useStyles from './styles';
 
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const type = decodeUri(location.search).type || 'personal';
-  console.log('type', type);
-
   const classes = useStyles();
   const skillState = useParcourSkills(type);
   const [open, setOpen] = useState(false);

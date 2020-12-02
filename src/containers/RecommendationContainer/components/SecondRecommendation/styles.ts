@@ -78,7 +78,7 @@ export default makeStyles((theme) => ({
     borderRadius: 5,
     resize: 'none',
     width: '80%',
-    maxWidth: '660px',
+    maxWidth: '360px',
   },
 
   defaultValue: {

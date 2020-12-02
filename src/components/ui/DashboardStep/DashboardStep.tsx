@@ -1,8 +1,5 @@
 import React, { useContext, useState } from 'react';
 import UserContext from 'contexts/UserContext';
-import Button from 'components/button/Button';
-import ModalContainer from 'components/common/Modal/ModalContainer';
-import CampusForm from 'components/Modals/ModalCampus2023';
 
 import useStyles from './styles';
 
@@ -14,7 +11,6 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   state?: 'closed' | 'initial' | 'open';
   image?: string;
   titleBackground?: string;
-  showValidate?: boolean;
 }
 
 const DashboardStep = ({
@@ -29,20 +25,13 @@ const DashboardStep = ({
 }: Props) => {
   const { user } = useContext(UserContext);
   const isCampus = user?.isCampus;
+  const validateCampus = user?.validateCampus;
   const classes = useStyles({ background, state });
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <div {...other} className={classes.container}>
-        {isCampus && !user?.validateCampus && state !== 'open' && <div className={classes.disableClass} />}
-        <div className={classes.styleBtn}>
-          {isCampus && !user?.validateCampus && state === 'open' && (
-            <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
-              Je valide ma candidature
-            </Button>
-          )}
-        </div>
+        {isCampus && state !== 'open' && !validateCampus && <div className={classes.disableClass} />}
         <div className={classes.title}>
           {title}
           {titleBackground && <img src={titleBackground} alt="" className={classes.titleBackground} />}
@@ -55,19 +44,6 @@ const DashboardStep = ({
           {openChildren}
         </div>
       </div>
-      <ModalContainer
-        open={showModal}
-        handleClose={() => setShowModal(false)}
-        backdropColor="#011A5E"
-        colorIcon="rgb(255, 77, 0)"
-        size={90}
-      >
-        <div>
-          <div>
-            <CampusForm handleClose={() => setShowModal(false)} />
-          </div>
-        </div>
-      </ModalContainer>
     </>
   );
 };

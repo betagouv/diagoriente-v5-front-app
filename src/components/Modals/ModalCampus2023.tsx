@@ -7,6 +7,7 @@ import Select from 'containers/JobsContainer/components/Select/Select';
 import { useHistory } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import ParcoursContext from 'contexts/ParcourContext';
+import localforage from 'localforage';
 
 import { useForm } from 'hooks/useInputs';
 import LogoLocation from 'assets/form/location.png';
@@ -16,11 +17,11 @@ import { useUpdateUser } from 'requests/user';
 import useStyles from './style';
 import ModalCampusConfirm from './ModalCampusEnvoyee2023';
 import ModalContainer from '../common/Modal/ModalContainer';
-
 interface IProps {
   handleClose: () => void;
 }
 const ModalValideteForm = ({ handleClose }: IProps) => {
+  const history = useHistory();
   const { user, setUser } = useContext(UserContext);
   const { parcours } = useContext(ParcoursContext);
   const isCampus = user?.isCampus;
@@ -64,7 +65,25 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
 
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUserState] = useUpdateUser();
-  const history = useHistory();
+
+  const updateUserdata = async () => {
+    const data: string | null = await localforage.getItem('auth');
+    let res = {};
+    if (data) {
+      const parsedData = JSON.parse(data);
+      let newObj = {};
+      const objUser = parsedData.user;
+      const updatedUser = { ...objUser, validateCampus: true };
+      res = updatedUser;
+      newObj = {
+        token: parsedData.token,
+        user: updatedUser,
+      };
+      await localforage.setItem('auth', JSON.stringify(newObj));
+      setUser(updatedUser);
+    }
+    return res;
+  };
 
   useEffect(() => {
     if (state.values.location.length > 0) {
@@ -98,7 +117,6 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     state.values.accessibility,
     state.values.location,
   ]);
-
   useEffect(() => {
     if (user) {
       const acc: any = [];
@@ -116,6 +134,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [user?.location]);
   useEffect(() => {
     if (updateUserState.data) {
+      updateUserdata();
       setUser(updateUserState.data.updateUser);
       setShowConfirmationModal(true);
     }
@@ -142,21 +161,23 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   };
   const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
-    const dataToSend = {
-      firstName: state.values.firstName,
-      lastName: state.values.lastName,
-      location: state.values.location,
-      wc2023: {
-        degree: state.values.accessibility[0] || user?.wc2023.degree,
-        formation: state.values.formation[0],
-        birthdate: user?.wc2023.birthdate,
-        perimeter: user?.wc2023.perimeter,
-      },
-      validateCampus: hasCompletedParcours,
-    };
-    updateUserCall({ variables: { ...dataToSend } });
+    if (!user?.validateCampus) {
+      const dataToSend = {
+        firstName: state.values.firstName,
+        lastName: state.values.lastName,
+        location: state.values.location,
+        coordinates: coordinates,
+        wc2023: {
+          degree: state.values.accessibility[0] || user?.wc2023.degree,
+          formation: state.values.formation[0],
+          birthdate: user?.wc2023.birthdate,
+          perimeter: user?.wc2023.perimeter,
+        },
+        validateCampus: hasCompletedParcours,
+      };
+      updateUserCall({ variables: { ...dataToSend } });
+    }
   };
-
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
   const divForm = useRef<HTMLDivElement>(null);

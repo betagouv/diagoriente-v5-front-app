@@ -27,13 +27,11 @@ export interface Props {
 const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, className, showUser }: Props) => {
   const { open, setOpen } = useContext(DrawerContext);
   const { user } = useContext(UserContext);
-  console.log('user', user);
-  const classes = useStyles({ isCampus: user?.isCampus && user.role === 'user'  });
+  const classes = useStyles({ isCampus: user?.isCampus && user.role === 'user' });
 
   const toggle = () => {
     setOpen(!open);
   };
-
   const userName = `${user?.profile.firstName || ''} ${user?.profile.lastName || ''}`.trim() || user?.email;
 
   return (
@@ -42,7 +40,11 @@ const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, class
         <div className={classes.flexCenter}>
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
           <Link to="/" className={classes.logoContainer}>
-            <img src={closeLogoIcon} alt="diagoriente_logo" className={classes.imageDimentions} />
+            <img
+              src={open && !user?.isCampus ? logo : closeLogoIcon}
+              alt="diagoriente_logo"
+              className={classes.imageDimentions}
+            />
           </Link>
         </div>
         {showUser && (

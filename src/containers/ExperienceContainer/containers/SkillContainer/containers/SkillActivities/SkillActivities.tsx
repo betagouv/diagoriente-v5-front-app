@@ -123,7 +123,7 @@ const ExperienceActivity = ({ match, activities, setActivities, history, theme, 
         {isCreate && (
           <Link
             to={`/experience/${
-              theme.type === 'professional' ? 'theme-pro' : theme.type === 'sport' ? 'sport' : 'theme'
+              theme.type === 'professional' ? 'theme-pro' : theme.type === 'sport' ? 'theme?type=sport' : 'theme'
             }${location.search}`}
             className={classes.btnpreced}
           >

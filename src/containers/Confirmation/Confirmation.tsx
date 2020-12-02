@@ -36,7 +36,7 @@ const Confirmation = () => {
 
   const [state, actions] = useForm({
     initialValues: {
-      birthdate: '',
+      date: '',
       location: '',
       accessibility: [] as string[],
       formation: [] as string[],
@@ -77,7 +77,7 @@ const Confirmation = () => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.birthdate !== '' &&
+      state.values.date !== '' &&
       state.values.formation.length !== 0 &&
       state.values.accessibility.length !== 0 &&
       state.values.perimeter !== '' &&
@@ -85,7 +85,7 @@ const Confirmation = () => {
     ) {
       setIsValidForm(true);
     }
-  }, [state.values.birthdate, state.values.formation, state.values.accessibility, state.values.location]);
+  }, [state.values.date, state.values.formation, state.values.accessibility, state.values.location]);
   useEffect(() => {
     if (user?.location) {
       actions.setValues({ location: user.location });
@@ -118,7 +118,7 @@ const Confirmation = () => {
   };
   const onUpadetUser = () => {
     if (
-      state.values.birthdate === '' ||
+      state.values.date === '' ||
       state.values.accessibility.length === 0 ||
       state.values.formation.length === 0 ||
       state.values.location === '' ||
@@ -127,7 +127,7 @@ const Confirmation = () => {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       const dataToSend = {
-        birthdate: state.values.birthdate,
+        date: state.values.date,
         degree: state.values.accessibility[0],
         perimeter: Number(state.values.perimeter),
         formation: state.values.formation[0],
@@ -138,7 +138,7 @@ const Confirmation = () => {
   useEffect(() => {
     if (
       textError &&
-      state.values.birthdate !== '' &&
+      state.values.date !== '' &&
       state.values.perimeter !== '' &&
       state.values.accessibility.length !== 0 &&
       state.values.location !== '' &&
@@ -146,7 +146,7 @@ const Confirmation = () => {
     ) {
       setTextError('');
     }
-  }, [state.values.birthdate, state.values.accessibility, state.values.formation, state.values.perimeter]);
+  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
 
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
@@ -176,7 +176,7 @@ const Confirmation = () => {
             </div>
             <div className={classes.forms}>
               <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
-              <DatePicker onChangeDate={actions.handleChange} date={state.values.birthdate} label="Date de naissance" />
+              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
               <div className={classes.selectAutoComplete}>
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>

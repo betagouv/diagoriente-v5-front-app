@@ -1,6 +1,4 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
@@ -80,11 +78,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.firstName !== ''
-      && state.values.lastName !== ''
-      && state.values.formation.length !== 0
-      && state.values.accessibility.length !== 0
-      && state.values.location !== ''
+      state.values.firstName !== '' &&
+      state.values.lastName !== '' &&
+      state.values.formation.length !== 0 &&
+      state.values.accessibility.length !== 0 &&
+      state.values.location !== ''
     ) {
       setIsValidForm(true);
     }
@@ -164,11 +162,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         <div className={classes.loginContainer}>
           <div className={classes.title}>ATTENTION !</div>
           <div className={classes.subTitle}>
-            Tu es sur le point d&apos;envoyer définitivement ta candidature à ton conseiller, il sera alors impossible
-            de revenir en arrière. Es-tu sûr(e) de vouloir valider définitivement ta candidature ?
+            Tu es sur le point d&apos;envoyer définitivement ta candidature à ton conseiller, il pourra alors visualiser
+            ta carte de compétences en l&apos;état. Es-tu sûr(e) de vouloir valider définitivement ta candidature ?
           </div>
           <div className={classes.subTitle}>
-            Pense à vérifier que tes informations ci-dessous sont exactes avant de continuer !
+            Pense à vérifier que tes informations ci-dessous sont exactes avant de valider :
           </div>
           <div className={classes.forms}>
             <Input
@@ -270,6 +268,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             </div>
           </div>
           <div className={classes.container}>
+            <div className={classes.btnContainer}>
+              <Button className={classes.btn} onClick={() => handleClose()}>
+                <div className={classes.btnLabel}>
+                  Je vérifie et/ou continue d&apos;enrichir ma carte de compétences
+                </div>
+              </Button>
+            </div>
             <div className={classes.btnContainer}>
               <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
                 <div className={classes.btnLabel}>Je valide définitivement ma candidature</div>

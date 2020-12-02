@@ -142,7 +142,7 @@ const Confirmation = () => {
             <div className={classes.subTitle}>
               Grâce à la plateforme Diagoriente, tu vas pouvoir créer ta carte de compétences, véritable passeport pour
               intégrer une des trois formations Campus 2023 autour des métiers du sport ! Tes expériences et multiples
-              compétences que tu as développé au cours de ta vie seront transmis à ton conseiller Pôle Emploi afin
+              compétences que tu as développées au cours de ta vie seront transmises à ton conseiller Pôle Emploi afin
               d&apos;évaluer tes aptitudes et te guider vers des structures d&apos;accueil qui te correspondent et à qui
               tu correspondras !
             </div>

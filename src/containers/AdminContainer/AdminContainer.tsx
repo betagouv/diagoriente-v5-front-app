@@ -10,11 +10,12 @@ import Route from 'components/ui/Route/Route';
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import ThemeContainer from './containers/ThemeContainer';
 import ActivityContainer from './containers/ActivityContainer';
-import ContextContainer from './containers/ContextContainer/ContextContainer';
+import ContextContainer from './containers/ContextContainer';
 import CompetenceContainer from './containers/CompetenceContainer';
 import QuestionContainer from './containers/QuestionContainer';
 import OptionContainer from './containers/OptionContainer';
 import InstitutionContainer from './containers/InstitutionContainer';
+import UserContainer from "./containers/UserContainer";
 
 import useStyles from './styles';
 
@@ -47,6 +48,7 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
               <BaseRoute path="/admin/questions" component={QuestionContainer} />
               <BaseRoute path="/admin/options" component={OptionContainer} />
               <BaseRoute path="/admin/institution" component={InstitutionContainer} />
+              <BaseRoute path="/admin/users" component={UserContainer} />
               <NotFoundPage />
             </Switch>
           </div>

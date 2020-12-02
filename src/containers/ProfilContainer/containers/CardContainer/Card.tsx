@@ -83,12 +83,14 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
             title="COMPÉTENCES TRANSVERSALES"
             description="En relation avec les expériences personnelles et professionnelles"
             type="tranversale"
+            userParcours={Userparcours}
           />
           {skills.filter((s) => s?.theme?.type === 'engagement').length !== 0 && (
             <CardCompetence
               title="COMPÉTENCES D’ENGAGEMENT"
               description="En relation avec les expériences d’engagement (Service civique, Service National Universel...)"
               type="engagement"
+              userParcours={Userparcours}
             />
           )}
         </div>

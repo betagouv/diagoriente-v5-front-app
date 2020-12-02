@@ -11,6 +11,7 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useEligibleStructures } from '../../../../requests/campus2023';
+import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup();
@@ -64,7 +65,7 @@ const Parcours = () => {
       title: 'Parcours validé',
       key: 'validated',
       dataIndex: 'validateCampus',
-      render: (value) => (value ? '✔️' : '❌'),
+      render: (value) => <VerifiedIcon verified={value} />,
     },
     {
       title: 'Carte de compétences',

@@ -97,19 +97,3 @@ export interface UpdateParcourArgument {
 export const useUpdateParcour = (
   options: MutationHookOptions<{ updateParcour: UserParcour }, UpdateParcourArgument> = {},
 ) => useLocalMutation(updateParcours, options);
-
-export const getUserParcoursByUserId = gql`
-    query($userId: String!) {
-        userParcourByUserId(userId: $userId) {
-            id
-            globalCompetences {
-                title
-                value
-                type
-            }
-        }
-    }
-`;
-
-export const useGetUserParcourByUserId = (options: LazyQueryHookOptions<any> = {}) =>
-  useLocalLazyQuery(getUserParcoursByUserId, options);

@@ -43,7 +43,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
     default:
       typeXp = 'personnelle';
   }
-
+  console.log('user', user);
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -75,7 +75,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
             </Link>
           </div>
           <div className={classes.btnContainer}>
-            {user?.isCampus ? (
+            {user?.isCampus && !user?.validateCampus ? (
               <Button className={classes.btnValidate} onClick={() => setShowModal(true)}>
                 Je valide ma candidature définitivement
               </Button>

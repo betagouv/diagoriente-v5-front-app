@@ -28,7 +28,7 @@ import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
 
-import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import open from 'assets/svg/menu_close.svg';
 import whiteMenu from 'assets/images/menu.png';
@@ -79,7 +79,7 @@ const RootContainer = () => {
               <Route
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
-                  openIcon: user?.isCampus ? whiteMenu : open,
+                  openIcon: user?.isCampus ? whiteMenu : whiteMenu,
                   showUser: false,
                 }}
                 footer
@@ -113,7 +113,6 @@ const RootContainer = () => {
               <Route
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
-                  openIcon: user?.isCampus ? whiteMenu : open,
                   showUser: false,
                 }}
                 protected
@@ -131,7 +130,10 @@ const RootContainer = () => {
                 component={GameContainer}
               />
               <BaseRoute path="/admin" component={AdminContainer} />
-              <BaseRoute path="/advisor" component={AdvisorContainer} />
+              <BaseRoute
+                path="/advisor"
+                component={AdvisorContainer}
+              />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

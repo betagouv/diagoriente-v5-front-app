@@ -43,7 +43,7 @@ const PrivateDrawer = () => {
   const { setUser, user } = useContext(userContext);
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
-  const classes = useStyles({ isCampus: user?.isCampus });
+  const classes = useStyles({ isCampus: user?.isCampus && user?.role === "user" });
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
   const logout = () => {

@@ -67,6 +67,10 @@ export interface UpdateUserArguments {
   logo?: string;
   codeGroupe?: string;
   wc2023?: WC2023;
+  coordinates?: {
+    longitude: number;
+    lattitude: number;
+  };
 }
 
 export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User }, UpdateUserArguments> = {}) =>

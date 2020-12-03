@@ -102,8 +102,8 @@ const InfoProfil = () => {
       });
     }
   };
-  const onSelect = (location: any | undefined) => {
-    if (location) actions.setValues({ location: location.label });
+  const onSelect = (location: string | undefined) => {
+    if (location) actions.setValues({ location: location });
     setOpenLocation(false);
   };
   useEffect(() => {

@@ -77,8 +77,8 @@ export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User },
   useLocalMutation(updateUserMutation, options);
 
 export const usersQuery = gql`
-  query($page: Int, $perPage: Int) {
-    users(page: $page, perPage: $perPage) {
+  query($page: Int, $perPage: Int, $wc2023: Boolean) {
+    users(page: $page, perPage: $perPage, wc2023: $wc2023) {
       perPage
       page
       totalPages

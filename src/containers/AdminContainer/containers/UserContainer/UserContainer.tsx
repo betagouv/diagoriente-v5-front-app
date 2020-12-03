@@ -100,7 +100,7 @@ const UserContainer = (props: RouteComponentProps) => {
       // @ts-ignore
       dataIndex: 'eligibleStructuresCountWC2023',
       title: 'Nombre de structures éligibles',
-      render: (value) => value.toString(),
+      render: (value) => value?.toString(),
     },
   ];
 

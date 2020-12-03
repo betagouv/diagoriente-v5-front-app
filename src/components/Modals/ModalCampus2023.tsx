@@ -132,10 +132,12 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         lastName: user.profile.lastName,
         formation: form,
         accessibility: acc,
-        perimeter: user.wc2023?.perimeter?.toString() || ""
+        perimeter: user.wc2023?.perimeter?.toString() || '',
       });
+      setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
   }, [user?.location]);
+
   useEffect(() => {
     if (updateUserState.data) {
       updateUserdata();
@@ -184,6 +186,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             degree: state.values.accessibility[0] || user?.wc2023.degree,
             formation: state.values.formation[0],
             perimeter: Number(state.values.perimeter),
+            birthdate: user?.wc2023.birthdate,
           },
           validateCampus: hasCompletedParcours,
         };
@@ -364,7 +367,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                       onChange={actions.handleChange}
                       value={state.values.perimeter}
                       name="perimeter"
-                      placeholder="Périmètre"
+                      placeholder="km maximum"
                       step={10}
                       min={1}
                     />

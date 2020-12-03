@@ -147,8 +147,7 @@ const JobContainer = ({
   };
   const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e.label);
-      setCoordinates(e.value.coordinates);
+      setSelectedLocation(e);
       setOpenLocation(false);
     }
   };
@@ -183,7 +182,7 @@ const JobContainer = ({
       });
     }
   };
-  const onTypeFilter = (el: { label: string}) => {
+  const onTypeFilter = (el: { label: string }) => {
     if (typeApi === el.label) {
       setTypeApi('');
     } else {
@@ -246,6 +245,7 @@ const JobContainer = ({
                 onClickImmersion={onClickImmersion}
                 setOpenLocation={setOpenLocation}
                 errorLocation={errorLocation}
+                setCoordinates={setCoordinates}
               />
             </div>
           </div>

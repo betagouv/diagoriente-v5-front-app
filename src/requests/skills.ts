@@ -225,6 +225,7 @@ export const getPublicSkillQuery = gql`
         id
         firstName
         lastName
+        isCampus
       }
       theme {
         id

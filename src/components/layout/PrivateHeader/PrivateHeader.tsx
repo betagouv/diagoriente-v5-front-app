@@ -41,7 +41,7 @@ const PrivateHeader = ({ openLogoIcon, closeLogoIcon, openIcon, closeIcon, class
           <img src={open ? closeIcon : openIcon} alt="menu" height={20} className={classes.menuIcon} onClick={toggle} />
           <Link to="/" className={classes.logoContainer}>
             <img
-              src={user?.isCampus ? logoCampus : logo}
+              src={user?.isCampus ? logoCampus : open ? logo : closeLogoIcon}
               alt="diagoriente_logo"
               className={classes.imageDimentions}
             />

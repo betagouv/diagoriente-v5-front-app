@@ -24,6 +24,7 @@ interface IProps {
   setOpenLocation?: (open: boolean) => void;
   errorLocation?: boolean;
   typeApi?: string;
+  setCoordinates?: (e: any) => void;
 }
 
 const ImmersionForm = ({
@@ -43,6 +44,7 @@ const ImmersionForm = ({
   onChangeTypeApi,
   typeApi,
   errorLocation,
+  setCoordinates,
 }: IProps) => {
   const classes = useStyles();
   const typeFilter = [
@@ -95,6 +97,7 @@ const ImmersionForm = ({
           open={openLocation}
           error={errorLocation && !selectedLocation}
           setOpen={setOpenLocation}
+          setCoordinates={setCoordinates}
         />
       </div>
 

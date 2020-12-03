@@ -10,7 +10,7 @@ import MainInteret from './containers/MainInteret';
 import ParcoursInteret from './containers/ParcourInteret';
 import OrdreInteret from './containers/OrdreInteret/OrderInteret';
 import ResultInteret from './containers/ResultInterest/ResultInterest';
-import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import logo from 'assets/svg/diagoriente_logo.svg';
 import open from 'assets/svg/menu_close.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import whiteMenu from 'assets/images/menu.png';
@@ -40,7 +40,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             exact
             path="/interet"
@@ -50,7 +50,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             protected
             path="/interet/main"
@@ -60,7 +60,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             protected
             path="/interet/parcours"
@@ -70,7 +70,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             protected
             path="/interet/ordre"
@@ -80,7 +80,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             protected
             path="/interet/result"
@@ -90,7 +90,7 @@ const Interet = () => {
             privateHeaderProps={{
               openLogoIcon: logo,
               closeLogoIcon: user?.isCampus ? logCampus : logo,
-              openIcon: user?.isCampus ? whiteMenu : open,
+              openIcon: whiteMenu,
             }}
             component={NotFoundPage}
           />

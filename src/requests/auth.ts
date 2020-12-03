@@ -98,6 +98,10 @@ export const loginMutation = gql`
         }
         isCampus
         validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
         wc2023 {
           degree
           formation
@@ -159,6 +163,10 @@ export const refreshMutation = gql`
         }
         isCampus
         validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
         wc2023 {
           degree
           formation
@@ -221,7 +229,12 @@ export const resetMutation = gql`
           lastName
           institution
         }
+        coordinates {
+          longitude
+          lattitude
+        }
         isCampus
+        validateCampus
         wc2023 {
           degree
           formation

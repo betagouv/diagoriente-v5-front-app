@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import moment from 'moment';
+import localforage from 'localforage';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -13,11 +14,12 @@ import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useUpdateUser } from 'requests/user';
+import { User } from 'requests/types';
 import useStyles from './style';
 
 const Confirmation = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
   const listAccData = [
@@ -57,9 +59,25 @@ const Confirmation = () => {
     lattitude: 0,
     longitude: 0,
   });
-
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUsersState] = useUpdateUser();
+
+  const updateUserdata = async (newData: User) => {
+    const data: string | null = await localforage.getItem('auth');
+    let res = {};
+    if (data) {
+      const parsedData = JSON.parse(data);
+      let newObj = {};
+      const objUser = newData;
+      newObj = {
+        token: parsedData.token,
+        user: objUser,
+      };
+      await localforage.setItem('auth', JSON.stringify(newObj));
+      setUser(objUser);
+    }
+    return res;
+  };
 
   useEffect(() => {
     if (state.values.location.length > 0) {
@@ -90,10 +108,12 @@ const Confirmation = () => {
   useEffect(() => {
     if (user?.location) {
       actions.setValues({ location: user.location });
+      setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
   }, [user?.location]);
   useEffect(() => {
     if (updateUsersState.data) {
+      updateUserdata(updateUsersState.data.updateUser);
       history.push('/');
     }
   }, [updateUsersState.data]);
@@ -118,41 +138,47 @@ const Confirmation = () => {
     setOpenLocation(false);
   };
   const onUpadetUser = () => {
-    if (
-      state.values.date === '' ||
-      state.values.accessibility.length === 0 ||
-      state.values.formation.length === 0 ||
-      state.values.location === '' ||
-      state.values.perimeter === ''
-    ) {
-      setTextError('Veuillez renseigner tous les champs obligatoires');
-    } else {
-      const isValidDate = moment(state.values.date).isBefore(moment());
-      if (isValidDate) {
-        const dataToSend = {
-          birthdate: state.values.date,
-          degree: state.values.accessibility[0],
-          perimeter: Number(state.values.perimeter),
-          formation: state.values.formation[0],
-        };
-        updateUserCall({ variables: { wc2023: dataToSend } });
+    if (user?.isCampus) {
+      if (
+        state.values.date === '' ||
+        state.values.accessibility.length === 0 ||
+        state.values.formation.length === 0 ||
+        state.values.location === '' ||
+        state.values.perimeter === ''
+      ) {
+        setTextError('Veuillez renseigner tous les champs obligatoires');
       } else {
-        setTextError('Date invalide ');
+        const isValidDate = moment(state.values.date).isBefore(moment());
+        if (isValidDate) {
+          const dataToSend = {
+            birthdate: state.values.date,
+            degree: state.values.accessibility[0],
+            perimeter: Number(state.values.perimeter),
+            formation: state.values.formation[0],
+          };
+          updateUserCall({ variables: { wc2023: dataToSend, coordinates } });
+        } else {
+          setTextError('Date invalide ');
+        }
       }
+    } else {
+      history.push("/");
     }
   };
   useEffect(() => {
-    if (
-      textError &&
-      state.values.date !== '' &&
-      state.values.perimeter !== '' &&
-      state.values.accessibility.length !== 0 &&
-      state.values.location !== '' &&
-      state.values.formation.length !== 0
-    ) {
-      setTextError('');
+    if (user?.isCampus) {
+      if (
+        textError &&
+        state.values.date !== '' &&
+        state.values.perimeter !== '' &&
+        state.values.accessibility.length !== 0 &&
+        state.values.location !== '' &&
+        state.values.formation.length !== 0
+      ) {
+        setTextError('');
+      }
     }
-  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
+  }, [user, state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
 
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
@@ -286,7 +312,7 @@ const Confirmation = () => {
                         onChange={actions.handleChange}
                         value={state.values.perimeter}
                         name="perimeter"
-                        placeholder="Périmètre"
+                        placeholder="km maximum"
                         step={10}
                         min={1}
                       />
@@ -298,10 +324,12 @@ const Confirmation = () => {
           </div>
         )}
         <div className={classes.textError}>{textError}</div>
-        <div className={classes.infoFields}>
+        {user?.isCampus && (
+          <div className={classes.infoFields}>
             <span className={classes.requiredInput}>*</span>
             <span>Champs obligatoires</span>
           </div>
+        )}
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

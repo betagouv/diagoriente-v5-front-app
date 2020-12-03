@@ -126,7 +126,6 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       acc.push(user.wc2023.degree);
       const form: any = [];
       form.push(user.wc2023.formation);
-      console.log('form',form, 'acc',acc)
       actions.setValues({
         location: user.location,
         firstName: user.profile.firstName,
@@ -138,8 +137,6 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
   }, [user?.location]);
-  console.log('valyes', state.values, 'coordinates',coordinates)
-  console.log('user', user)
 
   useEffect(() => {
     if (updateUserState.data) {

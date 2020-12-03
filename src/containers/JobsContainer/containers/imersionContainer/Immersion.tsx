@@ -330,8 +330,7 @@ const ImmersionContainer = ({
   };
   const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e.label);
-      setCoordinates(e.value.coordinates);
+      setSelectedLocation(e);
       setOpenLocation(false);
     }
   };
@@ -404,6 +403,7 @@ const ImmersionContainer = ({
                   openLocation={openLocation}
                   setOpenLocation={setOpenLocation}
                   onClickImmersion={onClickImmersion}
+                  setCoordinates={setCoordinates}
                 />
               </div>
             ) : (

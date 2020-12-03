@@ -17,6 +17,8 @@ import { useUpdateUser } from 'requests/user';
 import useStyles from './style';
 import ModalCampusConfirm from './ModalCampusEnvoyee2023';
 import ModalContainer from '../common/Modal/ModalContainer';
+import moment from "moment";
+import DatePicker from "../common/Pickers/DatePicker";
 interface IProps {
   handleClose: () => void;
 }
@@ -49,6 +51,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       perimeter: '',
       accessibility: [] as string[],
       formation: [] as string[],
+      date: '',
     },
   });
   const [errorFormObject, setErrorFormObject] = useState<{ key: string; value: string }>({ key: '', value: '' });
@@ -108,11 +111,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.formation.length !== 0 &&
       state.values.accessibility.length !== 0 &&
       state.values.location !== '' &&
-      state.values.perimeter !== ''
+      state.values.perimeter !== '' &&
+      state.values.date !== ''
     ) {
       setIsValidForm(true);
     }
   }, [
+    state.values.date,
     state.values.firstName,
     state.values.lastName,
     state.values.formation,
@@ -170,24 +175,31 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.firstName === '' ||
       state.values.lastName === '' ||
       state.values.location === '' ||
-      state.values.perimeter === ''
+      state.values.perimeter === '' ||
+      state.values.date === ''
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       if (!user?.validateCampus) {
-        const dataToSend = {
-          firstName: state.values.firstName,
-          lastName: state.values.lastName,
-          location: state.values.location,
-          coordinates,
-          wc2023: {
-            degree: state.values.accessibility[0] || user?.wc2023.degree,
-            formation: state.values.formation[0],
-            perimeter: Number(state.values.perimeter),
-          },
-          validateCampus: hasCompletedParcours,
-        };
-        updateUserCall({ variables: { ...dataToSend } });
+        const isValidDate = moment(state.values.date).isBefore(moment());
+        if (isValidDate) {
+          const dataToSend = {
+            firstName: state.values.firstName,
+            lastName: state.values.lastName,
+            location: state.values.location,
+            coordinates,
+            wc2023: {
+              degree: state.values.accessibility[0] || user?.wc2023.degree,
+              formation: state.values.formation[0],
+              perimeter: Number(state.values.perimeter),
+              birthdate: state.values.date,
+            },
+            validateCampus: hasCompletedParcours,
+          };
+          updateUserCall({ variables: { ...dataToSend } });
+        } else {
+          setTextError('Date invalide ');
+        }
       }
     }
   };
@@ -197,7 +209,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       state.values.firstName !== '' &&
       state.values.lastName !== '' &&
       state.values.location !== '' &&
-      state.values.perimeter !== ''
+      state.values.perimeter !== '' &&
+      state.values.date !== ''
     ) {
       setTextError('');
     }
@@ -219,6 +232,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             Pense à vérifier que tes informations ci-dessous sont exactes avant de valider :
           </div>
           <div className={classes.forms}>
+            <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
             <Grid container spacing={0}>
               <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.labelContainer}>

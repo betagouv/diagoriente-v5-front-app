@@ -230,7 +230,7 @@ export interface PublicSkill {
   }[];
   competences: { _id: Competence; value: number }[];
   comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string };
-  user: { id: string; firstName: string; lastName: string };
+  user: { id: string; firstName: string; lastName: string; isCampus: boolean };
 }
 
 export interface Jobs {

@@ -230,7 +230,7 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
             </span>
 
             <Input
-              label="Confirmez votre email"
+              label="Confirmer l'e-mail"
               name="confirmEmail"
               placeholder="ex : mail@exemple.com "
               value={state.values.confirmEmail}

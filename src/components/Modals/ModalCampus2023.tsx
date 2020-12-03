@@ -370,7 +370,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                       onChange={actions.handleChange}
                       value={state.values.perimeter}
                       name="perimeter"
-                      placeholder="Périmètre"
+                      placeholder="km maximum"
                       step={10}
                       min={1}
                     />

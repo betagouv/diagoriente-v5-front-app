@@ -135,7 +135,7 @@ const Confirmation = () => {
           perimeter: Number(state.values.perimeter),
           formation: state.values.formation[0],
         };
-        updateUserCall({ variables: { wc2023: dataToSend } });
+        updateUserCall({ variables: { wc2023: dataToSend, coordinates } });
       } else {
         setTextError('Date invalide ');
       }
@@ -299,9 +299,9 @@ const Confirmation = () => {
         )}
         <div className={classes.textError}>{textError}</div>
         <div className={classes.infoFields}>
-            <span className={classes.requiredInput}>*</span>
-            <span>Champs obligatoires</span>
-          </div>
+          <span className={classes.requiredInput}>*</span>
+          <span>Champs obligatoires</span>
+        </div>
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

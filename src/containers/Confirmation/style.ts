@@ -6,7 +6,6 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    height: 'calc(100vh - 113px)',
     paddingBottom: 40,
     alignItems: 'center',
   },
@@ -17,6 +16,8 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     textAlign: 'center',
     color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
     marginBottom: (props) => (props.isCampus ? 10 : 40),
+    marginTop: 30,
+
   },
   titleDesc: {
     fontWeight: 'bolder',
@@ -51,7 +52,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 0,
   },
   btn: {
     backgroundColor: theme.palette.secondary.main,

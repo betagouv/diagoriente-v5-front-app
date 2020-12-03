@@ -28,6 +28,7 @@ const HomeContainer = () => {
   const { user } = useContext(UserContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
+  console.log('isCampus',isCampus)
 
   return (
     <ThemeProvider theme={theme}>

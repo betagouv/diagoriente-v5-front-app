@@ -19,7 +19,6 @@ const Comment = forwardRef(
     ref: Ref<HTMLDivElement>,
   ) => {
     const classes = useStyles();
-    console.log('institution', institution);
     return (
       <div ref={ref} className={classNames(classes.container, className)}>
         <div className={classes.title}>

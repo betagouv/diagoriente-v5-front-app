@@ -58,7 +58,6 @@ const Profil = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           protected
@@ -69,7 +68,6 @@ const Profil = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           protected
@@ -81,7 +79,6 @@ const Profil = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           protected
@@ -92,7 +89,6 @@ const Profil = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           protected
@@ -103,7 +99,6 @@ const Profil = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           footer

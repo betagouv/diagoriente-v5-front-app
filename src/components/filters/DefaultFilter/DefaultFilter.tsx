@@ -38,7 +38,7 @@ function DefaultFilter({ onChange, children }: DefaultFilterProps) {
       </div>
       <Collapse in={open}>
         <div className={classes.dropDown}>
-          <Grid container spacing={6} className={classes.inputsContainer}>
+          <Grid container spacing={2} className={classes.inputsContainer}>
             <Grid item sm={4} md={3} lg={3}>
               <TextField
                 InputProps={{ className: classes.input }}
@@ -48,8 +48,8 @@ function DefaultFilter({ onChange, children }: DefaultFilterProps) {
                 label="Search"
               />
             </Grid>
-            {children
-              && children((data) => {
+            {children &&
+              children((data) => {
                 dataRef.current = data;
               }, uri)}
           </Grid>

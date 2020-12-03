@@ -21,18 +21,6 @@ export default async function startup(): Promise<{ user: User; parcours: UserPar
     let accessToken = null;
     if (authString) {
       const { user, token }: { user: User; token: Token } = JSON.parse(authString);
-      if (token.refreshToken) {
-        const nextToken = await client.mutate<{ refresh: Token }, RefreshArguments>({
-          mutation: refreshMutation,
-          variables: { email: user.email, refreshToken: token.refreshToken },
-        });
-        if (nextToken.data) {
-          accessToken = nextToken.data.refresh.accessToken;
-          localforage.setItem('auth', JSON.stringify({ user, token: nextToken.data.refresh }));
-        }
-      } else if (moment(token.expiresIn, 'x').diff(moment(), 'minutes') > 0) {
-        accessToken = token.accessToken;
-      }
 
       if (token.refreshToken) {
         nextData = await client.mutate<{ refresh: LoginData }, RefreshArguments>({

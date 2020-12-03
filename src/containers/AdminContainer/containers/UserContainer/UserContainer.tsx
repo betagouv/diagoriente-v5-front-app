@@ -82,22 +82,22 @@ const UserContainer = (props: RouteComponentProps) => {
       dataIndex: 'wc2023',
       title: 'Âge',
       render: (value) =>
-        moment()
+        `${moment()
           .diff(value?.birthdate, 'years')
-          .toString() + " ans",
+          ?.toString()}`,
     },
     {
       key: 'perimeter',
       dataIndex: 'wc2023',
       title: 'Périmètre',
-      render: (value) => (`${value?.perimeter.toString()} km`),
+      render: (value) => (`${value?.perimeter?.toString()} km`),
     },
     {
       key: 'eligibleStructures',
       // @ts-ignore
       dataIndex: 'eligibleStructuresCountWC2023',
       title: 'Nombre de structures éligibles',
-      render: (value) => value.toString(),
+      render: (value) => value?.toString(),
     },
   ];
 

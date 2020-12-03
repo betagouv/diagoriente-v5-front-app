@@ -113,7 +113,7 @@ const Confirmation = () => {
   }, [user?.location]);
   useEffect(() => {
     if (updateUsersState.data) {
-      updateUserdata(updateUsersState.data.updateUser)
+      updateUserdata(updateUsersState.data.updateUser);
       history.push('/');
     }
   }, [updateUsersState.data]);
@@ -138,41 +138,47 @@ const Confirmation = () => {
     setOpenLocation(false);
   };
   const onUpadetUser = () => {
-    if (
-      state.values.date === '' ||
-      state.values.accessibility.length === 0 ||
-      state.values.formation.length === 0 ||
-      state.values.location === '' ||
-      state.values.perimeter === ''
-    ) {
-      setTextError('Veuillez renseigner tous les champs obligatoires');
-    } else {
-      const isValidDate = moment(state.values.date).isBefore(moment());
-      if (isValidDate) {
-        const dataToSend = {
-          birthdate: state.values.date,
-          degree: state.values.accessibility[0],
-          perimeter: Number(state.values.perimeter),
-          formation: state.values.formation[0],
-        };
-        updateUserCall({ variables: { wc2023: dataToSend, coordinates } });
+    if (user?.isCampus) {
+      if (
+        state.values.date === '' ||
+        state.values.accessibility.length === 0 ||
+        state.values.formation.length === 0 ||
+        state.values.location === '' ||
+        state.values.perimeter === ''
+      ) {
+        setTextError('Veuillez renseigner tous les champs obligatoires');
       } else {
-        setTextError('Date invalide ');
+        const isValidDate = moment(state.values.date).isBefore(moment());
+        if (isValidDate) {
+          const dataToSend = {
+            birthdate: state.values.date,
+            degree: state.values.accessibility[0],
+            perimeter: Number(state.values.perimeter),
+            formation: state.values.formation[0],
+          };
+          updateUserCall({ variables: { wc2023: dataToSend, coordinates } });
+        } else {
+          setTextError('Date invalide ');
+        }
       }
+    } else {
+      history.push("/");
     }
   };
   useEffect(() => {
-    if (
-      textError &&
-      state.values.date !== '' &&
-      state.values.perimeter !== '' &&
-      state.values.accessibility.length !== 0 &&
-      state.values.location !== '' &&
-      state.values.formation.length !== 0
-    ) {
-      setTextError('');
+    if (user?.isCampus) {
+      if (
+        textError &&
+        state.values.date !== '' &&
+        state.values.perimeter !== '' &&
+        state.values.accessibility.length !== 0 &&
+        state.values.location !== '' &&
+        state.values.formation.length !== 0
+      ) {
+        setTextError('');
+      }
     }
-  }, [state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
+  }, [user, state.values.date, state.values.accessibility, state.values.formation, state.values.perimeter]);
 
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
@@ -318,10 +324,12 @@ const Confirmation = () => {
           </div>
         )}
         <div className={classes.textError}>{textError}</div>
-        <div className={classes.infoFields}>
-          <span className={classes.requiredInput}>*</span>
-          <span>Champs obligatoires</span>
-        </div>
+        {user?.isCampus && (
+          <div className={classes.infoFields}>
+            <span className={classes.requiredInput}>*</span>
+            <span>Champs obligatoires</span>
+          </div>
+        )}
         <div className={classes.container}>
           <div className={classes.btnContainer}>
             <Button className={classes.btn} onClick={onUpadetUser}>

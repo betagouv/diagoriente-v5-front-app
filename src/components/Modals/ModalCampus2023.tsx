@@ -126,16 +126,21 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       acc.push(user.wc2023.degree);
       const form: any = [];
       form.push(user.wc2023.formation);
+      console.log('form',form, 'acc',acc)
       actions.setValues({
         location: user.location,
         firstName: user.profile.firstName,
         lastName: user.profile.lastName,
         formation: form,
         accessibility: acc,
-        perimeter: user.wc2023?.perimeter?.toString() || ""
+        perimeter: user.wc2023?.perimeter?.toString() || '',
       });
+      setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
   }, [user?.location]);
+  console.log('valyes', state.values, 'coordinates',coordinates)
+  console.log('user', user)
+
   useEffect(() => {
     if (updateUserState.data) {
       updateUserdata();
@@ -184,6 +189,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
             degree: state.values.accessibility[0] || user?.wc2023.degree,
             formation: state.values.formation[0],
             perimeter: Number(state.values.perimeter),
+            birthdate: user?.wc2023.birthdate,
           },
           validateCampus: hasCompletedParcours,
         };

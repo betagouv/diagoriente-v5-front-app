@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import moment from 'moment';
+import localforage from 'localforage';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
@@ -13,11 +14,12 @@ import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import { useUpdateUser } from 'requests/user';
+import { User } from 'requests/types';
 import useStyles from './style';
 
 const Confirmation = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const isCampus = user?.isCampus;
   const classes = useStyles({ isCampus });
   const listAccData = [
@@ -57,9 +59,25 @@ const Confirmation = () => {
     lattitude: 0,
     longitude: 0,
   });
-
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUsersState] = useUpdateUser();
+
+  const updateUserdata = async (newData: User) => {
+    const data: string | null = await localforage.getItem('auth');
+    let res = {};
+    if (data) {
+      const parsedData = JSON.parse(data);
+      let newObj = {};
+      const objUser = newData;
+      newObj = {
+        token: parsedData.token,
+        user: objUser,
+      };
+      await localforage.setItem('auth', JSON.stringify(newObj));
+      setUser(objUser);
+    }
+    return res;
+  };
 
   useEffect(() => {
     if (state.values.location.length > 0) {
@@ -90,10 +108,12 @@ const Confirmation = () => {
   useEffect(() => {
     if (user?.location) {
       actions.setValues({ location: user.location });
+      setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
   }, [user?.location]);
   useEffect(() => {
     if (updateUsersState.data) {
+      updateUserdata(updateUsersState.data.updateUser)
       history.push('/');
     }
   }, [updateUsersState.data]);

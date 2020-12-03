@@ -399,7 +399,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         handleClose={() => setShowConfirmationModal(false)}
         backdropColor="#011A5E"
         colorIcon="rgb(255, 77, 0)"
-        size={90}
+        size={70}
       >
         <div>
           <div>

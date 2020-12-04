@@ -68,7 +68,7 @@ const ResultCompetences = ({ theme, match, history, location }: Props) => {
             checked
             className={classes.imgContainer}
           >
-            <img src={theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 120 : "100%"}  />
+            <img src={theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 90 : "100%"}  />
           </Avatar>
         )}
 

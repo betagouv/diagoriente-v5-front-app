@@ -37,7 +37,6 @@ const Card = ({
       </div>
     </Component>
   );
-
   return (
     <div className={classNames(classes.cardContainer, className)}>
       {titleCard}

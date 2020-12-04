@@ -164,7 +164,7 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
               titleClassName={classes.titleClassName}
               className={classes.imgContainer}
             >
-              <img src={skill.theme.resources?.icon} alt="" />
+              <img src={skill.theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 90 : '100%'} />
             </Avatar>
           )}
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
@@ -269,7 +269,7 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
       >
         <div className={classes.modalContainer}>
           <Avatar title={skill.theme.title} size={94} titleClassName={classes.titleClassName}>
-            <img src={skill.theme.resources?.icon} alt="" />
+            <img src={skill.theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 90 : '100%'} />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
           <div className={classes.descriptionModal}>

@@ -61,7 +61,7 @@ const ResultCompetences = ({ theme, match }: Props) => {
           </div>
         ) : (
           <Avatar titleClassName={classes.size} title={theme.title} size={170} className={classes.avatar} checked>
-            <img src={theme.resources?.icon} alt="" />
+            <img src={theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 120 : '100%'} />
           </Avatar>
         )}
 

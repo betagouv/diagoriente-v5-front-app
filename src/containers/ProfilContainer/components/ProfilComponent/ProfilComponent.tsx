@@ -309,7 +309,7 @@ const ProfilComponent = () => {
     children: sportSkills.length ? (
       <Grid container spacing={1}>
         {sportSkills.map((theme) => {
-          const icon = secteurs?.themes.data.find((secteur) => theme.theme.parentId === secteur.id)?.resources?.icon;
+          const icon =theme?.theme.resources?.icon;
           return (
             <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
@@ -347,7 +347,6 @@ const ProfilComponent = () => {
       background: '#FFD382',
       color: '#424242',
       logo: heart,
-
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
             <div key={j.id} className={classes.favoriContainer}>

@@ -4,7 +4,6 @@ import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import Button from 'components/button/Button';
-import { StructureWC2023 } from 'requests/types';
 import { useGetUserParcour } from 'requests/parcours';
 
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
@@ -12,9 +11,10 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import ParcourQuality from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 
 const Parcours = () => {
-  const [loadParcours, { data, loading }] = useMyGroup();
+  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
   const [showStructures, setShowStructures] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
@@ -76,6 +76,16 @@ const Parcours = () => {
           <img width={32} height={32} src={carte} alt="Voir la carte de compétences" />
         </span>
       ),
+    },
+    {
+      title: 'Note',
+      key: 'note',
+      dataIndex: 'wc2023',
+      render: (value, row) => {
+        return (
+          <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
+        );
+      },
     },
     {
       title: "Structures d'accueil potentielles",

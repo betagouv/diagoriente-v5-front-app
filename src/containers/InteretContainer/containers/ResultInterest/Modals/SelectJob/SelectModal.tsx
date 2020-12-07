@@ -29,7 +29,7 @@ const selectTheme = createMuiTheme({
 });
 
 const SelectModal = () => {
-  const divSelect = useRef(null)
+  const divSelect = useRef(null);
   const history = useHistory();
   const classes = useStyles();
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
@@ -86,7 +86,7 @@ const SelectModal = () => {
           <div className={classes.descriptionModal}>
             Pour nous aider à te proposer les pistes métiers les plus adaptées,
             <br />
-            indique nous ton niveau de diplôme :
+            Choisis le niveau que tu veux atteindre
           </div>
           <div className={classes.accessibility}>
             <ThemeProvider theme={selectTheme}>

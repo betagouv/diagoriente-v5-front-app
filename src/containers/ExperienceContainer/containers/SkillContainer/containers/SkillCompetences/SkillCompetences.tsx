@@ -79,6 +79,8 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
                 ? 'MES EXPERIENCES D’ENGAGEMENT'
                 : theme && theme.type === 'sport'
                 ? 'MES EXPERIENCES SPORTIVES'
+                : theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
                 : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"

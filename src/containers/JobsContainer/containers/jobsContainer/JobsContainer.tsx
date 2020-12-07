@@ -5,6 +5,7 @@ import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import ParcoursContext from 'contexts/ParcourContext';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Jobs } from 'requests/types';
 import Trait from 'assets/images/trait_jaune.svg';
@@ -247,18 +248,23 @@ const JobsContainer = ({
               onClick={() => setOpenType(!openType)}
               reference={divType}
             />
-            <Select
-              options={listAccData}
-              onSelectText={onSelectAcc}
-              name="accessibility"
-              placeholder="Niveau d’accès"
-              value={accessibility}
-              className={classes.containerAutoComp}
-              open={openAcc}
-              onClick={() => setOpenAcc(!openAcc)}
-              reference={divAcc}
-              parcourAcc={parcours?.accessibility}
-            />
+            <>
+              <Tooltip title="Choisis le niveau que tu veux atteindre">
+                <Select
+                  options={listAccData}
+                  onSelectText={onSelectAcc}
+                  name="accessibility"
+                  placeholder="Niveau d’accès"
+                  value={accessibility}
+                  className={classes.containerAutoComp}
+                  open={openAcc}
+                  onClick={() => setOpenAcc(!openAcc)}
+                  reference={divAcc}
+                  parcourAcc={parcours?.accessibility}
+                  
+                />
+              </Tooltip>
+            </>
           </div>
           {loading ? (
             <div className={classes.spinnerContainer}>

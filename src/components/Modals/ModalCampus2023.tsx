@@ -383,15 +383,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>
-              <Button className={classes.btn} onClick={() => history.push('/profile/card')}>
-                <div className={classes.btnLabel}>
-                  Je vérifie et/ou continue d&apos;enrichir ma carte de compétences
-                </div>
+              <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
+                <div className={classes.btnLabel}>Oui, je valide définitivement l&apos;envoi de ma candidature</div>
               </Button>
             </div>
             <div className={classes.btnContainer}>
-              <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
-                <div className={classes.btnLabel}>Valider ma candidature définitivement</div>
+              <Button className={classes.btn} onClick={() => history.push('/profile/card')}>
+                <div className={classes.btnLabel}>Non, je continue d&apos;enrichir ma carte de compétences</div>
               </Button>
             </div>
           </div>

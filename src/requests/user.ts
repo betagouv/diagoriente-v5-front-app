@@ -107,3 +107,19 @@ export const usersQuery = gql`
 `;
 
 export const useUsers = (options: QueryHookOptions<any, any> = {}) => useLocalQuery<any, any>(usersQuery, options);
+
+export const updateWc2023QualityMutation = gql`
+  mutation UpdateWc2023Quality($user: ID!, $quality: String!, $comment: String!) {
+    updateWc2023Quality(user: $user, quality: $quality, comment: $comment)
+  }
+`;
+
+interface UpdateWc2023QualityMutationParams {
+  user: string;
+  quality: string;
+  comment: string;
+}
+
+export const useUpdateWc2023Quality = (
+  options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
+) => useLocalMutation(updateWc2023QualityMutation, options);

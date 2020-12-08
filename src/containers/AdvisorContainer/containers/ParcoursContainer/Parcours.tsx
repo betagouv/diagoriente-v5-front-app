@@ -3,8 +3,7 @@ import { Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core'
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
-import Button from 'components/button/Button';
-import { StructureWC2023 } from 'requests/types';
+import Button from '@material-ui/core/Button/Button';
 import { useGetUserParcour } from 'requests/parcours';
 
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
@@ -12,9 +11,12 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
+import { jsonToCSV, downloadCSV } from 'utils/csv';
+import { RemoveRedEye } from '@material-ui/icons';
 
 const Parcours = () => {
-  const [loadParcours, { data, loading }] = useMyGroup();
+  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
   const [showStructures, setShowStructures] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
@@ -39,6 +41,25 @@ const Parcours = () => {
   const handleLoadStructures = (idUser: string) => {
     getStructuresCall({ variables: { userId: idUser } });
     setShowStructures(true);
+  };
+
+  const exportCSV = () => {
+    if (myGroup) {
+      const csv = jsonToCSV(
+        myGroup.users.map((user: any) => {
+          const quality = qualities[user.wc2023.quality as keyof typeof qualities];
+          return {
+            nom: user.profile.lastName,
+            prénom: user.profile.firstName,
+            localisation: user.location,
+            'choix de la formation': user.wc2023.formation,
+            'statut de la candidature': quality ? quality.title : '',
+          };
+        }),
+      );
+
+      downloadCSV(csv, 'parcours');
+    }
   };
 
   const headers: Header<any>[] = [
@@ -78,12 +99,23 @@ const Parcours = () => {
       ),
     },
     {
+      title: 'Statut',
+      key: 'note',
+      dataIndex: 'wc2023',
+      render: (value, row) => {
+        return (
+          <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
+        );
+      },
+    },
+    {
       title: "Structures d'accueil potentielles",
       key: 'structures',
       dataIndex: 'eligibleStructuresCountWC2023',
       render: (value, row) => (
         <Button onClick={() => handleLoadStructures(row.id)}>
-          <span>{`Voir les structures (${value})`}</span>
+          <span style={{ marginRight: 10 }}>{value}</span>
+          <RemoveRedEye />
         </Button>
       ),
     },
@@ -104,6 +136,11 @@ const Parcours = () => {
       {loading && <p>Chargement des données ...</p>}
       {!loading && (
         <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Button onClick={exportCSV} variant="contained" color="primary">
+              Export
+            </Button>
+          </Grid>
           <Grid item xs={8}>
             {myGroup && (
               <Table

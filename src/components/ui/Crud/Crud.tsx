@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, Ref } from 'react';
 import { MutationTuple, QueryTuple, QueryOptions } from '@apollo/react-hooks';
 import { ApolloError } from 'apollo-boost';
 import { QueryResult } from '@apollo/react-common';
@@ -20,11 +20,16 @@ import KeyboardBack from '@material-ui/icons/KeyboardBackspace';
 import classNames from 'utils/classNames';
 import { isEmpty } from 'lodash';
 import useStyle from './styles';
+import useCaptureRef from 'hooks/useCaptureRef';
 
 export const PER_PAGE = 10;
 
 type MutationParams<T> = T extends MutationTuple<any, infer R> ? R : never;
 type LazyQueryReturnType<T> = T extends QueryTuple<infer R, any> ? R : never;
+
+export interface ApisRef<T> {
+  data: T[];
+}
 
 interface Props<
   K extends string,
@@ -56,6 +61,7 @@ interface Props<
   headers: Header<T>[];
   title: string;
   formTitles: { create?: string; update?: string };
+  apisRef?: Ref<ApisRef<T> | null>;
 }
 
 const Crud = <
@@ -86,6 +92,7 @@ const Crud = <
   history,
   handleUri,
   formTitles,
+  apisRef,
 }: Props<K, T, L, C, U, G, P>) => {
   const classes = useStyle();
 
@@ -147,6 +154,8 @@ const Crud = <
       history.replace({ pathname: path.join(match.url, `/update/${row.id}`), search: location.search });
     };
   }
+
+  useCaptureRef({ data }, apisRef);
 
   let [improvedHeaders] = useActionsHeader(headers, data, options);
 

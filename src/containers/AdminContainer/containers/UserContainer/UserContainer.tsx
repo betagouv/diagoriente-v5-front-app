@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Header } from 'components/ui/Table/Table';
 import { User } from 'requests/types';
 
-import Crud from 'components/ui/Crud/Crud';
+import Crud, { ApisRef } from 'components/ui/Crud/Crud';
 import moment from 'moment';
+
+import Button from '@material-ui/core/Button/Button';
 
 import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
 import UserFilter from 'components/filters/UserFilter/UserFilter';
@@ -17,10 +19,15 @@ import ModalContainer from '../../../../components/common/Modal/ModalContainer';
 import CardContainer from '../../../ProfilContainer/containers/CardContainer';
 import { useGetUserParcour } from '../../../../requests/parcours';
 
+import useStyles from './styles';
+import { downloadCSV, jsonToCSV } from 'utils/csv';
+
 const UserContainer = (props: RouteComponentProps) => {
+  const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
+  const apisRef = useRef<ApisRef<User>>(null);
 
   // @ts-ignore
   const handleOpenCompetenceCard = (idUser, row) => {
@@ -28,6 +35,22 @@ const UserContainer = (props: RouteComponentProps) => {
     getParcoursCall({ variables: { idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
+  };
+
+  const exportCSV = () => {
+    if (apisRef.current) {
+      const users = apisRef.current.data;
+      const csv = jsonToCSV(
+        users.map((user) => {
+          return {
+            nom: user.profile.lastName,
+            prénom: user.profile.firstName,
+            conseiller: '',
+          };
+        }),
+      );
+      downloadCSV(csv, 'utilisateurs');
+    }
   };
 
   const headers: Header<User>[] = [
@@ -107,6 +130,7 @@ const UserContainer = (props: RouteComponentProps) => {
   return (
     <>
       <Crud
+        apisRef={apisRef}
         formTitles={{ create: 'Ajouter un utilisateur', update: "Modifier l'utilisateur" }}
         title="Utilisateurs"
         list={useUsers}
@@ -117,6 +141,9 @@ const UserContainer = (props: RouteComponentProps) => {
         )}
         {...props}
       />
+      <Button onClick={exportCSV} variant="contained" color="primary" className={classes.export}>
+        Export
+      </Button>
       {getParcoursState.data?.userParcour && (
         <ModalContainer
           open={showModal}

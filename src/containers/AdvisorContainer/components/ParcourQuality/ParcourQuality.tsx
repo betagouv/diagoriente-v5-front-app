@@ -17,7 +17,7 @@ import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
 import { useForm } from 'hooks/useInputs';
 import { useUpdateWc2023Quality } from 'requests/user';
 
-const qualities = {
+export const qualities = {
   outstanding: { title: 'Remarquable', color: '#1baca6' },
   accepted: { title: 'Acceptée', color: '#96bc4b' },
   refused: { title: 'Refusée', color: '#b33430' },

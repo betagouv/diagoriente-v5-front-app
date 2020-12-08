@@ -11,8 +11,9 @@ import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
-import ParcourQuality from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
+import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
+import { RemoveRedEye } from '@material-ui/icons';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
@@ -46,12 +47,13 @@ const Parcours = () => {
     if (myGroup) {
       const csv = jsonToCSV(
         myGroup.users.map((user: any) => {
+          const quality = qualities[user.wc2023.quality as keyof typeof qualities];
           return {
             nom: user.profile.lastName,
             prénom: user.profile.firstName,
             localisation: user.location,
             'choix de la formation': user.wc2023.formation,
-            'statut de la candidature': user.wc2023.quality,
+            'statut de la candidature': quality ? quality.title : '',
           };
         }),
       );
@@ -112,7 +114,8 @@ const Parcours = () => {
       dataIndex: 'eligibleStructuresCountWC2023',
       render: (value, row) => (
         <Button onClick={() => handleLoadStructures(row.id)}>
-          <span>{`Voir les structures (${value})`}</span>
+          <span style={{ marginRight: 10 }}>{value}</span>
+          <RemoveRedEye />
         </Button>
       ),
     },

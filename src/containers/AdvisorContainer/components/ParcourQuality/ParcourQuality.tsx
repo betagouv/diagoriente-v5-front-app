@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button/Button';
 
 import useStyles from './styles';
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
-import { useForm } from 'common/hooks/useInputs';
+import { useForm } from 'hooks/useInputs';
 import { useUpdateWc2023Quality } from 'requests/user';
 
 const qualities = {

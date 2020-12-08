@@ -43,7 +43,6 @@ const Parcours = () => {
   };
 
   const exportCSV = () => {
-    console.log(myGroup.users);
     if (myGroup) {
       const csv = jsonToCSV(
         myGroup.users.map((user: any) => {
@@ -52,7 +51,7 @@ const Parcours = () => {
             prénom: user.profile.firstName,
             localisation: user.location,
             'choix de la formation': user.wc2023.formation,
-            'statut de la candidature': user.validateCampus ? 'Valider' : 'En attente',
+            'statut de la candidature': user.wc2023.quality,
           };
         }),
       );
@@ -98,7 +97,7 @@ const Parcours = () => {
       ),
     },
     {
-      title: 'Note',
+      title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
       render: (value, row) => {

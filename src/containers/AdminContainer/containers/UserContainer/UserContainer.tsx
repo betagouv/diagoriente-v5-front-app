@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { uniq } from 'lodash';
 
 import { Header } from 'components/ui/Table/Table';
 import { User } from 'requests/types';
@@ -21,12 +22,14 @@ import { useGetUserParcour } from '../../../../requests/parcours';
 
 import useStyles from './styles';
 import { downloadCSV, jsonToCSV } from 'utils/csv';
+import { useGroups } from 'requests/groupes';
 
 const UserContainer = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
+  const [getGroups, groupsState] = useGroups();
   const apisRef = useRef<ApisRef<User>>(null);
 
   // @ts-ignore
@@ -37,19 +40,28 @@ const UserContainer = (props: RouteComponentProps) => {
     setSelectedUser(pro);
   };
 
-  const exportCSV = () => {
-    if (apisRef.current) {
+  useEffect(() => {
+    if (groupsState.data && apisRef.current) {
       const users = apisRef.current.data;
       const csv = jsonToCSV(
         users.map((user) => {
+          const group = groupsState.data?.groupes.data.find(({ code }) => user.codeGroupe === code);
           return {
             nom: user.profile.lastName,
             prénom: user.profile.firstName,
-            conseiller: '',
+            conseiller: group
+              ? `${group.advisorId.profile.lastName} ${group.advisorId.profile.lastName} ${group.advisorId.email}`
+              : '',
           };
         }),
       );
       downloadCSV(csv, 'utilisateurs');
+    }
+  }, [groupsState.data]);
+
+  const exportCSV = () => {
+    if (apisRef.current) {
+      getGroups({ variables: { codes: uniq(apisRef.current.data.map((user) => user.codeGroupe)) } });
     }
   };
 

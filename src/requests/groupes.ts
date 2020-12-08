@@ -14,6 +14,8 @@ export const MyGroupInfoQuery = gql`
         location
         wc2023 {
           formation
+          quality
+          comment
         }
         validateCampus
         eligibleStructuresCountWC2023

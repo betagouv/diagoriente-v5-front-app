@@ -6,6 +6,10 @@ import { User } from 'requests/types';
 
 import Crud from 'components/ui/Crud/Crud';
 import moment from 'moment';
+
+import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
+import UserFilter from 'components/filters/UserFilter/UserFilter';
+
 import VerifiedIcon from '../../components/VerifiedIcon/VerifiedIcon';
 import { useUsers } from '../../../../requests/user';
 import carte from '../../../../assets/svg/carte.svg';
@@ -81,16 +85,15 @@ const UserContainer = (props: RouteComponentProps) => {
       key: 'age',
       dataIndex: 'wc2023',
       title: 'Âge',
-      render: (value) =>
-        `${moment()
-          .diff(value?.birthdate, 'years')
-          ?.toString()}`,
+      render: (value) => (value && value.birthday ? moment().diff(value.birthdate, 'years') + ' ans' : ''),
     },
     {
       key: 'perimeter',
       dataIndex: 'wc2023',
       title: 'Périmètre',
-      render: (value) => (`${value?.perimeter?.toString()} km`),
+      render: (value) => {
+        return value && value.perimeter ? `${value.perimeter.toString()} km` : '';
+      },
     },
     {
       key: 'eligibleStructures',
@@ -108,6 +111,10 @@ const UserContainer = (props: RouteComponentProps) => {
         title="Utilisateurs"
         list={useUsers}
         headers={headers}
+        handleUri={({ wc2023, ...uri }) => ({ ...uri, wc2023: wc2023 && wc2023 !== 'false' })}
+        Filter={(p) => (
+          <DefaultFilter {...p}>{(onChange, uri) => <UserFilter uri={uri} onChange={onChange} />}</DefaultFilter>
+        )}
         {...props}
       />
       {getParcoursState.data?.userParcour && (

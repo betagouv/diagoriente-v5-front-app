@@ -77,8 +77,8 @@ export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User },
   useLocalMutation(updateUserMutation, options);
 
 export const usersQuery = gql`
-  query($page: Int, $perPage: Int) {
-    users(page: $page, perPage: $perPage) {
+  query($page: Int, $perPage: Int, $wc2023: Boolean) {
+    users(page: $page, perPage: $perPage, wc2023: $wc2023) {
       perPage
       page
       totalPages
@@ -107,3 +107,19 @@ export const usersQuery = gql`
 `;
 
 export const useUsers = (options: QueryHookOptions<any, any> = {}) => useLocalQuery<any, any>(usersQuery, options);
+
+export const updateWc2023QualityMutation = gql`
+  mutation UpdateWc2023Quality($user: ID!, $quality: String!, $comment: String!) {
+    updateWc2023Quality(user: $user, quality: $quality, comment: $comment)
+  }
+`;
+
+interface UpdateWc2023QualityMutationParams {
+  user: string;
+  quality: string;
+  comment: string;
+}
+
+export const useUpdateWc2023Quality = (
+  options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
+) => useLocalMutation(updateWc2023QualityMutation, options);

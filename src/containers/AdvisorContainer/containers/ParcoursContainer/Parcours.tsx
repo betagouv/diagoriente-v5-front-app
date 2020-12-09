@@ -54,6 +54,7 @@ const Parcours = () => {
             localisation: user.location,
             'choix de la formation': user.wc2023.formation,
             'statut de la candidature': quality ? quality.title : '',
+            'Commentaire':user?.wc2023?.comment
           };
         }),
       );

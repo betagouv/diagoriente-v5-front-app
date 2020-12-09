@@ -117,7 +117,7 @@ const PrivateDrawer = () => {
         <List className={classes.root}>
           {links.map((e) => (
             <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
-              <Link to={e.path}>
+              <a href={e.path} target='_blank'>
                 <div
                   className={classNames(
                     isJobs && !user?.isCampus ? classes.linkJob : classes.link,
@@ -126,7 +126,7 @@ const PrivateDrawer = () => {
                 >
                   {e.text}
                 </div>
-              </Link>
+              </a>
             </li>
           ))}
         </List>

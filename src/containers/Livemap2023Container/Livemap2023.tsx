@@ -126,7 +126,7 @@ const Livemap2023 = () => {
     });
 
   if (!user || user.role !== 'admin') {
-    return <Redirect to="/login" />;
+    return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
   }
 
   return (

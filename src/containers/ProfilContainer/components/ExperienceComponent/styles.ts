@@ -130,7 +130,7 @@ export default makeStyles(() =>
       margin: 16,
       borderRadius: 10,
       flex: 1,
-      maxWidth: 'calc(33.333333% - 32px)',
+      // maxWidth: 'calc(33.333333% - 32px)',
       /*  [theme.breakpoints.down(1265)]: {
         maxWidth: '100%',
         background: 'transparent',

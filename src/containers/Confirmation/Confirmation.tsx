@@ -117,6 +117,12 @@ const Confirmation = () => {
       history.push('/');
     }
   }, [updateUsersState.data]);
+  useEffect(() => {
+    if (openLocation) {
+      // Reset gps to 0 before user selects a new one
+      setCoordinates({ lattitude: 0, longitude: 0 });
+    }
+  }, [openLocation]);
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...state.values.accessibility];
@@ -149,20 +155,23 @@ const Confirmation = () => {
         setTextError('Veuillez renseigner tous les champs obligatoires');
       } else {
         const isValidDate = moment(state.values.date).isBefore(moment());
-        if (isValidDate) {
+        const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+
+        if (isValidDate && hasGoodGPS) {
           const dataToSend = {
             birthdate: state.values.date,
             degree: state.values.accessibility[0],
             perimeter: Number(state.values.perimeter),
             formation: state.values.formation[0],
           };
-          updateUserCall({ variables: { wc2023: dataToSend, coordinates } });
+          updateUserCall({ variables: { wc2023: dataToSend, location: state.values.location, coordinates } });
         } else {
-          setTextError('Date invalide ');
+          if (!isValidDate) setTextError('Date invalide ');
+          else if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
         }
       }
     } else {
-      history.push("/");
+      history.push('/');
     }
   };
   useEffect(() => {

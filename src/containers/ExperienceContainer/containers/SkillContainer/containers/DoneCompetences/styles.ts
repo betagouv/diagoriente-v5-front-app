@@ -49,7 +49,6 @@ export default makeStyles((theme) => ({
   avatar: {},
 
   btnskillContainer: {
-    paddingTop: 30,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -70,7 +69,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    marginTop: 40,
+    marginBottom: 40,
   },
 
   btn: {

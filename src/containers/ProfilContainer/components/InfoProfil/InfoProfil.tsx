@@ -146,6 +146,9 @@ const InfoProfil = () => {
         codeGroupe: user?.codeGroupe,
       });
       actions.setAllTouched(false);
+      if (user?.isCampus) {
+        setCoordinates({ lattitude: user?.coordinates.lattitude, longitude: user?.coordinates.longitude });
+      }
     }
     // eslint-disable-next-line
   }, [open, user]);
@@ -156,6 +159,12 @@ const InfoProfil = () => {
     }
     // eslint-disable-next-line
   }, [updateUserState.data]);
+  useEffect(() => {
+    if (openLocation && user?.isCampus) {
+      // Reset gps to 0 before user selects a new one
+      setCoordinates({ lattitude: 0, longitude: 0 });
+    }
+  }, [openLocation]);
   return (
     <>
       <SnackBar variant="error" message={error} open={!!error} />
@@ -341,7 +350,13 @@ const InfoProfil = () => {
           onClick={() => {
             if (open) {
               const res = { ...values, coordinates };
-              updateUser({ variables: _.pickBy(res, (value) => value) });
+              const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+              if (user?.isCampus && !hasGoodGPS) {
+                setError("Ville invalide (sélectionne dans la liste à la saisie)");
+              }
+              else {
+                updateUser({ variables: _.pickBy(res, (value) => value) });
+              }
             } else {
               setOpen(true);
             }

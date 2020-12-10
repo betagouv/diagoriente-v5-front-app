@@ -211,7 +211,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [state.values.firstName, state.values.lastName, state.values.location]);
   useEffect(() => {
     if (openLocation) {
-      // Reset gp^s to 0 before user selects a new one
+      // Reset gps to 0 before user selects a new one
       setCoordinates({ lattitude: 0, longitude: 0 });
     }
   }, [openLocation]);

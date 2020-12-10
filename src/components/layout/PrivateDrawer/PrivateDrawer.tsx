@@ -15,36 +15,36 @@ import { useUpdateParcour } from 'requests/parcours';
 
 import useStyles from './styles';
 
-export const userLinks = [
-  { text: 'TABLEAU DE BORD', path: '/' },
-  { text: 'AIDE', path: '/' },
-  { text: 'FAQ', path: '/' },
-  { text: 'DÉCONNEXION', path: '/' },
-];
-
-const adminLinks = [
-  { text: 'Thèmes', path: '/admin/themes' },
-  { text: 'Activités', path: '/admin/activities' },
-  { text: 'Contextes', path: '/admin/contexts' },
-  { text: 'Compétences', path: '/admin/competences' },
-  { text: 'Institution', path: '/admin/institution' },
-  { text: 'Options', path: '/admin/options' },
-  { text: 'Questions', path: '/admin/questions' },
-  { text: 'Utilisateurs', path: '/admin/users' },
-  { text: 'DÉCONNEXION', path: '/' },
-];
-
-const advisorLinks = [
-  { text: 'Parcours', path: '/advisor/parcours' },
-  { text: 'DÉCONNEXION', path: '/' },
-];
-
 const PrivateDrawer = () => {
+  const p = process.env.REACT_APP_PUBLIC_URL;
+  const userLinks = [
+    { text: 'TABLEAU DE BORD', path: '/' },
+    { text: 'AIDE', path: `${p}campus2023/` },
+    { text: 'FAQ', path: `${p}faq/` },
+    { text: 'DÉCONNEXION', path: '/' },
+  ];
+
+  const adminLinks = [
+    { text: 'Thèmes', path: '/admin/themes' },
+    { text: 'Activités', path: '/admin/activities' },
+    { text: 'Contextes', path: '/admin/contexts' },
+    { text: 'Compétences', path: '/admin/competences' },
+    { text: 'Institution', path: '/admin/institution' },
+    { text: 'Options', path: '/admin/options' },
+    { text: 'Questions', path: '/admin/questions' },
+    { text: 'Utilisateurs', path: '/admin/users' },
+    { text: 'DÉCONNEXION', path: '/' },
+  ];
+
+  const advisorLinks = [
+    { text: 'Parcours', path: '/advisor/parcours' },
+    { text: 'DÉCONNEXION', path: '/' },
+  ];
   const { setParcours, parcours } = useContext(parcoursContext);
   const { setUser, user } = useContext(userContext);
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
-  const classes = useStyles({ isCampus: user?.isCampus && user?.role === "user" });
+  const classes = useStyles({ isCampus: user?.isCampus && user?.role === 'user' });
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
   const logout = () => {
@@ -117,7 +117,7 @@ const PrivateDrawer = () => {
         <List className={classes.root}>
           {links.map((e) => (
             <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
-              <Link to={e.path}>
+              <a href={e.path} target={e.text === 'AIDE' || e.text === 'FAQ' ? '_blank' : ''}>
                 <div
                   className={classNames(
                     isJobs && !user?.isCampus ? classes.linkJob : classes.link,
@@ -126,7 +126,7 @@ const PrivateDrawer = () => {
                 >
                   {e.text}
                 </div>
-              </Link>
+              </a>
             </li>
           ))}
         </List>

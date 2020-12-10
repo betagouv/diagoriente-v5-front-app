@@ -251,6 +251,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
+      
       <div className={classes.interestInfo}>
         <div className={classes.wrapInterest}>
           <div className={classes.interestTitleContainer}>
@@ -288,6 +289,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
+      
       <div className={classes.competenceInfo}>
         <div className={classes.competenceContainer}>
           <div className={classes.interestTitleContainer}>
@@ -305,6 +307,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
+      
       <ModalContainer
         open={openTest || openInfo}
         handleClose={handleClose}

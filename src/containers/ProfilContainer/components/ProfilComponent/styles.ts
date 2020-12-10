@@ -285,8 +285,8 @@ export default makeStyles((theme) =>
       },
     },
     themeImage: {
-      maxHeight: '100%',
-      maxWidth: '100%',
+      maxHeight: '70px',
+      maxWidth: '70px',
     },
 
     textButton: {
@@ -296,6 +296,9 @@ export default makeStyles((theme) =>
     },
     btn: {
       backgroundColor: '#011A5E',
+      [theme.breakpoints.down('md')]: {
+        width: 230,
+      },
       '&:hover': {
         backgroundColor: '#223A7A',
       },

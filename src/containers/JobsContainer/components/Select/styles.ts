@@ -71,6 +71,9 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     position: 'absolute',
     top: 46,
     width: 633,
+    [theme.breakpoints.down('md')]: {
+      width: 570,
+    },
     height: 448,
     display: 'flex',
     flexWrap: 'wrap',
@@ -81,6 +84,9 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
   itemSecteur: {
     margin: 2,
     width: 284,
+    [theme.breakpoints.down('md')]: {
+      width: 250,
+    },
     cursor: 'pointer',
     '&:hover': {
       color: theme.palette.primary.main,

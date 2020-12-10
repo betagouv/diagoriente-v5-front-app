@@ -6,10 +6,9 @@ import NotFoundPage from 'components/layout/NotFoundPage';
 import HomeGame from './containers/GameContainer';
 import userContext from 'contexts/UserContext';
 
-import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import open from 'assets/svg/menu_close.svg';
-import whiteMenu from 'assets/images/menu.png';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,7 +28,6 @@ const GameRoot = () => {
         <Route
           privateHeaderProps={{
             closeLogoIcon: user?.isCampus ? logCampus : logo,
-            openIcon: user?.isCampus ? whiteMenu : open,
             showUser: false,
           }}
           protected

@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { uniq } from 'lodash';
 
 import { Header } from 'components/ui/Table/Table';
 import { User } from 'requests/types';
 
-import Crud from 'components/ui/Crud/Crud';
+import Crud, { ApisRef } from 'components/ui/Crud/Crud';
 import moment from 'moment';
+
+import Button from '@material-ui/core/Button/Button';
+
+import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
+import UserFilter from 'components/filters/UserFilter/UserFilter';
+
 import VerifiedIcon from '../../components/VerifiedIcon/VerifiedIcon';
 import { useUsers } from '../../../../requests/user';
 import carte from '../../../../assets/svg/carte.svg';
@@ -13,10 +20,17 @@ import ModalContainer from '../../../../components/common/Modal/ModalContainer';
 import CardContainer from '../../../ProfilContainer/containers/CardContainer';
 import { useGetUserParcour } from '../../../../requests/parcours';
 
+import useStyles from './styles';
+import { downloadCSV, jsonToCSV } from 'utils/csv';
+import { useGroups } from 'requests/groupes';
+
 const UserContainer = (props: RouteComponentProps) => {
+  const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
+  const [getGroups, groupsState] = useGroups();
+  const apisRef = useRef<ApisRef<User>>(null);
 
   // @ts-ignore
   const handleOpenCompetenceCard = (idUser, row) => {
@@ -24,6 +38,31 @@ const UserContainer = (props: RouteComponentProps) => {
     getParcoursCall({ variables: { idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
+  };
+
+  useEffect(() => {
+    if (groupsState.data && apisRef.current) {
+      const users = apisRef.current.data;
+      const csv = jsonToCSV(
+        users.map((user) => {
+          const group = groupsState.data?.groupes.data.find(({ code }) => user.codeGroupe === code);
+          return {
+            nom: user.profile.lastName,
+            prénom: user.profile.firstName,
+            conseiller: group
+              ? `${group.advisorId.profile.lastName} ${group.advisorId.profile.lastName} ${group.advisorId.email}`
+              : '',
+          };
+        }),
+      );
+      downloadCSV(csv, 'utilisateurs');
+    }
+  }, [groupsState.data]);
+
+  const exportCSV = () => {
+    if (apisRef.current) {
+      getGroups({ variables: { codes: uniq(apisRef.current.data.map((user) => user.codeGroupe)) } });
+    }
   };
 
   const headers: Header<User>[] = [
@@ -81,16 +120,15 @@ const UserContainer = (props: RouteComponentProps) => {
       key: 'age',
       dataIndex: 'wc2023',
       title: 'Âge',
-      render: (value) =>
-        `${moment()
-          .diff(value?.birthdate, 'years')
-          ?.toString()}`,
+      render: (value) => (value && value.birthday ? moment().diff(value.birthdate, 'years') + ' ans' : ''),
     },
     {
       key: 'perimeter',
       dataIndex: 'wc2023',
       title: 'Périmètre',
-      render: (value) => (`${value?.perimeter?.toString()} km`),
+      render: (value) => {
+        return value && value.perimeter ? `${value.perimeter.toString()} km` : '';
+      },
     },
     {
       key: 'eligibleStructures',
@@ -104,12 +142,20 @@ const UserContainer = (props: RouteComponentProps) => {
   return (
     <>
       <Crud
+        apisRef={apisRef}
         formTitles={{ create: 'Ajouter un utilisateur', update: "Modifier l'utilisateur" }}
         title="Utilisateurs"
         list={useUsers}
         headers={headers}
+        handleUri={({ wc2023, ...uri }) => ({ ...uri, wc2023: wc2023 && wc2023 !== 'false' })}
+        Filter={(p) => (
+          <DefaultFilter {...p}>{(onChange, uri) => <UserFilter uri={uri} onChange={onChange} />}</DefaultFilter>
+        )}
         {...props}
       />
+      <Button onClick={exportCSV} variant="contained" color="primary" className={classes.export}>
+        Export
+      </Button>
       {getParcoursState.data?.userParcour && (
         <ModalContainer
           open={showModal}

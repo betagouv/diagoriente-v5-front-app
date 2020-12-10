@@ -217,7 +217,7 @@ const ProfilComponent = () => {
       children: persoSkills.length ? (
         <Grid container spacing={1}>
           {persoSkills.map((theme) => (
-            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
                 <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
@@ -249,7 +249,7 @@ const ProfilComponent = () => {
           {proSkills.map((theme) => {
             const icon = secteurs?.themes.data.find((secteur) => theme.theme.parentId === secteur.id)?.resources?.icon;
             return (
-              <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+              <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
                 <div className={classes.themeSelection}>
                   <Circle avatarCircleBackground="transparent" size={100}>
                     {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
@@ -278,7 +278,7 @@ const ProfilComponent = () => {
       children: engagementSkills.length ? (
         <Grid container spacing={1}>
           {engagementSkills.map((theme) => (
-            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
                 <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
@@ -311,7 +311,7 @@ const ProfilComponent = () => {
         {sportSkills.map((theme) => {
           const icon =theme?.theme.resources?.icon;
           return (
-            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
                 <Circle avatarCircleBackground="transparent" size={100}>
                   {icon && <img className={classes.themeImage} src={icon} alt="theme" />}

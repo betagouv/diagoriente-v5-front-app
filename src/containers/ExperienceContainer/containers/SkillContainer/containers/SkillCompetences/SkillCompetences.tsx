@@ -79,6 +79,8 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
                 ? 'MES EXPERIENCES D’ENGAGEMENT'
                 : theme && theme.type === 'sport'
                 ? 'MES EXPERIENCES SPORTIVES'
+                : theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
                 : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
@@ -116,7 +118,6 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
             {data?.competences.data.map((comp, index) => {
               const selected = competences.find((e) => e.id === comp.id);
               const tooltip = theme?.tooltips.find((e) => e.competenceId === comp.id);
-
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
                   <Tooltip

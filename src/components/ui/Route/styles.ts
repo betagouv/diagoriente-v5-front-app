@@ -18,5 +18,6 @@ export default makeStyles<Theme, { protectedProp?: boolean }>((theme) => ({
   page: {
     flex: '1 0 auto',
     justifyContent: 'center',
+    overflowX: 'hidden',
   },
 }));

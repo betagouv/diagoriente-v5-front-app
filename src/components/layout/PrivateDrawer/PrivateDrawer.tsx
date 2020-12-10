@@ -19,8 +19,8 @@ const PrivateDrawer = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const userLinks = [
     { text: 'TABLEAU DE BORD', path: '/' },
-    { text: 'AIDE', path: `${p}/campus2023/` },
-    { text: 'FAQ', path: `${p}/faq/` },
+    { text: 'AIDE', path: `${p}campus2023/` },
+    { text: 'FAQ', path: `${p}faq/` },
     { text: 'DÉCONNEXION', path: '/' },
   ];
 
@@ -117,7 +117,7 @@ const PrivateDrawer = () => {
         <List className={classes.root}>
           {links.map((e) => (
             <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
-              <a href={e.path} target='_blank'>
+              <a href={e.path} target={e.text === 'AIDE' || e.text === 'FAQ' ? '_blank' : ''}>
                 <div
                   className={classNames(
                     isJobs && !user?.isCampus ? classes.linkJob : classes.link,

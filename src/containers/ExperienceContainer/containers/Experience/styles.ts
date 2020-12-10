@@ -19,7 +19,7 @@ export default makeStyles((theme: Theme) =>
       position: 'absolute',
       backgroundColor: 'white',
       top: 50,
-      right: 50,
+      right: 30,
       borderRadius: 10,
       boxShadow: '0px 0px 5px -3px rgba(0, 0, 0, 0.75)',
       display: 'flex',
@@ -61,6 +61,7 @@ export default makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       marginTop: 20,
+      flexWrap: 'wrap',
     },
 
     square: {

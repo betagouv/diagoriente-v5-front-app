@@ -23,7 +23,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    height: 92,
+    height: 'auto',
+    flexWrap: 'wrap',
     padding: 20,
   },
   titleContainer: {

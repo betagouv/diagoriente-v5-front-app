@@ -158,53 +158,57 @@ const Livemap2023 = () => {
             // url="https://tile.jawg.io/dark//{z}/{x}/{y}.png?api-key=community"
           />
           <LayersControl.Overlay checked name="Candidats">
-            {perimeterView && <Circle center={[perimeterView.lat, perimeterView.lng]} radius={perimeterView.radius} />}
-            <MarkerClusterGroup showCoverageOnHover={false} iconCreateFunction={iconCreateFunction}>
-              {candidateData &&
-                candidateData.allCandidates.map((c: User) => (
-                  <div key={c.id}>
-                    {(!perimeterView || perimeterView?.user === c.id) && (
-                      <Marker
-                        position={[c.coordinates?.lattitude || 0, c.coordinates?.longitude || 0]}
-                        icon={isValidUserData(c) ? candidateIcon : invalidDataIcon}
-                        onMouseOver={handleMarkerMoouseHover}
-                        onMouseOut={handleMarkerMouseOut}
-                        onClick={() => handleClickOnCandidateMarker(c)}
-                      >
-                        <Popup>
-                          <h3>{`${c.profile.firstName} ${c.profile.lastName.toUpperCase()}`}</h3>
-                          <dl>
-                            <dt>
-                              <strong>Adresse email :</strong>
-                            </dt>
-                            <dd>{c.email}</dd>
-                            <dt>
-                              <strong>Date de naissance :</strong>
-                            </dt>
-                            <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('DD/MM/YYYY') : 'N/A'}</dd>
-                            <dt>
-                              <strong>Niveau de diplôme :</strong>
-                            </dt>
-                            <dd>{c.wc2023?.degree || 'N/A'}</dd>
-                            <dt>
-                              <strong>Formation visée :</strong>
-                            </dt>
-                            <dd>{c.wc2023?.formation || 'N/A'}</dd>
-                            <dt>
-                              <strong>Périmètre de recherche :</strong>
-                            </dt>
-                            <dd>{c.wc2023?.perimeter ? `${c.wc2023?.perimeter} km` : 'N/A'}</dd>
-                            <dt>
-                              <strong>Parcours validé :</strong>
-                            </dt>
-                            <dd>{c.validateCampus ? 'Oui' : 'Non'}</dd>
-                          </dl>
-                        </Popup>
-                      </Marker>
-                    )}
-                  </div>
-                ))}
-            </MarkerClusterGroup>
+            <LayerGroup>
+              {perimeterView && (
+                <Circle center={[perimeterView.lat, perimeterView.lng]} radius={perimeterView.radius} />
+              )}
+              <MarkerClusterGroup showCoverageOnHover={false} iconCreateFunction={iconCreateFunction}>
+                {candidateData &&
+                  candidateData.allCandidates.map((c: User) => (
+                    <div key={c.id}>
+                      {(!perimeterView || perimeterView?.user === c.id) && (
+                        <Marker
+                          position={[c.coordinates?.lattitude || 0, c.coordinates?.longitude || 0]}
+                          icon={isValidUserData(c) ? candidateIcon : invalidDataIcon}
+                          onMouseOver={handleMarkerMoouseHover}
+                          onMouseOut={handleMarkerMouseOut}
+                          onClick={() => handleClickOnCandidateMarker(c)}
+                        >
+                          <Popup>
+                            <h3>{`${c.profile.firstName} ${c.profile.lastName.toUpperCase()}`}</h3>
+                            <dl>
+                              <dt>
+                                <strong>Adresse email :</strong>
+                              </dt>
+                              <dd>{c.email}</dd>
+                              <dt>
+                                <strong>Date de naissance :</strong>
+                              </dt>
+                              <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('DD/MM/YYYY') : 'N/A'}</dd>
+                              <dt>
+                                <strong>Niveau de diplôme :</strong>
+                              </dt>
+                              <dd>{c.wc2023?.degree || 'N/A'}</dd>
+                              <dt>
+                                <strong>Formation visée :</strong>
+                              </dt>
+                              <dd>{c.wc2023?.formation || 'N/A'}</dd>
+                              <dt>
+                                <strong>Périmètre de recherche :</strong>
+                              </dt>
+                              <dd>{c.wc2023?.perimeter ? `${c.wc2023?.perimeter} km` : 'N/A'}</dd>
+                              <dt>
+                                <strong>Parcours validé :</strong>
+                              </dt>
+                              <dd>{c.validateCampus ? 'Oui' : 'Non'}</dd>
+                            </dl>
+                          </Popup>
+                        </Marker>
+                      )}
+                    </div>
+                  ))}
+              </MarkerClusterGroup>
+            </LayerGroup>
           </LayersControl.Overlay>
           <LayersControl.Overlay checked name="Structures">
             <LayerGroup>

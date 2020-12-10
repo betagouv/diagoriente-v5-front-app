@@ -74,12 +74,12 @@ const Register = () => {
     if (actions.validateForm()) {
       if (values.acceptCondition) {
         const res = { ...values, coordinates, validateCampus: false };
-        if (values.location.length !== 0) {
+        if (values.location.length !== 0 && coordinates.longitude !== 0 && coordinates.lattitude !== 0) {
           registerCall({
             variables: res,
           });
         } else {
-          setErrorCondition("Veuillez saisie ta localisation");
+          setErrorCondition("Saisie ta localisation (sélectionner dans la liste)");
         }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");

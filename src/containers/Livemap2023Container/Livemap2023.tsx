@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useContext } from 'react';
-import { Circle, Map as LeafletMap, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Circle, Map as LeafletMap, Marker, Popup, TileLayer, LayersControl, LayerGroup } from 'react-leaflet';
 import './map.css';
 import L, { DivIcon } from 'leaflet';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
@@ -150,77 +150,85 @@ const Livemap2023 = () => {
         easeLinearity={0.35}
         onClick={handleClickOnMap}
       >
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          // url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
-          url="https://tile.jawg.io/dark//{z}/{x}/{y}.png?api-key=community"
-        />
-        {perimeterView && <Circle center={[perimeterView.lat, perimeterView.lng]} radius={perimeterView.radius} />}
-        <MarkerClusterGroup showCoverageOnHover={false} iconCreateFunction={iconCreateFunction}>
-          {candidateData &&
-            candidateData.allCandidates.map((c: User) => (
-              <div key={c.id}>
-                {(!perimeterView || perimeterView?.user === c.id) && (
+        <LayersControl position="topright">
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
+            // url="https://tile.jawg.io/dark//{z}/{x}/{y}.png?api-key=community"
+          />
+          <LayersControl.Overlay checked name="Candidats">
+            {perimeterView && <Circle center={[perimeterView.lat, perimeterView.lng]} radius={perimeterView.radius} />}
+            <MarkerClusterGroup showCoverageOnHover={false} iconCreateFunction={iconCreateFunction}>
+              {candidateData &&
+                candidateData.allCandidates.map((c: User) => (
+                  <div key={c.id}>
+                    {(!perimeterView || perimeterView?.user === c.id) && (
+                      <Marker
+                        position={[c.coordinates?.lattitude || 0, c.coordinates?.longitude || 0]}
+                        icon={isValidUserData(c) ? candidateIcon : invalidDataIcon}
+                        onMouseOver={handleMarkerMoouseHover}
+                        onMouseOut={handleMarkerMouseOut}
+                        onClick={() => handleClickOnCandidateMarker(c)}
+                      >
+                        <Popup>
+                          <h3>{`${c.profile.firstName} ${c.profile.lastName.toUpperCase()}`}</h3>
+                          <dl>
+                            <dt>
+                              <strong>Adresse email :</strong>
+                            </dt>
+                            <dd>{c.email}</dd>
+                            <dt>
+                              <strong>Date de naissance :</strong>
+                            </dt>
+                            <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('DD/MM/YYYY') : 'N/A'}</dd>
+                            <dt>
+                              <strong>Niveau de diplôme :</strong>
+                            </dt>
+                            <dd>{c.wc2023?.degree || 'N/A'}</dd>
+                            <dt>
+                              <strong>Formation visée :</strong>
+                            </dt>
+                            <dd>{c.wc2023?.formation || 'N/A'}</dd>
+                            <dt>
+                              <strong>Périmètre de recherche :</strong>
+                            </dt>
+                            <dd>{c.wc2023?.perimeter ? `${c.wc2023?.perimeter} km` : 'N/A'}</dd>
+                            <dt>
+                              <strong>Parcours validé :</strong>
+                            </dt>
+                            <dd>{c.validateCampus ? 'Oui' : 'Non'}</dd>
+                          </dl>
+                        </Popup>
+                      </Marker>
+                    )}
+                  </div>
+                ))}
+            </MarkerClusterGroup>
+          </LayersControl.Overlay>
+          <LayersControl.Overlay checked name="Structures">
+            <LayerGroup>
+              {clubData &&
+                clubData.allStructures.map((c: StructureWC2023) => (
                   <Marker
-                    position={[c.coordinates?.lattitude || 0, c.coordinates?.longitude || 0]}
-                    icon={isValidUserData(c) ? candidateIcon : invalidDataIcon}
+                    key={c.club_code}
+                    position={[c.geolocation.lat || 0, c.geolocation.lng || 0]}
+                    icon={eligibleClubCodes.find((v: any) => v === c.club_code) ? eligibleIcon : clubIcon}
                     onMouseOver={handleMarkerMoouseHover}
                     onMouseOut={handleMarkerMouseOut}
-                    onClick={() => handleClickOnCandidateMarker(c)}
                   >
                     <Popup>
-                      <h3>{`${c.profile.firstName} ${c.profile.lastName.toUpperCase()}`}</h3>
-                      <dl>
-                        <dt>
-                          <strong>Adresse email :</strong>
-                        </dt>
-                        <dd>{c.email}</dd>
-                        <dt>
-                          <strong>Date de naissance :</strong>
-                        </dt>
-                        <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('L') : 'N/A'}</dd>
-                        <dt>
-                          <strong>Niveau de diplôme :</strong>
-                        </dt>
-                        <dd>{c.wc2023?.degree || 'N/A'}</dd>
-                        <dt>
-                          <strong>Formation visée :</strong>
-                        </dt>
-                        <dd>{c.wc2023?.formation || 'N/A'}</dd>
-                        <dt>
-                          <strong>Périmètre de recherche :</strong>
-                        </dt>
-                        <dd>{c.wc2023?.perimeter ? `${c.wc2023?.perimeter} km` : 'N/A'}</dd>
-                        <dt>
-                          <strong>Parcours validé :</strong>
-                        </dt>
-                        <dd>{c.validateCampus ? 'Oui' : 'Non'}</dd>
-                      </dl>
+                      <strong>{c.name}</strong>
+                      <div>
+                        <em>{c.licensed_text}</em>
+                      </div>
+                      <div>{c.city}</div>
                     </Popup>
                   </Marker>
-                )}
-              </div>
-            ))}
-        </MarkerClusterGroup>
-        {clubData &&
-          clubData.allStructures.map((c: StructureWC2023) => (
-            <Marker
-              key={c.club_code}
-              position={[c.geolocation.lat || 0, c.geolocation.lng || 0]}
-              icon={eligibleClubCodes.find((v: any) => v === c.club_code) ? eligibleIcon : clubIcon}
-              onMouseOver={handleMarkerMoouseHover}
-              onMouseOut={handleMarkerMouseOut}
-            >
-              <Popup>
-                <strong>{c.name}</strong>
-                <div>
-                  <em>{c.licensed_text}</em>
-                </div>
-                <div>{c.city}</div>
-              </Popup>
-            </Marker>
-          ))}
+                ))}
+            </LayerGroup>
+          </LayersControl.Overlay>
+        </LayersControl>
       </LeafletMap>
     </>
   );

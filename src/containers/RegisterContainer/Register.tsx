@@ -79,7 +79,7 @@ const Register = () => {
             variables: res,
           });
         } else {
-          setErrorCondition("Veuillez saisie ta localisation");
+          setErrorCondition("Saisie ta localisation");
         }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");

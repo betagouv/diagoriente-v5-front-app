@@ -177,20 +177,24 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else {
       if (!user?.validateCampus) {
-        const dataToSend = {
-          firstName: state.values.firstName,
-          lastName: state.values.lastName,
-          location: state.values.location,
-          coordinates,
-          wc2023: {
-            degree: state.values.accessibility[0] || user?.wc2023.degree,
-            formation: state.values.formation[0],
-            perimeter: Number(state.values.perimeter),
-            birthdate: user?.wc2023.birthdate,
-          },
-          validateCampus: hasCompletedParcours,
-        };
-        updateUserCall({ variables: { ...dataToSend } });
+        const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+        if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
+        else {
+          const dataToSend = {
+            firstName: state.values.firstName,
+            lastName: state.values.lastName,
+            location: state.values.location,
+            coordinates,
+            wc2023: {
+              degree: state.values.accessibility[0] || user?.wc2023.degree,
+              formation: state.values.formation[0],
+              perimeter: Number(state.values.perimeter),
+              birthdate: user?.wc2023.birthdate,
+            },
+            validateCampus: hasCompletedParcours,
+          };
+          updateUserCall({ variables: { ...dataToSend } });
+        }
       }
     }
   };
@@ -205,6 +209,12 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       setTextError('');
     }
   }, [state.values.firstName, state.values.lastName, state.values.location]);
+  useEffect(() => {
+    if (openLocation) {
+      // Reset gps to 0 before user selects a new one
+      setCoordinates({ lattitude: 0, longitude: 0 });
+    }
+  }, [openLocation]);
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
   const divForm = useRef<HTMLDivElement>(null);
@@ -383,15 +393,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
           </div>
           <div className={classes.container}>
             <div className={classes.btnContainer}>
-              <Button className={classes.btn} onClick={() => history.push('/profile/card')}>
-                <div className={classes.btnLabel}>
-                  Je vérifie et/ou continue d&apos;enrichir ma carte de compétences
-                </div>
+              <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
+                <div className={classes.btnLabel}>Oui, je valide définitivement l&apos;envoi de ma candidature</div>
               </Button>
             </div>
             <div className={classes.btnContainer}>
-              <Button className={classes.btn} disabled={isDisabled} onClick={onUpadetUser}>
-                <div className={classes.btnLabel}>Valider ma candidature définitivement</div>
+              <Button className={classes.btn} onClick={() => history.push('/profile/card')}>
+                <div className={classes.btnLabel}>Non, je continue d&apos;enrichir ma carte de compétences</div>
               </Button>
             </div>
           </div>

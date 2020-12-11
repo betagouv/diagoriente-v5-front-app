@@ -35,7 +35,7 @@ const Parcours = () => {
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
-    getUpdateVisualisation({ variables: { userId: idUser } });
+    // getUpdateVisualisation({ variables: { userId: idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
   };

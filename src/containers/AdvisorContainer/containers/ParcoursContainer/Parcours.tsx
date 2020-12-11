@@ -10,6 +10,7 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useEligibleStructures } from '../../../../requests/campus2023';
+// import { useUpdateVisualisation } from 'requests/user';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
@@ -21,12 +22,12 @@ const Parcours = () => {
   const [showStructures, setShowStructures] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  // const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
   });
   const myGroup = data?.myGroup;
-
   useDidMount(() => {
     loadParcours();
   });
@@ -34,6 +35,7 @@ const Parcours = () => {
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
+    getUpdateVisualisation({ variables: { userId: idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
   };
@@ -76,6 +78,12 @@ const Parcours = () => {
       dataIndex: 'profile',
       render: (value) => value.firstName,
     },
+    {
+      title: 'E-mail',
+      key: 'email',
+      dataIndex: 'email',
+      render: (value) => value,
+    },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
     {
       title: 'Formation visée',
@@ -109,7 +117,7 @@ const Parcours = () => {
         );
       },
     },
-    {
+    /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
       dataIndex: 'eligibleStructuresCountWC2023',
@@ -119,7 +127,7 @@ const Parcours = () => {
           <RemoveRedEye />
         </Button>
       ),
-    },
+    }, */
   ];
 
   const getTooltipData = (competences: any[]) => (
@@ -142,7 +150,7 @@ const Parcours = () => {
               Export
             </Button>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             {myGroup && (
               <Table
                 onPageChange={() => null}
@@ -154,7 +162,7 @@ const Parcours = () => {
               />
             )}
           </Grid>
-          <Grid item xs={4}>
+      {/*     <Grid item xs={4}>
             {showStructures && (
               <>
                 {!getStructuresState.data && <p>Chargement des données ...</p>}
@@ -188,7 +196,7 @@ const Parcours = () => {
                   ))}
               </>
             )}
-          </Grid>
+          </Grid> */}
         </Grid>
       )}
       {getParcoursState.data?.userParcour && (

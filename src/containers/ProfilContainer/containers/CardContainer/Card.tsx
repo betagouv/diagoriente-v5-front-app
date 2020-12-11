@@ -66,6 +66,7 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
       }
     }
   }, [pdf, type]);
+  const hasSportSkills = skills.filter((s) => s.theme.type === 'sport').length !== 0;
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -118,7 +119,7 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
           path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
           show={!Userparcours}
         />
-        {user?.isCampus && (
+        {((user?.role === 'advisor' && hasSportSkills) || user?.role === 'admin' || user?.isCampus) && (
           <CardSkills
             skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
             title="Expériences sportives"

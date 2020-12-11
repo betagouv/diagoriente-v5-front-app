@@ -171,7 +171,7 @@ const ProfilComponent = () => {
             .map((families, index) => (
               <Grid key={index} container className={classes.interestItem}>
                 {families.map((family) => (
-                  <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
+                  <Grid item key={family.id} xs={4} sm={4} md={6} className={classes.themeSelection}>
                     <div className={classes.imageContainer}>
                       <img src={family.resources[2]} alt="" />
                     </div>

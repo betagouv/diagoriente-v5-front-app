@@ -279,6 +279,9 @@ export default makeStyles((theme) =>
     },
     interestItem: {
       padding: 40,
+      [theme.breakpoints.down('md')]: {
+        padding: '40px 0px',
+      },
       '&:focus': {
         outline: 'none',
         border: 'none',

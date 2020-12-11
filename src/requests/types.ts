@@ -141,7 +141,7 @@ export interface SkillType {
     commentText: string;
     status: 'pending' | 'accepted' | 'refused';
     email: string;
-    institution:string;
+    institution: string;
     location: string;
   }[];
   engagement?: {
@@ -172,6 +172,7 @@ export interface UserParcour {
   completed: boolean;
   accessibility: { id: string };
   families: { id: string; nom: string; category: string; resources: string[] }[];
+  // nbrVisualisation: { dateVisualisation: Date; userId: string }[];
   skills: {
     id: string;
     theme: {

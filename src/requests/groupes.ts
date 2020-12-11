@@ -12,6 +12,7 @@ export const MyGroupInfoQuery = gql`
           firstName
           lastName
         }
+        email
         location
         wc2023 {
           formation

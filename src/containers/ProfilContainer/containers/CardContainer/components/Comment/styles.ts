@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles({
-container: {
+  container: {
     display: 'flex',
     flexDirection: 'column',
+    marginBottom: 5,
   },
   title: {
     fontSize: 12,

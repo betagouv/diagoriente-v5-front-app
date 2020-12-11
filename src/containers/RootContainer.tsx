@@ -27,6 +27,7 @@ import Recommendation from 'containers/RecommendationContainer';
 import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
+import LivemapContainer from 'containers/Livemap2023Container';
 
 import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
@@ -112,9 +113,10 @@ const RootContainer = () => {
                 component={ExperienceComponent}
               />
               <BaseRoute path="/jobs" component={jobsContainer} />
-              <BaseRoute path="/game" component={GameContainer}  />
+              <BaseRoute path="/game" component={GameContainer} />
               <BaseRoute path="/admin" component={AdminContainer} />
               <BaseRoute path="/advisor" component={AdvisorContainer} />
+              <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

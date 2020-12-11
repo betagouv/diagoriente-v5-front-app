@@ -35,7 +35,8 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
   const [secondOpen, setSecondOpen] = React.useState(false);
   const [thirdOpen, setThirdOpen] = React.useState(false);
   const [openPopup, setOpenPopup] = React.useState(false);
-  const [addSkillCommentCall] = useAddSkillComment();
+  const [addSkillCommentCall, addSkillCommentState] = useAddSkillComment();
+  const [error, setError] = React.useState('');
   const { user } = useContext(UserContext);
 
   const [state, actions] = useForm({
@@ -89,6 +90,16 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
     // eslint-disable-next-line
   }, [state.values.email, state.values.confirmEmail]);
 
+  useEffect(() => {
+    if (addSkillCommentState.error) {
+      const msg = (addSkillCommentState.error as any)?.graphQLErrors[0]?.message;
+      setError(msg);
+    }
+    if (addSkillCommentState.data) {
+      setThirdOpen(true);
+      setSecondOpen(false);
+    }
+  }, [addSkillCommentState.error, addSkillCommentState.data]);
   const handleSecondOpen = () => {
     if (
       !state.values.email ||
@@ -122,10 +133,6 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
           },
         });
       }
-
-      setSecondOpen(false);
-
-      setThirdOpen(true);
     }
   };
 
@@ -272,6 +279,7 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
             <img src={skill.theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 90 : '100%'} />
           </Avatar>
           <div className={classes.titleModal}>DEMANDE DE RECOMMANDATION</div>
+          <span className={classes.errorText}>{error}</span>
           <div className={classes.descriptionModal}>
             Le message pour
             {/* eslint-disable-next-line */}

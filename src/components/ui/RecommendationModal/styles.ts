@@ -35,7 +35,11 @@ export default makeStyles((theme) => ({
     fontWeight: 900,
     color: '#FF0060',
   },
-
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+  },
   titleClassName: {
     whiteSpace: 'nowrap',
     fontSize: 14,

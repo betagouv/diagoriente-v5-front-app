@@ -124,11 +124,10 @@ export const useUpdateWc2023Quality = (
   options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
 ) => useLocalMutation(updateWc2023QualityMutation, options);
 
-/* export const UpdateVisualisations = gql`
+export const UpdateVisualisations = gql`
   mutation UpdateVisialition($userId: ID) {
     updateVisialition(userId: $userId) {
       nbrVisualisation {
-        dateVisualisation
         userId
       }
     }
@@ -139,4 +138,4 @@ export interface UpdateVisualisationArguments {
 }
 export const useUpdateVisualisation = (
   options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
-) => useLocalMutation(UpdateVisualisations, options); */
+) => useLocalMutation(UpdateVisualisations, options);

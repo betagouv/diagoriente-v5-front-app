@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useJob } from 'requests/jobs';
 import { useImmersion, useFormation } from 'requests/immersion';
 import { Company, Jobs } from 'requests/types';
+import { useUpdarStat } from 'requests/statistique';
+import userContext from 'contexts/UserContext';
 
 import { useForm } from 'hooks/useInputs';
 import { useDidMount } from 'hooks/useLifeCycle';
@@ -51,6 +53,7 @@ const ImmersionContainer = ({
   selectedLocation,
 }: IProps) => {
   const classes = useStyles();
+  const { user } = useContext(userContext);
   const [openContact, openContactState] = useState(null as null | Company);
   const [openConseil, openConseilState] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -93,12 +96,17 @@ const ImmersionContainer = ({
 
   const [immersionCall, immersionState] = useImmersion();
   const [formationCall, formationState] = useFormation();
+  const [updateStatCall, updateStatState] = useUpdarStat();
+
   const { search } = location;
   const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc, typeApi } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
     loadJob();
+    if (user) {
+      updateStatCall({ variables: { userId: user.id, jobId: param, type: typeApi } });
+    }
   });
   useEffect(() => {
     setSelectedImmersion(data?.job.title);

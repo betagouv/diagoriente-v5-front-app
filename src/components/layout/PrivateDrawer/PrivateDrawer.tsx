@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Button from 'components/button/Button';
 import List from '@material-ui/core/List';
-import { Link, useLocation, matchPath } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -78,6 +78,12 @@ const PrivateDrawer = () => {
     default: {
       links = userLinks;
     }
+  }
+  if (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr' && user?.isCampus) {
+    advisorLinks.splice(advisorLinks.length - 1, 0, {
+      text: 'Map',
+      path: 'https://app.diagoriente.beta.gouv.fr/campus2023-livemap',
+    });
   }
   useEffect(() => {
     if (!parcours?.completed && isJobs) {

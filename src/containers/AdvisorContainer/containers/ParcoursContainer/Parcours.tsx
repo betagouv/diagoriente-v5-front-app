@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -9,12 +9,10 @@ import { useGetUserParcour } from 'requests/parcours';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
-import { useEligibleStructures } from '../../../../requests/campus2023';
-// import { useUpdateVisualisation } from 'requests/user';
-import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import { useEligibleStructures } from 'requests/campus2023';
+import VerifiedIcon from 'containers/AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-import { RemoveRedEye } from '@material-ui/icons';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
@@ -22,12 +20,12 @@ const Parcours = () => {
   const [showStructures, setShowStructures] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
-  // const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
   });
   const myGroup = data?.myGroup;
+  const customGroup = myGroup?.users.map((u: any) => ({ ...u, advisor: myGroup.advisorId }));
   useDidMount(() => {
     loadParcours();
   });
@@ -35,7 +33,6 @@ const Parcours = () => {
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
-    // getUpdateVisualisation({ variables: { userId: idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
   };
@@ -48,15 +45,17 @@ const Parcours = () => {
   const exportCSV = () => {
     if (myGroup) {
       const csv = jsonToCSV(
-        myGroup.users.map((user: any) => {
+        customGroup.map((user: any) => {
           const quality = qualities[user.wc2023.quality as keyof typeof qualities];
           return {
             nom: user.profile.lastName,
             prénom: user.profile.firstName,
             localisation: user.location,
+            nomAdvisor: `${user.advisor.profile.firstName} ${user.advisor.profile.lastName}`,
+            emailAdvisor: user.advisor.email,
             'choix de la formation': user.wc2023.formation,
             'statut de la candidature': quality ? quality.title : '',
-            'Commentaire':user?.wc2023?.comment
+            Commentaire: user?.wc2023?.comment,
           };
         }),
       );
@@ -86,6 +85,15 @@ const Parcours = () => {
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
     {
+      title: 'Nom conseiller',
+      key: 'firstNameAdvisor',
+      dataIndex: 'advisor',
+      render: (value) => `${value.profile.firstName} ${value.profile.lastName}`,
+    },
+    {
+ title: 'E-mail Advisor', key: 'emailAdvisor', dataIndex: 'advisor', render: (value) => value.email,
+},
+    {
       title: 'Formation visée',
       key: 'selectedFormation',
       dataIndex: 'wc2023',
@@ -111,11 +119,9 @@ const Parcours = () => {
       title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
-      render: (value, row) => {
-        return (
-          <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
-        );
-      },
+      render: (value, row) => (
+        <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
+        ),
     },
     /* {
       title: "Structures d'accueil potentielles",
@@ -151,18 +157,18 @@ const Parcours = () => {
             </Button>
           </Grid>
           <Grid item xs={12}>
-            {myGroup && (
+            {customGroup && (
               <Table
                 onPageChange={() => null}
-                count={myGroup.users.length}
-                data={myGroup.users}
+                count={customGroup.length}
+                data={customGroup}
                 totalPages={0}
                 headers={headers}
                 currentPage={1}
               />
             )}
           </Grid>
-      {/*     <Grid item xs={4}>
+          {/*     <Grid item xs={4}>
             {showStructures && (
               <>
                 {!getStructuresState.data && <p>Chargement des données ...</p>}

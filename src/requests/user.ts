@@ -77,8 +77,8 @@ export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User },
   useLocalMutation(updateUserMutation, options);
 
 export const usersQuery = gql`
-  query($page: Int, $perPage: Int, $wc2023: Boolean) {
-    users(page: $page, perPage: $perPage, wc2023: $wc2023) {
+  query($page: Int, $perPage: Int, $wc2023: Boolean, $search: String) {
+    users(page: $page, perPage: $perPage, wc2023: $wc2023, search: $search) {
       perPage
       page
       totalPages
@@ -123,20 +123,3 @@ interface UpdateWc2023QualityMutationParams {
 export const useUpdateWc2023Quality = (
   options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
 ) => useLocalMutation(updateWc2023QualityMutation, options);
-
-/* export const UpdateVisualisations = gql`
-  mutation UpdateVisialition($userId: ID) {
-    updateVisialition(userId: $userId) {
-      nbrVisualisation {
-        dateVisualisation
-        userId
-      }
-    }
-  }
-`;
-export interface UpdateVisualisationArguments {
-  userId: string;
-}
-export const useUpdateVisualisation = (
-  options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
-) => useLocalMutation(UpdateVisualisations, options); */

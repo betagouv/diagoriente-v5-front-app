@@ -6,6 +6,13 @@ import { User } from './types';
 export const MyGroupInfoQuery = gql`
   query {
     myGroup {
+      advisorId {
+        email
+        profile {
+          firstName
+          lastName
+        }
+      }
       users {
         id
         profile {

@@ -6,7 +6,6 @@ import {
 import UserContext from 'contexts/UserContext';
 
 import Route from 'components/ui/Route/Route';
-import LivemapContainer from 'containers/Livemap2023Container';
 
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import ParcoursContainer from './containers/ParcoursContainer/Parcours';
@@ -35,7 +34,6 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
           <div className={classes.container}>
             <Switch>
               <BaseRoute path="/advisor/parcours" component={ParcoursContainer} />
-              <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
               <NotFoundPage />
             </Switch>
           </div>

@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Switch, Route as BaseRoute, RouteComponentProps, Redirect } from 'react-router-dom';
+import {
+ Switch, Route as BaseRoute, RouteComponentProps, Redirect,
+} from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 
 import Route from 'components/ui/Route/Route';
+import LivemapContainer from 'containers/Livemap2023Container';
 
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import ParcoursContainer from './containers/ParcoursContainer/Parcours';
@@ -25,13 +28,14 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
   const children = (
     <Route
       protected
-      authorizedRole={'advisor'}
+      authorizedRole="advisor"
       render={() => {
         if (match.isExact) return <Redirect to="/advisor/parcours" />;
         return (
           <div className={classes.container}>
             <Switch>
               <BaseRoute path="/advisor/parcours" component={ParcoursContainer} />
+              <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
               <NotFoundPage />
             </Switch>
           </div>

@@ -27,7 +27,6 @@ import Recommendation from 'containers/RecommendationContainer';
 import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
-import LivemapContainer from 'containers/Livemap2023Container';
 
 import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
@@ -74,11 +73,11 @@ const RootContainer = () => {
         <ParcourContext.Provider value={{ parcours, setParcours }}>
           <SecteurContext.Provider value={secteursData}>
             <Switch>
-              <BaseRoute  exact path="/" component={HomeContainer} />
+              <BaseRoute exact path="/" component={HomeContainer} />
               <Route footer path="/login" exact component={LoginContainer} />
               <Route footer path="/register" exact component={RegisterContainer} />
               <Route
-              protected
+                protected
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
                   openIcon: user?.isCampus ? whiteMenu : whiteMenu,
@@ -116,7 +115,6 @@ const RootContainer = () => {
               <BaseRoute path="/game" component={GameContainer} />
               <BaseRoute path="/admin" component={AdminContainer} />
               <BaseRoute path="/advisor" component={AdvisorContainer} />
-              <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

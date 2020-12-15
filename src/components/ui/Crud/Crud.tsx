@@ -103,7 +103,11 @@ const Crud = <
 
   /* ----- Requests handlers ----- */
   const list = useList({
-    variables: { perPage: PER_PAGE, ...(handleUri(uri) as any), page: Number(uri.page) || 1 },
+    variables: {
+      perPage: PER_PAGE,
+      ...(handleUri(uri) as any),
+      page: Number(uri.page) || 1,
+    },
     fetchPolicy: 'network-only',
   });
 

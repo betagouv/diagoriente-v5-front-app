@@ -61,14 +61,14 @@ const ImmersionForm = ({
         <Loupe color="#FFA600" width="42" height="42" />
       </div>
       <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
-      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+     {/*  <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         {onChangeTypeApi &&
           typeFilter.map((el) => (
             <div>
               <CheckBox key={el.label} label={el.label} value={typeApi} onClick={() => onChangeTypeApi(el)} />
             </div>
           ))}
-      </div>
+      </div> */}
 
       <div>Je recherche :</div>
       <div className={classes.autocompleteContainer}>

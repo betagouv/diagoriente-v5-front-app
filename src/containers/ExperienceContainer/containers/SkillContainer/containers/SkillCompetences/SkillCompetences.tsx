@@ -89,7 +89,7 @@ const ExperienceCompetence = ({ match, competences, setCompetences, theme, histo
           <RestLogo
             onClick={() => {
               let path = '/experience';
-              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
+              if (!isCreate) path = `/profil/experience?type=${theme && theme.type}`;
               else if (redirect) path = redirect;
               history.replace(path);
             }}

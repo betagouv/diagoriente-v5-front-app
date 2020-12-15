@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import Button from '@material-ui/core/Button/Button';
 import { useGetUserParcour } from 'requests/parcours';
-
+import { merge } from 'lodash';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
@@ -18,14 +18,23 @@ const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
   const [showStructures, setShowStructures] = useState(false);
+  const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
   });
-  const myGroup = data?.myGroup;
-  const customGroup = myGroup?.users.map((u: any) => ({ ...u, advisor: myGroup.advisorId }));
+
+  useEffect(() => {
+    if (data) {
+      const a = data.myGroup.map((g: any) => g.users.map((u: any) => ({ ...u, code: g.code, advisor: g.advisorId })));
+      const con = a.flat(1);
+      console.log('a', con);
+      setCustomGroup(con);
+    }
+  }, [data]);
+
   useDidMount(() => {
     loadParcours();
   });
@@ -43,7 +52,7 @@ const Parcours = () => {
   };
 
   const exportCSV = () => {
-    if (myGroup) {
+    if (data) {
       const csv = jsonToCSV(
         customGroup.map((user: any) => {
           const quality = qualities[user.wc2023.quality as keyof typeof qualities];
@@ -91,8 +100,17 @@ const Parcours = () => {
       render: (value) => `${value.profile.firstName} ${value.profile.lastName}`,
     },
     {
- title: 'E-mail Advisor', key: 'emailAdvisor', dataIndex: 'advisor', render: (value) => value.email,
-},
+      title: 'E-mail Advisor',
+      key: 'emailAdvisor',
+      dataIndex: 'advisor',
+      render: (value) => value.email,
+    },
+    {
+      title: 'Code',
+      key: 'code',
+      dataIndex: 'code',
+      render: (value) => value,
+    },
     {
       title: 'Formation visée',
       key: 'selectedFormation',
@@ -121,7 +139,7 @@ const Parcours = () => {
       dataIndex: 'wc2023',
       render: (value, row) => (
         <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
-        ),
+      ),
     },
     /* {
       title: "Structures d'accueil potentielles",

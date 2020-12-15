@@ -346,3 +346,11 @@ export interface StructureWC2023 {
     },
   ];
 }
+export interface IGroup {
+  id: string;
+  users: string[];
+  _id: string;
+  title: string;
+  code: string;
+  advisorId: string;
+}

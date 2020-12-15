@@ -129,10 +129,10 @@ const Livemap2023 = () => {
       iconSize: L.point(40, 40, true),
     });
 
-  if (!user || user?.role !== 'admin') {
-    if (user?.role === 'advisor' && user?.email !== 'drcampus2023@diagoriente.fr') {
-      return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
-    }
+  if (user?.role === 'admin' || (user?.role === 'advisor' && user?.email !== 'drcampus2023@diagoriente.fr')) {
+    console.log('utilisateur autorisé');
+  } else {
+    return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
   }
 
   return (

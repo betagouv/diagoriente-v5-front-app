@@ -17,6 +17,7 @@ import useStyles from './styles';
 
 const PrivateDrawer = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
+  const f = process.env.REACT_APP_FRONT;
   const userLinks = [
     { text: 'TABLEAU DE BORD', path: '/' },
     { text: 'AIDE', path: `${p}campus2023/` },
@@ -82,7 +83,13 @@ const PrivateDrawer = () => {
   if (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr' && user?.isCampus) {
     advisorLinks.splice(advisorLinks.length - 1, 0, {
       text: 'Map',
-      path: 'https://app.diagoriente.beta.gouv.fr/campus2023-livemap',
+      path: `${f}/campus2023-livemap`,
+    });
+  }
+  if (user?.role === 'admin') {
+    adminLinks.splice(advisorLinks.length - 1, 0, {
+      text: 'Map',
+      path: `${f}/campus2023-livemap`,
     });
   }
   useEffect(() => {

@@ -35,7 +35,7 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
   const children = (
     <Route
       protected
-      authorizedRole={'admin'}
+      authorizedRole="admin"
       render={() => {
         if (match.isExact) return <Redirect to="/admin/themes" />;
         return (

@@ -16,6 +16,7 @@ export const MyGroupInfoQuery = gql`
         }
       }
       users {
+        id
         profile {
           firstName
           lastName

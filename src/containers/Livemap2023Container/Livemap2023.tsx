@@ -1,5 +1,9 @@
-import React, { useState, useMemo, useEffect, useContext } from 'react';
-import { Circle, Map as LeafletMap, Marker, Popup, TileLayer, LayersControl, LayerGroup } from 'react-leaflet';
+import React, {
+ useState, useMemo, useEffect, useContext,
+} from 'react';
+import {
+ Circle, Map as LeafletMap, Marker, Popup, TileLayer, LayersControl, LayerGroup,
+} from 'react-leaflet';
 import './map.css';
 import L, { DivIcon } from 'leaflet';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
@@ -102,14 +106,14 @@ const Livemap2023 = () => {
   };
 
   const isValidUserData = (c: User) =>
-    c.wc2023 &&
-    c.wc2023.perimeter &&
-    c.wc2023.formation &&
-    c.wc2023.degree &&
-    c.wc2023.birthdate &&
-    c.coordinates &&
-    c.coordinates.longitude &&
-    c.coordinates.lattitude &&
+    c.wc2023
+    && c.wc2023.perimeter
+    && c.wc2023.formation
+    && c.wc2023.degree
+    && c.wc2023.birthdate
+    && c.coordinates
+    && c.coordinates.longitude
+    && c.coordinates.lattitude &&
     c.location !== '' &&
     c.wc2023.degree !== '' &&
     c.wc2023.formation !== '' &&
@@ -152,6 +156,12 @@ const Livemap2023 = () => {
       className: 'cluster-icon-invaliddata',
       iconSize: L.point(40, 40, true),
     });
+  if (user?.role === 'admin' || (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr')) {
+    console.log('utilisateur autorisé');
+
+  } else {
+    return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
+  }
 
   const markerIconForCandidate = (c: User, isValid: boolean) => (
     <Marker
@@ -256,8 +266,8 @@ const Livemap2023 = () => {
           </LayersControl.Overlay>
           <LayersControl.Overlay checked name="Structures">
             <LayerGroup>
-              {clubData &&
-                clubData.allStructures.map((c: StructureWC2023) => (
+              {clubData
+                && clubData.allStructures.map((c: StructureWC2023) => (
                   <Marker
                     key={c.club_code}
                     position={[c.geolocation.lat || 0, c.geolocation.lng || 0]}

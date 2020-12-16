@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Button from 'components/button/Button';
 import List from '@material-ui/core/List';
-import { Link, useLocation, matchPath } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -17,6 +17,7 @@ import useStyles from './styles';
 
 const PrivateDrawer = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
+  const f = process.env.REACT_APP_FRONT;
   const userLinks = [
     { text: 'TABLEAU DE BORD', path: '/' },
     { text: 'AIDE', path: `${p}campus2023/` },
@@ -78,6 +79,18 @@ const PrivateDrawer = () => {
     default: {
       links = userLinks;
     }
+  }
+  if (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr' && user?.isCampus) {
+    advisorLinks.splice(advisorLinks.length - 1, 0, {
+      text: 'Map',
+      path: `${f}/campus2023-livemap`,
+    });
+  }
+  if (user?.role === 'admin') {
+    adminLinks.splice(advisorLinks.length - 1, 0, {
+      text: 'Map',
+      path: `${f}/campus2023-livemap`,
+    });
   }
   useEffect(() => {
     if (!parcours?.completed && isJobs) {

@@ -30,7 +30,6 @@ const Parcours = () => {
     if (data) {
       const a = data.myGroup.map((g: any) => g.users.map((u: any) => ({ ...u, code: g.code, advisor: g.advisorId })));
       const con = a.flat(1);
-      console.log('a', con);
       setCustomGroup(con);
     }
   }, [data]);

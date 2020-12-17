@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { uniq } from 'lodash';
 
 import { Header } from 'components/ui/Table/Table';
 import { User } from 'requests/types';
@@ -12,22 +11,23 @@ import Button from '@material-ui/core/Button/Button';
 
 import DefaultFilter from 'components/filters/DefaultFilter/DefaultFilter';
 import UserFilter from 'components/filters/UserFilter/UserFilter';
+import { downloadCSV, jsonToCSV } from 'utils/csv';
+import { useGroups } from 'requests/groupes';
+import { useUsers, useGetUsersData } from 'requests/user';
 
 import VerifiedIcon from '../../components/VerifiedIcon/VerifiedIcon';
-import { useUsers } from '../../../../requests/user';
 import carte from '../../../../assets/svg/carte.svg';
 import ModalContainer from '../../../../components/common/Modal/ModalContainer';
 import CardContainer from '../../../ProfilContainer/containers/CardContainer';
 import { useGetUserParcour } from '../../../../requests/parcours';
 
 import useStyles from './styles';
-import { downloadCSV, jsonToCSV } from 'utils/csv';
-import { useGroups } from 'requests/groupes';
 
 const UserContainer = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
+  const [useGetUsersDataCall, useGetUsersDataState] = useGetUsersData();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
   const [getGroups, groupsState] = useGroups();
   const apisRef = useRef<ApisRef<User>>(null);
@@ -59,10 +59,12 @@ const UserContainer = (props: RouteComponentProps) => {
     }
   }, [groupsState.data]);
 
-  const exportCSV = () => {
-    if (apisRef.current) {
+  const ExportCSV = () => {
+    useGetUsersDataCall();
+    /* if (apisRef.current) {
       getGroups({ variables: { codes: uniq(apisRef.current.data.map((user) => user.codeGroupe)) } });
-    }
+    } */
+    // useGetUsersDataCall();
   };
 
   const headers: Header<User>[] = [
@@ -120,15 +122,13 @@ const UserContainer = (props: RouteComponentProps) => {
       key: 'age',
       dataIndex: 'wc2023',
       title: 'Âge',
-      render: (value) => (value && value.birthday ? moment().diff(value.birthdate, 'years') + ' ans' : ''),
+      render: (value) => (value && value.birthday ? `${moment().diff(value.birthdate, 'years')} ans` : ''),
     },
     {
       key: 'perimeter',
       dataIndex: 'wc2023',
       title: 'Périmètre',
-      render: (value) => {
-        return value && value.perimeter ? `${value.perimeter.toString()} km` : '';
-      },
+      render: (value) => (value && value.perimeter ? `${value.perimeter.toString()} km` : ''),
     },
     {
       key: 'eligibleStructures',
@@ -153,7 +153,7 @@ const UserContainer = (props: RouteComponentProps) => {
         )}
         {...props}
       />
-      <Button onClick={exportCSV} variant="contained" color="primary" className={classes.export}>
+      <Button onClick={ExportCSV} variant="contained" color="primary" className={classes.export}>
         Export
       </Button>
       {getParcoursState.data?.userParcour && (

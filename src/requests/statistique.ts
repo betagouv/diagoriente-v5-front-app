@@ -35,10 +35,12 @@ export const UpdateStat = gql`
       id
       nbrCard {
         jobId
+        date
       }
       nbrSearch {
         type
         jobId
+        date
       }
     }
   }
@@ -49,5 +51,5 @@ interface UpdateStatParams {
   jobId: string;
   userId: string;
 }
-export const useUpdarStat = (options?: MutationHookOptions<{ updateStat: Stat }, UpdateStatParams>) =>
+export const useUpdateStat = (options?: MutationHookOptions<{ updateStat: Stat }, UpdateStatParams>) =>
   useLocalMutation(UpdateStat, options);

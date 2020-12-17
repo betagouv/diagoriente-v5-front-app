@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Dotdotdot from 'react-dotdotdot';
 import Button from 'components/button/Button';
 import fullHeart from 'assets/svg/fullHeart.svg';
-import { useUpdarStat } from 'requests/statistique';
+import { useUpdateStat } from 'requests/statistique';
 
 import useStyles from './style';
 
@@ -15,10 +15,12 @@ interface IProps {
   favoris: any;
   user?: string;
 }
-const CardJob = ({ title, description, accessibility, id, favoris, user }: IProps) => {
+const CardJob = ({
+ title, description, accessibility, id, favoris, user,
+}: IProps) => {
   const history = useHistory();
   const [selected, setSelected] = useState(false);
-  const [updateStatCall, updateStatState] = useUpdarStat();
+  const [updateStatCall, updateStatState] = useUpdateStat();
   const onHover = () => setSelected(true);
   const onLeave = () => setSelected(false);
   const classes = useStyles({ selected });

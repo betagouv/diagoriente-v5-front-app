@@ -131,4 +131,10 @@ export const GetUsersData = gql`
     }
   }
 `;
-export const useGetUsersData = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetUsersData, options);
+interface IGetDataResponse {
+  getData: {
+    id: string;
+  };
+}
+export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
+  useLocalLazyQuery(GetUsersData, options);

@@ -26,6 +26,7 @@ import useStyles from './styles';
 const UserContainer = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
+  const [showModalData, setShowModalData] = useState(false);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [useGetUsersDataCall, useGetUsersDataState] = useGetUsersData();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
@@ -66,6 +67,11 @@ const UserContainer = (props: RouteComponentProps) => {
     } */
     // useGetUsersDataCall();
   };
+  useEffect(() => {
+    if (useGetUsersDataState.data?.getData) {
+      setShowModalData(true);
+    }
+  }, [useGetUsersDataState.data]);
 
   const headers: Header<User>[] = [
     {
@@ -153,7 +159,13 @@ const UserContainer = (props: RouteComponentProps) => {
         )}
         {...props}
       />
-      <Button onClick={ExportCSV} variant="contained" color="primary" className={classes.export}>
+      <Button
+        onClick={ExportCSV}
+        variant="contained"
+        color="primary"
+        className={classes.export}
+        disabled={useGetUsersDataState.loading}
+      >
         Export
       </Button>
       {getParcoursState.data?.userParcour && (
@@ -165,6 +177,19 @@ const UserContainer = (props: RouteComponentProps) => {
           size={90}
         >
           <CardContainer Userparcours={getParcoursState.data?.userParcour} infoUser={selectedUser} />
+        </ModalContainer>
+      )}
+      {useGetUsersDataState.data && (
+        <ModalContainer
+          open={showModalData}
+          handleClose={() => setShowModalData(false)}
+          backdropColor="#011A5E"
+          colorIcon="#4D6EC5"
+          size={90}
+        >
+          <div className={classes.exportSuccess}>
+            Un email sera envoyé à votre adresse mail contenant le fichier export
+          </div>
         </ModalContainer>
       )}
     </>

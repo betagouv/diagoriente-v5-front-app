@@ -4,7 +4,7 @@ import Button from 'components/button/Button';
 import { Families } from 'requests/types';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { groupBy,orderBy } from 'lodash';
+import { groupBy } from 'lodash';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
 import mainInterest from 'assets/svg/mainInterest.svg';
@@ -41,7 +41,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
     () =>
       Object.entries(groupBy(data?.families.data, 'category')).map((el) => ({
         title: el[0],
-        data: orderBy(el[1],['order'],['asc']),
+        data: el[1],
       })),
     [data],
   );

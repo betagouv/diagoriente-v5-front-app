@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions, LazyQueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery, useLocalLazyQuery } from 'hooks/apollo';
 
 import { User, WC2023 } from './types';
 
@@ -123,3 +123,18 @@ interface UpdateWc2023QualityMutationParams {
 export const useUpdateWc2023Quality = (
   options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
 ) => useLocalMutation(updateWc2023QualityMutation, options);
+
+export const GetUsersData = gql`
+  {
+    getData {
+      id
+    }
+  }
+`;
+interface IGetDataResponse {
+  getData: {
+    id: string;
+  };
+}
+export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
+  useLocalLazyQuery(GetUsersData, options);

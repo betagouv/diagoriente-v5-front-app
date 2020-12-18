@@ -70,6 +70,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'center',
     width: '100%',
     marginBottom: 40,
+    marginTop: 20,
   },
 
   btn: {

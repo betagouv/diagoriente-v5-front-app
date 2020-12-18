@@ -8,6 +8,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     width: '100%',
     paddingBottom: 40,
     alignItems: 'center',
+    flex: 1,
   },
   title: {
     fontFamily: 'ocean',

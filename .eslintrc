@@ -1,6 +1,12 @@
 {
-  "extends": ["airbnb-typescript", "prettier/@typescript-eslint"],
-  "plugins": ["import", "react-hooks"],
+  "extends": [
+    "airbnb-typescript",
+    "prettier/@typescript-eslint",
+    // Silence Prettier conflicting rules
+    // This has to be the last entry
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["import", "react-hooks", "prettier"],
   "rules": {
     "react/button-has-type": 0,
     "prefer-arrow-callback": 1,

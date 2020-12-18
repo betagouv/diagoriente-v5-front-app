@@ -34,7 +34,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100%'
+    height: '100%',
   },
   container: {
     margin: 'auto',
@@ -114,6 +114,8 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     textAlign: 'center',
     color: 'gray',
     fontSize: 12,
-
+  },
+  formDate: {
+    margin: '10px 0px 16px 0px',
   },
 }));

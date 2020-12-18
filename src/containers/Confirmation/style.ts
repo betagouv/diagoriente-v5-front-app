@@ -17,7 +17,6 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
     marginBottom: (props) => (props.isCampus ? 10 : 40),
     marginTop: 30,
-
   },
   titleDesc: {
     fontWeight: 'bolder',
@@ -120,5 +119,8 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
     textAlign: 'center',
     color: 'gray',
     fontSize: 12,
+  },
+  formDate: {
+    margin: '10px 0px 16px 0px',
   },
 }));

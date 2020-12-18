@@ -1,4 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, {
+ useState, useContext, useEffect, useRef,
+} from 'react';
 import moment from 'moment';
 import localforage from 'localforage';
 import Button from 'components/button/Button';
@@ -64,7 +66,7 @@ const Confirmation = () => {
 
   const updateUserdata = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');
-    let res = {};
+    const res = {};
     if (data) {
       const parsedData = JSON.parse(data);
       let newObj = {};
@@ -96,11 +98,11 @@ const Confirmation = () => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.date !== '' &&
-      state.values.formation.length !== 0 &&
-      state.values.accessibility.length !== 0 &&
-      state.values.perimeter !== '' &&
-      state.values.location !== ''
+      state.values.date !== ''
+      && state.values.formation.length !== 0
+      && state.values.accessibility.length !== 0
+      && state.values.perimeter !== ''
+      && state.values.location !== ''
     ) {
       setIsValidForm(true);
     }
@@ -146,11 +148,11 @@ const Confirmation = () => {
   const onUpadetUser = () => {
     if (user?.isCampus) {
       if (
-        state.values.date === '' ||
-        state.values.accessibility.length === 0 ||
-        state.values.formation.length === 0 ||
-        state.values.location === '' ||
-        state.values.perimeter === ''
+        state.values.date === ''
+        || state.values.accessibility.length === 0
+        || state.values.formation.length === 0
+        || state.values.location === ''
+        || state.values.perimeter === ''
       ) {
         setTextError('Veuillez renseigner tous les champs obligatoires');
       } else {
@@ -165,10 +167,8 @@ const Confirmation = () => {
             formation: state.values.formation[0],
           };
           updateUserCall({ variables: { wc2023: dataToSend, location: state.values.location, coordinates } });
-        } else {
-          if (!isValidDate) setTextError('Date invalide ');
-          else if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
-        }
+        } else if (!isValidDate) setTextError('Date invalide ');
+        else if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
       }
     } else {
       history.push('/');
@@ -177,12 +177,12 @@ const Confirmation = () => {
   useEffect(() => {
     if (user?.isCampus) {
       if (
-        textError &&
-        state.values.date !== '' &&
-        state.values.perimeter !== '' &&
-        state.values.accessibility.length !== 0 &&
-        state.values.location !== '' &&
-        state.values.formation.length !== 0
+        textError
+        && state.values.date !== ''
+        && state.values.perimeter !== ''
+        && state.values.accessibility.length !== 0
+        && state.values.location !== ''
+        && state.values.formation.length !== 0
       ) {
         setTextError('');
       }
@@ -217,7 +217,9 @@ const Confirmation = () => {
             </div>
             <div className={classes.forms}>
               <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
-              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
+              <div className={classes.formDate}>
+                <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
+              </div>
               <div className={classes.selectAutoComplete}>
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>

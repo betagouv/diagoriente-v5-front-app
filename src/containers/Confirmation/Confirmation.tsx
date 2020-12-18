@@ -1,6 +1,4 @@
-import React, {
- useState, useContext, useEffect, useRef,
-} from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import moment from 'moment';
 import localforage from 'localforage';
 import Button from 'components/button/Button';
@@ -98,11 +96,11 @@ const Confirmation = () => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.date !== ''
-      && state.values.formation.length !== 0
-      && state.values.accessibility.length !== 0
-      && state.values.perimeter !== ''
-      && state.values.location !== ''
+      state.values.date !== '' &&
+      state.values.formation.length !== 0 &&
+      state.values.accessibility.length !== 0 &&
+      state.values.perimeter !== '' &&
+      state.values.location !== ''
     ) {
       setIsValidForm(true);
     }
@@ -148,11 +146,11 @@ const Confirmation = () => {
   const onUpadetUser = () => {
     if (user?.isCampus) {
       if (
-        state.values.date === ''
-        || state.values.accessibility.length === 0
-        || state.values.formation.length === 0
-        || state.values.location === ''
-        || state.values.perimeter === ''
+        state.values.date === '' ||
+        state.values.accessibility.length === 0 ||
+        state.values.formation.length === 0 ||
+        state.values.location === '' ||
+        state.values.perimeter === ''
       ) {
         setTextError('Veuillez renseigner tous les champs obligatoires');
       } else {
@@ -177,12 +175,12 @@ const Confirmation = () => {
   useEffect(() => {
     if (user?.isCampus) {
       if (
-        textError
-        && state.values.date !== ''
-        && state.values.perimeter !== ''
-        && state.values.accessibility.length !== 0
-        && state.values.location !== ''
-        && state.values.formation.length !== 0
+        textError &&
+        state.values.date !== '' &&
+        state.values.perimeter !== '' &&
+        state.values.accessibility.length !== 0 &&
+        state.values.location !== '' &&
+        state.values.formation.length !== 0
       ) {
         setTextError('');
       }

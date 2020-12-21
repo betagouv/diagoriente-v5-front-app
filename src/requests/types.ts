@@ -21,6 +21,9 @@ export interface User {
   wc2023: WC2023;
   isCampus: boolean;
   validateCampus: boolean;
+  nbrGroupes: number;
+  lastLogin: Date;
+  nbrUserGroup: { code: string; count: number }[];
   coordinates: {
     longitude: number;
     lattitude: number;
@@ -172,7 +175,7 @@ export interface UserParcour {
   completed: boolean;
   accessibility: { id: string };
   families: { id: string; nom: string; category: string; resources: string[] }[];
-  // nbrVisualisation: { dateVisualisation: Date; userId: string }[];
+  nbrVisualisation: { dateVisualisation: Date; userId: string }[];
   skills: {
     id: string;
     theme: {
@@ -345,6 +348,11 @@ export interface StructureWC2023 {
       name: string;
     },
   ];
+}
+export interface Stat {
+  userId: string;
+  nbrCard: { date: Date; jobId: string }[];
+  nbrSearch: { date: Date; jobId: string; type: string }[];
 }
 export interface IGroup {
   id: string;

@@ -107,6 +107,8 @@ export const usersQuery = gql`
 `;
 
 export const useUsers = (options: QueryHookOptions<any, any> = {}) => useLocalQuery<any, any>(usersQuery, options);
+export const useUsersLazy = (options: QueryHookOptions<any, any> = {}) =>
+  useLocalLazyQuery<any, any>(usersQuery, options);
 
 export const updateWc2023QualityMutation = gql`
   mutation UpdateWc2023Quality($user: ID!, $quality: String!, $comment: String!) {
@@ -124,6 +126,21 @@ export const useUpdateWc2023Quality = (
   options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
 ) => useLocalMutation(updateWc2023QualityMutation, options);
 
+export const UpdateVisualisations = gql`
+  mutation UpdateVisialition($userId: ID) {
+    updateVisialition(userId: $userId) {
+      nbrVisualisation {
+        userId
+      }
+    }
+  }
+`;
+export interface UpdateVisualisationArguments {
+  userId: string;
+}
+export const useUpdateVisualisation = (
+  options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
+) => useLocalMutation(UpdateVisualisations, options);
 export const GetUsersData = gql`
   {
     getData {
@@ -138,3 +155,19 @@ interface IGetDataResponse {
 }
 export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
   useLocalLazyQuery(GetUsersData, options);
+
+export const UpdateCodeGroupMutation = gql`
+  mutation AffectUserCode($email: String!, $code: String!) {
+    affectUserCode(email: $email, code: $code) {
+      email
+      codeGroupe
+    }
+  }
+`;
+interface UpdateCodeGroupMutationParams {
+  email: string;
+  code: string;
+}
+export const useAffectUserCode = (
+  options: MutationHookOptions<{ affectUserCode: User }, UpdateCodeGroupMutationParams> = {},
+) => useLocalMutation(UpdateCodeGroupMutation, options);

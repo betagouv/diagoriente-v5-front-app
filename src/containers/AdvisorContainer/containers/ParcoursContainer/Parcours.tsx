@@ -5,14 +5,14 @@ import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import Button from '@material-ui/core/Button/Button';
 import { useGetUserParcour } from 'requests/parcours';
-import { merge } from 'lodash';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
-import { useEligibleStructures } from 'requests/campus2023';
-import VerifiedIcon from 'containers/AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import { useUpdateVisualisation } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
+import { useEligibleStructures } from '../../../../requests/campus2023';
+import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
@@ -21,6 +21,7 @@ const Parcours = () => {
   const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
@@ -41,14 +42,15 @@ const Parcours = () => {
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
+    getUpdateVisualisation({ variables: { userId: idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
   };
 
-  const handleLoadStructures = (idUser: string) => {
+  /* const handleLoadStructures = (idUser: string) => {
     getStructuresCall({ variables: { userId: idUser } });
     setShowStructures(true);
-  };
+  }; */
 
   const exportCSV = () => {
     if (data) {
@@ -162,7 +164,6 @@ const Parcours = () => {
       </ul>
     </Typography>
   );
-
   return (
     <>
       {loading && <p>Chargement des données ...</p>}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import { Header } from 'components/ui/Table/Table';
 import { User } from 'requests/types';
 
@@ -14,6 +14,7 @@ import UserFilter from 'components/filters/UserFilter/UserFilter';
 import { downloadCSV, jsonToCSV } from 'utils/csv';
 import { useGroups } from 'requests/groupes';
 import { useUsers, useGetUsersData } from 'requests/user';
+import UpdateCodeForm from '../../components/UpdateCodeForm/UpdateCodeForm';
 
 import VerifiedIcon from '../../components/VerifiedIcon/VerifiedIcon';
 import carte from '../../../../assets/svg/carte.svg';
@@ -26,7 +27,9 @@ import useStyles from './styles';
 const UserContainer = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const [showModalData, setShowModalData] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState('');
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [useGetUsersDataCall, useGetUsersDataState] = useGetUsersData();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
@@ -59,13 +62,13 @@ const UserContainer = (props: RouteComponentProps) => {
       downloadCSV(csv, 'utilisateurs');
     }
   }, [groupsState.data]);
+  const renderModelUpdate = (value: any, row: any) => {
+    setOpenUpdate(true);
+    setSelectedEmail(row.email);
+  };
 
   const ExportCSV = () => {
     useGetUsersDataCall();
-    /* if (apisRef.current) {
-      getGroups({ variables: { codes: uniq(apisRef.current.data.map((user) => user.codeGroupe)) } });
-    } */
-    // useGetUsersDataCall();
   };
   useEffect(() => {
     if (useGetUsersDataState.data?.getData) {
@@ -143,6 +146,17 @@ const UserContainer = (props: RouteComponentProps) => {
       title: 'Nombre de structures éligibles',
       render: (value) => value?.toString(),
     },
+    {
+      key: 'Actions',
+      // @ts-ignore
+      dataIndex: 'action',
+      title: 'Mise à jour code',
+      render: (value, row) => (
+        <span onClick={() => renderModelUpdate(value, row)} style={{ cursor: 'pointer' }}>
+          <SettingsApplicationsIcon color="primary" />
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -190,6 +204,17 @@ const UserContainer = (props: RouteComponentProps) => {
           <div className={classes.exportSuccess}>
             Un email sera envoyé à votre adresse mail contenant le fichier export
           </div>
+        </ModalContainer>
+      )}
+      {openUpdate && (
+        <ModalContainer
+          open={openUpdate}
+          handleClose={() => setOpenUpdate(false)}
+          backdropColor="#011A5E"
+          colorIcon="#4D6EC5"
+          size={70}
+        >
+          <UpdateCodeForm email={selectedEmail} setOpenUpdate={setOpenUpdate} />
         </ModalContainer>
       )}
     </>

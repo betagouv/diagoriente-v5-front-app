@@ -224,6 +224,12 @@ export const resetMutation = gql`
         logo
         location
         role
+        nbrGroupes
+        lastLogin
+        nbrUserGroup {
+          count
+          code
+        }
         profile {
           firstName
           lastName

@@ -130,6 +130,15 @@ export const UpdateVisualisations = gql`
       nbrVisualisation {
         userId
       }
+    }
+  }
+`;
+export interface UpdateVisualisationArguments {
+  userId: string;
+}
+export const useUpdateVisualisation = (
+  options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
+) => useLocalMutation(UpdateVisualisations, options);
 export const GetUsersData = gql`
   {
     getData {
@@ -142,8 +151,5 @@ interface IGetDataResponse {
     id: string;
   };
 }
-export const useUpdateVisualisation = (
-  options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
-) => useLocalMutation(UpdateVisualisations, options);
 export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
   useLocalLazyQuery(GetUsersData, options);

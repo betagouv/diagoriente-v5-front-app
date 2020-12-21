@@ -124,6 +124,12 @@ export const useUpdateWc2023Quality = (
   options?: MutationHookOptions<{ updateWc2023Quality: string }, UpdateWc2023QualityMutationParams>,
 ) => useLocalMutation(updateWc2023QualityMutation, options);
 
+export const UpdateVisualisations = gql`
+  mutation UpdateVisialition($userId: ID) {
+    updateVisialition(userId: $userId) {
+      nbrVisualisation {
+        userId
+      }
 export const GetUsersData = gql`
   {
     getData {
@@ -136,5 +142,8 @@ interface IGetDataResponse {
     id: string;
   };
 }
+export const useUpdateVisualisation = (
+  options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
+) => useLocalMutation(UpdateVisualisations, options);
 export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
   useLocalLazyQuery(GetUsersData, options);

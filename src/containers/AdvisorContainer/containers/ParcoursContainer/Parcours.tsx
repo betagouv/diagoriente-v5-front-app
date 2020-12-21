@@ -9,8 +9,9 @@ import { merge } from 'lodash';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
-import { useEligibleStructures } from 'requests/campus2023';
-import VerifiedIcon from 'containers/AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import { useEligibleStructures } from '../../../../requests/campus2023';
+import { useUpdateVisualisation } from 'requests/user';
+import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
 
@@ -21,6 +22,7 @@ const Parcours = () => {
   const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
@@ -41,6 +43,7 @@ const Parcours = () => {
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
+    getUpdateVisualisation({ variables: { userId: idUser } });
     const pro = row.profile;
     setSelectedUser(pro);
   };
@@ -162,7 +165,7 @@ const Parcours = () => {
       </ul>
     </Typography>
   );
-
+console.log('myGroup?.users',myGroup)
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
@@ -177,8 +180,8 @@ const Parcours = () => {
             {customGroup && (
               <Table
                 onPageChange={() => null}
-                count={customGroup.length}
-                data={customGroup}
+                count={myGroup?.users.length}
+                data={myGroup?.users}
                 totalPages={0}
                 headers={headers}
                 currentPage={1}

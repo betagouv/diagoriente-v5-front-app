@@ -5,6 +5,7 @@ import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import ParcoursContext from 'contexts/ParcourContext';
+import userContext from 'contexts/UserContext';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { Jobs } from 'requests/types';
@@ -13,7 +14,9 @@ import Reset from 'components/common/Rest/Rest';
 import Spinner from 'components/Spinner/Spinner';
 import Button from 'components/button/Button';
 import classesNames from 'utils/classNames';
+import { useDidMount } from 'hooks/useLifeCycle';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
+import { useAddStat } from 'requests/statistique';
 import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
 import SelectData from '../../components/SelectData/SelectData';
@@ -57,6 +60,7 @@ const JobsContainer = ({
 }: IProps) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
+  const { user } = useContext(userContext);
   const [jobsToShow, setJobsToShow] = useState(12);
   const [openType, setOpenType] = useState(false);
   const [openDomain, setOpenDomain] = useState(false);
@@ -64,6 +68,7 @@ const JobsContainer = ({
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [openDataToRender, setOpenDataToRender] = useState(false);
   const [dataToRender, setDataToRender] = useState(12);
+  const [addStatCall, addStatSate] = useAddStat();
 
   const divDomaine = useRef<HTMLDivElement>(null);
   const divType = useRef<HTMLDivElement>(null);
@@ -72,6 +77,12 @@ const JobsContainer = ({
   const scrollRef = useRef(0);
 
   const [clearMessage, setClearMessage] = useState<null | boolean>(null);
+
+  useDidMount(() => {
+    if (user) {
+      addStatCall({ variables: { userId: user?.id, nbrCard: [], nbrSearch: [] } });
+    }
+  });
 
   useEffect(() => {
     async function c() {
@@ -261,7 +272,6 @@ const JobsContainer = ({
                   onClick={() => setOpenAcc(!openAcc)}
                   reference={divAcc}
                   parcourAcc={parcours?.accessibility}
-                  
                 />
               </Tooltip>
             </>
@@ -283,6 +293,7 @@ const JobsContainer = ({
                       description={el.description}
                       accessibility={el.accessibility}
                       favoris={el.favorite}
+                      user={user?.id}
                     />
                   ))}
             </div>

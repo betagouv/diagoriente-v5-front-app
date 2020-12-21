@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+ useContext, useEffect, useRef, useState,
+} from 'react';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
@@ -8,7 +10,7 @@ import { useHistory } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import ParcoursContext from 'contexts/ParcourContext';
 import localforage from 'localforage';
-
+import DatePicker from 'components/common/Pickers/DatePicker';
 import { useForm } from 'hooks/useInputs';
 import LogoLocation from 'assets/form/location.png';
 import { useLocation } from 'requests/location';
@@ -17,6 +19,7 @@ import { useUpdateUser } from 'requests/user';
 import useStyles from './style';
 import ModalCampusConfirm from './ModalCampusEnvoyee2023';
 import ModalContainer from '../common/Modal/ModalContainer';
+
 interface IProps {
   handleClose: () => void;
 }
@@ -45,6 +48,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     initialValues: {
       lastName: '',
       firstName: '',
+      date: '',
       location: '',
       perimeter: '',
       accessibility: [] as string[],
@@ -64,14 +68,14 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     longitude: 0,
   });
 
-  const [locationCall, { data, loading }] = useLocation({ variables: { search } });
+  const [locationCall, { data }] = useLocation({ variables: { search } });
   const [updateUserCall, updateUserState] = useUpdateUser();
   const [textError, setTextError] = useState('');
   const updateUserdata = async () => {
-    const data: string | null = await localforage.getItem('auth');
+    const dataUser: string | null = await localforage.getItem('auth');
     let res = {};
-    if (data) {
-      const parsedData = JSON.parse(data);
+    if (dataUser) {
+      const parsedData = JSON.parse(dataUser);
       let newObj = {};
       const objUser = parsedData.user;
       const updatedUser = { ...objUser, validateCampus: true };
@@ -90,6 +94,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     if (state.values.location.length > 0) {
       locationCall();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.values.location]);
   useEffect(() => {
     if (isCampus) {
@@ -103,12 +108,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.firstName !== '' &&
-      state.values.lastName !== '' &&
-      state.values.formation.length !== 0 &&
-      state.values.accessibility.length !== 0 &&
-      state.values.location !== '' &&
-      state.values.perimeter !== ''
+      state.values.firstName !== ''
+      && state.values.lastName !== ''
+      && state.values.formation.length !== 0
+      && state.values.accessibility.length !== 0
+      && state.values.location !== ''
+      && state.values.perimeter !== ''
+      && state.values.date !== ''
     ) {
       setIsValidForm(true);
     }
@@ -119,6 +125,7 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     state.values.accessibility,
     state.values.location,
     state.values.perimeter,
+    state.values.date,
   ]);
   useEffect(() => {
     if (user) {
@@ -131,11 +138,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
         firstName: user.profile.firstName,
         lastName: user.profile.lastName,
         formation: form,
+        date: user.wc2023?.birthdate,
         accessibility: acc,
         perimeter: user.wc2023?.perimeter?.toString() || '',
       });
       setCoordinates({ lattitude: user.coordinates.lattitude, longitude: user.coordinates.longitude });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.location]);
 
   useEffect(() => {
@@ -143,8 +152,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
       updateUserdata();
       setUser(updateUserState.data.updateUser);
       setShowConfirmationModal(true);
-    } else if (updateUserState.error?.message) {
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateUserState.data, updateUserState.error]);
   const onSelect = (location: string | undefined) => {
     if (location) actions.setValues({ location });
@@ -169,45 +178,46 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
     if (
-      state.values.firstName === '' ||
-      state.values.lastName === '' ||
-      state.values.location === '' ||
-      state.values.perimeter === ''
+      state.values.firstName === ''
+      || state.values.lastName === ''
+      || state.values.location === ''
+      || state.values.perimeter === ''
+      || state.values.date === ''
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
-    } else {
-      if (!user?.validateCampus) {
-        const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
-        if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
-        else {
-          const dataToSend = {
-            firstName: state.values.firstName,
-            lastName: state.values.lastName,
-            location: state.values.location,
-            coordinates,
-            wc2023: {
-              degree: state.values.accessibility[0] || user?.wc2023.degree,
-              formation: state.values.formation[0],
-              perimeter: Number(state.values.perimeter),
-              birthdate: user?.wc2023.birthdate,
-            },
-            validateCampus: hasCompletedParcours,
-          };
-          updateUserCall({ variables: { ...dataToSend } });
-        }
+    } else if (!user?.validateCampus) {
+      const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+      if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
+      else {
+        const dataToSend = {
+          firstName: state.values.firstName,
+          lastName: state.values.lastName,
+          location: state.values.location,
+          coordinates,
+          wc2023: {
+            degree: state.values.accessibility[0] || user?.wc2023.degree,
+            formation: state.values.formation[0],
+            perimeter: Number(state.values.perimeter),
+            birthdate: user?.wc2023.birthdate || state.values.date,
+          },
+          validateCampus: hasCompletedParcours,
+        };
+        updateUserCall({ variables: { ...dataToSend } });
       }
     }
   };
   useEffect(() => {
     if (
-      textError &&
-      state.values.firstName !== '' &&
-      state.values.lastName !== '' &&
-      state.values.location !== '' &&
-      state.values.perimeter !== ''
+      textError
+      && state.values.firstName !== ''
+      && state.values.lastName !== ''
+      && state.values.location !== ''
+      && state.values.perimeter !== ''
+      && state.values.date !== ''
     ) {
       setTextError('');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.values.firstName, state.values.lastName, state.values.location]);
   useEffect(() => {
     if (openLocation) {
@@ -236,7 +246,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.labelContainer}>
                   <label className={classes.labelSelect}>
-                    Prénom <span className={classes.requiredInput}>*</span>
+                    Prénom
+                    {' '}
+                    <span className={classes.requiredInput}>*</span>
                   </label>
                 </div>
               </Grid>
@@ -257,7 +269,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.labelContainer}>
                   <label className={classes.labelSelect}>
-                    Nom de famille <span className={classes.requiredInput}>*</span>
+                    Nom de famille
+                    {' '}
+                    <span className={classes.requiredInput}>*</span>
                   </label>
                 </div>
               </Grid>
@@ -274,12 +288,18 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 />
               </Grid>
             </Grid>
+            <div className={classes.formDate}>
+              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
+            </div>
+
             <div className={classes.selectwrapper}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Ville de résidence <span className={classes.requiredInput}>*</span>
+                      Ville de résidence
+                      {' '}
+                      <span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>
@@ -310,7 +330,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Niveau du dernier diplôme obtenu <span className={classes.requiredInput}>*</span>
+                      Niveau du dernier diplôme obtenu
+                      {' '}
+                      <span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>
@@ -337,7 +359,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Formation visée <span className={classes.requiredInput}>*</span>
+                      Formation visée
+                      {' '}
+                      <span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>

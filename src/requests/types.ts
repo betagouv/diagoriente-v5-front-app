@@ -354,3 +354,11 @@ export interface Stat {
   nbrCard: { date: Date; jobId: string }[];
   nbrSearch: { date: Date; jobId: string; type: string }[];
 }
+export interface IGroup {
+  id: string;
+  users: string[];
+  _id: string;
+  title: string;
+  code: string;
+  advisorId: string;
+}

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, Tooltip } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import Button from '@material-ui/core/Button/Button';
 import { useGetUserParcour } from 'requests/parcours';
-
+import { merge } from 'lodash';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
@@ -14,12 +14,12 @@ import { useUpdateVisualisation } from 'requests/user';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-import { RemoveRedEye } from '@material-ui/icons';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
   const [showStructures, setShowStructures] = useState(false);
+  const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
@@ -27,7 +27,15 @@ const Parcours = () => {
     lastName: '',
     firstName: '',
   });
-  const myGroup = data?.myGroup;
+
+  useEffect(() => {
+    if (data) {
+      const a = data.myGroup.map((g: any) => g.users.map((u: any) => ({ ...u, code: g.code, advisor: g.advisorId })));
+      const con = a.flat(1);
+      setCustomGroup(con);
+    }
+  }, [data]);
+
   useDidMount(() => {
     loadParcours();
   });
@@ -46,14 +54,16 @@ const Parcours = () => {
   };
 
   const exportCSV = () => {
-    if (myGroup) {
+    if (data) {
       const csv = jsonToCSV(
-        myGroup.users.map((user: any) => {
+        customGroup.map((user: any) => {
           const quality = qualities[user.wc2023.quality as keyof typeof qualities];
           return {
             nom: user.profile.lastName,
             prénom: user.profile.firstName,
             localisation: user.location,
+            nomAdvisor: `${user.advisor.profile.firstName} ${user.advisor.profile.lastName}`,
+            emailAdvisor: user.advisor.email,
             'choix de la formation': user.wc2023.formation,
             'statut de la candidature': quality ? quality.title : '',
             Commentaire: user?.wc2023?.comment,
@@ -86,6 +96,24 @@ const Parcours = () => {
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
     {
+      title: 'Nom conseiller',
+      key: 'firstNameAdvisor',
+      dataIndex: 'advisor',
+      render: (value) => `${value.profile.firstName} ${value.profile.lastName}`,
+    },
+    {
+      title: 'E-mail Advisor',
+      key: 'emailAdvisor',
+      dataIndex: 'advisor',
+      render: (value) => value.email,
+    },
+    {
+      title: 'Code',
+      key: 'code',
+      dataIndex: 'code',
+      render: (value) => value,
+    },
+    {
       title: 'Formation visée',
       key: 'selectedFormation',
       dataIndex: 'wc2023',
@@ -111,11 +139,9 @@ const Parcours = () => {
       title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
-      render: (value, row) => {
-        return (
-          <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
-        );
-      },
+      render: (value, row) => (
+        <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
+      ),
     },
     /* {
       title: "Structures d'accueil potentielles",
@@ -151,7 +177,7 @@ console.log('myGroup?.users',myGroup)
             </Button>
           </Grid>
           <Grid item xs={12}>
-            {myGroup && (
+            {customGroup && (
               <Table
                 onPageChange={() => null}
                 count={myGroup?.users.length}

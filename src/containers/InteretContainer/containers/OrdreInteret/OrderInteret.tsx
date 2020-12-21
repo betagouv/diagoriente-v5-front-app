@@ -84,7 +84,13 @@ const OrderInteret = ({ history, location }: RouteComponentProps) => {
         </div>
         <div className={classes.wrapper}>
           <div className={classes.subTitle}>
-            <div>Bravo ! Tu as sélectionné tes 5 familles d&lsquo;intérêts.</div>
+            <div>
+              Bravo ! Tu as sélectionné tes
+              {' '}
+              {selectedInterest.length}
+              {' '}
+              familles d&lsquo;intérêts.
+            </div>
             <div>Maintenant classe-les par ordre d’importance pour toi :</div>
           </div>
           <div className={classes.listSelected}>

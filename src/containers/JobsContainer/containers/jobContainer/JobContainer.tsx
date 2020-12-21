@@ -130,13 +130,13 @@ const JobContainer = ({
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
   const competences = parcours?.globalCompetences;
-  const d: any = [];
+  const matchedInterest: any = [];
   useOnclickOutside(divRef, () => {});
 
   parcours?.families.forEach((item) => {
     data?.job.interests.forEach((el) => {
       if (el._id.nom === item.nom) {
-        d.push(item);
+        matchedInterest.push(item);
       }
     });
   });
@@ -251,7 +251,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
-      
+
       <div className={classes.interestInfo}>
         <div className={classes.wrapInterest}>
           <div className={classes.interestTitleContainer}>
@@ -280,16 +280,21 @@ const JobContainer = ({
               </div>
               <div>
                 <span className={classes.infoInterestPurpleText}>
-                  {`${d.length} intérêts sur ${data?.job.interests.length}`}
+                  {`${matchedInterest.length} intérêts sur ${data?.job.interests.length}`}
                 </span>{' '}
                 en commun avec les tiens.
               </div>
-              <div> Ce métier semble plutôt bien te correspondre ! </div>
+              <div>
+                {' '}
+                {matchedInterest.length <= 2
+                  ? 'Ce métier ne semble pas correspondre à tes interêts'
+                  : 'Ce métier semble plutôt bien te correspondre !'}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div className={classes.competenceInfo}>
         <div className={classes.competenceContainer}>
           <div className={classes.interestTitleContainer}>
@@ -307,7 +312,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
-      
+
       <ModalContainer
         open={openTest || openInfo}
         handleClose={handleClose}

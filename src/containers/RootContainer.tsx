@@ -74,11 +74,11 @@ const RootContainer = () => {
         <ParcourContext.Provider value={{ parcours, setParcours }}>
           <SecteurContext.Provider value={secteursData}>
             <Switch>
-              <BaseRoute  exact path="/" component={HomeContainer} />
+              <BaseRoute exact path="/" component={HomeContainer} />
               <Route footer path="/login" exact component={LoginContainer} />
               <Route footer path="/register" exact component={RegisterContainer} />
               <Route
-              protected
+                protected
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
                   openIcon: user?.isCampus ? whiteMenu : whiteMenu,

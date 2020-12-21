@@ -74,12 +74,14 @@ const Register = () => {
     if (actions.validateForm()) {
       if (values.acceptCondition) {
         const res = { ...values, coordinates, validateCampus: false };
-        if (values.location.length !== 0) {
+        const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+
+        if (values.location.length !== 0 && hasGoodGPS) {
           registerCall({
             variables: res,
           });
         } else {
-          setErrorCondition("Saisie ta localisation");
+          setErrorCondition('Saisie ta localisation');
         }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
@@ -282,7 +284,9 @@ const Register = () => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <div className={classes.label}>
-                      Ta ville de résidence <span className={classes.requiredInput}>*</span>
+                      Ta ville de résidence 
+{' '}
+<span className={classes.requiredInput}>*</span>
                     </div>
                   </div>
                 </Grid>
@@ -341,9 +345,12 @@ const Register = () => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les{' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
-                      <span className={classes.start}>*</span>
+                      J&lsquo;accepte les
+{' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
+{' '}
+de Diagoriente
+<span className={classes.start}>*</span>
                     </div>
                   </div>
                   <div className={classes.errorText}>{errorCondition}</div>

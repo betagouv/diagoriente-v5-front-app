@@ -84,9 +84,6 @@
     "eject": "react-scripts eject",
     "build:staging": "env-cmd -f .env.staging yarn build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

@@ -64,7 +64,7 @@ const Confirmation = () => {
 
   const updateUserdata = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');
-    let res = {};
+    const res = {};
     if (data) {
       const parsedData = JSON.parse(data);
       let newObj = {};
@@ -165,10 +165,8 @@ const Confirmation = () => {
             formation: state.values.formation[0],
           };
           updateUserCall({ variables: { wc2023: dataToSend, location: state.values.location, coordinates } });
-        } else {
-          if (!isValidDate) setTextError('Date invalide ');
-          else if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
-        }
+        } else if (!isValidDate) setTextError('Date invalide ');
+        else if (!hasGoodGPS) setTextError('Ville invalide, sélectionner dans la liste lors de la saisie');
       }
     } else {
       history.push('/');
@@ -217,7 +215,9 @@ const Confirmation = () => {
             </div>
             <div className={classes.forms}>
               <div className={classes.subTitle}>Avant de commencer, renseigne les informations ci-dessous.</div>
-              <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
+              <div className={classes.formDate}>
+                <DatePicker onChangeDate={actions.handleChange} date={state.values.date} label="Date de naissance" />
+              </div>
               <div className={classes.selectAutoComplete}>
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={4} md={5} lg={5}>

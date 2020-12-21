@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
-import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
+import { MutationHookOptions, QueryHookOptions, LazyQueryHookOptions } from '@apollo/react-hooks';
+import { useLocalMutation, useLocalQuery, useLocalLazyQuery } from 'hooks/apollo';
 
 import { User, WC2023 } from './types';
 
@@ -77,8 +77,8 @@ export const useUpdateUser = (options: MutationHookOptions<{ updateUser: User },
   useLocalMutation(updateUserMutation, options);
 
 export const usersQuery = gql`
-  query($page: Int, $perPage: Int, $wc2023: Boolean) {
-    users(page: $page, perPage: $perPage, wc2023: $wc2023) {
+  query($page: Int, $perPage: Int, $wc2023: Boolean, $search: String) {
+    users(page: $page, perPage: $perPage, wc2023: $wc2023, search: $search) {
       perPage
       page
       totalPages
@@ -130,12 +130,20 @@ export const UpdateVisualisations = gql`
       nbrVisualisation {
         userId
       }
+export const GetUsersData = gql`
+  {
+    getData {
+      id
     }
   }
 `;
-export interface UpdateVisualisationArguments {
-  userId: string;
+interface IGetDataResponse {
+  getData: {
+    id: string;
+  };
 }
 export const useUpdateVisualisation = (
   options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
 ) => useLocalMutation(UpdateVisualisations, options);
+export const useGetUsersData = (options: LazyQueryHookOptions<IGetDataResponse> = {}) =>
+  useLocalLazyQuery(GetUsersData, options);

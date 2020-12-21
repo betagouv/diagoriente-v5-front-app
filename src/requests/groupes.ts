@@ -1,11 +1,20 @@
 import gql from 'graphql-tag';
 import { LazyQueryHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery } from '../hooks/apollo';
-import { User } from './types';
+import { User, IGroup } from './types';
 
 export const MyGroupInfoQuery = gql`
   query {
     myGroup {
+      id
+      code
+      advisorId {
+        email
+        profile {
+          firstName
+          lastName
+        }
+      }
       users {
         id
         profile {
@@ -26,10 +35,9 @@ export const MyGroupInfoQuery = gql`
   }
 `;
 
-type MyGroupInfoResponse = any;
+type MyGroupInfoResponse = {};
 
-export const useMyGroup = (options: LazyQueryHookOptions<MyGroupInfoResponse> = {}) =>
-  useLocalLazyQuery<MyGroupInfoResponse>(MyGroupInfoQuery, options);
+export const useMyGroup = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(MyGroupInfoQuery, options);
 
 export const groupesQuery = gql`
   query Groupes($codes: [String]) {

@@ -75,6 +75,11 @@ const UserContainer = (props: RouteComponentProps) => {
       setShowModalData(true);
     }
   }, [useGetUsersDataState.data]);
+  const onSuccess = () => {
+    if (apisRef.current) {
+      apisRef.current.list.refetch();
+    }
+  };
 
   const headers: Header<User>[] = [
     {
@@ -214,7 +219,7 @@ const UserContainer = (props: RouteComponentProps) => {
           colorIcon="#4D6EC5"
           size={70}
         >
-          <UpdateCodeForm email={selectedEmail} setOpenUpdate={setOpenUpdate} />
+          <UpdateCodeForm email={selectedEmail} setOpenUpdate={setOpenUpdate} onSuccess={onSuccess} />
         </ModalContainer>
       )}
     </>

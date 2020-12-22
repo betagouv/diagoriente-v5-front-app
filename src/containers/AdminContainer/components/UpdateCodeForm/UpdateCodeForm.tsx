@@ -9,9 +9,10 @@ import useStyles from './styles';
 interface IProps {
   email: string;
   setOpenUpdate: (e: boolean) => void;
+  onSuccess: () => void;
 }
 
-const UpdateCodeForm = ({ email, setOpenUpdate }: IProps) => {
+const UpdateCodeForm = ({ email, setOpenUpdate, onSuccess }: IProps) => {
   const classes = useStyles();
   const [error, setError] = useState('');
   const [updateCall, updateState] = useAffectUserCode();
@@ -41,11 +42,12 @@ const UpdateCodeForm = ({ email, setOpenUpdate }: IProps) => {
   useEffect(() => {
     if (updateState.data) {
       setOpenUpdate(false);
-      usersCall();
+      onSuccess();
     } else {
       setError((updateState.error as any)?.graphQLErrors[0].message);
     }
-  }, [updateState.data, updateState.error, setOpenUpdate, usersCall]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateState.data, updateState.error, setOpenUpdate]);
   return (
     <div className={classes.wrapper}>
       <AdminTextField

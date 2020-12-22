@@ -19,16 +19,17 @@ import KeyboardBack from '@material-ui/icons/KeyboardBackspace';
 
 import classNames from 'utils/classNames';
 import { isEmpty } from 'lodash';
-import useStyle from './styles';
 import useCaptureRef from 'hooks/useCaptureRef';
+import useStyle from './styles';
 
 export const PER_PAGE = 10;
 
 type MutationParams<T> = T extends MutationTuple<any, infer R> ? R : never;
 type LazyQueryReturnType<T> = T extends QueryTuple<infer R, any> ? R : never;
 
-export interface ApisRef<T> {
+export interface ApisRef<T extends { id: string }> {
   data: T[];
+  list: QueryResult<any, any>;
 }
 
 interface Props<
@@ -151,7 +152,7 @@ const Crud = <
     };
   }
 
-  useCaptureRef({ data }, apisRef);
+  useCaptureRef({ data, list }, apisRef);
 
   let [improvedHeaders] = useActionsHeader(headers, data, options);
 
@@ -293,9 +294,12 @@ const Crud = <
                   <p className={classes.popupDescription}>
                     Êtes-vous sûr ?
                     <br />
-                    Souhaitez-vous vraiment supprimer{' '}
-                    {isDelete && isDelete.params.id.split(',').length > 1 ? 'ces documents' : 'ce document'} ?
-                    <br />
+                    Souhaitez-vous vraiment supprimer
+{' '}
+                    {isDelete && isDelete.params.id.split(',').length > 1 ? 'ces documents' : 'ce document'}
+{' '}
+?
+<br />
                     Ce processus est irréversible !
                   </p>
                   <Button

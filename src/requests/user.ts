@@ -142,8 +142,8 @@ export const useUpdateVisualisation = (
   options: MutationHookOptions<{ updateVisialition: User }, UpdateVisualisationArguments> = {},
 ) => useLocalMutation(UpdateVisualisations, options);
 export const GetUsersData = gql`
-  {
-    getData {
+  query GetData($isCampus: Boolean) {
+    getData(isCampus: $isCampus) {
       id
     }
   }

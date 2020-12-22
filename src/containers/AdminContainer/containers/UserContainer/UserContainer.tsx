@@ -34,6 +34,8 @@ const UserContainer = (props: RouteComponentProps) => {
   const [useGetUsersDataCall, useGetUsersDataState] = useGetUsersData();
   const [selectedUser, setSelectedUser] = useState({ lastName: '', firstName: '' });
   const [getGroups, groupsState] = useGroups();
+  const [isWc2023, setIsWc2023] = useState(false);
+
   const apisRef = useRef<ApisRef<User>>(null);
 
   // @ts-ignore
@@ -68,7 +70,7 @@ const UserContainer = (props: RouteComponentProps) => {
   };
 
   const ExportCSV = () => {
-    useGetUsersDataCall();
+    useGetUsersDataCall({ variables: { isCampus: isWc2023 } });
   };
   useEffect(() => {
     if (useGetUsersDataState.data?.getData) {
@@ -174,7 +176,9 @@ const UserContainer = (props: RouteComponentProps) => {
         headers={headers}
         handleUri={({ wc2023, ...uri }) => ({ ...uri, wc2023: wc2023 && wc2023 !== 'false' })}
         Filter={(p) => (
-          <DefaultFilter {...p}>{(onChange, uri) => <UserFilter uri={uri} onChange={onChange} />}</DefaultFilter>
+          <DefaultFilter {...p}>
+            {(onChange, uri) => <UserFilter uri={uri} onChange={onChange} setIsWc2023={setIsWc2023} />}
+          </DefaultFilter>
         )}
         {...props}
       />

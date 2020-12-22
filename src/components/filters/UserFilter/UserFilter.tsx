@@ -9,9 +9,10 @@ import AdminCheckbox from 'components/inputs/AdminCheckbox/AdminCheckbox';
 interface ThemeFilterProps {
   onChange: (data: { wc2023: string }) => void;
   uri: { [key: string]: string };
+  setIsWc2023: (e: boolean) => void;
 }
 
-const ThemeFilter = ({ onChange, uri }: ThemeFilterProps) => {
+const ThemeFilter = ({ onChange, uri, setIsWc2023 }: ThemeFilterProps) => {
   const [wc2023, setWc2023] = useState(false);
 
   useEffect(() => {
@@ -24,8 +25,15 @@ const ThemeFilter = ({ onChange, uri }: ThemeFilterProps) => {
   }, [uri]);
 
   return (
-    <Grid style={{paddingTop: 0, paddingBottom: 0}} item sm={12} md={12} lg={12}>
-      <AdminCheckbox checked={wc2023} onChange={(e) => setWc2023(e.target.checked)} label="Campus 2023" />
+    <Grid style={{ paddingTop: 0, paddingBottom: 0 }} item sm={12} md={12} lg={12}>
+      <AdminCheckbox
+        checked={wc2023}
+        onChange={(e) => {
+          setWc2023(e.target.checked);
+          setIsWc2023(e.target.checked);
+        }}
+        label="Campus 2023"
+      />
     </Grid>
   );
 };

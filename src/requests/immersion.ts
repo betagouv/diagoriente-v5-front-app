@@ -55,11 +55,28 @@ export interface ImmersionResponseType {
   };
 }
 
-export const useImmersion = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetImmersion, options);
+export const useImmersion = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(GetImmersion, options);
 
 export const GetFormation = gql`
-  query formation($romes: String!, $latitude: Float!, $longitude: Float!, $radius: Int!, $diploma:String) {
-    formation(romes: $romes, latitude: $latitude, longitude: $longitude, radius: $radius, diploma:$diploma) {
+  query formation(
+    $romes: String!
+    $latitude: Float!
+    $longitude: Float!
+    $radius: Int!
+    $diploma: String
+    $caller: String!
+    $insee: Int!
+  ) {
+    formation(
+      romes: $romes
+      latitude: $latitude
+      longitude: $longitude
+      radius: $radius
+      diploma: $diploma
+      caller: $caller
+      insee: $insee
+    ) {
       title
       longTitle
       contact {
@@ -87,4 +104,5 @@ export const GetFormation = gql`
 export interface FormationResponseType {
   formation: Formation[];
 }
-export const useFormation = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetFormation, options);
+export const useFormation = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(GetFormation, options);

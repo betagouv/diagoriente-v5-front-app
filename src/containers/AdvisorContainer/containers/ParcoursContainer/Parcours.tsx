@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -11,16 +11,16 @@ import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-import { useEligibleStructures } from '../../../../requests/campus2023';
+// import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
-  const [showStructures, setShowStructures] = useState(false);
+  // const [showStructures, setShowStructures] = useState(false);
   const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
-  const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  // const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
@@ -155,7 +155,7 @@ const Parcours = () => {
     }, */
   ];
 
-  const getTooltipData = (competences: any[]) => (
+  /* const getTooltipData = (competences: any[]) => (
     <Typography variant="caption">
       <ul>
         {competences.map((c: any) => (
@@ -163,7 +163,7 @@ const Parcours = () => {
         ))}
       </ul>
     </Typography>
-  );
+  ); */
   return (
     <>
       {loading && <p>Chargement des données ...</p>}

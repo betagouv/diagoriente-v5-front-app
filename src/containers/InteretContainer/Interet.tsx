@@ -4,17 +4,16 @@ import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import InterestContext from 'contexts/InterestSelected';
+import logo from 'assets/svg/diagoriente_logo.svg';
+import logCampus from 'assets/images/diagorient-campus.png';
+import whiteMenu from 'assets/images/menu.png';
+import UserContext from 'contexts/UserContext';
 import { Families } from 'requests/types';
 import HomeInteret from './containers/HomeInteret';
 import MainInteret from './containers/MainInteret';
 import ParcoursInteret from './containers/ParcourInteret';
 import OrdreInteret from './containers/OrdreInteret/OrderInteret';
 import ResultInteret from './containers/ResultInterest/ResultInterest';
-import logo from 'assets/svg/diagoriente_logo.svg';
-import open from 'assets/svg/menu_close.svg';
-import logCampus from 'assets/images/diagorient-campus.png';
-import whiteMenu from 'assets/images/menu.png';
-import UserContext from 'contexts/UserContext';
 
 const theme = createMuiTheme({
   palette: {

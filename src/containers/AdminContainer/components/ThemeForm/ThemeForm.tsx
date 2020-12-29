@@ -140,10 +140,11 @@ const ThemeForm = ({ onSubmit, theme }: ThemeFormProps) => {
           }),
         );
       } else {
-        ListCompetence?.competences.data?.map((c) => res.push({ competenceId: c.id, tooltip: "" }));
+        ListCompetence?.competences.data?.map((c) => res.push({ competenceId: c.id, tooltip: '' }));
       }
       setValues({ tooltips: res });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ListCompetence]);
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

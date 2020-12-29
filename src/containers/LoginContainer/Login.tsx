@@ -7,7 +7,7 @@ import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
-import Recaptcha from 'utils/recaptch';
+// import Recaptcha from 'utils/recaptch';
 
 import { useForm } from 'hooks/useInputs';
 
@@ -28,8 +28,8 @@ const Login = ({ location }: RouteComponentProps) => {
 
   const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
   const [errorCount, setErrorCount] = useState(0);
-  const [openVerif, setOpenVerif] = useState(false);
-  const [checkedVerif, setCheckedVerif] = useState(false);
+  /*  const [openVerif, setOpenVerif] = useState(false);
+  const [checkedVerif, setCheckedVerif] = useState(false); */
 
   const [errorForm, setErrorForm] = useState<string>('');
   const checkBoxRef = useRef(null);
@@ -57,7 +57,7 @@ const Login = ({ location }: RouteComponentProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginState.error]);
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (errorCount === 3) {
       setOpenVerif(true);
     }

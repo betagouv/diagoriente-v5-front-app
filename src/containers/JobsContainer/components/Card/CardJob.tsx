@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Dotdotdot from 'react-dotdotdot';
 import Button from 'components/button/Button';
 import fullHeart from 'assets/svg/fullHeart.svg';
@@ -15,9 +15,7 @@ interface IProps {
   favoris: any;
   user?: string;
 }
-const CardJob = ({
- title, description, accessibility, id, favoris, user,
-}: IProps) => {
+const CardJob = ({ title, description, accessibility, id, favoris, user }: IProps) => {
   const history = useHistory();
   const [selected, setSelected] = useState(false);
   const [updateStatCall, updateStatState] = useUpdateStat();
@@ -34,6 +32,7 @@ const CardJob = ({
     if (updateStatState.data) {
       history.push(`/jobs/job/${id}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateStatState.data]);
 
   return (

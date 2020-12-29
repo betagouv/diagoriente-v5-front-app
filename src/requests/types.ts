@@ -11,6 +11,7 @@ export interface User {
   profile: {
     firstName: string;
     lastName: string;
+    institution: string;
   };
   played: boolean;
   isActive: boolean;

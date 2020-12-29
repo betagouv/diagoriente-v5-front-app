@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Button from 'components/button/Button';
 import { useHistory } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';

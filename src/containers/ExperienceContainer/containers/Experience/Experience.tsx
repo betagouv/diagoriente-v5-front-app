@@ -13,10 +13,9 @@ import illExpRugby from 'assets/images/rugby.png';
 
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import { Link, useHistory } from 'react-router-dom';
-import Game from '../Game/gameModal/GameModal';
 import userContext from 'contexts/UserContext';
-import classNames from 'utils/classNames';
 import useStyles from './styles';
+import Game from '../Game/gameModal/GameModal';
 
 // import help from 'assets/svg/help.svg';
 

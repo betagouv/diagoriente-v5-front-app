@@ -8,6 +8,7 @@ export const locationQuery = gql`
     location(search: $search) {
       label
       coordinates
+      postcode
     }
   }
 `;
@@ -16,6 +17,7 @@ export interface LocationResponse {
   location: {
     label: string;
     coordinates: string[];
+    postcode: number;
   }[];
 }
 export const useLocation = (options: QueryHookOptions<LocationResponse, LocationArguments> = {}) =>

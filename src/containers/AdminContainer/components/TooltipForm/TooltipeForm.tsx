@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button/Button';
-import { Theme, Competence } from 'requests/types';
-import { useUpdateTheme } from 'requests/themes';
-
+import { Theme } from 'requests/types';
 import useStyles from './stylesTooltip';
 
 interface ThemeTooltipValues {
@@ -21,7 +19,6 @@ interface IProps {
 
 const TooltipeForm = ({ theme, list, handleChangeTooltip, tooltips, onSubmit }: IProps) => {
   const classes = useStyles();
-  const [updateCall, updateState] = useUpdateTheme();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

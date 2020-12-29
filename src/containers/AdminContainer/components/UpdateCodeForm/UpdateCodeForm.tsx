@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'hooks/useInputs';
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
 import Button from '@material-ui/core/Button/Button';
-import { useAffectUserCode, useUsersLazy } from 'requests/user';
+import { useAffectUserCode } from 'requests/user';
 import Snackbar from 'components/SnackBar/SnackBar';
 import useStyles from './styles';
 
@@ -16,7 +16,6 @@ const UpdateCodeForm = ({ email, setOpenUpdate, onSuccess }: IProps) => {
   const classes = useStyles();
   const [error, setError] = useState('');
   const [updateCall, updateState] = useAffectUserCode();
-  const [usersCall, userCallState] = useUsersLazy({ fetchPolicy: 'network-only' });
 
   const [state, actions] = useForm({
     initialValues: {

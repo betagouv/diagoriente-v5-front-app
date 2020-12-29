@@ -25,6 +25,7 @@ interface IProps {
   errorLocation?: boolean;
   typeApi?: string;
   setCoordinates?: (e: any) => void;
+  setInsee?: (e: number) => void;
 }
 
 const ImmersionForm = ({
@@ -45,6 +46,7 @@ const ImmersionForm = ({
   typeApi,
   errorLocation,
   setCoordinates,
+  setInsee,
 }: IProps) => {
   const classes = useStyles();
   const typeFilter = [
@@ -98,6 +100,7 @@ const ImmersionForm = ({
           error={errorLocation && !selectedLocation}
           setOpen={setOpenLocation}
           setCoordinates={setCoordinates}
+          setInsee={setInsee}
         />
       </div>
 

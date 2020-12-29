@@ -235,6 +235,7 @@ export const resetMutation = gql`
         }
         isCampus
         validateCampus
+        codeGroupe
         wc2023 {
           degree
           formation

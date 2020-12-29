@@ -9,8 +9,8 @@ import { useTypeJob } from 'requests/environment';
 import { useSecteurs } from 'requests/themes';
 import { useLocation as locationcall } from 'requests/location';
 import ParcoursContext from 'contexts/ParcourContext';
-
-import CloseIcon from 'assets/svg/close_drawer.svg';
+import UserContext from 'contexts/UserContext';
+import NotFoundPage from 'components/layout/NotFoundPage';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
 import open from 'assets/svg/menu_close.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
@@ -19,8 +19,6 @@ import whiteMenu from 'assets/images/menu.png';
 import JobsContainer from './containers/jobsContainer';
 import JobContainer from './containers/jobContainer';
 import ImmersionContainer from './containers/imersionContainer';
-import UserContext from 'contexts/UserContext';
-import NotFoundPage from 'components/layout/NotFoundPage';
 
 const theme = createMuiTheme({
   palette: {

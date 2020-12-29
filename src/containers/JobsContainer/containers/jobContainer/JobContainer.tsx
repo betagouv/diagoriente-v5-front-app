@@ -26,7 +26,7 @@ import useStyles from './styles';
 interface IProps extends RouteComponentProps<{ id: string }> {
   jobs?: Jobs[];
   locationCall: (i: any) => any;
-  listLocation?: { label: string; coordinates: string[] }[];
+  listLocation?: { label: string; coordinates: string[]; postcode: number }[];
   setSelectedLocation: (i: string) => void;
   selectedLocation: string;
 }
@@ -47,6 +47,7 @@ const JobContainer = ({
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
   const [coordinates, setCoordinates] = useState<string[]>([]);
+  const [insee, setInsee] = useState(0);
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
@@ -110,6 +111,7 @@ const JobContainer = ({
       const t = listLocation.find((el) => el.label === selectedLocation);
       if (t) {
         setCoordinates(t.coordinates);
+        setInsee(t.postcode);
       }
     }
   }, [listLocation, selectedLocation]);
@@ -178,7 +180,8 @@ const JobContainer = ({
         pathname: `/jobs/immersion/${param}`,
         search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
           coordinates[0]
-        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}&typeApi=${typeApi}`,
+        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}&typeApi=${typeApi}&caller=${user?.profile
+          .institution || 'test'}&codePost=${insee}`,
       });
     }
   };
@@ -246,6 +249,7 @@ const JobContainer = ({
                 setOpenLocation={setOpenLocation}
                 errorLocation={errorLocation}
                 setCoordinates={setCoordinates}
+                setInsee={setInsee}
               />
             </div>
           </div>
@@ -281,7 +285,8 @@ const JobContainer = ({
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${matchedInterest.length} intérêts sur ${data?.job.interests.length}`}
-                </span>{' '}
+                </span>
+{' '}
                 en commun avec les tiens.
               </div>
               <div>

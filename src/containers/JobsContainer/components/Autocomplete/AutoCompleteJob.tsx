@@ -28,6 +28,7 @@ interface IProps {
   isfull?: boolean;
   setOpen?: (open: boolean) => void;
   setCoordinates?: (e: any) => void;
+  setInsee?: (e: number) => void;
 }
 
 const AutoCompleteJob = ({
@@ -46,6 +47,7 @@ const AutoCompleteJob = ({
   onSelectText,
   setOpen,
   setCoordinates,
+  setInsee,
   isfull,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm), isfull });
@@ -99,8 +101,10 @@ const AutoCompleteJob = ({
                   key={el.label}
                   onClick={() => {
                     onSelectText(el.label);
-                    if (setCoordinates)
+                    if (setCoordinates) {
                       setCoordinates({ longitude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
+                    }
+                    if (setInsee) setInsee(el.value.postcode);
                   }}
                   className={classes.item}
                 >

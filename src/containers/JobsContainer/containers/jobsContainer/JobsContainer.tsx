@@ -7,6 +7,7 @@ import useOnclickOutside from 'hooks/useOnclickOutside';
 import ParcoursContext from 'contexts/ParcourContext';
 import userContext from 'contexts/UserContext';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useAddStat } from 'requests/statistique';
 
 import { Jobs } from 'requests/types';
 import Trait from 'assets/images/trait_jaune.svg';
@@ -16,7 +17,6 @@ import Button from 'components/button/Button';
 import classesNames from 'utils/classNames';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
-import { useAddStat } from 'requests/statistique';
 import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
 import SelectData from '../../components/SelectData/SelectData';
@@ -185,15 +185,19 @@ const JobsContainer = ({
             <div className={classes.text}>
               <div>Pour voir une sélection personnalisée de métiers qui pourraient te plaire,</div>
               <div>
-                commence à remplir ton profil en ajoutant tes{' '}
+                commence à remplir ton profil en ajoutant tes
+{' '}
                 <Link to="/experience">
                   {' '}
                   <span className={classes.clearTextBold}>expériences</span>
-                </Link>{' '}
-                et tes{' '}
+                </Link>
+{' '}
+                et tes
+{' '}
                 <Link to="/interet">
                   <span className={classes.clearTextBold}>centres d'intérêt</span>
-                </Link>{' '}
+                </Link>
+{' '}
               </div>
             </div>
             <div>
@@ -286,7 +290,7 @@ const JobsContainer = ({
               {renderedJobs?.length === 0
                 ? 'Aucun resultat trouvé !'
                 : renderedJobs?.map((el) => (
-                    <JobCard
+                  <JobCard
                       key={el.id}
                       id={el.id}
                       title={el.title}

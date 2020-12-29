@@ -4,7 +4,8 @@ import { Switch } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import userContext from 'contexts/UserContext';
-
+import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
+import logCampus from 'assets/images/diagorient-campus.png';
 import ExperienceProfil from './components/ExperienceComponent/ExperienceProfil';
 import ProfilComponent from './components/ProfilComponent/ProfilComponent';
 import InteretProfil from './components/InteretComponent/InteretComponent';
@@ -12,11 +13,6 @@ import InfoProfil from './components/InfoProfil/InfoProfil';
 import Game from './containers/GameContainer/GameContainer';
 
 import CardContainer from './containers/CardContainer';
-
-import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
-import logCampus from 'assets/images/diagorient-campus.png';
-import open from 'assets/svg/menu_close.svg';
-import whiteMenu from 'assets/images/menu.png';
 
 const theme = createMuiTheme({
   palette: {

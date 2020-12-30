@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useJob } from 'requests/jobs';
 import { useImmersion, useFormation } from 'requests/immersion';
-import { Company, Jobs } from 'requests/types';
+import { Company, Jobs, Formation } from 'requests/types';
 import { useUpdateStat } from 'requests/statistique';
 import userContext from 'contexts/UserContext';
 
@@ -25,6 +25,8 @@ import attention from 'assets/svg/attentionpink.svg';
 import { decodeUri } from 'utils/url';
 
 import Loupe from 'assets/svg/loupe';
+import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
+import LogoFormation from 'assets/svg/picto_formation.svg';
 
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalConseil from '../Modals/ConseilModal/ConseilModal';
@@ -64,6 +66,8 @@ const ImmersionContainer = ({
   const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
   const [selectedDistance, setSelectedDistance] = useState('5 km');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
+  const [selectedTypeResFilter, setSelectedTypeResFilter] = useState('Tout');
+
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
   const [typeApiImmersion, setTypeApi] = useState('');
   const [checkedTypeApiImmersion, checkedSetTypeApi] = useState('');
@@ -132,7 +136,15 @@ const ImmersionContainer = ({
         headcount: state.values.taille,
       };
       const sArgsImmersion = state.values.tri ? { ...argsImmersion, sort: state.values.tri } : argsImmersion;
-      const argsFormation = {
+      const argsFormation: {
+        romes: string;
+        latitude: number;
+        longitude: number;
+        radius: number;
+        caller: string;
+        insee: number;
+        filter?: string;
+      } = {
         romes: romeCodes,
         latitude: Number(latitude),
         longitude: Number(longitude),
@@ -141,6 +153,7 @@ const ImmersionContainer = ({
         insee,
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
+      if (selectedTypeResFilter !== 'tout') dArgsFormation.filter = selectedTypeResFilter;
       if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
       } else if (checkedTypeApiImmersion === 'formations') {
@@ -154,6 +167,7 @@ const ImmersionContainer = ({
     longitude,
     pageSize,
     caller,
+    selectedTypeResFilter,
     state.values.diplome,
     distances,
     state.values.distance,
@@ -170,12 +184,17 @@ const ImmersionContainer = ({
       (immersionState.data && typeApiImmersion === 'entreprise') ||
       (formationState.data && typeApiImmersion === 'formations')
     ) {
-      console.log('formationState.data', formationState.data);
       const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
         type: typeApiImmersion,
-        data: typeApiImmersion === 'entreprise' ? result.immersions?.companies : result.formation,
-        count: typeApiImmersion === 'entreprise' ? result.immersions.companies_count : result.formation.length,
+        data:
+          typeApiImmersion === 'entreprise'
+            ? result.immersions?.companies
+            : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null),
+        count:
+          typeApiImmersion === 'entreprise'
+            ? result.immersions.companies_count
+            : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null).length,
         fetching: false,
       });
     }
@@ -279,9 +298,14 @@ const ImmersionContainer = ({
       value: '+ de 100 km',
     },
   ];
+  const typeRes = [
+    { label: 'Tout', value: 'tout' },
+    { label: 'Formations', value: 'formation', logo: LogoFormation },
+    { label: 'Entreprise', value: 'entreprise', logo: LogoApprentissage },
+  ];
   const diplomeFilter = [
     { label: 'Cap', value: '3 (CAP...)' },
-    { label: 'Bac', value: '4 (BAC...)' },
+    { label: 'Bac', value: '4 (Bac...)' },
     { label: 'BTS, DUT', value: '5 (BTS, DUT...)' },
     { label: 'Licence', value: '6 (Licence...)' },
     { label: 'Master, titre ingénieur', value: '7 (Master, titre ingénieur...)' },
@@ -329,6 +353,14 @@ const ImmersionContainer = ({
     } else {
       setSelectedTypeFilter(el.label);
       actions.setValues({ diplome: el.value });
+      setPage(1);
+    }
+  };
+  const onTypeFilterRes = (el: { label: string; value: string }) => {
+    if (selectedTypeResFilter === el.label) {
+      setSelectedTypeResFilter('');
+    } else {
+      setSelectedTypeResFilter(el.label);
       setPage(1);
     }
   };
@@ -510,6 +542,22 @@ const ImmersionContainer = ({
                   ))}
                 </div>
               )}
+              {typeApiImmersion !== 'entreprise' && (
+                <div className={classes.distanceContainer}>
+                  <div className={classes.filterTitle}>Afficher</div>
+                  {typeRes.map((el) => (
+                    <div className={classes.wrapperRes}>
+                      <CheckBox
+                        key={el.label}
+                        label={el.label}
+                        logo={el.logo}
+                        value={selectedTypeResFilter}
+                        onClick={() => onTypeFilterRes(el)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className={classes.results}>
@@ -626,9 +674,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

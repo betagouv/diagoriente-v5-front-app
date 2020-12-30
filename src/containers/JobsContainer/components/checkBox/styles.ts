@@ -30,5 +30,7 @@ export default makeStyles<Theme, { checked: boolean }>((theme) => ({
   },
   logo: {
     marginRight: 5,
+    width: 30,
+    height: 40,
   },
 }));

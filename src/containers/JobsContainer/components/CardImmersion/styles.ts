@@ -113,4 +113,9 @@ export default makeStyles<Theme>((theme) => ({
     color: theme.palette.primary.main,
     paddingLeft: 15,
   },
+  logoTitle: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+  },
 }));

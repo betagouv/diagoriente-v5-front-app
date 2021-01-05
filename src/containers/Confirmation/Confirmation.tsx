@@ -139,8 +139,8 @@ const Confirmation = () => {
       setOpenFormation(false);
     }
   };
-  const onSelect = (location: string | undefined) => {
-    if (location) actions.setValues({ location });
+  const onSelect = (location: { label: string; code: string } | undefined) => {
+    if (location) actions.setValues({ location: location.label });
     setOpenLocation(false);
   };
   const onUpadetUser = () => {

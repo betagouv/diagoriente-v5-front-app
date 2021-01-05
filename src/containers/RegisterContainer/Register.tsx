@@ -145,8 +145,8 @@ const Register = () => {
     return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
   }
 
-  const onSelect = (location: string | undefined) => {
-    if (location) actions.setValues({ location });
+  const onSelect = (location: any | undefined) => {
+    if (location) actions.setValues({ location: location.label });
     setOpenLocation(false);
   };
   return (

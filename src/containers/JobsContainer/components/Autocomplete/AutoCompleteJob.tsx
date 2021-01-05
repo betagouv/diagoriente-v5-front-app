@@ -13,7 +13,7 @@ import useStyles from './style';
 interface IProps {
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onSelectText: (e: string | undefined) => void;
+  onSelectText: (e: any | undefined) => void;
   value: string | undefined;
   name: string;
   placeholder?: string;
@@ -100,7 +100,7 @@ const AutoCompleteJob = ({
                 <div
                   key={el.label}
                   onClick={() => {
-                    onSelectText(el.label);
+                    onSelectText(el);
                     if (setCoordinates) {
                       setCoordinates({ longitude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
                     }

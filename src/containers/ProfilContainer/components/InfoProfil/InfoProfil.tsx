@@ -70,7 +70,7 @@ const InfoProfil = () => {
   const [locationCall, { data, loading }] = useLocation({ variables: { search } });
   const updateUserdata = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');
-    let res = {};
+    const res = {};
     if (data) {
       const parsedData = JSON.parse(data);
       let newObj = {};
@@ -102,8 +102,8 @@ const InfoProfil = () => {
       });
     }
   };
-  const onSelect = (location: string | undefined) => {
-    if (location) actions.setValues({ location: location });
+  const onSelect = (location: any | undefined) => {
+    if (location) actions.setValues({ location: location.label });
     setOpenLocation(false);
   };
   useEffect(() => {
@@ -352,9 +352,8 @@ const InfoProfil = () => {
               const res = { ...values, coordinates };
               const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
               if (user?.isCampus && !hasGoodGPS) {
-                setError("Ville invalide (sélectionne dans la liste à la saisie)");
-              }
-              else {
+                setError('Ville invalide (sélectionne dans la liste à la saisie)');
+              } else {
                 updateUser({ variables: _.pickBy(res, (value) => value) });
               }
             } else {

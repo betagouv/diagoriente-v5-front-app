@@ -377,7 +377,7 @@ const ImmersionContainer = ({
   };
   const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e);
+      setSelectedLocation(e.label);
       setOpenLocation(false);
     }
   };
@@ -401,6 +401,8 @@ const ImmersionContainer = ({
       latitude: Number(latitude),
       longitude: Number(longitude),
       radius: Number(state.values.distance),
+      caller: 'test',
+      insee,
     };
     setTypeApi(checkedTypeApiImmersion);
     if (checkedTypeApiImmersion === 'entreprise') {

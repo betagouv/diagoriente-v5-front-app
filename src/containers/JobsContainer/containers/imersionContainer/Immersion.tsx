@@ -199,7 +199,6 @@ const ImmersionContainer = ({
       (immersionState.data && typeApiImmersion === 'entreprise') ||
       (formationState.data && typeApiImmersion === 'formation')
     ) {
-      console.log('formationState.data', formationState.data);
       const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
         type: typeApiImmersion,
@@ -602,7 +601,6 @@ const ImmersionContainer = ({
                   {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
                 </div>
                 <div>
-                  {dataToRender.type === 'formations' && (
                   {dataToRender.count === 0 &&
                     !dataToRender.fetching &&
                     'Note: Augmente ta zone de recherche pour plus de résultats'}

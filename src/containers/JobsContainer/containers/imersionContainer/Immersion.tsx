@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useJob } from 'requests/jobs';
 import { useImmersion, useFormation } from 'requests/immersion';
-import { Company, Jobs } from 'requests/types';
+import { Company, Jobs, Formation } from 'requests/types';
 import { useUpdateStat } from 'requests/statistique';
 import userContext from 'contexts/UserContext';
 
@@ -25,6 +25,8 @@ import attention from 'assets/svg/attentionpink.svg';
 import { decodeUri } from 'utils/url';
 
 import Loupe from 'assets/svg/loupe';
+import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
+import LogoFormation from 'assets/svg/picto_formation.svg';
 
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalConseil from '../Modals/ConseilModal/ConseilModal';
@@ -64,6 +66,8 @@ const ImmersionContainer = ({
   const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
   const [selectedDistance, setSelectedDistance] = useState('5 km');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
+  const [selectedTypeResFilter, setSelectedTypeResFilter] = useState('Tout');
+
   const [selectedTri, setSelectedTri] = useState('Toutes tailles');
   const [typeApiImmersion, setTypeApi] = useState('');
   const [checkedTypeApiImmersion, checkedSetTypeApi] = useState('');
@@ -100,14 +104,23 @@ const ImmersionContainer = ({
   const [updateStatCall, updateStatState] = useUpdateStat();
 
   const { search } = location;
-  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc, typeApi, caller, codePost } = decodeUri(
-    search,
-  );
+  const {
+    romeCodes,
+    latitude,
+    longitude,
+    pageSize,
+    distances,
+    selectedLoc,
+    typeApi,
+    caller,
+    codePost,
+    updated,
+  } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
-    loadJob();
-    if (user) {
+    if (user && param) {
+      loadJob();
       updateStatCall({ variables: { userId: user.id, jobId: param, type: typeApi } });
     }
   });
@@ -119,31 +132,46 @@ const ImmersionContainer = ({
     checkedSetTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
     setInsee(Number(codePost));
-  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi, codePost]);
+    setUpdate(Boolean(updated));
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi, codePost, updated]);
   useEffect(() => {
-    if (romeCodes && latitude && longitude && pageSize && distances) {
+    if (
+      (romeCodes || selectedImmersionCode) &&
+      (latitude || coordinates[1]) &&
+      (longitude || coordinates[0]) &&
+      typeApiImmersion
+    ) {
       const argsImmersion = {
-        rome_codes: romeCodes,
-        latitude: Number(latitude),
-        longitude: Number(longitude),
+        rome_codes: romeCodes || selectedImmersionCode,
+        latitude: Number(latitude) || coordinates[1],
+        longitude: Number(longitude) || coordinates[0],
         page_size: Number(pageSize),
         page: Number(page),
         distance: Number(state.values.distance),
         headcount: state.values.taille,
       };
       const sArgsImmersion = state.values.tri ? { ...argsImmersion, sort: state.values.tri } : argsImmersion;
-      const argsFormation = {
-        romes: romeCodes,
-        latitude: Number(latitude),
-        longitude: Number(longitude),
+      const argsFormation: {
+        romes: string;
+        latitude: number;
+        longitude: number;
+        radius: number;
+        caller: string;
+        insee: number;
+        filter?: string;
+      } = {
+        romes: romeCodes || selectedImmersionCode,
+        latitude: Number(latitude) || coordinates[1],
+        longitude: Number(longitude) || coordinates[0],
         radius: Number(state.values.distance),
-        caller,
+        caller: caller || 'test',
         insee,
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
+      if (selectedTypeResFilter !== 'tout') dArgsFormation.filter = selectedTypeResFilter;
       if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
-      } else if (checkedTypeApiImmersion === 'formations') {
+      } else if (checkedTypeApiImmersion === 'formation') {
         formationCall({ variables: dArgsFormation });
       }
     }
@@ -153,7 +181,7 @@ const ImmersionContainer = ({
     latitude,
     longitude,
     pageSize,
-    caller,
+    selectedTypeResFilter,
     state.values.diplome,
     distances,
     state.values.distance,
@@ -162,26 +190,33 @@ const ImmersionContainer = ({
     immersionCall,
     formationCall,
     page,
+    checkedTypeApiImmersion,
     typeApiImmersion,
+    caller,
   ]);
-
   useEffect(() => {
     if (
       (immersionState.data && typeApiImmersion === 'entreprise') ||
-      (formationState.data && typeApiImmersion === 'formations')
+      (formationState.data && typeApiImmersion === 'formation')
     ) {
       console.log('formationState.data', formationState.data);
       const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
         type: typeApiImmersion,
-        data: typeApiImmersion === 'entreprise' ? result.immersions?.companies : result.formation,
-        count: typeApiImmersion === 'entreprise' ? result.immersions.companies_count : result.formation.length,
+        data:
+          typeApiImmersion === 'entreprise'
+            ? result.immersions?.companies
+            : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null),
+        count:
+          typeApiImmersion === 'entreprise'
+            ? result.immersions.companies_count
+            : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null).length,
         fetching: false,
       });
     }
     if (
       (immersionState.loading && typeApiImmersion === 'entreprise') ||
-      (formationState.loading && typeApiImmersion === 'formations')
+      (formationState.loading && typeApiImmersion === 'formation')
     ) {
       setDataToRender({
         type: '',
@@ -216,7 +251,6 @@ const ImmersionContainer = ({
       setItems(a);
     }
   }, [PAGES]);
-
   useEffect(() => {
     if (open === true) {
       openContactState(null);
@@ -279,9 +313,14 @@ const ImmersionContainer = ({
       value: '+ de 100 km',
     },
   ];
+  const typeRes = [
+    { label: 'Tout', value: 'tout' },
+    { label: 'Formations', value: 'formation', logo: LogoFormation },
+    { label: 'Entreprise', value: 'entreprise', logo: LogoApprentissage },
+  ];
   const diplomeFilter = [
     { label: 'Cap', value: '3 (CAP...)' },
-    { label: 'Bac', value: '4 (BAC...)' },
+    { label: 'Bac', value: '4 (Bac...)' },
     { label: 'BTS, DUT', value: '5 (BTS, DUT...)' },
     { label: 'Licence', value: '6 (Licence...)' },
     { label: 'Master, titre ingénieur', value: '7 (Master, titre ingénieur...)' },
@@ -332,6 +371,14 @@ const ImmersionContainer = ({
       setPage(1);
     }
   };
+  const onTypeFilterRes = (el: { label: string; value: string }) => {
+    if (selectedTypeResFilter === el.label) {
+      setSelectedTypeResFilter('');
+    } else {
+      setSelectedTypeResFilter(el.label);
+      setPage(1);
+    }
+  };
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;
     setSelectedImmersion(value);
@@ -345,8 +392,11 @@ const ImmersionContainer = ({
   };
   const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e);
+      setSelectedLocation(e.label);
       setOpenLocation(false);
+      const gps = [e.value.coordinates[0], e.value.coordinates[1]];
+      setCoordinates(gps);
+      setInsee(e.value.postcode);
     }
   };
   const onSelectImmersion = (e: any | undefined) => {
@@ -358,17 +408,19 @@ const ImmersionContainer = ({
   };
   const onClickImmersion = () => {
     const dataTo = {
-      rome_codes: selectedImmersionCode,
+      rome_codes: romeCodes || selectedImmersionCode,
       latitude: coordinates[1],
       longitude: coordinates[0],
       page_size: 6,
       distance: 5,
     };
     const argsFormation = {
-      romes: romeCodes,
-      latitude: Number(latitude),
-      longitude: Number(longitude),
+      romes: romeCodes || selectedImmersionCode,
+      latitude: coordinates[1],
+      longitude: coordinates[0],
       radius: Number(state.values.distance),
+      caller: 'test',
+      insee,
     };
     setTypeApi(checkedTypeApiImmersion);
     if (checkedTypeApiImmersion === 'entreprise') {
@@ -377,19 +429,22 @@ const ImmersionContainer = ({
       formationCall({ variables: argsFormation });
     }
   };
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <div className={classes.titleContainer}>
           <Link to={`/jobs/job/${param}`}>
             <div className={classes.back}>
-              <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
-              {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}
+              {param && (
+                <>
+                  <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
+                  {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}
+                </>
+              )}
             </div>
           </Link>
           <ImageTitle
-            title={`TROUVER UNE ${typeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
+            title={`TROUVER UNE ${checkedTypeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
             color="#DB8F00"
             image={TraitJaune}
             size={42}
@@ -510,6 +565,22 @@ const ImmersionContainer = ({
                   ))}
                 </div>
               )}
+              {typeApiImmersion !== 'entreprise' && (
+                <div className={classes.distanceContainer}>
+                  <div className={classes.filterTitle}>Afficher</div>
+                  {typeRes.map((el) => (
+                    <div className={classes.wrapperRes}>
+                      <CheckBox
+                        key={el.label}
+                        label={el.label}
+                        logo={el.logo}
+                        value={selectedTypeResFilter}
+                        onClick={() => onTypeFilterRes(el)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className={classes.results}>
@@ -523,17 +594,37 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {!dataToRender.fetching ? `${dataToRender.count} résultats` : 'chargement en cours'}
+                  {dataToRender.count === 0 &&
+                    "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"}
                 </div>
-
-                <div>
-                  {dataToRender.data.length === 0 &&
-                    !dataToRender.fetching &&
-                    'Augmente ta zone de recherche pour plus de résultats'}
+                <div className={classes.resultTitle}>{immersionState.loading && 'chargement en cours...'}</div>
+                <div className={classes.resultTitle}>
+                  {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
                 </div>
                 <div>
                   {dataToRender.type === 'formations' && (
+                  {dataToRender.count === 0 &&
+                    !dataToRender.fetching &&
+                    'Note: Augmente ta zone de recherche pour plus de résultats'}
+                </div>
+
+                <div>
+                  {dataToRender.type === 'formation' && (
                     <>
+                      <div>
+                        <div>
+                          <span className={classes.orangeText}>
+                            {dataToRender.data.filter((el) => el.ideaType === 'formation').length}
+                          </span>
+                          <span className={classes.orangeText}> Formation</span>
+                          <span className={classes.grayText}> et </span>
+                          <span className={classes.blueText}>
+                            {dataToRender.data.filter((el) => el.ideaType !== 'formation').length}
+                          </span>
+                          <span className={classes.blueText}> Entreprise </span>
+                          <span className={classes.grayText}>correspondent à votre recherche</span>
+                        </div>
+                      </div>
                       <div className={classes.wrapperSwitchMap}>
                         <div className={classes.switchMask}>
                           <Switch
@@ -626,9 +717,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

@@ -36,7 +36,11 @@ const SecondRecommendation = ({ skill, comment, location }: Props) => {
 
   const title = (
     <span>
-      Recommanderiez-vous le travail de {skill.user.firstName} {skill.user.lastName} à des recruteurs
+      Recommanderiez-vous le travail de 
+{' '}
+{skill.user.firstName} 
+{' '}
+{skill.user.lastName} à des recruteurs
       <br />
       (votre réponse restera confidentielle) ?
     </span>
@@ -59,9 +63,9 @@ const SecondRecommendation = ({ skill, comment, location }: Props) => {
     });
   };
 
-  const onSelect = (e: string | undefined) => {
+  const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e);
+      setSelectedLocation(e.label);
       setOpenLocation(false);
     }
   };

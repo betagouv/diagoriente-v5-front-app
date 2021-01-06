@@ -6,7 +6,7 @@ export default makeStyles({
     flex: '1 1 0%',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   profileHeader: {
     color: '#223A7A',
@@ -73,7 +73,7 @@ export default makeStyles({
   },
   itemButton: {
     backgroundColor: '#fff',
-    width: '90%',
+    width: '93%',
     fontSize: '1.7vw',
     fontFamily: 'Ocean',
     fontWeight: 900,

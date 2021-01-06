@@ -149,7 +149,7 @@ const JobContainer = ({
   };
   const onSelect = (e: any | undefined) => {
     if (e) {
-      setSelectedLocation(e);
+      setSelectedLocation(e.label);
       setOpenLocation(false);
     }
   };

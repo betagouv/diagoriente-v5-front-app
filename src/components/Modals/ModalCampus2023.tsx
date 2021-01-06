@@ -1,6 +1,4 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
@@ -108,13 +106,13 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   }, [isValidForm]);
   useEffect(() => {
     if (
-      state.values.firstName !== ''
-      && state.values.lastName !== ''
-      && state.values.formation.length !== 0
-      && state.values.accessibility.length !== 0
-      && state.values.location !== ''
-      && state.values.perimeter !== ''
-      && state.values.date !== ''
+      state.values.firstName !== '' &&
+      state.values.lastName !== '' &&
+      state.values.formation.length !== 0 &&
+      state.values.accessibility.length !== 0 &&
+      state.values.location !== '' &&
+      state.values.perimeter !== '' &&
+      state.values.date !== ''
     ) {
       setIsValidForm(true);
     }
@@ -155,8 +153,8 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateUserState.data, updateUserState.error]);
-  const onSelect = (location: string | undefined) => {
-    if (location) actions.setValues({ location });
+  const onSelect = (location: { label: string; code: string } | undefined) => {
+    if (location) actions.setValues({ location: location.label });
     setOpenLocation(false);
   };
   const onSelectAcc = (label?: string) => {
@@ -178,11 +176,11 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   const hasCompletedParcours = parcours?.skills.length !== 0;
   const onUpadetUser = () => {
     if (
-      state.values.firstName === ''
-      || state.values.lastName === ''
-      || state.values.location === ''
-      || state.values.perimeter === ''
-      || state.values.date === ''
+      state.values.firstName === '' ||
+      state.values.lastName === '' ||
+      state.values.location === '' ||
+      state.values.perimeter === '' ||
+      state.values.date === ''
     ) {
       setTextError('Veuillez renseigner tous les champs obligatoires');
     } else if (!user?.validateCampus) {
@@ -208,12 +206,12 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
   };
   useEffect(() => {
     if (
-      textError
-      && state.values.firstName !== ''
-      && state.values.lastName !== ''
-      && state.values.location !== ''
-      && state.values.perimeter !== ''
-      && state.values.date !== ''
+      textError &&
+      state.values.firstName !== '' &&
+      state.values.lastName !== '' &&
+      state.values.location !== '' &&
+      state.values.perimeter !== '' &&
+      state.values.date !== ''
     ) {
       setTextError('');
     }
@@ -246,9 +244,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.labelContainer}>
                   <label className={classes.labelSelect}>
-                    Prénom
-                    {' '}
-                    <span className={classes.requiredInput}>*</span>
+                    Prénom 
+{' '}
+<span className={classes.requiredInput}>*</span>
                   </label>
                 </div>
               </Grid>
@@ -269,9 +267,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
               <Grid item xs={12} sm={4} md={5} lg={5}>
                 <div className={classes.labelContainer}>
                   <label className={classes.labelSelect}>
-                    Nom de famille
-                    {' '}
-                    <span className={classes.requiredInput}>*</span>
+                    Nom de famille 
+{' '}
+<span className={classes.requiredInput}>*</span>
                   </label>
                 </div>
               </Grid>
@@ -297,9 +295,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Ville de résidence
-                      {' '}
-                      <span className={classes.requiredInput}>*</span>
+                      Ville de résidence 
+{' '}
+<span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>
@@ -330,9 +328,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Niveau du dernier diplôme obtenu
-                      {' '}
-                      <span className={classes.requiredInput}>*</span>
+                      Niveau du dernier diplôme obtenu 
+{' '}
+<span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>
@@ -359,9 +357,9 @@ const ModalValideteForm = ({ handleClose }: IProps) => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <label className={classes.labelSelect}>
-                      Formation visée
-                      {' '}
-                      <span className={classes.requiredInput}>*</span>
+                      Formation visée 
+{' '}
+<span className={classes.requiredInput}>*</span>
                     </label>
                   </div>
                 </Grid>

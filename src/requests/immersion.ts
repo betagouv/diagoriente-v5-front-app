@@ -65,6 +65,7 @@ export const GetFormation = gql`
     $longitude: Float!
     $radius: Int!
     $diploma: String
+    $filter: String
     $caller: String!
     $insee: Int!
   ) {
@@ -76,12 +77,14 @@ export const GetFormation = gql`
       diploma: $diploma
       caller: $caller
       insee: $insee
+      filter: $filter
     ) {
       title
       longTitle
       contact {
         email
       }
+      ideaType
       place {
         fullAddress
         city

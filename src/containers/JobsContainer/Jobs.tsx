@@ -147,6 +147,29 @@ const Jobs = () => {
               : {}
           }
         />
+        <Route
+          protected
+          path="/jobs/immersion"
+          render={(props) => (
+            <ImmersionContainer
+              {...props}
+              jobs={jobs}
+              locationCall={locationCall}
+              listLocation={listLocation?.location}
+              setSelectedLocation={setSelectedLocation}
+              selectedLocation={selectedLocation}
+            />
+          )}
+          privateHeaderProps={
+            path === 'jobs'
+              ? {
+                  openLogoIcon: logo,
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
+                }
+              : {}
+          }
+        />
         <Route component={NotFoundPage} />
       </Switch>
     </ThemeProvider>

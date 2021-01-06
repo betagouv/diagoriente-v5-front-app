@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'components/button/Button';
 import Car from 'assets/svg/car.svg';
 import LogoApprentissage from 'assets/svg/picto_apprentissage.svg';
+import LogoFormation from 'assets/svg/picto_formation.svg';
 import Heart from 'assets/svg/picto_add_favoris.svg';
 import orangeMessage from 'assets/svg/orange_message.svg';
 import Location from 'assets/svg/location.svg';
@@ -47,27 +48,44 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
       <div className={classes.infoImmersion}>
         <div className={classes.leftInfo}>
           <div className={classes.WrapperTitle}>
-            {typeApiImmersion !== 'entreprise' && <img src={LogoApprentissage} alt="logo" />}
+            {typeApiImmersion !== 'immersion' && (
+              <img
+                src={data.ideaType === 'formation' ? LogoFormation : LogoApprentissage}
+                className={classes.logoTitle}
+                alt="logo"
+              />
+            )}
+
             <div className={classes.titleCard}>{data.name || data.title}</div>
           </div>
 
           <div className={classes.description}>{data.naf_text || data.longTitle}</div>
           <div>{data.headcount_text}</div>
-          {data.place && <div>Addresse: {data.place.fullAddress}</div>}
+          {data.place && (
+            <div>
+              <span>Addresse:</span>
+              {data.place.fullAddress}
+            </div>
+          )}
           {data.diplomaLevel && (
             <div>
-              {' '}
-              <strong>Niveau d'acces: </strong> {data.diplomaLevel}
+              <strong>Niveau d'acces: </strong> 
+{' '}
+{data.diplomaLevel}
             </div>
           )}
           {data.company && (
             <div>
-              <strong>Entreprise:</strong> {data.company.name}
+              <strong>Entreprise:</strong> 
+{' '}
+{data.company.name}
             </div>
           )}
           {data.contact && (
             <div>
-              <strong>Contact:</strong> {data.contact.email}
+              <strong>Contact:</strong> 
+{' '}
+{data.contact.email}
             </div>
           )}
           <div className={classes.icons}>
@@ -75,8 +93,10 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
               <img src={Location} alt="" />
               <div className={classes.textLogo}>
                 {typeApiImmersion !== 'entreprise' &&
+                  data?.place?.latitude &&
+                  data?.place?.longitude &&
                   calcCrow(data?.place?.latitude, data?.place?.longitude, lat, lng)}
-                {typeApiImmersion === 'entreprise' && calcCrow(data.lat, data.lon, lat, lng)}
+                {typeApiImmersion === 'entreprise' && data.lat && data.lon && calcCrow(data.lat, data.lon, lat, lng)}
                 {' Km '}
                 de ton lieu de recherche
               </div>
@@ -98,7 +118,7 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
           {/* <div className={classes.favorisText}>
             Ajouter à mes favoris
             <img src={Heart} alt="" width={34} height={34} className={classes.heartLogo} />
-          </div>*/}
+          </div> */}
 
           {!open && typeApiImmersion === 'entreprise' && (
             <div>

@@ -7,7 +7,7 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
   },
   content: {
-    //maxWidth: '1080px',
+    // maxWidth: '1080px',
     width: '100%',
     marginTop: 30,
     padding: '4px 10%',
@@ -204,6 +204,23 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginBottom: 40,
+  },
+  orangeText: {
+    color: '#FFA600',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  blueText: {
+    color: '#4D6EC5',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  grayText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
   },
 
   okButton: {

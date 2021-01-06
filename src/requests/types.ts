@@ -314,6 +314,7 @@ export interface Formation {
   title: string;
   longTitle: string;
   contact: { email: string };
+  ideaType: string;
   place: {
     fullAddress: string;
     city: string;

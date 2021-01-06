@@ -428,6 +428,7 @@ const ImmersionContainer = ({
       formationCall({ variables: argsFormation });
     }
   };
+  console.log('immersionState', immersionState, 'dataTorender', dataToRender);
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -593,13 +594,18 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {!dataToRender.fetching ? `${dataToRender.count} résultats` : 'chargement en cours...'}
+                  {/* eslint-disable-next-line no-nested-ternary */}
+                  {!immersionState.data
+                    ? "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"
+                    : !immersionState.loading
+                    ? `${dataToRender.count} résultats`
+                    : 'chargement en cours...'}
                 </div>
 
                 <div>
                   {dataToRender.count === 0 &&
                     !dataToRender.fetching &&
-                    'Augmente ta zone de recherche pour plus de résultats'}
+                    'Note: Augmente ta zone de recherche pour plus de résultats'}
                 </div>
 
                 <div>
@@ -711,9 +717,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

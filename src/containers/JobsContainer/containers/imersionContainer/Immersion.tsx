@@ -432,6 +432,12 @@ const ImmersionContainer = ({
       }
     }
   };
+  const getDescription = () => {
+    if (checkedTypeApiImmersion === 'entreprise') {
+      return 'Trouve une entreprise pour réaliser une immersion professionnelle, un stage dans le métier qui t’intéresse.';
+    }
+    return 'Trouve un centre de formation et une entreprise pour t’accueillir durant ton apprentissage.';
+  };
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -597,10 +603,7 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {dataToRender.count === 0 &&
-                    !immersionState.loading &&
-                    !dataToRender.fetching &&
-                    "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"}
+                  {dataToRender.count === 0 && !immersionState.loading && !dataToRender.fetching && getDescription()}
                 </div>
                 {(immersionState.loading || dataToRender.fetching) && (
                   <div className={classes.resultTitle}>chargement en cours...</div>

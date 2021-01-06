@@ -190,8 +190,8 @@ const ImmersionContainer = ({
     immersionCall,
     formationCall,
     page,
-    checkedTypeApiImmersion,
-    typeApiImmersion,
+    // checkedTypeApiImmersion,
+    // typeApiImmersion,
     // caller,
   ]);
   useEffect(() => {
@@ -307,10 +307,6 @@ const ImmersionContainer = ({
       label: '100 km',
       value: '100',
     },
-    {
-      label: '+ de 100 km',
-      value: '+ de 100 km',
-    },
   ];
   const typeRes = [
     { label: 'Tout', value: 'tout' },
@@ -406,26 +402,28 @@ const ImmersionContainer = ({
     }
   };
   const onClickImmersion = () => {
-    const dataTo = {
-      rome_codes: romeCodes || selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      page_size: 6,
-      distance: 5,
-    };
-    const argsFormation = {
-      romes: romeCodes || selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      radius: Number(state.values.distance),
-      caller: 'test',
-      insee,
-    };
-    setTypeApi(checkedTypeApiImmersion);
-    if (checkedTypeApiImmersion === 'entreprise') {
-      immersionCall({ variables: dataTo });
-    } else {
-      formationCall({ variables: argsFormation });
+    if (coordinates[1] && coordinates[0] && (romeCodes || selectedImmersionCode)) {
+      const dataTo = {
+        rome_codes: romeCodes || selectedImmersionCode,
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+        page_size: 6,
+        distance: 5,
+      };
+      const argsFormation = {
+        romes: romeCodes || selectedImmersionCode,
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+        radius: Number(state.values.distance),
+        caller: 'test',
+        insee,
+      };
+      setTypeApi(checkedTypeApiImmersion);
+      if (checkedTypeApiImmersion === 'entreprise') {
+        immersionCall({ variables: dataTo });
+      } else {
+        formationCall({ variables: argsFormation });
+      }
     }
   };
 

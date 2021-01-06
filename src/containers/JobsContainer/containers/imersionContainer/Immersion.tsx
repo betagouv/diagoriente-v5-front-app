@@ -169,7 +169,6 @@ const ImmersionContainer = ({
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
       if (selectedTypeResFilter !== 'tout') dArgsFormation.filter = selectedTypeResFilter;
-      console.log('checkedTypeApiImmersion', checkedTypeApiImmersion);
       if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
       } else if (checkedTypeApiImmersion === 'formation') {
@@ -433,7 +432,6 @@ const ImmersionContainer = ({
       }
     }
   };
-  console.log('dataToRender.type', dataToRender.type);
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -725,9 +723,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

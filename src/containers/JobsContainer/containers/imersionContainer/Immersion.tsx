@@ -506,7 +506,7 @@ const ImmersionContainer = ({
               </div>
             )}
             <div className={classes.filters}>
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <div className={classes.switchMask}>
                   <Switch
                     checked={state.values.switch}
@@ -515,7 +515,7 @@ const ImmersionContainer = ({
                   <div className={classes.maskTitle}>Masquer la carte</div>
                 </div>
               )}
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <>
                   <div className={classes.TrierContainer}>
                     <div className={classes.filterMainTitle}>Trier</div>
@@ -528,7 +528,7 @@ const ImmersionContainer = ({
               )}
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
 
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <div className={classes.tailleContainer}>
                   <div className={classes.filterTitle}>Taille de l’entreprise</div>
                   {taille.map((el) => (
@@ -555,7 +555,7 @@ const ImmersionContainer = ({
                   />
                 ))}
               </div>
-              {typeApiImmersion !== 'entreprise' && (
+              {checkedTypeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
                   <div className={classes.filterTitle}>Niveau de diplôme souhaité :</div>
                   {diplomeFilter.map((el) => (
@@ -568,7 +568,7 @@ const ImmersionContainer = ({
                   ))}
                 </div>
               )}
-              {typeApiImmersion !== 'entreprise' && (
+              {checkedTypeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
                   <div className={classes.filterTitle}>Afficher</div>
                   {typeRes.map((el) => (
@@ -723,7 +723,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

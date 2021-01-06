@@ -428,7 +428,6 @@ const ImmersionContainer = ({
       formationCall({ variables: argsFormation });
     }
   };
-  console.log('immersionState', immersionState, 'dataTorender', dataToRender);
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -717,7 +716,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

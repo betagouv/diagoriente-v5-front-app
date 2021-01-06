@@ -192,7 +192,7 @@ const ImmersionContainer = ({
     page,
     checkedTypeApiImmersion,
     typeApiImmersion,
-    caller,
+    // caller,
   ]);
   useEffect(() => {
     if (
@@ -428,6 +428,7 @@ const ImmersionContainer = ({
       formationCall({ variables: argsFormation });
     }
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -594,9 +595,13 @@ const ImmersionContainer = ({
               <>
                 <div className={classes.resultTitle}>
                   {dataToRender.count === 0 &&
+                    !immersionState.loading &&
+                    !dataToRender.fetching &&
                     "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"}
                 </div>
-                <div className={classes.resultTitle}>{immersionState.loading && 'chargement en cours...'}</div>
+                {(immersionState.loading || dataToRender.fetching) && (
+                  <div className={classes.resultTitle}>chargement en cours...</div>
+                )}
                 <div className={classes.resultTitle}>
                   {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
                 </div>

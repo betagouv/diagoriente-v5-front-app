@@ -593,14 +593,13 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {/* eslint-disable-next-line no-nested-ternary */}
-                  {!immersionState.data
-                    ? "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"
-                    : !immersionState.loading
-                    ? `${dataToRender.count} résultats`
-                    : 'chargement en cours...'}
+                  {dataToRender.count === 0 &&
+                    "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"}
                 </div>
-
+                <div className={classes.resultTitle}>{immersionState.loading && 'chargement en cours...'}</div>
+                <div className={classes.resultTitle}>
+                  {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
+                </div>
                 <div>
                   {dataToRender.count === 0 &&
                     !dataToRender.fetching &&
@@ -716,9 +715,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

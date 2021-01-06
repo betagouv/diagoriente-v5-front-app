@@ -102,7 +102,7 @@ const AutoCompleteJob = ({
                   onClick={() => {
                     onSelectText(el);
                     if (setCoordinates) {
-                      setCoordinates({ longitude: el.value.coordinates[0], lattitude: el.value.coordinates[1] });
+                      setCoordinates([el.value.coordinates[0], el.value.coordinates[1]]);
                     }
                     if (setInsee) setInsee(el.value.postcode);
                   }}

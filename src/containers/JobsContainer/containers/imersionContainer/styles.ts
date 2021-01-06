@@ -205,6 +205,23 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     marginBottom: 40,
   },
+  orangeText: {
+    color: '#FFA600',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  blueText: {
+    color: '#4D6EC5',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  grayText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
 
   okButton: {
     display: 'flex',

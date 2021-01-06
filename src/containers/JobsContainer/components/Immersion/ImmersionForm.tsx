@@ -51,7 +51,7 @@ const ImmersionForm = ({
   const classes = useStyles();
   const typeFilter = [
     {
-      label: 'formations',
+      label: 'formation',
     },
     {
       label: 'entreprise',

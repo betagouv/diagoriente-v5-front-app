@@ -100,13 +100,11 @@ const HomeCompleted = () => {
         image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes 
-{' '}
-<span className={classes.bold}>compétences</span>
+            Identifier mes
+            <span className={classes.bold}>compétences</span>
             <br />
-{' '}
-et explorer mes
-<span className={classes.bold}>intérêts</span>
+            et explorer mes
+            <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -177,7 +175,20 @@ et explorer mes
 à contacter
 </div>
         ),
-        openChildren: renderContentItem('MES DÉMARCHES', 'Gère tes démarches avec les entreprises qui t’intéressent.'),
+        openChildren: (
+          <div className={classes.firstContent}>
+            {renderContentItem(
+              'TROUVER UNE IMMERSION',
+              'Trouve une entreprise pour réaliser une immersion professionnelle, un stage dans le métier qui t’intéresse.',
+              { path: '/jobs/immersion/?distances=5&typeApi=entreprise&updated=true' },
+            )}
+            {renderContentItem(
+              'TROUVER UN APPRENTISSAGE',
+              'Trouve un centre de formation et une entreprise pour t’accueillir durant ton apprentissage.',
+              { path: '/jobs/immersion/?distances=5&typeApi=formation&updated=true' },
+            )}
+          </div>
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

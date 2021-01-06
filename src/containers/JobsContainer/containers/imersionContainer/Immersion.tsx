@@ -104,14 +104,23 @@ const ImmersionContainer = ({
   const [updateStatCall, updateStatState] = useUpdateStat();
 
   const { search } = location;
-  const { romeCodes, latitude, longitude, pageSize, distances, selectedLoc, typeApi, caller, codePost } = decodeUri(
-    search,
-  );
+  const {
+    romeCodes,
+    latitude,
+    longitude,
+    pageSize,
+    distances,
+    selectedLoc,
+    typeApi,
+    caller,
+    codePost,
+    updated,
+  } = decodeUri(search);
   const param = match.params.id;
   const [loadJob, { data, loading }] = useJob({ variables: { id: param } });
   useDidMount(() => {
-    loadJob();
-    if (user) {
+    if (user && param) {
+      loadJob();
       updateStatCall({ variables: { userId: user.id, jobId: param, type: typeApi } });
     }
   });
@@ -123,13 +132,19 @@ const ImmersionContainer = ({
     checkedSetTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
     setInsee(Number(codePost));
-  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi, codePost]);
+    setUpdate(Boolean(updated));
+  }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi, codePost, updated]);
   useEffect(() => {
-    if (romeCodes && latitude && longitude && pageSize && distances) {
+    if (
+      (romeCodes || selectedImmersionCode) &&
+      (latitude || coordinates[1]) &&
+      (longitude || coordinates[0]) &&
+      typeApiImmersion
+    ) {
       const argsImmersion = {
-        rome_codes: romeCodes,
-        latitude: Number(latitude),
-        longitude: Number(longitude),
+        rome_codes: romeCodes || selectedImmersionCode,
+        latitude: Number(latitude) || coordinates[1],
+        longitude: Number(longitude) || coordinates[0],
         page_size: Number(pageSize),
         page: Number(page),
         distance: Number(state.values.distance),
@@ -145,18 +160,18 @@ const ImmersionContainer = ({
         insee: number;
         filter?: string;
       } = {
-        romes: romeCodes,
-        latitude: Number(latitude),
-        longitude: Number(longitude),
+        romes: romeCodes || selectedImmersionCode,
+        latitude: Number(latitude) || coordinates[1],
+        longitude: Number(longitude) || coordinates[0],
         radius: Number(state.values.distance),
-        caller,
+        caller: caller || 'test',
         insee,
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
       if (selectedTypeResFilter !== 'tout') dArgsFormation.filter = selectedTypeResFilter;
       if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
-      } else if (checkedTypeApiImmersion === 'formations') {
+      } else if (checkedTypeApiImmersion === 'formation') {
         formationCall({ variables: dArgsFormation });
       }
     }
@@ -166,7 +181,6 @@ const ImmersionContainer = ({
     latitude,
     longitude,
     pageSize,
-    caller,
     selectedTypeResFilter,
     state.values.diplome,
     distances,
@@ -176,13 +190,14 @@ const ImmersionContainer = ({
     immersionCall,
     formationCall,
     page,
+    checkedTypeApiImmersion,
     typeApiImmersion,
+    caller,
   ]);
-
   useEffect(() => {
     if (
       (immersionState.data && typeApiImmersion === 'entreprise') ||
-      (formationState.data && typeApiImmersion === 'formations')
+      (formationState.data && typeApiImmersion === 'formation')
     ) {
       const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
@@ -200,7 +215,7 @@ const ImmersionContainer = ({
     }
     if (
       (immersionState.loading && typeApiImmersion === 'entreprise') ||
-      (formationState.loading && typeApiImmersion === 'formations')
+      (formationState.loading && typeApiImmersion === 'formation')
     ) {
       setDataToRender({
         type: '',
@@ -235,7 +250,6 @@ const ImmersionContainer = ({
       setItems(a);
     }
   }, [PAGES]);
-
   useEffect(() => {
     if (open === true) {
       openContactState(null);
@@ -379,6 +393,9 @@ const ImmersionContainer = ({
     if (e) {
       setSelectedLocation(e.label);
       setOpenLocation(false);
+      const gps = [e.value.coordinates[0], e.value.coordinates[1]];
+      setCoordinates(gps);
+      setInsee(e.value.postcode);
     }
   };
   const onSelectImmersion = (e: any | undefined) => {
@@ -390,16 +407,16 @@ const ImmersionContainer = ({
   };
   const onClickImmersion = () => {
     const dataTo = {
-      rome_codes: selectedImmersionCode,
+      rome_codes: romeCodes || selectedImmersionCode,
       latitude: coordinates[1],
       longitude: coordinates[0],
       page_size: 6,
       distance: 5,
     };
     const argsFormation = {
-      romes: romeCodes,
-      latitude: Number(latitude),
-      longitude: Number(longitude),
+      romes: romeCodes || selectedImmersionCode,
+      latitude: coordinates[1],
+      longitude: coordinates[0],
       radius: Number(state.values.distance),
       caller: 'test',
       insee,
@@ -411,19 +428,22 @@ const ImmersionContainer = ({
       formationCall({ variables: argsFormation });
     }
   };
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <div className={classes.titleContainer}>
           <Link to={`/jobs/job/${param}`}>
             <div className={classes.back}>
-              <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
-              {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}
+              {param && (
+                <>
+                  <Arrow color="#DB8F00" height="15" width="9.5" className={classes.arrow} />
+                  {!loading && <div className={classes.textBack}>{`Retour à la page ${data?.job.title}`}</div>}
+                </>
+              )}
             </div>
           </Link>
           <ImageTitle
-            title={`TROUVER UNE ${typeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
+            title={`TROUVER UNE ${checkedTypeApiImmersion === 'entreprise' ? 'IMMERSION' : 'FORMATION'} `}
             color="#DB8F00"
             image={TraitJaune}
             size={42}
@@ -573,17 +593,32 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {!dataToRender.fetching ? `${dataToRender.count} résultats` : 'chargement en cours'}
+                  {!dataToRender.fetching ? `${dataToRender.count} résultats` : 'chargement en cours...'}
                 </div>
 
                 <div>
-                  {dataToRender.data.length === 0 &&
+                  {dataToRender.count === 0 &&
                     !dataToRender.fetching &&
                     'Augmente ta zone de recherche pour plus de résultats'}
                 </div>
+
                 <div>
-                  {dataToRender.type === 'formations' && (
+                  {dataToRender.type === 'formation' && (
                     <>
+                      <div>
+                        <div>
+                          <span className={classes.orangeText}>
+                            {dataToRender.data.filter((el) => el.ideaType === 'formation').length}
+                          </span>
+                          <span className={classes.orangeText}> Formation</span>
+                          <span className={classes.grayText}> et </span>
+                          <span className={classes.blueText}>
+                            {dataToRender.data.filter((el) => el.ideaType !== 'formation').length}
+                          </span>
+                          <span className={classes.blueText}> Entreprise </span>
+                          <span className={classes.grayText}>correspondent à votre recherche</span>
+                        </div>
+                      </div>
                       <div className={classes.wrapperSwitchMap}>
                         <div className={classes.switchMask}>
                           <Switch
@@ -676,7 +711,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

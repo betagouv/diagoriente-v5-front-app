@@ -169,6 +169,7 @@ const ImmersionContainer = ({
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
       if (selectedTypeResFilter !== 'tout') dArgsFormation.filter = selectedTypeResFilter;
+      console.log('checkedTypeApiImmersion', checkedTypeApiImmersion);
       if (checkedTypeApiImmersion === 'entreprise') {
         immersionCall({ variables: sArgsImmersion });
       } else if (checkedTypeApiImmersion === 'formation') {
@@ -190,32 +191,32 @@ const ImmersionContainer = ({
     immersionCall,
     formationCall,
     page,
-    // checkedTypeApiImmersion,
+    checkedTypeApiImmersion,
     // typeApiImmersion,
     // caller,
   ]);
   useEffect(() => {
     if (
-      (immersionState.data && typeApiImmersion === 'entreprise') ||
-      (formationState.data && typeApiImmersion === 'formation')
+      (immersionState.data && checkedTypeApiImmersion === 'entreprise') ||
+      (formationState.data && checkedTypeApiImmersion === 'formation')
     ) {
-      const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
+      const result = checkedTypeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
-        type: typeApiImmersion,
+        type: checkedTypeApiImmersion,
         data:
-          typeApiImmersion === 'entreprise'
+          checkedTypeApiImmersion === 'entreprise'
             ? result.immersions?.companies
             : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null),
         count:
-          typeApiImmersion === 'entreprise'
+          checkedTypeApiImmersion === 'entreprise'
             ? result.immersions.companies_count
             : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null).length,
         fetching: false,
       });
     }
     if (
-      (immersionState.loading && typeApiImmersion === 'entreprise') ||
-      (formationState.loading && typeApiImmersion === 'formation')
+      (immersionState.loading && checkedTypeApiImmersion === 'entreprise') ||
+      (formationState.loading && checkedTypeApiImmersion === 'formation')
     ) {
       setDataToRender({
         type: '',
@@ -224,7 +225,13 @@ const ImmersionContainer = ({
         fetching: true,
       });
     }
-  }, [formationState.loading, immersionState.loading, formationState.data, immersionState.data, typeApiImmersion]);
+  }, [
+    formationState.loading,
+    immersionState.loading,
+    formationState.data,
+    immersionState.data,
+    checkedTypeApiImmersion,
+  ]);
   const handleClose = () => {
     openContactState(null);
     openConseilState(false);
@@ -426,7 +433,7 @@ const ImmersionContainer = ({
       }
     }
   };
-
+  console.log('dataToRender.type', dataToRender.type);
   return (
     <div className={classes.root}>
       <div className={classes.content}>

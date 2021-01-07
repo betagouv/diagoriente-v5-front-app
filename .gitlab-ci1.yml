@@ -1,0 +1,25 @@
+stages:
+  - deploy
+deploy-front-v5:
+  stage: deploy
+  environment: prod
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install rsync openssh-client zip unzip -y )"
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n \tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - 'echo -e "Host * " >> ~/.ssh/config'
+
+  script:
+    - ssh root@51.75.235.166 "cd /var/www/diagoriente-v5-front-app/ && git fetch --all && git reset --hard origin/master && git pull origin master "
+    - ssh root@51.75.235.166 "cd /var/www/diagoriente-v5-front-app/ && npm i"
+    - ssh root@51.75.235.166 "cd /var/www/diagoriente-v5-front-app/ && CI=false  npm run build "
+
+  only:
+    - master
+  when: always
+ 
+
+
+

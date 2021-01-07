@@ -31,4 +31,7 @@ export default makeStyles<Theme>((theme) => ({
   autocompleteContainer: {
     margin: '10px 0px',
   },
+  extraMargin: {
+    marginTop: 25,
+  },
 }));

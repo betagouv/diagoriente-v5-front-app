@@ -2,6 +2,7 @@ import React from 'react';
 import Loupe from 'assets/svg/loupe';
 import Button from 'components/button/Button';
 import { Jobs } from 'requests/types';
+import ClassNames from 'utils/classNames';
 import AutoComplete from '../Autocomplete/AutoCompleteJob';
 import CheckBox from '../checkBox/ChexBox';
 
@@ -26,6 +27,7 @@ interface IProps {
   typeApi?: string;
   setCoordinates?: (e: any) => void;
   setInsee?: (e: number) => void;
+  updated?: boolean;
 }
 
 const ImmersionForm = ({
@@ -47,6 +49,7 @@ const ImmersionForm = ({
   errorLocation,
   setCoordinates,
   setInsee,
+  updated,
 }: IProps) => {
   const classes = useStyles();
   const typeFilter = [
@@ -62,9 +65,16 @@ const ImmersionForm = ({
       <div className={classes.logoContainer}>
         <Loupe color="#FFA600" width="42" height="42" />
       </div>
-      <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
+      {updated ? (
+        <div className={classes.titleImersion}>
+          {`Trouver une ${typeApi === 'entreprise' ? 'immersion' : 'formation'}`}
+        </div>
+      ) : (
+        <div className={classes.titleImersion}>Trouver une immersion ou une formation</div>
+      )}
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         {onChangeTypeApi &&
+          !updated &&
           typeFilter.map((el) => (
             <div>
               <CheckBox key={el.label} label={el.label} value={typeApi} onClick={() => onChangeTypeApi(el)} />
@@ -72,8 +82,8 @@ const ImmersionForm = ({
           ))}
       </div>
 
-      <div>Je recherche :</div>
-      <div className={classes.autocompleteContainer}>
+      <div className={updated ? classes.extraMargin : ''}>Je recherche :</div>
+      <div className={ClassNames(classes.autocompleteContainer, updated && classes.extraMargin)}>
         <AutoComplete
           options={filteredArray}
           onChange={onChangeImmersion}

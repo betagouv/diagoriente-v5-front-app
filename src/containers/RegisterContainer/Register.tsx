@@ -31,10 +31,7 @@ const Register = () => {
   const [errorCondition, setErrorCondition] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
-  const [coordinates, setCoordinates] = useState<{ lattitude: number; longitude: number }>({
-    lattitude: 0,
-    longitude: 0,
-  });
+  const [coordinates, setCoordinates] = useState<Number[]>([]);
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
 
@@ -73,10 +70,15 @@ const Register = () => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
-        const res = { ...values, coordinates, validateCampus: false };
-        const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
+        const hasGoodGPS = coordinates[0] && coordinates[1];
 
         if (values.location.length !== 0 && hasGoodGPS) {
+          const res = {
+            ...values,
+            coordinates: { lattitude: coordinates[1], longitude: coordinates[0] },
+            validateCampus: false,
+          };
+
           registerCall({
             variables: res,
           });

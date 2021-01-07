@@ -175,6 +175,7 @@ const ImmersionContainer = ({
         longitude: Number(longitude) || coordinates[0],
         radius: Number(state.values.distance),
         caller: caller || 'test',
+        filter: selectedTypeResFilter,
         insee,
       };
       const dArgsFormation = state.values.diplome ? { ...argsFormation, diploma: state.values.diplome } : argsFormation;
@@ -405,15 +406,21 @@ const ImmersionContainer = ({
       filtredAllArray = jobsListState.data?.jobs.data;
       setFiltredArray(filtredAllArray?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
     }
-    if (updated && typeApi === 'formation') {
+    if (updated && typeApi === 'formation' && value) {
       labelsCall({ variables: { search: value } });
     } else {
       setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    }
+    if (!value) {
+      setOpenImmersion(false);
     }
   };
   const onChangeLocation = (e: any) => {
     const { value } = e.target;
     setOpenLocation(true);
+    if (!value) {
+      setOpenLocation(false);
+    }
     setSelectedLocation(value);
   };
   const onSelect = (e: any | undefined) => {
@@ -447,6 +454,7 @@ const ImmersionContainer = ({
         longitude: coordinates[0],
         radius: Number(state.values.distance),
         caller: 'test',
+        filter: selectedTypeResFilter,
         insee,
       };
       setTypeApi(checkedTypeApiImmersion);
@@ -750,9 +758,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

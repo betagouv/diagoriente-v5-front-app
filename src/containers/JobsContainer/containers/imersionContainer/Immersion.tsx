@@ -191,31 +191,31 @@ const ImmersionContainer = ({
     formationCall,
     page,
     checkedTypeApiImmersion,
-    typeApiImmersion,
-    caller,
+    // typeApiImmersion,
+    // caller,
   ]);
   useEffect(() => {
     if (
-      (immersionState.data && typeApiImmersion === 'entreprise') ||
-      (formationState.data && typeApiImmersion === 'formation')
+      (immersionState.data && checkedTypeApiImmersion === 'entreprise') ||
+      (formationState.data && checkedTypeApiImmersion === 'formation')
     ) {
-      const result = typeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
+      const result = checkedTypeApiImmersion === 'entreprise' ? immersionState.data : formationState.data;
       setDataToRender({
-        type: typeApiImmersion,
+        type: checkedTypeApiImmersion,
         data:
-          typeApiImmersion === 'entreprise'
+          checkedTypeApiImmersion === 'entreprise'
             ? result.immersions?.companies
             : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null),
         count:
-          typeApiImmersion === 'entreprise'
+          checkedTypeApiImmersion === 'entreprise'
             ? result.immersions.companies_count
             : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null).length,
         fetching: false,
       });
     }
     if (
-      (immersionState.loading && typeApiImmersion === 'entreprise') ||
-      (formationState.loading && typeApiImmersion === 'formation')
+      (immersionState.loading && checkedTypeApiImmersion === 'entreprise') ||
+      (formationState.loading && checkedTypeApiImmersion === 'formation')
     ) {
       setDataToRender({
         type: '',
@@ -224,7 +224,13 @@ const ImmersionContainer = ({
         fetching: true,
       });
     }
-  }, [formationState.loading, immersionState.loading, formationState.data, immersionState.data, typeApiImmersion]);
+  }, [
+    formationState.loading,
+    immersionState.loading,
+    formationState.data,
+    immersionState.data,
+    checkedTypeApiImmersion,
+  ]);
   const handleClose = () => {
     openContactState(null);
     openConseilState(false);
@@ -306,10 +312,6 @@ const ImmersionContainer = ({
     {
       label: '100 km',
       value: '100',
-    },
-    {
-      label: '+ de 100 km',
-      value: '+ de 100 km',
     },
   ];
   const typeRes = [
@@ -406,27 +408,35 @@ const ImmersionContainer = ({
     }
   };
   const onClickImmersion = () => {
-    const dataTo = {
-      rome_codes: romeCodes || selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      page_size: 6,
-      distance: 5,
-    };
-    const argsFormation = {
-      romes: romeCodes || selectedImmersionCode,
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      radius: Number(state.values.distance),
-      caller: 'test',
-      insee,
-    };
-    setTypeApi(checkedTypeApiImmersion);
-    if (checkedTypeApiImmersion === 'entreprise') {
-      immersionCall({ variables: dataTo });
-    } else {
-      formationCall({ variables: argsFormation });
+    if (coordinates[1] && coordinates[0] && (romeCodes || selectedImmersionCode)) {
+      const dataTo = {
+        rome_codes: romeCodes || selectedImmersionCode,
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+        page_size: 6,
+        distance: 5,
+      };
+      const argsFormation = {
+        romes: romeCodes || selectedImmersionCode,
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+        radius: Number(state.values.distance),
+        caller: 'test',
+        insee,
+      };
+      setTypeApi(checkedTypeApiImmersion);
+      if (checkedTypeApiImmersion === 'entreprise') {
+        immersionCall({ variables: dataTo });
+      } else {
+        formationCall({ variables: argsFormation });
+      }
     }
+  };
+  const getDescription = () => {
+    if (checkedTypeApiImmersion === 'entreprise') {
+      return 'Trouve une entreprise pour réaliser une immersion professionnelle, un stage dans le métier qui t’intéresse.';
+    }
+    return 'Trouve un centre de formation et une entreprise pour t’accueillir durant ton apprentissage.';
   };
   return (
     <div className={classes.root}>
@@ -502,7 +512,7 @@ const ImmersionContainer = ({
               </div>
             )}
             <div className={classes.filters}>
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <div className={classes.switchMask}>
                   <Switch
                     checked={state.values.switch}
@@ -511,7 +521,7 @@ const ImmersionContainer = ({
                   <div className={classes.maskTitle}>Masquer la carte</div>
                 </div>
               )}
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <>
                   <div className={classes.TrierContainer}>
                     <div className={classes.filterMainTitle}>Trier</div>
@@ -524,7 +534,7 @@ const ImmersionContainer = ({
               )}
               <div className={classes.filterMainTitle}>Affiner la rechercher</div>
 
-              {typeApiImmersion === 'entreprise' && (
+              {checkedTypeApiImmersion === 'entreprise' && (
                 <div className={classes.tailleContainer}>
                   <div className={classes.filterTitle}>Taille de l’entreprise</div>
                   {taille.map((el) => (
@@ -551,7 +561,7 @@ const ImmersionContainer = ({
                   />
                 ))}
               </div>
-              {typeApiImmersion !== 'entreprise' && (
+              {checkedTypeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
                   <div className={classes.filterTitle}>Niveau de diplôme souhaité :</div>
                   {diplomeFilter.map((el) => (
@@ -564,7 +574,7 @@ const ImmersionContainer = ({
                   ))}
                 </div>
               )}
-              {typeApiImmersion !== 'entreprise' && (
+              {checkedTypeApiImmersion !== 'entreprise' && (
                 <div className={classes.distanceContainer}>
                   <div className={classes.filterTitle}>Afficher</div>
                   {typeRes.map((el) => (
@@ -593,10 +603,11 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {dataToRender.count === 0 &&
-                    "Trouvez la formation et l’entreprise pour réaliser votre projet d'alternance"}
+                  {dataToRender.count === 0 && !immersionState.loading && !dataToRender.fetching && getDescription()}
                 </div>
-                <div className={classes.resultTitle}>{immersionState.loading && 'chargement en cours...'}</div>
+                {(immersionState.loading || dataToRender.fetching) && (
+                  <div className={classes.resultTitle}>chargement en cours...</div>
+                )}
                 <div className={classes.resultTitle}>
                   {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
                 </div>
@@ -715,7 +726,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

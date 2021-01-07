@@ -483,6 +483,7 @@ const ImmersionContainer = ({
                   setOpenLocation={setOpenLocation}
                   onClickImmersion={onClickImmersion}
                   setCoordinates={setCoordinates}
+                  updated={Boolean(updated)}
                 />
               </div>
             ) : (
@@ -609,7 +610,7 @@ const ImmersionContainer = ({
                   <div className={classes.resultTitle}>chargement en cours...</div>
                 )}
                 <div className={classes.resultTitle}>
-                  {dataToRender.count !== 0 && <div>{`${dataToRender.count} résultats`}</div>}
+                  {dataToRender.count !== 0 && immersionState.data && <div>{`${dataToRender.count} résultats`}</div>}
                 </div>
                 <div>
                   {dataToRender.count === 0 &&
@@ -726,9 +727,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

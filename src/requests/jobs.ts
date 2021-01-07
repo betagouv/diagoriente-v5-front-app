@@ -176,3 +176,21 @@ export const updateResponseJob = gql`
 
 export const useUpdateResponseJob = (options: MutationHookOptions<ResponseJobArgument> = {}) =>
   useLocalMutation<ResponseJobArgument>(updateResponseJob, options);
+
+export const jobsListQuery = gql`
+  {
+    jobs {
+      data {
+        title
+        id
+        description
+        rome_codes
+      }
+    }
+  }
+`;
+export interface AllJobsResponse {
+  jobs: { data: Jobs[] };
+}
+export const useJobsList = (options: LazyQueryHookOptions<AllJobsResponse> = {}) =>
+  useLocalLazyQuery<AllJobsResponse>(jobsListQuery, options);

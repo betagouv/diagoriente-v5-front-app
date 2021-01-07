@@ -85,7 +85,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   boxSearch: {
     width: 286,
-    height: 207,
+    height: 'auto',
     borderRadius: 10,
     backgroundColor: '#ffe9c3',
     display: 'flex',

@@ -29,6 +29,7 @@ interface IProps {
   setOpen?: (open: boolean) => void;
   setCoordinates?: (e: any) => void;
   setInsee?: (e: number) => void;
+  disable?: boolean;
 }
 
 const AutoCompleteJob = ({
@@ -49,12 +50,15 @@ const AutoCompleteJob = ({
   setCoordinates,
   setInsee,
   isfull,
+  disable,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm), isfull });
-  const data = options?.map((el: any) => ({
-    label: el.title || el.label,
-    value: type === 'immersion' ? el.rome_codes : el,
-  }));
+  const data = options?.map((el: any) => {
+    return {
+      label: el.title || el.label,
+      value: type === 'immersion' ? el.rome_codes : el,
+    };
+  });
   const inputRef = useRef<HTMLDivElement>(null);
 
   useOnclickOutside(inputRef, () => {
@@ -72,6 +76,7 @@ const AutoCompleteJob = ({
         placeholder={placeholder}
         label={label}
         name={name}
+        disabled={disable}
         withOutIcons
         type="location_admin"
         isfull

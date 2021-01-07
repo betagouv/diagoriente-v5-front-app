@@ -11,7 +11,7 @@ import useStyles from './styles';
 interface IProps {
   filteredArray?: Jobs[];
   onChangeImmersion: (e: React.ChangeEvent) => void;
-  onSelectImmersion: (e?: string) => void;
+  onSelectImmersion: (e?: any) => void;
   selectedImmersion?: string;
   openImmersion: boolean;
   onChangeLocation: (e: React.ChangeEvent) => void;
@@ -28,6 +28,7 @@ interface IProps {
   setCoordinates?: (e: any) => void;
   setInsee?: (e: number) => void;
   updated?: boolean;
+  disableFirstInput?: boolean;
 }
 
 const ImmersionForm = ({
@@ -49,6 +50,7 @@ const ImmersionForm = ({
   errorLocation,
   setCoordinates,
   setInsee,
+  disableFirstInput,
   updated,
 }: IProps) => {
   const classes = useStyles();
@@ -94,6 +96,7 @@ const ImmersionForm = ({
           className={classes.containerAutoComp}
           open={openImmersion}
           type="immersion"
+          disable={disableFirstInput}
         />
       </div>
       <div className={classes.autocompleteContainer}>

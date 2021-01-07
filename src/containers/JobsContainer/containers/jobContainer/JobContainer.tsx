@@ -3,6 +3,7 @@ import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount, useWillUnmount } from 'hooks/useLifeCycle';
 import { RouteComponentProps, Link } from 'react-router-dom';
+import { useFormationLabels } from 'requests/immersion';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import LogoLocation from 'assets/form/location.png';
@@ -58,6 +59,7 @@ const JobContainer = ({
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
+  const [labelsCall, labelsStats] = useFormationLabels();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
   const { data: loadFamille } = useFamilies();
 
@@ -93,7 +95,15 @@ const JobContainer = ({
       fn();
     }
   }, [addFavState.data, loadJob, data, refetch]);
-
+  useEffect(() => {
+    if (labelsStats.data) {
+      const ae = labelsStats.data.formationLabel.labelsAndRomes.map((e: any) => ({
+        label: e.label,
+        rome_codes: e.romes,
+      }));
+      setFiltredArray(ae);
+    }
+  }, [labelsStats.data]);
   useEffect(() => {
     if (deleteFavState.data) {
       const fn = FavData ? refetch : loadJob;
@@ -120,6 +130,9 @@ const JobContainer = ({
     const { value } = e.target;
     setSelectedImmersion(value);
     setOpenImmersion(true);
+    if (typeApi === 'formation' && value.length > 1) {
+      labelsCall({ variables: { search: value } });
+    }
     setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
   };
 
@@ -180,7 +193,7 @@ const JobContainer = ({
         pathname: `/jobs/immersion/${param}`,
         search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
           coordinates[0]
-        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}&typeApi=${typeApi}&caller=${user?.profile
+        }&pageSize=${6}&distances=${30}&selectedLoc=${selectedLocation}&typeApi=${typeApi}&caller=${user?.profile
           .institution || 'test'}&codePost=${insee}`,
       });
     }
@@ -250,6 +263,7 @@ const JobContainer = ({
                 errorLocation={errorLocation}
                 setCoordinates={setCoordinates}
                 setInsee={setInsee}
+                disableFirstInput
               />
             </div>
           </div>

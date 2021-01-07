@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import { useJob } from 'requests/jobs';
-import { useImmersion, useFormation } from 'requests/immersion';
+import { useJob, useJobsList } from 'requests/jobs';
+import { useImmersion, useFormation, useFormationLabels } from 'requests/immersion';
 import { Company, Jobs, Formation } from 'requests/types';
 import { useUpdateStat } from 'requests/statistique';
 import userContext from 'contexts/UserContext';
@@ -64,7 +64,7 @@ const ImmersionContainer = ({
   const [update, setUpdate] = useState(false);
 
   const [selectedTaille, setSelectedTaille] = useState('Toutes tailles');
-  const [selectedDistance, setSelectedDistance] = useState('5 km');
+  const [selectedDistance, setSelectedDistance] = useState('30 km');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('formation');
   const [selectedTypeResFilter, setSelectedTypeResFilter] = useState('Tout');
 
@@ -72,15 +72,20 @@ const ImmersionContainer = ({
   const [typeApiImmersion, setTypeApi] = useState('');
   const [checkedTypeApiImmersion, checkedSetTypeApi] = useState('');
 
-  const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
-  const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
+  const [selectedImmersion, setSelectedImmersion] = useState<any | undefined>('');
+  const [selectedImmersionCode, setSelectedImmersionCode] = useState<string[]>([]);
   const [coordinates, setCoordinates] = useState<number[]>([]);
   const [insee, setInsee] = useState(0);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
-  const [dataToRender, setDataToRender] = useState<{ type: string; data: any[]; count: number; fetching: boolean }>({
+  const [dataToRender, setDataToRender] = useState<{
+    type: string;
+    data: undefined | any[];
+    count: undefined | number;
+    fetching: boolean;
+  }>({
     type: '',
-    data: [],
-    count: 0,
+    data: undefined,
+    count: undefined,
     fetching: false,
   });
 
@@ -92,7 +97,7 @@ const ImmersionContainer = ({
       tri: '',
       taille: 'all',
       rayon: '',
-      distance: '5',
+      distance: '30',
       switch: true,
       switchRayon: '',
       diplome: '',
@@ -102,6 +107,8 @@ const ImmersionContainer = ({
   const [immersionCall, immersionState] = useImmersion();
   const [formationCall, formationState] = useFormation();
   const [updateStatCall, updateStatState] = useUpdateStat();
+  const [jobsListCall, jobsListState] = useJobsList();
+  const [labelsCall, labelsStats] = useFormationLabels();
 
   const { search } = location;
   const {
@@ -123,11 +130,14 @@ const ImmersionContainer = ({
       loadJob();
       updateStatCall({ variables: { userId: user.id, jobId: param, type: typeApi } });
     }
+    if (updated && typeApi === 'entreprise') {
+      jobsListCall();
+    }
   });
   useEffect(() => {
     setSelectedImmersion(data?.job.title);
     setSelectedLocation(selectedLoc);
-    setSelectedImmersionCode(romeCodes);
+    setSelectedImmersionCode(Array(romeCodes));
     setTypeApi(typeApi);
     checkedSetTypeApi(typeApi);
     setCoordinates([Number(longitude), Number(latitude)]);
@@ -160,7 +170,7 @@ const ImmersionContainer = ({
         insee: number;
         filter?: string;
       } = {
-        romes: romeCodes || selectedImmersionCode,
+        romes: JSON.stringify(selectedImmersionCode),
         latitude: Number(latitude) || coordinates[1],
         longitude: Number(longitude) || coordinates[0],
         radius: Number(state.values.distance),
@@ -219,8 +229,8 @@ const ImmersionContainer = ({
     ) {
       setDataToRender({
         type: '',
-        data: [],
-        count: 0,
+        data: undefined,
+        count: undefined,
         fetching: true,
       });
     }
@@ -235,15 +245,13 @@ const ImmersionContainer = ({
     openContactState(null);
     openConseilState(false);
   };
-
   const handleCloseContact = () => {
     setOpen(false);
   };
-
   const handleOk = () => {
     setOpen(false);
   };
-  const PAGES = dataToRender.count / 6;
+  const PAGES = dataToRender.count && dataToRender.count / 6;
   useEffect(() => {
     if (selectedLocation !== '') {
       locationCall(selectedLocation);
@@ -261,7 +269,15 @@ const ImmersionContainer = ({
       openContactState(null);
     }
   }, [open, openContact]);
-
+  useEffect(() => {
+    if (labelsStats.data) {
+      const ae = labelsStats.data.formationLabel.labelsAndRomes.map((e: any) => ({
+        label: e.label,
+        rome_codes: e.romes,
+      }));
+      setFiltredArray(ae);
+    }
+  }, [labelsStats.data]);
   const getData = (pg: number) => {
     setPage(pg);
   };
@@ -384,7 +400,16 @@ const ImmersionContainer = ({
     const { value } = e.target;
     setSelectedImmersion(value);
     setOpenImmersion(true);
-    setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    let filtredAllArray: Jobs[] | undefined = [];
+    if (updated && typeApi === 'entreprise') {
+      filtredAllArray = jobsListState.data?.jobs.data;
+      setFiltredArray(filtredAllArray?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    }
+    if (updated && typeApi === 'formation') {
+      labelsCall({ variables: { search: value } });
+    } else {
+      setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
+    }
   };
   const onChangeLocation = (e: any) => {
     const { value } = e.target;
@@ -408,16 +433,16 @@ const ImmersionContainer = ({
     }
   };
   const onClickImmersion = () => {
-    if (coordinates[1] && coordinates[0] && (romeCodes || selectedImmersionCode)) {
+    if (coordinates[1] && coordinates[0] && selectedImmersionCode) {
       const dataTo = {
-        rome_codes: romeCodes || selectedImmersionCode,
+        rome_codes: typeof selectedImmersionCode === 'string' ? selectedImmersionCode : selectedImmersionCode[0],
         latitude: coordinates[1],
         longitude: coordinates[0],
         page_size: 6,
-        distance: 5,
+        distance: 30,
       };
       const argsFormation = {
-        romes: romeCodes || selectedImmersionCode,
+        romes: JSON.stringify(selectedImmersionCode),
         latitude: coordinates[1],
         longitude: coordinates[0],
         radius: Number(state.values.distance),
@@ -501,7 +526,7 @@ const ImmersionContainer = ({
 {data?.job.title}
 {' '}
  </b>
-à{selectedLoc}
+à{` ${selectedLoc}`}
 .
 </div>
                 <div className={classes.edit}>
@@ -604,16 +629,14 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {dataToRender.count === 0 && !immersionState.loading && !dataToRender.fetching && getDescription()}
+                  {!dataToRender.fetching && dataToRender?.count === undefined && getDescription()}
                 </div>
-                {(immersionState.loading || dataToRender.fetching) && (
-                  <div className={classes.resultTitle}>chargement en cours...</div>
-                )}
+                {dataToRender.fetching && <div className={classes.resultTitle}>chargement en cours...</div>}
                 <div className={classes.resultTitle}>
-                  {dataToRender.count !== 0 && immersionState.data && <div>{`${dataToRender.count} résultats`}</div>}
+                  {dataToRender?.count !== undefined && <div>{`${dataToRender?.count} résultats`}</div>}
                 </div>
                 <div>
-                  {dataToRender.count === 0 &&
+                  {dataToRender?.count === 0 &&
                     !dataToRender.fetching &&
                     'Note: Augmente ta zone de recherche pour plus de résultats'}
                 </div>
@@ -624,12 +647,12 @@ const ImmersionContainer = ({
                       <div>
                         <div>
                           <span className={classes.orangeText}>
-                            {dataToRender.data.filter((el) => el.ideaType === 'formation').length}
+                            {dataToRender.data?.filter((el) => el.ideaType === 'formation').length}
                           </span>
                           <span className={classes.orangeText}> Formation</span>
                           <span className={classes.grayText}> et </span>
                           <span className={classes.blueText}>
-                            {dataToRender.data.filter((el) => el.ideaType !== 'formation').length}
+                            {dataToRender.data?.filter((el) => el.ideaType !== 'formation').length}
                           </span>
                           <span className={classes.blueText}> Entreprise </span>
                           <span className={classes.grayText}>correspondent à votre recherche</span>
@@ -650,7 +673,7 @@ const ImmersionContainer = ({
                     </>
                   )}
                 </div>
-                {dataToRender.data.map((e: Company) => (
+                {dataToRender.data?.map((e: Company) => (
                   <CardImmersion
                     data={e}
                     key={e.siret}
@@ -658,11 +681,11 @@ const ImmersionContainer = ({
                     onClickConseil={() => openConseilState(true)}
                     showMap={state.values.switch}
                     typeApiImmersion={typeApiImmersion}
-                    lng={Number(longitude)}
-                    lat={Number(latitude)}
+                    lng={coordinates[0]}
+                    lat={coordinates[1]}
                   />
                 ))}
-                {dataToRender.data.length !== 0 && (
+                {dataToRender.data?.length !== 0 && (
                   <div className={classes.paginationContainer}>
                     {page >= 3 && (
                       <div className={classNames(classes.itemPage)}>
@@ -727,7 +750,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

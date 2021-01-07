@@ -109,3 +109,16 @@ export interface FormationResponseType {
 }
 export const useFormation = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
   useLocalLazyQuery(GetFormation, options);
+
+const customForamtionLabels = gql`
+  query formationLabel($search: String!) {
+    formationLabel(search: $search) {
+      labelsAndRomes {
+        label
+        romes
+      }
+    }
+  }
+`;
+export const useFormationLabels = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(customForamtionLabels, options);

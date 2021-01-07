@@ -140,6 +140,9 @@ const JobContainer = ({
     const { value } = e.target;
     setOpenLocation(true);
     setSelectedLocation(value);
+    if (!value) {
+      setOpenLocation(false);
+    }
   };
 
   const { user } = useContext(userContext);

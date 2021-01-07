@@ -155,7 +155,6 @@ const Livemap2023 = () => {
 
   if (user?.role === 'admin' || (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr')) {
     console.log('utilisateur autorisé');
-    
   } else {
     return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
   }
@@ -203,10 +202,6 @@ const Livemap2023 = () => {
       </Popup>
     </Marker>
   );
-
-  if (!user || user.role !== 'admin') {
-    return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
-  }
 
   return (
     <>

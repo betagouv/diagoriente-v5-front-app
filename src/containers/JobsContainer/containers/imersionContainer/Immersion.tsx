@@ -657,12 +657,12 @@ const ImmersionContainer = ({
                           <span className={classes.orangeText}>
                             {dataToRender.data?.filter((el) => el.ideaType === 'formation').length}
                           </span>
-                          <span className={classes.orangeText}> Formation</span>
+                          <span className={classes.orangeText}> Formations</span>
                           <span className={classes.grayText}> et </span>
                           <span className={classes.blueText}>
                             {dataToRender.data?.filter((el) => el.ideaType !== 'formation').length}
                           </span>
-                          <span className={classes.blueText}> Entreprise </span>
+                          <span className={classes.blueText}> Entreprises </span>
                           <span className={classes.grayText}>correspondent à votre recherche</span>
                         </div>
                       </div>
@@ -758,7 +758,9 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> <span>!</span>
+              <span className={classes.okText}>OK</span> 
+{' '}
+<span>!</span>
             </div>
           </Button>
         </div>

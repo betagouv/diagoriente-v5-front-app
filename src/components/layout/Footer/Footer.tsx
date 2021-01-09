@@ -86,7 +86,9 @@ const Footer = ({ onChange, name }: IProps) => {
               Une question, une suggestion d’amélioration ou un message sympa à nous transmettre ?
             </span>
             <Button className={classes.contact} variant="outlined">
-              Nous contacter
+              <a href="mailto:contact@diagoriente.beta.gouv.fr" className={classes.textLinkBtn}>
+                Nous contacter
+              </a>
             </Button>
           </div>
         </Grid>

@@ -191,7 +191,9 @@ export default makeStyles((theme) =>
         borderRadius: 10,
       },
     },
-
+    textLinkBtn: {
+      color: '#FFFFFF',
+    },
     contact: {
       backgroundColor: '#FF0060',
       height: 50,

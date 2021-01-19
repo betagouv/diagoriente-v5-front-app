@@ -16,7 +16,7 @@ const GameContainer = () => {
   useEffect(() => {
     if (updateState.data) {
       setParcours(updateState.data.updateParcour);
-      history.push('/experience/theme?type=engagement');
+      history.push('/experience');
     }
   }, [updateState.data, setParcours, updateState.error, history]);
 
@@ -39,7 +39,6 @@ const GameContainer = () => {
               <div className={classes.btnLabel}>Je commence à ajouter mes expériences</div>
             </Button>
           </div>
-
         </div>
       </div>
     </div>

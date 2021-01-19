@@ -11,6 +11,7 @@ import { useForm } from 'hooks/useInputs';
 import useAuth from 'hooks/useAuth';
 import { decodeUri } from 'utils/url';
 import useStyles from '../ForgotPassword/styles';
+import PasswordValidation from "../../components/common/PasswordValidation/PasswordValidation";
 
 const RenewPassword = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
@@ -43,24 +44,23 @@ const RenewPassword = ({ location }: RouteComponentProps) => {
     <div className={classes.root}>
       <div className={classes.loginContainer}>
         <div className={classes.title}>MOT DE PASSE OUBLIÉ</div>
-        <div className={classes.subTitle}>Entrez votre nouveau mot de passe</div>
+        <div className={classes.subTitle}>Entre ton nouveau mot de passe</div>
         <form className={classes.container} onSubmit={onSubmit}>
           <Input
-            label="Nouvelle mot de passe"
+            label="Nouveau mot de passe"
             name="password"
             type="password"
             required
-            placeholder="exmaple@gmail.com"
             value={state.values.password}
             onChange={actions.handleChange}
             errorText={state.touched.password && state.errors.password}
           />
+          <PasswordValidation password={state.values.password} />
           <Input
-            label="Confirmer votre mot de passe"
+            label="Confirme ton mot de passe"
             name="confirmPassword"
             required
             type="password"
-            placeholder="exmaple@gmail.com"
             value={state.values.confirmPassword}
             onChange={actions.handleChange}
             errorText={state.touched.confirmPassword && state.errors.confirmPassword}

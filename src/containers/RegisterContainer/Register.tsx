@@ -75,6 +75,7 @@ const Register = () => {
         if (values.location.length !== 0 && hasGoodGPS) {
           const res = {
             ...values,
+            codeGroupe: values.codeGroupe.trim(),
             coordinates: { lattitude: coordinates[1], longitude: coordinates[0] },
             validateCampus: false,
           };
@@ -286,7 +287,7 @@ const Register = () => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <div className={classes.label}>
-                      Ta ville de résidence 
+                      Ta ville de résidence
 {' '}
 <span className={classes.requiredInput}>*</span>
                     </div>

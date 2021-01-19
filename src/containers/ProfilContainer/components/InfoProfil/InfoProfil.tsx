@@ -349,7 +349,7 @@ const InfoProfil = () => {
           childrenClassName={open ? '' : classes.childrenClassName}
           onClick={() => {
             if (open) {
-              const res = { ...values, coordinates };
+              const res = { ...values, codeGroupe: values.codeGroupe.trim(), coordinates };
               const hasGoodGPS = coordinates.lattitude !== 0 && coordinates.longitude !== 0;
               if (user?.isCampus && !hasGoodGPS) {
                 setError('Ville invalide (sélectionne dans la liste à la saisie)');

@@ -194,3 +194,38 @@ export interface AllJobsResponse {
 }
 export const useJobsList = (options: LazyQueryHookOptions<AllJobsResponse> = {}) =>
   useLocalLazyQuery<AllJobsResponse>(jobsListQuery, options);
+
+export const InfoJob = gql`
+  query referentiel($code: String) {
+    referentiel(code: $code) {
+      resultOffre {
+        success
+        result {
+          records {
+            NB_APPLICATION_END_MONTH
+            NB_OFFER_END_MONTH
+            NB_APPLICATION_LAST_WEEK
+            NB_OFFER_LAST_WEEK
+          }
+        }
+      }
+    }
+  }
+`;
+export interface ResponseInfoJobType {
+  referentiel: {
+    resultOffre: {
+      success: boolean;
+      result: {
+        records: {
+          NB_APPLICATION_END_MONTH: string;
+          NB_OFFER_END_MONTH: string;
+          NB_APPLICATION_LAST_WEEK: string;
+          NB_OFFER_LAST_WEEK: string;
+        }[];
+      };
+    };
+  };
+}
+export const useInfoJob = (options: LazyQueryHookOptions<ResponseInfoJobType> = {}) =>
+  useLocalLazyQuery<ResponseInfoJobType>(InfoJob, options);

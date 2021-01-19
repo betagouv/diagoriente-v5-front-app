@@ -4,7 +4,7 @@ import reseauLogo from 'assets/svg/reseau.svg';
 import Chart from 'components/Graph/PieChart';
 import { useHistory } from 'react-router-dom';
 import { useDidMount } from 'hooks/useLifeCycle';
-import { useJobs } from 'requests/jobs';
+import { useJobs, useInfoJob } from 'requests/jobs';
 import Spinner from 'components/Spinner/Spinner';
 
 import useStyles from './styles';
@@ -18,10 +18,12 @@ const JobInfo = ({ job, handleClose }: IProps) => {
   const history = useHistory();
   const classes = useStyles();
   const [loadJobs, { data: JobsList, loading: loadingList }] = useJobs({
-    variables: { secteur: job.secteur[0].id },
+    variables: { secteur: job.secteur[0] ? job.secteur[0].id : 0 },
   });
+  const [getInfoJobCall, getInfoJobState] = useInfoJob();
   useDidMount(() => {
     loadJobs();
+    getInfoJobCall({ variables: { code: job.rome_codes } });
   });
   const onNavigate = (id: string) => {
     history.push(`/jobs/job/${id}`);
@@ -34,7 +36,9 @@ const JobInfo = ({ job, handleClose }: IProps) => {
       </div>
       <div className={classes.contentModal}>
         <div className={classes.TextTitle}>
-          Niveau d’accès : <span className={classes.textAccessibility}>{job.accessibility}</span>
+          Niveau d’accès : 
+{' '}
+<span className={classes.textAccessibility}>{job.accessibility}</span>
         </div>
         <div className={classes.TextTitle}>L&lsquo;offre et la demande :</div>
         <div className={classes.offreContainer}>
@@ -44,16 +48,22 @@ const JobInfo = ({ job, handleClose }: IProps) => {
               <span className={classes.offresTitle}>La semaine dernière</span>
             </div>
             <div>
-              <b>22</b> offres pour <b>550</b> demandeurs d&lsquo;emploi
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_LAST_WEEK}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_LAST_WEEK}</b>
+{' '}
+              demandeurs d&lsquo;emploi
             </div>
           </div>
           <div className={classes.offreConatinerItems}>
             <div>
               <img src={reseauLogo} alt="" />
-              <span className={classes.offresTitle}>Sur les 12 derniers mois, en moyenne :</span>
+              <span className={classes.offresTitle}>Sur le dernier mois, en moyenne :</span>
             </div>
             <div>
-              <b>4</b> offres pour <b>10</b> demandeurs d&lsquo;emploi
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_END_MONTH}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_END_MONTH}</b>
+{' '}
+              demandeurs d&lsquo;emploi
             </div>
           </div>
         </div>

@@ -112,7 +112,7 @@ export default makeStyles<Theme, { theme?: Omit<RequestTheme, 'activities'> | nu
       },
 
       themeSelection: {
-        display: 'flex',
+        // display: 'flex',
         paddingTop: 31,
         alignItems: 'center',
       },

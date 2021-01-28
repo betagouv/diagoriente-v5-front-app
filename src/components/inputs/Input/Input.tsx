@@ -102,10 +102,10 @@ const Input = ({
               {...rest}
               variant="outlined"
             />
-            {(errorText || errorForm) && required && <img src={LogoRose} className={classes.logo} alt="check" />}
+            {/* {(errorText || errorForm) && required && <img src={LogoRose} className={classes.logo} alt="check" />}
             {value && !errorText && !errorForm && required && !withOutIcons && (
               <img src={LogoCheked} className={classes.logo} alt="check" />
-            )}
+            )} */}
           </div>
           {/* <div className={classes.errorCondition}>{errorForm}</div> */}
         </Grid>

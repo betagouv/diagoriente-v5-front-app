@@ -4,6 +4,19 @@ export interface WC2023 {
   degree?: string;
   formation?: string;
   perimeter?: number;
+  comment?: string;
+  quality?: string;
+}
+export interface wc2023Affectation {
+  status: string;
+  specialite: string;
+  advisorSelection: EligibleStructure[];
+  recommendation: {
+    club: EligibleStructure;
+    clubEmail: string;
+    token: string;
+    status: string;
+  };
 }
 export interface User {
   id: string;
@@ -29,6 +42,7 @@ export interface User {
     longitude: number;
     lattitude: number;
   };
+  wc2023Affectation: wc2023Affectation;
 }
 
 export interface Question {
@@ -363,4 +377,19 @@ export interface IGroup {
   title: string;
   code: string;
   advisorId: string;
+}
+export interface EligibleStructure {
+  expectations: { name: string }[];
+  club_code: string;
+  name: string;
+  city: string;
+  referrer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[];
+  fnv1a32_hash: string;
+  licensed_text: string;
+  geolocation: { lat: number; lng: number };
+  licensed_count: number;
 }

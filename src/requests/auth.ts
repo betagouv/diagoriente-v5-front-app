@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { MutationHookOptions, QueryHookOptions } from '@apollo/react-hooks';
 import { useLocalMutation, useLocalQuery } from 'hooks/apollo';
 
-import { User, Token, WC2023 } from './types';
+import { User, Token } from './types';
 
 export const registerMutation = gql`
   mutation Register(
@@ -107,6 +107,46 @@ export const loginMutation = gql`
           formation
           perimeter
           birthdate
+          comment
+          quality
+        }
+        wc2023Affectation {
+          status
+          specialite
+          advisorSelection {
+            expectations {
+              name
+            }
+            club_code
+            name
+            city
+            referrer {
+              firstName
+              lastName
+              email
+            }
+            fnv1a32_hash
+            licensed_text
+            geolocation {
+              lat
+              lng
+            }
+            licensed_count
+          }
+          recommendation {
+            club {
+              name
+              fnv1a32_hash
+              referrer {
+                firstName
+                lastName
+                email
+              }
+            }
+            clubEmail
+            token
+            status
+          }
         }
       }
       token {

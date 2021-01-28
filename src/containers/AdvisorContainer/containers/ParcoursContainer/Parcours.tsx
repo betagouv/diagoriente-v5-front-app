@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -9,10 +9,11 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
-import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
+import { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
 import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
@@ -26,6 +27,7 @@ const Parcours = () => {
     lastName: '',
     firstName: '',
   });
+  const [affectationUserId, setAffectationUserId] = useState<any>(null);
 
   useEffect(() => {
     if (data) {
@@ -53,9 +55,8 @@ const Parcours = () => {
   }; */
 
   const handleOpenAffectationPE = (row: any) => {
-    getStructuresCall({ variables: { idUser: row.id } });
-    // TODO: fetch user data for wc2023
     setShowAffectationPEModal(true);
+    setAffectationUserId(row.id);
   };
 
   const exportCSV = () => {
@@ -141,7 +142,7 @@ const Parcours = () => {
           case 'AWAITING_ADVISOR':
             return (
               <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
-                En attente d&apos;affectation
+                En attente de pré-affectation
               </Button>
             );
           case 'AWAITING_CAMPUS2023':
@@ -251,34 +252,7 @@ const Parcours = () => {
         </ModalContainer>
       )}
       <ModalContainer open={showAffectationPEModal} backdropColor="primary" colorIcon="#4D6EC5">
-        <CardContent>
-          <Typography color="primary">Pré-affectation de [ Prénom NOM ]</Typography>
-          <div>
-            <Typography color="secondary">Informations du candidat :</Typography>
-            <div>
-              <strong>Niveau de diplôme : </strong>
-              <span>Blablabla</span>
-            </div>
-            <div>
-              <strong>Formation visée : </strong>
-              <span>Blablabla</span>
-            </div>
-            <div>
-              <strong>Ville : </strong>
-              <span>Blablabla</span>
-            </div>
-            <div>
-              <strong>Périmètre de recherche : </strong>
-              <span>Blablabla</span>
-            </div>
-          </div>
-          <div>
-            <Typography color="secondary">Choisir 2 structures d&apos;accueil (1337 éligibles) :</Typography>
-          </div>
-          <div>
-            <Typography color="secondary">Affectation à un conseiller territorial :</Typography>
-          </div>
-        </CardContent>
+        <ModalAffectationPE userId={affectationUserId} />
       </ModalContainer>
     </>
   );

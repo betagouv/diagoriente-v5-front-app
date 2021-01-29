@@ -21,6 +21,14 @@ export const MyGroupInfoQuery = gql`
           quality
           comment
         }
+        wc2023Affectation {
+          status
+          recommendation {
+            club {
+              name
+            }
+          }
+        }
         validateCampus
       }
     }

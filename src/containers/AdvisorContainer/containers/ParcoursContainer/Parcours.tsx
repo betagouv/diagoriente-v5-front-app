@@ -128,13 +128,13 @@ const Parcours = () => {
     {
       title: 'Spécialité',
       key: 'specialite',
-      dataIndex: 'wc2023_affectation',
+      dataIndex: 'wc2023Affectation',
       render: (value) => value?.specialite || 'Aucune',
     },
     {
       title: 'Affectation',
       key: 'affectation',
-      dataIndex: 'wc2023_affectation',
+      dataIndex: 'wc2023Affectation',
       render: (value, row) => {
         switch (value?.status) {
           case 'PENDING':

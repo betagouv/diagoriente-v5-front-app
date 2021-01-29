@@ -61,10 +61,12 @@ const RecommendationCampus = ({ location }: RouteComponentProps) => {
         ) : (
           <div>
             {' '}
-            <div>Votre Réponse de la demande de recommendation a éte envoyer avec succée. </div>
-            <Button className={classes.btn} onClick={historyChange}>
-              <div>Découvrir Diagoriente</div>
-            </Button>
+            <TitleSection title="Votre Réponse de la demande de recommendation a éte envoyer avec succée. " />
+            <div className={classes.btnContainerSuccess}>
+              <Button className={classes.btn} onClick={historyChange}>
+                <div>Découvrir Diagoriente</div>
+              </Button>
+            </div>
           </div>
         )}
       </div>

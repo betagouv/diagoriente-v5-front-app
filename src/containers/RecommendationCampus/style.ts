@@ -15,6 +15,12 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-evenly',
   },
+  btnContainerSuccess: {
+    marginTop: 40,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
   label: {
     fontSize: 18,
     marginTop: 10,

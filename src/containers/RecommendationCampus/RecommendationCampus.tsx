@@ -27,7 +27,14 @@ const RecommendationCampus = ({ location }: RouteComponentProps) => {
   );
   const subTitle = (
     <div>
-      {`Vous pouvez renseigner ci dessous votre appréciation du travail de ${data?.publicStructure?.user?.profile.firstName} ${data?.publicStructure?.user.profile.lastName}  lorsque vous étiez son tuteur/sa tutrice`}
+      {`${data?.publicStructure?.user?.profile.firstName} ${data?.publicStructure?.user.profile.lastName} (${data?.publicStructure?.user.email}) vous sollicite pour que vous attestiez de votre volonté de le recruter en tant qu'apprenti. `}
+    </div>
+  );
+  const subTitle2 = (
+    <div>
+      {`Vous ne devez vous engager avec le même nombre d'apprentis que celui que vous avez communiqué auprès de la direction de campus.
+
+`}
     </div>
   );
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -49,6 +56,8 @@ const RecommendationCampus = ({ location }: RouteComponentProps) => {
           <>
             <TitleSection image={medaille} title={title} />
             <TitleSection title={subTitle} />
+            <TitleSection title={subTitle2} />
+
             <div className={classes.btnContainer}>
               <Button onClick={() => onClickBtn('ACCEPTED')} className={classes.btn}>
                 Oui
@@ -61,7 +70,7 @@ const RecommendationCampus = ({ location }: RouteComponentProps) => {
         ) : (
           <div>
             {' '}
-            <TitleSection title="Votre Réponse de la demande de recommendation a éte envoyer avec succée. " />
+            <TitleSection title="Merci, votre choix à bien été enregistré. Vous serez recontacté par l'équipe Campus une fois qu'un apprenti vous aura été affecté." />
             <div className={classes.btnContainerSuccess}>
               <Button className={classes.btn} onClick={historyChange}>
                 <div>Découvrir Diagoriente</div>

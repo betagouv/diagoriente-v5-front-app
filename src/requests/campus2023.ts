@@ -68,6 +68,7 @@ export const getPublicRecoQuery = gql`
       }
       user {
         id
+        email
         profile {
           firstName
           lastName
@@ -78,7 +79,7 @@ export const getPublicRecoQuery = gql`
 `;
 export interface getPublicRecoResponse {
   publicStructure: {
-    user: { id: string; profile: { firstName: string; lastName: string } };
+    user: { id: string; email: string; profile: { firstName: string; lastName: string } };
     club: { name: string; referrer: { firstName: string; lastName: string }[] };
   };
 }

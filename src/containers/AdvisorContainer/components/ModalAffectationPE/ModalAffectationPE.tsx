@@ -9,7 +9,7 @@ import {
   Select,
   Typography,
 } from '@material-ui/core';
-import { useEligibleStructures } from '../../../../requests/campus2023';
+import { useCandidateAffectationData, useEligibleStructures } from '../../../../requests/campus2023';
 import Button from '../../../../components/button/Button';
 
 interface IProps {
@@ -18,11 +18,13 @@ interface IProps {
 
 const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  const [getCandidateDataCall, getCandidateDataState] = useCandidateAffectationData();
   const [advisorChoice1, setAdvisorChoice1] = useState<string>('');
 
   useEffect(() => {
     if (!userId) return;
     getStructuresCall({ variables: { userId } });
+    getCandidateDataCall({ variables: { userId } });
   }, [userId]);
 
   const handleChangeAdvisorChoice = (e: any) => {
@@ -37,22 +39,42 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
       </DialogContent>
     );
 
+  const candidateRecommendation = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation;
+  const candidateRecoReferrer = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation?.club?.referrer;
+
   return (
     <DialogContent>
       <Typography color="primary">PRÉ-AFFECTATION</Typography>
       <p>Vous pouvez recommander jusqu&apos;à deux structures pour un jeune ou ne pas mettre d&apos;avis</p>
       <RadioGroup>
         <div>
-          <Radio checked={advisorChoice1 === 'USER_CLUB'} value="USER_CLUB" onChange={handleChangeAdvisorChoice} />
-          <span>Ce club est prêt à recruter ce jeune :</span>
-          <div style={{ marginLeft: '4em' }}>
-            <strong>Nom du club</strong>
-            <div>
-              Référent:
-              <strong>John DOE</strong>
-            </div>
-          </div>
-          {/* <span>Le jeune ne dispose d&apos;aucun club prêt à le recruter</span> */}
+          <Radio
+            disabled={!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED'}
+            checked={advisorChoice1 === 'USER_CLUB'}
+            value="USER_CLUB"
+            onChange={handleChangeAdvisorChoice}
+          />
+          {candidateRecommendation.club && candidateRecommendation.status === 'ACCEPTED' && (
+            <>
+              <span>Ce club est prêt à recruter ce jeune :</span>
+              <div style={{ marginLeft: '4em' }}>
+                <strong>{candidateRecommendation.club.name}</strong>
+                <div>
+                  Référent:&nbsp;
+                  <strong>
+                    {`${candidateRecoReferrer[0].lastName} ${candidateRecoReferrer[0].firstName}`}
+                  </strong>
+                </div>
+                <div>
+                  <strong>Emplacement :&nbsp;</strong>
+                  {candidateRecommendation.club.city}
+                </div>
+              </div>
+            </>
+          )}
+          {(!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED') && (
+            <span>Le jeune ne dispose d&apos;aucun club prêt à le recruter</span>
+          )}
         </div>
         <div>
           <Radio

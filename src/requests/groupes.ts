@@ -8,13 +8,6 @@ export const MyGroupInfoQuery = gql`
     myGroup {
       id
       code
-      advisorId {
-        email
-        profile {
-          firstName
-          lastName
-        }
-      }
       users {
         id
         profile {
@@ -29,7 +22,6 @@ export const MyGroupInfoQuery = gql`
           comment
         }
         validateCampus
-        eligibleStructuresCountWC2023
       }
     }
   }

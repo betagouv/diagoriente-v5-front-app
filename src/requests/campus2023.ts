@@ -24,13 +24,6 @@ export const EligibleStructuresQuery = gql`
       fnv1a32_hash
       expectations {
         name
-        competences {
-          id {
-            id
-            title
-          }
-          minimumLevel
-        }
       }
     }
   }
@@ -142,3 +135,28 @@ export interface addrecoMutationResponse {
 }
 export const useAddRecoStructures = (options: MutationHookOptions<addrecoMutationResponse> = {}) =>
   useLocalMutation<addrecoMutationResponse>(AddRecoCampusMutation, options);
+
+//
+export const CandidateAffectationQuery = gql`
+  query($userId: ID!) {
+    user(id: $userId) {
+      wc2023Affectation {
+        recommendation {
+          club {
+            name
+            referrer {
+              firstName
+              lastName
+              email
+            }
+            city
+          }
+          status
+        }
+      }
+    }
+  }
+`;
+
+export const useCandidateAffectationData = (options: LazyQueryHookOptions<any> = {}) =>
+  useLocalLazyQuery<any>(CandidateAffectationQuery, options);

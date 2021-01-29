@@ -138,7 +138,7 @@ const Parcours = () => {
       render: (value, row) => {
         switch (value?.status) {
           case 'PENDING':
-            return <span>En attente du candidat</span>;
+            return <span>En attente du retour candidat</span>;
           case 'AWAITING_ADVISOR':
             return (
               <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>

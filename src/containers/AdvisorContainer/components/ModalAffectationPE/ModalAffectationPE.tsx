@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import {
   CircularProgress,
   DialogContent,
@@ -9,17 +9,26 @@ import {
   Select,
   Typography,
 } from '@material-ui/core';
-import { useCandidateAffectationData, useEligibleStructures } from '../../../../requests/campus2023';
+import {
+  useAddAdvisorDecision,
+  useCandidateAffectationData,
+  useEligibleStructures,
+} from '../../../../requests/campus2023';
 import Button from '../../../../components/button/Button';
 
 interface IProps {
   userId: string | null;
+  onClose?: () => void;
 }
 
-const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
+const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getCandidateDataCall, getCandidateDataState] = useCandidateAffectationData();
+  const [advisorDecision, setAdvisorDecision] = useState<string>('');
   const [advisorChoice1, setAdvisorChoice1] = useState<string>('');
+  const [advisorChoice2, setAdvisorChoice2] = useState<string>('');
+  const [advisorChoiceRegion, setAdvisorChoiceRegion] = useState<string>('');
+  const [addDecisionCall, addDecisionState] = useAddAdvisorDecision();
 
   useEffect(() => {
     if (!userId) return;
@@ -27,48 +36,70 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
     getCandidateDataCall({ variables: { userId } });
   }, [userId]);
 
-  const handleChangeAdvisorChoice = (e: any) => {
-    setAdvisorChoice1(e.currentTarget.value);
+  const handleChangeAdvisorDecision = (e: any) => {
+    setAdvisorDecision(e.currentTarget.value);
   };
 
-  if (!getStructuresState.data || getStructuresState.loading)
+  const canSubmitAffectationForm = useMemo(() => {
+    if (!advisorDecision) return false;
+    if (!advisorChoiceRegion) return false;
+    return !(advisorDecision === 'ADVISOR_SELECTION' && (!advisorChoice1 || !advisorChoice2));
+  }, [advisorDecision, advisorChoice1, advisorChoice2, advisorChoiceRegion]);
+
+  const handleValidateDecision = () => {
+    if (!userId) return;
+    addDecisionCall({
+      variables: {
+        advisorDecision: advisorDecision?.toString(),
+        advisorSelection:
+          advisorDecision === 'ADVISOR_SELECTION' ? [advisorChoice1.toString(), advisorChoice2.toString()] : [],
+        candidateId: userId,
+        newCampusRegion: '/*TODO*/',
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (onClose && addDecisionState.data && addDecisionState.data.addAdvisorDecision) onClose();
+  }, [addDecisionState.data, onClose]);
+
+  if (
+    !getCandidateDataState.data ||
+    !getStructuresState.data ||
+    getCandidateDataState.loading ||
+    getStructuresState.loading
+  )
     return (
       <DialogContent>
         <CircularProgress />
-        <span>Chargement en cours ...</span>
       </DialogContent>
     );
 
+  const candidateProfile = getCandidateDataState?.data?.user?.profile;
   const candidateRecommendation = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation;
   const candidateRecoReferrer = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation?.club?.referrer;
 
   return (
     <DialogContent>
-      <Typography color="primary">PRÉ-AFFECTATION</Typography>
+      <Typography color="primary">
+        {`PRÉ-AFFECTATION DU CANDIDAT ${candidateProfile.firstName} ${candidateProfile.lastName}`}
+      </Typography>
       <p>Vous pouvez recommander jusqu&apos;à deux structures pour un jeune ou ne pas mettre d&apos;avis</p>
       <RadioGroup>
         <div>
           <Radio
             disabled={!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED'}
-            checked={advisorChoice1 === 'USER_CLUB'}
+            checked={advisorDecision === 'USER_CLUB'}
             value="USER_CLUB"
-            onChange={handleChangeAdvisorChoice}
+            onChange={handleChangeAdvisorDecision}
           />
           {candidateRecommendation.club && candidateRecommendation.status === 'ACCEPTED' && (
             <>
               <span>Ce club est prêt à recruter ce jeune :</span>
               <div style={{ marginLeft: '4em' }}>
                 <strong>{candidateRecommendation.club.name}</strong>
-                <div>
-                  Référent:&nbsp;
-                  <strong>
-                    {`${candidateRecoReferrer[0].lastName} ${candidateRecoReferrer[0].firstName}`}
-                  </strong>
-                </div>
-                <div>
-                  <strong>Emplacement :&nbsp;</strong>
-                  {candidateRecommendation.club.city}
-                </div>
+                <div>{`Référent : ${candidateRecoReferrer[0].lastName} ${candidateRecoReferrer[0].firstName}`}</div>
+                <div>{`Emplacement : ${candidateRecommendation.club.city}`}</div>
               </div>
             </>
           )}
@@ -78,9 +109,9 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
         </div>
         <div>
           <Radio
-            checked={advisorChoice1 === 'ADVISOR_SELECTION'}
+            checked={advisorDecision === 'ADVISOR_SELECTION'}
             value="ADVISOR_SELECTION"
-            onChange={handleChangeAdvisorChoice}
+            onChange={handleChangeAdvisorDecision}
           />
           <span>Vos recommandations :</span>
           <div style={{ marginLeft: '4em' }}>
@@ -91,11 +122,17 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
                   native
                   labelId="label-choix-1"
                   label="Choix 1"
-                  disabled={advisorChoice1 !== 'ADVISOR_SELECTION'}
+                  onChange={(e: any) => setAdvisorChoice1(e.currentTarget.value)}
+                  value={advisorChoice1}
+                  disabled={advisorDecision !== 'ADVISOR_SELECTION'}
                 >
                   <option hidden aria-label="Aucun" value="" />
                   {getStructuresState.data &&
-                    getStructuresState.data.eligibleStructures.map((v: any) => <option value={v.id}>{v.name}</option>)}
+                    getStructuresState.data.eligibleStructures.map((v: any) => (
+                      <option key={v.id} value={v.id}>
+                        {v.name}
+                      </option>
+                    ))}
                 </Select>
               </FormControl>
             </div>
@@ -105,13 +142,18 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
                 <Select
                   native
                   labelId="label-choix-2"
-                  value={null}
+                  onChange={(e: any) => setAdvisorChoice2(e.currentTarget.value)}
+                  value={advisorChoice2}
                   label="Choix 2"
-                  disabled={advisorChoice1 !== 'ADVISOR_SELECTION'}
+                  disabled={advisorDecision !== 'ADVISOR_SELECTION'}
                 >
                   <option hidden aria-label="Aucun" value="" />
                   {getStructuresState.data &&
-                    getStructuresState.data.eligibleStructures.map((v: any) => <option value={v.id}>{v.name}</option>)}
+                    getStructuresState.data.eligibleStructures.map((v: any) => (
+                      <option key={v.id} value={v.id}>
+                        {v.name}
+                      </option>
+                    ))}
                 </Select>
               </FormControl>
             </div>
@@ -119,9 +161,9 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
         </div>
         <div>
           <Radio
-            checked={advisorChoice1 === 'NO_SELECTION'}
+            checked={advisorDecision === 'NO_SELECTION'}
             value="NO_SELECTION"
-            onChange={handleChangeAdvisorChoice}
+            onChange={handleChangeAdvisorDecision}
           />
           <span>Je ne souhaite pas faire de recommandations</span>
         </div>
@@ -136,7 +178,13 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
         <div style={{ marginLeft: '4em' }}>
           <FormControl variant="outlined">
             <InputLabel id="label-choix-region">Région d&apos;affectation</InputLabel>
-            <Select native labelId="label-choix-region" label="Région d'affectation">
+            <Select
+              native
+              labelId="label-choix-region"
+              label="Région d'affectation"
+              onChange={(e: any) => setAdvisorChoiceRegion(e.currentTarget.value)}
+              value={advisorChoiceRegion}
+            >
               <option hidden aria-label="Aucun" value="" />
               <option value="hdf">Hauts-de-France</option>
               <option value="idf">Ile de France</option>
@@ -145,7 +193,13 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId }) => {
           </FormControl>
         </div>
       </div>
-      <Button variant="contained" color="primary" style={{ marginTop: '2em' }}>
+      <Button
+        disabled={!canSubmitAffectationForm}
+        variant="contained"
+        color={canSubmitAffectationForm ? 'primary' : undefined}
+        style={{ marginTop: '2em' }}
+        onClick={handleValidateDecision}
+      >
         Terminer
       </Button>
     </DialogContent>

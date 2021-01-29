@@ -146,7 +146,7 @@ const Parcours = () => {
               </Button>
             );
           case 'AWAITING_CAMPUS2023':
-            return 'Pré-affecté, pour CT Campus';
+            return 'Pré-affecté';
           case 'COMPLETE':
             return (
               <span>
@@ -252,7 +252,7 @@ const Parcours = () => {
         </ModalContainer>
       )}
       <ModalContainer open={showAffectationPEModal} backdropColor="primary" colorIcon="#4D6EC5">
-        <ModalAffectationPE userId={affectationUserId} />
+        <ModalAffectationPE userId={affectationUserId} onClose={() => setShowAffectationPEModal(false)}/>
       </ModalContainer>
     </>
   );

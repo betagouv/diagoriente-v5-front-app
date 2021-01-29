@@ -140,6 +140,10 @@ export const useAddRecoStructures = (options: MutationHookOptions<addrecoMutatio
 export const CandidateAffectationQuery = gql`
   query($userId: ID!) {
     user(id: $userId) {
+      profile {
+        firstName
+        lastName
+      }
       wc2023Affectation {
         recommendation {
           club {
@@ -160,3 +164,31 @@ export const CandidateAffectationQuery = gql`
 
 export const useCandidateAffectationData = (options: LazyQueryHookOptions<any> = {}) =>
   useLocalLazyQuery<any>(CandidateAffectationQuery, options);
+
+export const AddAdvisorDecisionMutation = gql`
+  mutation($candidateId: String!, $advisorDecision: String!, $advisorSelection: [String!]!, $newCampusRegion: String) {
+    addAdvisorDecision(
+      candidateUserId: $candidateId
+      advisorDecision: $advisorDecision
+      advisorSelection: $advisorSelection
+      newCampusRegion: $newCampusRegion
+    ) {
+      id
+      wc2023Affectation {
+        status
+      }
+    }
+  }
+`;
+export interface addAdvisorDecisionParams {
+  candidateId: string;
+  advisorDecision: string;
+  advisorSelection: string[];
+  newCampusRegion: string;
+}
+export interface addAdvisorDecisionResponse {
+  addAdvisorDecision: User;
+}
+export const useAddAdvisorDecision = (
+  options: MutationHookOptions<addAdvisorDecisionResponse, addAdvisorDecisionParams> = {},
+) => useLocalMutation<addAdvisorDecisionResponse, addAdvisorDecisionParams>(AddAdvisorDecisionMutation, options);

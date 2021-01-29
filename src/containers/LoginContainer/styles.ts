@@ -113,4 +113,7 @@ export default makeStyles((theme) => ({
       color: '#00CFFF',
     },
   },
+  input: {
+    width: 300,
+  },
 }));

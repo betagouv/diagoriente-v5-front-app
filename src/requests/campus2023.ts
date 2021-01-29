@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { LazyQueryHookOptions, MutationHookOptions } from '@apollo/react-hooks';
-import { useLocalLazyQuery, useLocalMutation } from '../hooks/apollo';
+import { useLocalLazyQuery, useLocalMutation, useLocalQuery } from '../hooks/apollo';
 import { EligibleStructure, User } from './types';
 
 export const EligibleStructuresQuery = gql`
@@ -55,6 +55,36 @@ export interface eligibleStructureExpectationsResponse {
 export const useEligibleStructuresExpectation = (
   options: LazyQueryHookOptions<eligibleStructureExpectationsResponse> = {},
 ) => useLocalLazyQuery<eligibleStructureExpectationsResponse>(EligibleStructuresExpectationQuery, options);
+
+export const getPublicRecoQuery = gql`
+  query publicStructure($token: String!) {
+    publicStructure(token: $token) {
+      club {
+        name
+        referrer {
+          firstName
+          lastName
+        }
+      }
+      user {
+        id
+        profile {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;
+export interface getPublicRecoResponse {
+  publicStructure: {
+    user: { id: string; profile: { firstName: string; lastName: string } };
+    club: { name: string; referrer: { firstName: string; lastName: string }[] };
+  };
+}
+export const useGetPublicReco = (options: LazyQueryHookOptions<getPublicRecoResponse> = {}) =>
+  useLocalQuery<getPublicRecoResponse>(getPublicRecoQuery, options);
+
 export const AddRecoCampusMutation = gql`
   mutation AddRecoCampus(
     $clubId: String!
@@ -142,3 +172,83 @@ export interface addrecoMutationResponse {
 }
 export const useAddRecoStructures = (options: MutationHookOptions<addrecoMutationResponse> = {}) =>
   useLocalMutation<addrecoMutationResponse>(AddRecoCampusMutation, options);
+
+export const updateWc2023RecoStatusMutation = gql`
+  mutation UpdateWc2023RecoStatus($user: ID!, $status: String!, $textComment: String) {
+    updateWc2023RecoStatus(user: $user, status: $status, textComment: $textComment) {
+      id
+      email
+      logo
+      location
+      codeGroupe
+      role
+      profile {
+        firstName
+        lastName
+        institution
+      }
+      isCampus
+      validateCampus
+      coordinates {
+        longitude
+        lattitude
+      }
+      wc2023 {
+        degree
+        formation
+        perimeter
+        birthdate
+        comment
+        quality
+      }
+      wc2023Affectation {
+        status
+        specialite
+        advisorSelection {
+          expectations {
+            name
+          }
+          club_code
+          name
+          city
+          referrer {
+            firstName
+            lastName
+            email
+          }
+          fnv1a32_hash
+          licensed_text
+          geolocation {
+            lat
+            lng
+          }
+          licensed_count
+        }
+        recommendation {
+          club {
+            name
+            fnv1a32_hash
+            referrer {
+              firstName
+              lastName
+              email
+            }
+          }
+          clubEmail
+          token
+          status
+        }
+      }
+    }
+  }
+`;
+
+interface updateWc2023RecoStatusMutationParams {
+  user: string;
+  status: string;
+  textComment?: string;
+}
+
+export const useUpdateWc2023RecoStatus = (
+  options?: MutationHookOptions<{ updateWc2023RecoStatus: any }, updateWc2023RecoStatusMutationParams>,
+) => useLocalMutation(updateWc2023RecoStatusMutation, options);

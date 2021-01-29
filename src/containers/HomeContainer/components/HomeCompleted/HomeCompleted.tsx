@@ -29,10 +29,8 @@ const HomeCompleted = () => {
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
   const [showModalValidate, setShowModalValidate] = useState(false);
-  console.log('user', user);
   const ClubCondition =
     user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation.status === 'PENDING';
-  console.log('ClubCondition', ClubCondition);
 
   const getState = (index: number) => {
     switch (open) {
@@ -106,9 +104,7 @@ const HomeCompleted = () => {
 {' '}
 <span className={classes.bold}>compétences</span>
             <br />
-            et explorer mes 
-{' '}
-<span className={classes.bold}>intérêts</span>
+            et explorer mes <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -149,10 +145,9 @@ const HomeCompleted = () => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des 
+            Découvrir des <span className={classes.bold}>métiers</span>
 {' '}
-<span className={classes.bold}>métiers</span> et identifier mon
-{' '}
+et identifier mon{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -170,14 +165,11 @@ const HomeCompleted = () => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes 
+            Faire mes <span className={classes.bold}>choix</span>
 {' '}
-<span className={classes.bold}>choix</span> et identifier des
-{' '}
-            <span className={classes.bold}>entreprises</span>
-{' '}
-à contacter
-</div>
+et identifier des{' '}
+            <span className={classes.bold}>entreprises</span> à contacter
+          </div>
         ),
         openChildren: (
           <div className={classes.firstContent}>

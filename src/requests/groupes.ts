@@ -7,30 +7,26 @@ export const MyGroupInfoQuery = gql`
   query {
     myGroup {
       id
-      code
-      advisorId {
-        email
-        profile {
-          firstName
-          lastName
+      profile {
+        firstName
+        lastName
+      }
+      email
+      location
+      wc2023 {
+        formation
+        quality
+        comment
+      }
+      wc2023Affectation {
+        status
+        recommendation {
+          club {
+            name
+          }
         }
       }
-      users {
-        id
-        profile {
-          firstName
-          lastName
-        }
-        email
-        location
-        wc2023 {
-          formation
-          quality
-          comment
-        }
-        validateCampus
-        eligibleStructuresCountWC2023
-      }
+      validateCampus
     }
   }
 `;

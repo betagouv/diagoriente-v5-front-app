@@ -9,29 +9,29 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
-import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
+import { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-// import { useEligibleStructures } from '../../../../requests/campus2023';
+import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
+import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 
 const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
-  // const [showStructures, setShowStructures] = useState(false);
+  const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [customGroup, setCustomGroup] = useState([]);
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
-  // const [getStructuresCall, getStructuresState] = useEligibleStructures();
+  const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
   const [selectedUser, setSelectedUser] = useState<{ lastName: string; firstName: string }>({
     lastName: '',
     firstName: '',
   });
+  const [affectationUserId, setAffectationUserId] = useState<any>(null);
 
   useEffect(() => {
     if (data) {
-      const a = data.myGroup.map((g: any) => g.users.map((u: any) => ({ ...u, code: g.code, advisor: g.advisorId })));
-      const con = a.flat(1);
-      setCustomGroup(con);
+      setCustomGroup(data.myGroup);
     }
   }, [data]);
 
@@ -51,6 +51,11 @@ const Parcours = () => {
     getStructuresCall({ variables: { userId: idUser } });
     setShowStructures(true);
   }; */
+
+  const handleOpenAffectationPE = (row: any) => {
+    setShowAffectationPEModal(true);
+    setAffectationUserId(row.id);
+  };
 
   const exportCSV = () => {
     if (data) {
@@ -76,16 +81,10 @@ const Parcours = () => {
 
   const headers: Header<any>[] = [
     {
-      title: 'NOM',
-      key: 'lastName',
+      title: 'Candidat',
+      key: 'fullName',
       dataIndex: 'profile',
-      render: (value) => value.lastName,
-    },
-    {
-      title: 'Prénom',
-      key: 'firstName',
-      dataIndex: 'profile',
-      render: (value) => value.firstName,
+      render: (value) => `${value?.lastName.toUpperCase()} ${value?.firstName}`.trim(),
     },
     {
       title: 'E-mail',
@@ -95,31 +94,13 @@ const Parcours = () => {
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
     {
-      title: 'Nom conseiller',
-      key: 'firstNameAdvisor',
-      dataIndex: 'advisor',
-      render: (value) => `${value.profile.firstName} ${value.profile.lastName}`,
-    },
-    {
-      title: 'E-mail Advisor',
-      key: 'emailAdvisor',
-      dataIndex: 'advisor',
-      render: (value) => value.email,
-    },
-    {
-      title: 'Code',
-      key: 'code',
-      dataIndex: 'code',
-      render: (value) => value,
-    },
-    {
       title: 'Formation visée',
       key: 'selectedFormation',
       dataIndex: 'wc2023',
-      render: (value) => value?.formation || '',
+      render: (value) => value?.formation?.substr(0, value?.formation?.indexOf(' :')) || '',
     },
     {
-      title: 'Parcours validé',
+      title: 'Parcours',
       key: 'validated',
       dataIndex: 'validateCampus',
       render: (value) => <VerifiedIcon verified={value} />,
@@ -134,13 +115,47 @@ const Parcours = () => {
         </span>
       ),
     },
-    {
+    /* {
       title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
       render: (value, row) => (
         <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
       ),
+    }, */
+    {
+      title: 'Spécialité',
+      key: 'specialite',
+      dataIndex: 'wc2023Affectation',
+      render: (value) => value?.specialite || 'Aucune',
+    },
+    {
+      title: 'Affectation',
+      key: 'affectation',
+      dataIndex: 'wc2023Affectation',
+      render: (value, row) => {
+        switch (value?.status) {
+          case 'PENDING':
+            return <span>En attente du retour candidat</span>;
+          case 'AWAITING_ADVISOR':
+            return (
+              <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
+                En attente de pré-affectation
+              </Button>
+            );
+          case 'AWAITING_CAMPUS2023':
+            return 'Pré-affecté';
+          case 'COMPLETE':
+            return (
+              <span>
+                Terminée&nbsp;
+                <VerifiedIcon verified />
+              </span>
+            );
+          default:
+            return <>/</>;
+        }
+      },
     },
     /* {
       title: "Structures d'accueil potentielles",
@@ -234,6 +249,9 @@ const Parcours = () => {
           <CardContainer Userparcours={getParcoursState.data?.userParcour} infoUser={selectedUser} />
         </ModalContainer>
       )}
+      <ModalContainer open={showAffectationPEModal} backdropColor="primary" colorIcon="#4D6EC5">
+        <ModalAffectationPE userId={affectationUserId} onClose={() => setShowAffectationPEModal(false)}/>
+      </ModalContainer>
     </>
   );
 };

@@ -92,6 +92,6 @@ export default makeStyles(() => ({
     justifyContent: 'center',
   },
   heightOption: {
-    height: 200,
+    maxHeight: 200,
   },
 }));

@@ -18,6 +18,8 @@ interface Props {
   selectedItem: any;
   setSelectedItem: (s: any) => void;
   onClose: () => void;
+  setText: (t: string) => void;
+  text: string;
 }
 
 const ScreenInfo = ({
@@ -28,13 +30,14 @@ const ScreenInfo = ({
   setSelectedItem,
   onClose,
   setSubMessage,
+  text,
+  setText,
 }: Props) => {
   const classes = useStyles();
   const { user, setUser } = useContext(userContext);
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getStructuresExpectationCall, getStructuresExpectationState] = useEligibleStructuresExpectation();
   const [updateUserCall, updateUsersState] = useUpdateWc2023Specialite();
-  const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
 
   const [expectation, setExpectation] = useState<{ label: string; value: string }[]>([]);

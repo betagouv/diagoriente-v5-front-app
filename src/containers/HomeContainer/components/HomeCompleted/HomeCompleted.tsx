@@ -29,10 +29,8 @@ const HomeCompleted = () => {
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
   const [showModalValidate, setShowModalValidate] = useState(false);
-  console.log('user', user);
   const ClubCondition =
-    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation.status === 'PENDING';
-  console.log('ClubCondition', ClubCondition);
+    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation?.status === 'PENDING';
 
   const getState = (index: number) => {
     switch (open) {

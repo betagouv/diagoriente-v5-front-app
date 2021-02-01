@@ -1,14 +1,13 @@
 import React, { useState, useContext } from 'react';
 import Button from 'components/button/Button';
 import ModalContainer from 'components/common/Modal/ModalContainer';
-import { useHistory, Redirect, RouteComponentProps } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import userContext from 'contexts/UserContext';
-import { decodeUri } from 'utils/url';
 import ClubModal from './Modals/Club/ClubModal';
 
 import useStyle from './style';
 
-const ConfirmationCampus = ({ location }: RouteComponentProps) => {
+const ConfirmationCampus = () => {
   const classes = useStyle();
   const history = useHistory();
   const { user } = useContext(userContext);
@@ -18,12 +17,12 @@ const ConfirmationCampus = ({ location }: RouteComponentProps) => {
   const [subMessage, setSubMessage] = useState('');
 
   const onNavigate = () => history.push('/');
+  const ClubCondition =
+    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation?.status === 'PENDING';
 
-  /* if (user?.wc2023Affectation.status !== 'PENDING') {
-    console.log('fefe');
-    const { from } = decodeUri(location.search);
-    return <Redirect to={from || '/'} />;
-  } */
+  if (!ClubCondition) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.container}>

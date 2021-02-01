@@ -284,9 +284,8 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
             Le message pour
             {/* eslint-disable-next-line */}
             {` ${NameFormator(state.values.firstName)} ${NameFormator(state.values.lastName)}`} (
-            {`${state.values.email}`}
-)
-</div>
+            {`${state.values.email}`})
+          </div>
           <form className={classes.experienceContainer}>
             <TextField
               name="comment"
@@ -353,10 +352,8 @@ const RecommendationModal = ({ skill, open, setOpen, onSuccess }: Props) => {
         <div className={classes.popupContainer}>
           <p className={classes.popupDescription}>
             Veux-tu vraiment quitter ?
-            <br />
-{' '}
-Tes modifications ne seront pas enregistrées.
-</p>
+            <br /> Tes modifications ne seront pas enregistrées.
+          </p>
           <Button
             className={classes.incluse}
             onClick={() => {

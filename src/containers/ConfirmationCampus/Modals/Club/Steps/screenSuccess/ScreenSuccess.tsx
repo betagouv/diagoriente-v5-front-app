@@ -38,7 +38,7 @@ const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IPr
   const onSend = () => {
     const dataToSend = {
       clubId: selectedItem.value.value.id,
-      clubEmail: /* selectedItem.value.value.referrer.email */ 'moezyopmail@yopmail.com',
+      clubEmail: /* selectedItem.value.value.referrer.email */ 'Vincent.advisor@yopmail.com',
       firstName: selectedItem.value.value.referrer[0].firstName,
       lastName: selectedItem.value.value.referrer[0].lastName,
       status: 'AWAITING_ADVISOR',

@@ -16,6 +16,7 @@ const ClubModal = ({ onClose, setMessage, setSubMessage }: Props) => {
   const [index, setIndex] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [selectedItem, setSelectedItem] = useState({} as any);
+  const [text, setText] = useState('');
 
   const onNavigate = (i: number) => {
     setIndex(i);
@@ -38,6 +39,8 @@ const ClubModal = ({ onClose, setMessage, setSubMessage }: Props) => {
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             onClose={onClose}
+            setText={setText}
+            text={text}
           />
         );
       case 3:

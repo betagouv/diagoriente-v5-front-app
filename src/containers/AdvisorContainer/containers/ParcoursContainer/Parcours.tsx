@@ -31,9 +31,7 @@ const Parcours = () => {
 
   useEffect(() => {
     if (data) {
-      const a = data.myGroup.map((g: any) => g.users.map((u: any) => ({ ...u, code: g.code, advisor: g.advisorId })));
-      const con = a.flat(1);
-      setCustomGroup(con);
+      setCustomGroup(data.myGroup);
     }
   }, [data]);
 

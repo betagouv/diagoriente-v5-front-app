@@ -11,10 +11,13 @@ import {
 } from '@material-ui/core';
 import {
   useAddAdvisorDecision,
+  useCampusRegions,
   useCandidateAffectationData,
   useEligibleStructures,
 } from '../../../../requests/campus2023';
 import Button from '../../../../components/button/Button';
+import { useDidMount } from '../../../../hooks/useLifeCycle';
+import { MyGroupInfoQuery } from '../../../../requests/groupes';
 
 interface IProps {
   userId: string | null;
@@ -28,7 +31,14 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
   const [advisorChoice1, setAdvisorChoice1] = useState<string>('');
   const [advisorChoice2, setAdvisorChoice2] = useState<string>('');
   const [advisorChoiceRegion, setAdvisorChoiceRegion] = useState<string>('');
-  const [addDecisionCall, addDecisionState] = useAddAdvisorDecision();
+  const [addDecisionCall, addDecisionState] = useAddAdvisorDecision({
+    refetchQueries: [{ query: MyGroupInfoQuery }],
+  });
+  const [getRegionsCall, getRegionsState] = useCampusRegions();
+
+  useDidMount(() => {
+    getRegionsCall();
+  });
 
   useEffect(() => {
     if (!userId) return;
@@ -54,7 +64,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
         advisorSelection:
           advisorDecision === 'ADVISOR_SELECTION' ? [advisorChoice1.toString(), advisorChoice2.toString()] : [],
         candidateId: userId,
-        newCampusRegion: '/*TODO*/',
+        codeRegion: advisorChoiceRegion,
       },
     });
   };
@@ -186,9 +196,11 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
               value={advisorChoiceRegion}
             >
               <option hidden aria-label="Aucun" value="" />
-              <option value="hdf">Hauts-de-France</option>
-              <option value="idf">Ile de France</option>
-              <option value="aura">Auvergne Rhône-Alpes</option>
+              {getRegionsState.data.campusRegions.map((v: any) => (
+                <option key={v.id} value={v.code}>
+                  {v.name}
+                </option>
+              ))}
             </Select>
           </FormControl>
         </div>

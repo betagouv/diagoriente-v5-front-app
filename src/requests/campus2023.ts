@@ -145,6 +145,7 @@ export const CandidateAffectationQuery = gql`
         lastName
       }
       wc2023Affectation {
+        codeRegion
         recommendation {
           club {
             name
@@ -166,12 +167,12 @@ export const useCandidateAffectationData = (options: LazyQueryHookOptions<any> =
   useLocalLazyQuery<any>(CandidateAffectationQuery, options);
 
 export const AddAdvisorDecisionMutation = gql`
-  mutation($candidateId: String!, $advisorDecision: String!, $advisorSelection: [String!]!, $newCampusRegion: String) {
+  mutation($candidateId: String!, $advisorDecision: String!, $advisorSelection: [String!]!, $codeRegion: String!) {
     addAdvisorDecision(
       candidateUserId: $candidateId
       advisorDecision: $advisorDecision
       advisorSelection: $advisorSelection
-      newCampusRegion: $newCampusRegion
+      codeRegion: $codeRegion
     ) {
       id
       wc2023Affectation {
@@ -184,7 +185,7 @@ export interface addAdvisorDecisionParams {
   candidateId: string;
   advisorDecision: string;
   advisorSelection: string[];
-  newCampusRegion: string;
+  codeRegion: string;
 }
 export interface addAdvisorDecisionResponse {
   addAdvisorDecision: User;
@@ -192,3 +193,16 @@ export interface addAdvisorDecisionResponse {
 export const useAddAdvisorDecision = (
   options: MutationHookOptions<addAdvisorDecisionResponse, addAdvisorDecisionParams> = {},
 ) => useLocalMutation<addAdvisorDecisionResponse, addAdvisorDecisionParams>(AddAdvisorDecisionMutation, options);
+
+export const RegionsQuery = gql`
+  query {
+    campusRegions {
+      id
+      name
+      code
+    }
+  }
+`;
+
+export const useCampusRegions = (options: LazyQueryHookOptions<any> = {}) =>
+  useLocalLazyQuery<any>(RegionsQuery, options);

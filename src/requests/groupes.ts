@@ -7,30 +7,26 @@ export const MyGroupInfoQuery = gql`
   query {
     myGroup {
       id
-      code
-      users {
-        id
-        profile {
-          firstName
-          lastName
-        }
-        email
-        location
-        wc2023 {
-          formation
-          quality
-          comment
-        }
-        wc2023Affectation {
-          status
-          recommendation {
-            club {
-              name
-            }
+      profile {
+        firstName
+        lastName
+      }
+      email
+      location
+      wc2023 {
+        formation
+        quality
+        comment
+      }
+      wc2023Affectation {
+        status
+        recommendation {
+          club {
+            name
           }
         }
-        validateCampus
       }
+      validateCampus
     }
   }
 `;

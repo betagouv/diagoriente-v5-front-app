@@ -18,9 +18,14 @@ import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
-const HomeCompleted = () => {
+interface IPropsHomeCompleted {
+  statusConfig?: boolean;
+}
+
+const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   const classes = useStyles();
   const history = useHistory();
+
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
 
@@ -30,8 +35,10 @@ const HomeCompleted = () => {
   const [openModal, setOpenModal] = useState(false);
   const [showModalValidate, setShowModalValidate] = useState(false);
   const ClubCondition =
-    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation?.status === 'PENDING';
-
+    user?.isCampus &&
+    user?.wc2023.quality !== 'refused' &&
+    user?.wc2023Affectation?.status === 'PENDING' &&
+    statusConfig;
   const getState = (index: number) => {
     switch (open) {
       case index:
@@ -104,9 +111,7 @@ const HomeCompleted = () => {
 {' '}
 <span className={classes.bold}>compétences</span>
             <br />
-            et explorer mes 
-{' '}
-<span className={classes.bold}>intérêts</span>
+            et explorer mes <span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -147,10 +152,9 @@ const HomeCompleted = () => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des 
+            Découvrir des <span className={classes.bold}>métiers</span>
 {' '}
-<span className={classes.bold}>métiers</span> et identifier mon
-{' '}
+et identifier mon{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -168,14 +172,11 @@ const HomeCompleted = () => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes 
+            Faire mes <span className={classes.bold}>choix</span>
 {' '}
-<span className={classes.bold}>choix</span> et identifier des
-{' '}
-            <span className={classes.bold}>entreprises</span>
-{' '}
-à contacter
-</div>
+et identifier des{' '}
+            <span className={classes.bold}>entreprises</span> à contacter
+          </div>
         ),
         openChildren: (
           <div className={classes.firstContent}>

@@ -9,9 +9,11 @@ interface Props {
   onClose: () => void;
   setMessage: (text: string) => void;
   setSubMessage: (text: string) => void;
+  addRecoCampusCall: () => void;
+  addRecoCampusState: any;
 }
 
-const ClubModal = ({ onClose, setMessage, setSubMessage }: Props) => {
+const ClubModal = ({ onClose, setMessage, setSubMessage, addRecoCampusCall, addRecoCampusState }: Props) => {
   const classes = useStyles();
   const [index, setIndex] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -50,6 +52,8 @@ const ClubModal = ({ onClose, setMessage, setSubMessage }: Props) => {
             selectedItem={selectedItem}
             setMessage={setMessage}
             setSubMessage={setSubMessage}
+            addRecoCampusCall={addRecoCampusCall}
+            addRecoCampusState={addRecoCampusState}
           />
         );
       default:

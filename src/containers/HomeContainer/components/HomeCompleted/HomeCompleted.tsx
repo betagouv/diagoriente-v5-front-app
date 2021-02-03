@@ -111,7 +111,9 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
 {' '}
 <span className={classes.bold}>compétences</span>
             <br />
-            et explorer mes <span className={classes.bold}>intérêts</span>
+            et explorer mes 
+{' '}
+<span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -152,9 +154,10 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des <span className={classes.bold}>métiers</span>
+            Découvrir des 
 {' '}
-et identifier mon{' '}
+<span className={classes.bold}>métiers</span> et identifier mon
+{' '}
             <span className={classes.bold}>idéal professionnel</span>
           </div>
         ),
@@ -172,11 +175,14 @@ et identifier mon{' '}
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes <span className={classes.bold}>choix</span>
+            Faire mes 
 {' '}
-et identifier des{' '}
-            <span className={classes.bold}>entreprises</span> à contacter
-          </div>
+<span className={classes.bold}>choix</span> et identifier des
+{' '}
+            <span className={classes.bold}>entreprises</span>
+{' '}
+à contacter
+</div>
         ),
         openChildren: (
           <div className={classes.firstContent}>

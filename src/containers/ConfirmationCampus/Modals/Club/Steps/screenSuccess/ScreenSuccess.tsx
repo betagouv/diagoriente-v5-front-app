@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react';
 import userContext from 'contexts/UserContext';
 
 import Button from 'components/button/Button';
-import { useAddRecoStructures } from 'requests/campus2023';
 import localforage from 'localforage';
 import { User } from 'requests/types';
 import useStyles from './style';
@@ -12,12 +11,20 @@ interface IProps {
   selectedItem: any;
   setMessage: (message: string) => void;
   setSubMessage: (message: string) => void;
+  addRecoCampusCall: (d: any) => void;
+  addRecoCampusState: any;
 }
 
-const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IProps) => {
+const ScreenSuccess = ({
+  selectedItem,
+  setMessage,
+  setSubMessage,
+  onClose,
+  addRecoCampusState,
+  addRecoCampusCall,
+}: IProps) => {
   const classes = useStyles();
   const { setUser } = useContext(userContext);
-  const [addRecoCampusCall, addRecoCampusState] = useAddRecoStructures();
 
   const updateUserData = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');

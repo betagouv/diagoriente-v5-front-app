@@ -176,6 +176,7 @@ export const CandidateAffectationQuery = gql`
         lastName
       }
       wc2023Affectation {
+        specialite
         codeRegion
         recommendation {
           club {

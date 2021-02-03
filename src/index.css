@@ -1,0 +1,32 @@
+@font-face {
+  font-family: Andika New Basic;
+  src: url('./assets/font/AndikaNewBasic-R.ttf');
+}
+
+@font-face {
+  font-family: Ocean;
+  src: url('./assets/font/ocean-six.ttf');
+}
+body {
+  margin: 0;
+  font-family: 'Andika New Basic';
+  color: #424242;
+  font-size: 14px;
+}
+a {
+  text-decoration: 'none' !important;
+}
+* {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  padding: 0px;
+}
+li {
+  outline: none;
+  list-style: none;
+}

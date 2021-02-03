@@ -36,6 +36,7 @@ const PrivateDrawer = () => {
     { text: 'Options', path: '/admin/options' },
     { text: 'Questions', path: '/admin/questions' },
     { text: 'Utilisateurs', path: '/admin/users' },
+    { text: 'Paramètre', path: '/admin/parametre' },
     { text: 'DÉCONNEXION', path: '/' },
   ];
 

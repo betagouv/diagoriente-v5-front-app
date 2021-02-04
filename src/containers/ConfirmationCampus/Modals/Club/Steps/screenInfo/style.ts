@@ -94,4 +94,6 @@ export default makeStyles(() => ({
   heightOption: {
     maxHeight: 200,
   },
+  autoCompleteContainer: { width: '50%', display: 'flex', alignItems: 'center', flexDirection: 'column' },
+  autoCompleteUser: { width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column', flex: 1 },
 }));

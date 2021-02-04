@@ -121,9 +121,9 @@ const ScreenInfo = ({
   useEffect(() => {
     if (updateUsersState.data) {
       updateUserData(updateUsersState.data.updateWc2023Specialite);
-      setMessage('VOTRE CONSEILLER VA VOUS AFFECTER !');
+      setMessage('CAMPUS2023 VA VOUS PROPOSER UNE AFFECTATION !');
       setSubMessage(
-        'Vous allez être affecté manuellement par votre conseiller Pôle emploi qui proposera des clubs en lien avec votre profil.',
+        "Si vous êtes sélectionné vous allez être affecté manuellement par Campus2023 qui vous proposera une ou plusieurs structures d'accueil en lien avec votre profil.",
       );
       onClose();
     }
@@ -133,8 +133,8 @@ const ScreenInfo = ({
   const renderClub = () => {
     return (
       <div className={classes.containerClub}>
-        <div className={classes.labelTitle}>Selectionne le club prêt à te recruter:</div>
-        <div style={{ width: '50%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        <div className={classes.labelTitle}>Selectionne la structure prête à t&apos;accueillir</div>
+        <div className={classes.autoCompleteContainer}>
           {getStructuresState.loading ? (
             'chargement en cours...'
           ) : (
@@ -170,9 +170,12 @@ const ScreenInfo = ({
   const renderUser = () => {
     return (
       <div className={classes.info}>
-        <div className={classes.textLabels}>Vérifier vos informations et sélectionnez la spécialité désirée.</div>
         <div className={classes.textLabels}>
-          En cas d&apos;information inexactes, contatctez le support@diagoriente.beta.gouv
+          Vérifiez vos informations et sélectionnez la spécialité que vous désirez développer en priorité dans la
+          structure.
+        </div>
+        <div className={classes.textLabels}>
+          En cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv
         </div>
         <div className={classes.infoContainer}>
           <div className={classes.rowInfo}>
@@ -195,7 +198,7 @@ const ScreenInfo = ({
         <div className={classes.containerSpec}>
           <div className={classes.rowInfo}>
             <div className={classes.label}>Specialité :</div>
-            <div style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column', flex: 1 }}>
+            <div className={classes.autoCompleteUser}>
               {getStructuresExpectationState.loading ? (
                 'chargement en cours...'
               ) : (
@@ -223,7 +226,7 @@ const ScreenInfo = ({
             className={!isEmpty(selectedItem) ? classes.btn : classes.btnDisable}
             onClick={onUpdateUser}
           >
-            <span className={classes.btnText}>Suivant</span>
+            <span className={classes.btnText}>SUIVANT</span>
           </Button>
         </div>
       </div>

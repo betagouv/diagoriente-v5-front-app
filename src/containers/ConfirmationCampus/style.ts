@@ -22,7 +22,9 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
   },
   subTitle: {
-    marginTop: 10,
+    marginTop: 5,
+    textAlign: 'center',
+    width: '70%',
   },
   subMessage: {
     marginTop: 10,

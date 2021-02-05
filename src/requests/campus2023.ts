@@ -318,3 +318,32 @@ interface updateWc2023RecoStatusMutationParams {
 export const useUpdateWc2023RecoStatus = (
   options?: MutationHookOptions<{ updateWc2023RecoStatus: any }, updateWc2023RecoStatusMutationParams>,
 ) => useLocalMutation(updateWc2023RecoStatusMutation, options);
+
+export const getConfigCampus = gql`
+  query configs {
+    configs {
+      status
+    }
+  }
+`;
+interface getConfigCampusResponse {
+  configs: {
+    status: boolean;
+  };
+}
+export const useGetConfigCampus = (options: LazyQueryHookOptions<getConfigCampusResponse> = {}) =>
+  useLocalLazyQuery<getConfigCampusResponse>(getConfigCampus, options);
+
+export const ConfigCampusMutation = gql`
+  mutation configs($status: Boolean!) {
+    campusConfig(status: $status) {
+      status
+    }
+  }
+`;
+interface ConfigCampusParams {
+  status: boolean;
+}
+
+export const useUpdateConfigCampus = (options: MutationHookOptions<getConfigCampusResponse, ConfigCampusParams> = {}) =>
+  useLocalMutation<getConfigCampusResponse, ConfigCampusParams>(ConfigCampusMutation, options);

@@ -17,6 +17,17 @@ export default makeStyles(() => ({
   header: {
     textAlign: 'center',
   },
+  subInfoContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  subInfo: {
+    marginTop: 20,
+    fontSize: 12,
+    textAlign: 'center',
+    width: '50%',
+  },
   textHeader: {
     fontSize: 20,
     fontWeight: 'bold',

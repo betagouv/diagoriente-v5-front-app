@@ -38,7 +38,7 @@ const ProfilComponent = () => {
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
   const { data: secteurs } = useContext(SecteurContext);
-  const [callJobs, stateJobs] = useJobs();
+  const [callJobs, stateJobs] = useJobs({ fetchPolicy: 'network-only' });
 
   useDidMount(() => {
     callJobs();
@@ -136,8 +136,7 @@ const ProfilComponent = () => {
                   className={classes.rotatedArrow}
                 />
               </div>
-            ) : null
-          }
+            ) : null}
           renderCenterRightControls={({ nextSlide, currentSlide }) =>
             parcours && parcours.families.length > 3 ? (
               <div
@@ -155,8 +154,7 @@ const ProfilComponent = () => {
                   color="#7533FF"
                 />
               </div>
-            ) : null
-          }
+            ) : null}
           className={classes.root}
         >
           {parcours?.families
@@ -309,7 +307,7 @@ const ProfilComponent = () => {
     children: sportSkills.length ? (
       <Grid container spacing={1}>
         {sportSkills.map((theme) => {
-          const icon =theme?.theme.resources?.icon;
+          const icon = theme?.theme.resources?.icon;
           return (
             <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
@@ -349,7 +347,7 @@ const ProfilComponent = () => {
       logo: heart,
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
-            <div key={j.id} className={classes.favoriContainer}>
+          <div key={j.id} className={classes.favoriContainer}>
               <img src={littleheart} alt="" height={20} />
               <div className={classes.job}>{j.title}</div>
             </div>

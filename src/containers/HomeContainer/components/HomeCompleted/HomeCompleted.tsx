@@ -18,9 +18,14 @@ import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
-const HomeCompleted = () => {
+interface IPropsHomeCompleted {
+  statusConfig?: boolean;
+}
+
+const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   const classes = useStyles();
   const history = useHistory();
+
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
 
@@ -30,8 +35,10 @@ const HomeCompleted = () => {
   const [openModal, setOpenModal] = useState(false);
   const [showModalValidate, setShowModalValidate] = useState(false);
   const ClubCondition =
-    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation?.status === 'PENDING';
-
+    user?.isCampus &&
+    user?.wc2023.quality !== 'refused' &&
+    user?.wc2023Affectation?.status === 'PENDING' &&
+    statusConfig;
   const getState = (index: number) => {
     switch (open) {
       case index:

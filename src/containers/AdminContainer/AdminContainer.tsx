@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {
-  Switch, Route as BaseRoute, RouteComponentProps, Redirect,
-} from 'react-router-dom';
+import { Switch, Route as BaseRoute, RouteComponentProps, Redirect } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 
 import Route from 'components/ui/Route/Route';
@@ -15,7 +13,8 @@ import CompetenceContainer from './containers/CompetenceContainer';
 import QuestionContainer from './containers/QuestionContainer';
 import OptionContainer from './containers/OptionContainer';
 import InstitutionContainer from './containers/InstitutionContainer';
-import UserContainer from "./containers/UserContainer";
+import UserContainer from './containers/UserContainer';
+import ParamContainer from './containers/ParamContainer';
 
 import useStyles from './styles';
 
@@ -49,6 +48,8 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
               <BaseRoute path="/admin/options" component={OptionContainer} />
               <BaseRoute path="/admin/institution" component={InstitutionContainer} />
               <BaseRoute path="/admin/users" component={UserContainer} />
+              <BaseRoute path="/admin/parametre" component={ParamContainer} />
+
               <NotFoundPage />
             </Switch>
           </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react';
 import userContext from 'contexts/UserContext';
 
 import Button from 'components/button/Button';
-import { useAddRecoStructures } from 'requests/campus2023';
 import localforage from 'localforage';
 import { User } from 'requests/types';
 import useStyles from './style';
@@ -12,12 +11,20 @@ interface IProps {
   selectedItem: any;
   setMessage: (message: string) => void;
   setSubMessage: (message: string) => void;
+  addRecoCampusCall: (d: any) => void;
+  addRecoCampusState: any;
 }
 
-const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IProps) => {
+const ScreenSuccess = ({
+  selectedItem,
+  setMessage,
+  setSubMessage,
+  onClose,
+  addRecoCampusState,
+  addRecoCampusCall,
+}: IProps) => {
   const classes = useStyles();
   const { setUser } = useContext(userContext);
-  const [addRecoCampusCall, addRecoCampusState] = useAddRecoStructures();
 
   const updateUserData = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');
@@ -50,7 +57,7 @@ const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IPr
       updateUserData(addRecoCampusState.data.addRecoCampus);
       setMessage('VOTRE DEMANDE D’AFFECTATION A ÉTÉ ENVOYÉE !');
       setSubMessage(
-        'Si le club repond favorablement, un conseiller campus vous recontactera pour les modalités de votre affectation.Vous serez recontacter par un conseiller campus avant XX/XX/XXXX.',
+        'Si la structure repond favorablement et que votre profil est sélectionné, vous serez recontacté pour la mise en place des modalités de votre affectation. \n Vous recevrez un e-mail de Campus2023 avant le XX/XX/XXXX.',
       );
       onClose();
     }
@@ -63,7 +70,7 @@ const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IPr
         <>
           <div className={classes.bodyContent}>
             <div className={classes.textLabels}>
-              Vous vous apprêté à solliciter ce club. Cet envoi fait office de demande d&lsquo;engagement
+              Vous vous apprêté à solliciter cette structure. Cet envoi fait office de demande d&lsquo;engagement.
             </div>
             <div className={classes.infoClub}>
               <div className={classes.rowInfo}>
@@ -84,7 +91,7 @@ const ScreenSuccess = ({ selectedItem, setMessage, setSubMessage, onClose }: IPr
           </div>
 
           <Button className={classes.btn} onClick={onSend}>
-            Fermer
+            ENVOYER
           </Button>
         </>
       )}

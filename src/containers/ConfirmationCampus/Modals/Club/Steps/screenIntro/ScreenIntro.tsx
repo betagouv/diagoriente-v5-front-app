@@ -11,7 +11,7 @@ const ScreenIntro = ({ onClickAnswer }: Props) => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <div className={classes.textHeader}>Avez-vous un club pour vous récurter ?</div>
+        <div className={classes.textHeader}>Avez-vous déjà identifié une structure d&lsquo;accueil ?</div>
         <div className={classes.textHeader} />
       </div>
       <div className={classes.content}>
@@ -21,6 +21,12 @@ const ScreenIntro = ({ onClickAnswer }: Props) => {
         <Button className={classes.btn} onClick={() => onClickAnswer('non')}>
           <span className={classes.textBtn}>NON</span>
         </Button>
+      </div>
+      <div className={classes.subInfoContainer}>
+        <div className={classes.subInfo}>
+          Si vous n&lsquo;avez pas identifié de structure d&lsquo;accueil, Campus2023 et le Conseiller Pôle Emploi vont
+          pouvoir vous en proposer une en fonction de votre profil.
+        </div>
       </div>
     </div>
   );

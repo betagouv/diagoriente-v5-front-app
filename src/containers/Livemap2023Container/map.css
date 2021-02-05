@@ -1,0 +1,97 @@
+.leaflet-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.campus2023-icon {
+  border-radius: 50%;
+  border: 1px solid #161616;
+  height: 10px !important;
+  width: 10px !important;
+}
+
+.candidate-icon {
+  background-color: darkorange;
+}
+
+.candidate-selected-icon {
+  background-color: darkorange;
+  border: 1px solid white;
+}
+
+.club-icon {
+  background-color: #663399;
+}
+
+.eligible-icon {
+  background-color: #00bfff;
+}
+
+.invalid-data-icon {
+  background-color: red;
+}
+
+dd {
+  margin-inline-start: 0.4em;
+}
+
+.MuiBackdrop-root {
+  z-index: 9999;
+}
+
+.logo-overlay {
+  z-index: 9998;
+  position: absolute;
+  top: 1em;
+  left: 1.5em;
+}
+
+.cluster-icon-candidate {
+  background-color: #ff8c0042;
+  width: 40px;
+  height: 40px;
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+
+.cluster-icon-candidate div {
+  background-color: darkorange;
+  color: rgb(0, 0, 0);
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 5px !important;
+  margin-top: 5px !important;
+  text-align: center !important;
+  border-radius: 50% !important;
+  font: 12px 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+
+.cluster-icon-candidate span {
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.cluster-icon-invaliddata {
+  background-color: #ff000042;
+  width: 40px;
+  height: 40px;
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+
+.cluster-icon-invaliddata div {
+  background-color: red;
+  color: black;
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 5px !important;
+  margin-top: 5px !important;
+  text-align: center !important;
+  border-radius: 50% !important;
+  font: 12px 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+
+.cluster-icon-invaliddata span {
+  line-height: 30px;
+  font-weight: bold;
+}

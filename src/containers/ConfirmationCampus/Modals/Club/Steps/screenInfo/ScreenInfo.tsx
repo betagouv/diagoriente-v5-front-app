@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import userContext from 'contexts/UserContext';
 import Button from 'components/button/Button';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
+import AdminSelect from 'components/inputs/AdminSelect/AdminSelect';
 import { useUpdateWc2023Specialite } from 'requests/user';
 import { useEligibleStructures, useEligibleStructuresExpectation } from 'requests/campus2023';
 import { useDidMount } from 'hooks/useLifeCycle';
@@ -43,7 +44,6 @@ const ScreenInfo = ({
   const [expectation, setExpectation] = useState<{ label: string; value: string }[]>([]);
   const [club, setClub] = useState<{ label: string; value: EligibleStructure }[]>([]);
 
-  const [filtredExpectation, setFiltredExpectation] = useState<{ label: string; value: string }[]>([]);
   const [filtredClub, setFiltredClub] = useState<{ label: string; value: EligibleStructure }[]>([]);
 
   useDidMount(() => {
@@ -88,13 +88,6 @@ const ScreenInfo = ({
       setUser(objUser);
     }
     return res;
-  };
-  const onChangeSpecialite = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    setText(value);
-    setOpen(true);
-    const filtredAllArray = expectation?.filter((el) => el.label.toLowerCase().indexOf(value.toLowerCase()) !== -1);
-    setFiltredExpectation(filtredAllArray);
   };
   const onChangeClub = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value } = e.target;
@@ -197,24 +190,20 @@ const ScreenInfo = ({
         </div>
         <div className={classes.containerSpec}>
           <div className={classes.rowInfo}>
-            <div className={classes.label}>Specialité :</div>
+            <div className={classes.labelSelect}>Specialité :</div>
             <div className={classes.autoCompleteUser}>
               {getStructuresExpectationState.loading ? (
                 'chargement en cours...'
               ) : (
-                <AutoComplete
-                  onChange={onChangeSpecialite}
-                  onSelectText={onSelect}
+                <AdminSelect
+                  selectClassName={classes.select}
+                  label=""
                   value={text}
-                  name="location"
-                  placeholder="administration..."
-                  options={filtredExpectation}
-                  type="location"
-                  open={open}
-                  isfull
-                  className={classes.inputAuto}
-                  setOpen={setOpen}
-                  heightOption={classes.heightOption}
+                  onChange={(e) => {
+                    setText(e.target.value);
+                    setSelectedItem({ label: e.target.value, value: e.target.value });
+                  }}
+                  options={expectation}
                 />
               )}
             </div>

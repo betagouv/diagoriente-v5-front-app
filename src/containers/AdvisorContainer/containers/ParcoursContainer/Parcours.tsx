@@ -9,7 +9,7 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
-import { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
+import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
 import { useEligibleStructures } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
@@ -115,14 +115,14 @@ const Parcours = () => {
         </span>
       ),
     },
-    /* {
+    {
       title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
       render: (value, row) => (
         <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
       ),
-    }, */
+    },
     {
       title: 'Spécialité',
       key: 'specialite',
@@ -134,6 +134,9 @@ const Parcours = () => {
       key: 'affectation',
       dataIndex: 'wc2023Affectation',
       render: (value, row) => {
+        if (!row.wc2023?.quality || row.wc2023?.quality === 'refused') {
+          return <></>;
+        }
         switch (value?.status) {
           case 'PENDING':
             return <span>En attente du retour candidat</span>;
@@ -249,8 +252,13 @@ const Parcours = () => {
           <CardContainer Userparcours={getParcoursState.data?.userParcour} infoUser={selectedUser} />
         </ModalContainer>
       )}
-      <ModalContainer open={showAffectationPEModal} backdropColor="primary" colorIcon="#4D6EC5">
-        <ModalAffectationPE userId={affectationUserId} onClose={() => setShowAffectationPEModal(false)}/>
+      <ModalContainer
+        open={showAffectationPEModal}
+        backdropColor="primary"
+        colorIcon="#4D6EC5"
+        handleClose={() => setShowAffectationPEModal(false)}
+      >
+        <ModalAffectationPE userId={affectationUserId} onClose={() => setShowAffectationPEModal(false)} />
       </ModalContainer>
     </>
   );

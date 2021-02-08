@@ -25,7 +25,6 @@ interface IPropsHomeCompleted {
 const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   const classes = useStyles();
   const history = useHistory();
-
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
 
@@ -36,9 +35,11 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   const [showModalValidate, setShowModalValidate] = useState(false);
   const ClubCondition =
     user?.isCampus &&
+    user?.wc2023.quality &&
     user?.wc2023.quality !== 'refused' &&
     user?.wc2023Affectation?.status === 'PENDING' &&
-    statusConfig;
+  statusConfig;
+
   const getState = (index: number) => {
     switch (open) {
       case index:
@@ -107,11 +108,11 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes 
+            Identifier mes
 {' '}
 <span className={classes.bold}>compétences</span>
             <br />
-            et explorer mes 
+            et explorer mes
 {' '}
 <span className={classes.bold}>intérêts</span>
           </div>
@@ -154,7 +155,7 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des 
+            Découvrir des
 {' '}
 <span className={classes.bold}>métiers</span> et identifier mon
 {' '}
@@ -175,7 +176,7 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes 
+            Faire mes
 {' '}
 <span className={classes.bold}>choix</span> et identifier des
 {' '}

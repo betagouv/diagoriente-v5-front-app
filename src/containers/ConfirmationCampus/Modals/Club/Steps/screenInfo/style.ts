@@ -51,6 +51,12 @@ export default makeStyles(() => ({
     fontWeight: 'bold',
     marginRight: 10,
   },
+  labelSelect: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 10,
+    paddingBottom: 24,
+  },
   textLabels: {
     textAlign: 'center',
     fontSize: 14,
@@ -96,4 +102,9 @@ export default makeStyles(() => ({
   },
   autoCompleteContainer: { width: '50%', display: 'flex', alignItems: 'center', flexDirection: 'column' },
   autoCompleteUser: { width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column', flex: 1 },
+  select: {
+    height: 35,
+    overflow: 'hidden',
+    outline: 0,
+  },
 }));

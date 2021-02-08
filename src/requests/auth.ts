@@ -102,6 +102,7 @@ export const loginMutation = gql`
           longitude
           lattitude
         }
+        codeRegionCampus
         wc2023 {
           degree
           formation

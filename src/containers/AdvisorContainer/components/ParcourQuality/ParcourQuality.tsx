@@ -12,10 +12,10 @@ import AddCircle from '@material-ui/icons/AddCircle';
 import Reset from 'components/common/Rest/Rest';
 import Button from '@material-ui/core/Button/Button';
 
-import useStyles from './styles';
 import AdminTextField from 'components/inputs/AdminTextField/AdminTextField';
 import { useForm } from 'hooks/useInputs';
 import { useUpdateWc2023Quality } from 'requests/user';
+import useStyles from './styles';
 
 export const qualities = {
   outstanding: { title: 'Remarquable', color: '#1baca6' },
@@ -52,20 +52,22 @@ const ParcourQuality = ({ quality, comment, onDone, user }: ParcourQualityProps)
   return (
     <div className={classes.container}>
       <span className={classes.title}>{title || 'Indéterminé'}</span>
-      <Fab onClick={() => setOpen(true)} size="small" className={classes.add}>
-        <AddCircle color="secondary" />
-      </Fab>
+      {!title && (
+        <Fab onClick={() => setOpen(true)} size="small" className={classes.add}>
+          <AddCircle color="secondary" />
+        </Fab>
+      )}
       <Modal open={open} keepMounted={false}>
         <div className={classes.modalWrapper}>
           <Card className={classes.modalContainer}>
             <div className={classes.modalContent}>
               <h2 className={classes.modalTitle}>Modifier Note</h2>
-              <Reset className={classes.reset} onClick={() => setOpen(false)} color="#FF0060"></Reset>
+              <Reset className={classes.reset} onClick={() => setOpen(false)} color="#FF0060" />
 
               <FormLabel component="legend">Note</FormLabel>
               <RadioGroup value={values.quality} onChange={handleChange} className={classes.radio} name="quality">
                 {map(qualities, ({ color, title }, key) => {
-                  return <FormControlLabel value={key} control={<Radio style={{ color: color }} />} label={title} />;
+                  return <FormControlLabel value={key} control={<Radio style={{ color }} />} label={title} />;
                 })}
               </RadioGroup>
               <AdminTextField

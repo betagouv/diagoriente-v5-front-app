@@ -69,6 +69,11 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
     });
   };
 
+  const hasEligibleStructures = useMemo(() => {
+    if (getStructuresState.data) return getStructuresState.data.eligibleStructures.length > 0;
+    return false;
+  }, [getStructuresState.data]);
+
   useEffect(() => {
     if (onClose && addDecisionState.data && addDecisionState.data.addAdvisorDecision) onClose();
   }, [addDecisionState.data, onClose]);
@@ -86,6 +91,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
     );
 
   const candidateProfile = getCandidateDataState?.data?.user?.profile;
+  const candidateWC2023 = getCandidateDataState?.data?.user?.wc2023Affectation;
   const candidateRecommendation = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation;
   const candidateRecoReferrer = getCandidateDataState.data?.user?.wc2023Affectation?.recommendation?.club?.referrer;
 
@@ -98,7 +104,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
       <RadioGroup>
         <div>
           <Radio
-            disabled={!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED'}
+            disabled={!candidateRecommendation.club || candidateRecommendation.status !== 'ACCEPTED'}
             checked={advisorDecision === 'USER_CLUB'}
             value="USER_CLUB"
             onChange={handleChangeAdvisorDecision}
@@ -116,58 +122,106 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
           {(!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED') && (
             <span>Le jeune ne dispose d&apos;aucun club prêt à le recruter</span>
           )}
+          {(!candidateRecommendation.club || candidateRecommendation.status === 'PENDING') && (
+            <span>Le jeune a envoyé une demande de recommendation auprès d&apos;un club</span>
+          )}
         </div>
         <div>
           <Radio
             checked={advisorDecision === 'ADVISOR_SELECTION'}
             value="ADVISOR_SELECTION"
             onChange={handleChangeAdvisorDecision}
+            disabled={!hasEligibleStructures}
           />
-          <span>Vos recommandations :</span>
-          <div style={{ marginLeft: '4em' }}>
-            <div>
-              <FormControl variant="outlined">
-                <InputLabel id="label-choix-1">Choix 1</InputLabel>
-                <Select
-                  native
-                  labelId="label-choix-1"
-                  label="Choix 1"
-                  onChange={(e: any) => setAdvisorChoice1(e.currentTarget.value)}
-                  value={advisorChoice1}
-                  disabled={advisorDecision !== 'ADVISOR_SELECTION'}
-                >
-                  <option hidden aria-label="Aucun" value="" />
-                  {getStructuresState.data &&
-                    getStructuresState.data.eligibleStructures.map((v: any) => (
-                      <option key={v.id} value={v.id}>
-                        {v.name}
-                      </option>
-                    ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div style={{ marginTop: '1em' }}>
-              <FormControl variant="outlined">
-                <InputLabel id="label-choix-2">Choix 2</InputLabel>
-                <Select
-                  native
-                  labelId="label-choix-2"
-                  onChange={(e: any) => setAdvisorChoice2(e.currentTarget.value)}
-                  value={advisorChoice2}
-                  label="Choix 2"
-                  disabled={advisorDecision !== 'ADVISOR_SELECTION'}
-                >
-                  <option hidden aria-label="Aucun" value="" />
-                  {getStructuresState.data &&
-                    getStructuresState.data.eligibleStructures.map((v: any) => (
-                      <option key={v.id} value={v.id}>
-                        {v.name}
-                      </option>
-                    ))}
-                </Select>
-              </FormControl>
-            </div>
-          </div>
+          {hasEligibleStructures ? (
+            <>
+              <span>Vos recommandations :</span>
+              <div style={{ marginLeft: '4em' }}>
+                <div>
+                  <FormControl variant="outlined">
+                    <InputLabel id="label-choix-1">Choix 1</InputLabel>
+                    <Select
+                      native
+                      labelId="label-choix-1"
+                      label="Choix 1"
+                      onChange={(e: any) => setAdvisorChoice1(e.currentTarget.value)}
+                      value={advisorChoice1}
+                      disabled={advisorDecision !== 'ADVISOR_SELECTION'}
+                    >
+                      <option hidden aria-label="Aucun" value="" />
+                      {getStructuresState.data &&
+                        getStructuresState.data.eligibleStructures.map((v: any) => (
+                          <option key={v.id} value={v.id}>
+                            {v.name}
+                          </option>
+                        ))}
+                    </Select>
+                  </FormControl>
+                  {advisorChoice1 && (
+                    <div>
+                      <strong>Besoins de la structure :</strong>
+                      <div>
+                        {getStructuresState.data.eligibleStructures
+                          .filter((v: any) => v.id === advisorChoice1)[0]
+                          .expectations.map((w) => (
+                            <div>
+                              <span>{w.name}</span>
+                              {candidateWC2023?.specialite === w.name && (
+                                <span role="img" aria-label="Oui">
+                                  ✔️
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div style={{ marginTop: '1em' }}>
+                  <FormControl variant="outlined">
+                    <InputLabel id="label-choix-2">Choix 2</InputLabel>
+                    <Select
+                      native
+                      labelId="label-choix-2"
+                      onChange={(e: any) => setAdvisorChoice2(e.currentTarget.value)}
+                      value={advisorChoice2}
+                      label="Choix 2"
+                      disabled={advisorDecision !== 'ADVISOR_SELECTION'}
+                    >
+                      <option hidden aria-label="Aucun" value="" />
+                      {getStructuresState.data &&
+                        getStructuresState.data.eligibleStructures.map((v: any) => (
+                          <option key={v.id} value={v.id}>
+                            {v.name}
+                          </option>
+                        ))}
+                    </Select>
+                  </FormControl>
+                  {advisorChoice2 && (
+                    <div>
+                      <strong>Besoins de la structure :</strong>
+                      <div>
+                        {getStructuresState.data.eligibleStructures
+                          .filter((v: any) => v.id === advisorChoice2)[0]
+                          .expectations.map((w) => (
+                            <div>
+                              <span>{w.name}</span>
+                              {candidateWC2023?.specialite === w.name && (
+                                <span role="img" aria-label="Oui">
+                                  ✔️
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>Aucune structure ne peut accueillir ce jeune</>
+          )}
         </div>
         <div>
           <Radio
@@ -197,7 +251,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
             >
               <option hidden aria-label="Aucun" value="" />
               {getRegionsState.data.campusRegions.map((v: any) => (
-                <option key={v.id} value={v.code}>
+                <option key={v.id} value={v.id}>
                   {v.name}
                 </option>
               ))}

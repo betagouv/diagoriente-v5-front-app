@@ -20,6 +20,7 @@ export const MyGroupInfoQuery = gql`
       }
       wc2023Affectation {
         status
+        specialite
         recommendation {
           club {
             name

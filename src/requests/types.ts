@@ -43,6 +43,7 @@ export interface User {
     lattitude: number;
   };
   wc2023Affectation: wc2023Affectation;
+  codeRegionCampus: string;
 }
 
 export interface Question {

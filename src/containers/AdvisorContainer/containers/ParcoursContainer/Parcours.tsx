@@ -252,14 +252,9 @@ const Parcours = () => {
           <CardContainer Userparcours={getParcoursState.data?.userParcour} infoUser={selectedUser} />
         </ModalContainer>
       )}
-      <ModalContainer
-        open={showAffectationPEModal}
-        backdropColor="primary"
-        colorIcon="#4D6EC5"
-        handleClose={() => setShowAffectationPEModal(false)}
-      >
+      {showAffectationPEModal && (
         <ModalAffectationPE userId={affectationUserId} onClose={() => setShowAffectationPEModal(false)} />
-      </ModalContainer>
+      )}
     </>
   );
 };

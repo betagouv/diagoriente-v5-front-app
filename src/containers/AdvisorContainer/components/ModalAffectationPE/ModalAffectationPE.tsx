@@ -122,8 +122,8 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
           {(!candidateRecommendation.club || candidateRecommendation.status === 'REJECTED') && (
             <span>Le jeune ne dispose d&apos;aucun club prêt à le recruter</span>
           )}
-          {(!candidateRecommendation.club || candidateRecommendation.status === 'PENDING') && (
-            <span>Le jeune a envoyé une demande de recommendation auprès d&apos;un club</span>
+          {candidateRecommendation.status === 'PENDING' && (
+            <span>Le jeune a envoyé une demande de recommendation auprès d&apos;un club, en attente d'une réponse</span>
           )}
         </div>
         <div>

@@ -21,7 +21,10 @@ const ConfirmationCampus = () => {
 
   const onNavigate = () => history.push('/');
   const ClubCondition =
-    user?.isCampus && user?.wc2023.quality !== 'refused' && user?.wc2023Affectation?.status === 'PENDING';
+    user?.isCampus &&
+    user?.wc2023.quality &&
+    user?.wc2023.quality !== 'refused' &&
+    user?.wc2023Affectation?.status === 'PENDING';
 
   if (!ClubCondition && !hasOpened) {
     return <Redirect to="/" />;

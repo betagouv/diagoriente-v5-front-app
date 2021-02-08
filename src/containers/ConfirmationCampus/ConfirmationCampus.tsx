@@ -43,15 +43,13 @@ const ConfirmationCampus = () => {
       <div className={classes.content}>
         {!hasOpened ? (
           <>
-            <div className={classes.bigTitle}>IL EST TEMPS DE VOUS AFFECTER À UN CLUB</div>
+            <div className={classes.bigTitle}>VOUS ENTREZ DANS LA DERNIÈRE ÉTAPE DU RECRUTEMENT </div>
             <div className={classes.subTitle}>
-              Vous entrez dans la dernière étape du recrutement où nous allons définitivement sélectionner les candidats
-              et les affecter à une structure sportive.
+              Nous allons désormais procéder à la dernière étape de sélection des candidats et les affecter à une
+              structure sportive.A partir de cette étape vous allez pouvoir nous dire si une des structures sportives
+              identifiées par Campus2023 est prête à vous accueillir.
             </div>
-            <div className={classes.subTitle}>
-              A partir de cette étape vous allez pouvoir nous dire si une des structures sportives identifiées par
-              Campus2023 est prête à vous accueillir.Vous êtes prêt ?
-            </div>
+            <div className={classes.subTitleBold}>Vous êtes prêt ? Il est temps de vous affecter à une structure</div>
             <Button
               className={classes.btn}
               onClick={() => {

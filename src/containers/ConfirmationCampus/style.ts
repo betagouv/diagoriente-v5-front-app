@@ -26,9 +26,17 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     width: '70%',
   },
+  subTitleBold: {
+    marginTop: 5,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bolder',
+    width: '70%',
+  },
   subMessage: {
     marginTop: 10,
     textAlign: 'center',
+    fontSize: 16,
   },
   btn: {
     backgroundColor: '#fe3708',

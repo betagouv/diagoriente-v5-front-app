@@ -91,11 +91,7 @@ const ScreenSuccess = ({
           </div>
           <div style={{ marginTop: '0.5em' }}>
             <div className={classes.textLabels}>
-              Vérifiez vos informations et sélectionnez la spécialité que vous désirez développer en priorité dans la
-              structure.
-            </div>
-            <div className={classes.textLabels}>
-              En cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv.fr
+              Vérifiez vos informations, en cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv.fr
             </div>
             <div className={classes.infoClub}>
               <div className={classes.rowInfo}>

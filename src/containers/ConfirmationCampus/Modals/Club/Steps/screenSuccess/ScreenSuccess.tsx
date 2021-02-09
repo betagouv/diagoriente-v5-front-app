@@ -57,7 +57,7 @@ const ScreenSuccess = ({
       updateUserData(addRecoCampusState.data.addRecoCampus);
       setMessage('VOTRE DEMANDE D’AFFECTATION A ÉTÉ ENVOYÉE !');
       setSubMessage(
-        'Si la structure repond favorablement et que votre profil est sélectionné, vous serez recontacté pour la mise en place des modalités de votre affectation. \n Vous recevrez un e-mail de Campus2023 avant le XX/XX/XXXX.',
+        'Si la structure repond favorablement et que votre profil est sélectionné, vous serez recontacté pour la mise en place des modalités de votre affectation.',
       );
       onClose();
     }
@@ -70,7 +70,7 @@ const ScreenSuccess = ({
         <>
           <div className={classes.bodyContent}>
             <div className={classes.textLabels}>
-              Vous vous apprêté à solliciter cette structure. Cet envoi fait office de demande d&lsquo;engagement.
+              Vous vous apprêtez à solliciter cette structure. Cet envoi fait office de demande d&lsquo;engagement.
             </div>
             <div className={classes.infoClub}>
               <div className={classes.rowInfo}>

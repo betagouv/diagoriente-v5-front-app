@@ -126,7 +126,7 @@ const ScreenInfo = ({
   const renderClub = () => {
     return (
       <div className={classes.containerClub}>
-        <div className={classes.labelTitle}>Selectionne la structure prête à t&apos;accueillir</div>
+        <div className={classes.labelTitle}>Sélectionnez la structure prête à vous accueillir</div>
         <div className={classes.autoCompleteContainer}>
           {getStructuresState.loading ? (
             'chargement en cours...'

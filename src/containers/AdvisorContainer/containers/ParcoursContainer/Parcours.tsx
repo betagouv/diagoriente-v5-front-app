@@ -123,44 +123,49 @@ const Parcours = () => {
         <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
       ),
     },
-    {
-      title: 'Spécialité',
-      key: 'specialite',
-      dataIndex: 'wc2023Affectation',
-      render: (value) => value?.specialite || 'Aucune',
-    },
-    {
-      title: 'Affectation',
-      key: 'affectation',
-      dataIndex: 'wc2023Affectation',
-      render: (value, row) => {
-        if (!row.wc2023?.quality || row.wc2023?.quality === 'refused') {
-          return <></>;
-        }
-        switch (value?.status) {
-          case 'PENDING':
-            return <span>En attente du retour candidat</span>;
-          case 'AWAITING_ADVISOR':
-            return (
-              <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
-                En attente de pré-affectation
-              </Button>
-            );
-          case 'AWAITING_CAMPUS2023':
-            return 'Pré-affecté';
-          case 'COMPLETE':
-            return (
-              <span>
-                Terminée&nbsp;
-                <VerifiedIcon verified />
-              </span>
-            );
-          default:
-            return <>/</>;
-        }
+  ];
+
+  /* headers.push(
+      {
+        title: 'Spécialité',
+        key: 'specialite',
+        dataIndex: 'wc2023Affectation',
+        render: (value) => value?.specialite || 'Aucune',
       },
-    },
-    /* {
+      {
+        title: 'Affectation',
+        key: 'affectation',
+        dataIndex: 'wc2023Affectation',
+        render: (value, row) => {
+          if (!row.wc2023?.quality || row.wc2023?.quality === 'refused') {
+            return <></>;
+          }
+          switch (value?.status) {
+            case 'PENDING':
+              return <span>En attente du retour candidat</span>;
+            case 'AWAITING_ADVISOR':
+              return (
+                <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
+                  En attente de pré-affectation
+                </Button>
+              );
+            case 'AWAITING_CAMPUS2023':
+              return 'Pré-affecté';
+            case 'COMPLETE':
+              return (
+                <span>
+                  Terminée&nbsp;
+                  <VerifiedIcon verified />
+                </span>
+              );
+            default:
+              return <>/</>;
+          }
+        },
+      },
+    );
+  } */
+  /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
       dataIndex: 'eligibleStructuresCountWC2023',
@@ -171,7 +176,6 @@ const Parcours = () => {
         </Button>
       ),
     }, */
-  ];
 
   /* const getTooltipData = (competences: any[]) => (
     <Typography variant="caption">

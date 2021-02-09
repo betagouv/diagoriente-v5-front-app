@@ -12,7 +12,7 @@ const ScreenIntro = ({ onClickAnswer }: Props) => {
     <div className={classes.container}>
       <div className={classes.header}>
         <div className={classes.textHeader}>
-          Etes-vous en relation avec une structure d&rsquo;accueil inscrite à Campus2023 qui souhaite vous accueillir?
+          Etes-vous en relation avec une structure d&rsquo;accueil inscrite à Campus 2023 qui souhaite vous accueillir ?
         </div>
         <div className={classes.textHeader} />
       </div>
@@ -26,8 +26,8 @@ const ScreenIntro = ({ onClickAnswer }: Props) => {
       </div>
       <div className={classes.subInfoContainer}>
         <div className={classes.subInfo}>
-          Si ce n&rsquo;est pas le cas, l&rsquo;équipe Campus2023 pourra vous en proposer une en fonction de votre
-          profil
+          Si ce n&rsquo;est pas le cas, l&rsquo;équipe Campus 2023 pourra vous en proposer une en fonction de votre
+          profil.
         </div>
       </div>
     </div>

@@ -135,7 +135,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
             )}
             {candidateRecommendation.status === 'PENDING' && (
               <span>
-                Le jeune a envoyé une demande de recommendation auprès d&apos;un club, en attente d'une réponse
+                Le jeune a envoyé une demande de recommandation auprès d&apos;un club, en attente d&apos;une réponse
               </span>
             )}
           </div>

@@ -18,10 +18,12 @@ import useStyles from './styles';
 const PrivateDrawer = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const f = process.env.REACT_APP_FRONT;
+  const { setUser, user } = useContext(userContext);
+
   const userLinks = [
     { text: 'TABLEAU DE BORD', path: '/' },
     { text: 'AIDE', path: `${p}campus2023/` },
-    { text: 'FAQ', path: `${p}faq/` },
+    { text: 'FAQ', path: `${p}faq/${user?.isCampus ? '#panel1bh-header' : ''}` },
     { text: 'DÉCONNEXION', path: '/' },
   ];
 
@@ -34,6 +36,7 @@ const PrivateDrawer = () => {
     { text: 'Options', path: '/admin/options' },
     { text: 'Questions', path: '/admin/questions' },
     { text: 'Utilisateurs', path: '/admin/users' },
+    { text: 'Paramètre', path: '/admin/parametre' },
     { text: 'DÉCONNEXION', path: '/' },
   ];
 
@@ -42,7 +45,6 @@ const PrivateDrawer = () => {
     { text: 'DÉCONNEXION', path: '/' },
   ];
   const { setParcours, parcours } = useContext(parcoursContext);
-  const { setUser, user } = useContext(userContext);
   const location = useLocation();
   const isJobs = Boolean(matchPath(location.pathname, { path: '/jobs', exact: true }));
   const classes = useStyles({ isCampus: user?.isCampus && user?.role === 'user' });

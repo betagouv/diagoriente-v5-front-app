@@ -98,6 +98,8 @@ export const usersQuery = gql`
           perimeter
           degree
           formation
+          comment
+          quality
         }
         validateCampus
         eligibleStructuresCountWC2023
@@ -171,3 +173,82 @@ interface UpdateCodeGroupMutationParams {
 export const useAffectUserCode = (
   options: MutationHookOptions<{ affectUserCode: User }, UpdateCodeGroupMutationParams> = {},
 ) => useLocalMutation(UpdateCodeGroupMutation, options);
+
+export const updateWc2023SpecialiteMutation = gql`
+  mutation UpdateWc2023Specialite($user: ID!, $specialite: String!) {
+    updateWc2023Specialite(user: $user, specialite: $specialite) {
+      id
+      email
+      logo
+      location
+      codeGroupe
+      role
+      profile {
+        firstName
+        lastName
+        institution
+      }
+      isCampus
+      validateCampus
+      coordinates {
+        longitude
+        lattitude
+      }
+      wc2023 {
+        degree
+        formation
+        perimeter
+        birthdate
+        comment
+        quality
+      }
+      wc2023Affectation {
+        status
+        specialite
+        advisorSelection {
+          expectations {
+            name
+          }
+          club_code
+          name
+          city
+          referrer {
+            firstName
+            lastName
+            email
+          }
+          fnv1a32_hash
+          licensed_text
+          geolocation {
+            lat
+            lng
+          }
+          licensed_count
+        }
+        recommendation {
+          club {
+            name
+            fnv1a32_hash
+            referrer {
+              firstName
+              lastName
+              email
+            }
+          }
+          clubEmail
+          token
+          status
+        }
+      }
+    }
+  }
+`;
+
+interface UpdateWc2023SpecialiteMutationParams {
+  user: string;
+  specialite: string;
+}
+
+export const useUpdateWc2023Specialite = (
+  options?: MutationHookOptions<{ updateWc2023Specialite: any }, UpdateWc2023SpecialiteMutationParams>,
+) => useLocalMutation(updateWc2023SpecialiteMutation, options);

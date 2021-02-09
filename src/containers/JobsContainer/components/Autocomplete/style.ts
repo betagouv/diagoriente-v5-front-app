@@ -4,12 +4,12 @@ export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme: T
   root: {
     height: 35,
     position: 'relative',
-    width: 222,
+    width: (props) => (props.isfull ? '100%' : 222),
   },
   inputBase: {
     height: 36,
     background: '#FFFFFF',
-    width: (props) => (props.isfull ? 600 : 228),
+    width: (props) => (props.isfull ? '100%' : 228),
   },
   inputRoot: {
     width: 'fit-content',
@@ -73,14 +73,14 @@ export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme: T
     },
   },
   optionsContainer: {
-    width: (props) => (props.isfull ? 600 : 222),
+    width: (props) => (props.isfull ? '100%' : 222),
     background: '#FFFFFF',
     border: '1px solid #C9C9C7',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
     borderRadius: 5,
     position: 'absolute',
     padding: 9,
-    top: (props) => (props.isfull ? 63 : 37),
+    top: (props) => (props.isfull ? 36 : 37),
     zIndex: 1300,
     maxHeight: 300,
     overflow: 'auto',

@@ -24,7 +24,7 @@ const ScreenSuccess = ({
   addRecoCampusCall,
 }: IProps) => {
   const classes = useStyles();
-  const { setUser } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
 
   const updateUserData = async (newData: User) => {
     const data: string | null = await localforage.getItem('auth');
@@ -74,22 +74,44 @@ const ScreenSuccess = ({
             </div>
             <div className={classes.infoClub}>
               <div className={classes.rowInfo}>
-                <div className={classes.label}>Nom:</div>
+                <div className={classes.label}>Nom :</div>
                 <div className={classes.subLabel}>{selectedItem.label}</div>
               </div>
               <div className={classes.rowInfo}>
-                <div className={classes.label}>Adresse:</div>
+                <div className={classes.label}>Adresse :</div>
                 <div className={classes.subLabel}>{selectedItem.value.value.city}</div>
               </div>
               <div className={classes.rowInfo}>
-                <div className={classes.label}>Manager du club:</div>
+                <div className={classes.label}>Manager du club :</div>
                 <div className={classes.subLabel}>
                   {`${selectedItem.value.value.referrer[0].firstName} ${selectedItem.value.value.referrer[0].lastName}`}
                 </div>
               </div>
             </div>
           </div>
-
+          <div style={{ marginTop: '0.5em' }}>
+            <div className={classes.textLabels}>
+              Vérifiez vos informations, en cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv.fr
+            </div>
+            <div className={classes.infoClub}>
+              <div className={classes.rowInfo}>
+                <div className={classes.label}>Nom & prénom :</div>
+                <div className={classes.subLabel}>{`${user?.profile.firstName} ${user?.profile.lastName}`}</div>
+              </div>
+              <div className={classes.rowInfo}>
+                <div className={classes.label}>Niveau :</div>
+                <div className={classes.subLabel}>{`${user?.wc2023.degree}`}</div>
+              </div>
+              <div className={classes.rowInfo}>
+                <div className={classes.label}>Formation :</div>
+                <div className={classes.subLabel}>{`${user?.wc2023.formation}`}</div>
+              </div>
+              <div className={classes.rowInfo}>
+                <div className={classes.label}>Périmètre :</div>
+                <div className={classes.subLabel}>{`${user?.wc2023.perimeter} km`}</div>
+              </div>
+            </div>
+          </div>
           <Button className={classes.btn} onClick={onSend}>
             ENVOYER
           </Button>

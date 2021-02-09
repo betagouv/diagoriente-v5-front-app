@@ -1,7 +1,7 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import UserContext from 'contexts/UserContext';
 import parcoursContext from 'contexts/ParcourContext';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import IlluMeConnaitre from 'assets/images/illu_dashboard_se_connaitre.png';
 import IlluMeProtejer from 'assets/images/illu_dashboard_se_projeter.png';
@@ -14,12 +14,15 @@ import Avatar from '@material-ui/core/Avatar/Avatar';
 import DashboardStep from 'components/ui/DashboardStep/DashboardStep';
 import Button from '@material-ui/core/Button/Button';
 import CampusForm from 'components/Modals/ModalCampus2023';
-
 import classNames from 'utils/classNames';
 
 import useStyles from './styles';
 
-const HomeCompleted = () => {
+interface IPropsHomeCompleted {
+  statusConfig?: boolean;
+}
+
+const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   const classes = useStyles();
   const history = useHistory();
   const { user } = useContext(UserContext);
@@ -30,6 +33,12 @@ const HomeCompleted = () => {
   const [open, setOpen] = useState(-1);
   const [openModal, setOpenModal] = useState(false);
   const [showModalValidate, setShowModalValidate] = useState(false);
+  const ClubCondition =
+    user?.isCampus &&
+    user?.wc2023.quality &&
+    user?.wc2023.quality !== 'refused' &&
+    user?.wc2023Affectation?.status === 'PENDING' &&
+  statusConfig;
 
   const getState = (index: number) => {
     switch (open) {
@@ -47,7 +56,6 @@ const HomeCompleted = () => {
     }
     if (p) history.push(`${p}`);
   };
-
   const renderContentItem = useCallback(
     (
       title: string,
@@ -101,10 +109,12 @@ const HomeCompleted = () => {
         initialChildren: (
           <div className={classes.contentChild}>
             Identifier mes
-            <span className={classes.bold}>compétences</span>
+{' '}
+<span className={classes.bold}>compétences</span>
             <br />
             et explorer mes
-            <span className={classes.bold}>intérêts</span>
+{' '}
+<span className={classes.bold}>intérêts</span>
           </div>
         ),
         openChildren: (
@@ -145,7 +155,7 @@ const HomeCompleted = () => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des 
+            Découvrir des
 {' '}
 <span className={classes.bold}>métiers</span> et identifier mon
 {' '}
@@ -166,7 +176,7 @@ const HomeCompleted = () => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes 
+            Faire mes
 {' '}
 <span className={classes.bold}>choix</span> et identifier des
 {' '}
@@ -194,6 +204,10 @@ const HomeCompleted = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [classes, renderContentItem, validateCampus],
   );
+
+  if (ClubCondition) {
+    return <Redirect to="/confirmationCampus" />;
+  }
   return (
     <>
       <div className={classes.container}>

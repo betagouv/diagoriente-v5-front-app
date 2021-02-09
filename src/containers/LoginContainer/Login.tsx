@@ -7,8 +7,6 @@ import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
-// import Recaptcha from 'utils/recaptch';
-
 import { useForm } from 'hooks/useInputs';
 
 import { useLogin } from 'requests/auth';
@@ -28,8 +26,6 @@ const Login = ({ location }: RouteComponentProps) => {
 
   const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
   const [errorCount, setErrorCount] = useState(0);
-  /*  const [openVerif, setOpenVerif] = useState(false);
-  const [checkedVerif, setCheckedVerif] = useState(false); */
 
   const [errorForm, setErrorForm] = useState<string>('');
   const checkBoxRef = useRef(null);
@@ -57,12 +53,6 @@ const Login = ({ location }: RouteComponentProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginState.error]);
-  /*   useEffect(() => {
-    if (errorCount === 3) {
-      setOpenVerif(true);
-    }
-  }, [errorCount]); */
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
@@ -72,12 +62,6 @@ const Login = ({ location }: RouteComponentProps) => {
     }
   };
 
-  if (user) {
-    const { from } = decodeUri(location.search);
-
-    return <Redirect to={from || '/'} />;
-  }
-
   const onClickCondition = () => {
     if (checkBoxRef.current) {
       // (checkBoxRef.current as any)?.onclick();
@@ -86,6 +70,11 @@ const Login = ({ location }: RouteComponentProps) => {
   const onShowPassword = () => {
     setShowPassword(!showPasswordState);
   };
+  if (user) {
+    const { from } = decodeUri(location.search);
+
+    return <Redirect to={from || '/'} />;
+  }
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>

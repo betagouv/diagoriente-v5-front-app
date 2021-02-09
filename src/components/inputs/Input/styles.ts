@@ -1,11 +1,14 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean; isfull?: boolean, required?:boolean }>((theme) => ({
+export default makeStyles<Theme, { error: boolean; isfull?: boolean; required?: boolean }>((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     margin: '0px 0px 0px 0px',
+    width: '100%',
+  },
+  inputRoot: {
     width: '100%',
   },
   wrapperInput: {
@@ -113,8 +116,8 @@ export default makeStyles<Theme, { error: boolean; isfull?: boolean, required?:b
   label: {
     marginRight: 14,
     fontWeight: 'bold',
-    fontSize: (props) => props.required ? 14 : 16,
-    color: (props) => props.required ? "#424242": 'black'
+    fontSize: (props) => (props.required ? 14 : 16),
+    color: (props) => (props.required ? '#424242' : 'black'),
   },
   subTitle: {
     fontSize: 12,

@@ -30,6 +30,7 @@ interface IProps {
   setCoordinates?: (e: any) => void;
   setInsee?: (e: number) => void;
   disable?: boolean;
+  heightOption?: string;
 }
 
 const AutoCompleteJob = ({
@@ -51,6 +52,7 @@ const AutoCompleteJob = ({
   setInsee,
   isfull,
   disable,
+  heightOption,
 }: IProps) => {
   const classes = useStyles({ error: !!(errorText || errorForm), isfull });
   const data = options?.map((el: any) => {
@@ -97,7 +99,7 @@ const AutoCompleteJob = ({
         }}
       />
       {open && (
-        <div className={classes.optionsContainer}>
+        <div className={classNames(classes.optionsContainer, heightOption)}>
           {data?.map((el: any) => {
             const t = el.label.toLowerCase().split(value?.toLowerCase());
             for (let i = 0; i < t.length; i += 1) {

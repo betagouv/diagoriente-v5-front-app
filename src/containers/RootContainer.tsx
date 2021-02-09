@@ -17,6 +17,7 @@ import jobsContainer from 'containers/JobsContainer';
 import ForgotPasswordContainer from 'containers/ForgotPassword';
 import RenewPasswordContainer from 'containers/RenewPassword';
 import ConfiramtionContainer from 'containers/Confirmation';
+import ConfiramtionCampusContainer from 'containers/ConfirmationCampus';
 import GameContainer from 'containers/GameContainer';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import UserContext from 'contexts/UserContext';
@@ -24,11 +25,11 @@ import ExperienceComponent from 'containers/ExperienceContainer';
 import ParcourContext from 'contexts/ParcourContext';
 import SecteurContext from 'contexts/SecteurContext';
 import Recommendation from 'containers/RecommendationContainer';
+import RecommendationCampus from 'containers/RecommendationCampus/RecommendationCampus';
 import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
 import LivemapContainer from 'containers/Livemap2023Container';
-
 import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import open from 'assets/svg/menu_close.svg';
@@ -90,6 +91,18 @@ const RootContainer = () => {
                 component={ConfiramtionContainer}
               />
               <Route
+                protected
+                privateHeaderProps={{
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : whiteMenu,
+                  showUser: false,
+                }}
+                footer
+                path="/confirmationCampus"
+                exact
+                component={ConfiramtionCampusContainer}
+              />
+              <Route
                 privateHeaderProps={{
                   closeLogoIcon: user?.isCampus ? logCampus : logo,
                   openIcon: user?.isCampus ? whiteMenu : open,
@@ -99,6 +112,17 @@ const RootContainer = () => {
                 path="/recommendation"
                 component={Recommendation}
               />
+              <Route
+                privateHeaderProps={{
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
+                  showUser: false,
+                }}
+                footer
+                path="/recommendationCampus"
+                component={RecommendationCampus}
+              />
+
               <BaseRoute path="/profile" component={Profil} />
               <BaseRoute path="/interet" component={InteretContainer} />
               <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />

@@ -48,7 +48,9 @@ const JobInfo = ({ job, handleClose }: IProps) => {
               <span className={classes.offresTitle}>La semaine dernière</span>
             </div>
             <div>
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_LAST_WEEK}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_LAST_WEEK}</b>
+{' '}
+offres pour{' '}
               <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_LAST_WEEK}</b>
 {' '}
               demandeurs d&lsquo;emploi
@@ -60,7 +62,9 @@ const JobInfo = ({ job, handleClose }: IProps) => {
               <span className={classes.offresTitle}>Sur le dernier mois, en moyenne :</span>
             </div>
             <div>
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_END_MONTH}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_END_MONTH}</b>
+{' '}
+offres pour{' '}
               <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_END_MONTH}</b>
 {' '}
               demandeurs d&lsquo;emploi
@@ -79,12 +83,12 @@ const JobInfo = ({ job, handleClose }: IProps) => {
               ))}
             </div>
           </div>
-          <div className={classes.graph}>
+          {/* <div className={classes.graph}>
             <div className={classes.TextTitle}>Types de contrat :</div>
             <div>
               <Chart />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

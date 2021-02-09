@@ -11,6 +11,7 @@ interface IProps extends ModalProps {
   backdropColor: string;
   colorIcon: string;
   size?: number;
+  height?: number;
   title?: string;
 }
 
@@ -21,14 +22,15 @@ const ModalContainer = ({
   colorIcon,
   children,
   size,
+  height,
   onReset,
   title,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ backdropColor, size });
+  const classes = useStyles({ backdropColor, size, height });
   return (
     <Modal
-      style={{ zIndex: 1450 }}
+      style={{ zIndex: 1300 }}
       open={open}
       onClose={handleClose}
       disablePortal

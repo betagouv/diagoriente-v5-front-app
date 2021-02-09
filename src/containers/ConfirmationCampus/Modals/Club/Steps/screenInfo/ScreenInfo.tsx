@@ -48,7 +48,7 @@ const ScreenInfo = ({
 
   useDidMount(() => {
     if (selectedAnswer === 'oui') {
-      getStructuresCall({ variables: { userId: user?.id } });
+      getStructuresCall({ variables: { userId: user?.id, ignoreDistance: true } });
     } else {
       getStructuresExpectationCall({ variables: { userId: user?.id } });
     }

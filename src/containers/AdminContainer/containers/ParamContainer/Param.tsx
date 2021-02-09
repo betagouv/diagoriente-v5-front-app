@@ -9,13 +9,18 @@ const Param = () => {
   const [configCall, configState] = useGetConfigCampus({ fetchPolicy: 'network-only' });
   const [updateConfigCall, updateConfigState] = useUpdateConfigCampus();
   const [checked, setChecked] = useState(false);
+  const [checkedAffectation, setCheckedAffectation] = useState(false);
+
   const classes = useStyles();
 
   useDidMount(() => {
     configCall();
   });
   useEffect(() => {
-    if (configState.data) setChecked(configState.data.configs.status);
+    if (configState.data) {
+      setChecked(configState.data.configs.status);
+      setCheckedAffectation(configState.data.configs.statusAffectation);
+    }
   }, [configState.data]);
   useEffect(() => {
     if (updateConfigState.data) {
@@ -28,7 +33,7 @@ const Param = () => {
     <div>
       <div className={classes.title}>Paramètre</div>
       <div>
-        <p>Activez/désactivez Campus2023 club affectation:</p>
+        <p>Activez/désactivez Campus2023 club affectation Modals:</p>
         <div>
           <div className={classes.checkboxRow}>
             <CheckBox
@@ -51,8 +56,36 @@ const Param = () => {
             <div>Non</div>
           </div>
         </div>
+        <p>Activez/désactivez affectation de candidature depuis Admin:</p>
+        <div>
+          <div className={classes.checkboxRow}>
+            <CheckBox
+              color="#00CFFF"
+              className={classes.checkbox}
+              checked={checkedAffectation === true}
+              label="Oui"
+              onChange={() => setCheckedAffectation(!checkedAffectation)}
+            />
+            <div>Oui</div>
+          </div>
+          <div className={classes.checkboxRow}>
+            <CheckBox
+              color="#00CFFF"
+              className={classes.checkbox}
+              checked={checkedAffectation === false}
+              label="Non"
+              onChange={() => setCheckedAffectation(!checkedAffectation)}
+            />
+            <div>Non</div>
+          </div>
+        </div>
         <div className={classes.btnContainer}>
-          <Button className={classes.btn} onClick={() => updateConfigCall({ variables: { status: checked } })}>
+          <Button
+            className={classes.btn}
+            onClick={() => {
+              updateConfigCall({ variables: { status: checked, statusAffectation: checkedAffectation } });
+            }}
+          >
             <span className={classes.btnLabel}>Enregistrer</span>
           </Button>
         </div>

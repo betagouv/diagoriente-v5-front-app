@@ -116,7 +116,7 @@ const ScreenInfo = ({
       updateUserData(updateUsersState.data.updateWc2023Specialite);
       setMessage('CAMPUS2023 VA VOUS PROPOSER UNE AFFECTATION !');
       setSubMessage(
-        "Si vous êtes sélectionné vous allez être affecté manuellement par Campus2023 qui vous proposera une ou plusieurs structures d'accueil en lien avec votre profil.",
+        "Si vous êtes sélectionné vous allez être affecté manuellement par Campus 2023 qui vous proposera une ou plusieurs structures d'accueil en lien avec votre profil.",
       );
       onClose();
     }
@@ -168,7 +168,7 @@ const ScreenInfo = ({
           structure.
         </div>
         <div className={classes.textLabels}>
-          En cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv
+          En cas d’informations inexactes, contactez le support : support@diagoriente.beta.gouv.fr
         </div>
         <div className={classes.infoContainer}>
           <div className={classes.rowInfo}>
@@ -180,12 +180,12 @@ const ScreenInfo = ({
             <div className={classes.subLabel}>{`${user?.wc2023.degree}`}</div>
           </div>
           <div className={classes.rowInfo}>
-            <div className={classes.label}>Formation</div>
+            <div className={classes.label}>Formation :</div>
             <div className={classes.subLabel}>{`${user?.wc2023.formation}`}</div>
           </div>
           <div className={classes.rowInfo}>
-            <div className={classes.label}>Perimetre :</div>
-            <div className={classes.subLabel}>{`${user?.wc2023.perimeter} Km`}</div>
+            <div className={classes.label}>Périmètre :</div>
+            <div className={classes.subLabel}>{`${user?.wc2023.perimeter} km`}</div>
           </div>
         </div>
         <div className={classes.containerSpec}>

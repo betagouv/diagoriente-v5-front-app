@@ -4,8 +4,8 @@ import { useLocalLazyQuery, useLocalMutation, useLocalQuery } from '../hooks/apo
 import { EligibleStructure, User } from './types';
 
 export const EligibleStructuresQuery = gql`
-  query($userId: ID) {
-    eligibleStructures(userId: $userId) {
+  query($userId: ID, $ignoreDistance: Boolean) {
+    eligibleStructures(userId: $userId, ignoreDistance: $ignoreDistance) {
       id
       name
       licensed_text

@@ -11,7 +11,7 @@ import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-import { useEligibleStructures } from '../../../../requests/campus2023';
+import { useEligibleStructures, useGetConfigCampus } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 
@@ -20,6 +20,8 @@ const Parcours = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [customGroup, setCustomGroup] = useState([]);
+  const [configCall, configState] = useGetConfigCampus({ fetchPolicy: 'network-only' });
+
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getUpdateVisualisation, getUpdateVisualitionState] = useUpdateVisualisation();
@@ -37,6 +39,7 @@ const Parcours = () => {
 
   useDidMount(() => {
     loadParcours();
+    configCall();
   });
 
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
@@ -124,8 +127,8 @@ const Parcours = () => {
       ),
     },
   ];
-
-  /* headers.push(
+  if (configState.data?.configs.statusAffectation) {
+    headers.push(
       {
         title: 'Spécialité',
         key: 'specialite',
@@ -164,7 +167,8 @@ const Parcours = () => {
         },
       },
     );
-  } */
+  }
+
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',

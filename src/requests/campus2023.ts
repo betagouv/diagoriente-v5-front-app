@@ -323,26 +323,30 @@ export const getConfigCampus = gql`
   query configs {
     configs {
       status
+      statusAffectation
     }
   }
 `;
 interface getConfigCampusResponse {
   configs: {
     status: boolean;
+    statusAffectation: boolean;
   };
 }
 export const useGetConfigCampus = (options: LazyQueryHookOptions<getConfigCampusResponse> = {}) =>
   useLocalLazyQuery<getConfigCampusResponse>(getConfigCampus, options);
 
 export const ConfigCampusMutation = gql`
-  mutation configs($status: Boolean!) {
-    campusConfig(status: $status) {
+  mutation configs($status: Boolean, $statusAffectation: Boolean) {
+    campusConfig(status: $status, statusAffectation: $statusAffectation) {
       status
+      statusAffectation
     }
   }
 `;
 interface ConfigCampusParams {
   status: boolean;
+  statusAffectation: boolean;
 }
 
 export const useUpdateConfigCampus = (options: MutationHookOptions<getConfigCampusResponse, ConfigCampusParams> = {}) =>

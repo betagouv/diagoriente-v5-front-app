@@ -45,7 +45,7 @@ const ScreenSuccess = ({
   const onSend = () => {
     const dataToSend = {
       clubId: selectedItem.value.value.id,
-      clubEmail: selectedItem.value.value.referrer.email,
+      clubEmail: selectedItem.value.value.referrer[0].email,
       firstName: selectedItem.value.value.referrer[0].firstName,
       lastName: selectedItem.value.value.referrer[0].lastName,
       status: 'AWAITING_ADVISOR',

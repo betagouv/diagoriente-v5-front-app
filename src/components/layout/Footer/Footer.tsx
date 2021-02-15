@@ -44,11 +44,11 @@ const Footer = ({ onChange, name }: IProps) => {
       <Grid container spacing={3} className={classes.gridContainer}>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <p className={classes.textTop}>
-            <a className={classes.link} href={`${p}/documentation/`} target="_blank">
+            <a className={classes.link} href={`${p}documentation/`} target="_blank">
               Documentation
             </a>
             <br />
-            <a className={classes.link} href={`${p}/statistiques/`} target="_blank">
+            <a className={classes.link} href={`${p}statistiques/`} target="_blank">
               Statistiques
             </a>
             <br />
@@ -56,11 +56,11 @@ const Footer = ({ onChange, name }: IProps) => {
               Code source
             </a>
             <br />
-            <a className={classes.link} href={`${p}/cgu/`} target="_blank">
+            <a className={classes.link} href={`${p}cgu/`} target="_blank">
               CGU
             </a>
             <br />
-            <a className={classes.link} href={`${p}/mention/`} target="_blank">
+            <a className={classes.link} href={`${p}mention/`} target="_blank">
               Mentions légales
             </a>
           </p>

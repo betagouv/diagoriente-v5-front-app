@@ -16,11 +16,11 @@ import useStyles from './styles';
 const PublicHeader = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const links = [
-    { text: 'Qui sommes nous?', path: `${p}/info/` },
-    { text: 'Notre démarche', path: `${p}/approach/` },
-    { text: 'Actualités', path: `${p}/actualites/` },
+    { text: 'Qui sommes nous?', path: `${p}info/` },
+    { text: 'Notre démarche', path: `${p}approach/` },
+    { text: 'Actualités', path: `${p}actualites/` },
     // { text: 'vidéo', path: '/DiagOvidéo' },
-    { text: 'FAQ', path: `${p}/faq/` },
+    { text: 'FAQ', path: `${p}faq/` },
   ];
   const { open, setOpen } = useContext(DrawerContext);
   const [showlogo, setShowLogo] = useState(window.innerWidth > 768 && window.innerWidth < 1280);

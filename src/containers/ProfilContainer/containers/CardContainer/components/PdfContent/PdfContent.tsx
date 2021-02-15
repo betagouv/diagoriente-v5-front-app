@@ -78,16 +78,15 @@ const PdfContent = forwardRef((props, ref: Ref<HTMLDivElement>) => {
           path=""
           showBtn={showBtnEng}
         />
-        {user?.isCampus && (
-          <CardSkills
-            skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
-            title="Expériences sportives"
-            emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
-            emptyButton="J’ajoute une expérience sportive"
-            path=""
-            show={showBtn}
-          />
-        )}
+
+        <CardSkills
+          skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
+          title="Expériences sportives"
+          emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
+          emptyButton="J’ajoute une expérience sportive"
+          path=""
+          show={showBtn}
+        />
         <CardPart title="RECOMMANDATIONS">
           <Grid className={classes.commentContainer} container spacing={3}>
             {comments.map(({ comment, title }) => (

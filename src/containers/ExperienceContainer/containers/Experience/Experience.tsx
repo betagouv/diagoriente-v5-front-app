@@ -138,24 +138,23 @@ const Experience = () => {
             </Button>
           </div>
         </div>
-        {user?.isCampus && (
-          <div className={classes.circleContainer}>
-            <Avatar
-              title="Ajouter une"
-              avatarCircleBackground="transparent"
-              size={200}
-              titleClassName={classes.marginTitle}
-              circleClassName={classes.circleStyleEng}
-            >
-              <img src={illExpRugby} alt="ill" className={classes.illus} />
-            </Avatar>
-            <div onClick={onClickSport} className={classes.hideLine}>
-              <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
-                <div className={classes.btnLabel}>Expérience sportive</div>
-              </Button>
-            </div>
+
+        <div className={classes.circleContainer}>
+          <Avatar
+            title="Ajouter une"
+            avatarCircleBackground="transparent"
+            size={200}
+            titleClassName={classes.marginTitle}
+            circleClassName={classes.circleStyleEng}
+          >
+            <img src={illExpRugby} alt="ill" className={classes.illus} />
+          </Avatar>
+          <div onClick={onClickSport} className={classes.hideLine}>
+            <Button childrenClassName={classes.margin} className={classes.btnpro} type="submit">
+              <div className={classes.btnLabel}>Expérience sportive</div>
+            </Button>
           </div>
-        )}
+        </div>
       </div>
       {/* <div className={classes.help}>
         <img src={help} alt="help" />

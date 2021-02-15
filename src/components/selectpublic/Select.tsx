@@ -16,9 +16,9 @@ const NativeSelects = () => {
     setOpen(!open);
   };
   const option = [
-    { label: "Accompagnement vers l'emploi", path: `${p}/emploi/` },
-    { label: 'Education nationale', path: `${p}/education/` },
-    { label: 'Volontariat', path: `${p}/volontariat/` },
+    { label: "Accompagnement vers l'emploi", path: `${p}emploi/` },
+    { label: 'Education nationale', path: `${p}education/` },
+    { label: 'Volontariat', path: `${p}volontariat/` },
   ];
 
   const handleChange = (event: any, e: string) => {

@@ -296,38 +296,38 @@ const ProfilComponent = () => {
         </Link>
       ),
     },
+    {
+      titleCard: <div className={classes.emptyDiv} />,
+      title: 'MES EXPÉRIENCES SPORTIVES',
+      background: '#4D6EC5',
+      color: '#fff',
+      path: '/profile/experience?type=sport',
+      className: classes.experienceCard,
+      children: sportSkills.length ? (
+        <Grid container spacing={1}>
+          {sportSkills.map((theme) => {
+            const icon = theme?.theme.resources?.icon;
+            return (
+              <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
+                <div className={classes.themeSelection}>
+                  <Circle avatarCircleBackground="transparent" size={100}>
+                    {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
+                  </Circle>
+                  <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+                </div>
+              </Grid>
+            );
+          })}
+        </Grid>
+      ) : (
+        <Link to="/experience/theme?type=sport">
+          <Button className={classes.btn}>
+            <span className={classes.textButton}>J’ajoute une expérience sportive</span>
+          </Button>
+        </Link>
+      ),
+    },
   ];
-  const sportCard = {
-    titleCard: <div className={classes.emptyDiv} />,
-    title: 'MES EXPÉRIENCES SPORTIVES',
-    background: '#4D6EC5',
-    color: '#fff',
-    path: '/profile/experience?type=sport',
-    className: classes.experienceCard,
-    children: sportSkills.length ? (
-      <Grid container spacing={1}>
-        {sportSkills.map((theme) => {
-          const icon = theme?.theme.resources?.icon;
-          return (
-            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
-              <div className={classes.themeSelection}>
-                <Circle avatarCircleBackground="transparent" size={100}>
-                  {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
-                </Circle>
-                <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
-              </div>
-            </Grid>
-          );
-        })}
-      </Grid>
-    ) : (
-      <Link to="/experience/theme?type=sport">
-        <Button className={classes.btn}>
-          <span className={classes.textButton}>J’ajoute une expérience sportive</span>
-        </Button>
-      </Link>
-    ),
-  };
   const cardJobs = [
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
@@ -355,10 +355,6 @@ const ProfilComponent = () => {
         : null,
     },
   ];
-  if (user?.isCampus) {
-    allCard.splice(1, 1);
-    cardExp.push(sportCard);
-  }
   return (
     <div className={classes.profilContainer}>
       <Title title="MON PROFIL" color="#424242" size={18} font="42" className={classes.title} />

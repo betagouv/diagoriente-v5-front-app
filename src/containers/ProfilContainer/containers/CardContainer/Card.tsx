@@ -9,6 +9,7 @@ import carte from 'assets/svg/carte.svg';
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import useParcourSkills from 'hooks/useParcourSkills';
 import Usercontext from 'contexts/UserContext';
+import { UserParcour } from 'requests/types';
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
 import CardIcons from './components/CardIcons/CardIcons';
@@ -16,7 +17,7 @@ import CardCompetence from './components/CardCompetence/CardCompetence';
 import CardSkills from './components/CardSkills/CardSkills';
 
 import useStyles from './styles';
-import { UserParcour } from 'requests/types';
+
 interface IProps {
   Userparcours?: UserParcour | undefined;
   infoUser?: { firstName: string; lastName: string };
@@ -119,16 +120,14 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
           path={`/experience/theme?type=engagement${encodeUri({ redirect: '/profile/card', type: 'engagement' })}`}
           show={!Userparcours}
         />
-        {((user?.role === 'advisor' && hasSportSkills) || user?.role === 'admin' || user?.isCampus) && (
-          <CardSkills
-            skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
-            title="Expériences sportives"
-            emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
-            emptyButton="J’ajoute une expérience sportive"
-            path={`/experience/theme?type=sport${encodeUri({ redirect: '/profile/card', type: 'sport' })}`}
-            show={!Userparcours}
-          />
-        )}
+        <CardSkills
+          skills={skills.filter((skill) => skill.theme && skill.theme.type === 'sport')}
+          title="Expériences sportives"
+          emptyMessage="Tu n’as pas encore renseigné d'expérience sportive"
+          emptyButton="J’ajoute une expérience sportive"
+          path={`/experience/theme?type=sport${encodeUri({ redirect: '/profile/card', type: 'sport' })}`}
+          show={!Userparcours}
+        />
       </Paper>
       <div className={classes.footerIcons}>{!Userparcours && icons}</div>
       {element}

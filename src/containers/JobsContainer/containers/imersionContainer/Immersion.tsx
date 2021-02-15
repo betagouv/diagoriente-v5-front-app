@@ -566,7 +566,7 @@ const ImmersionContainer = ({
                   <hr className={classes.bar} />
                 </>
               )}
-              <div className={classes.filterMainTitle}>Affiner la rechercher</div>
+              <div className={classes.filterMainTitle}>Affiner la recherche</div>
 
               {checkedTypeApiImmersion === 'entreprise' && (
                 <div className={classes.tailleContainer}>
@@ -758,9 +758,7 @@ const ImmersionContainer = ({
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>
-              <span className={classes.okText}>OK</span> 
-{' '}
-<span>!</span>
+              <span className={classes.okText}>OK</span> <span>!</span>
             </div>
           </Button>
         </div>

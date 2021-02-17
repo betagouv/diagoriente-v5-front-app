@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Grid } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
 import { useMyGroup, MyGroupInfoResponse } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
@@ -9,6 +10,7 @@ import { useGetUserParcour } from 'requests/parcours';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
+import recoIcon from 'assets/svg/pmedaille.svg';
 import { useUpdateVisualisation } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
@@ -149,9 +151,23 @@ const Parcours = () => {
       title: 'Statut',
       key: 'note',
       dataIndex: 'wc2023',
-      render: (value, row) => (
-        <ParcourQuality comment={value.comment} onDone={() => loadParcours()} user={row.id} quality={value.quality} />
-      ),
+      render: (value, row) => {
+        return (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ParcourQuality
+              comment={value.comment}
+              onDone={() => loadParcours()}
+              user={row.id}
+              quality={value.quality}
+            />
+            {value.comment && (
+              <Tooltip title={value.comment}>
+                <img src={recoIcon} alt="medaille" style={{ width: 22, height: 'auto' }} />
+              </Tooltip>
+            )}
+          </div>
+        );
+      },
     },
   ];
   if (configState.data?.configs.statusAffectation) {
@@ -220,7 +236,6 @@ const Parcours = () => {
       headers.push(rowRegional as any);
     }
   }
-
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',

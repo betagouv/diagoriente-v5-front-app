@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
@@ -19,7 +20,13 @@ import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/Verifi
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 import ModalAffectationConfirmation from '../../components/ModalConfirmationAffectation/ModalConfirmationAffectation';
 
+const useStyles = makeStyles(() => ({
+  customTooltip: {
+    fontSize: 16,
+  },
+}));
 const Parcours = () => {
+  const classes = useStyles();
   const { user } = useContext(userContext);
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [showModal, setShowModal] = useState(false);
@@ -161,7 +168,12 @@ const Parcours = () => {
               quality={value.quality}
             />
             {value.comment && (
-              <Tooltip title={value.comment}>
+              <Tooltip
+                classes={{
+                  tooltip: classes.customTooltip,
+                }}
+                title={value.comment}
+              >
                 <img src={recoIcon} alt="medaille" style={{ width: 22, height: 'auto' }} />
               </Tooltip>
             )}

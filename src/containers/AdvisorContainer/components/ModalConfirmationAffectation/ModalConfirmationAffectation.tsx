@@ -30,8 +30,7 @@ const ModalConfirmationAffectation = ({
   const [advisorChoice, setAdvisorChoice] = useState<string>('choix_1');
   // advisor_affectation or user_affectation
   const [advisorDecision, setAdvisorDecision] = useState<string>('');
-  // advisorRegional_affectation
-  const [advisorChoiceClub, setAdvisorChoiceClub] = useState<string>('');
+  const [checkedRadio, setCheckedRadio] = useState<boolean>(true);
 
   const [open, setOpen] = useState<boolean>(false);
   const [getStructuresCall, getStructuresState] = useAllStructures();
@@ -44,6 +43,7 @@ const ModalConfirmationAffectation = ({
   });
   const handleChangeAdvisorDecision = (e: any) => {
     setAdvisorDecision(e.currentTarget.value);
+    setCheckedRadio(true);
   };
   const handleChangeUserDecision = (e: string) => {
     setAdvisorDecision(e);
@@ -56,14 +56,17 @@ const ModalConfirmationAffectation = ({
             <CircularProgress />
           ) : (
             <FormControl variant="outlined" style={{ width: '70%' }}>
-              <InputLabel id="label-choix-1">List des clubs</InputLabel>
+              <InputLabel id="label-choix-1">List des Clubs</InputLabel>
               <Select
                 native
                 labelId="label-choix-1"
                 label="List des clubs"
-                onChange={(e: any) => setAdvisorChoiceClub(e.currentTarget.value)}
-                value={advisorChoiceClub}
-                disabled={advisorChoice !== 'choix_2'}
+                onChange={(e: any) => {
+                  setAdvisorDecision(e.currentTarget.value);
+                  setCheckedRadio(false);
+                  setAdvisorChoice('choix_2');
+                }}
+                value={checkedRadio || advisorChoice === 'choix_1' ? '' : advisorDecision}
               >
                 <option hidden aria-label="Aucun" value="" />
                 {getStructuresState.data &&
@@ -83,43 +86,26 @@ const ModalConfirmationAffectation = ({
     return (
       <DialogContent style={{ margin: '20px 0px' }}>
         <FormControl variant="outlined">
-          <RadioGroup>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              <Radio
-                checked={advisorChoice === 'choix_1'}
-                value="choix_1"
-                onChange={() => setAdvisorChoice('choix_1')}
+          <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
+            Voici la list des club suggérés par le conseiller pole emploi:
+          </p>
+          {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
+            return (
+              <FormControlLabel
+                key={c.name}
+                control={<Radio />}
+                checked={advisorDecision === c.name}
+                label={c.name}
+                value={c.name}
+                onChange={handleChangeAdvisorDecision}
               />
-              <RadioGroup>
-                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
-                  Voici les lists des club suggéré par le conseiller:
-                </p>
-                {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
-                  return (
-                    <FormControlLabel
-                      key={c.name}
-                      control={<Radio />}
-                      checked={advisorDecision === c.name}
-                      label={c.name}
-                      value={c.name}
-                      onChange={handleChangeAdvisorDecision}
-                    />
-                  );
-                })}
-              </RadioGroup>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              <Radio
-                checked={advisorChoice === 'choix_2'}
-                value="choix_2"
-                onChange={() => setAdvisorChoice('choix_2')}
-              />
-              <div>
-                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Vous pouvez aussi changer le club:</p>
-                {renderSelection()}
-              </div>
-            </div>
-          </RadioGroup>
+            );
+          })}
+
+          <div>
+            <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Vous pouvez aussi changer le club:</p>
+            {renderSelection()}
+          </div>
         </FormControl>
       </DialogContent>
     );
@@ -155,7 +141,7 @@ const ModalConfirmationAffectation = ({
                 onChange={() => setAdvisorChoice('choix_2')}
               />
               <div>
-                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Vous pouvez aussi changer le club:</p>
+                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Choisir manuellement le club:</p>
                 {renderSelection()}
               </div>
             </div>
@@ -181,8 +167,7 @@ const ModalConfirmationAffectation = ({
     }
   };
   const confirmationChoix = () => {
-    const dataToSend = advisorChoice === 'choix_1' ? advisorDecision : advisorChoiceClub;
-    confirmationAffectationCall({ userId: affectation.id, clubName: dataToSend });
+    confirmationAffectationCall({ userId: affectation.id, clubName: advisorDecision });
   };
 
   return (

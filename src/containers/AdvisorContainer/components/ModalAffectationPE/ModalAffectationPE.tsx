@@ -257,11 +257,13 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
                 value={advisorChoiceRegion}
               >
                 <option hidden aria-label="Aucun" value="" />
-                {getRegionsState.data.campusRegions.map((v: any) => (
-                  <option key={v.id} value={v.id}>
-                    {v.name}
-                  </option>
-                ))}
+                {getRegionsState.data.campusRegions
+                  .filter((r: any) => r.show === true)
+                  .map((v: any) => (
+                    <option key={v.id} value={v.id}>
+                      {v.name}
+                    </option>
+                  ))}
               </Select>
             </FormControl>
           </div>

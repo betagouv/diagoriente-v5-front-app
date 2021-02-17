@@ -12,7 +12,7 @@ import carte from 'assets/svg/carte.svg';
 import { useUpdateVisualisation } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
-import { useGetConfigCampus } from '../../../../requests/campus2023';
+import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 import ModalAffectationConfirmation from '../../components/ModalConfirmationAffectation/ModalConfirmationAffectation';
@@ -36,6 +36,7 @@ const Parcours = () => {
   });
   const [affectationUserId, setAffectationUserId] = useState<any>(null);
   const [affectationState, setAffectationState] = useState<any>(null);
+  const [confirmationAffectationCall, confirmationAffectationState] = useConfirmationAffectation();
 
   useEffect(() => {
     if (data) {
@@ -47,7 +48,13 @@ const Parcours = () => {
     loadParcours();
     configCall();
   });
-
+  useEffect(() => {
+    if (confirmationAffectationState.data) {
+      loadParcours();
+      configCall();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmationAffectationState.data]);
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
@@ -91,7 +98,9 @@ const Parcours = () => {
       downloadCSV(csv, 'parcours');
     }
   };
-
+  const confirmationAffectation = (dataConfirmation: { userId: string; clubName: string }) => {
+    confirmationAffectationCall({ variables: dataConfirmation });
+  };
   const headers: Header<any>[] = [
     {
       title: 'Candidat',
@@ -155,7 +164,9 @@ const Parcours = () => {
             </Button>
           );
         }
-        return <>/</>;
+        if (value.status === 'COMPLETE') {
+          return <div>{value.finalClub}</div>;
+        }
       },
     };
     headers.push(
@@ -300,6 +311,8 @@ const Parcours = () => {
         <ModalAffectationConfirmation
           affectation={affectationState}
           onClose={() => setShowAffectationConfirmationModal(false)}
+          confirmationAffectationCall={confirmationAffectation}
+          confirmationAffectationData={confirmationAffectationState.data}
         />
       )}
     </>

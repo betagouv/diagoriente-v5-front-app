@@ -22,6 +22,7 @@ export const MyGroupInfoQuery = gql`
         status
         specialite
         advisorDecision
+        finalClub
         advisorSelection {
           name
           club_code
@@ -29,6 +30,12 @@ export const MyGroupInfoQuery = gql`
         recommendation {
           club {
             name
+            city
+            licensed_text
+            referrer {
+              firstName
+              lastName
+            }
           }
         }
       }

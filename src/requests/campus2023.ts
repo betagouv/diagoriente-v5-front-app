@@ -252,6 +252,7 @@ export const RegionsQuery = gql`
       id
       name
       code
+      show
     }
   }
 `;

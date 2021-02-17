@@ -184,18 +184,13 @@ const ModalConfirmationAffectation = ({
     const dataToSend = advisorChoice === 'choix_1' ? advisorDecision : advisorChoiceClub;
     confirmationAffectationCall({ userId: affectation.id, clubName: dataToSend });
   };
-  useEffect(() => {
-    if (confirmationAffectationData) {
-      setOpen(false);
-      onClose();
-    }
-  }, [confirmationAffectationData, onClose]);
+
   return (
     <ModalContainer
       open
       backdropColor="primary"
       colorIcon="#4D6EC5"
-      handleClose={() => onClose?.call(null)}
+      handleClose={() => onClose()}
       title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.firstName}`}
     >
       <div>

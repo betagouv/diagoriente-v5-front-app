@@ -52,6 +52,8 @@ const Parcours = () => {
     if (confirmationAffectationState.data) {
       loadParcours();
       configCall();
+      setShowAffectationConfirmationModal(false);
+      setAffectationState(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
@@ -76,6 +78,12 @@ const Parcours = () => {
     setShowAffectationConfirmationModal(true);
     setAffectationState(row);
   };
+  useEffect(() => {
+    if (confirmationAffectationState.data) {
+      setShowAffectationConfirmationModal(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmationAffectationState.data]);
 
   const exportCSV = () => {
     if (data) {
@@ -312,7 +320,7 @@ const Parcours = () => {
           affectation={affectationState}
           onClose={() => setShowAffectationConfirmationModal(false)}
           confirmationAffectationCall={confirmationAffectation}
-          confirmationAffectationData={confirmationAffectationState.data}
+          confirmationAffectationData={confirmationAffectationState}
         />
       )}
     </>

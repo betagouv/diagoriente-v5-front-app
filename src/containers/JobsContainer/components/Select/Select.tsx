@@ -19,6 +19,7 @@ interface IProps {
   options: any[] | undefined;
   icon?: ReactElement;
   className?: string;
+  classNameInput?: string;
   errorForm?: string;
   open?: boolean;
   onClick: () => void;
@@ -29,6 +30,7 @@ interface IProps {
   parcourAcc?: { id: string };
   isCampus?: boolean;
   isCampusDiplome?: boolean;
+  colorArrow?: string;
 }
 
 const SelectJobs = forwardRef<HTMLDivElement, IProps>(
@@ -47,6 +49,8 @@ const SelectJobs = forwardRef<HTMLDivElement, IProps>(
       isCampus,
       isCampusDiplome,
       parcourAcc,
+      classNameInput,
+      colorArrow,
       ...rest
     }: IProps,
     Ref,
@@ -70,13 +74,13 @@ const SelectJobs = forwardRef<HTMLDivElement, IProps>(
             onChange={onChange}
             name={name}
             placeholder={placeholder}
-            className={classes.inputContainer}
+            className={classNames(classes.inputContainer, classNameInput)}
             disabled
             value={hasOne}
           />
           <div className={classes.logoContainer}>
             <Arrow
-              color={theme.palette.success.main}
+              color={colorArrow || theme.palette.success.main}
               width="20"
               height="14"
               className={open ? classes.rotatedBase : classes.rotated}

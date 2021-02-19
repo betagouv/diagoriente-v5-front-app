@@ -17,6 +17,7 @@ export const MyGroupInfoQuery = gql`
         formation
         quality
         comment
+        degree
       }
       wc2023Affectation {
         status

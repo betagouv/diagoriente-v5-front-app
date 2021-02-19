@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, FormControl } from '@material-ui/core';
+import Select from 'containers/JobsContainer/components/Select/Select';
+
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
 import { useMyGroup, MyGroupInfoResponse } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
+import useOnclickOutside from 'hooks/useOnclickOutside';
 import Button from '@material-ui/core/Button/Button';
 import { useGetUserParcour } from 'requests/parcours';
 import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
@@ -24,17 +27,40 @@ const useStyles = makeStyles(() => ({
   customTooltip: {
     fontSize: 16,
   },
+  selectContainer: {
+    marginLeft: 20,
+  },
+  styleSelect: {
+    border: '1px solid #424242',
+  },
+  containerInput: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
+const listAccData = [
+  { id: 'niveaubac', title: 'Niveau Bac' },
+  { id: 'bac', title: 'Bac' },
+  { id: 'bac+1', title: 'Bac + 1' },
+  { id: 'bac+2', title: 'Bac + 2' },
+  { id: 'bac+3', title: 'Bac + 3' },
+  { id: 'bac+4', title: 'Bac + 4' },
+  { id: 'bac+5', title: 'Bac + 5' },
+];
 const Parcours = () => {
   const classes = useStyles();
   const { user } = useContext(userContext);
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
+  const [openAcc, setOpenAcc] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [showAffectationConfirmationModal, setShowAffectationConfirmationModal] = useState(false);
 
   const [customGroup, setCustomGroup] = useState<any[]>([]);
+  const [customFilterGroup, setCustomFilterGroup] = useState<any[]>([]);
+
   const [configCall, configState] = useGetConfigCampus({ fetchPolicy: 'network-only' });
+  const [selectedDegree, setSelectedDegree] = useState<string[]>([]);
 
   const [getParcoursCall, getParcoursState] = useGetUserParcour();
   // const [getStructuresCall, getStructuresState] = useEligibleStructures();
@@ -50,6 +76,7 @@ const Parcours = () => {
   useEffect(() => {
     if (data) {
       setCustomGroup(data.myGroup);
+      setCustomFilterGroup(data.myGroup);
     }
   }, [data]);
 
@@ -248,6 +275,22 @@ const Parcours = () => {
       headers.push(rowRegional as any);
     }
   }
+  const onSelectAcc = (label?: string) => {
+    if (label) {
+      const array = [...selectedDegree];
+      array[0] = label;
+      if (label !== 'Niveau Bac') {
+        setSelectedDegree(array);
+        const a = customGroup.filter((g) => g.wc2023.degree === label);
+        setCustomFilterGroup(a);
+        setOpenAcc(false);
+      } else {
+        setSelectedDegree(array);
+        setCustomFilterGroup(customGroup);
+        setOpenAcc(false);
+      }
+    }
+  };
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
@@ -269,22 +312,42 @@ const Parcours = () => {
       </ul>
     </Typography>
   ); */
+  const divAcc = useRef<HTMLDivElement>(null);
+  useOnclickOutside(divAcc, () => setOpenAcc(false));
+
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
       {!loading && (
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Button onClick={exportCSV} variant="contained" color="primary">
-              Export
-            </Button>
+            <div className={classes.containerInput}>
+              <Button onClick={exportCSV} variant="contained" color="primary">
+                Export
+              </Button>
+              <FormControl className={classes.selectContainer}>
+                <Select
+                  options={listAccData}
+                  onSelectText={onSelectAcc}
+                  name="accessibility"
+                  placeholder="Niveau"
+                  value={selectedDegree}
+                  open={openAcc}
+                  onClick={() => setOpenAcc(!openAcc)}
+                  reference={divAcc}
+                  isCampusDiplome
+                  classNameInput={classes.styleSelect}
+                  colorArrow="#2979ff"
+                />
+              </FormControl>
+            </div>
           </Grid>
           <Grid item xs={12}>
-            {customGroup && (
+            {customFilterGroup && (
               <Table
                 onPageChange={() => null}
-                count={customGroup.length}
-                data={customGroup}
+                count={customFilterGroup.length}
+                data={customFilterGroup}
                 totalPages={0}
                 headers={headers}
                 currentPage={1}

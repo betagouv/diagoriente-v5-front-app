@@ -56,11 +56,11 @@ const ModalConfirmationAffectation = ({
             <CircularProgress />
           ) : (
             <FormControl variant="outlined" style={{ width: '70%' }}>
-              <InputLabel id="label-choix-1">List des Clubs</InputLabel>
+              <InputLabel id="label-choix-1">Liste des Clubs</InputLabel>
               <Select
                 native
                 labelId="label-choix-1"
-                label="List des clubs"
+                label="Liste des clubs"
                 onChange={(e: any) => {
                   setAdvisorDecision(e.currentTarget.value);
                   setCheckedRadio(false);
@@ -87,7 +87,7 @@ const ModalConfirmationAffectation = ({
       <DialogContent style={{ margin: '20px 0px' }}>
         <FormControl variant="outlined">
           <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
-            Voici la list des club suggérés par le conseiller pole emploi:
+            Voici la Liste des club suggérés par le conseiller pole emploi:
           </p>
           {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
             return (
@@ -126,7 +126,7 @@ const ModalConfirmationAffectation = ({
               />
               <div>
                 <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
-                  Voici le club que le candidat a choisi:
+                  Club qui souhaite engager le jeune :
                 </p>
                 <div>{`Nom: ${affectation.wc2023Affectation.recommendation.club.name}`}</div>
                 <div>{`Adresse: ${affectation.wc2023Affectation.recommendation.club.city}`}</div>

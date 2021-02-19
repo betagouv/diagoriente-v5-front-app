@@ -32,6 +32,11 @@ const Register = () => {
   const [showPasswordState, setShowPasswoed] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
   const [coordinates, setCoordinates] = useState<Number[]>([]);
+  const [codeAddresses, setCodeAddresses] = useState<{ postCode: string; cityCode: string }>({
+    postCode: '',
+    cityCode: '',
+  });
+
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
 
@@ -77,6 +82,7 @@ const Register = () => {
             ...values,
             codeGroupe: values.codeGroupe.trim(),
             coordinates: { lattitude: coordinates[1], longitude: coordinates[0] },
+            addressCodes: codeAddresses,
             validateCampus: false,
           };
 
@@ -150,6 +156,8 @@ const Register = () => {
 
   const onSelect = (location: any | undefined) => {
     if (location) actions.setValues({ location: location.label });
+    const codes = { postCode: location.value.postcode, cityCode: location.value.citycode };
+    setCodeAddresses(codes);
     setOpenLocation(false);
   };
   return (
@@ -287,7 +295,7 @@ const Register = () => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <div className={classes.label}>
-                      Ta ville de résidence
+                      Ta ville de résidence 
 {' '}
 <span className={classes.requiredInput}>*</span>
                     </div>

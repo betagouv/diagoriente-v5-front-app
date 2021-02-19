@@ -18,6 +18,7 @@ export const MyGroupInfoQuery = gql`
         quality
         comment
         degree
+        perimeter
       }
       wc2023Affectation {
         status

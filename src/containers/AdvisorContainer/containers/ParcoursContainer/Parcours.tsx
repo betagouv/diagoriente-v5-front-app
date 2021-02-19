@@ -208,6 +208,12 @@ const Parcours = () => {
         );
       },
     },
+    {
+      title: 'Périmètre',
+      key: 'perimeter',
+      dataIndex: 'wc2023',
+      render: (value) => `${value?.perimeter} km`,
+    },
   ];
   if (configState.data?.configs.statusAffectation) {
     const rowRegional = {

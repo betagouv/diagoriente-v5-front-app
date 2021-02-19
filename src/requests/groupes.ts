@@ -20,6 +20,10 @@ export const MyGroupInfoQuery = gql`
         degree
         perimeter
       }
+      addressCodes {
+        postCode
+        cityCode
+      }
       wc2023Affectation {
         status
         specialite
@@ -59,6 +63,10 @@ export interface MyGroupInfoResponse {
       formation: string;
       quality: string;
       comment: string;
+    };
+    addressCodes: {
+      cityCode: string;
+      postCode: string;
     };
     wc2023Affectation: {
       status: string;

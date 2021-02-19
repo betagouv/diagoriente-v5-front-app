@@ -159,6 +159,8 @@ const Parcours = () => {
       render: (value) => value,
     },
     { title: 'Emplacement', key: 'location', dataIndex: 'location' },
+    { title: 'Code ville', key: 'cityCode', dataIndex: 'addressCodes', render: (value) => value.cityCode },
+    { title: 'Code Postal', key: 'postCode', dataIndex: 'addressCodes', render: (value) => value.postCode },
     {
       title: 'Formation visée',
       key: 'selectedFormation',

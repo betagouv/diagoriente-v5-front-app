@@ -33,6 +33,10 @@ export interface User {
   codeGroupe: string;
   role: UserRole;
   wc2023: WC2023;
+  addressCodes: {
+    postCode: string;
+    cityCode: string;
+  };
   isCampus: boolean;
   validateCampus: boolean;
   nbrGroupes: number;

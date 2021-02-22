@@ -165,7 +165,7 @@ const Parcours = () => {
       title: 'Niveau du candidat',
       key: 'niveau',
       dataIndex: 'wc2023',
-      render: (value) => `${value.degree.toUpperCase()} `,
+      render: (value) => value.degree || '',
     },
     {
       title: 'Formation visée',

@@ -244,6 +244,18 @@ const Parcours = () => {
   if (configState.data?.configs.statusAffectation) {
     const rowRegional = [
       {
+        title: 'Désengagement',
+        key: 'desengagement',
+        dataIndex: 'wc2023Affectation',
+        render: (value: any, row: any) => (
+          <CheckBox
+            color="#2979ff"
+            checked={value.desengagement}
+            onChange={() => onChangeDesengagement(!value.desengagement, row.id)}
+          />
+        ),
+      },
+      {
         title: 'Affectation_Régional',
         key: 'affectation_regional',
         dataIndex: 'wc2023Affectation',
@@ -265,26 +277,6 @@ const Parcours = () => {
           }
         },
       },
-      {
-        title: 'Staps',
-        key: 'staps',
-        dataIndex: 'wc2023Affectation',
-        render: (value: any, row: any) => (
-          <CheckBox color="#2979ff" checked={value?.staps} onChange={() => onChangeStaps(!value.staps, row.id)} />
-        ),
-      },
-      {
-        title: 'Désengagement',
-        key: 'desengagement',
-        dataIndex: 'wc2023Affectation',
-        render: (value: any, row: any) => (
-          <CheckBox
-            color="#2979ff"
-            checked={value.desengagement}
-            onChange={() => onChangeDesengagement(!value.desengagement, row.id)}
-          />
-        ),
-      },
     ];
     headers.push(
       {
@@ -293,6 +285,7 @@ const Parcours = () => {
         dataIndex: 'wc2023Affectation',
         render: (value) => value?.specialite || 'Aucune',
       },
+
       {
         title: 'Affectation',
         key: 'affectation',
@@ -323,6 +316,14 @@ const Parcours = () => {
               return <>/</>;
           }
         },
+      },
+      {
+        title: 'Staps',
+        key: 'staps',
+        dataIndex: 'wc2023Affectation',
+        render: (value: any, row: any) => (
+          <CheckBox color="#2979ff" checked={value?.staps} onChange={() => onChangeStaps(!value.staps, row.id)} />
+        ),
       },
     );
     if (user?.codeRegionCampus && user.role === 'advisor') {

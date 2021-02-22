@@ -5,7 +5,7 @@ import Select from 'containers/JobsContainer/components/Select/Select';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
-import { useMyGroup, MyGroupInfoResponse } from 'requests/groupes';
+import { useMyGroup } from 'requests/groupes';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import useOnclickOutside from 'hooks/useOnclickOutside';
@@ -39,13 +39,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const listAccData = [
-  { id: 'niveaubac', title: 'Niveau Bac' },
-  { id: 'bac', title: 'Bac' },
-  { id: 'bac+1', title: 'Bac + 1' },
-  { id: 'bac+2', title: 'Bac + 2' },
-  { id: 'bac+3', title: 'Bac + 3' },
-  { id: 'bac+4', title: 'Bac + 4' },
-  { id: 'bac+5', title: 'Bac + 5' },
+  { id: 'bac', title: 'Toutes les formations' },
+  { id: 'bac+1', title: 'BAC : Chef de projet junior d’un club sportif' },
+  { id: 'bac+3', title: 'BAC+3 : Administrateur d’une structure sportive' },
+  { id: 'bac+5', title: 'BAC+5 : Manager d’une structure sportive' },
 ];
 const Parcours = () => {
   const classes = useStyles();
@@ -158,9 +155,18 @@ const Parcours = () => {
       dataIndex: 'email',
       render: (value) => value,
     },
-    { title: 'Emplacement', key: 'location', dataIndex: 'location' },
-    { title: 'Code ville', key: 'cityCode', dataIndex: 'addressCodes', render: (value) => value.cityCode },
-    { title: 'Code Postal', key: 'postCode', dataIndex: 'addressCodes', render: (value) => value.postCode },
+    {
+      title: 'Emplacement',
+      key: 'location',
+      dataIndex: 'location',
+      render: (value, row) => `${value} (${row.addressCodes.postCode})`,
+    },
+    {
+      title: 'Niveau du candidat',
+      key: 'niveau',
+      dataIndex: 'wc2023',
+      render: (value) => `${value.degree.toUpperCase()} `,
+    },
     {
       title: 'Formation visée',
       key: 'selectedFormation',
@@ -287,9 +293,9 @@ const Parcours = () => {
     if (label) {
       const array = [...selectedDegree];
       array[0] = label;
-      if (label !== 'Niveau Bac') {
+      if (label !== 'Toutes les formations') {
         setSelectedDegree(array);
-        const a = customGroup.filter((g) => g.wc2023.degree === label);
+        const a = customGroup.filter((g) => g.wc2023.formation === label);
         setCustomFilterGroup(a);
         setOpenAcc(false);
       } else {
@@ -337,13 +343,14 @@ const Parcours = () => {
                 <Select
                   options={listAccData}
                   onSelectText={onSelectAcc}
-                  name="accessibility"
-                  placeholder="Niveau"
+                  name="formation"
+                  placeholder="Formation"
                   value={selectedDegree}
                   open={openAcc}
                   onClick={() => setOpenAcc(!openAcc)}
                   reference={divAcc}
                   isCampusDiplome
+                  isCampus
                   classNameInput={classes.styleSelect}
                   colorArrow="#2979ff"
                 />

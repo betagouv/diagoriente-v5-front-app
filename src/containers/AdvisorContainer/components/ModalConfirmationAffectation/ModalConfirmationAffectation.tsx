@@ -37,75 +37,106 @@ const ModalConfirmationAffectation = ({
 
   useDidMount(() => {
     getStructuresCall();
-    if (affectation.wc2023Affectation.recommendation.club) {
+    if (affectation.wc2023Affectation.recommendation.club && affectation.wc2023Affectation.recommendation.status === "ACCEPTED") {
       setAdvisorDecision(affectation.wc2023Affectation.recommendation.club.name);
     }
   });
   const handleChangeAdvisorDecision = (e: any) => {
+    setAdvisorChoice('choix_3')
     setAdvisorDecision(e.currentTarget.value);
     setCheckedRadio(true);
   };
   const handleChangeUserDecision = (e: string) => {
     setAdvisorDecision(e);
   };
-  const renderSelection = () => {
+
+  const renderUserClubReco = () => {
+    return <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <Radio
+        checked={advisorChoice === 'choix_1'}
+        value="choix_1"
+        onChange={() => {
+          setAdvisorChoice('choix_1');
+          handleChangeUserDecision(affectation.wc2023Affectation.recommendation.club.name);
+        }}
+      />
+      <div>
+        <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
+          Club qui souhaite engager le jeune :
+        </p>
+        <div>{`Nom: ${affectation.wc2023Affectation.recommendation.club.name}`}</div>
+        <div>{`Adresse: ${affectation.wc2023Affectation.recommendation.club.city}`}</div>
+        <div>{`Info: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
+        <div>{`Responsable: ${affectation.wc2023Affectation.recommendation.club.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club.referrer[0].lastName}`}</div>
+      </div>
+    </div>
+  };
+
+  const renderClubListSelection = () => {
     return (
-      <DialogContent style={{ margin: '20px 0px' }}>
-        <div>
-          {getStructuresState.loading ? (
-            <CircularProgress />
-          ) : (
-            <FormControl variant="outlined" style={{ width: '70%' }}>
-              <InputLabel id="label-choix-1">Liste des Clubs</InputLabel>
-              <Select
-                native
-                labelId="label-choix-1"
-                label="Liste des clubs"
-                onChange={(e: any) => {
-                  setAdvisorDecision(e.currentTarget.value);
-                  setCheckedRadio(false);
-                  setAdvisorChoice('choix_2');
-                }}
-                value={checkedRadio || advisorChoice === 'choix_1' ? '' : advisorDecision}
-              >
-                <option hidden aria-label="Aucun" value="" />
-                {getStructuresState.data &&
-                  getStructuresState.data?.allStructures.sort().map((v: any) => (
-                    <option key={v.id} value={v.id}>
-                      {v.name}
-                    </option>
-                  ))}
-              </Select>
-            </FormControl>
-          )}
-        </div>
-      </DialogContent>
+      <div>
+        {getStructuresState.loading ? (
+          <CircularProgress />
+        ) : (
+          <FormControl variant="outlined" style={{ width: '70%' }}>
+            <InputLabel id="label-choix-1">Liste des structures</InputLabel>
+            <Select
+              native
+              labelId="label-choix-1"
+              label="Liste des clubs"
+              onChange={(e: any) => {
+                setAdvisorDecision(e.currentTarget.value);
+                setCheckedRadio(false);
+                setAdvisorChoice('choix_2');
+              }}
+              value={checkedRadio || advisorChoice === 'choix_1' ? '' : advisorDecision}
+            >
+              <option hidden aria-label="Aucun" value="" />
+              {getStructuresState.data &&
+                getStructuresState.data?.allStructures.sort().map((v: any) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
+            </Select>
+          </FormControl>
+        )}
+      </div>
     );
+  };
+  const renderCampusManualSelection = () => {
+    return <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <Radio
+        checked={advisorChoice === 'choix_2'}
+        value="choix_2"
+        onChange={() => { setAdvisorChoice('choix_2'); setAdvisorDecision(""); }}
+      />
+      <div>
+        <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Choisir manuellement la structure :</p>
+        {renderClubListSelection()}
+      </div>
+    </div>
   };
   const renderAdvisorSelection = () => {
     return (
       <DialogContent style={{ margin: '20px 0px' }}>
         <FormControl variant="outlined">
-          <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
-            Voici la Liste des club suggérés par le conseiller pole emploi:
-          </p>
-          {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
-            return (
-              <FormControlLabel
-                key={c.name}
-                control={<Radio />}
-                checked={advisorDecision === c.name}
-                label={c.name}
-                value={c.name}
-                onChange={handleChangeAdvisorDecision}
-              />
-            );
-          })}
-
-          <div>
-            <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Vous pouvez aussi changer le club:</p>
-            {renderSelection()}
-          </div>
+          <RadioGroup>
+            {renderUserClubReco()}
+            {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
+              return (
+                <FormControlLabel
+                  key={c.name}
+                  control={<Radio />}
+                  checked={advisorChoice === "choix_3" && advisorDecision === c.name}
+                  label={<><strong style={{ color: "#3f51b5" }}>Suggestion du conseiller Pôle Emploi :</strong> {c.name}</>}
+                  value={c.name}
+                  onChange={handleChangeAdvisorDecision}
+                />
+              );
+            })}
+            {renderCampusManualSelection()}
+          </RadioGroup>
         </FormControl>
       </DialogContent>
     );
@@ -115,41 +146,18 @@ const ModalConfirmationAffectation = ({
       <DialogContent style={{ margin: '20px 0px' }}>
         <FormControl variant="outlined">
           <RadioGroup>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              <Radio
-                checked={advisorChoice === 'choix_1'}
-                value="choix_1"
-                onChange={() => {
-                  setAdvisorChoice('choix_1');
-                  handleChangeUserDecision(affectation.wc2023Affectation.recommendation.club.name);
-                }}
-              />
-              <div>
-                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>
-                  Club qui souhaite engager le jeune :
-                </p>
-                <div>{`Nom: ${affectation.wc2023Affectation.recommendation.club.name}`}</div>
-                <div>{`Adresse: ${affectation.wc2023Affectation.recommendation.club.city}`}</div>
-                <div>{`Info: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
-                <div>{`Responsable: ${affectation.wc2023Affectation.recommendation.club.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club.referrer[0].lastName}`}</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              <Radio
-                checked={advisorChoice === 'choix_2'}
-                value="choix_2"
-                onChange={() => setAdvisorChoice('choix_2')}
-              />
-              <div>
-                <p style={{ fontSize: 18, margin: '10px 0px', color: '#3f51b5' }}>Choisir manuellement le club:</p>
-                {renderSelection()}
-              </div>
-            </div>
+            {affectation.wc2023Affectation.recommendation && affectation.wc2023Affectation.recommendation.status === 'ACCEPTED' && renderUserClubReco()}
+            {renderCampusManualSelection()}
           </RadioGroup>
         </FormControl>
       </DialogContent>
     );
   };
+
+  const renderDefault = () => {
+    return <>{affectation.wc2023Affectation.recommendation && affectation.wc2023Affectation.recommendation.status === 'ACCEPTED' && renderUserClubReco()}{renderCampusManualSelection()}</>
+  };
+
   const renderData = (decision: string) => {
     switch (decision) {
       case 'ADVISOR_SELECTION': {
@@ -158,11 +166,9 @@ const ModalConfirmationAffectation = ({
       case 'USER_CLUB': {
         return renderUserSelection();
       }
-      case 'NO_SELECTION': {
-        return renderSelection();
-      }
+      case 'NO_SELECTION':
       default: {
-        return 'd';
+        return renderDefault();
       }
     }
   };
@@ -186,7 +192,7 @@ const ModalConfirmationAffectation = ({
             variant="contained"
             size="medium"
             color="primary"
-            disabled={!getStructuresState.data}
+            disabled={!getStructuresState.data || advisorDecision === ''}
           >
             <span>Confirmer</span>
           </Button>
@@ -202,10 +208,10 @@ const ModalConfirmationAffectation = ({
             <div style={{ height: 407 }}>
               <div style={{ marginTop: 120, marginBottom: 20 }}>
                 <div style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                  Êtes vous sur de vouloir affecter ce jeune à cette structure ?
+                  Êtes-vous sûr de vouloir affecter ce jeune à cette structure ?
                 </div>
                 <div style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>
-                  Cette confirmation est définitive?
+                  Cette confirmation est définitive
                 </div>
               </div>
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

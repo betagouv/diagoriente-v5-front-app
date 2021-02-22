@@ -11,6 +11,8 @@ export interface wc2023Affectation {
   status: string;
   specialite: string;
   advisorSelection: EligibleStructure[];
+  staps: boolean;
+  desengagement: boolean;
   recommendation: {
     club: EligibleStructure;
     clubEmail: string;

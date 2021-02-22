@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { LazyQueryHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery } from '../hooks/apollo';
-import { User, IGroup } from './types';
+import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
   query {
@@ -29,6 +29,8 @@ export const MyGroupInfoQuery = gql`
         specialite
         advisorDecision
         finalClub
+        staps
+        desengagement
         advisorSelection {
           name
           club_code
@@ -72,6 +74,8 @@ export interface MyGroupInfoResponse {
       status: string;
       specialite: string;
       advisorDecision: string;
+      desengagement: boolean;
+      staps: boolean;
       advisorSelection: {
         name: string;
         club_code: string;

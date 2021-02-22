@@ -15,9 +15,10 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
-import { useUpdateVisualisation } from 'requests/user';
+import { useUpdateVisualisation, useUpdateUser } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
+import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
@@ -48,8 +49,10 @@ const Parcours = () => {
   const classes = useStyles();
   const { user } = useContext(userContext);
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
+  const [updateUserCall, updateUserState] = useUpdateUser();
   const [openAcc, setOpenAcc] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [showAffectationConfirmationModal, setShowAffectationConfirmationModal] = useState(false);
 
@@ -90,6 +93,12 @@ const Parcours = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
+  useEffect(() => {
+    if (updateUserState.data) {
+      loadParcours();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateUserState.data]);
   const handleOpenCompetenceCard = (idUser: string, row: any) => {
     setShowModal(true);
     getParcoursCall({ variables: { idUser } });
@@ -110,6 +119,15 @@ const Parcours = () => {
   const handleOpenConfirmationAffectation = (row: any) => {
     setShowAffectationConfirmationModal(true);
     setAffectationState(row);
+  };
+
+  const onChangeStaps = (state: boolean, id: string) => {
+    console.log('state', state, 'id', id);
+    updateUserCall({ variables: { idSUser: id, staps: state } });
+  };
+  const onChangeDesengagement = (state: boolean, id: string) => {
+    console.log('state', state, 'id', id);
+    updateUserCall({ variables: { idSUser: id, desengagement: state } });
   };
   useEffect(() => {
     if (confirmationAffectationState.data) {
@@ -159,7 +177,7 @@ const Parcours = () => {
       title: 'Emplacement',
       key: 'location',
       dataIndex: 'location',
-      render: (value, row) => `${value} (${row.addressCodes.postCode})`,
+      render: (value, row) => `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}`,
     },
     {
       title: 'Niveau du candidat',
@@ -224,28 +242,50 @@ const Parcours = () => {
     },
   ];
   if (configState.data?.configs.statusAffectation) {
-    const rowRegional = {
-      title: 'Affectation_Régional',
-      key: 'affectation_regional',
-      dataIndex: 'wc2023Affectation',
-      render: (value: any, row: any) => {
-        if (value.status === 'AWAITING_CAMPUS2023') {
-          return (
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={() => handleOpenConfirmationAffectation(row)}
-            >
-              En attente de confirmation
-            </Button>
-          );
-        }
-        if (value.status === 'COMPLETE') {
-          return <div>{value.finalClub}</div>;
-        }
+    const rowRegional = [
+      {
+        title: 'Affectation_Régional',
+        key: 'affectation_regional',
+        dataIndex: 'wc2023Affectation',
+        render: (value: any, row: any) => {
+          if (value.status === 'AWAITING_CAMPUS2023') {
+            return (
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={() => handleOpenConfirmationAffectation(row)}
+              >
+                En attente de confirmation
+              </Button>
+            );
+          }
+          if (value.status === 'COMPLETE') {
+            return <div>{value.finalClub}</div>;
+          }
+        },
       },
-    };
+      {
+        title: 'Staps',
+        key: 'staps',
+        dataIndex: 'wc2023Affectation',
+        render: (value: any, row: any) => (
+          <CheckBox color="#2979ff" checked={value?.staps} onChange={() => onChangeStaps(!value.staps, row.id)} />
+        ),
+      },
+      {
+        title: 'Désengagement',
+        key: 'desengagement',
+        dataIndex: 'wc2023Affectation',
+        render: (value: any, row: any) => (
+          <CheckBox
+            color="#2979ff"
+            checked={value.desengagement}
+            onChange={() => onChangeDesengagement(!value.desengagement, row.id)}
+          />
+        ),
+      },
+    ];
     headers.push(
       {
         title: 'Spécialité',
@@ -286,7 +326,7 @@ const Parcours = () => {
       },
     );
     if (user?.codeRegionCampus && user.role === 'advisor') {
-      headers.push(rowRegional as any);
+      headers.push(...(rowRegional as any));
     }
   }
   const onSelectAcc = (label?: string) => {

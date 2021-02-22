@@ -9,6 +9,7 @@ export const locationQuery = gql`
       label
       coordinates
       postcode
+      citycode
     }
   }
 `;
@@ -18,6 +19,7 @@ export interface LocationResponse {
     label: string;
     coordinates: string[];
     postcode: number;
+    citycode: number;
   }[];
 }
 export const useLocation = (options: QueryHookOptions<LocationResponse, LocationArguments> = {}) =>

@@ -29,17 +29,6 @@ const ConfirmationCampus = () => {
   if (!ClubCondition && !hasOpened) {
     return <Redirect to="/" />;
   }
-  /*  useEffect(()=> {
-    if()
-  }) */
-
-  /* variables: {
-    clubId: string;
-    clubEmail: string;
-    firstName: string;
-    lastName: string;
-    status: string;
-  } */
 
   return (
     <div className={classes.container}>

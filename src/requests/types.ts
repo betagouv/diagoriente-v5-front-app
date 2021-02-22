@@ -11,6 +11,8 @@ export interface wc2023Affectation {
   status: string;
   specialite: string;
   advisorSelection: EligibleStructure[];
+  staps: boolean;
+  desengagement: boolean;
   recommendation: {
     club: EligibleStructure;
     clubEmail: string;
@@ -33,6 +35,10 @@ export interface User {
   codeGroupe: string;
   role: UserRole;
   wc2023: WC2023;
+  addressCodes: {
+    postCode: string;
+    cityCode: string;
+  };
   isCampus: boolean;
   validateCampus: boolean;
   nbrGroupes: number;

@@ -114,6 +114,7 @@ export const loginMutation = gql`
         wc2023Affectation {
           status
           specialite
+          advisorDecision
           advisorSelection {
             expectations {
               name

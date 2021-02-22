@@ -34,6 +34,26 @@ export interface eligibleStructuresResponse {
 export const useEligibleStructures = (options: LazyQueryHookOptions<eligibleStructuresResponse> = {}) =>
   useLocalLazyQuery<eligibleStructuresResponse>(EligibleStructuresQuery, options);
 
+export const allStructures = gql`
+  {
+    allStructures {
+      club_code
+      name
+      licensed_text
+      city
+      geolocation {
+        lat
+        lng
+      }
+    }
+  }
+`;
+export interface allStructuresResponse {
+  allStructures: EligibleStructure[];
+}
+export const useAllStructures = (options: LazyQueryHookOptions<allStructuresResponse> = {}) =>
+  useLocalLazyQuery<allStructuresResponse>(allStructures, options);
+
 export const EligibleStructuresExpectationQuery = gql`
   query {
     eligibleStructuresExpectation {
@@ -232,6 +252,7 @@ export const RegionsQuery = gql`
       id
       name
       code
+      show
     }
   }
 `;
@@ -351,3 +372,20 @@ interface ConfigCampusParams {
 
 export const useUpdateConfigCampus = (options: MutationHookOptions<getConfigCampusResponse, ConfigCampusParams> = {}) =>
   useLocalMutation<getConfigCampusResponse, ConfigCampusParams>(ConfigCampusMutation, options);
+
+export const confirmationAffectation = gql`
+  mutation confirmationAffectation($userId: String!, $clubName: String!) {
+    confirmationAffectation(userId: $userId, clubName: $clubName) {
+      id
+      email
+    }
+  }
+`;
+interface ConfirmationAffectationParams {
+  userId: string;
+  clubName: string;
+}
+interface ConfirmationAffectationResponse {}
+export const useConfirmationAffectation = (
+  options: MutationHookOptions<ConfirmationAffectationResponse, ConfirmationAffectationParams> = {},
+) => useLocalMutation<ConfirmationAffectationResponse, ConfirmationAffectationParams>(confirmationAffectation, options);

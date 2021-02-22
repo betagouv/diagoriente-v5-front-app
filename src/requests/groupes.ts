@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { LazyQueryHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery } from '../hooks/apollo';
-import { User, IGroup } from './types';
+import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
   query {
@@ -17,13 +17,33 @@ export const MyGroupInfoQuery = gql`
         formation
         quality
         comment
+        degree
+        perimeter
+      }
+      addressCodes {
+        postCode
+        cityCode
       }
       wc2023Affectation {
         status
         specialite
+        advisorDecision
+        finalClub
+        staps
+        desengagement
+        advisorSelection {
+          name
+          club_code
+        }
         recommendation {
           club {
             name
+            city
+            licensed_text
+            referrer {
+              firstName
+              lastName
+            }
           }
         }
       }
@@ -32,9 +52,46 @@ export const MyGroupInfoQuery = gql`
   }
 `;
 
-type MyGroupInfoResponse = {};
+export interface MyGroupInfoResponse {
+  myGroup: {
+    id: string;
+    profile: {
+      firstName: string;
+      lastName: string;
+    };
+    email: string;
+    location: string;
+    wc2023: {
+      formation: string;
+      quality: string;
+      comment: string;
+    };
+    addressCodes: {
+      cityCode: string;
+      postCode: string;
+    };
+    wc2023Affectation: {
+      status: string;
+      specialite: string;
+      advisorDecision: string;
+      desengagement: boolean;
+      staps: boolean;
+      advisorSelection: {
+        name: string;
+        club_code: string;
+      }[];
+      recommendation: {
+        club: {
+          name: string;
+        };
+      };
+    };
+    validateCampus: string;
+  }[];
+}
 
-export const useMyGroup = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(MyGroupInfoQuery, options);
+export const useMyGroup = (options: LazyQueryHookOptions<MyGroupInfoResponse> = {}) =>
+  useLocalLazyQuery<MyGroupInfoResponse>(MyGroupInfoQuery, options);
 
 export const groupesQuery = gql`
   query Groupes($codes: [String]) {

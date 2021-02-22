@@ -7,6 +7,7 @@ import { User, WC2023 } from './types';
 
 export const updateUserMutation = gql`
   mutation User(
+    $idSUser: String
     $email: String
     $password: String
     $firstName: String
@@ -18,8 +19,11 @@ export const updateUserMutation = gql`
     $wc2023: wc2023Input
     $validateCampus: Boolean
     $coordinates: coordinateLocationInput
+    $staps: Boolean
+    $desengagement: Boolean
   ) {
     updateUser(
+      idSUser: $idSUser
       password: $password
       oldPassword: $oldPassword
       firstName: $firstName
@@ -31,6 +35,8 @@ export const updateUserMutation = gql`
       wc2023: $wc2023
       validateCampus: $validateCampus
       coordinates: $coordinates
+      staps: $staps
+      desengagement: $desengagement
     ) {
       id
       email
@@ -43,9 +49,14 @@ export const updateUserMutation = gql`
       location
       logo
       validateCampus
+
       coordinates {
         longitude
         lattitude
+      }
+      wc2023Affectation {
+        desengagement
+        staps
       }
       wc2023 {
         degree
@@ -58,6 +69,7 @@ export const updateUserMutation = gql`
   }
 `;
 export interface UpdateUserArguments {
+  idSUser?: string;
   email?: string;
   password?: string;
   oldPassword?: string;
@@ -67,6 +79,8 @@ export interface UpdateUserArguments {
   logo?: string;
   codeGroupe?: string;
   wc2023?: WC2023;
+  staps?: boolean;
+  desengagement?: boolean;
   coordinates?: {
     longitude: number;
     lattitude: number;

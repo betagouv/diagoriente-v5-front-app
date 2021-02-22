@@ -1,14 +1,5 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import {
-  CircularProgress,
-  DialogContent,
-  FormControl,
-  InputLabel,
-  Radio,
-  RadioGroup,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import { CircularProgress, DialogContent, FormControl, InputLabel, Radio, RadioGroup, Select } from '@material-ui/core';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import {
   useAddAdvisorDecision,
@@ -45,6 +36,7 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
     if (!userId) return;
     getStructuresCall({ variables: { userId } });
     getCandidateDataCall({ variables: { userId } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const handleChangeAdvisorDecision = (e: any) => {
@@ -265,11 +257,13 @@ const ModalAffectationPE: FunctionComponent<IProps> = ({ userId, onClose }) => {
                 value={advisorChoiceRegion}
               >
                 <option hidden aria-label="Aucun" value="" />
-                {getRegionsState.data.campusRegions.map((v: any) => (
-                  <option key={v.id} value={v.id}>
-                    {v.name}
-                  </option>
-                ))}
+                {getRegionsState.data.campusRegions
+                  .filter((r: any) => r.show === true)
+                  .map((v: any) => (
+                    <option key={v.id} value={v.id}>
+                      {v.name}
+                    </option>
+                  ))}
               </Select>
             </FormControl>
           </div>

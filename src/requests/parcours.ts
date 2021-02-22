@@ -6,8 +6,8 @@ import { useLocalLazyQuery, useLocalMutation } from 'hooks/apollo';
 import { UserParcour } from './types';
 
 export const getUserParcourQuery = gql`
-query GetUserParcours($idUser: String){
-    userParcour(idUser:$idUser) {
+  query GetUserParcours($idUser: String) {
+    userParcour(idUser: $idUser) {
       id
       played
       playedEng

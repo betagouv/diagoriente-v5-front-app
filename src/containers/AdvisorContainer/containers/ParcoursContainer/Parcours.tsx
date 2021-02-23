@@ -165,7 +165,7 @@ const Parcours = () => {
       title: 'Candidat',
       key: 'fullName',
       dataIndex: 'profile',
-      render: (value) => `${value?.lastName.toUpperCase()} ${value?.firstName}`.trim(),
+      render: (value) => `${value?.lastName} ${value?.firstName}`.trim(),
     },
     {
       title: 'E-mail',
@@ -177,7 +177,8 @@ const Parcours = () => {
       title: 'Emplacement',
       key: 'location',
       dataIndex: 'location',
-      render: (value, row) => `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}`,
+      render: (value, row) =>
+        value ? `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}` : '---',
     },
     {
       title: 'Niveau du candidat',

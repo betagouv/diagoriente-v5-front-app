@@ -40,15 +40,15 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
         return (
           <div className={classes.container}>
             <Switch>
-              <BaseRoute path="/admin/themes" component={ThemeContainer} />
-              <BaseRoute path="/admin/activities" component={ActivityContainer} />
-              <BaseRoute path="/admin/contexts" component={ContextContainer} />
-              <BaseRoute path="/admin/competences" component={CompetenceContainer} />
-              <BaseRoute path="/admin/questions" component={QuestionContainer} />
-              <BaseRoute path="/admin/options" component={OptionContainer} />
-              <BaseRoute path="/admin/institution" component={InstitutionContainer} />
-              <BaseRoute path="/admin/users" component={UserContainer} />
-              <BaseRoute path="/admin/parametre" component={ParamContainer} />
+              <Route protected path="/admin/themes" component={ThemeContainer} />
+              <Route protected path="/admin/activities" component={ActivityContainer} />
+              <Route protected path="/admin/contexts" component={ContextContainer} />
+              <Route protected path="/admin/competences" component={CompetenceContainer} />
+              <Route protected path="/admin/questions" component={QuestionContainer} />
+              <Route protected path="/admin/options" component={OptionContainer} />
+              <Route protected path="/admin/institution" component={InstitutionContainer} />
+              <Route protected path="/admin/users" component={UserContainer} />
+              <Route protected path="/admin/parametre" component={ParamContainer} />
 
               <NotFoundPage />
             </Switch>

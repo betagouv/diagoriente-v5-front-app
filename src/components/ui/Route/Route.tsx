@@ -55,10 +55,10 @@ const Route = ({
   }
 
   function renderRoute() {
-    if ((!user || user.role === 'user') && authorizedRole === 'admin') {
+    if ((!user || user.role !== 'admin') && authorizedRole === 'admin') {
       return <NotFoundPage />;
     }
-    if ((!user || user.role === 'user') && authorizedRole === 'advisor') {
+    if ((!user || user.role !== 'advisor') && authorizedRole === 'advisor') {
       return <NotFoundPage />;
     }
 

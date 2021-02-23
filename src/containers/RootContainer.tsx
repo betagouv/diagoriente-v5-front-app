@@ -138,8 +138,22 @@ const RootContainer = () => {
               />
               <BaseRoute path="/jobs" component={jobsContainer} />
               <BaseRoute path="/game" component={GameContainer} />
-              <BaseRoute path="/admin" component={AdminContainer} />
-              <BaseRoute path="/advisor" component={AdvisorContainer} />
+              <Route
+                header={false}
+                footer={false}
+                path="/admin"
+                component={AdminContainer}
+                protected
+                authorizedRole="admin"
+              />
+              <Route
+                header={false}
+                footer={false}
+                path="/advisor"
+                component={AdvisorContainer}
+                protected
+                authorizedRole="advisor"
+              />
               <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
               <Route component={NotFoundPage} />
             </Switch>

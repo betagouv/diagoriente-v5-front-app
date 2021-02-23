@@ -361,6 +361,11 @@ export interface StructureWC2023 {
   city: string;
   licensed_text: string;
   licensed_count: number;
+  referrer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[];
   geolocation: {
     lat: number;
     lng: number;
@@ -395,8 +400,13 @@ export interface EligibleStructure {
     lastName: string;
     email: string;
   }[];
-  fnv1a32_hash: string;
+  fnv1a32_hash: number;
   licensed_text: string;
   geolocation: { lat: number; lng: number };
   licensed_count: number;
+  capacity: {
+    bac3: string;
+    bac5: string;
+    random: string;
+  };
 }

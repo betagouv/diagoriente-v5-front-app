@@ -22,6 +22,11 @@ export const EligibleStructuresQuery = gql`
         email
       }
       fnv1a32_hash
+      capacity {
+        bac3
+        bac5
+        random
+      }
       expectations {
         name
       }
@@ -40,10 +45,21 @@ export const allStructures = gql`
       club_code
       name
       licensed_text
+      fnv1a32_hash
       city
       geolocation {
         lat
         lng
+      }
+      referrer {
+        firstName
+        lastName
+        email
+      }
+      capacity {
+        bac3
+        bac5
+        random
       }
     }
   }

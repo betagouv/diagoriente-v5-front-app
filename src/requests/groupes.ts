@@ -34,6 +34,17 @@ export const MyGroupInfoQuery = gql`
         advisorSelection {
           name
           club_code
+          fnv1a32_hash
+          capacity {
+            bac3
+            bac5
+            random
+          }
+          referrer {
+            firstName
+            lastName
+            email
+          }
         }
         recommendation {
           status
@@ -41,9 +52,16 @@ export const MyGroupInfoQuery = gql`
             name
             city
             licensed_text
+            fnv1a32_hash
+            capacity {
+              bac3
+              bac5
+              random
+            }
             referrer {
               firstName
               lastName
+              email
             }
           }
         }

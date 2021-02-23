@@ -122,7 +122,7 @@ const ModalConfirmationAffectation = ({
       <DialogContent style={{ margin: '20px 0px' }}>
         <FormControl variant="outlined">
           <RadioGroup>
-            {renderUserClubReco()}
+            {affectation.wc2023Affectation.recommendation && affectation.wc2023Affectation.recommendation.status === 'ACCEPTED' && renderUserClubReco()}
             {affectation.wc2023Affectation.advisorSelection.map((c: { name: string }) => {
               return (
                 <FormControlLabel

@@ -36,6 +36,7 @@ export const MyGroupInfoQuery = gql`
           club_code
         }
         recommendation {
+          status
           club {
             name
             city

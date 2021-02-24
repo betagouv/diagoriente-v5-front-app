@@ -407,8 +407,15 @@ export interface EligibleStructure {
   geolocation: { lat: number; lng: number };
   licensed_count: number;
   capacity: {
+    bac1: string;
+    bac2: string;
     bac3: string;
+    bac4: string;
     bac5: string;
+    pasbac1: string;
+    pasbac5: string;
+    bacoubac3: string;
+    bac3oubac5: string;
     random: string;
   };
 }

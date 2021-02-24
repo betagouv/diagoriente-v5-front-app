@@ -23,8 +23,15 @@ export const EligibleStructuresQuery = gql`
       }
       fnv1a32_hash
       capacity {
+        bac1
+        bac2
+        bac4
         bac3
         bac5
+        pasbac1
+        pasbac5
+        bacoubac3
+        bac3oubac5
         random
       }
       expectations {
@@ -58,8 +65,15 @@ export const allStructures = gql`
         email
       }
       capacity {
+        bac1
+        bac2
+        bac4
         bac3
         bac5
+        pasbac1
+        pasbac5
+        bacoubac3
+        bac3oubac5
         random
       }
     }

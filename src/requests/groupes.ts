@@ -40,8 +40,15 @@ export const MyGroupInfoQuery = gql`
           club_code
           fnv1a32_hash
           capacity {
+            bac1
+            bac2
+            bac4
             bac3
             bac5
+            pasbac1
+            pasbac5
+            bacoubac3
+            bac3oubac5
             random
           }
           referrer {
@@ -59,8 +66,15 @@ export const MyGroupInfoQuery = gql`
             licensed_text
             fnv1a32_hash
             capacity {
+              bac1
+              bac2
+              bac4
               bac3
               bac5
+              pasbac1
+              pasbac5
+              bacoubac3
+              bac3oubac5
               random
             }
             referrer {

@@ -63,6 +63,90 @@ const ModalConfirmationAffectation = ({
 
     setCheckedRadio(true);
   };
+  const getCapacity = (capacity: any) => {
+    return Object.keys(capacity).map((key) => {
+      if (key === 'bac1' && capacity.bac1) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC + 1 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bac2' && capacity.bac2) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC + 2 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bac3' && capacity.bac3) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bac4' && capacity.bac4) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC + 4 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bac5' && capacity.bac5) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'pasbac1' && capacity.pasbac1) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>PAS BAC + 1 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'pasbac5' && capacity.pasbac5) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>PAS BAC + 5 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bacoubac3' && capacity.bacoubac3) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC OU BAC + 3 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'bac3oubac5' && capacity.bac3oubac5) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC OU BAC + 5 :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+      if (key === 'random' && capacity.random) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>Aléatoire :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
+    });
+  };
   const handleChangeUserDecision = (e: any) => {
     setAdvisorDecision(e);
   };
@@ -86,32 +170,8 @@ const ModalConfirmationAffectation = ({
           <div>{`Responsable: ${affectation.wc2023Affectation.recommendation.club.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club.referrer[0].lastName}`}</div>
           <div>
             Capacité:
-            {Object.keys(affectation.wc2023Affectation.recommendation.club.capacity).map((key) => {
-              if (key === 'bac3') {
-                return (
-                  <div key={key}>
-                    <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
-                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
-                  </div>
-                );
-              }
-              if (key === 'bac5') {
-                return (
-                  <div key={key}>
-                    <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
-                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
-                  </div>
-                );
-              }
-              if (key === 'random') {
-                return (
-                  <div key={key}>
-                    <span style={{ color: '#4D6EC5' }}>Aléatoire :</span>
-                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
-                  </div>
-                );
-              }
-            })}
+            {affectation.wc2023Affectation.recommendation.club.capacity &&
+              getCapacity(affectation.wc2023Affectation.recommendation.club.capacity)}
             <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
             <span>{` ${affectation.wc2023Affectation.recommendation.club?.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club?.referrer[0].lastName}`}</span>
           </div>
@@ -139,41 +199,20 @@ const ModalConfirmationAffectation = ({
           >
             <option hidden aria-label="Aucun" value="" />
             {getStructuresState.data &&
-              getStructuresState.data?.allStructures.map((v: any, i: number) => (
-                <option key={i} value={i}>
-                  {v.name}
-                </option>
-              ))}
+              getStructuresState.data?.allStructures
+                .sort(function(a, b) {
+                  return a.name.localeCompare(b.name);
+                })
+                .map((v: any, i: number) => (
+                  <option key={i} value={i}>
+                    {v.name}
+                  </option>
+                ))}
           </Select>
           {!isEmpty(advisorDecision) && advisorDecision?.capacity && advisorChoice === 'choix_2' && (
             <div>
               Capacité:
-              {Object.keys(advisorDecision?.capacity).map((key) => {
-                if (key === 'bac3') {
-                  return (
-                    <div key={key}>
-                      <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
-                      {` ${advisorDecision?.capacity[key]}`}
-                    </div>
-                  );
-                }
-                if (key === 'bac5') {
-                  return (
-                    <div key={key}>
-                      <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
-                      {` ${advisorDecision?.capacity[key]}`}
-                    </div>
-                  );
-                }
-                if (key === 'random') {
-                  return (
-                    <div key={key}>
-                      <span style={{ color: '#4D6EC5' }}>Aléatoire :</span>
-                      {` ${advisorDecision?.capacity[key]}`}
-                    </div>
-                  );
-                }
-              })}
+              {advisorDecision && getCapacity(advisorDecision?.capacity)}
               <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
               <span>{` ${advisorDecision?.referrer[0].firstName} ${advisorDecision?.referrer[0].lastName}`}</span>
             </div>
@@ -226,32 +265,7 @@ const ModalConfirmationAffectation = ({
                     />
                     <div>
                       Capacité:
-                      {Object.keys(c.capacity).map((key) => {
-                        if (key === 'bac3') {
-                          return (
-                            <div key={key}>
-                              <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
-                              {` ${c.capacity[key]}`}
-                            </div>
-                          );
-                        }
-                        if (key === 'bac5') {
-                          return (
-                            <div key={key}>
-                              <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
-                              {` ${c.capacity[key]}`}
-                            </div>
-                          );
-                        }
-                        if (key === 'random') {
-                          return (
-                            <div key={key}>
-                              <span style={{ color: '#4D6EC5' }}>Aléatoire : </span>
-                              {`${c.capacity[key]}`}
-                            </div>
-                          );
-                        }
-                      })}
+                      {c.capacity && getCapacity(c.capacity)}
                       <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
                       <span>{` ${c?.referrer[0]?.firstName} ${c?.referrer[0].lastName}`}</span>
                     </div>
@@ -310,8 +324,10 @@ const ModalConfirmationAffectation = ({
     }
   };
   useEffect(() => {
-    if (advisorDecision) {
-      getDisponibiliteCall({ variables: { idStructure: advisorDecision.id, formation: affectation.wc2023.degree } });
+    if (advisorDecision && advisorDecision.id && affectation.wc2023.degree) {
+      getDisponibiliteCall({
+        variables: { idStructure: advisorDecision.id, formation: affectation.wc2023.degree.toUpperCase() },
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [advisorDecision]);
@@ -355,15 +371,15 @@ const ModalConfirmationAffectation = ({
           </span>
           <span>
             <span style={{ color: '#4D6EC5' }}>Formation:</span>
-            {`Formation: ${affectation.wc2023.formation}`}
+            {` ${affectation.wc2023.formation}`}
           </span>
           <span>
             <span style={{ color: '#4D6EC5' }}>Niveau:</span>
-            {`Niveau: ${affectation.wc2023.degree}`}
+            {` ${affectation.wc2023.degree}`}
           </span>
           <span>
             <span style={{ color: '#4D6EC5' }}>Perimeter:</span>
-            {`perimeter: ${affectation.wc2023.perimeter}`}
+            {` ${affectation.wc2023.perimeter}`}
           </span>
         </div>
         {open && (

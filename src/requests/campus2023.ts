@@ -22,6 +22,19 @@ export const EligibleStructuresQuery = gql`
         email
       }
       fnv1a32_hash
+      capacity {
+        bac
+        bac1
+        bac2
+        bac4
+        bac3
+        bac5
+        pasbac1
+        pasbac5
+        bacoubac3
+        bac3oubac5
+        random
+      }
       expectations {
         name
       }
@@ -37,13 +50,33 @@ export const useEligibleStructures = (options: LazyQueryHookOptions<eligibleStru
 export const allStructures = gql`
   {
     allStructures {
+      id
       club_code
       name
       licensed_text
+      fnv1a32_hash
       city
       geolocation {
         lat
         lng
+      }
+      referrer {
+        firstName
+        lastName
+        email
+      }
+      capacity {
+        bac
+        bac1
+        bac2
+        bac4
+        bac3
+        bac5
+        pasbac1
+        pasbac5
+        bacoubac3
+        bac3oubac5
+        random
       }
     }
   }
@@ -389,3 +422,20 @@ interface ConfirmationAffectationResponse {}
 export const useConfirmationAffectation = (
   options: MutationHookOptions<ConfirmationAffectationResponse, ConfirmationAffectationParams> = {},
 ) => useLocalMutation<ConfirmationAffectationResponse, ConfirmationAffectationParams>(confirmationAffectation, options);
+
+const DisponibiliteQuery = gql`
+  query getCapacity($idStructure: ID, $formation: String) {
+    getCapacity(idStructure: $idStructure, formation: $formation)
+  }
+`;
+interface DisponibiliteQueryParams {
+  idStructure: string;
+  formation: string;
+}
+interface DisponibiliteQueryResponse {
+  getCapacity: string;
+}
+
+export const useDisponibiliteStructure = (
+  options: LazyQueryHookOptions<DisponibiliteQueryResponse, DisponibiliteQueryParams> = {},
+) => useLocalLazyQuery<DisponibiliteQueryResponse, DisponibiliteQueryParams>(DisponibiliteQuery, options);

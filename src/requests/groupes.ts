@@ -28,22 +28,61 @@ export const MyGroupInfoQuery = gql`
         status
         specialite
         advisorDecision
-        finalClub
+        finalClub {
+          id
+          name
+        }
         staps
         desengagement
         advisorSelection {
+          id
           name
           club_code
+          fnv1a32_hash
+          capacity {
+            bac
+            bac1
+            bac2
+            bac4
+            bac3
+            bac5
+            pasbac1
+            pasbac5
+            bacoubac3
+            bac3oubac5
+            random
+          }
+          referrer {
+            firstName
+            lastName
+            email
+          }
         }
         recommendation {
           status
           club {
             name
+            id
             city
             licensed_text
+            fnv1a32_hash
+            capacity {
+              bac
+              bac1
+              bac2
+              bac4
+              bac3
+              bac5
+              pasbac1
+              pasbac5
+              bacoubac3
+              bac3oubac5
+              random
+            }
             referrer {
               firstName
               lastName
+              email
             }
           }
         }

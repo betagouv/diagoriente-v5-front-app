@@ -12,6 +12,7 @@ export interface wc2023Affectation {
   specialite: string;
   advisorSelection: EligibleStructure[];
   staps: boolean;
+  finalClub: EligibleStructure;
   desengagement: boolean;
   recommendation: {
     club: EligibleStructure;
@@ -361,6 +362,11 @@ export interface StructureWC2023 {
   city: string;
   licensed_text: string;
   licensed_count: number;
+  referrer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[];
   geolocation: {
     lat: number;
     lng: number;
@@ -386,6 +392,7 @@ export interface IGroup {
   advisorId: string;
 }
 export interface EligibleStructure {
+  id: string;
   expectations: { name: string }[];
   club_code: string;
   name: string;
@@ -395,8 +402,21 @@ export interface EligibleStructure {
     lastName: string;
     email: string;
   }[];
-  fnv1a32_hash: string;
+  fnv1a32_hash: number;
   licensed_text: string;
   geolocation: { lat: number; lng: number };
   licensed_count: number;
+  capacity: {
+    bac: string;
+    bac1: string;
+    bac2: string;
+    bac3: string;
+    bac4: string;
+    bac5: string;
+    pasbac1: string;
+    pasbac5: string;
+    bacoubac3: string;
+    bac3oubac5: string;
+    random: string;
+  };
 }

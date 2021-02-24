@@ -82,8 +82,8 @@ export const useRegister = (options: MutationHookOptions<{ register: RegisterDat
   useLocalMutation(registerMutation, options);
 
 export const loginMutation = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation Login($email: String!, $password: String!, $isCampus: Boolean) {
+    login(email: $email, password: $password, isCampus: $isCampus) {
       user {
         id
         email

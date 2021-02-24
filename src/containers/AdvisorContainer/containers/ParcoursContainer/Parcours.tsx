@@ -122,11 +122,9 @@ const Parcours = () => {
   };
 
   const onChangeStaps = (state: boolean, id: string) => {
-    console.log('state', state, 'id', id);
     updateUserCall({ variables: { idSUser: id, staps: state } });
   };
   const onChangeDesengagement = (state: boolean, id: string) => {
-    console.log('state', state, 'id', id);
     updateUserCall({ variables: { idSUser: id, desengagement: state } });
   };
   useEffect(() => {
@@ -274,7 +272,7 @@ const Parcours = () => {
             );
           }
           if (value.status === 'COMPLETE') {
-            return <div>{value.finalClub}</div>;
+            return <div>{value.finalClub.name}</div>;
           }
         },
       },

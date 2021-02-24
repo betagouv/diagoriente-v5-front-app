@@ -25,7 +25,7 @@ const Login = ({ location }: RouteComponentProps) => {
   const { user, setUser } = useContext(UserContext);
 
   const [state, actions] = useForm({
-    initialValues: { email: '', password: '', stayConnected: false },
+    initialValues: { email: '', password: '', stayConnected: false, isCampus: true },
     validation: {
       email: validateEmail,
     },

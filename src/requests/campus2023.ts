@@ -23,6 +23,7 @@ export const EligibleStructuresQuery = gql`
       }
       fnv1a32_hash
       capacity {
+        bac
         bac1
         bac2
         bac4
@@ -65,6 +66,7 @@ export const allStructures = gql`
         email
       }
       capacity {
+        bac
         bac1
         bac2
         bac4

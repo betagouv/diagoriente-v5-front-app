@@ -40,6 +40,7 @@ export const MyGroupInfoQuery = gql`
           club_code
           fnv1a32_hash
           capacity {
+            bac
             bac1
             bac2
             bac4
@@ -66,6 +67,7 @@ export const MyGroupInfoQuery = gql`
             licensed_text
             fnv1a32_hash
             capacity {
+              bac
               bac1
               bac2
               bac4

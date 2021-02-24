@@ -65,6 +65,14 @@ const ModalConfirmationAffectation = ({
   };
   const getCapacity = (capacity: any) => {
     return Object.keys(capacity).map((key) => {
+      if (key === 'bac' && capacity.bac) {
+        return (
+          <div key={key}>
+            <span style={{ color: '#4D6EC5' }}>BAC :</span>
+            {` ${capacity[key]}`}
+          </div>
+        );
+      }
       if (key === 'bac1' && capacity.bac1) {
         return (
           <div key={key}>
@@ -254,12 +262,12 @@ const ModalConfirmationAffectation = ({
                     <FormControlLabel
                       control={<Radio />}
                       checked={advisorChoice === 'choix_3' ? advisorDecision?.name === c.name : false}
-                      label={
+                      label={(
                         <>
                           <strong style={{ color: '#4D6EC5' }}>Suggestion du conseiller Pôle Emploi :</strong>
                           {c.name}
                         </>
-                      }
+                      )}
                       value={c.fnv1a32_hash}
                       onChange={handleChangeAdvisorDecision}
                     />
@@ -325,8 +333,9 @@ const ModalConfirmationAffectation = ({
   };
   useEffect(() => {
     if (advisorDecision && advisorDecision.id && affectation.wc2023.degree) {
+      const formatedText = affectation.wc2023.formation.split(':')[0].trim();
       getDisponibiliteCall({
-        variables: { idStructure: advisorDecision.id, formation: affectation.wc2023.degree.toUpperCase() },
+        variables: { idStructure: advisorDecision.id, formation: formatedText },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

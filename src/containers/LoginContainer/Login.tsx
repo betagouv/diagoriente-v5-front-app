@@ -4,10 +4,6 @@ import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
-import { setAuthorizationBearer, client } from 'requests/client';
-import parcoursContext from 'contexts/ParcourContext';
-
-import localforage from 'localforage';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
@@ -21,29 +17,20 @@ import useStyles from './styles';
 const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const [showPasswordState, setShowPassword] = useState(false);
-  const { setParcours } = useContext(parcoursContext);
-  const { user, setUser } = useContext(UserContext);
-
   const [state, actions] = useForm({
-    initialValues: { email: '', password: '', stayConnected: false },
+    initialValues: { email: '', password: '', stayConnected: false, isCampus: true },
     validation: {
       email: validateEmail,
     },
   });
-  const logout = () => {
-    localforage.removeItem('auth');
-    setAuthorizationBearer('');
-    setParcours(null);
-    setUser(null);
-    localStorage.clear();
-    client.clearStore();
-  };
 
   const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
   const [errorCount, setErrorCount] = useState(0);
 
   const [errorForm, setErrorForm] = useState<string>('');
   const checkBoxRef = useRef(null);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
@@ -85,12 +72,9 @@ const Login = ({ location }: RouteComponentProps) => {
   };
   if (user) {
     const { from } = decodeUri(location.search);
-    if (user.role === 'advisor' && !user.isCampus) {
-      logout();
-    }
+
     return <Redirect to={from || '/'} />;
   }
-
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>

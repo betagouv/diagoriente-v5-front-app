@@ -391,6 +391,7 @@ export interface IGroup {
   advisorId: string;
 }
 export interface EligibleStructure {
+  id: string;
   expectations: { name: string }[];
   club_code: string;
   name: string;

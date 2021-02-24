@@ -32,6 +32,7 @@ export const MyGroupInfoQuery = gql`
         staps
         desengagement
         advisorSelection {
+          id
           name
           club_code
           fnv1a32_hash
@@ -50,6 +51,7 @@ export const MyGroupInfoQuery = gql`
           status
           club {
             name
+            id
             city
             licensed_text
             fnv1a32_hash

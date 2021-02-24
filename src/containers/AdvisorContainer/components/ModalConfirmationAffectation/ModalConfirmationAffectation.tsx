@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import {
   CircularProgress,
@@ -11,7 +11,7 @@ import {
   Select,
   Button,
 } from '@material-ui/core';
-import { useAllStructures } from 'requests/campus2023';
+import { useAllStructures, useDisponibiliteStructure } from 'requests/campus2023';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { EligibleStructure } from 'requests/types';
 import { isEmpty } from 'lodash';
@@ -36,10 +36,12 @@ const ModalConfirmationAffectation = ({
   // advisor_affectation or user_affectation
 
   const [advisorDecision, setAdvisorDecision] = useState<EligibleStructure | null>({} as EligibleStructure);
+  const [indexStructure, setIndexStructure] = useState<number | null>(null);
   const [checkedRadio, setCheckedRadio] = useState<boolean>(false);
 
   const [open, setOpen] = useState<boolean>(false);
   const [getStructuresCall, getStructuresState] = useAllStructures();
+  const [getDisponibiliteCall, getDisponibiliteState] = useDisponibiliteStructure();
 
   useDidMount(() => {
     getStructuresCall();
@@ -86,23 +88,37 @@ const ModalConfirmationAffectation = ({
             Capacité:
             {Object.keys(affectation.wc2023Affectation.recommendation.club.capacity).map((key) => {
               if (key === 'bac3') {
-                return <div>{`BAC + 3 : ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}</div>;
+                return (
+                  <div key={key}>
+                    <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
+                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
+                  </div>
+                );
               }
               if (key === 'bac5') {
-                return <div>{`BAC + 5 :${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}</div>;
+                return (
+                  <div key={key}>
+                    <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
+                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
+                  </div>
+                );
               }
               if (key === 'random') {
-                return <div>{`Aléatoire : ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}</div>;
+                return (
+                  <div key={key}>
+                    <span style={{ color: '#4D6EC5' }}>Aléatoire :</span>
+                    {` ${affectation.wc2023Affectation.recommendation.club.capacity[key]}`}
+                  </div>
+                );
               }
             })}
-            Conseiller:
+            <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
             <span>{` ${affectation.wc2023Affectation.recommendation.club?.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club?.referrer[0].lastName}`}</span>
           </div>
         </div>
       </div>
     );
   };
-  console.log('advisorChoice', advisorChoice, 'advisorDecision', advisorDecision?.name);
   const renderClubListSelection = () => {
     return (
       <div>
@@ -114,11 +130,12 @@ const ModalConfirmationAffectation = ({
             label="Liste des clubs"
             onChange={(e) => {
               const d = getStructuresState.data?.allStructures[Number(e.target.value)] || null;
+              setIndexStructure(Number(e.target.value));
               setAdvisorDecision(d);
               setCheckedRadio(false);
               setAdvisorChoice('choix_2');
             }}
-            value={advisorDecision?.name}
+            value={advisorChoice === 'choix_2' && indexStructure ? indexStructure : ''}
           >
             <option hidden aria-label="Aucun" value="" />
             {getStructuresState.data &&
@@ -133,16 +150,31 @@ const ModalConfirmationAffectation = ({
               Capacité:
               {Object.keys(advisorDecision?.capacity).map((key) => {
                 if (key === 'bac3') {
-                  return <div key={key}>{`BAC + 3 : ${advisorDecision?.capacity[key]}`}</div>;
+                  return (
+                    <div key={key}>
+                      <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
+                      {` ${advisorDecision?.capacity[key]}`}
+                    </div>
+                  );
                 }
                 if (key === 'bac5') {
-                  return <div key={key}>{`BAC + 5 : ${advisorDecision?.capacity[key]}`}</div>;
+                  return (
+                    <div key={key}>
+                      <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
+                      {` ${advisorDecision?.capacity[key]}`}
+                    </div>
+                  );
                 }
                 if (key === 'random') {
-                  return <div key={key}>{`Aléatoire : ${advisorDecision?.capacity[key]}`}</div>;
+                  return (
+                    <div key={key}>
+                      <span style={{ color: '#4D6EC5' }}>Aléatoire :</span>
+                      {` ${advisorDecision?.capacity[key]}`}
+                    </div>
+                  );
                 }
               })}
-              Conseiller:
+              <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
               <span>{` ${advisorDecision?.referrer[0].firstName} ${advisorDecision?.referrer[0].lastName}`}</span>
             </div>
           )}
@@ -170,7 +202,7 @@ const ModalConfirmationAffectation = ({
   };
   const renderAdvisorSelection = () => {
     return (
-      <DialogContent className={classes.advisorSelection}>
+      <DialogContent>
         <FormControl variant="outlined">
           <RadioGroup>
             {affectation.wc2023Affectation.recommendation &&
@@ -183,12 +215,12 @@ const ModalConfirmationAffectation = ({
                     <FormControlLabel
                       control={<Radio />}
                       checked={advisorChoice === 'choix_3' ? advisorDecision?.name === c.name : false}
-                      label={(
+                      label={
                         <>
                           <strong style={{ color: '#4D6EC5' }}>Suggestion du conseiller Pôle Emploi :</strong>
                           {c.name}
                         </>
-                      )}
+                      }
                       value={c.fnv1a32_hash}
                       onChange={handleChangeAdvisorDecision}
                     />
@@ -196,16 +228,31 @@ const ModalConfirmationAffectation = ({
                       Capacité:
                       {Object.keys(c.capacity).map((key) => {
                         if (key === 'bac3') {
-                          return <div key={key}>{`BAC + 3 : ${c.capacity[key]}`}</div>;
+                          return (
+                            <div key={key}>
+                              <span style={{ color: '#4D6EC5' }}>BAC + 3 :</span>
+                              {` ${c.capacity[key]}`}
+                            </div>
+                          );
                         }
                         if (key === 'bac5') {
-                          return <div key={key}>{`BAC + 5 :${c.capacity[key]}`}</div>;
+                          return (
+                            <div key={key}>
+                              <span style={{ color: '#4D6EC5' }}>BAC + 5 :</span>
+                              {` ${c.capacity[key]}`}
+                            </div>
+                          );
                         }
                         if (key === 'random') {
-                          return <div key={key}>{`Aléatoire : ${c.capacity[key]}`}</div>;
+                          return (
+                            <div key={key}>
+                              <span style={{ color: '#4D6EC5' }}>Aléatoire : </span>
+                              {`${c.capacity[key]}`}
+                            </div>
+                          );
                         }
                       })}
-                      Conseiller:
+                      <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
                       <span>{` ${c?.referrer[0]?.firstName} ${c?.referrer[0].lastName}`}</span>
                     </div>
                   </div>
@@ -220,7 +267,7 @@ const ModalConfirmationAffectation = ({
   };
   const renderUserSelection = () => {
     return (
-      <DialogContent className={classes.advisorSelection}>
+      <DialogContent>
         <FormControl variant="outlined">
           <RadioGroup>
             {affectation.wc2023Affectation.recommendation &&
@@ -243,7 +290,6 @@ const ModalConfirmationAffectation = ({
       </>
     );
   };
-
   const renderData = (decision: string) => {
     switch (decision) {
       case 'ADVISOR_SELECTION': {
@@ -260,43 +306,65 @@ const ModalConfirmationAffectation = ({
   };
   const confirmationChoix = () => {
     if (!isEmpty(advisorDecision) && advisorDecision) {
-      confirmationAffectationCall({ userId: affectation.id, clubName: advisorDecision.name });
+      confirmationAffectationCall({ userId: affectation.id, clubName: advisorDecision.id });
     }
   };
-
+  useEffect(() => {
+    if (advisorDecision) {
+      getDisponibiliteCall({ variables: { idStructure: advisorDecision.id, formation: affectation.wc2023.degree } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [advisorDecision]);
   return (
     <ModalContainer
       open
       backdropColor="primary"
       colorIcon="#4D6EC5"
       handleClose={() => onClose()}
+      size={77}
       title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.firstName}`}
     >
-      <div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ width: '60%' }}>
+          <div>
+            {getStructuresState.loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              renderData(affectation.wc2023Affectation.advisorDecision)
+            )}
+          </div>
+          <div className={classes.btnConfirmaionContainer}>
+            <Button
+              onClick={() => setOpen(true)}
+              variant="contained"
+              size="medium"
+              color="primary"
+              disabled={!getStructuresState.data || isEmpty(advisorDecision)}
+            >
+              <span>Confirmer</span>
+            </Button>
+          </div>
+        </div>
         <div className={classes.infoUser}>
-          <p style={{ color: '#4D6EC5' }}>Information de l&apos;utilisateur:</p>
-          <span>{`Email: ${affectation.email}`}</span>
-          <span>{`Formation: ${affectation.wc2023.formation}`}</span>
-          <span>{`Niveau: ${affectation.wc2023.degree}`}</span>
-          <span>{`perimeter: ${affectation.wc2023.perimeter}`}</span>
-        </div>
-        <div>
-          {getStructuresState.loading ? (
-            <CircularProgress />
-          ) : (
-            renderData(affectation.wc2023Affectation.advisorDecision)
-          )}
-        </div>
-        <div className={classes.btnConfirmaionContainer}>
-          <Button
-            onClick={() => setOpen(true)}
-            variant="contained"
-            size="medium"
-            color="primary"
-            disabled={!getStructuresState.data || isEmpty(advisorDecision)}
-          >
-            <span>Confirmer</span>
-          </Button>
+          <p className={classes.infoClub}>Information de l&apos;utilisateur:</p>
+          <span>
+            <span style={{ color: '#4D6EC5' }}>Email:</span>
+            {` ${affectation.email}`}
+          </span>
+          <span>
+            <span style={{ color: '#4D6EC5' }}>Formation:</span>
+            {`Formation: ${affectation.wc2023.formation}`}
+          </span>
+          <span>
+            <span style={{ color: '#4D6EC5' }}>Niveau:</span>
+            {`Niveau: ${affectation.wc2023.degree}`}
+          </span>
+          <span>
+            <span style={{ color: '#4D6EC5' }}>Perimeter:</span>
+            {`perimeter: ${affectation.wc2023.perimeter}`}
+          </span>
         </div>
         {open && (
           <ModalContainer
@@ -310,6 +378,7 @@ const ModalConfirmationAffectation = ({
               <div className={classes.headerModal}>
                 <div className={classes.text}>Êtes-vous sûr de vouloir affecter ce jeune à cette structure ?</div>
                 <div className={classes.subText}>Cette confirmation est définitive</div>
+                <div className={classes.subTextInfo}>{`Disponibilité: ${getDisponibiliteState.data?.getCapacity}`}</div>
               </div>
               <div className={classes.modalBtnContainer}>
                 <div className={classes.btn}>
@@ -329,7 +398,7 @@ const ModalConfirmationAffectation = ({
                     color="primary"
                     style={{ width: 200 }}
                   >
-                    <span>Non</span>
+                    <span>NON</span>
                   </Button>
                 </div>
               </div>

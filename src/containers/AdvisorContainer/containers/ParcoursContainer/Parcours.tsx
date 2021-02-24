@@ -272,7 +272,7 @@ const Parcours = () => {
             );
           }
           if (value.status === 'COMPLETE') {
-            return <div>{value.finalClub}</div>;
+            return <div>{value.finalClub.name}</div>;
           }
         },
       },

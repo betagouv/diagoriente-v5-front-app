@@ -28,7 +28,10 @@ export const MyGroupInfoQuery = gql`
         status
         specialite
         advisorDecision
-        finalClub
+        finalClub {
+          id
+          name
+        }
         staps
         desengagement
         advisorSelection {

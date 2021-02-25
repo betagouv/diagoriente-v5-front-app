@@ -30,6 +30,7 @@ export const MyGroupInfoQuery = gql`
           cityCode
         }
         wc2023Affectation {
+          status
           specialite
           advisorDecision
           finalClub {

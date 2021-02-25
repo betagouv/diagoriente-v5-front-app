@@ -4,8 +4,8 @@ import { useLocalLazyQuery } from '../hooks/apollo';
 import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
-  query myGroup($page: Int, $perPage: Int, $filterFormation: String) {
-    myGroup(page: $page, perPage: $perPage, filterFormation: $filterFormation) {
+  query myGroup($page: Int, $perPage: Int, $filterFormation: String, $isRecommended: Boolean) {
+    myGroup(page: $page, perPage: $perPage, filterFormation: $filterFormation, isRecommended: $isRecommended) {
       perPage
       page
       count
@@ -30,7 +30,6 @@ export const MyGroupInfoQuery = gql`
           cityCode
         }
         wc2023Affectation {
-          status
           specialite
           advisorDecision
           finalClub {
@@ -118,7 +117,6 @@ export interface MyGroupInfoResponse {
         postCode: string;
       };
       wc2023Affectation: {
-        status: string;
         specialite: string;
         advisorDecision: string;
         desengagement: boolean;
@@ -128,6 +126,7 @@ export interface MyGroupInfoResponse {
           club_code: string;
         }[];
         recommendation: {
+          status: string;
           club: {
             name: string;
           };

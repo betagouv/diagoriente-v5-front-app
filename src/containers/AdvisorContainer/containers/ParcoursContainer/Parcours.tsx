@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl } from '@material-ui/core';
+import { Grid, FormControl, Checkbox, FormControlLabel } from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -51,6 +51,7 @@ const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only', variables: { perPage: 20 } });
   const [updateUserCall, updateUserState] = useUpdateUser();
   const [openAcc, setOpenAcc] = useState(false);
+  const [isRecoByClubOnly, setIsRecoByClubOnly] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [current, setCurrent] = useState(1);
 
@@ -80,7 +81,7 @@ const Parcours = () => {
       setCustomFilterGroup(data.myGroup.data);
       setCurrent(data.myGroup.page);
     }
-  }, [data]);
+  }, [data, isRecoByClubOnly]);
 
   useDidMount(() => {
     loadParcours();
@@ -138,17 +139,17 @@ const Parcours = () => {
   const exportCSV = () => {
     if (data) {
       const csv = jsonToCSV(
-        customGroup.map((user: any) => {
-          const quality = qualities[user.wc2023.quality as keyof typeof qualities];
+        customGroup.map((usr: any) => {
+          const quality = qualities[usr.wc2023.quality as keyof typeof qualities];
           return {
-            nom: user.profile.lastName,
-            prénom: user.profile.firstName,
-            localisation: user.location,
-            nomAdvisor: `${user.advisor.profile.firstName} ${user.advisor.profile.lastName}`,
-            emailAdvisor: user.advisor.email,
-            'choix de la formation': user.wc2023.formation,
+            nom: usr.profile.lastName,
+            prénom: usr.profile.firstName,
+            localisation: usr.location,
+            nomAdvisor: `${usr.advisor.profile.firstName} ${usr.advisor.profile.lastName}`,
+            emailAdvisor: usr.advisor.email,
+            'choix de la formation': usr.wc2023.formation,
             'statut de la candidature': quality ? quality.title : '',
-            Commentaire: user?.wc2023?.comment,
+            Commentaire: usr?.wc2023?.comment,
           };
         }),
       );
@@ -330,19 +331,36 @@ const Parcours = () => {
       headers.push(...(rowRegional as any));
     }
   }
+  const dataToSend: { isRecommended?: boolean; filterFormation?: string } = {};
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...selectedDegree];
       array[0] = label;
+      dataToSend.filterFormation = label;
+      dataToSend.isRecommended = isRecoByClubOnly;
       if (label !== 'Toutes les formations') {
         setSelectedDegree(array);
-        loadParcours({ variables: { filterFormation: label } });
+        loadParcours({ variables: dataToSend });
         setOpenAcc(false);
       } else {
         setSelectedDegree(array);
-        loadParcours();
+        loadParcours({ variables: dataToSend });
         setOpenAcc(false);
       }
+    }
+  };
+  const changeRecommended = (state: boolean) => {
+    if (state) dataToSend.isRecommended = true;
+    if (selectedDegree.length !== 0) {
+      dataToSend.filterFormation = selectedDegree[0];
+    }
+    if (state) {
+      setIsRecoByClubOnly(state);
+
+      loadParcours({ variables: dataToSend });
+    } else {
+      setIsRecoByClubOnly(false);
+      loadParcours({ variables: dataToSend });
     }
   };
   /* {
@@ -395,6 +413,17 @@ const Parcours = () => {
                   colorArrow="#2979ff"
                 />
               </FormControl>
+              <FormControlLabel
+                className={classes.selectContainer}
+                control={(
+                  <Checkbox
+                    checked={isRecoByClubOnly}
+                    onChange={() => changeRecommended(!isRecoByClubOnly)}
+                    name="isRecoByClubOnly"
+                  />
+                )}
+                label="Recommandé par un club"
+              />
             </div>
           </Grid>
           <Grid item xs={12}>

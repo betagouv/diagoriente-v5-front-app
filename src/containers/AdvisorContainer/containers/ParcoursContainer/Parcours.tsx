@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl } from '@material-ui/core';
+import { Grid, FormControl, Checkbox, FormControlLabel } from "@material-ui/core";
 import Select from 'containers/JobsContainer/components/Select/Select';
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -51,6 +51,7 @@ const Parcours = () => {
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
   const [updateUserCall, updateUserState] = useUpdateUser();
   const [openAcc, setOpenAcc] = useState(false);
+  const [isRecoByClubOnly, setIsRecoByClubOnly] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
@@ -76,9 +77,12 @@ const Parcours = () => {
   useEffect(() => {
     if (data) {
       setCustomGroup(data.myGroup);
-      setCustomFilterGroup(data.myGroup);
+      if (!isRecoByClubOnly)
+        setCustomFilterGroup(data.myGroup);
+      else
+        setCustomFilterGroup(data.myGroup.filter(v => v.wc2023Affectation.recommendation.status === "ACCEPTED"))
     }
-  }, [data]);
+  }, [data, isRecoByClubOnly]);
 
   useDidMount(() => {
     loadParcours();
@@ -395,6 +399,11 @@ const Parcours = () => {
                   colorArrow="#2979ff"
                 />
               </FormControl>
+              <FormControlLabel
+                className={classes.selectContainer}
+                control={<Checkbox checked={isRecoByClubOnly} onChange={() => setIsRecoByClubOnly(!isRecoByClubOnly)} name="isRecoByClubOnly" />}
+                label="Recommandé par un club"
+              />
             </div>
           </Grid>
           <Grid item xs={12}>

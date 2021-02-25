@@ -121,6 +121,7 @@ export interface MyGroupInfoResponse {
         club_code: string;
       }[];
       recommendation: {
+        status: string;
         club: {
           name: string;
         };

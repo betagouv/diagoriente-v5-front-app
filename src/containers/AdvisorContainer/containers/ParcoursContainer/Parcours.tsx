@@ -48,10 +48,11 @@ const listAccData = [
 const Parcours = () => {
   const classes = useStyles();
   const { user } = useContext(userContext);
-  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
+  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only', variables: { perPage: 20 } });
   const [updateUserCall, updateUserState] = useUpdateUser();
   const [openAcc, setOpenAcc] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [current, setCurrent] = useState(1);
 
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [showAffectationConfirmationModal, setShowAffectationConfirmationModal] = useState(false);
@@ -75,8 +76,9 @@ const Parcours = () => {
 
   useEffect(() => {
     if (data) {
-      setCustomGroup(data.myGroup);
-      setCustomFilterGroup(data.myGroup);
+      setCustomGroup(data.myGroup.data);
+      setCustomFilterGroup(data.myGroup.data);
+      setCurrent(data.myGroup.page);
     }
   }, [data]);
 
@@ -133,7 +135,6 @@ const Parcours = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
-
   const exportCSV = () => {
     if (data) {
       const csv = jsonToCSV(
@@ -335,12 +336,11 @@ const Parcours = () => {
       array[0] = label;
       if (label !== 'Toutes les formations') {
         setSelectedDegree(array);
-        const a = customGroup.filter((g) => g.wc2023.formation === label);
-        setCustomFilterGroup(a);
+        loadParcours({ variables: { filterFormation: label } });
         setOpenAcc(false);
       } else {
         setSelectedDegree(array);
-        setCustomFilterGroup(customGroup);
+        loadParcours();
         setOpenAcc(false);
       }
     }
@@ -400,12 +400,12 @@ const Parcours = () => {
           <Grid item xs={12}>
             {customFilterGroup && (
               <Table
-                onPageChange={() => null}
-                count={customFilterGroup.length}
+                onPageChange={(e) => loadParcours({ variables: { page: e } })}
+                count={data?.myGroup.count}
                 data={customFilterGroup}
-                totalPages={0}
+                totalPages={data?.myGroup.totalPages || 0}
                 headers={headers}
-                currentPage={1}
+                currentPage={current}
               />
             )}
           </Grid>

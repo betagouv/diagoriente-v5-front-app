@@ -4,67 +4,45 @@ import { useLocalLazyQuery } from '../hooks/apollo';
 import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
-  query {
-    myGroup {
-      id
-      profile {
-        firstName
-        lastName
-      }
-      email
-      location
-      wc2023 {
-        formation
-        quality
-        comment
-        degree
-        perimeter
-      }
-      addressCodes {
-        postCode
-        cityCode
-      }
-      wc2023Affectation {
-        status
-        specialite
-        advisorDecision
-        finalClub {
-          id
-          name
+  query myGroup($page: Int, $perPage: Int, $filterFormation: String) {
+    myGroup(page: $page, perPage: $perPage, filterFormation: $filterFormation) {
+      perPage
+      page
+      count
+      totalPages
+      data {
+        id
+        profile {
+          firstName
+          lastName
         }
-        staps
-        desengagement
-        advisorSelection {
-          id
-          name
-          club_code
-          fnv1a32_hash
-          capacity {
-            bac
-            bac1
-            bac2
-            bac4
-            bac3
-            bac5
-            pasbac1
-            pasbac5
-            bacoubac3
-            bac3oubac5
-            random
-          }
-          referrer {
-            firstName
-            lastName
-            email
-          }
+        email
+        location
+        wc2023 {
+          formation
+          quality
+          comment
+          degree
+          perimeter
         }
-        recommendation {
+        addressCodes {
+          postCode
+          cityCode
+        }
+        wc2023Affectation {
           status
-          club {
-            name
+          specialite
+          advisorDecision
+          finalClub {
             id
-            city
-            licensed_text
+            name
+          }
+          staps
+          desengagement
+          advisorSelection {
+            id
+            name
+            club_code
             fnv1a32_hash
             capacity {
               bac
@@ -85,49 +63,83 @@ export const MyGroupInfoQuery = gql`
               email
             }
           }
+          recommendation {
+            status
+            club {
+              name
+              id
+              city
+              licensed_text
+              fnv1a32_hash
+              capacity {
+                bac
+                bac1
+                bac2
+                bac4
+                bac3
+                bac5
+                pasbac1
+                pasbac5
+                bacoubac3
+                bac3oubac5
+                random
+              }
+              referrer {
+                firstName
+                lastName
+                email
+              }
+            }
+          }
         }
+        validateCampus
       }
-      validateCampus
     }
   }
 `;
 
 export interface MyGroupInfoResponse {
   myGroup: {
-    id: string;
-    profile: {
-      firstName: string;
-      lastName: string;
-    };
-    email: string;
-    location: string;
-    wc2023: {
-      formation: string;
-      quality: string;
-      comment: string;
-    };
-    addressCodes: {
-      cityCode: string;
-      postCode: string;
-    };
-    wc2023Affectation: {
-      status: string;
-      specialite: string;
-      advisorDecision: string;
-      desengagement: boolean;
-      staps: boolean;
-      advisorSelection: {
-        name: string;
-        club_code: string;
-      }[];
-      recommendation: {
-        club: {
+    data: {
+      id: string;
+      profile: {
+        firstName: string;
+        lastName: string;
+      };
+      email: string;
+      location: string;
+      wc2023: {
+        formation: string;
+        quality: string;
+        comment: string;
+      };
+      addressCodes: {
+        cityCode: string;
+        postCode: string;
+      };
+      wc2023Affectation: {
+        status: string;
+        specialite: string;
+        advisorDecision: string;
+        desengagement: boolean;
+        staps: boolean;
+        advisorSelection: {
           name: string;
+          club_code: string;
+        }[];
+        recommendation: {
+          club: {
+            name: string;
+          };
         };
       };
-    };
-    validateCampus: string;
-  }[];
+      validateCampus: string;
+    }[];
+    page: number;
+    perPage: number;
+    count: number;
+    totalPages: number;
+  };
 }
 
 export const useMyGroup = (options: LazyQueryHookOptions<MyGroupInfoResponse> = {}) =>

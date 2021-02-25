@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles(() => ({
   userClubRecoContainer: { display: 'flex', alignItems: 'flex-start' },
   infoClub: { fontSize: 18, margin: '10px 0px', color: '#4D6EC5' },
-  selectContainer: { width: '70%' },
+  selectContainer: { /* width: '70%' */ },
   manuelSelection: { display: 'flex', alignItems: 'flex-start' },
   advisorSelection: { margin: '20px 0px' },
   infoUser: { marginTop: 18, display: 'flex', flexDirection: 'column', width: '40%' },

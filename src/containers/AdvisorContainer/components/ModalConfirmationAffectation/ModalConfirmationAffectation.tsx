@@ -262,12 +262,12 @@ const ModalConfirmationAffectation = ({
                     <FormControlLabel
                       control={<Radio />}
                       checked={advisorChoice === 'choix_3' ? advisorDecision?.name === c.name : false}
-                      label={(
+                      label={
                         <>
                           <strong style={{ color: '#4D6EC5' }}>Suggestion du conseiller Pôle Emploi :</strong>
                           {c.name}
                         </>
-                      )}
+                      }
                       value={c.fnv1a32_hash}
                       onChange={handleChangeAdvisorDecision}
                     />
@@ -347,7 +347,7 @@ const ModalConfirmationAffectation = ({
       colorIcon="#4D6EC5"
       handleClose={() => onClose()}
       size={77}
-      title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.firstName}`}
+      title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.lastName}`}
     >
       <div style={{ display: 'flex' }}>
         <div style={{ width: '60%' }}>

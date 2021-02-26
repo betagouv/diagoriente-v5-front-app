@@ -20,6 +20,7 @@ export interface wc2023Affectation {
     token: string;
     status: string;
   };
+  finalSendMail: boolean;
 }
 export interface User {
   id: string;

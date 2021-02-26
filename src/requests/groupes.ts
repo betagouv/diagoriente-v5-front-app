@@ -47,6 +47,7 @@ export const MyGroupInfoQuery = gql`
             id
             name
           }
+          finalSendMail
           staps
           desengagement
           advisorSelection {
@@ -142,6 +143,7 @@ export interface MyGroupInfoResponse {
             name: string;
           };
         };
+        finalSendMail: boolean;
       };
       validateCampus: string;
     }[];

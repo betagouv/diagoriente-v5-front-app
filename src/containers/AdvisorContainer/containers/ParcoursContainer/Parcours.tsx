@@ -8,8 +8,8 @@ import {
   IconButton,
   Typography,
   Box,
-  DialogContent
-} from "@material-ui/core";
+  DialogContent,
+} from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -30,13 +30,13 @@ import { useUpdateVisualisation, useUpdateUser } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
+import { Mail } from '@material-ui/icons';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 import ModalAffectationConfirmation from '../../components/ModalConfirmationAffectation/ModalConfirmationAffectation';
-import { Mail } from "@material-ui/icons";
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 const useStyles = makeStyles(() => ({
   customTooltip: {
@@ -117,11 +117,14 @@ const Parcours = () => {
   const [confirmationAffectationCall, confirmationAffectationState] = useConfirmationAffectation();
   const [showSendMailModal, setShowSendMailModal] = useState(false);
   const [sendMailUserInfo, setSendMailUserInfo] = useState<any>(null);
-  const [sendMailCall, sendMailState] = useMutation(gql`
-    mutation($userId: String!) {
-      sendMailConfirmationAffectation(userId: $userId)
-    }
-  `, { refetchQueries: [ { query: MyGroupInfoQuery, variables: { perPage: 20 } }]});
+  const [sendMailCall, sendMailState] = useMutation(
+    gql`
+      mutation($userId: String!) {
+        sendMailConfirmationAffectation(userId: $userId)
+      }
+    `,
+    { refetchQueries: [{ query: MyGroupInfoQuery, variables: { perPage: 20 } }] },
+  );
 
   useEffect(() => {
     if (data) {
@@ -339,9 +342,19 @@ const Parcours = () => {
           return (
             row.wc2023Affectation.finalClub &&
             !row.wc2023Affectation.finalSendMail && (
-            <IconButton onClick={() => { setSendMailUserInfo(row); setShowSendMailModal(true); }} color="secondary"><Mail /></IconButton>));
-        }
-      }
+              <IconButton
+                onClick={() => {
+                  setSendMailUserInfo(row);
+                  setShowSendMailModal(true);
+                }}
+                color="secondary"
+              >
+                <Mail />
+              </IconButton>
+            )
+          );
+        },
+      },
     ];
     headers.push(
       {
@@ -438,9 +451,9 @@ const Parcours = () => {
     loadParcours({ variables: { region: s.value.id } });
   };
   const onClearSelect = () => {
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, filterFormation: selectedDegree[0] } });
     setSearchRegion('');
     setSelectedRegion('');
-    loadParcours({ variables: { isRecommended: isRecoByClubOnly, region: selectedRegion } });
   };
   /* {
       title: "Structures d'accueil potentielles",
@@ -472,7 +485,6 @@ const Parcours = () => {
 
   useEffect(() => {
     setShowSendMailModal(false);
-
   }, [sendMailState.data]);
 
   return (
@@ -503,13 +515,13 @@ const Parcours = () => {
               </FormControl>
               <FormControlLabel
                 className={classes.selectContainer}
-                control={
+                control={(
                   <Checkbox
                     checked={isRecoByClubOnly}
                     onChange={() => changeRecommended(!isRecoByClubOnly)}
                     name="isRecoByClubOnly"
                   />
-                }
+                )}
                 label="Recommandé par un club"
               />
               <FormControl className={classes.selectContainer}>
@@ -527,7 +539,7 @@ const Parcours = () => {
                   open={openRegion}
                   setOpen={setOpenRegion}
                 />
-                {searchRegion && (
+                {selectedRegion && (
                   <div className={classes.clearSelect}>
                     <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
                   </div>
@@ -607,18 +619,39 @@ const Parcours = () => {
         />
       )}
       {showSendMailModal && (
-        <ModalContainer open={showSendMailModal} handleClose={() => setShowSendMailModal(false)} backdropColor="primary" colorIcon="#4D6EC5" title={"Envoi de mail"} size={77}>
+        <ModalContainer
+          open={showSendMailModal}
+          handleClose={() => setShowSendMailModal(false)}
+          backdropColor="primary"
+          colorIcon="#4D6EC5"
+          title="Envoi de mail"
+          size={77}
+        >
           <DialogContent>
-          <Typography align="center" variant="h6">
-            <div>
-              Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour leur informer de
-              l&apos;affectation :
-            </div>
-            <div>Candidat : {sendMailUserInfo?.profile.firstName} {sendMailUserInfo?.profile.lastName}</div>
-            <div>Club : {sendMailUserInfo?.wc2023Affectation?.finalClub?.name}</div>
-          </Typography>
+            <Typography align="center" variant="h6">
+              <div>
+                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour leur informer
+                de l&apos;affectation :
+              </div>
+              <div>
+                Candidat : 
+{' '}
+{sendMailUserInfo?.profile.firstName} 
+{' '}
+{sendMailUserInfo?.profile.lastName}
+              </div>
+              <div>
+Club :
+{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}
+              </div>
+            </Typography>
             <div style={{ textAlign: 'center' }}>
-              <Button variant="contained" color="primary" style={{ marginRight: '1em' }} onClick={handleSendMailConfirm}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: '1em' }}
+                onClick={handleSendMailConfirm}
+              >
                 OUI
               </Button>
               <Button variant="contained" color="primary" onClick={() => setShowSendMailModal(false)}>

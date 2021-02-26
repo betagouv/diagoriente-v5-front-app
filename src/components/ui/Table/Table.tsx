@@ -37,7 +37,8 @@ export function useActionsHeader<T extends { id: string }>(
     if (!data.length && values.length) valuesChange([]);
     else {
       valuesChange((prevValues) =>
-        data.map(({ id }) => prevValues.find((value) => value.id === id) || { id, checked: false }));
+        data.map(({ id }) => prevValues.find((value) => value.id === id) || { id, checked: false }),
+      );
     }
     // eslint-disable-next-line
   }, [data]);
@@ -174,7 +175,7 @@ function Table<T extends { id: string }>({
         <TableBody>
           {data.length
             ? data.map((row, i) => (
-              <TableRow
+                <TableRow
                 onClick={() => {
                     if (onRowClick) onRowClick(row, i);
                   }}
@@ -202,7 +203,7 @@ function Table<T extends { id: string }>({
             <TableRow>
               <td colSpan={1000} className={classes.paginationWrapper}>
                 <div className={classes.paginationContainer}>
-                  <Chip label={`${count}`} color="primary" className={classes.pagesCount} />
+                  <Chip label={`Total: ${count}`} color="primary" className={classes.pagesCount} />
                   <Pagination {...rest} />
                 </div>
               </td>

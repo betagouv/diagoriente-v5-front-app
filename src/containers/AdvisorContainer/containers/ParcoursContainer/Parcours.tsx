@@ -188,7 +188,7 @@ const Parcours = () => {
         value ? `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}` : '---',
     },
     {
-      title: `Région__________`,
+      title: `Région`,
       key: 'contextRegional',
       dataIndex: 'contextRegional',
       render: (value) => value && `${value.label}`,
@@ -312,7 +312,9 @@ const Parcours = () => {
             case 'PENDING':
               return <span>En attente du retour candidat</span>;
             case 'AWAITING_ADVISOR':
-              return user?.codeRegionCampus ? <span>En attente de pré-affectation PE</span> : (
+              return user?.codeRegionCampus ? (
+                <span>En attente de pré-affectation PE</span>
+              ) : (
                 <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
                   En attente de pré-affectation
                 </Button>
@@ -437,13 +439,13 @@ const Parcours = () => {
               </FormControl>
               <FormControlLabel
                 className={classes.selectContainer}
-                control={(
+                control={
                   <Checkbox
                     checked={isRecoByClubOnly}
                     onChange={() => changeRecommended(!isRecoByClubOnly)}
                     name="isRecoByClubOnly"
                   />
-                )}
+                }
                 label="Recommandé par un club"
               />
               <FormControl className={classes.selectContainer}>

@@ -174,7 +174,7 @@ const ModalConfirmationAffectation = ({
           <p className={classes.infoClub}>Club qui souhaite engager le jeune :</p>
           <div>{`Nom: ${affectation.wc2023Affectation.recommendation.club.name}`}</div>
           <div>{`Adresse: ${affectation.wc2023Affectation.recommendation.club.city}`}</div>
-          <div>{`Info: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
+          <div>{`Nombre de licenciés: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
           <div>{`Responsable: ${affectation.wc2023Affectation.recommendation.club.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club.referrer[0].lastName}`}</div>
           <div>
             <strong>Capacité :</strong>
@@ -219,8 +219,7 @@ const ModalConfirmationAffectation = ({
               <div>
                 <strong>Besoins de la structure :</strong>
                 <div>
-                  {getStructuresState.data?.eligibleStructures[Number(indexStructure)]
-                    .expectations.map((w) => (
+                  {advisorDecision?.expectations.map((w) => (
                       <div>
                         <span>{w.name}</span>
                         {affectation?.wc2023Affectation.specialite === w.name && (
@@ -353,6 +352,7 @@ const ModalConfirmationAffectation = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [advisorDecision]);
+
   return (
     <ModalContainer
       open
@@ -401,7 +401,7 @@ const ModalConfirmationAffectation = ({
           </span>
           <span>
             <span style={{ color: '#4D6EC5' }}>Périmètre:</span>
-            {` ${affectation.wc2023.perimeter}`}
+            {` ${affectation.wc2023.perimeter} km`}
           </span>
         </div>
         {open && (

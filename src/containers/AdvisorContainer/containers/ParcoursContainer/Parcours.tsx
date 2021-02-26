@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl, Checkbox, FormControlLabel } from '@material-ui/core';
+import {
+  Grid,
+  FormControl,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+  Box,
+  DialogContent
+} from "@material-ui/core";
 import Select from 'containers/JobsContainer/components/Select/Select';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
-import { useMyGroup } from 'requests/groupes';
+import { MyGroupInfoQuery, useMyGroup } from 'requests/groupes';
 import { useRegionContextQuery } from 'requests/regionContext';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
@@ -24,6 +33,9 @@ import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requ
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 import ModalAffectationConfirmation from '../../components/ModalConfirmationAffectation/ModalConfirmationAffectation';
+import { Mail } from "@material-ui/icons";
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 const useStyles = makeStyles(() => ({
   customTooltip: {
@@ -80,6 +92,13 @@ const Parcours = () => {
   const [affectationUserId, setAffectationUserId] = useState<any>(null);
   const [affectationState, setAffectationState] = useState<any>(null);
   const [confirmationAffectationCall, confirmationAffectationState] = useConfirmationAffectation();
+  const [showSendMailModal, setShowSendMailModal] = useState(false);
+  const [sendMailUserInfo, setSendMailUserInfo] = useState<any>(null);
+  const [sendMailCall, sendMailState] = useMutation(gql`
+    mutation($userId: String!) {
+      sendMailConfirmationAffectation(userId: $userId)
+    }
+  `, { refetchQueries: [ { query: MyGroupInfoQuery, variables: { perPage: 20 } }]});
 
   useEffect(() => {
     if (data) {
@@ -171,14 +190,12 @@ const Parcours = () => {
     {
       title: 'Candidat',
       key: 'fullName',
-      dataIndex: 'profile',
-      render: (value) => `${value?.lastName} ${value?.firstName}`.trim(),
-    },
-    {
-      title: 'E-mail',
-      key: 'email',
-      dataIndex: 'email',
-      render: (value) => value,
+      render: (value, row) => (
+        <>
+          <div>{`${row?.profile.lastName} ${row?.profile.firstName}`.trim()}</div>
+          <Box color="text.disabled">{row?.email}</Box>
+        </>
+      ),
     },
     {
       title: 'Emplacement',
@@ -270,7 +287,7 @@ const Parcours = () => {
         ),
       },
       {
-        title: 'Affectation_Régional',
+        title: 'Affectation CT',
         key: 'affectation_regional',
         dataIndex: 'wc2023Affectation',
         render: (value: any, row: any) => {
@@ -291,6 +308,17 @@ const Parcours = () => {
           }
         },
       },
+      {
+        title: 'Envoi mail',
+        key: 'email',
+        render: (value: any, row: any) => {
+          if (row.wc2023Affectation.finalSendMail) return 'OK';
+          return (
+            row.wc2023Affectation.finalClub &&
+            !row.wc2023Affectation.finalSendMail && (
+            <IconButton onClick={() => { setSendMailUserInfo(row); setShowSendMailModal(true); }} color="secondary"><Mail /></IconButton>));
+        }
+      }
     ];
     headers.push(
       {
@@ -410,6 +438,15 @@ const Parcours = () => {
   ); */
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
+
+  const handleSendMailConfirm = () => {
+    sendMailCall({ variables: { userId: sendMailUserInfo.id } });
+  };
+
+  useEffect(() => {
+    setShowSendMailModal(false);
+
+  }, [sendMailState.data]);
 
   return (
     <>
@@ -536,6 +573,28 @@ const Parcours = () => {
           confirmationAffectationCall={confirmationAffectation}
           confirmationAffectationData={confirmationAffectationState}
         />
+      )}
+      {showSendMailModal && (
+        <ModalContainer open={showSendMailModal} handleClose={() => setShowSendMailModal(false)} backdropColor="primary" colorIcon="#4D6EC5" title={"Envoi de mail"} size={77}>
+          <DialogContent>
+          <Typography align="center" variant="h6">
+            <div>
+              Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour leur informer de
+              l&apos;affectation :
+            </div>
+            <div>Candidat : {sendMailUserInfo?.profile.firstName} {sendMailUserInfo?.profile.lastName}</div>
+            <div>Club : {sendMailUserInfo?.wc2023Affectation?.finalClub?.name}</div>
+          </Typography>
+            <div style={{ textAlign: 'center' }}>
+              <Button variant="contained" color="primary" style={{ marginRight: '1em' }} onClick={handleSendMailConfirm}>
+                OUI
+              </Button>
+              <Button variant="contained" color="primary" onClick={() => setShowSendMailModal(false)}>
+                NON
+              </Button>
+            </div>
+          </DialogContent>
+        </ModalContainer>
       )}
     </>
   );

@@ -7,6 +7,7 @@ export const EligibleStructuresQuery = gql`
   query($userId: ID, $ignoreDistance: Boolean) {
     eligibleStructures(userId: $userId, ignoreDistance: $ignoreDistance) {
       id
+      federation
       name
       licensed_text
       city

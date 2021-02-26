@@ -7,4 +7,7 @@ export default makeStyles(() => ({
     justifyContent: 'center',
     display: 'flex',
   },
+  selectContainer: {
+    display: 'flex',
+  },
 }));

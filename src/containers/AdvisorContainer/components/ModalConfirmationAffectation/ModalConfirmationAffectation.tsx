@@ -11,7 +11,7 @@ import {
   Select,
   Button,
 } from '@material-ui/core';
-import { useAllStructures, useDisponibiliteStructure } from 'requests/campus2023';
+import { useAllStructures, useDisponibiliteStructure, useEligibleStructures } from "requests/campus2023";
 import { useDidMount } from 'hooks/useLifeCycle';
 import { EligibleStructure } from 'requests/types';
 import { isEmpty } from 'lodash';
@@ -40,11 +40,11 @@ const ModalConfirmationAffectation = ({
   const [checkedRadio, setCheckedRadio] = useState<boolean>(false);
 
   const [open, setOpen] = useState<boolean>(false);
-  const [getStructuresCall, getStructuresState] = useAllStructures();
+  const [getStructuresCall, getStructuresState] = useEligibleStructures();
   const [getDisponibiliteCall, getDisponibiliteState] = useDisponibiliteStructure();
 
   useDidMount(() => {
-    getStructuresCall();
+    getStructuresCall({ variables: { ignoreDistance: false, userId: affectation.id } });
     if (
       affectation.wc2023Affectation.recommendation.club &&
       affectation.wc2023Affectation.recommendation.status === 'ACCEPTED'
@@ -53,7 +53,7 @@ const ModalConfirmationAffectation = ({
     }
   });
   const handleChangeAdvisorDecision = (e: any) => {
-    const d = getStructuresState.data?.allStructures.find((f) => {
+    const d = getStructuresState.data?.eligibleStructures.find((f) => {
       return f.fnv1a32_hash === Number(e.target.value);
     });
     setAdvisorChoice('choix_3');
@@ -174,10 +174,10 @@ const ModalConfirmationAffectation = ({
           <p className={classes.infoClub}>Club qui souhaite engager le jeune :</p>
           <div>{`Nom: ${affectation.wc2023Affectation.recommendation.club.name}`}</div>
           <div>{`Adresse: ${affectation.wc2023Affectation.recommendation.club.city}`}</div>
-          <div>{`Info: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
+          <div>{`Nombre de licenciés: ${affectation.wc2023Affectation.recommendation.club.licensed_text}`}</div>
           <div>{`Responsable: ${affectation.wc2023Affectation.recommendation.club.referrer[0].firstName} ${affectation.wc2023Affectation.recommendation.club.referrer[0].lastName}`}</div>
           <div>
-            Capacité:
+            <strong>Capacité :</strong>
             {affectation.wc2023Affectation.recommendation.club.capacity &&
               getCapacity(affectation.wc2023Affectation.recommendation.club.capacity)}
             <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
@@ -197,33 +197,45 @@ const ModalConfirmationAffectation = ({
             labelId="label-choix-1"
             label="Liste des clubs"
             onChange={(e) => {
-              const d = getStructuresState.data?.allStructures[Number(e.target.value)] || null;
+              const d = getStructuresState.data?.eligibleStructures[Number(e.target.value)] || null;
               setIndexStructure(Number(e.target.value));
               setAdvisorDecision(d);
               setCheckedRadio(false);
               setAdvisorChoice('choix_2');
             }}
-            value={advisorChoice === 'choix_2' && indexStructure ? indexStructure : ''}
+            value={advisorChoice === 'choix_2' && indexStructure !== -1 ? indexStructure : ''}
           >
-            <option hidden aria-label="Aucun" value="" />
+            <option hidden aria-label="Aucun" value={-1} />
             {getStructuresState.data &&
-              getStructuresState.data?.allStructures
-                .sort(function(a, b) {
-                  return a.name.localeCompare(b.name);
-                })
+              getStructuresState.data?.eligibleStructures
                 .map((v: any, i: number) => (
                   <option key={i} value={i}>
-                    {v.name}
+                    {v.federation} / {v.name}
                   </option>
                 ))}
           </Select>
           {!isEmpty(advisorDecision) && advisorDecision?.capacity && advisorChoice === 'choix_2' && (
+            <>
+              <div>
+                <strong>Besoins de la structure :</strong>
+                <div>
+                  {advisorDecision?.expectations.map((w) => (
+                      <div>
+                        <span>{w.name}</span>
+                        {affectation?.wc2023Affectation.specialite === w.name && (
+                          <span role="img" aria-label="Oui"> ✔️</span>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
             <div>
-              Capacité:
+              <strong>Capacité :</strong>
               {advisorDecision && getCapacity(advisorDecision?.capacity)}
               <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
               <span>{` ${advisorDecision?.referrer[0].firstName} ${advisorDecision?.referrer[0].lastName}`}</span>
             </div>
+            </>
           )}
         </FormControl>
       </div>
@@ -241,7 +253,7 @@ const ModalConfirmationAffectation = ({
           }}
         />
         <div>
-          <p className={classes.infoClub}>Choisir manuellement la structure :</p>
+          <p className={classes.infoClub}>Choisir manuellement la structure ({getStructuresState.data?.eligibleStructures?.length} éligibles):</p>
           {renderClubListSelection()}
         </div>
       </div>
@@ -262,17 +274,17 @@ const ModalConfirmationAffectation = ({
                     <FormControlLabel
                       control={<Radio />}
                       checked={advisorChoice === 'choix_3' ? advisorDecision?.name === c.name : false}
-                      label={(
+                      label={
                         <>
                           <strong style={{ color: '#4D6EC5' }}>Suggestion du conseiller Pôle Emploi :</strong>
                           {c.name}
                         </>
-                      )}
+                      }
                       value={c.fnv1a32_hash}
                       onChange={handleChangeAdvisorDecision}
                     />
                     <div>
-                      Capacité:
+                      <strong>Capacité :</strong>
                       {c.capacity && getCapacity(c.capacity)}
                       <span style={{ color: '#4D6EC5' }}>Conseiller:</span>
                       <span>{` ${c?.referrer[0]?.firstName} ${c?.referrer[0].lastName}`}</span>
@@ -340,6 +352,7 @@ const ModalConfirmationAffectation = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [advisorDecision]);
+
   return (
     <ModalContainer
       open
@@ -347,7 +360,7 @@ const ModalConfirmationAffectation = ({
       colorIcon="#4D6EC5"
       handleClose={() => onClose()}
       size={77}
-      title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.firstName}`}
+      title={`Confirmation d'affectation du candidat ${affectation.profile.firstName} ${affectation.profile.lastName}`}
     >
       <div style={{ display: 'flex' }}>
         <div style={{ width: '60%' }}>
@@ -387,8 +400,8 @@ const ModalConfirmationAffectation = ({
             {` ${affectation.wc2023.degree}`}
           </span>
           <span>
-            <span style={{ color: '#4D6EC5' }}>Perimeter:</span>
-            {` ${affectation.wc2023.perimeter}`}
+            <span style={{ color: '#4D6EC5' }}>Périmètre:</span>
+            {` ${affectation.wc2023.perimeter} km`}
           </span>
         </div>
         {open && (

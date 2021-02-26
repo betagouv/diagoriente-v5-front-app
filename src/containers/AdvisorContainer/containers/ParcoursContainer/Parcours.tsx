@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl } from '@material-ui/core';
+import {
+  Grid,
+  FormControl,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+  Box,
+  DialogContent,
+} from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
-
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
-import { useMyGroup } from 'requests/groupes';
+import { MyGroupInfoQuery, useMyGroup } from 'requests/groupes';
+import { useRegionContextQuery } from 'requests/regionContext';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import useOnclickOutside from 'hooks/useOnclickOutside';
@@ -15,10 +25,14 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
+import close from 'assets/svg/close.svg';
 import { useUpdateVisualisation, useUpdateUser } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
+import { Mail } from '@material-ui/icons';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requests/campus2023';
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
@@ -30,6 +44,28 @@ const useStyles = makeStyles(() => ({
   },
   selectContainer: {
     marginLeft: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: 20,
+  },
+  clearSelect: {
+    width: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2979ff',
+    color: 'white',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    marginTop: 1,
+    cursor: 'pointer',
+    transform: 'translateX(5px)',
+    transitionTimingFunction: 'ease-in',
+    transition: '0.2s',
+  },
+  logoClear: {
+    width: 16,
+    height: 16,
   },
   styleSelect: {
     border: '1px solid #424242',
@@ -48,10 +84,17 @@ const listAccData = [
 const Parcours = () => {
   const classes = useStyles();
   const { user } = useContext(userContext);
-  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only' });
+  const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only', variables: { perPage: 20 } });
   const [updateUserCall, updateUserState] = useUpdateUser();
+  const [getRegionalContext, regionalContextState] = useRegionContextQuery();
   const [openAcc, setOpenAcc] = useState(false);
+  const [isRecoByClubOnly, setIsRecoByClubOnly] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [openRegion, setOpenRegion] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [searchRegion, setSearchRegion] = useState('');
+
+  const [current, setCurrent] = useState(1);
 
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
   const [showAffectationConfirmationModal, setShowAffectationConfirmationModal] = useState(false);
@@ -72,17 +115,29 @@ const Parcours = () => {
   const [affectationUserId, setAffectationUserId] = useState<any>(null);
   const [affectationState, setAffectationState] = useState<any>(null);
   const [confirmationAffectationCall, confirmationAffectationState] = useConfirmationAffectation();
+  const [showSendMailModal, setShowSendMailModal] = useState(false);
+  const [sendMailUserInfo, setSendMailUserInfo] = useState<any>(null);
+  const [sendMailCall, sendMailState] = useMutation(
+    gql`
+      mutation($userId: String!) {
+        sendMailConfirmationAffectation(userId: $userId)
+      }
+    `,
+    { refetchQueries: [{ query: MyGroupInfoQuery, variables: { perPage: 20 } }] },
+  );
 
   useEffect(() => {
     if (data) {
-      setCustomGroup(data.myGroup);
-      setCustomFilterGroup(data.myGroup);
+      setCustomGroup(data.myGroup.data);
+      setCustomFilterGroup(data.myGroup.data);
+      setCurrent(data.myGroup.page);
     }
-  }, [data]);
+  }, [data, isRecoByClubOnly]);
 
   useDidMount(() => {
     loadParcours();
     configCall();
+    getRegionalContext();
   });
   useEffect(() => {
     if (confirmationAffectationState.data) {
@@ -133,21 +188,20 @@ const Parcours = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
-
   const exportCSV = () => {
     if (data) {
       const csv = jsonToCSV(
-        customGroup.map((user: any) => {
-          const quality = qualities[user.wc2023.quality as keyof typeof qualities];
+        customGroup.map((usr: any) => {
+          const quality = qualities[usr.wc2023.quality as keyof typeof qualities];
           return {
-            nom: user.profile.lastName,
-            prénom: user.profile.firstName,
-            localisation: user.location,
-            nomAdvisor: `${user.advisor.profile.firstName} ${user.advisor.profile.lastName}`,
-            emailAdvisor: user.advisor.email,
-            'choix de la formation': user.wc2023.formation,
+            nom: usr.profile.lastName,
+            prénom: usr.profile.firstName,
+            localisation: usr.location,
+            nomAdvisor: `${usr.advisor.profile.firstName} ${usr.advisor.profile.lastName}`,
+            emailAdvisor: usr.advisor.email,
+            'choix de la formation': usr.wc2023.formation,
             'statut de la candidature': quality ? quality.title : '',
-            Commentaire: user?.wc2023?.comment,
+            Commentaire: usr?.wc2023?.comment,
           };
         }),
       );
@@ -162,14 +216,12 @@ const Parcours = () => {
     {
       title: 'Candidat',
       key: 'fullName',
-      dataIndex: 'profile',
-      render: (value) => `${value?.lastName} ${value?.firstName}`.trim(),
-    },
-    {
-      title: 'E-mail',
-      key: 'email',
-      dataIndex: 'email',
-      render: (value) => value,
+      render: (value, row) => (
+        <>
+          <div>{`${row?.profile.lastName} ${row?.profile.firstName}`.trim()}</div>
+          <Box color="text.disabled">{row?.email}</Box>
+        </>
+      ),
     },
     {
       title: 'Emplacement',
@@ -177,6 +229,12 @@ const Parcours = () => {
       dataIndex: 'location',
       render: (value, row) =>
         value ? `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}` : '---',
+    },
+    {
+      title: `Région`,
+      key: 'contextRegional',
+      dataIndex: 'contextRegional',
+      render: (value) => value && `${value.label}`,
     },
     {
       title: 'Niveau du candidat',
@@ -255,7 +313,7 @@ const Parcours = () => {
         ),
       },
       {
-        title: 'Affectation_Régional',
+        title: 'Affectation CT',
         key: 'affectation_regional',
         dataIndex: 'wc2023Affectation',
         render: (value: any, row: any) => {
@@ -274,6 +332,27 @@ const Parcours = () => {
           if (value.status === 'COMPLETE') {
             return <div>{value.finalClub.name}</div>;
           }
+        },
+      },
+      {
+        title: 'Envoi mail',
+        key: 'email',
+        render: (value: any, row: any) => {
+          if (row.wc2023Affectation.finalSendMail) return 'OK';
+          return (
+            row.wc2023Affectation.finalClub &&
+            !row.wc2023Affectation.finalSendMail && (
+              <IconButton
+                onClick={() => {
+                  setSendMailUserInfo(row);
+                  setShowSendMailModal(true);
+                }}
+                color="secondary"
+              >
+                <Mail />
+              </IconButton>
+            )
+          );
         },
       },
     ];
@@ -297,7 +376,9 @@ const Parcours = () => {
             case 'PENDING':
               return <span>En attente du retour candidat</span>;
             case 'AWAITING_ADVISOR':
-              return (
+              return user?.codeRegionCampus ? (
+                <span>En attente de pré-affectation PE</span>
+              ) : (
                 <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
                   En attente de pré-affectation
                 </Button>
@@ -329,21 +410,50 @@ const Parcours = () => {
       headers.push(...(rowRegional as any));
     }
   }
+  const dataToSend: { isRecommended?: boolean; filterFormation?: string; region?: string } = {};
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...selectedDegree];
       array[0] = label;
+      dataToSend.filterFormation = label;
+      dataToSend.isRecommended = isRecoByClubOnly;
+      dataToSend.region = selectedRegion;
       if (label !== 'Toutes les formations') {
         setSelectedDegree(array);
-        const a = customGroup.filter((g) => g.wc2023.formation === label);
-        setCustomFilterGroup(a);
+        loadParcours({ variables: dataToSend });
         setOpenAcc(false);
       } else {
         setSelectedDegree(array);
-        setCustomFilterGroup(customGroup);
+        loadParcours({ variables: dataToSend });
         setOpenAcc(false);
       }
     }
+  };
+  const changeRecommended = (state: boolean) => {
+    if (state) dataToSend.isRecommended = true;
+    if (selectedDegree.length !== 0) {
+      dataToSend.filterFormation = selectedDegree[0];
+    }
+    dataToSend.region = selectedRegion;
+
+    if (state) {
+      setIsRecoByClubOnly(state);
+      loadParcours({ variables: dataToSend });
+    } else {
+      setIsRecoByClubOnly(false);
+      loadParcours({ variables: dataToSend });
+    }
+  };
+  const onSelect = (s: { label: string; value: { id: string } }) => {
+    setSelectedRegion(s.value.id);
+    setSearchRegion(s.label);
+    setOpenRegion(false);
+    loadParcours({ variables: { region: s.value.id } });
+  };
+  const onClearSelect = () => {
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, filterFormation: selectedDegree[0] } });
+    setSearchRegion('');
+    setSelectedRegion('');
   };
   /* {
       title: "Structures d'accueil potentielles",
@@ -368,6 +478,14 @@ const Parcours = () => {
   ); */
   const divAcc = useRef<HTMLDivElement>(null);
   useOnclickOutside(divAcc, () => setOpenAcc(false));
+
+  const handleSendMailConfirm = () => {
+    sendMailCall({ variables: { userId: sendMailUserInfo.id } });
+  };
+
+  useEffect(() => {
+    setShowSendMailModal(false);
+  }, [sendMailState.data]);
 
   return (
     <>
@@ -395,17 +513,49 @@ const Parcours = () => {
                   colorArrow="#2979ff"
                 />
               </FormControl>
+              <FormControlLabel
+                className={classes.selectContainer}
+                control={(
+                  <Checkbox
+                    checked={isRecoByClubOnly}
+                    onChange={() => changeRecommended(!isRecoByClubOnly)}
+                    name="isRecoByClubOnly"
+                  />
+                )}
+                label="Recommandé par un club"
+              />
+              <FormControl className={classes.selectContainer}>
+                <AutoComplete
+                  onChange={(e) => {
+                    setSearchRegion(e.target.value);
+                    setOpenRegion(true);
+                  }}
+                  onSelectText={onSelect}
+                  value={searchRegion}
+                  name="location"
+                  placeholder="region..."
+                  options={regionalContextState.data?.regionsContext}
+                  type="location"
+                  open={openRegion}
+                  setOpen={setOpenRegion}
+                />
+                {selectedRegion && (
+                  <div className={classes.clearSelect}>
+                    <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
+                  </div>
+                )}
+              </FormControl>
             </div>
           </Grid>
           <Grid item xs={12}>
             {customFilterGroup && (
               <Table
-                onPageChange={() => null}
-                count={customFilterGroup.length}
+                onPageChange={(e) => loadParcours({ variables: { page: e } })}
+                count={data?.myGroup.count}
                 data={customFilterGroup}
-                totalPages={0}
+                totalPages={data?.myGroup.totalPages || 0}
                 headers={headers}
-                currentPage={1}
+                currentPage={current}
               />
             )}
           </Grid>
@@ -467,6 +617,49 @@ const Parcours = () => {
           confirmationAffectationCall={confirmationAffectation}
           confirmationAffectationData={confirmationAffectationState}
         />
+      )}
+      {showSendMailModal && (
+        <ModalContainer
+          open={showSendMailModal}
+          handleClose={() => setShowSendMailModal(false)}
+          backdropColor="primary"
+          colorIcon="#4D6EC5"
+          title="Envoi de mail"
+          size={77}
+        >
+          <DialogContent>
+            <Typography align="center" variant="h6">
+              <div>
+                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour les informer
+                de l&apos;affectation :
+              </div>
+              <div>
+                Candidat :
+{' '}
+{sendMailUserInfo?.profile.firstName}
+{' '}
+{sendMailUserInfo?.profile.lastName}
+              </div>
+              <div>
+Club :
+{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}
+              </div>
+            </Typography>
+            <div style={{ textAlign: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: '1em' }}
+                onClick={handleSendMailConfirm}
+              >
+                OUI
+              </Button>
+              <Button variant="contained" color="primary" onClick={() => setShowSendMailModal(false)}>
+                NON
+              </Button>
+            </div>
+          </DialogContent>
+        </ModalContainer>
       )}
     </>
   );

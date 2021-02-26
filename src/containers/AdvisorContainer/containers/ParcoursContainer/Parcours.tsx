@@ -312,7 +312,7 @@ const Parcours = () => {
             case 'PENDING':
               return <span>En attente du retour candidat</span>;
             case 'AWAITING_ADVISOR':
-              return (
+              return user?.codeRegionCampus ? <span>En attente de pré-affectation PE</span> : (
                 <Button variant="contained" size="small" color="primary" onClick={() => handleOpenAffectationPE(row)}>
                   En attente de pré-affectation
                 </Button>

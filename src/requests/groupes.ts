@@ -4,8 +4,14 @@ import { useLocalLazyQuery } from '../hooks/apollo';
 import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
-  query myGroup($page: Int, $perPage: Int, $filterFormation: String, $isRecommended: Boolean) {
-    myGroup(page: $page, perPage: $perPage, filterFormation: $filterFormation, isRecommended: $isRecommended) {
+  query myGroup($page: Int, $perPage: Int, $filterFormation: String, $isRecommended: Boolean, $region: String) {
+    myGroup(
+      page: $page
+      perPage: $perPage
+      filterFormation: $filterFormation
+      isRecommended: $isRecommended
+      region: $region
+    ) {
       perPage
       page
       count
@@ -24,6 +30,10 @@ export const MyGroupInfoQuery = gql`
           comment
           degree
           perimeter
+        }
+        contextRegional {
+          _id
+          label
         }
         addressCodes {
           postCode

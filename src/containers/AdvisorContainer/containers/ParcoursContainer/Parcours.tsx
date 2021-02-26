@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, FormControl, Checkbox, FormControlLabel } from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
-
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
 import { useMyGroup } from 'requests/groupes';
+import { useRegionContextQuery } from 'requests/regionContext';
 import { useDidMount } from 'hooks/useLifeCycle';
 import Table, { Header } from 'components/ui/Table/Table';
 import useOnclickOutside from 'hooks/useOnclickOutside';
@@ -50,9 +51,14 @@ const Parcours = () => {
   const { user } = useContext(userContext);
   const [loadParcours, { data, loading }] = useMyGroup({ fetchPolicy: 'network-only', variables: { perPage: 20 } });
   const [updateUserCall, updateUserState] = useUpdateUser();
+  const [getRegionalContext, regionalContextState] = useRegionContextQuery();
   const [openAcc, setOpenAcc] = useState(false);
   const [isRecoByClubOnly, setIsRecoByClubOnly] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [openRegion, setOpenRegion] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [searchRegion, setSearchRegion] = useState('');
+
   const [current, setCurrent] = useState(1);
 
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
@@ -86,6 +92,7 @@ const Parcours = () => {
   useDidMount(() => {
     loadParcours();
     configCall();
+    getRegionalContext();
   });
   useEffect(() => {
     if (confirmationAffectationState.data) {
@@ -179,6 +186,12 @@ const Parcours = () => {
       dataIndex: 'location',
       render: (value, row) =>
         value ? `${value} ${row.addressCodes.postCode ? row.addressCodes.postCode : ''}` : '---',
+    },
+    {
+      title: `Région__________`,
+      key: 'contextRegional',
+      dataIndex: 'contextRegional',
+      render: (value) => value && `${value.label}`,
     },
     {
       title: 'Niveau du candidat',
@@ -331,13 +344,14 @@ const Parcours = () => {
       headers.push(...(rowRegional as any));
     }
   }
-  const dataToSend: { isRecommended?: boolean; filterFormation?: string } = {};
+  const dataToSend: { isRecommended?: boolean; filterFormation?: string; region?: string } = {};
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...selectedDegree];
       array[0] = label;
       dataToSend.filterFormation = label;
       dataToSend.isRecommended = isRecoByClubOnly;
+      dataToSend.region = selectedRegion;
       if (label !== 'Toutes les formations') {
         setSelectedDegree(array);
         loadParcours({ variables: dataToSend });
@@ -354,15 +368,23 @@ const Parcours = () => {
     if (selectedDegree.length !== 0) {
       dataToSend.filterFormation = selectedDegree[0];
     }
+    dataToSend.region = selectedRegion;
+
     if (state) {
       setIsRecoByClubOnly(state);
-
       loadParcours({ variables: dataToSend });
     } else {
       setIsRecoByClubOnly(false);
       loadParcours({ variables: dataToSend });
     }
   };
+  const onSelect = (s: { label: string; value: { id: string } }) => {
+    setSelectedRegion(s.value.id);
+    setSearchRegion(s.label);
+    setOpenRegion(false);
+    loadParcours({ variables: { region: s.value.id } });
+  };
+
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
@@ -424,6 +446,22 @@ const Parcours = () => {
                 )}
                 label="Recommandé par un club"
               />
+              <FormControl className={classes.selectContainer}>
+                <AutoComplete
+                  onChange={(e) => {
+                    setSearchRegion(e.target.value);
+                    setOpenRegion(true);
+                  }}
+                  onSelectText={onSelect}
+                  value={searchRegion}
+                  name="location"
+                  placeholder="region..."
+                  options={regionalContextState.data?.regionsContext}
+                  type="location"
+                  open={openRegion}
+                  setOpen={setOpenRegion}
+                />
+              </FormControl>
             </div>
           </Grid>
           <Grid item xs={12}>

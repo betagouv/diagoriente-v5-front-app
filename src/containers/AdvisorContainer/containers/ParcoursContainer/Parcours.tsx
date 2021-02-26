@@ -16,6 +16,7 @@ import CardContainer from 'containers/ProfilContainer/containers/CardContainer';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import carte from 'assets/svg/carte.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
+import close from 'assets/svg/close.svg';
 import { useUpdateVisualisation, useUpdateUser } from 'requests/user';
 import ParcourQuality, { qualities } from 'containers/AdvisorContainer/components/ParcourQuality/ParcourQuality';
 import { jsonToCSV, downloadCSV } from 'utils/csv';
@@ -31,6 +32,28 @@ const useStyles = makeStyles(() => ({
   },
   selectContainer: {
     marginLeft: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: 20,
+  },
+  clearSelect: {
+    width: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2979ff',
+    color: 'white',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    marginTop: 1,
+    cursor: 'pointer',
+    transform: 'translateX(5px)',
+    transitionTimingFunction: 'ease-in',
+    transition: '0.2s',
+  },
+  logoClear: {
+    width: 16,
+    height: 16,
   },
   styleSelect: {
     border: '1px solid #424242',
@@ -386,7 +409,11 @@ const Parcours = () => {
     setOpenRegion(false);
     loadParcours({ variables: { region: s.value.id } });
   };
-
+  const onClearSelect = () => {
+    setSearchRegion('');
+    setSelectedRegion('');
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, region: selectedRegion } });
+  };
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
@@ -463,6 +490,11 @@ const Parcours = () => {
                   open={openRegion}
                   setOpen={setOpenRegion}
                 />
+                {searchRegion && (
+                  <div className={classes.clearSelect}>
+                    <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
+                  </div>
+                )}
               </FormControl>
             </div>
           </Grid>

@@ -630,13 +630,13 @@ const Parcours = () => {
           <DialogContent>
             <Typography align="center" variant="h6">
               <div>
-                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour leur informer
+                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour les informer
                 de l&apos;affectation :
               </div>
               <div>
-                Candidat : 
+                Candidat :
 {' '}
-{sendMailUserInfo?.profile.firstName} 
+{sendMailUserInfo?.profile.firstName}
 {' '}
 {sendMailUserInfo?.profile.lastName}
               </div>

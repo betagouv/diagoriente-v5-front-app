@@ -561,7 +561,15 @@ const Parcours = () => {
           <Grid item xs={12}>
             {customFilterGroup && (
               <Table
-                onPageChange={(e) => loadParcours({ variables: { page: e } })}
+                onPageChange={(e) =>
+                  loadParcours({
+                    variables: {
+                      page: e,
+                      isRecommended: isRecoByClubOnly,
+                      filterFormation: selectedDegree[0],
+                      region: selectedRegion,
+                    },
+                  })}
                 count={data?.myGroup.count}
                 data={customFilterGroup}
                 totalPages={data?.myGroup.totalPages || 0}
@@ -647,9 +655,14 @@ const Parcours = () => {
               <div>
                 Candidat : 
 {' '}
-{sendMailUserInfo?.profile.firstName} {sendMailUserInfo?.profile.lastName}
+{sendMailUserInfo?.profile.firstName} 
+{' '}
+{sendMailUserInfo?.profile.lastName}
               </div>
-              <div>Club :{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}</div>
+              <div>
+Club :
+{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}
+              </div>
             </Typography>
             <div style={{ textAlign: 'center' }}>
               <Button

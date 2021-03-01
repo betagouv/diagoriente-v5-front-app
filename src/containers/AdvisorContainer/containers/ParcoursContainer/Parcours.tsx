@@ -450,7 +450,7 @@ const Parcours = () => {
     setSelectedRegion(s.value.id);
     setSearchRegion(s.label);
     setOpenRegion(false);
-    loadParcours({ variables: { region: s.value.id } });
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, region: s.value.id } });
   };
   const onClearSelect = () => {
     loadParcours({ variables: { isRecommended: isRecoByClubOnly, filterFormation: selectedDegree[0] } });
@@ -535,7 +535,7 @@ const Parcours = () => {
                   onSelectText={onSelect}
                   value={searchRegion}
                   name="location"
-                  placeholder="region..."
+                  placeholder="Filtrer par région"
                   options={regionalContextState.data?.regionsContext}
                   type="location_admin"
                   open={openRegion}
@@ -645,7 +645,7 @@ const Parcours = () => {
                 l&apos;affectation :
               </div>
               <div>
-                Candidat : 
+                Candidat :
 {' '}
 {sendMailUserInfo?.profile.firstName} {sendMailUserInfo?.profile.lastName}
               </div>

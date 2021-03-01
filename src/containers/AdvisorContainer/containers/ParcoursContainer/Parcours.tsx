@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
+import AdminAutocomplete from 'components/inputs/AdminAutocomplete/AdminAutocomplete';
+
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
 import { MyGroupInfoQuery, useMyGroup } from 'requests/groupes';
@@ -535,10 +537,19 @@ const Parcours = () => {
                   name="location"
                   placeholder="region..."
                   options={regionalContextState.data?.regionsContext}
-                  type="location"
+                  type="location_admin"
                   open={openRegion}
                   setOpen={setOpenRegion}
                 />
+                {/* <AdminAutocomplete
+                  handleOptions={(interest) => ({ label: interest.nom, value: interest.id })}
+                  value={values.interests}
+                  label="Intérêts"
+                  multiple
+                  list={useInterests}
+                  onChange={(e, v) => setValues({ interests: v })}
+                  className={classes.interests}
+                /> */}
                 {selectedRegion && (
                   <div className={classes.clearSelect}>
                     <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
@@ -630,20 +641,15 @@ const Parcours = () => {
           <DialogContent>
             <Typography align="center" variant="h6">
               <div>
-                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour les informer
-                de l&apos;affectation :
+                Confirmez-vous l&apos;envoi de 2 mails, l&apos;un au candidat, l&apos;autre au club pour les informer de
+                l&apos;affectation :
               </div>
               <div>
-                Candidat :
+                Candidat : 
 {' '}
-{sendMailUserInfo?.profile.firstName}
-{' '}
-{sendMailUserInfo?.profile.lastName}
+{sendMailUserInfo?.profile.firstName} {sendMailUserInfo?.profile.lastName}
               </div>
-              <div>
-Club :
-{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}
-              </div>
+              <div>Club :{sendMailUserInfo?.wc2023Affectation?.finalClub?.name}</div>
             </Typography>
             <div style={{ textAlign: 'center' }}>
               <Button

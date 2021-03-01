@@ -5,10 +5,10 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme: Theme) =>
   createStyles({
     appBar: {
       height: HEADER_HEIGHT,
-      background: (props) => props.isCampus ? '#19194b' : theme.palette.background.default,
+      background: (props) => (props.isCampus ? '#19194b' : theme.palette.background.default),
       display: 'flex',
       justifyContent: 'center',
-      zIndex: 1400,
+      zIndex: 1320,
     },
 
     toolbarContainer: {
@@ -27,8 +27,8 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme: Theme) =>
       alignItems: 'center',
     },
     imageDimentions: {
-      width: (props) => props.isCampus ? 376 : 161,
-      height: (props) => props.isCampus ? 31 : 44,
+      width: (props) => (props.isCampus ? 376 : 161),
+      height: (props) => (props.isCampus ? 31 : 44),
     },
     menuIcon: {
       marginRight: 8,
@@ -46,4 +46,5 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
     },
-  }));
+  }),
+);

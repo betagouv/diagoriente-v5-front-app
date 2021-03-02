@@ -489,6 +489,17 @@ const Parcours = () => {
     setShowSendMailModal(false);
   }, [sendMailState.data]);
 
+  const onLoadNextPage = (e: number) => {
+    if (isRecoByClubOnly) dataToSend.isRecommended = isRecoByClubOnly;
+    if (selectedRegion) dataToSend.region = selectedRegion;
+    if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
+    loadParcours({
+      variables: {
+        page: e,
+        ...dataToSend,
+      },
+    });
+  };
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
@@ -561,15 +572,7 @@ const Parcours = () => {
           <Grid item xs={12}>
             {customFilterGroup && (
               <Table
-                onPageChange={(e) =>
-                  loadParcours({
-                    variables: {
-                      page: e,
-                      isRecommended: isRecoByClubOnly,
-                      filterFormation: selectedDegree[0],
-                      region: selectedRegion,
-                    },
-                  })}
+                onPageChange={(e) => onLoadNextPage(e)}
                 count={data?.myGroup.count}
                 data={customFilterGroup}
                 totalPages={data?.myGroup.totalPages || 0}
@@ -653,7 +656,7 @@ const Parcours = () => {
                 l&apos;affectation :
               </div>
               <div>
-                Candidat :
+                Candidat : 
 {' '}
 {sendMailUserInfo?.profile.firstName} 
 {' '}

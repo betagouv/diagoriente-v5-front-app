@@ -8,12 +8,11 @@ import {
   IconButton,
   Typography,
   Box,
-  DialogContent,
+  DialogContent, 
 } from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
-import AdminAutocomplete from 'components/inputs/AdminAutocomplete/AdminAutocomplete';
-
+import Input from 'components/inputs/Input/Input';
 import Tooltip from '@material-ui/core/Tooltip';
 import userContext from 'contexts/UserContext';
 import { MyGroupInfoQuery, useMyGroup } from 'requests/groupes';
@@ -39,8 +38,7 @@ import { useGetConfigCampus, useConfirmationAffectation } from '../../../../requ
 import VerifiedIcon from '../../../AdminContainer/components/VerifiedIcon/VerifiedIcon';
 import ModalAffectationPE from '../../components/ModalAffectationPE/ModalAffectationPE';
 import ModalAffectationConfirmation from '../../components/ModalConfirmationAffectation/ModalConfirmationAffectation';
-
-const useStyles = makeStyles(() => ({
+ const useStyles = makeStyles(() => ({
   customTooltip: {
     fontSize: 16,
   },
@@ -65,6 +63,24 @@ const useStyles = makeStyles(() => ({
     transitionTimingFunction: 'ease-in',
     transition: '0.2s',
   },
+  clearSearch: {
+    width: 30,
+    height:34,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2979ff',
+    color: 'white',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    marginTop: 10,
+    cursor: 'pointer',
+    transitionTimingFunction: 'ease-in',
+    transition: '0.2s',
+    marginRight:10,
+    marginLeft:-23,
+    zIndex:9999
+  },
   logoClear: {
     width: 16,
     height: 16,
@@ -76,6 +92,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
   },
+  button: {
+    alignSelf: 'flex-start',
+    marginTop: '7px',
+  }
 }));
 const listAccData = [
   { id: 'bac', title: 'Toutes les formations' },
@@ -95,7 +115,7 @@ const Parcours = () => {
   const [openRegion, setOpenRegion] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState('');
   const [searchRegion, setSearchRegion] = useState('');
-
+  const [search,setSearch] = useState('');
   const [current, setCurrent] = useState(1);
 
   const [showAffectationPEModal, setShowAffectationPEModal] = useState(false);
@@ -190,6 +210,10 @@ const Parcours = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
+    useEffect(()=>{
+         
+
+    },[search])
   const exportCSV = () => {
     if (data) {
       const csv = jsonToCSV(
@@ -412,7 +436,7 @@ const Parcours = () => {
       headers.push(...(rowRegional as any));
     }
   }
-  const dataToSend: { isRecommended?: boolean; filterFormation?: string; region?: string } = {};
+  const dataToSend: { isRecommended?: boolean; filterFormation?: string; region?: string ,search?:string} = {};
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...selectedDegree];
@@ -450,13 +474,26 @@ const Parcours = () => {
     setSelectedRegion(s.value.id);
     setSearchRegion(s.label);
     setOpenRegion(false);
-    loadParcours({ variables: { isRecommended: isRecoByClubOnly, region: s.value.id } });
+    const quereySearch = search.trim() !==''?{search:search.trim()}:{};
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, region: s.value.id,...quereySearch } });
   };
   const onClearSelect = () => {
-    loadParcours({ variables: { isRecommended: isRecoByClubOnly, filterFormation: selectedDegree[0] } });
+    const quereySearch = search.trim() !==''?{search:search.trim()}:{};
+
+    loadParcours({ variables: { isRecommended: isRecoByClubOnly, filterFormation: selectedDegree[0],...quereySearch } });
     setSearchRegion('');
     setSelectedRegion('');
   };
+
+  const onClearSearch = ()=>{
+    if (isRecoByClubOnly) dataToSend.isRecommended = isRecoByClubOnly;
+      if (selectedRegion) dataToSend.region = selectedRegion;
+      if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
+    loadParcours({ variables: {  ...dataToSend } });
+    setSearch('');
+  
+  } ;
+   
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
@@ -493,6 +530,7 @@ const Parcours = () => {
     if (isRecoByClubOnly) dataToSend.isRecommended = isRecoByClubOnly;
     if (selectedRegion) dataToSend.region = selectedRegion;
     if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
+    if(search.trim()!=='')dataToSend.search=search;
     loadParcours({
       variables: {
         page: e,
@@ -500,6 +538,21 @@ const Parcours = () => {
       },
     });
   };
+  const onSearchValid = ()=>{
+    if (isRecoByClubOnly) dataToSend.isRecommended = isRecoByClubOnly;
+      if (selectedRegion) dataToSend.region = selectedRegion;
+      if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
+    if( search.trim() !==''){
+      
+      dataToSend.search=search.trim();
+      loadParcours({
+        variables: {
+           
+          ...dataToSend,
+        },
+      })
+    }
+   }
   return (
     <>
       {loading && <p>Chargement des données ...</p>}
@@ -561,6 +614,38 @@ const Parcours = () => {
                   )}
                 </FormControl>
               )}
+
+<FormControl className={classes.selectContainer}>
+
+                   <Input
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      
+                    }}
+                    
+                     value={search}
+                    name="Search"
+                    placeholder="Recherche utilisateur..."
+                     id='search'
+                    type="text"
+                    label='Recherche :'
+                     
+                    
+                  /> 
+                    {search.trim() !=='' && (
+                    <div className={classes.clearSearch}>
+                      <img onClick={onClearSearch} src={close} alt="close" className={classes.logoClear} />
+                    </div>
+                  )}
+                  <Button
+            onClick={ onSearchValid}
+            className={classes.button}
+            color="primary"
+            variant="contained"
+          >
+            Filtrer
+          </Button>
+</FormControl>
             </div>
           </Grid>
           <Grid item xs={12}>

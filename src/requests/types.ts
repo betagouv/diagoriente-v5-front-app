@@ -378,6 +378,7 @@ export interface StructureWC2023 {
       name: string;
     },
   ];
+  fnv1a32_hash: number;
 }
 export interface Stat {
   userId: string;

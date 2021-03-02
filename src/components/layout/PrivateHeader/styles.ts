@@ -8,7 +8,7 @@ export default makeStyles<Theme, { isCampus?: boolean }>((theme: Theme) =>
       background: (props) => (props.isCampus ? '#19194b' : theme.palette.background.default),
       display: 'flex',
       justifyContent: 'center',
-      zIndex: 1302,
+      zIndex: 1400,
     },
 
     toolbarContainer: {

@@ -26,25 +26,27 @@ const Livemap2023 = () => {
   const { data: candidateData, loading: loadingCandidates } = useQuery(
     gql`
       {
-        allCandidates {
-          id
-          email
-          location
-          validateCampus
-          profile {
-            firstName
-            lastName
-          }
-          coordinates {
-            lattitude
-            longitude
-          }
-          wc2023 {
-            formation
-            degree
-            perimeter
-            birthdate
-          }
+        myGroup(perPage: 3000) {
+            data {
+                id
+                email
+                location
+                validateCampus
+                profile {
+                    firstName
+                    lastName
+                }
+                coordinates {
+                    lattitude
+                    longitude
+                }
+                wc2023 {
+                    formation
+                    degree
+                    perimeter
+                    birthdate
+                }
+            }
         }
       }
     `,
@@ -55,7 +57,6 @@ const Livemap2023 = () => {
     gql`
       {
         allStructures {
-          club_code
           name
           licensed_text
           city
@@ -63,6 +64,7 @@ const Livemap2023 = () => {
             lat
             lng
           }
+          fnv1a32_hash
         }
       }
     `,
@@ -72,14 +74,14 @@ const Livemap2023 = () => {
     gql`
       query($userId: ID!) {
         eligibleStructures(userId: $userId) {
-          club_code
+          fnv1a32_hash
         }
       }
     `,
   );
 
   const eligibleClubCodes = useMemo(
-    () => (perimeterView && eligibleData ? eligibleData.eligibleStructures.map((v: any) => v.club_code) : []),
+    () => (perimeterView && eligibleData ? eligibleData.eligibleStructures.map((v: any) => v.fnv1a32_hash) : []),
     [eligibleData, perimeterView],
   );
 
@@ -116,14 +118,14 @@ const Livemap2023 = () => {
     c.wc2023.birthdate !== '';
 
   const filteredUsers = useMemo(() => {
-    if (!candidateData || !candidateData.allCandidates) return null;
+    if (!candidateData || !candidateData.myGroup.data) return null;
 
     const result: { validCandidates: User[]; invalidDataCandidates: User[] } = {
       validCandidates: [],
       invalidDataCandidates: [],
     };
 
-    candidateData.allCandidates.forEach((u: User) => {
+    candidateData.myGroup.data.forEach((u: User) => {
       if (isValidUserData(u)) result.validCandidates.push(u);
       else result.invalidDataCandidates.push(u);
     });
@@ -153,10 +155,8 @@ const Livemap2023 = () => {
       iconSize: L.point(40, 40, true),
     });
 
-  if (user?.role === 'admin' || (user?.role === 'advisor' && user?.email === 'drcampus2023@diagoriente.fr')) {
-    console.log('utilisateur autorisé');
-  } else {
-    return <Redirect to="/login?from=%2Fcampus2023-livemap%2F" />;
+  if (!(user?.role === 'admin' || (user?.role === 'advisor' && user?.codeRegionCampus))) {
+    return <Redirect to='/login?from=%2Fcampus2023-livemap%2F' />;
   }
 
   const markerIconForCandidate = (c: User, isValid: boolean) => (
@@ -174,10 +174,10 @@ const Livemap2023 = () => {
             <strong>Adresse email :</strong>
           </dt>
           <dd>{c.email}</dd>
-          <dt>
+          {/*<dt>
             <strong>Date de naissance :</strong>
           </dt>
-          <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('DD/MM/YYYY') : 'N/A'}</dd>
+          <dd>{c.wc2023?.birthdate ? moment(c.wc2023?.birthdate).format('DD/MM/YYYY') : 'N/A'}</dd>*/}
           <dt>
             <strong>Niveau de diplôme :</strong>
           </dt>
@@ -261,9 +261,9 @@ const Livemap2023 = () => {
               {clubData &&
                 clubData.allStructures.map((c: StructureWC2023) => (
                   <Marker
-                    key={c.club_code}
+                    key={c.fnv1a32_hash}
                     position={[c.geolocation.lat || 0, c.geolocation.lng || 0]}
-                    icon={eligibleClubCodes.find((v: any) => v === c.club_code) ? eligibleIcon : clubIcon}
+                    icon={eligibleClubCodes.find((v: any) => v === c.fnv1a32_hash) ? eligibleIcon : clubIcon}
                     onMouseOver={handleMarkerMoouseHover}
                     onMouseOut={handleMarkerMouseOut}
                   >

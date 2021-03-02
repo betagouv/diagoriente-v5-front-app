@@ -4,13 +4,14 @@ import { useLocalLazyQuery } from '../hooks/apollo';
 import { User } from './types';
 
 export const MyGroupInfoQuery = gql`
-  query myGroup($page: Int, $perPage: Int, $filterFormation: String, $isRecommended: Boolean, $region: String) {
+  query myGroup($page: Int, $perPage: Int, $filterFormation: String, $isRecommended: Boolean, $region: String,$search:String) {
     myGroup(
       page: $page
       perPage: $perPage
       filterFormation: $filterFormation
       isRecommended: $isRecommended
-      region: $region
+      region: $region,
+      search:$search
     ) {
       perPage
       page

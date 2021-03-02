@@ -537,36 +537,30 @@ const Parcours = () => {
                 )}
                 label="Recommandé par un club"
               />
-              <FormControl className={classes.selectContainer}>
-                <AutoComplete
-                  onChange={(e) => {
-                    setSearchRegion(e.target.value);
-                    setOpenRegion(true);
-                  }}
-                  onSelectText={onSelect}
-                  value={searchRegion}
-                  name="location"
-                  placeholder="Filtrer par région"
-                  options={regionalContextState.data?.regionsContext}
-                  type="location_admin"
-                  open={openRegion}
-                  setOpen={setOpenRegion}
-                />
-                {/* <AdminAutocomplete
-                  handleOptions={(interest) => ({ label: interest.nom, value: interest.id })}
-                  value={values.interests}
-                  label="Intérêts"
-                  multiple
-                  list={useInterests}
-                  onChange={(e, v) => setValues({ interests: v })}
-                  className={classes.interests}
-                /> */}
-                {selectedRegion && (
-                  <div className={classes.clearSelect}>
-                    <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
-                  </div>
-                )}
-              </FormControl>
+              {user?.codeRegionCampus && (
+                <FormControl className={classes.selectContainer}>
+                  <AutoComplete
+                    onChange={(e) => {
+                      setSearchRegion(e.target.value);
+                      setOpenRegion(true);
+                    }}
+                    onSelectText={onSelect}
+                    value={searchRegion}
+                    name="location"
+                    placeholder="Filtrer par région"
+                    options={regionalContextState.data?.regionsContext}
+                    type="location_admin"
+                    open={openRegion}
+                    setOpen={setOpenRegion}
+                  />
+
+                  {selectedRegion && (
+                    <div className={classes.clearSelect}>
+                      <img onClick={onClearSelect} src={close} alt="close" className={classes.logoClear} />
+                    </div>
+                  )}
+                </FormControl>
+              )}
             </div>
           </Grid>
           <Grid item xs={12}>

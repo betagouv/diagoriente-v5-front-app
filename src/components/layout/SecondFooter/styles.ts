@@ -3,16 +3,16 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) =>
   createStyles({
     footerContainer: {
-      paddingTop: 45,
-      paddingBottom: 25,
+      paddingTop: 55,
+      paddingBottom: 35,
       background: '#FFFFFF',
       display: 'flex',
       overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: 14,
-      paddingLeft: 180,
-      paddingRight: 180,
+      paddingLeft: 50,
+      paddingRight: 50,
       [theme.breakpoints.down('md')]: {
         paddingRight: 30,
         paddingLeft: 30,
@@ -37,9 +37,7 @@ export default makeStyles((theme) =>
     },
 
     iconContainer: {
-      [theme.breakpoints.down('xs')]: {
-        display: 'flex',
-        justifyContent: 'center',
-      },
+      margin: 10,
     },
-  }));
+  }),
+);

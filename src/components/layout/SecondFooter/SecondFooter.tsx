@@ -6,6 +6,8 @@ import dgefp from 'assets/svg/dgefp.svg';
 import idtm from 'assets/svg/idtm.svg';
 import beta from 'assets/svg/logobeta.svg';
 import plan from 'assets/svg/gdplan.svg';
+import minister from 'assets/svg/ministere.png';
+import Jeunes from 'assets/svg/logo.svg';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -27,6 +29,12 @@ const SecondFooter = ({ className }: IProps) => {
         </Grid>
         <Grid item xs={12} sm={3} md={2} lg={2} className={classes.iconContainer}>
           <img src={dgefp} alt="dgefp" width={144} />
+        </Grid>
+        <Grid item xs={12} sm={3} md={2} lg={2} className={classes.iconContainer}>
+          <img src={minister} alt="dgefp" width={210} />
+        </Grid>
+        <Grid item xs={12} sm={3} md={2} lg={2} className={classes.iconContainer}>
+          <img src={Jeunes} alt="dgefp" width={144} />
         </Grid>
         <Grid item xs={12} sm={3} md={2} lg={2} className={classes.iconContainer}>
           <img src={idtm} alt="idtm" width={84} />

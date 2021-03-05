@@ -105,4 +105,21 @@ export default makeStyles({
     alignItems: 'center',
     height: '200px',
   },
+  messages: {
+    backgroundColor: '#fff1f6',
+    width: '100%',
+    height: 110,
+    marginTop: -20,
+    marginBottom: 15,
+    padding: '0px 20px',
+  },
+  contentMessage: {
+    maxWidth: 1080,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+  },
 });

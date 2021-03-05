@@ -38,7 +38,7 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
     user?.wc2023.quality &&
     user?.wc2023.quality !== 'refused' &&
     user?.wc2023Affectation?.status === 'PENDING' &&
-  statusConfig;
+    statusConfig;
 
   const getState = (index: number) => {
     switch (open) {
@@ -108,11 +108,11 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMeConnaitre,
         initialChildren: (
           <div className={classes.contentChild}>
-            Identifier mes
+            Identifier mes 
 {' '}
 <span className={classes.bold}>compétences</span>
             <br />
-            et explorer mes
+            et explorer mes 
 {' '}
 <span className={classes.bold}>intérêts</span>
           </div>
@@ -155,7 +155,7 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMeProtejer,
         initialChildren: (
           <div className={classNames(classes.contentChild, classes.black)}>
-            Découvrir des
+            Découvrir des 
 {' '}
 <span className={classes.bold}>métiers</span> et identifier mon
 {' '}
@@ -176,7 +176,7 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
         image: IlluMengager,
         initialChildren: (
           <div className={classes.contentChild}>
-            Faire mes
+            Faire mes 
 {' '}
 <span className={classes.bold}>choix</span> et identifier des
 {' '}
@@ -211,6 +211,12 @@ const HomeCompleted = ({ statusConfig }: IPropsHomeCompleted) => {
   return (
     <>
       <div className={classes.container}>
+        {user?.isCampus && user.validateCampus && user.wc2023Affectation.status === 'AWAITING_CAMPUS2023' && (
+          <div className={classes.messages}>
+            <p className={classes.text}> Les affectations sont en cours. </p>
+            <p className={classes.text}> Vous allez connaître votre affectation définitive à partir du 15 mars. </p>
+          </div>
+        )}
         <div className={classes.profileHeader}>MON PROFIL</div>
         <Avatar className={classes.logo} src={user?.logo ? user?.logo : defaultAvatar} />
         <div className={classes.info}>Ma carte de compétences, mes infos..</div>

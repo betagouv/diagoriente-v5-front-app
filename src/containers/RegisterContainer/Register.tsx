@@ -68,7 +68,7 @@ const Register = () => {
     required: ['firstName', 'lastName', 'email', 'password', 'logo', 'location'],
   });
   const { values, errors, touched } = state;
-  const [locationCall, { data, loading }] = useLocation({ variables: { search } });
+  const [locationCall, { data }] = useLocation({ variables: { search } });
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -121,6 +121,8 @@ const Register = () => {
       }
     }
   }, [registerState.error]);
+
+  console.log({ errorFormObject });
 
   useEffect(() => {
     if (values.acceptCondition) {
@@ -295,9 +297,7 @@ const Register = () => {
                 <Grid item xs={12} sm={4} md={5} lg={5}>
                   <div className={classes.labelContainer}>
                     <div className={classes.label}>
-                      Ta ville de résidence 
-{' '}
-<span className={classes.requiredInput}>*</span>
+                      Ta ville de résidence <span className={classes.requiredInput}>*</span>
                     </div>
                   </div>
                 </Grid>
@@ -328,7 +328,7 @@ const Register = () => {
               value={values.codeGroupe}
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
-              error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
+              error={touched.codeGroupe && errors.codeGroupe !== '' && errorFormObject.key === 'codeGroupe'}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
@@ -356,12 +356,9 @@ const Register = () => {
                       color="#011A5E"
                     />
                     <div className={classes.conditionText} onClick={onClickCondition}>
-                      J&lsquo;accepte les
-{' '}
-                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span>
-{' '}
-de Diagoriente
-<span className={classes.start}>*</span>
+                      J&lsquo;accepte les{' '}
+                      <span className={classes.conditionColorText}>conditions d&lsquo;utilisation</span> de Diagoriente
+                      <span className={classes.start}>*</span>
                     </div>
                   </div>
                   <div className={classes.errorText}>{errorCondition}</div>

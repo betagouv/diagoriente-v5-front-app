@@ -430,7 +430,7 @@ const ImmersionContainer = ({
       setOpenLocation(false);
       const gps = [e.value.coordinates[0], e.value.coordinates[1]];
       setCoordinates(gps);
-      setInsee(e.value.postcode);
+      setInsee(   parseInt(e.value.postcode ) );
     }
   };
   const onSelectImmersion = (e: any | undefined) => {

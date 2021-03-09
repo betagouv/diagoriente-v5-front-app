@@ -191,7 +191,7 @@ const JobContainer = ({
   };
   const onClickImmersion = () => {
     setErrorLocation(true);
-    if (selectedLocation) {
+    if (selectedLocation && coordinates[0] && coordinates[1]) {
       history.push({
         pathname: `/jobs/immersion/${param}`,
         search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
@@ -248,6 +248,7 @@ const JobContainer = ({
             </div>
             <div className={classes.immersionFormContainer}>
               <ImmersionForm
+                coordinates={coordinates.map((c) => Number(c))}
                 filteredArray={filteredArray}
                 onChangeImmersion={onChangeImmersion}
                 onSelectImmersion={onSelectImmersion}
@@ -302,8 +303,7 @@ const JobContainer = ({
               <div>
                 <span className={classes.infoInterestPurpleText}>
                   {`${matchedInterest.length} intérêts sur ${data?.job.interests.length}`}
-                </span>
-{' '}
+                </span>{' '}
                 en commun avec les tiens.
               </div>
               <div>

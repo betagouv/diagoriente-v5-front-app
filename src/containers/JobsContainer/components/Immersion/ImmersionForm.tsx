@@ -29,6 +29,7 @@ interface IProps {
   setInsee?: (e: number) => void;
   updated?: boolean;
   disableFirstInput?: boolean;
+  coordinates: number[];
 }
 
 const ImmersionForm = ({
@@ -52,6 +53,7 @@ const ImmersionForm = ({
   setInsee,
   disableFirstInput,
   updated,
+  coordinates,
 }: IProps) => {
   const classes = useStyles();
   const typeFilter = [
@@ -62,6 +64,7 @@ const ImmersionForm = ({
       label: 'entreprise',
     },
   ];
+
   return (
     <div className={classes.immersion}>
       <div className={classes.logoContainer}>
@@ -110,7 +113,7 @@ const ImmersionForm = ({
           icon={LogoLocation}
           type="location"
           open={openLocation}
-          error={errorLocation && !selectedLocation}
+          error={Boolean(errorLocation && !(selectedLocation && coordinates[0] && coordinates[1]))}
           setOpen={setOpenLocation}
           setCoordinates={setCoordinates}
           setInsee={setInsee}

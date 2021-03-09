@@ -106,7 +106,7 @@ const ImmersionContainer = ({
 
   const [immersionCall, immersionState] = useImmersion();
   const [formationCall, formationState] = useFormation();
-  const [updateStatCall, updateStatState] = useUpdateStat();
+  const [updateStatCall] = useUpdateStat();
   const [jobsListCall, jobsListState] = useJobsList();
   const [labelsCall, labelsStats] = useFormationLabels();
 
@@ -144,6 +144,7 @@ const ImmersionContainer = ({
     setInsee(Number(codePost));
     setUpdate(Boolean(updated));
   }, [latitude, longitude, selectedLoc, romeCodes, data, setSelectedLocation, typeApi, codePost, updated]);
+
   useEffect(() => {
     if (
       (romeCodes || selectedImmersionCode) &&
@@ -500,6 +501,7 @@ const ImmersionContainer = ({
             {update ? (
               <div className={classes.immersionFormContainer}>
                 <ImmersionForm
+                  coordinates={coordinates}
                   filteredArray={filteredArray}
                   onChangeImmersion={onChangeImmersion}
                   onSelectImmersion={onSelectImmersion}
@@ -526,17 +528,9 @@ const ImmersionContainer = ({
                   <div className={classes.textTitle}>MA RECHERCHE</div>
                 </div>
                 <div>
-                  Je recherche une 
-{' '}
-<strong>immersion</strong> pour le métier de
-                  <b> 
-{' '}
-{data?.job.title}
-{' '}
- </b>
-à{` ${selectedLoc}`}
-.
-</div>
+                  Je recherche une <strong>immersion</strong> pour le métier de
+                  <b> {data?.job.title} </b>à{` ${selectedLoc}`}.
+                </div>
                 <div className={classes.edit}>
                   <img src={Edit} alt="" />
                   <div className={classes.textEdit} onClick={() => setUpdate(!update)}>
@@ -753,8 +747,7 @@ const ImmersionContainer = ({
           <div className={classes.message}>
             <img src={attention} height={29} width={29} className={classes.iconAttention} alt=" " />
             Attention : l&rsquo;immersion est un dispositif bien encadré, ne commence jamais sans avoir au préalable
-            rempli une convention avec ta structure d’accueil!
-{' '}
+            rempli une convention avec ta structure d’accueil!{' '}
           </div>
           <Button ArrowColor="#011A5E" classNameTitle={classes.btnLabel} className={classes.btn} onClick={handleOk}>
             <div className={classes.okButton}>

@@ -8,7 +8,7 @@ import {
   IconButton,
   Typography,
   Box,
-  DialogContent, 
+  DialogContent,
 } from '@material-ui/core';
 import Select from 'containers/JobsContainer/components/Select/Select';
 import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
@@ -211,7 +211,7 @@ const Parcours = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmationAffectationState.data]);
     useEffect(()=>{
-         
+
 
     },[search])
   const exportCSV = () => {
@@ -364,7 +364,10 @@ const Parcours = () => {
         title: 'Envoi mail',
         key: 'email',
         render: (value: any, row: any) => {
+          if (!row.wc2023Affectation.finalClub) return null;
           if (row.wc2023Affectation.finalSendMail) return 'OK';
+          else if (!row.wc2023Affectation.finalClub.referrer || !row.wc2023Affectation.finalClub.referrer[0] || !row.wc2023Affectation.finalClub.referrer[0].email)
+            return "Email référent invalide";
           return (
             row.wc2023Affectation.finalClub &&
             !row.wc2023Affectation.finalSendMail && (
@@ -491,9 +494,9 @@ const Parcours = () => {
       if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
     loadParcours({ variables: {  ...dataToSend } });
     setSearch('');
-  
+
   } ;
-   
+
   /* {
       title: "Structures d'accueil potentielles",
       key: 'structures',
@@ -543,11 +546,11 @@ const Parcours = () => {
       if (selectedRegion) dataToSend.region = selectedRegion;
       if (selectedDegree.length !== 0) dataToSend.filterFormation = selectedDegree[0];
     if( search.trim() !==''){
-      
+
       dataToSend.search=search.trim();
       loadParcours({
         variables: {
-           
+
           ...dataToSend,
         },
       })
@@ -620,18 +623,18 @@ const Parcours = () => {
                    <Input
                     onChange={(e) => {
                       setSearch(e.target.value);
-                      
+
                     }}
-                    
+
                      value={search}
                     name="Search"
                     placeholder="Recherche utilisateur..."
                      id='search'
                     type="text"
                     label='Recherche :'
-                     
-                    
-                  /> 
+
+
+                  />
                     {search.trim() !=='' && (
                     <div className={classes.clearSearch}>
                       <img onClick={onClearSearch} src={close} alt="close" className={classes.logoClear} />
@@ -735,9 +738,9 @@ const Parcours = () => {
                 l&apos;affectation :
               </div>
               <div>
-                Candidat : 
+                Candidat :
 {' '}
-{sendMailUserInfo?.profile.firstName} 
+{sendMailUserInfo?.profile.firstName}
 {' '}
 {sendMailUserInfo?.profile.lastName}
               </div>

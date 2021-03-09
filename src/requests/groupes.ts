@@ -47,6 +47,9 @@ export const MyGroupInfoQuery = gql`
           finalClub {
             id
             name
+              referrer {
+                  email
+              }
           }
           finalSendMail
           staps

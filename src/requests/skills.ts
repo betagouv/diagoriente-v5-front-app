@@ -151,8 +151,8 @@ export const useLazySkill = (options: LazyQueryHookOptions<SkillData, SkillArgum
   useLocalLazyQuery(getSkillQuery, options);
 
 export const addSkillMutation = gql`
-  mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput) {
-    addSkill(theme: $theme, activities: $activities, competences: $competences , engagement:$engagement) {
+  mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput, $startDate: String, $endDate:String, $extraActivity:String) {
+    addSkill(theme: $theme, activities: $activities, competences: $competences , engagement: $engagement, startDate: $startDate, endDate: $endDate, extraActivity:$extraActivity) {
       ${parcourResult}
     }
   }
@@ -165,6 +165,9 @@ export interface addSkillArguments {
     _id: string;
     value: number;
   }[];
+  startDate?: string;
+  endDate?: string;
+  extraActivity?: string;
   engagement?: {
     startDate: string;
     endDate: string;
@@ -196,6 +199,9 @@ export interface updateSkillArguments {
     _id: string;
     value: number;
   }[];
+  startDate?: string;
+  endDate?: string;
+  extraActivity?: string;
   engagement?: {
     startDate: string;
     endDate: string;
@@ -207,8 +213,8 @@ export interface updateSkillArguments {
 }
 
 export const updateSkillMutation = gql`
-  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType] , $engagement: skillEngagementInput) {
-    updateSkill(id: $id, activities: $activities, competences: $competences , engagement : $engagement) {
+  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType] , $engagement: skillEngagementInput,$startDate: String, $endDate:String, $extraActivity:String ) {
+    updateSkill(id: $id, activities: $activities, competences: $competences , engagement : $engagement,startDate: $startDate, endDate: $endDate, extraActivity:$extraActivity) {
       ${parcourResult}
     }
   }

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField/TextField';
 
 import { useTheme } from 'requests/themes';
 import { Theme } from 'requests/types';
@@ -30,17 +31,32 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   activities: Activity[];
   setActivities: (activities: Activity[]) => void;
   isCreate?: boolean;
+  setExtraActivity: (e: string) => void;
+  extraActivity: string;
 }
 
-const ExperienceActivity = ({ match, activities, setActivities, history, theme, isCreate, location }: Props) => {
+const ExperienceActivity = ({
+  match,
+  activities,
+  setActivities,
+  history,
+  theme,
+  isCreate,
+  location,
+  setExtraActivity,
+  extraActivity,
+}: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {
     setActivities([...activities, activite]);
   };
-
+  console.log('extraActivity', extraActivity.length);
   const deleteActivity = (id: string) => {
     setActivities(activities.filter((act) => act.id !== id));
+  };
+  const onExtraActivity = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setExtraActivity(e.target.value);
   };
 
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
@@ -113,11 +129,30 @@ const ExperienceActivity = ({ match, activities, setActivities, history, theme, 
                 );
               })}
           </div>
+          <div className={classes.extraActivityContainer}>
+            <p className={classes.labelExtraActivity}>Ou décris toi-même une activité:</p>
+            <TextField
+              name="activity"
+              value={extraActivity}
+              placeholder="Ecrivez ici votre activité (140 caractères max)"
+              onChange={onExtraActivity}
+              InputProps={{
+                classes: {
+                  input: classes.defaultValue,
+                },
+              }}
+              classes={{ root: classes['MuiTextField-root'] }}
+              rows={3}
+              multiline
+              className={classes.textArea}
+              variant="outlined"
+            />
+          </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton disabled={!activities.length} />
+            <NextButton disabled={extraActivity.length === 0 && activities.length === 0} />
           </Link>
         </div>
         {isCreate && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo, useRef } from 'react';
 import path from 'path';
 import moment from 'moment';
 import { useWillUnmount } from 'hooks/useLifeCycle';
@@ -24,6 +24,7 @@ import DoneCompetences from './containers/DoneCompetences/DoneCompetences';
 import EngagementActivites from './containers/EngagementActivities/EngagementActivities';
 import EngagementContext from './containers/EngagementContext/EngagementContext';
 import EngagementDate from './containers/EngagementDate/EngagementDate';
+import SkillDate from './containers/SkillDate/SkillDate';
 
 import useStyles from './style';
 
@@ -51,6 +52,10 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(moment().format('YYYY-MM-DD'));
 
+  const startDateSkill = useRef('');
+  const endDateSkill = useRef('');
+  const [extraActivity, setExtraActivity] = useState('');
+
   const [optionActivities, setOptionActivities] = useState([[]] as { id: string; title: string }[][]);
   const [activity, setActivity] = useState('');
 
@@ -70,6 +75,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       setActivities(selectedSkill.activities);
       setCompetences(selectedSkill.competences.map((c) => c._id));
       setCompetencesValues(selectedSkill.competences.map((c) => ({ id: c._id.id, value: c.value })));
+      startDateSkill.current = selectedSkill.startDate;
+      endDateSkill.current = selectedSkill.endDate;
+      setExtraActivity(selectedSkill.extraActivity);
       if (selectedSkill.engagement) {
         setContext(selectedSkill.engagement.context?.id);
         setStartDate(moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD'));
@@ -172,6 +180,20 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     } // eslint-disable-next-line
   }, [context, match.params.themeId]);
 
+  useEffect(() => {
+    const d = localStorage.getItem('extraActivity');
+    if (d && !selectedSkillId) {
+      const extraActivityData = JSON.parse(d);
+      setExtraActivity(extraActivityData.theme === match.params.themeId ? extraActivityData.extraActivity : '');
+    } // eslint-disable-next-line
+  }, [match.params.themeId]);
+
+  useEffect(() => {
+    if (!selectedSkillId) {
+      localStorage.setItem('extraActivity', JSON.stringify({ theme: match.params.themeId, extraActivity }));
+    } // eslint-disable-next-line
+  }, [context, match.params.themeId]);
+
   const addSkill = () => {
     if (data?.theme.type === 'engagement') {
       history.push(`/experience/skill/${match.params.themeId}/context`);
@@ -180,6 +202,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         variables: {
           theme: data.theme.id,
           activities: activities.map((a) => a.id),
+          startDate: startDateSkill.current,
+          endDate: endDateSkill.current,
+          extraActivity,
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
@@ -213,6 +238,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         variables: {
           id: selectedSkillId,
           activities: activities.map((a) => a.id),
+          startDate: startDateSkill.current,
+          endDate: endDateSkill.current,
+          extraActivity,
           competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
         },
       });
@@ -242,7 +270,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       setParcours(addSkillState.data.addSkill);
       history.push({
         pathname: `/experience/skill/${match.params.themeId}/success`,
-        search: redirect ? redirect : 'add',
+        search: redirect || 'add',
       });
       localStorage.removeItem('theme');
       localStorage.removeItem('activities');
@@ -250,6 +278,10 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('competencesValues');
       localStorage.removeItem('optionActivities');
       localStorage.removeItem('context');
+      //
+      localStorage.removeItem('startDate');
+      localStorage.removeItem('endDate');
+      localStorage.removeItem('extraActivity');
     } // eslint-disable-next-line
   }, [addSkillState.data, addSkillState.called]);
 
@@ -267,6 +299,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       localStorage.removeItem('competencesValues');
       localStorage.removeItem('optionActivities');
       localStorage.removeItem('context');
+      localStorage.removeItem('startDate');
+      localStorage.removeItem('endDate');
+      localStorage.removeItem('extraActivity');
     } // eslint-disable-next-line
   }, [updateSkillState.data, updateSkillState.called]);
   useWillUnmount(() => {
@@ -277,6 +312,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     localStorage.removeItem('optionActivities');
     localStorage.removeItem('context');
     localStorage.removeItem('activity');
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+    localStorage.removeItem('extraActivity');
   });
   if (loading || skillState.loading) {
     return (
@@ -291,7 +329,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   if (match.isExact) {
     return <Redirect to={path.join(match.url, `/activities${location.search}`)} />;
   }
-
   const activitiesTitles =
     data?.theme.type === 'engagement'
       ? optionActivities.map((e) => e.map((o) => o.title).join(' '))
@@ -324,6 +361,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 isCreate={!selectedSkillId}
                 activities={activities}
                 setActivities={setActivities}
+                extraActivity={extraActivity}
+                setExtraActivity={setExtraActivity}
                 theme={data.theme}
               />
             )
@@ -354,8 +393,6 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 competencesValues={competencesValues}
                 setCompetencesValues={setCompetencesValues}
                 competences={competences}
-                addSkill={selectedSkillId ? editSkill : addSkill}
-                addSkillState={selectedSkillId ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
                 isCreate={!selectedSkillId}
                 activities={activitiesTitles}
@@ -386,6 +423,29 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             />
           )}
           path={`${match.path}/date`}
+          exact
+        />
+        <Route
+          render={(props) => {
+            if (!competences.length) return <Redirect to={path.join(match.url, `/competences${location.search}`)} />;
+            return (
+              <SkillDate
+                {...props}
+                addSkill={selectedSkillId ? editSkill : addSkill}
+                addSkillState={selectedSkillId ? updateSkillState.loading : addSkillState.loading}
+                theme={data.theme}
+                startDateSkill={startDateSkill.current}
+                endDateSkill={endDateSkill.current}
+                onSubmit={(start, end) => {
+                  startDateSkill.current = start;
+                  endDateSkill.current = end;
+                  const fn = selectedSkillId ? editSkill : addSkill;
+                  fn();
+                }}
+              />
+            );
+          }}
+          path={`${match.path}/SkillDate`}
           exact
         />
         <Route

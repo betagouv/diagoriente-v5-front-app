@@ -10,7 +10,7 @@ import { echelon, echelonValue } from 'utils/generic';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
-import Button from 'components/nextButton/nextButton';
+import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 
@@ -27,8 +27,6 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   competencesValues: CompetenceValues[];
   setCompetencesValues: (CompetencesValues: CompetenceValues[]) => void;
   competences: Competence[];
-  addSkill: () => void;
-  addSkillState: boolean;
   theme: Theme | null;
   isCreate?: boolean;
   activities: string[];
@@ -39,8 +37,6 @@ const SkillCompetencesValues = ({
   competencesValues,
   setCompetencesValues,
   competences,
-  addSkill,
-  addSkillState,
   history,
   theme,
   isCreate,
@@ -204,11 +200,12 @@ const SkillCompetencesValues = ({
               })}
             </div>
           </div>
-          <Button
-            fetching={addSkillState}
-            disabled={!(competencesValues.length === competences.length)}
-            onClick={addSkill}
-          />
+          <Link
+            to={`/experience/skill/${match.params.themeId}/SkillDate${location.search}`}
+            className={classes.hideLine}
+          >
+            <NextButton disabled={!competences.length || competences.length > 4} />
+          </Link>
         </div>
 
         <Link

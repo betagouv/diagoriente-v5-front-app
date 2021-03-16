@@ -51,7 +51,6 @@ const ExperienceActivity = ({
   const addActivity = (activite: Activity) => {
     setActivities([...activities, activite]);
   };
-  console.log('extraActivity', extraActivity.length);
   const deleteActivity = (id: string) => {
     setActivities(activities.filter((act) => act.id !== id));
   };

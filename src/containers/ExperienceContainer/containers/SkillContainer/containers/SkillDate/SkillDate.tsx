@@ -101,7 +101,6 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
       setError('');
     }
   }, [yearStart, monthStart]);
-  console.log('monthStart', monthStart);
   return (
     <div className={classes.root}>
       <div className={classes.container}>

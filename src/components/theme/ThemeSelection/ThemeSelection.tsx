@@ -19,20 +19,17 @@ interface Props {
 
 const PrivateHeader = ({ theme, activities }: Props) => {
   const { user } = useContext(userContext);
+  const { open, setOpen } = useContext(SelectionContext);
 
   const classes = useStyles({ theme, isCampus: user?.isCampus });
   const location = useLocation();
   const isTheme = Boolean(matchPath(location.pathname, { path: '/experience/theme', exact: true }));
   const isAct = Boolean(matchPath(location.pathname, { path: '/experience/skill/:id/activities', exact: true }));
   const [isFirstTheme, setIsFirstTheme] = useState(false);
-  const [isFirst, setIsFirst] = useState(false);
-  const actRef = useRef(activities.length);
   const [EffectState, setEffectState] = useState(false);
-  const { open, setOpen } = useContext(SelectionContext);
   const toggle = () => {
     setOpen(!open);
   };
-
   useEffect(() => {
     if (theme && isTheme && !isFirstTheme) {
       setOpen(true);
@@ -41,27 +38,12 @@ const PrivateHeader = ({ theme, activities }: Props) => {
   }, [theme, isTheme, isFirstTheme, setOpen]);
 
   useEffect(() => {
-    if (!isFirst && activities.length === 1) {
-      // eslint-disable-next-line
-      setIsFirst(true);
-      setOpen(true);
-    }
-  }, [activities, setOpen, isAct, isFirst]);
-
-  useEffect(() => {
-    if (activities.length !== actRef.current) setEffectState(true);
-  }, [activities.length]);
-
-  useEffect(() => {
     if (EffectState) {
       setTimeout(() => {
         setEffectState(false);
       }, 500);
     }
   }, [EffectState]);
-  useWillUnmount(() => {
-    setOpen(false);
-  });
   return (
     <div className={classes.appBar}>
       <div onClick={toggle} className={classes.container}>

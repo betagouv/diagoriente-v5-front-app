@@ -49,20 +49,21 @@ export default makeStyles((theme: Theme) =>
       textDecoration: 'underline',
       fontWeight: 'bold',
     },
+    wrapperDates: { width: '100%', display: 'flex', justifyContent: 'space-around' },
+    dateWrapper: { display: 'flex', marginTop: 20 },
     date: {
       display: 'flex',
       flexDirection: 'column',
       // alignItems: 'center',
       marginTop: 15,
     },
-
     text: {
       marginRight: 10,
       color: '#5A6170',
       fontWeight: 'bold',
       fontSize: 16,
     },
-
+    subText: { color: '#00B2DB', marginLeft: 14 },
     dateContainer: {
       marginTop: 35,
     },
@@ -73,6 +74,9 @@ export default makeStyles((theme: Theme) =>
       width: 73,
       height: 39,
       marginLeft: 20,
+    },
+    error: {
+      color: 'red',
     },
   }),
 );

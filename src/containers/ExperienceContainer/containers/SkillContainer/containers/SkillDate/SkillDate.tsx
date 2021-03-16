@@ -56,6 +56,8 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
   const [isOpenStart, setIsOpenStart] = useState(false);
   const [isOpenEnd, setIsOpenEnd] = useState(false);
 
+  const [error, setError] = useState('');
+
   const [yearStart, setYearStart] = useState('');
   const [yearEnd, setYearEnd] = useState('');
 
@@ -80,10 +82,14 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
   };
 
   const checkDate = () => {
-    onSubmit(
-      new Date(`${yearStart}-${monthStart}-01`).toISOString(),
-      new Date(`${yearEnd}-${monthEnd}-01`).toISOString(),
-    );
+    if (yearStart && monthStart) {
+      onSubmit(
+        new Date(`${yearStart}-${monthStart}-01`).toISOString(),
+        new Date(`${yearEnd}-${monthEnd}-01`).toISOString(),
+      );
+    } else {
+      setError('saisie au moins la date de début');
+    }
   };
 
   return (
@@ -108,12 +114,13 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
             Pour finir, à quelles dates s’est déroulée cette
             <br /> expérience perso ?
           </p>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+          <div className={classes.wrapperDates}>
+            <div className={classes.error}>{error}</div>
             <div className={classes.date}>
               <span className={classes.text}>
-                Date de début <span style={{ color: '#00B2DB', marginLeft: 14 }}>(obligatoire)</span>
+                Date de début <span className={classes.subText}>(obligatoire)</span>
               </span>
-              <div style={{ display: 'flex', marginTop: 20 }}>
+              <div className={classes.dateWrapper}>
                 <Select
                   value={monthStart}
                   placeholder="mois"
@@ -135,9 +142,9 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
             </div>
             <div className={classes.date}>
               <span className={classes.text}>
-                Date de fin <span style={{ color: '#00B2DB', marginLeft: 14 }}>(optionnelle)</span>
+                Date de fin <span className={classes.subText}>(optionnelle)</span>
               </span>
-              <div style={{ display: 'flex', marginTop: 20 }}>
+              <div className={classes.dateWrapper}>
                 <Select
                   value={monthEnd}
                   placeholder="mois"

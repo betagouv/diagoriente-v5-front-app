@@ -147,6 +147,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                     id={s.id}
                     competence={s.competences}
                     title={s.theme.title}
+                    endDate={s.theme.type !== 'engagement' ? s.endDate : s.engagement?.endDate}
+                    startDate={s.theme.type !== 'engagement' ? s.startDate : s.engagement?.startDate}
                     src={
                       type === 'professional'
                         ? secteurs?.themes.data.find((secteur) => secteur.id === s.theme.parentId)?.resources?.icon

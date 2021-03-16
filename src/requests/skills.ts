@@ -25,6 +25,9 @@ export const getSkillsQuery = gql`
           description
           id
         }
+        startDate
+        endDate
+        extraActivity
         competences {
           _id {
             title
@@ -97,6 +100,9 @@ export const getSkillQuery = gql`
         description
         id
       }
+      startDate
+      endDate
+      extraActivity
       competences {
         _id {
           title

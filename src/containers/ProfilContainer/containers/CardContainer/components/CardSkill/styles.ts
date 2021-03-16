@@ -59,4 +59,10 @@ export default makeStyles<Theme, { recommended?: Boolean }>(() => ({
       left: 0,
     },
   },
+  date: {
+    fontSize: 12,
+    color: '#808080',
+    marginLeft: 5,
+    paddingTop: 3,
+  },
 }));

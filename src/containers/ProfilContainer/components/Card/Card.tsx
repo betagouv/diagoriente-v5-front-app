@@ -5,6 +5,7 @@ import Button from 'components/actionsButton/ActionsButton';
 import editIcon from 'assets/svg/editblue.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
 import removeIcon from 'assets/svg/delete.svg';
+import moment from 'moment';
 
 import { Competence } from 'requests/types';
 import useStyles from './styles';
@@ -21,10 +22,23 @@ interface Props {
   src?: string;
   type?: string;
   icon?: string;
+  endDate?: string;
+  startDate?: string;
 }
 
 const Card = ({
- title, src, className, competence, id, edit, remove, recommendation, type, icon,
+  title,
+  src,
+  className,
+  competence,
+  id,
+  edit,
+  remove,
+  recommendation,
+  endDate,
+  startDate,
+  type,
+  icon,
 }: Props) => {
   const classes = useStyles();
   const Tab = [
@@ -56,7 +70,14 @@ const Card = ({
       <div className={classes.root}>
         <div className={classes.titleContainer}>
           {src && <img src={src} alt="" className={classes.image} height={65} width={65} />}
-          <span className={classes.title}>{title}</span>
+          <span className={classes.title}>
+            {title}
+            <br />
+            <span className={classes.date}>
+              {startDate && `${moment(startDate).format('YYYY-MM-DD')}`}
+              {endDate && ` / ${moment(endDate).format('YYYY-MM-DD')}`}
+            </span>
+          </span>
           {icon && <img src={icon} alt="" className={classes.icon} height={44} width={44} />}
         </div>
 

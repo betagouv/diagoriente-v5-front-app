@@ -7,13 +7,13 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import medaille from 'assets/svg/picto_medaille.svg';
+import moment from 'moment';
 import Comment from '../Comment/Comment';
-
 import useStyles from './styles';
 
 interface CardSkill extends SkillType {}
 
-const CardSkill = ({ comment: allComments, theme, activities, engagement }: CardSkill) => {
+const CardSkill = ({ comment: allComments, theme, activities, engagement, startDate, endDate }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
   const act = theme.type === 'engagement' ? engagement?.options : activities;
@@ -29,6 +29,10 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement }: Card
         <div className={classes.skillHeader}>
           <div className={classes.themeTitle}>
             {theme.title}
+            <span className={classes.date}>
+              {startDate && `${moment(startDate).format('YYYY-MM-DD')}`}
+              {endDate && ` / ${moment(endDate).format('YYYY-MM-DD')}`}
+            </span>
             {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
           </div>
         </div>

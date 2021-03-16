@@ -431,11 +431,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
             return (
               <SkillDate
                 {...props}
-                addSkill={selectedSkillId ? editSkill : addSkill}
                 addSkillState={selectedSkillId ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
-                startDateSkill={startDateSkill.current}
-                endDateSkill={endDateSkill.current}
                 onSubmit={(start, end) => {
                   startDateSkill.current = start;
                   endDateSkill.current = end;

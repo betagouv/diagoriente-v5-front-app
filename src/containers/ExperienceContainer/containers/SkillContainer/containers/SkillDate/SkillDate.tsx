@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import moment from 'moment';

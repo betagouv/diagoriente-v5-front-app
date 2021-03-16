@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import moment from 'moment';
@@ -62,7 +62,10 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
   const [yearEnd, setYearEnd] = useState('');
 
   const [monthStart, setMonthStart] = useState('');
+  const [monthStartText, setMonthStartText] = useState('');
+
   const [monthEnd, setMonthEnd] = useState('');
+  const [monthEndText, setMonthEndText] = useState('');
 
   useOnclickOutside(startRef, () => {
     if (isOpenStart) setIsOpenStart(false);
@@ -71,12 +74,14 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
     if (isOpenEnd) setIsOpenEnd(false);
   });
 
-  const onClickItem = (e: any, type: string) => {
+  const onClickItem = (e: { label: string; value: string }, type: string) => {
     if (type === 'begin') {
-      setMonthStart(e);
+      setMonthStart(e.value);
+      setMonthStartText(e.label);
       setIsOpenStart(false);
     } else {
-      setMonthEnd(e);
+      setMonthEnd(e.value);
+      setMonthEndText(e.label);
       setIsOpenEnd(false);
     }
   };
@@ -91,7 +96,12 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
       setError('saisie au moins la date de début');
     }
   };
-
+  useEffect(() => {
+    if (yearStart && monthStart) {
+      setError('');
+    }
+  }, [yearStart, monthStart]);
+  console.log('monthStart', monthStart);
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -114,15 +124,16 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
             Pour finir, à quelles dates s’est déroulée cette
             <br /> expérience perso ?
           </p>
+          <div className={classes.error}>{error}</div>
+
           <div className={classes.wrapperDates}>
-            <div className={classes.error}>{error}</div>
             <div className={classes.date}>
               <span className={classes.text}>
                 Date de début <span className={classes.subText}>(obligatoire)</span>
               </span>
               <div className={classes.dateWrapper}>
                 <Select
-                  value={monthStart}
+                  value={monthStartText}
                   placeholder="mois"
                   name="monthStart"
                   isOpen={isOpenStart}
@@ -146,7 +157,7 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
               </span>
               <div className={classes.dateWrapper}>
                 <Select
-                  value={monthEnd}
+                  value={monthEndText}
                   placeholder="mois"
                   name="monthEnd"
                   isOpen={isOpenEnd}

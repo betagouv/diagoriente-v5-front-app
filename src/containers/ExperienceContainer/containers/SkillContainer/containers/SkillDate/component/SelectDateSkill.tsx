@@ -12,7 +12,7 @@ interface Props {
   isOpen: boolean;
   options: { label: string; value: string }[];
   name: string;
-  onClickItem: (e: string) => void;
+  onClickItem: (e: { label: string; value: string }) => void;
 }
 
 const SelectDateSkill = forwardRef<HTMLDivElement, Props>(
@@ -37,7 +37,7 @@ const SelectDateSkill = forwardRef<HTMLDivElement, Props>(
           <div className={classes.options}>
             {options.map((opt) => {
               return (
-                <div key={opt.label} style={{ width: '33%', height: 39 }} onClick={() => onClickItem(opt.value)}>
+                <div key={opt.label} style={{ width: '33%', height: 39 }} onClick={() => onClickItem(opt)}>
                   <p className={classNames(classes.option, opt.value === value && classes.selected)}>{opt.label}</p>
                   <div style={{ marginTop: 4, height: 1, width: '100%', backgroundColor: '#C9C9C7' }} />
                 </div>

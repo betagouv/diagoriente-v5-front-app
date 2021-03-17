@@ -110,6 +110,31 @@ const SkillDate = ({
       setError('saisie au moins la date de début');
     }
   };
+  const renderType = (text?: string) => {
+    let type = '';
+    if (text) {
+      switch (text) {
+        case 'personal': {
+          type = 'personnelle';
+          break;
+        }
+        case 'professional': {
+          type = 'professionnelle';
+          break;
+        }
+        case 'sport': {
+          type = 'sportive';
+          break;
+        }
+        default: {
+          type = 'personnelle';
+          break;
+        }
+      }
+    }
+
+    return type;
+  };
   useEffect(() => {
     if (yearStart && monthStart) {
       setError('');
@@ -135,7 +160,7 @@ const SkillDate = ({
           <TitleImage title="5." image={blueline} color="#223A7A" width={180} />
           <p className={classes.title}>
             Pour finir, à quelles dates s’est déroulée cette
-            <br /> expérience perso ?
+            <br /> expérience {renderType(theme?.type)} ?
           </p>
           <div className={classes.error}>{error}</div>
 

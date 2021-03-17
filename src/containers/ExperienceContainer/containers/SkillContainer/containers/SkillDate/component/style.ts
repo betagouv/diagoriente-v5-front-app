@@ -12,6 +12,7 @@ export default makeStyles((theme: Theme) =>
       borderRadius: '5px 0px 0px 5px',
       width: 146,
       height: 39,
+      paddingLeft: 10,
     },
     arrowContainer: {
       background: '#00CFFF',

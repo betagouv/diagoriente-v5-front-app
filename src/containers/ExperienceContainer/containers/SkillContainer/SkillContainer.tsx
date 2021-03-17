@@ -195,9 +195,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [context, match.params.themeId]);
 
   const addSkill = () => {
-    if (data?.theme.type === 'engagement') {
-      history.push(`/experience/skill/${match.params.themeId}/context`);
-    } else if (data) {
+    if (data) {
       addSkillCall({
         variables: {
           theme: data.theme.id,
@@ -365,8 +363,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setExtraActivity={setExtraActivity}
                 theme={data.theme}
               />
-            )
-          }
+            )}
           path={`${match.path}/activities`}
           exact
         />

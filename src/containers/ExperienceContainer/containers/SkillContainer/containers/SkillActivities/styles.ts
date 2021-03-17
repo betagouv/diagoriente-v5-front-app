@@ -164,29 +164,32 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
+      padding: '0px 74px 40px 70px;',
     },
     'MuiTextField-root': {
       '& fieldset': {
         display: 'none',
       },
     },
-    labelExtraActivity: {
-      marginLeft: 30,
-    },
+    labelExtraActivity: {},
     textArea: {
       background: '#FFFF',
       borderRadius: 5,
       resize: 'none',
-      width: '85%',
-      maxWidth: WIDTH,
+      width: '90%',
       border: '1px solid #00CFFF',
-      marginBottom: 50,
-      margin: '0px 30px',
     },
 
     defaultValue: {
       fontSize: 14,
       color: '#6B6B6A',
+    },
+    activityCaracter: {
+      margin: 2,
+      color: theme.palette.error.main,
+      width: '90%',
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
   }),
 );

@@ -49,7 +49,7 @@ export default makeStyles((theme: Theme) =>
       textDecoration: 'underline',
       fontWeight: 'bold',
     },
-    wrapperDates: { width: '100%', display: 'flex', justifyContent: 'space-around' },
+    wrapperDates: { width: '100%', display: 'flex', justifyContent: 'space-evenly' },
     dateWrapper: { display: 'flex', marginTop: 20 },
     date: {
       display: 'flex',
@@ -73,7 +73,8 @@ export default makeStyles((theme: Theme) =>
       borderRadius: '5px',
       width: 73,
       height: 39,
-      marginLeft: 20,
+      marginLeft: 10,
+      paddingLeft: 5,
     },
     error: {
       color: 'red',

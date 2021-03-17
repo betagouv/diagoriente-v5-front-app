@@ -146,6 +146,7 @@ const ExperienceActivity = ({
               className={classes.textArea}
               variant="outlined"
             />
+            <p className={classes.activityCaracter}>{140 - extraActivity.length} caractères restant</p>
           </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}

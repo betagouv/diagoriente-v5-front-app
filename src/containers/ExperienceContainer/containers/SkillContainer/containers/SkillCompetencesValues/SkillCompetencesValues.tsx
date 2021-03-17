@@ -201,7 +201,9 @@ const SkillCompetencesValues = ({
             </div>
           </div>
           <Link
-            to={`/experience/skill/${match.params.themeId}/SkillDate${location.search}`}
+            to={`/experience/skill/${match.params.themeId}${theme?.type !== 'engagement' ? '/SkillDate' : '/context'}${
+              location.search
+            }`}
             className={classes.hideLine}
           >
             <NextButton disabled={!competences.length || competences.length > 4} />

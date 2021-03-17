@@ -58,12 +58,32 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
 
   const [optionActivities, setOptionActivities] = useState([[]] as { id: string; title: string }[][]);
   const [activity, setActivity] = useState('');
+  const [errorText, setErrorText] = useState('');
 
   const [addSkillCall, addSkillState] = useAddSkill();
   const [updateSkillCall, updateSkillState] = useUpdateSkill();
 
   const showSelection = matchPath(location.pathname, [`${match.path}/activities`, `${match.path}/competences`]);
 
+  const renderError = () => {
+    let localText = '';
+    const isBeginDateValid = moment(startDateSkill.current).isAfter(moment());
+    const isEndDateValid = moment(endDateSkill.current).isBefore(moment(startDateSkill.current));
+    // comments
+    if (isBeginDateValid) {
+      localText = "Date de début competence doit être inférieure à aujourd'hui";
+      return localText;
+    }
+    if (endDateSkill.current) {
+      if (isEndDateValid) {
+        localText = 'Date de fin competence doit être supérieur à date de début';
+        return localText;
+      }
+    } else {
+      localText = '';
+      return localText;
+    }
+  };
   useEffect(() => {
     if (selectedSkillId) skillCall({ variables: { id: selectedSkillId } });
     // eslint-disable-next-line
@@ -195,17 +215,23 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   }, [context, match.params.themeId]);
 
   const addSkill = () => {
-    if (data) {
-      addSkillCall({
-        variables: {
-          theme: data.theme.id,
-          activities: activities.map((a) => a.id),
-          startDate: startDateSkill.current,
-          endDate: endDateSkill.current,
-          extraActivity,
-          competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
-        },
-      });
+    const error = renderError();
+    if (!error) {
+      if (data) {
+        setErrorText('');
+        addSkillCall({
+          variables: {
+            theme: data.theme.id,
+            activities: activities.map((a) => a.id),
+            startDate: startDateSkill.current,
+            endDate: endDateSkill.current,
+            extraActivity,
+            competences: competencesValues.map((competence) => ({ _id: competence.id, value: competence.value })),
+          },
+        });
+      }
+    } else {
+      setErrorText(error);
     }
   };
 
@@ -430,9 +456,12 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 {...props}
                 addSkillState={selectedSkillId ? updateSkillState.loading : addSkillState.loading}
                 theme={data.theme}
+                startDate={startDateSkill.current}
+                endDate={endDateSkill.current}
+                errorText={errorText}
                 onSubmit={(start, end) => {
                   startDateSkill.current = start;
-                  endDateSkill.current = end;
+                  if (end) endDateSkill.current = end;
                   const fn = selectedSkillId ? editSkill : addSkill;
                   fn();
                 }}

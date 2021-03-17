@@ -79,5 +79,14 @@ export default makeStyles((theme: Theme) =>
     error: {
       color: 'red',
     },
+    errorText: {
+      display: 'flex',
+      alignItems: 'center',
+      height: 20,
+      fontSize: 14,
+      color: theme.palette.error.main,
+      marginLeft: 32,
+      marginTop: 30,
+    },
   }),
 );

@@ -88,5 +88,12 @@ export default makeStyles((theme: Theme) =>
       marginLeft: 32,
       marginTop: 30,
     },
+    exampleDate: {
+      display: 'flex',
+      alignSelf: 'center',
+      color: '#6B6B6A',
+      marginLeft: 10,
+      fontSize: 12,
+    },
   }),
 );

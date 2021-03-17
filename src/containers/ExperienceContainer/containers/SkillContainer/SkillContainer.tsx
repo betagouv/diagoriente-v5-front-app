@@ -71,12 +71,12 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
     const isEndDateValid = moment(endDateSkill.current).isBefore(moment(startDateSkill.current));
     // comments
     if (isBeginDateValid) {
-      localText = "Date de début competence doit être inférieure à aujourd'hui";
+      localText = 'La date début doit être ultérieur à la date actuelle!';
       return localText;
     }
     if (endDateSkill.current) {
       if (isEndDateValid) {
-        localText = 'Date de fin competence doit être supérieur à date de début';
+        localText = 'La date de fin doit être supérieur à la date de début!';
         return localText;
       }
     } else {

@@ -162,6 +162,7 @@ const SkillDate = ({
                   onChange={(e) => setYearStart(e.target.value)}
                   type="number"
                 />
+                <span className={classes.exampleDate}>Ex: 2018</span>
               </div>
             </div>
             <div className={classes.date}>
@@ -186,6 +187,7 @@ const SkillDate = ({
                   onChange={(e) => setYearEnd(e.target.value)}
                   type="number"
                 />
+                <span className={classes.exampleDate}>Ex: 2018</span>
               </div>
             </div>
           </div>

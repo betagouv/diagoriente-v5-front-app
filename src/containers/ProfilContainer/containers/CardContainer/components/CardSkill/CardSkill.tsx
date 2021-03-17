@@ -10,8 +10,10 @@ import medaille from 'assets/svg/picto_medaille.svg';
 import moment from 'moment';
 import Comment from '../Comment/Comment';
 import useStyles from './styles';
+import 'moment/locale/fr';
 
 interface CardSkill extends SkillType {}
+moment.locale('fr');
 
 const CardSkill = ({ comment: allComments, theme, activities, engagement, startDate, endDate }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
@@ -30,8 +32,8 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement, startD
           <div className={classes.themeTitle}>
             {theme.title}
             <span className={classes.date}>
-              {startDate && `${moment(startDate).format('YYYY-MM-DD')}`}
-              {endDate && ` / ${moment(endDate).format('YYYY-MM-DD')}`}
+              {startDate && `${moment(startDate).format('MMMM - YYYY')}`}
+              {endDate && ` / ${moment(endDate).format('MMMM - YYYY')}`}
             </span>
             {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
           </div>

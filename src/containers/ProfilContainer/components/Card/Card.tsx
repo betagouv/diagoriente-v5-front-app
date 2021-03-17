@@ -6,6 +6,7 @@ import editIcon from 'assets/svg/editblue.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
 import removeIcon from 'assets/svg/delete.svg';
 import moment from 'moment';
+import 'moment/locale/fr';
 
 import { Competence } from 'requests/types';
 import useStyles from './styles';
@@ -25,6 +26,7 @@ interface Props {
   endDate?: string;
   startDate?: string;
 }
+moment.locale('fr');
 
 const Card = ({
   title,
@@ -74,8 +76,8 @@ const Card = ({
             {title}
             <br />
             <span className={classes.date}>
-              {startDate && `${moment(startDate).format('YYYY-MM-DD')}`}
-              {endDate && ` / ${moment(endDate).format('YYYY-MM-DD')}`}
+              {startDate && `${moment(startDate).format('MMMM - YYYY')}`}
+              {endDate && ` / ${moment(endDate).format('MMMM - YYYY')}`}
             </span>
           </span>
           {icon && <img src={icon} alt="" className={classes.icon} height={44} width={44} />}

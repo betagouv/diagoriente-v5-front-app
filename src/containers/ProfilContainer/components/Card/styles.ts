@@ -1,4 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { color } from 'html2canvas/dist/types/css/types/color';
 
 export default makeStyles(() =>
   createStyles({
@@ -9,7 +10,7 @@ export default makeStyles(() =>
       background: '#fff',
       boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       borderRadius: 10,
-      position: "relative",
+      position: 'relative',
     },
 
     root: {
@@ -110,4 +111,9 @@ export default makeStyles(() =>
       flex: 0,
       margin: 0,
     },
-  }));
+    date: {
+      fontSize: 12,
+      color: '#DCDCDC',
+    },
+  }),
+);

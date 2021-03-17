@@ -122,8 +122,6 @@ const Register = () => {
     }
   }, [registerState.error]);
 
-  console.log({ errorFormObject });
-
   useEffect(() => {
     if (values.acceptCondition) {
       setErrorCondition('');

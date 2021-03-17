@@ -17,9 +17,7 @@ interface Props {
   years: any;
 }
 moment.locale('fr');
-const DatePicker = ({
- handleChange, day, month, year, days, months, years,
-}: Props) => {
+const DatePicker = ({ handleChange, day, month, year, days, months, years }: Props) => {
   const classes = useStyles();
 
   return (

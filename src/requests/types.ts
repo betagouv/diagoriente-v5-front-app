@@ -171,6 +171,9 @@ export interface SkillType {
     institution: string;
     location: string;
   }[];
+  startDate: string;
+  endDate: string;
+  extraActivity: string;
   engagement?: {
     id: string;
     startDate: string;

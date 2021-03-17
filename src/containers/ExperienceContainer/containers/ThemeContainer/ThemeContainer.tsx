@@ -66,7 +66,6 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
 
   const onNavigate = () => {
     if (selectedTheme) history.push(`/experience/skill/${selectedTheme.id}${redirect ? encodeUri({ redirect }) : ''}`);
-    setOpen(false);
   };
   return (
     <div className={classes.root}>
@@ -95,8 +94,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
           {themeFiltered.length === 0 && !loading ? (
             <div className={classes.errorMessage}>
-              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !
-{' '}
+              Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !{' '}
             </div>
           ) : (
             <p className={classes.themeTitle}>

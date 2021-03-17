@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import moment from 'moment';
@@ -21,11 +21,24 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   addSkillState: boolean;
   theme: Theme | null;
   isCreate?: boolean;
+  startDate: string;
+  endDate: string;
   months?: any;
-  onSubmit: (startDate: string, endDate: string) => void;
+  errorText: string;
+  onSubmit: (startDate: string, endDate?: string) => void;
 }
 
-const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, history, onSubmit }: Props) => {
+const SkillDate = ({
+  match,
+  addSkillState,
+  theme,
+  location,
+  isCreate,
+  months,
+  history,
+  errorText,
+  onSubmit,
+}: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const startRef = useRef<HTMLDivElement>(null);
@@ -85,12 +98,13 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
       setIsOpenEnd(false);
     }
   };
-
   const checkDate = () => {
-    if (yearStart && monthStart) {
+    if (yearStart && monthStart && !yearEnd && !monthEnd) {
+      onSubmit(moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'));
+    } else if (yearStart && monthStart && yearEnd && monthEnd) {
       onSubmit(
-        new Date(`${yearStart}-${monthStart}-01`).toISOString(),
-        new Date(`${yearEnd}-${monthEnd}-01`).toISOString(),
+        moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'),
+        moment(`${yearEnd}-${monthEnd}-01`).format('YYYY-MM-DD'),
       );
     } else {
       setError('saisie au moins la date de début');
@@ -101,7 +115,6 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
       setError('');
     }
   }, [yearStart, monthStart]);
-
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -149,6 +162,7 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
                   onChange={(e) => setYearStart(e.target.value)}
                   type="number"
                 />
+                <span className={classes.exampleDate}>Ex: 2018</span>
               </div>
             </div>
             <div className={classes.date}>
@@ -173,9 +187,11 @@ const SkillDate = ({ match, addSkillState, theme, location, isCreate, months, hi
                   onChange={(e) => setYearEnd(e.target.value)}
                   type="number"
                 />
+                <span className={classes.exampleDate}>Ex: 2018</span>
               </div>
             </div>
           </div>
+          <div className={classes.errorText}>{errorText || ''}</div>
           <Button fetching={addSkillState} onClick={checkDate} />
         </div>
         <Link

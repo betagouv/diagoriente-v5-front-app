@@ -79,5 +79,21 @@ export default makeStyles((theme: Theme) =>
     error: {
       color: 'red',
     },
+    errorText: {
+      display: 'flex',
+      alignItems: 'center',
+      height: 20,
+      fontSize: 14,
+      color: theme.palette.error.main,
+      marginLeft: 32,
+      marginTop: 30,
+    },
+    exampleDate: {
+      display: 'flex',
+      alignSelf: 'center',
+      color: '#6B6B6A',
+      marginLeft: 10,
+      fontSize: 12,
+    },
   }),
 );

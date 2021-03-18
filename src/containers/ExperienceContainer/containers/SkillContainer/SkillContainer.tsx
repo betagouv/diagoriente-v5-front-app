@@ -95,9 +95,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       setActivities(selectedSkill.activities);
       setCompetences(selectedSkill.competences.map((c) => c._id));
       setCompetencesValues(selectedSkill.competences.map((c) => ({ id: c._id.id, value: c.value })));
-      startDateSkill.current = selectedSkill.startDate;
-      endDateSkill.current = selectedSkill.endDate;
-      setExtraActivity(selectedSkill.extraActivity);
+      if (selectedSkill.startDate) startDateSkill.current = selectedSkill.startDate;
+      if (selectedSkill.endDate) endDateSkill.current = selectedSkill.endDate;
+      if (selectedSkill.extraActivity) setExtraActivity(selectedSkill.extraActivity);
       if (selectedSkill.engagement) {
         setContext(selectedSkill.engagement.context?.id);
         setStartDate(moment(selectedSkill.engagement.startDate).format('YYYY-MM-DD'));
@@ -389,7 +389,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setExtraActivity={setExtraActivity}
                 theme={data.theme}
               />
-            )}
+            )
+          }
           path={`${match.path}/activities`}
           exact
         />

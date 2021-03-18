@@ -31,6 +31,8 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
 const SkillDate = ({
   match,
   addSkillState,
+  startDate,
+  endDate,
   theme,
   location,
   isCreate,
@@ -71,14 +73,14 @@ const SkillDate = ({
 
   const [error, setError] = useState('');
 
-  const [yearStart, setYearStart] = useState('');
-  const [yearEnd, setYearEnd] = useState('');
+  const [yearStart, setYearStart] = useState(startDate ? moment(startDate).format('YYYY') : '');
+  const [yearEnd, setYearEnd] = useState(endDate ? moment(endDate).format('YYYY') : '');
 
-  const [monthStart, setMonthStart] = useState('');
-  const [monthStartText, setMonthStartText] = useState('');
+  const [monthStart, setMonthStart] = useState(startDate ? moment(startDate).format('MM') : '');
+  const [monthStartText, setMonthStartText] = useState(startDate ? moment(startDate).format('MMMM') : '');
 
-  const [monthEnd, setMonthEnd] = useState('');
-  const [monthEndText, setMonthEndText] = useState('');
+  const [monthEnd, setMonthEnd] = useState(endDate ? moment(endDate).format('MM') : '');
+  const [monthEndText, setMonthEndText] = useState(endDate ? moment(endDate).format('MMMM') : '');
 
   useOnclickOutside(startRef, () => {
     if (isOpenStart) setIsOpenStart(false);

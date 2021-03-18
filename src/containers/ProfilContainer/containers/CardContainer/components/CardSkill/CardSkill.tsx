@@ -15,7 +15,15 @@ import 'moment/locale/fr';
 interface CardSkill extends SkillType {}
 moment.locale('fr');
 
-const CardSkill = ({ comment: allComments, theme, activities, engagement, startDate, endDate }: CardSkill) => {
+const CardSkill = ({
+  comment: allComments,
+  theme,
+  activities,
+  engagement,
+  startDate,
+  endDate,
+  extraActivity,
+}: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
   const act = theme.type === 'engagement' ? engagement?.options : activities;
@@ -50,6 +58,7 @@ const CardSkill = ({ comment: allComments, theme, activities, engagement, startD
               )}
             </li>
           ))}
+          {extraActivity ? <li className={classes.activity}>{extraActivity}</li> : null}
           {theme.type === 'engagement' && engagement?.activity && (
             <div className={classes.activity}>{engagement?.activity}</div>
           )}

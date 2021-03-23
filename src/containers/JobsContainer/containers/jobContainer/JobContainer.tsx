@@ -302,7 +302,7 @@ const JobContainer = ({
               </div>
               <div>
                 <span className={classes.infoInterestPurpleText}>
-                  {`${matchedInterest.length} intérêts sur ${data?.job.interests.length}`}
+                  {`${matchedInterest.length} centre(s) d’intérêt(s) sur ${data?.job.interests.length}`}
                 </span>{' '}
                 en commun avec les tiens.
               </div>

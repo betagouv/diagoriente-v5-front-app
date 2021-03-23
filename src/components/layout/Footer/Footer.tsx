@@ -63,6 +63,7 @@ const Footer = ({ onChange, name }: IProps) => {
             <a className={classes.link} href={`${p}mention/`} target="_blank">
               Mentions légales
             </a>
+            <div class="text item_route">Accessibilité : non conforme</div>
           </p>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={4} className={classes.newsteller}>

@@ -104,9 +104,15 @@ const SkillDate = ({
     if (yearStart && monthStart && !yearEnd && !monthEnd) {
       onSubmit(moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'));
     } else if (yearStart && !monthStart) {
-      setError('le mois de date du début est obligatoire');
+      setError('le mois du date de début est obligatoire');
     } else if (!yearStart && monthStart) {
-      setError("l'année de date du début est obligatoire");
+      setError("l'année du date de début est obligatoire");
+    } else if (yearStart && monthStart && !yearEnd && monthEnd) {
+      setError("l'année du date de fin est obligatoire");
+    } else if (yearStart && monthStart && yearEnd && !monthEnd) {
+      setError('le mois du date de fin est obligatoire');
+    } else if ((!yearStart && yearEnd && monthEnd) || (!monthStart && yearEnd && monthEnd)) {
+      setError('les champs du date de début est obligatoire');
     } else if (yearStart && monthStart && yearEnd && monthEnd) {
       onSubmit(
         moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'),

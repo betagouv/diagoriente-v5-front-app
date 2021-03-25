@@ -25,7 +25,7 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   endDate: string;
   months?: any;
   errorText: string;
-  onSubmit: (startDate: string, endDate?: string) => void;
+  onSubmit: (startDate?: string, endDate?: string) => void;
 }
 
 const SkillDate = ({
@@ -103,13 +103,17 @@ const SkillDate = ({
   const checkDate = () => {
     if (yearStart && monthStart && !yearEnd && !monthEnd) {
       onSubmit(moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'));
+    } else if (yearStart && !monthStart) {
+      setError('le mois de date du début est obligatoire');
+    } else if (!yearStart && monthStart) {
+      setError("l'année de date du début est obligatoire");
     } else if (yearStart && monthStart && yearEnd && monthEnd) {
       onSubmit(
         moment(`${yearStart}-${monthStart}-01`).format('YYYY-MM-DD'),
         moment(`${yearEnd}-${monthEnd}-01`).format('YYYY-MM-DD'),
       );
     } else {
-      setError('saisie au moins la date de début');
+      onSubmit();
     }
   };
   const renderType = (text?: string) => {
@@ -169,7 +173,7 @@ const SkillDate = ({
           <div className={classes.wrapperDates}>
             <div className={classes.date}>
               <span className={classes.text}>
-                Date de début <span className={classes.subText}>(obligatoire)</span>
+                Date de début <span className={classes.subText}>(optionnelle)</span>
               </span>
               <div className={classes.dateWrapper}>
                 <Select

@@ -389,8 +389,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setExtraActivity={setExtraActivity}
                 theme={data.theme}
               />
-            )
-          }
+            )}
           path={`${match.path}/activities`}
           exact
         />
@@ -461,7 +460,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 endDate={endDateSkill.current}
                 errorText={errorText}
                 onSubmit={(start, end) => {
-                  startDateSkill.current = start;
+                  if (start) startDateSkill.current = start;
                   if (end) endDateSkill.current = end;
                   const fn = selectedSkillId ? editSkill : addSkill;
                   fn();

@@ -660,7 +660,7 @@ const ImmersionContainer = ({
                   <div className={classes.resultTitle}>chargement en cours...</div>
                 )}
                 {!dataToRender.data && dataToRender.error && (
-                  <div className={classes.resultTitle}>Aucune resultat trouvé</div>
+                  <div className={classes.resultTitle}>Désolé, aucun résultat n&apos;a été trouvé !</div>
                 )}
                 <div className={classes.resultTitle}>
                   {dataToRender?.count !== undefined && <div>{`${dataToRender?.count} résultats`}</div>}

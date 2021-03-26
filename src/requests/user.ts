@@ -266,3 +266,20 @@ interface UpdateWc2023SpecialiteMutationParams {
 export const useUpdateWc2023Specialite = (
   options?: MutationHookOptions<{ updateWc2023Specialite: any }, UpdateWc2023SpecialiteMutationParams>,
 ) => useLocalMutation(updateWc2023SpecialiteMutation, options);
+
+export const GeneratePdf = gql`
+  query GeneratePdf($idUser: ID) {
+    generatePdf(idUser: $idUser) {
+      user {
+        profile {
+          firstName
+        }
+      }
+    }
+  }
+`;
+interface GeneratePdfParams {
+  user: any;
+}
+export const useGeneratePdf = (options: LazyQueryHookOptions<{ generatePdf: User }, GeneratePdfParams> = {}) =>
+  useLocalLazyQuery(GeneratePdf, options);

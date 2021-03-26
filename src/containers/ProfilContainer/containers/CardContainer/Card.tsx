@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 
 import usePdf from 'hooks/usePdf';
 import { Link } from 'react-router-dom';
+import { useGeneratePdf } from 'requests/user';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import { encodeUri } from 'utils/url';
 import Paper from '@material-ui/core/Paper/Paper';
@@ -29,6 +30,7 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
+  const [GeneratePdfCall, GeneratePdfState] = useGeneratePdf({ fetchPolicy: 'network-only' });
   const [element, createPdf, pdf] = usePdf();
   const [toggle, setToggle] = useState(false);
   const { user } = useContext(Usercontext);
@@ -56,16 +58,17 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   useEffect(() => {
     if (pdf) {
       if (type === 'download') {
-        pdf.save('competences.pdf');
+        GeneratePdfCall();
         setLoading(false);
         setType('');
       } else if (type === 'print') {
-        pdf.autoPrint();
+        /*  pdf.autoPrint();
         pdf.output('dataurlnewwindow');
-        setLoadingPrint(false);
+        setLoadingPrint(false); */
         setType('');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdf, type]);
   const hasSportSkills = skills.filter((s) => s.theme.type === 'sport').length !== 0;
   return (

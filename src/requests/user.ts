@@ -269,13 +269,7 @@ export const useUpdateWc2023Specialite = (
 
 export const GeneratePdf = gql`
   query GeneratePdf($idUser: ID) {
-    generatePdf(idUser: $idUser) {
-      user {
-        profile {
-          firstName
-        }
-      }
-    }
+    generatePdf(idUser: $idUser)
   }
 `;
 interface GeneratePdfParams {

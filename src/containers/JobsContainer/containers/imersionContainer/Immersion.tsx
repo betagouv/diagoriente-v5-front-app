@@ -82,11 +82,15 @@ const ImmersionContainer = ({
     data: undefined | any[];
     count: undefined | number;
     fetching: boolean;
+    error: any;
+    called: boolean;
   }>({
     type: '',
     data: undefined,
     count: undefined,
     fetching: false,
+    called: false,
+    error: '',
   });
 
   const [page, setPage] = useState(1);
@@ -223,6 +227,8 @@ const ImmersionContainer = ({
             ? result.immersions.companies_count
             : result.formation.filter((i: Formation) => i.place.latitude !== null && i.place.latitude !== null).length,
         fetching: false,
+        called: true,
+        error: '',
       });
     }
     if (
@@ -234,6 +240,18 @@ const ImmersionContainer = ({
         data: undefined,
         count: undefined,
         fetching: true,
+        called: false,
+        error: '',
+      });
+    }
+    if (immersionState.error || formationState.error) {
+      setDataToRender({
+        type: '',
+        data: undefined,
+        count: undefined,
+        fetching: false,
+        called: true,
+        error: immersionState.error || formationState.error,
       });
     }
   }, [
@@ -241,6 +259,8 @@ const ImmersionContainer = ({
     immersionState.loading,
     formationState.data,
     immersionState.data,
+    formationState.error,
+    immersionState.error,
     checkedTypeApiImmersion,
   ]);
   const handleClose = () => {
@@ -430,7 +450,7 @@ const ImmersionContainer = ({
       setOpenLocation(false);
       const gps = [e.value.coordinates[0], e.value.coordinates[1]];
       setCoordinates(gps);
-      setInsee(   parseInt(e.value.postcode ) );
+      setInsee(parseInt(e.value.postcode));
     }
   };
   const onSelectImmersion = (e: any | undefined) => {
@@ -631,9 +651,17 @@ const ImmersionContainer = ({
             {dataToRender ? (
               <>
                 <div className={classes.resultTitle}>
-                  {!dataToRender.fetching && dataToRender?.count === undefined && getDescription()}
+                  {!dataToRender.fetching &&
+                    dataToRender?.count === undefined &&
+                    !dataToRender.called &&
+                    getDescription()}
                 </div>
-                {dataToRender.fetching && <div className={classes.resultTitle}>chargement en cours...</div>}
+                {dataToRender.fetching && !dataToRender.error && (
+                  <div className={classes.resultTitle}>chargement en cours...</div>
+                )}
+                {!dataToRender.data && dataToRender.error && (
+                  <div className={classes.resultTitle}>Désolé, aucun résultat n&apos;a été trouvé !</div>
+                )}
                 <div className={classes.resultTitle}>
                   {dataToRender?.count !== undefined && <div>{`${dataToRender?.count} résultats`}</div>}
                 </div>

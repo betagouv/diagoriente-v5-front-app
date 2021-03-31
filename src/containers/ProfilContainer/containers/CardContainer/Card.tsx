@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import usePdf from 'hooks/usePdf';
 import { Link } from 'react-router-dom';
+import { useGeneratePdf } from 'requests/user';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import { encodeUri } from 'utils/url';
 import Paper from '@material-ui/core/Paper/Paper';
 import carte from 'assets/svg/carte.svg';
 import Picto from 'assets/svg/picto_ampoule_blue.svg';
 import useParcourSkills from 'hooks/useParcourSkills';
-import Usercontext from 'contexts/UserContext';
 import { UserParcour } from 'requests/types';
 import Arrow from '../../components/Arrow/Arrow';
 import CardHeader from './components/CardHeader/CardHeader';
@@ -29,9 +29,9 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingPrint, setLoadingPrint] = useState(false);
+  const [GeneratePdfCall, GeneratePdfState] = useGeneratePdf({ fetchPolicy: 'network-only' });
   const [element, createPdf, pdf] = usePdf();
   const [toggle, setToggle] = useState(false);
-  const { user } = useContext(Usercontext);
   const openModal = () => setToggle(true);
   const closeModal = () => setToggle(false);
   const skills = skillsState.data?.skills.data || [];
@@ -54,20 +54,29 @@ const CardContainer = ({ Userparcours, infoUser }: IProps) => {
   );
 
   useEffect(() => {
+    if (GeneratePdfState.data) {
+      const a = document.createElement('a');
+      a.href = `data:application/pdf;base64,${GeneratePdfState.data.generatePdf}`;
+      a.download = 'competences.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }, [GeneratePdfState.data]);
+
+  useEffect(() => {
     if (pdf) {
       if (type === 'download') {
-        pdf.save('competences.pdf');
+        GeneratePdfCall();
         setLoading(false);
         setType('');
       } else if (type === 'print') {
-        pdf.autoPrint();
-        pdf.output('dataurlnewwindow');
-        setLoadingPrint(false);
         setType('');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdf, type]);
-  const hasSportSkills = skills.filter((s) => s.theme.type === 'sport').length !== 0;
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>

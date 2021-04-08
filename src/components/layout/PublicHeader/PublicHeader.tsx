@@ -2,14 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useListener } from 'hooks/useListener';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Link } from 'react-router-dom';
 import Select from 'components/selectpublic/Select';
 import DrawerContext from 'contexts/DrawerContext';
 import logo from 'assets/svg/diagoriente_logo.svg';
 import smallbeta from 'assets/svg/smallbeta.svg';
-import beta from 'assets/images/marianne.png';
-import betaGouv from 'assets/images/beta_gov.png';
 import menu from 'assets/images/menu.png';
+import marienne from 'assets/svg/marianne.svg';
 
 import useStyles from './styles';
 
@@ -62,13 +60,7 @@ const PublicHeader = () => {
             {showlogo ? (
               <img src={smallbeta} alt="menu" height={13} width={77} className={classes.smallbeta} />
             ) : (
-              <>
-                <div className={classes.beta}>
-                  <img src={beta} alt="menu" height={35} width={72} />
-                </div>
-
-                <img src={betaGouv} alt="menu" height={13} width={80} className={classes.betaGov} />
-              </>
+              <img src={marienne} alt="menu" height={135} width={92} />
             )}
           </div>
         </div>

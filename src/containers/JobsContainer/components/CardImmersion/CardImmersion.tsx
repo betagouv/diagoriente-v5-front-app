@@ -63,29 +63,23 @@ const CardImmersion = ({ data, onClickContact, onClickConseil, showMap, typeApiI
           <div>{data.headcount_text}</div>
           {data.place && (
             <div>
-              <span>Addresse:</span>
+              <span>Adresse:</span>
               {data.place.fullAddress}
             </div>
           )}
           {data.diplomaLevel && (
             <div>
-              <strong>Niveau d'acces: </strong> 
-{' '}
-{data.diplomaLevel}
+              <strong>Niveau d'acces: </strong> {data.diplomaLevel}
             </div>
           )}
           {data.company && (
             <div>
-              <strong>Entreprise:</strong> 
-{' '}
-{data.company.name}
+              <strong>Entreprise:</strong> {data.company.name}
             </div>
           )}
           {data.contact && (
             <div>
-              <strong>Contact:</strong> 
-{' '}
-{data.contact.email}
+              <strong>Contact:</strong> {data.contact.email}
             </div>
           )}
           <div className={classes.icons}>

@@ -30,6 +30,7 @@ import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
 import LivemapContainer from 'containers/Livemap2023Container';
+import ScopeContainer from 'containers/Scope/ScopeContainer';
 import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import open from 'assets/svg/menu_close.svg';
@@ -155,6 +156,7 @@ const RootContainer = () => {
                 authorizedRole="advisor"
               />
               <BaseRoute exact path="/campus2023-livemap" component={LivemapContainer} />
+              <Route exact path="/scope" component={ScopeContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </SecteurContext.Provider>

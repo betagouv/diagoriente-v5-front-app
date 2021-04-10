@@ -97,10 +97,12 @@ const JobContainer = ({
   }, [addFavState.data, loadJob, data, refetch]);
   useEffect(() => {
     if (labelsStats.data) {
-      const ae = labelsStats.data.formationLabel.labelsAndRomes.map((e: any) => ({
-        label: e.label,
-        rome_codes: e.romes,
-      }));
+      const ae = labelsStats.data.formationLabel.labelsAndRomes
+        .filter((item: any) => Boolean(item.label))
+        .map((e: any) => ({
+          label: e.label,
+          rome_codes: e.romes,
+        }));
       setFiltredArray(ae);
     }
   }, [labelsStats.data]);

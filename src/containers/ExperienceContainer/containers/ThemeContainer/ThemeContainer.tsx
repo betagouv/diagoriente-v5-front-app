@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 import Title from 'components/common/Title/Title';
-import SelectionContext from 'contexts/SelectionContext';
 
 import { useThemes } from 'requests/themes';
 import Button from 'components/nextButton/nextButton';
@@ -10,7 +9,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import RestLogo from 'components/common/Rest/Rest';
 import Grid from '@material-ui/core/Grid';
 import Selection from 'components/theme/ThemeSelection/ThemeSelection';
-import parcoursContext from 'contexts/ParcourContext';
 import Tooltip from '@material-ui/core/Tooltip';
 import Child from 'components/ui/ForwardRefChild/ForwardRefChild';
 import Spinner from 'components/SpinnerXp/Spinner';
@@ -23,7 +21,6 @@ import useStyles from './styles';
 
 const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const classes = useStyles();
-  const { setOpen } = useContext(SelectionContext);
 
   const [selectedTheme, setSelectedTheme] = useState<Omit<Theme, 'activities'> | null>(null);
 
@@ -36,19 +33,8 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
   const { data, loading } = useThemes({
     variables: { type: type === 'engagement' ? 'engagement' : type === 'sport' ? 'sport' : 'personal' },
   });
-  const { parcours } = useContext(parcoursContext);
 
-  const themeFiltereds = useMemo(
-    () => (data ? data.themes.data.filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id)) : []),
-    [data, parcours],
-  );
-  const themeNotFiltered = useMemo(() => (data ? data.themes.data : []), [data]);
-
-  const themeFiltered = useMemo(() => (type === 'engagement' ? themeNotFiltered : themeFiltereds), [
-    themeFiltereds,
-    themeNotFiltered,
-    type,
-  ]);
+  const themes = useMemo(() => (data ? data.themes.data : []), [data]);
 
   useEffect(() => {
     if (data) {
@@ -92,7 +78,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="1." image={blueline} color="#223A7A" width={180} />
-          {themeFiltered.length === 0 && !loading ? (
+          {themes.length === 0 && !loading ? (
             <div className={classes.errorMessage}>
               Il n&apos;y a plus de thèmes disponible, vous les avez deja tous choisis !{' '}
             </div>
@@ -110,7 +96,7 @@ const ThemeContainer = ({ location, history }: RouteComponentProps) => {
                 </div>
               )}
 
-              {themeFiltered.map((theme) => (
+              {themes.map((theme) => (
                 <Grid key={theme.id} item xs={12} sm={3} md={2}>
                   <Tooltip
                     classes={{

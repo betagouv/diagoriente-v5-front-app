@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Button from 'components/button/Button';
 import List from '@material-ui/core/List';
-import { useLocation, matchPath } from 'react-router-dom';
+import { useLocation, matchPath, Link } from 'react-router-dom';
 import localforage from 'localforage';
 import DrawerContext from 'contexts/DrawerContext';
 import parcoursContext from 'contexts/ParcourContext';
@@ -12,6 +12,7 @@ import userContext from 'contexts/UserContext';
 import { setAuthorizationBearer, client } from 'requests/client';
 import classNames from 'utils/classNames';
 import { useUpdateParcour } from 'requests/parcours';
+import { useLogout } from 'requests/auth';
 
 import useStyles from './styles';
 
@@ -19,6 +20,7 @@ const PrivateDrawer = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const f = process.env.REACT_APP_FRONT;
   const { setUser, user } = useContext(userContext);
+  const [logoutCall] = useLogout();
 
   const userLinks = [
     { text: 'TABLEAU DE BORD', path: '/' },
@@ -36,6 +38,7 @@ const PrivateDrawer = () => {
     { text: 'Options', path: '/admin/options' },
     { text: 'Questions', path: '/admin/questions' },
     { text: 'Utilisateurs', path: '/admin/users' },
+    { text: 'Scopes', path: '/admin/scopes' },
     { text: 'Paramètre', path: '/admin/parametre' },
     { text: 'DÉCONNEXION', path: '/' },
   ];
@@ -50,13 +53,18 @@ const PrivateDrawer = () => {
   const classes = useStyles({ isCampus: user?.isCampus && user?.role === 'user' });
   const [updateCompleteCall, updateCompeteState] = useUpdateParcour();
   const { open, setOpen } = useContext(DrawerContext);
+
   const logout = () => {
+    logoutCall();
     localforage.removeItem('auth');
-    setAuthorizationBearer('');
     setParcours(null);
     setUser(null);
     localStorage.clear();
     client.clearStore();
+
+    setTimeout(() => {
+      setAuthorizationBearer('');
+    }, 200);
   };
 
   const onClose = () => {
@@ -130,20 +138,29 @@ const PrivateDrawer = () => {
       >
         <div className={classes.toolbar} />
         <List className={classes.root}>
-          {links.map((e) => (
-            <li key={e.text} className={classes.linkContainer} onClick={e.text === 'DÉCONNEXION' ? logout : () => {}}>
-              <a href={e.path} target={e.text === 'AIDE' || e.text === 'FAQ' ? '_blank' : ''}>
-                <div
-                  className={classNames(
-                    isJobs && !user?.isCampus ? classes.linkJob : classes.link,
-                    !parcours?.completed && isJobs && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
-                  )}
-                >
-                  {e.text}
-                </div>
-              </a>
-            </li>
-          ))}
+          {links.map((e) => {
+            const parent =
+              e.text === 'DÉCONNEXION' ? (
+                <li key={e.text} className={classes.linkContainer} onClick={logout} />
+              ) : (
+                <li key={e.text} className={classes.linkContainer}>
+                  <Link to={e.path} target={e.text === 'AIDE' || e.text === 'FAQ' ? '_blank' : ''} />
+                </li>
+              );
+
+            return React.cloneElement(
+              parent,
+              {},
+              <div
+                className={classNames(
+                  isJobs && !user?.isCampus ? classes.linkJob : classes.link,
+                  !parcours?.completed && isJobs && e.text === 'TABLEAU DE BORD' && classes.firstUseLink,
+                )}
+              >
+                {e.text}
+              </div>,
+            );
+          })}
         </List>
       </Drawer>
       {!parcours?.completed && isJobs && open && (

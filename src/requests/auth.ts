@@ -306,3 +306,12 @@ export interface ResetData {
 
 export const useReset = (options: MutationHookOptions<{ reset: ResetData }, ResetArguments> = {}) =>
   useLocalMutation(resetMutation, options);
+
+export const logoutMutation = gql`
+  mutation {
+    logout
+  }
+`;
+
+export const useLogout = (options?: MutationHookOptions<{ logout: string }>) =>
+  useLocalMutation(logoutMutation, options);

@@ -51,7 +51,7 @@ const EngagementDate = ({
   const endDateEngagement = useMemo(() => moment(endDate), [endDate]);
 
   const isBeginDateValid = startDateEngagement.month() === Number(moment(startDate).format('MM')) - 1;
-  const isEndDateValid = endDateEngagement.month() === Number(moment(endDate).format('MM')) - 1;
+  const isEndDateValid = endDate ? endDateEngagement.month() === Number(moment(endDate).format('MM')) - 1 : true;
   const errorText = 'La date est invalide';
 
   return (
@@ -102,9 +102,9 @@ const EngagementDate = ({
               <span className={classes.text}>Au</span>
               <DatePicker
                 handleChange={(e) => handleChange(e, 'End')}
-                day={endDate.slice(8)}
-                month={endDate.slice(5, 7)}
-                year={endDate.slice(0, 4)}
+                day={endDate ? endDate.slice(8) : 'jj'}
+                month={endDate ? endDate.slice(5, 7) : 'mm'}
+                year={endDate ? endDate.slice(0, 4) : 'aaaa'}
               />
             </div>
             <div className={classes.errorText}>{!isEndDateValid ? errorText : ''}</div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import path from 'path';
 import moment from 'moment';
 import { useWillUnmount } from 'hooks/useLifeCycle';
@@ -30,17 +30,11 @@ import useStyles from './style';
 
 const SkillContainer = ({ match, location, history }: RouteComponentProps<{ themeId: string }>) => {
   const classes = useStyles();
-  const { redirect } = decodeUri(location.search);
+  const { redirect, skill: selectedSkillId } = decodeUri(location.search);
 
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
   const [skillCall, skillState] = useLazySkill();
-  const { parcours, setParcours } = useContext(ParcourContext);
-  const selectedSkillId = useMemo(() => {
-    const foundSkill = parcours?.skills.find(
-      (skill) => skill.theme?.id === match.params.themeId && skill.theme.type !== 'engagement',
-    );
-    return foundSkill?.id;
-  }, [parcours, match.params.themeId]);
+  const { setParcours } = useContext(ParcourContext);
 
   const [activities, setActivities] = useState([] as SkillType['activities']);
   const [competences, setCompetences] = useState([] as Competence[]);
@@ -50,7 +44,7 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
   const [organization, setOrganization] = useState('');
 
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
-  const [endDate, setEndDate] = useState(moment().format('YYYY-MM-DD'));
+  const [endDate, setEndDate] = useState('');
 
   const startDateSkill = useRef('');
   const endDateSkill = useRef('');
@@ -79,10 +73,9 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
         localText = 'La date de fin doit être supérieur à la date de début!';
         return localText;
       }
-    } else {
-      localText = '';
-      return localText;
     }
+
+    return localText;
   };
   useEffect(() => {
     if (selectedSkillId) skillCall({ variables: { id: selectedSkillId } });
@@ -358,11 +351,17 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
       ? optionActivities.map((e) => e.map((o) => o.title).join(' '))
       : activities.map((a) => a.title);
   if (data?.theme.type === 'engagement' && activity) activitiesTitles.push(activity);
+  console.log('addSkillState', addSkillState.error?.graphQLErrors[0]);
   return (
     <>
       <SnackBar
         variant="error"
-        message={addSkillState.error ? addSkillState.error.graphQLErrors[0].message : ''}
+        message={
+          addSkillState.error
+            ? (addSkillState.error.graphQLErrors[0].message as any).message ||
+              addSkillState.error.graphQLErrors[0].message
+            : ''
+        }
         open={!!addSkillState.error}
       />
 
@@ -389,7 +388,8 @@ const SkillContainer = ({ match, location, history }: RouteComponentProps<{ them
                 setExtraActivity={setExtraActivity}
                 theme={data.theme}
               />
-            )}
+            )
+          }
           path={`${match.path}/activities`}
           exact
         />

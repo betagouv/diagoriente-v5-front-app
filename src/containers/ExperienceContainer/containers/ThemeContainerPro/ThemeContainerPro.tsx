@@ -89,52 +89,47 @@ const ThemeContainerPro = ({ location, history }: RouteComponentProps) => {
             <div className={classes.gridContainer}>
               <Grid className={classes.circleContainer} container spacing={2}>
                 {valueSearch &&
-                  data?.themes.data
-                    .filter((theme) => !parcours?.skills.find((id) => theme.id === id.theme?.id))
-                    .map((theme, index) => {
-                      const tooltip = theme.activities;
-                      const t = theme.title.replace(new RegExp('[//,]', 'g'), '\n');
-                      const x = t.split(new RegExp(valueSearch, 'i'));
-                      const title = [];
-                      for (let i = 0; i < x.length; i += 1) {
-                        title.push(x[i]);
-                        if (i !== x.length - 1) {
-                          title.push(
-                            <span key={i} style={{ color: '#00CFFF' }}>
-                              {valueSearch}
-                            </span>,
-                          );
-                        }
+                  data?.themes.data.map((theme, index) => {
+                    const tooltip = theme.activities;
+                    const t = theme.title.replace(new RegExp('[//,]', 'g'), '\n');
+                    const x = t.split(new RegExp(valueSearch, 'i'));
+                    const title = [];
+                    for (let i = 0; i < x.length; i += 1) {
+                      title.push(x[i]);
+                      if (i !== x.length - 1) {
+                        title.push(
+                          <span key={i} style={{ color: '#00CFFF' }}>
+                            {valueSearch}
+                          </span>,
+                        );
                       }
+                    }
 
-                      return (
-                        <Tooltip
-                          key={theme.id}
-                          open={!tooltip ? false : undefined}
-                          title={
-                            <Child key={index}>
-                              {tooltip.map((el) => (
-                                <div key={el.id}>{`-${el.title}`}</div>
-                              ))}
-                            </Child>
-                          }
-                          arrow
-                          placement="left"
-                        >
-                          <Grid key={theme.id} item>
-                            <div
-                              className={classNames(
-                                classes.itemData,
-                                selectedTheme?.id === theme.id && classes.selected,
-                              )}
-                              onClick={() => showAvatar(theme)}
-                            >
-                              {title}
-                            </div>
-                          </Grid>
-                        </Tooltip>
-                      );
-                    })}
+                    return (
+                      <Tooltip
+                        key={theme.id}
+                        open={!tooltip ? false : undefined}
+                        title={(
+                          <Child key={index}>
+                            {tooltip.map((el) => (
+                              <div key={el.id}>{`-${el.title}`}</div>
+                            ))}
+                          </Child>
+                        )}
+                        arrow
+                        placement="left"
+                      >
+                        <Grid key={theme.id} item>
+                          <div
+                            className={classNames(classes.itemData, selectedTheme?.id === theme.id && classes.selected)}
+                            onClick={() => showAvatar(theme)}
+                          >
+                            {title}
+                          </div>
+                        </Grid>
+                      </Tooltip>
+                    );
+                  })}
               </Grid>
             </div>
           </div>

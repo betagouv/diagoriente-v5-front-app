@@ -30,7 +30,7 @@ import Profil from 'containers/ProfilContainer';
 import AdminContainer from 'containers/AdminContainer';
 import AdvisorContainer from 'containers/AdvisorContainer';
 import LivemapContainer from 'containers/Livemap2023Container';
-import ScopeContainer from 'containers/Scope/ScopeContainer';
+import ScopeContainer from 'containers/Scope';
 import logo from 'assets/svg/diagoriente_logo.svg';
 import logCampus from 'assets/images/diagorient-campus.png';
 import open from 'assets/svg/menu_close.svg';
@@ -79,6 +79,7 @@ const RootContainer = () => {
               <BaseRoute exact path="/" component={HomeContainer} />
               <Route footer path="/login" exact component={LoginContainer} />
               <Route footer path="/register" exact component={RegisterContainer} />
+              <Route footer path="/scope" component={ScopeContainer} />
               <Route
                 protected
                 privateHeaderProps={{

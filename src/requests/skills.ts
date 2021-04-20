@@ -176,7 +176,7 @@ export interface addSkillArguments {
   extraActivity?: string;
   engagement?: {
     startDate: string;
-    endDate: string;
+    endDate?: string;
     context: string;
     options: string[][];
     activity: string;
@@ -210,7 +210,7 @@ export interface updateSkillArguments {
   extraActivity?: string;
   engagement?: {
     startDate: string;
-    endDate: string;
+    endDate?: string;
     context: string;
     options: string[][];
     activity: string;

@@ -1,7 +1,6 @@
 import React from 'react';
 import timeLogo from 'assets/svg/time.svg';
 import reseauLogo from 'assets/svg/reseau.svg';
-import Chart from 'components/Graph/PieChart';
 import { useHistory } from 'react-router-dom';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { useJobs, useInfoJob } from 'requests/jobs';
@@ -36,9 +35,7 @@ const JobInfo = ({ job, handleClose }: IProps) => {
       </div>
       <div className={classes.contentModal}>
         <div className={classes.TextTitle}>
-          Niveau d’accès : 
-{' '}
-<span className={classes.textAccessibility}>{job.accessibility}</span>
+          Niveau d’accès : <span className={classes.textAccessibility}>{job.accessibility}</span>
         </div>
         <div className={classes.TextTitle}>L&lsquo;offre et la demande :</div>
         <div className={classes.offreContainer}>
@@ -48,11 +45,8 @@ const JobInfo = ({ job, handleClose }: IProps) => {
               <span className={classes.offresTitle}>La semaine dernière</span>
             </div>
             <div>
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_LAST_WEEK}</b>
-{' '}
-offres pour{' '}
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_LAST_WEEK}</b>
-{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_LAST_WEEK}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_LAST_WEEK}</b>{' '}
               demandeurs d&lsquo;emploi
             </div>
           </div>
@@ -62,11 +56,8 @@ offres pour{' '}
               <span className={classes.offresTitle}>Sur le dernier mois, en moyenne :</span>
             </div>
             <div>
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_END_MONTH}</b>
-{' '}
-offres pour{' '}
-              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_END_MONTH}</b>
-{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_OFFER_END_MONTH}</b> offres pour{' '}
+              <b>{getInfoJobState.data?.referentiel.resultOffre.result.records[0].NB_APPLICATION_END_MONTH}</b>{' '}
               demandeurs d&lsquo;emploi
             </div>
           </div>

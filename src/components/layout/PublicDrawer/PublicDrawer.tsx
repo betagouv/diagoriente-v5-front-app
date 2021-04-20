@@ -12,8 +12,8 @@ import useStyles from './styles';
 const Sidebar = () => {
   const p = process.env.REACT_APP_PUBLIC_URL;
   const links = [
-    { text: 'Qui sommes nous?', path: `${p}/info/` },
-    { text: 'Notre démarche', path: `${p}/approach/` },
+    { text: 'Qui sommes nous?', path: `${p}/qui-sommes-nous/` },
+    { text: 'Notre démarche', path: `${p}/demarche/` },
     { text: 'Actualités', path: `${p}/actualites/` },
     // { text: 'vidéo', path: '/DiagOvidéo' },
     { text: 'FAQ', path: `${p}/faq/` },

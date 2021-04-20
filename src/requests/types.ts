@@ -177,7 +177,7 @@ export interface SkillType {
   engagement?: {
     id: string;
     startDate: string;
-    endDate: string;
+    endDate?: string;
     activity: string;
     organization: string;
     context: {
@@ -424,4 +424,9 @@ export interface EligibleStructure {
     bac3oubac5: string;
     random: string;
   };
+}
+export interface Scopes {
+  id: string;
+  token: string;
+  name: string;
 }

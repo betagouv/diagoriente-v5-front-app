@@ -49,7 +49,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
 
   const onEdit = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id);
-    if (selectedSkill) history.push({ pathname: `/experience/skill/${selectedSkill.theme.id}`, search: 'edit' });
+    if (selectedSkill)
+      history.push({ pathname: `/experience/skill/${selectedSkill.theme.id}`, search: encodeUri({ skill: id }) });
   };
   const handleRecommendation = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id) || null;

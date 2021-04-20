@@ -17,7 +17,7 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
   const { setParcours } = useContext(ParcourContext);
   const { setUser } = useContext(UserContext);
   const [call, state] = fn();
-  const [parcourCall, parcourState] = useGetUserParcour();
+  const [parcourCall, parcourState] = useGetUserParcour({ fetchPolicy: 'network-only' });
 
   function persistUser(data: { user: User; token: Token }) {
     const result = { ...data };
@@ -26,18 +26,19 @@ function useAuth<Arguments, Result extends { [key: string]: { user: User; token:
     }
     localforage.setItem('auth', JSON.stringify(result));
   }
-
   useEffect(() => {
     if (state.data) {
       const result = graphQLResult(state.data);
       setAuthorizationBearer(result.token.accessToken);
       persistUser(result);
-      if (result.user.role === 'user') parcourCall();
-      else setUser(result.user);
+      if (result.user.role === 'user') {
+        parcourCall();
+      } else {
+        setUser(result.user);
+      }
     }
     // eslint-disable-next-line
   }, [state.data]);
-
   useEffect(() => {
     if (parcourState.data && state.data) {
       const result = graphQLResult(state.data);

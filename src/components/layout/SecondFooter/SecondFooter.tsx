@@ -36,7 +36,9 @@ const SecondFooter = ({ className }: IProps) => {
 
           <img src={idtm} alt="idtm" width={98} className={classes.iconContainer} />
 
-          <img src={beta} alt="beta" width={91} className={classes.iconContainer} />
+          <a href="https://beta.gouv.fr/" target="_blank" rel="noreferrer">
+            <img src={beta} alt="beta" width={91} className={classes.iconContainer} />
+          </a>
 
           <img src={plan} alt="plan" width={150} className={classes.iconContainer} />
         </div>

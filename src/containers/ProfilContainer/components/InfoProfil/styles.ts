@@ -130,5 +130,6 @@ export default makeStyles((theme) =>
 
     childrenClassName: {
       margin: '3px 20px 3px 5px',
+      width: 'auto',
     },
   }));

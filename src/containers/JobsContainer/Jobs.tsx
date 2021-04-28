@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useState, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { Switch, useLocation } from 'react-router-dom';
 import Route from 'components/ui/Route/Route';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -9,11 +9,13 @@ import { useTypeJob } from 'requests/environment';
 import { useSecteurs } from 'requests/themes';
 import { useLocation as locationcall } from 'requests/location';
 import ParcoursContext from 'contexts/ParcourContext';
-
-import CloseIcon from 'assets/svg/close_drawer.svg';
+import UserContext from 'contexts/UserContext';
 import NotFoundPage from 'components/layout/NotFoundPage';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
 import open from 'assets/svg/menu_close.svg';
+import logCampus from 'assets/images/diagorient-campus.png';
+import whiteMenu from 'assets/images/menu.png';
+
 import JobsContainer from './containers/jobsContainer';
 import JobContainer from './containers/jobContainer';
 import ImmersionContainer from './containers/imersionContainer';
@@ -33,8 +35,7 @@ const Jobs = () => {
   const location = useLocation();
   const path = location.pathname.split(/[//]/)[1];
   const { parcours } = useContext(ParcoursContext);
-
-  const [renderedJobs, setRenderedJobs] = useState(0);
+  const { user } = useContext(UserContext);
   const [domaine, setDomaine] = useState<string[] | undefined>([]);
   const [search, setSearch] = useState<string | undefined>('');
   const [environments, setJob] = useState<string[] | undefined>([]);
@@ -46,31 +47,19 @@ const Jobs = () => {
   if (environments?.length !== 0) variables.environments = environments;
   if (domaine?.length !== 0) variables.secteur = domaine;
   if (domaine) variables.search = search;
-  const [loadJobs, { data, loading, refetch }] = useJobs({ variables });
-  const { data: listAccData } = useAccessibility();
-  const { data: listTypeData } = useTypeJob();
-  const { data: listSecteurData } = useSecteurs({ variables: { type: 'secteur' } });
+  const [loadJobs, { data, loading, refetch }] = useJobs({ variables, fetchPolicy: 'network-only' });
+  const [accessibilityCall, { data: listAccData }] = useAccessibility();
+  const [typeCall, { data: listTypeData }] = useTypeJob();
+  const [secteurCall, { data: listSecteurData }] = useSecteurs({ variables: { type: 'secteur' } });
   const [locationCall, { data: listLocation }] = locationcall({ variables: { search: selectedLocation } });
-
+  const jobs = useMemo(() => data?.myJobs || [], [data]);
   useDidMount(() => {
     loadJobs();
+    accessibilityCall();
+    typeCall();
+    secteurCall();
   });
-  useLayoutEffect(() => {
-    const timeout = setTimeout(() => {
-      const length = Number(data?.myJobs.length);
-      if (renderedJobs < length) {
-        setRenderedJobs(Math.min(renderedJobs + 10, length));
-      }
-    }, 50);
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line
-  }, [renderedJobs]);
 
-  useEffect(() => {
-    if (data) setRenderedJobs(10);
-  }, [data]);
-
-  const jobs = useMemo(() => data?.myJobs.slice(0, renderedJobs) || [], [data, renderedJobs]);
   useEffect(() => {
     if (parcours?.completed) {
       const fn = data ? refetch : loadJobs;
@@ -105,10 +94,9 @@ const Jobs = () => {
           privateHeaderProps={
             path === 'jobs'
               ? {
-                  closeLogoIcon: logo,
                   openLogoIcon: logo,
-                  closeIcon: CloseIcon,
-                  openIcon: open,
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
                 }
               : {}
           }
@@ -129,10 +117,9 @@ const Jobs = () => {
           privateHeaderProps={
             path === 'jobs'
               ? {
-                  closeLogoIcon: logo,
                   openLogoIcon: logo,
-                  closeIcon: CloseIcon,
-                  openIcon: open,
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
                 }
               : {}
           }
@@ -153,10 +140,32 @@ const Jobs = () => {
           privateHeaderProps={
             path === 'jobs'
               ? {
-                  closeLogoIcon: logo,
                   openLogoIcon: logo,
-                  closeIcon: CloseIcon,
-                  openIcon: open,
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
+                }
+              : {}
+          }
+        />
+        <Route
+          protected
+          path="/jobs/immersion"
+          render={(props) => (
+            <ImmersionContainer
+              {...props}
+              jobs={jobs}
+              locationCall={locationCall}
+              listLocation={listLocation?.location}
+              setSelectedLocation={setSelectedLocation}
+              selectedLocation={selectedLocation}
+            />
+          )}
+          privateHeaderProps={
+            path === 'jobs'
+              ? {
+                  openLogoIcon: logo,
+                  closeLogoIcon: user?.isCampus ? logCampus : logo,
+                  openIcon: user?.isCampus ? whiteMenu : open,
                 }
               : {}
           }

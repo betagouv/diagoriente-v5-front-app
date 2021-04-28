@@ -1,10 +1,34 @@
-export type UserRole = 'user' | 'admin';
+export type UserRole = 'user' | 'admin' | 'advisor';
+export interface WC2023 {
+  birthdate?: string;
+  degree?: string;
+  formation?: string;
+  perimeter?: number;
+  comment?: string;
+  quality?: string;
+}
+export interface wc2023Affectation {
+  status: string;
+  specialite: string;
+  advisorSelection: EligibleStructure[];
+  staps: boolean;
+  finalClub: EligibleStructure;
+  desengagement: boolean;
+  recommendation: {
+    club: EligibleStructure;
+    clubEmail: string;
+    token: string;
+    status: string;
+  };
+  finalSendMail: boolean;
+}
 export interface User {
   id: string;
   email: string;
   profile: {
     firstName: string;
     lastName: string;
+    institution: string;
   };
   played: boolean;
   isActive: boolean;
@@ -12,6 +36,22 @@ export interface User {
   location: string;
   codeGroupe: string;
   role: UserRole;
+  wc2023: WC2023;
+  addressCodes: {
+    postCode: string;
+    cityCode: string;
+  };
+  isCampus: boolean;
+  validateCampus: boolean;
+  nbrGroupes: number;
+  lastLogin: Date;
+  nbrUserGroup: { code: string; count: number }[];
+  coordinates: {
+    longitude: number;
+    lattitude: number;
+  };
+  wc2023Affectation: wc2023Affectation;
+  codeRegionCampus: string;
 }
 
 export interface Question {
@@ -26,6 +66,7 @@ export interface Option {
   parent: { path: Option[] }[];
   question: Question;
   verified: boolean;
+  user: string;
 }
 
 export interface Token {
@@ -72,6 +113,7 @@ export interface Theme {
     competenceId: string;
     tooltip: string;
   }[];
+  parentId?: string;
 }
 
 export interface Activity {
@@ -110,7 +152,13 @@ export interface Location {
 
 export interface SkillType {
   id: string;
-  theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
+  theme: {
+    title: string;
+    type: string;
+    id: string;
+    resources?: { icon: string; backgroundColor: string };
+    parentId?: string;
+  };
   activities: { id: string; title: string; description: string; options: { value: string }[] }[];
   competences: { _id: Competence; value: number }[];
   comment: {
@@ -120,13 +168,18 @@ export interface SkillType {
     commentText: string;
     status: 'pending' | 'accepted' | 'refused';
     email: string;
+    institution: string;
     location: string;
   }[];
+  startDate: string;
+  endDate: string;
+  extraActivity: string;
   engagement?: {
     id: string;
     startDate: string;
-    endDate: string;
+    endDate?: string;
     activity: string;
+    organization: string;
     context: {
       id: string;
       title: string;
@@ -147,10 +200,18 @@ export interface UserParcour {
   played: boolean;
   playedEng: boolean;
   completed: boolean;
+  accessibility: { id: string };
   families: { id: string; nom: string; category: string; resources: string[] }[];
+  nbrVisualisation: { dateVisualisation: Date; userId: string }[];
   skills: {
     id: string;
-    theme: { title: string; type: string; id: string; resources?: { icon: string; backgroundColor: string } };
+    theme: {
+      title: string;
+      type: string;
+      id: string;
+      resources?: { icon: string; backgroundColor: string };
+      parentId?: string;
+    };
   }[];
 
   globalCompetences: {
@@ -200,7 +261,7 @@ export interface PublicSkill {
   }[];
   competences: { _id: Competence; value: number }[];
   comment: { id: string; firstName: string; lastName: string; email: string; text: string; status: string };
-  user: { id: string; firstName: string; lastName: string };
+  user: { id: string; firstName: string; lastName: string; isCampus: boolean };
 }
 
 export interface Jobs {
@@ -253,4 +314,119 @@ export interface Company {
   stars: number;
   url: string;
   website: string;
+}
+export interface Institution {
+  id: string;
+  label: string;
+  nom: string;
+  longitude: number;
+  latitude: number;
+}
+export interface Addresse {
+  type: string;
+  query: string[];
+  attribution: string;
+  features: {
+    text: string;
+    place_name: string;
+    center: number[];
+    geometry: {
+      coordinates: number[];
+      type: string;
+    };
+  }[];
+}
+export interface Formation {
+  title: string;
+  longTitle: string;
+  contact: { email: string };
+  ideaType: string;
+  place: {
+    fullAddress: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+  };
+  diplomaLevel: string;
+  company: {
+    name: string;
+    headquarter: {
+      place: {
+        address: string;
+        city: string;
+      };
+    };
+  };
+}
+
+export interface StructureWC2023 {
+  id: string;
+  club_code: string;
+  name: string;
+  city: string;
+  licensed_text: string;
+  licensed_count: number;
+  referrer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[];
+  geolocation: {
+    lat: number;
+    lng: number;
+  };
+  expectations: [
+    {
+      id: Competence;
+      name: string;
+    },
+  ];
+  fnv1a32_hash: number;
+}
+export interface Stat {
+  userId: string;
+  nbrCard: { date: Date; jobId: string }[];
+  nbrSearch: { date: Date; jobId: string; type: string }[];
+}
+export interface IGroup {
+  id: string;
+  users: string[];
+  _id: string;
+  title: string;
+  code: string;
+  advisorId: string;
+}
+export interface EligibleStructure {
+  id: string;
+  expectations: { name: string }[];
+  club_code: string;
+  name: string;
+  city: string;
+  referrer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[];
+  fnv1a32_hash: number;
+  licensed_text: string;
+  geolocation: { lat: number; lng: number };
+  licensed_count: number;
+  capacity: {
+    bac: string;
+    bac1: string;
+    bac2: string;
+    bac3: string;
+    bac4: string;
+    bac5: string;
+    pasbac1: string;
+    pasbac5: string;
+    bacoubac3: string;
+    bac3oubac5: string;
+    random: string;
+  };
+}
+export interface Scopes {
+  id: string;
+  token: string;
+  name: string;
 }

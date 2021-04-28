@@ -1,8 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import download from 'assets/svg/download.svg';
 import print from 'assets/svg/print.svg';
-import partage from 'assets/svg/partage.svg';
+// import partage from 'assets/svg/partage.svg';
 import game from 'assets/svg/gamepad.svg';
 import Spinner from '../loading/Spinner';
 
@@ -11,27 +10,23 @@ import useStyles from './styles';
 interface CardIcons {
   onDownload: (i: string) => void;
   onPrint: (i: string) => void;
+  onGame: (i: string) => void;
   fetching?: boolean;
   fetchingPrint?: boolean;
+  showGame?: boolean
 }
 
-const CardIcons = ({
- onDownload, onPrint, fetching, fetchingPrint,
-}: CardIcons) => {
+const CardIcons = ({ onDownload, onPrint, fetching, fetchingPrint, onGame, showGame }: CardIcons) => {
   const classes = useStyles();
-  const history = useHistory();
-  const onNavigate = () => history.push('/profile/game');
 
   return (
     <div className={classes.headerIcons}>
-      <div className={classes.headerIcon} onClick={onNavigate}>
-        <div
-          className={classes.gameIcon}
-        >
+      {showGame && <div className={classes.headerIcon} onClick={() => onGame('game')}>
+        <div className={classes.gameIcon}>
           <img alt="game" src={game} className={classes.gameIconImage} width="80%" />
         </div>
         Jouer
-      </div>
+      </div>}
       <div onClick={() => onDownload('download')} className={classes.headerIcon}>
         <img className={classes.headerIconImage} src={download} alt="" />
         {fetching ? (
@@ -39,8 +34,8 @@ const CardIcons = ({
             <Spinner />
           </div>
         ) : (
-          'Télécharger'
-        )}
+            'Télécharger'
+          )}
       </div>
       <div className={classes.headerIcon} onClick={() => onPrint('print')}>
         <img className={classes.headerIconImage} src={print} alt="" />
@@ -50,13 +45,8 @@ const CardIcons = ({
             <Spinner />
           </div>
         ) : (
-          'Imprimer'
-        )}
-      </div>
-
-      <div className={classes.headerIcon}>
-        <img className={classes.headerIconImage} src={partage} alt="" />
-        Partager
+            'Imprimer'
+          )}
       </div>
     </div>
   );

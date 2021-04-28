@@ -1,21 +1,29 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles<Theme, { isCampus?: boolean }>((theme) => ({
   root: {
     backgroundColor: '#E5E5E5',
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    height: 'calc(100vh - 113px)',
     paddingBottom: 40,
     alignItems: 'center',
+    flex: 1,
   },
   title: {
     fontFamily: 'ocean',
     fontWeight: 900,
-    fontSize: 42,
+    fontSize: 56,
     textAlign: 'center',
-    color: theme.palette.info.main,
+    color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
+    marginBottom: (props) => (props.isCampus ? 10 : 40),
+    marginTop: 30,
+  },
+  titleDesc: {
+    fontWeight: 'bolder',
+    fontSize: 36,
+    textAlign: 'center',
+    color: (props) => (props.isCampus ? '#ff4d00' : theme.palette.info.main),
     marginBottom: 40,
   },
   subTitle: {
@@ -44,7 +52,7 @@ export default makeStyles((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 0,
   },
   btn: {
     backgroundColor: theme.palette.secondary.main,
@@ -65,5 +73,55 @@ export default makeStyles((theme) => ({
   },
   emptyDiv: {
     width: 260,
+  },
+  forms: {
+    marginTop: 30,
+    justifySelf: 'center',
+  },
+  containerAutoComp: {
+    '& .MuiAutocomplete-inputRoot-228': {
+      padding: 0,
+    },
+    width: '235px !important',
+    position: 'relative',
+  },
+  selectwrapper: {
+    display: ' flex',
+    alignItems: 'center',
+  },
+  selectAutoComplete: {
+    display: ' flex',
+    alignItems: 'center',
+    marginTop: '15px',
+    marginBottom: 9,
+  },
+  labelSelect: {
+    fontWeight: 'bolder',
+    fontSize: 16,
+    color: 'black',
+    marginRight: 20,
+  },
+  labelContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: '100%',
+  },
+  requiredInput: {
+    color: theme.palette.success.main,
+  },
+  textError: {
+    textAlign: 'center',
+    color: 'red',
+    fontSize: 14,
+  },
+  infoFields: {
+    textAlign: 'center',
+    color: 'gray',
+    fontSize: 12,
+  },
+  formDate: {
+    margin: '10px 0px 16px 0px',
   },
 }));

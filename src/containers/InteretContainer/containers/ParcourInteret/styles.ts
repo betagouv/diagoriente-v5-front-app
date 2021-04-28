@@ -62,7 +62,6 @@ export default makeStyles<Theme>((theme) => ({
     flexDirection: 'column',
     padding: '0px 40px',
     backgroundColor: '#E5E5E5',
-
   },
   maxWidth: {
     maxWidth: 1080,
@@ -154,5 +153,27 @@ export default makeStyles<Theme>((theme) => ({
   btnLabel: {
     color: '#fff',
     marginRight: 10,
+  },
+  textModal: {
+    padding: '20px 0px',
+    textAlign: 'center',
+  },
+  titleContainerModal: {
+    fontWeight: 'bold',
+    fontSize: 42,
+    fontFamily: 'ocean',
+    color: theme.palette.secondary.main,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  imgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 20,
+    width: '80%',
+  },
+  imgContainerWarning: {
+    width: '100%',
+    height: '100%',
   },
 }));

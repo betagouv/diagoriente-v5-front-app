@@ -6,6 +6,7 @@ export default makeStyles({
     flex: '1 1 0%',
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: 20,
   },
   profileHeader: {
     color: '#223A7A',
@@ -32,6 +33,9 @@ export default makeStyles({
     marginTop: 5,
     position: 'relative',
     zIndex: 3,
+    '&:hover': {
+      color: '#00CFFF',
+    },
   },
   content: {
     display: 'flex',
@@ -69,7 +73,7 @@ export default makeStyles({
   },
   itemButton: {
     backgroundColor: '#fff',
-    width: '90%',
+    width: '93%',
     fontSize: '1.7vw',
     fontFamily: 'Ocean',
     fontWeight: 900,
@@ -100,5 +104,22 @@ export default makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     height: '200px',
+  },
+  messages: {
+    backgroundColor: '#fff1f6',
+    width: '100%',
+    height: 110,
+    marginTop: -20,
+    marginBottom: 15,
+    padding: '0px 20px',
+  },
+  contentMessage: {
+    maxWidth: 1080,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
   },
 });

@@ -1,25 +1,33 @@
-import React, {
- useState, useContext, useMemo, useEffect,
-} from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { useFamilies } from 'requests/familles';
 import Button from 'components/button/Button';
 import { Families } from 'requests/types';
+import ModalContainer from 'components/common/Modal/ModalContainer';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { groupBy,orderBy } from 'lodash';
+import { groupBy } from 'lodash';
 import PlaceHolder from 'containers/InteretContainer/components/placeholderInterest/Placeholder';
 import Arrow from 'assets/svg/arrow';
+import mainInterest from 'assets/svg/mainInterest.svg';
+
 import interestContext from 'contexts/InterestSelected';
 import parcoursContext from 'contexts/ParcourContext';
 import Slider from 'components/Slider/Slider';
+import logo from 'assets/svg/picto_attention.svg';
 import Spinner from '../../components/SpinnerInterest/Spinner';
 import FamileSelected from '../../components/SelectedFamille/SelectedFamille';
+
 import useStyles from './styles';
 
 const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const { setInterest, selectedInterest } = useContext(interestContext);
   // eslint-disable-next-line
-  const [index, setIndex] = useState(0);
+  const [openWarning, setWarning] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handelOpen = () => setOpen(true);
+  const onHandelClose = () => setOpen(false);
+  const onHandelCloseWarning = () => setWarning(false);
+
   const { parcours } = useContext(parcoursContext);
   const [selectedInterests, setSelectedInterest] = useState(
     selectedInterest || parcours?.families || ([] as Families[]),
@@ -33,7 +41,7 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
     () =>
       Object.entries(groupBy(data?.families.data, 'category')).map((el) => ({
         title: el[0],
-        data: orderBy(el[1],['order'],['asc']),
+        data: el[1],
       })),
     [data],
   );
@@ -56,14 +64,29 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
   const isChecked = (id?: string): boolean => !!selectedInterests.find((elem) => elem.id === id);
   const handleClick = (e: Families) => {
     let copySelected: Families[] = [...selectedInterests];
-    if (isChecked(e.id)) {
-      copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
-    } else if (selectedInterests.length < 5) {
-      copySelected.push(e);
+    if (copySelected.length !== 5) {
+      if (isChecked(e.id)) {
+        copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
+      } else if (selectedInterests.length < 5) {
+        copySelected.push(e);
+      }
+      setInterest(copySelected);
+      setSelectedInterest(copySelected);
+    } else if (copySelected.length === 5) {
+      if (isChecked(e.id)) {
+        copySelected = selectedInterests.filter((ele) => ele.id !== e?.id);
+        setInterest(copySelected);
+        setSelectedInterest(copySelected);
+      } else {
+        handelOpen();
+      }
     }
-    setInterest(copySelected);
-    setSelectedInterest(copySelected);
   };
+  useEffect(() => {
+    const test = selectedInterest?.every((interet) => interet.category === "avec d'autres personnes");
+    if (selectedInterest?.length === 5 && test) setWarning(true);
+  }, [selectedInterest]);
+
   const deleteFamille = (id: number) => {
     const familleSelected = selectedInterests[id];
     let copySelected: Families[] = [...selectedInterests];
@@ -97,13 +120,13 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
             {loading
               ? renderAllPlaceholder()
               : selectedInterests.map((el, i) => (
-                <FamileSelected
-                  key={el.id}
-                  handleClick={() => deleteFamille(i)}
-                  famille={el}
-                  index={i}
-                  direction="horizontal"
-                />
+                  <FamileSelected
+                    key={el.id}
+                    handleClick={() => deleteFamille(i)}
+                    famille={el}
+                    index={i}
+                    direction="horizontal"
+                  />
                 ))}
 
             {!loading && renderPlaceholder()}
@@ -120,6 +143,38 @@ const ParcoursInteret = ({ location }: RouteComponentProps) => {
           </div>
         </div>
       </div>
+      <ModalContainer open={open} backdropColor="#011A5E" colorIcon="#420FAB">
+        <div style={{ height: 240, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 40 }}>
+          <div>
+            <img src={logo} alt="att" width={35} height={35} />
+          </div>
+          <div className={classes.textModal}>
+            Tu as déjà choisi 5 familles d’intérêts, tu dois en supprimer si tu souhaites en ajouter de nouvelles.
+          </div>
+          <div>
+            <Button onClick={onHandelClose} className={classes.btn}>
+              <div className={classes.btnLabel}>J'ai compris !</div>
+            </Button>
+          </div>
+        </div>
+      </ModalContainer>
+      <ModalContainer open={openWarning} backdropColor="#011A5E" colorIcon="#420FAB">
+        <div style={{ height: "80%", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 40 }}>
+          <div className={classes.titleContainerModal}>UNE PETITE MINUTE...</div>
+          <div className={classes.textModal}>
+            Tu as choisi tes familles d’intérêts seulement dans la 1ère partie, es-tu sûr.e d’avoir exploré toutes les
+            familles d’intérêts
+          </div>
+          <div className={classes.imgContainer}>
+            <img src={mainInterest} alt="" className={classes.imgContainerWarning}/>
+          </div>
+          <div>
+            <Button onClick={onHandelCloseWarning} className={classes.btn}>
+              <div className={classes.btnLabel}>J'ai compris !</div>
+            </Button>
+          </div>
+        </div>
+      </ModalContainer>
     </div>
   );
 };

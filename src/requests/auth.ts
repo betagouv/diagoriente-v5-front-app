@@ -15,6 +15,8 @@ export const registerMutation = gql`
     $location: String!
     $institution: String
     $codeGroupe: String
+    $coordinates: coordinateLocationInput
+    $validateCampus: Boolean
   ) {
     register(
       email: $email
@@ -25,6 +27,8 @@ export const registerMutation = gql`
       codeGroupe: $codeGroupe
       location: $location
       logo: $logo
+      coordinates: $coordinates
+      validateCampus: $validateCampus
     ) {
       user {
         id
@@ -38,6 +42,18 @@ export const registerMutation = gql`
         codeGroupe
         location
         logo
+        isCampus
+        validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
+        wc2023 {
+          formation
+          degree
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -66,8 +82,8 @@ export const useRegister = (options: MutationHookOptions<{ register: RegisterDat
   useLocalMutation(registerMutation, options);
 
 export const loginMutation = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation Login($email: String!, $password: String!, $isCampus: Boolean) {
+    login(email: $email, password: $password, isCampus: $isCampus) {
       user {
         id
         email
@@ -79,6 +95,60 @@ export const loginMutation = gql`
           firstName
           lastName
           institution
+        }
+        isCampus
+        validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
+        codeRegionCampus
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
+          comment
+          quality
+        }
+        wc2023Affectation {
+          status
+          specialite
+          advisorDecision
+          advisorSelection {
+            expectations {
+              name
+            }
+            club_code
+            name
+            city
+            referrer {
+              firstName
+              lastName
+              email
+            }
+            fnv1a32_hash
+            licensed_text
+            geolocation {
+              lat
+              lng
+            }
+            licensed_count
+          }
+          recommendation {
+            club {
+              name
+              fnv1a32_hash
+              referrer {
+                firstName
+                lastName
+                email
+              }
+            }
+            clubEmail
+            token
+            status
+          }
         }
       }
       token {
@@ -132,6 +202,18 @@ export const refreshMutation = gql`
           firstName
           lastName
           institution
+        }
+        isCampus
+        validateCampus
+        coordinates {
+          longitude
+          lattitude
+        }
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
         }
       }
       token {
@@ -189,6 +271,19 @@ export const resetMutation = gql`
           lastName
           institution
         }
+        coordinates {
+          longitude
+          lattitude
+        }
+        isCampus
+        validateCampus
+        codeGroupe
+        wc2023 {
+          degree
+          formation
+          perimeter
+          birthdate
+        }
       }
       token {
         tokenType
@@ -211,3 +306,12 @@ export interface ResetData {
 
 export const useReset = (options: MutationHookOptions<{ reset: ResetData }, ResetArguments> = {}) =>
   useLocalMutation(resetMutation, options);
+
+export const logoutMutation = gql`
+  mutation {
+    logout
+  }
+`;
+
+export const useLogout = (options?: MutationHookOptions<{ logout: string }>) =>
+  useLocalMutation(logoutMutation, options);

@@ -6,9 +6,49 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      // justifyContent: 'center',
       overflow: 'auto',
-      paddingTop: 30,
-      paddingBottom: 20,
+      paddingTop: 110,
+      position: 'relative',
+      background: '#F3F2F4',
+      height: '100vh',
+    },
+    boxInfo: {
+      width: '289px',
+      height: '269px',
+      position: 'absolute',
+      backgroundColor: 'white',
+      top: 50,
+      right: 30,
+      borderRadius: 10,
+      boxShadow: '0px 0px 5px -3px rgba(0, 0, 0, 0.75)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    boxInfoImg: {
+      marginTop: 19,
+      marginBottom: 24,
+    },
+    boxInfoDescription: {
+      marginBottom: 10,
+    },
+    descriptionBoxInfo: {
+      marginTop: 2,
+      marginBottom: 2,
+      textAlign: 'center',
+    },
+    linkBoxInfo: {
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 14,
+      color: '#4D6EC5',
+      lineHeight: '20px',
+      marginTop: 12,
+      marginBottom: 12,
+    },
+    textDescription: {
+      marginTop: 30,
     },
 
     textColor: {
@@ -17,10 +57,11 @@ export default makeStyles((theme: Theme) =>
 
     root: {
       display: 'flex',
-      width: "70%",
+      width: '70%',
       alignItems: 'center',
       justifyContent: 'space-between',
       marginTop: 20,
+      flexWrap: 'wrap',
     },
 
     square: {

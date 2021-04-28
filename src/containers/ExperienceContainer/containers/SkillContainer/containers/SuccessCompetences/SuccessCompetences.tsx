@@ -16,11 +16,11 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   theme: Theme;
 }
 
-const ResultCompetences = ({ theme, match, history }: Props) => {
+const ResultCompetences = ({ theme, match, history, location }: Props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const { parcours } = useContext(ParcourContext);
-
+  const isEdit = location.search;
   const skill = parcours?.skills.find((e) => e.theme?.id === match.params.themeId);
   const handleOpen = () => {
     setOpen(true);
@@ -31,6 +31,9 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
     case 'engagement':
       typeXp = 'engagement';
       break;
+    case 'sport':
+      typeXp = 'sport';
+      break;
     case 'personal':
       typeXp = 'personnelle';
       break;
@@ -40,7 +43,7 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
     default:
       typeXp = 'personnelle';
   }
-  
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -49,12 +52,7 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
         </div>
         <div className={classes.description}>
           <p className={classes.text}>
-            Tu as ajouté une expérience
-            {' '}
-            {typeXp}
-            {' '}
-            à ton parcours,
-            et tu as identifié de nouvelles compétences.
+            Tu as ajouté une expérience {typeXp} à ton parcours, et tu as identifié de nouvelles compétences.
           </p>
         </div>
         {skill?.theme.type === 'professional' ? (
@@ -70,13 +68,14 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
             checked
             className={classes.imgContainer}
           >
-            <img src={theme.resources?.icon} alt="" />
+            <img src={theme.resources?.icon} alt="" width={skill?.theme.type === 'sport' ? 90 : "100%"}  />
           </Avatar>
         )}
 
         <div className={classes.textDescription}>
           <p className={classes.text}>
-            Tu peux maintenant demander une recommandation pour cette expérience, elle donnera confiance à tes futurs recruteurs.
+            Tu peux maintenant demander une recommandation pour cette expérience, elle crédibilisera ta candidature et
+            t&apos;aidera à te démarquer !
           </p>
         </div>
         <div className={classes.btnContainer}>
@@ -90,7 +89,15 @@ const ResultCompetences = ({ theme, match, history }: Props) => {
       </div>
       {skill && (
         <Recommendation
-          onSuccess={() => history.push(`/experience/skill/${skill.theme.id}/done`)}
+          // eslint-disable-next-line no-confusing-arrow
+          onSuccess={() =>
+            isEdit === '?edit' ||
+            isEdit === '?add' ||
+            isEdit === `?/profile/experience?type=${skill?.theme.type}` ||
+            isEdit === '?/profile/experience'
+              ? history.push(`/profile/experience?type=${skill?.theme.type}`)
+              : history.push(`/experience/skill/${skill.theme.id}/done`)
+          }
           skill={skill}
           open={open}
           setOpen={setOpen}

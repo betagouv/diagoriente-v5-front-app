@@ -19,23 +19,14 @@ interface Props extends RouteComponentProps {
   setComment: (comment: string) => void;
 }
 
-const FirstRecommendation = ({
- skill, location, comment, setComment,
-}: Props) => {
+const FirstRecommendation = ({ skill, location, comment, setComment }: Props) => {
   const classes = useStyles();
   const title = (
     <span>
-      Bonjour
-      {' '}
-      {` ${skill.comment.firstName} ${skill.comment.lastName}`}
+      Bonjour {` ${skill.comment.firstName} ${skill.comment.lastName}`}
       ,
       <br />
-      Vous pouvez renseigner ci dessous votre appréciation du travail de
-      {' '}
-      {skill.user.firstName}
-      {' '}
-      {skill.user.lastName}
-      {' '}
+      Vous pouvez renseigner ci dessous votre appréciation du travail de {skill.user.firstName} {skill.user.lastName}{' '}
       lorsque vous étiez son tuteur/sa tutrice
     </span>
   );
@@ -43,6 +34,7 @@ const FirstRecommendation = ({
   const commentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
+
 
   return (
     <div className={classes.container}>
@@ -53,16 +45,14 @@ const FirstRecommendation = ({
             <span className={classes.themeHeader}>{skill.theme.title}</span>
             {/*  <span className={classes.themeHeader}>{skill.theme.date}</span> */}
           </div>
-          <div className={classes.errorContainer}>
+          {/*  <div className={classes.errorContainer}>
             <img src={attention} alt="attention" height={15} />
             <span className={classes.errorText}>Signaler une erreur</span>
-          </div>
+          </div> */}
         </div>
         <div className={classes.bodyCard}>
           <span className={classes.competenceTitle}>
-            Compétences identifiées par
-            {' '}
-            {` ${skill.user.firstName} ${skill.user.lastName}  `}
+            Compétences identifiées par {` ${skill.user.firstName} ${skill.user.lastName}  `}
             lors de son expérience
           </span>
           {skill.competences.map((competence) => (
@@ -77,11 +67,12 @@ const FirstRecommendation = ({
           ))}
         </div>
       </div>
+  
       <span className={classes.recommendation}>Votre recommandation </span>
       <TextField
         name="comment"
         value={comment}
-        placeholder="Ecrivez ici votre recommandation (xxx caractères max)"
+        placeholder="Ecrivez ici votre recommandation"
         onChange={commentChange}
         InputProps={{
           classes: {

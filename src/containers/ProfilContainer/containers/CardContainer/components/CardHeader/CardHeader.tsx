@@ -1,22 +1,30 @@
 import React, { useContext } from 'react';
 import UserContext from 'contexts/UserContext';
 import logo from 'assets/svg/diagoriente_logo_01_bg_transparent 2.svg';
-import betaGouv from 'assets/svg/logo-beta.gouv 3.svg';
+import betaGouv from 'assets/images/marianne.png';
 import useStyles from './styles';
 
 interface CardHeaderProps {
   children?: React.ReactChild;
+  infoUser?: { firstName: string; lastName: string };
 }
 
-const CardHeader = ({ children }: CardHeaderProps) => {
+const CardHeader = ({ children, infoUser }: CardHeaderProps) => {
   const { user } = useContext(UserContext);
   const classes = useStyles();
   let userInfo = (
     <div className={classes.userInfo}>
       <div className={classes.userName}>
-        {user?.profile.firstName}
-        {' '}
-        {user?.profile.lastName}
+        {infoUser ? (
+          <>
+            {infoUser.firstName} {infoUser.lastName}
+          </>
+        ) : (
+          <>
+            {' '}
+            {user?.profile.firstName} {user?.profile.lastName}
+          </>
+        )}
       </div>
       {user?.location}
     </div>
@@ -35,7 +43,7 @@ const CardHeader = ({ children }: CardHeaderProps) => {
       {userInfo}
       <div className={classes.appInfo}>
         <img className={classes.appLogo} height={65} src={logo} alt="logo" />
-        <img height={55} src={betaGouv} alt="betaGov" />
+        <img width={100} src={betaGouv} alt="betaGov" />
       </div>
     </div>
   );

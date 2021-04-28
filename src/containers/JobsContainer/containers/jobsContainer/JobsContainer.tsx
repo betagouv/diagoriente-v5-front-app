@@ -1,18 +1,25 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useRef, useLayoutEffect } from 'react';
 import Logo from 'assets/svg/Frame.svg';
 import Title from 'components/common/TitleImage/TitleImage';
 import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import useOnclickOutside from 'hooks/useOnclickOutside';
 import ParcoursContext from 'contexts/ParcourContext';
+import userContext from 'contexts/UserContext';
+import Tooltip from '@material-ui/core/Tooltip';
+import { useAddStat } from 'requests/statistique';
 
 import { Jobs } from 'requests/types';
 import Trait from 'assets/images/trait_jaune.svg';
 import Reset from 'components/common/Rest/Rest';
 import Spinner from 'components/Spinner/Spinner';
+import Button from 'components/button/Button';
+import classesNames from 'utils/classNames';
+import { useDidMount } from 'hooks/useLifeCycle';
 import Autocomplete from '../../components/Autocomplete/AutoCompleteJob';
 import JobCard from '../../components/Card/CardJob';
 import Select from '../../components/Select/Select';
+import SelectData from '../../components/SelectData/SelectData';
 import useStyles from './styles';
 
 interface IProps {
@@ -53,17 +60,29 @@ const JobsContainer = ({
 }: IProps) => {
   const classes = useStyles();
   const { parcours } = useContext(ParcoursContext);
-
+  const { user } = useContext(userContext);
+  const [jobsToShow, setJobsToShow] = useState(12);
   const [openType, setOpenType] = useState(false);
   const [openDomain, setOpenDomain] = useState(false);
   const [openAcc, setOpenAcc] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
+  const [openDataToRender, setOpenDataToRender] = useState(false);
+  const [dataToRender, setDataToRender] = useState(12);
+  const [addStatCall, addStatSate] = useAddStat();
 
   const divDomaine = useRef<HTMLDivElement>(null);
   const divType = useRef<HTMLDivElement>(null);
   const divAcc = useRef<HTMLDivElement>(null);
+  const divData = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef(0);
 
   const [clearMessage, setClearMessage] = useState<null | boolean>(null);
+
+  useDidMount(() => {
+    if (user) {
+      addStatCall({ variables: { userId: user?.id, nbrCard: [], nbrSearch: [] } });
+    }
+  });
 
   useEffect(() => {
     async function c() {
@@ -74,6 +93,10 @@ const JobsContainer = ({
     }
     c();
   }, []);
+
+  useLayoutEffect(() => {
+    window.scroll({ top: scrollRef.current, behavior: 'auto' });
+  }, [jobsToShow]);
 
   useOnclickOutside(divDomaine, () => {
     if (openDomain) {
@@ -98,6 +121,7 @@ const JobsContainer = ({
     setSearch(v);
     setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(v.toLowerCase()) !== -1));
   };
+
   const onSelectDomaine = (label?: string) => {
     if (label) {
       const array = [...domaine];
@@ -110,6 +134,15 @@ const JobsContainer = ({
       setDomaine(array);
     }
   };
+  useEffect(() => {
+    const array = [...accessibility];
+    if (parcours?.accessibility) {
+      array.push(parcours?.accessibility.id);
+    }
+    setAccessibility(array);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [parcours?.accessibility]);
+
   const onSelectAcc = (label?: string) => {
     if (label) {
       const array = [...accessibility];
@@ -134,24 +167,37 @@ const JobsContainer = ({
       setJob(array);
     }
   };
+  const onSelectData = (label?: number) => {
+    if (label) {
+      setDataToRender(label);
+      setJobsToShow(label);
+      setOpenDataToRender(false);
+    }
+  };
+
+  const renderedJobs = jobs?.slice(0, jobsToShow);
 
   return (
-    <div>
+    <div className={classes.wrapper}>
       {clearMessage && (
         <div className={classes.messages}>
           <div className={classes.contentMessage}>
             <div className={classes.text}>
               <div>Pour voir une sélection personnalisée de métiers qui pourraient te plaire,</div>
               <div>
-                commence à remplir ton profil en ajoutant tes{' '}
+                commence à remplir ton profil en ajoutant tes
+{' '}
                 <Link to="/experience">
                   {' '}
                   <span className={classes.clearTextBold}>expériences</span>
-                </Link>{' '}
-                et tes{' '}
+                </Link>
+{' '}
+                et tes
+{' '}
                 <Link to="/interet">
                   <span className={classes.clearTextBold}>centres d'intérêt</span>
-                </Link>{' '}
+                </Link>
+{' '}
               </div>
             </div>
             <div>
@@ -217,17 +263,22 @@ const JobsContainer = ({
               onClick={() => setOpenType(!openType)}
               reference={divType}
             />
-            <Select
-              options={listAccData}
-              onSelectText={onSelectAcc}
-              name="accessibility"
-              placeholder="Niveau d’accès"
-              value={accessibility}
-              className={classes.containerAutoComp}
-              open={openAcc}
-              onClick={() => setOpenAcc(!openAcc)}
-              reference={divAcc}
-            />
+            <>
+              <Tooltip title="Choisis le niveau que tu veux atteindre">
+                <Select
+                  options={listAccData}
+                  onSelectText={onSelectAcc}
+                  name="accessibility"
+                  placeholder="Niveau d’accès"
+                  value={accessibility}
+                  className={classes.containerAutoComp}
+                  open={openAcc}
+                  onClick={() => setOpenAcc(!openAcc)}
+                  reference={divAcc}
+                  parcourAcc={parcours?.accessibility}
+                />
+              </Tooltip>
+            </>
           </div>
           {loading ? (
             <div className={classes.spinnerContainer}>
@@ -236,22 +287,58 @@ const JobsContainer = ({
           ) : (
             <div className={classes.boxsContainer}>
               {!parcours?.completed && <Spinner />}
-              {jobs?.length === 0
+              {renderedJobs?.length === 0
                 ? 'Aucun resultat trouvé !'
-                : jobs?.map((el) => (
-                    <JobCard
+                : renderedJobs?.map((el) => (
+                  <JobCard
                       key={el.id}
                       id={el.id}
                       title={el.title}
                       description={el.description}
                       accessibility={el.accessibility}
                       favoris={el.favorite}
+                      user={user?.id}
                     />
                   ))}
             </div>
           )}
         </div>
       </div>
+      {jobs && jobsToShow < jobs.length && (
+        <div className={classes.footerContainer}>
+          <div className={classes.footerContent}>
+            <div className={classes.itemFooter} />
+            <div className={classesNames(classes.itemFooter, classes.centerItem)}>
+              <Button
+                onClick={() => {
+                  scrollRef.current = window.scrollY;
+                  setJobsToShow(jobsToShow + dataToRender);
+                }}
+                className={classes.moreButton}
+              >
+                Voir plus de métiers
+              </Button>
+            </div>
+            <div className={classesNames(classes.itemFooter, classes.rightItem)}>
+              <div className={classes.rightItem}>
+                <span className={classes.textSelect}>Afficher</span>
+                <SelectData
+                  options={[12, 24, 36]}
+                  onSelectText={onSelectData}
+                  name="dataToRender"
+                  value={dataToRender}
+                  placeholder={`${dataToRender}`}
+                  className={classes.containerAutoComp}
+                  open={openDataToRender}
+                  onClick={() => setOpenDataToRender(!openDataToRender)}
+                  reference={divData}
+                />
+                <span className={classes.textSelect}>métiers par page</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -18,12 +18,16 @@ export const getSkillsQuery = gql`
             icon
             backgroundColor
           }
+          parentId
         }
         activities {
           title
           description
           id
         }
+        startDate
+        endDate
+        extraActivity
         competences {
           _id {
             title
@@ -49,6 +53,7 @@ export const getSkillsQuery = gql`
           startDate
           endDate
           activity
+          organization
           options {
             option {
               id
@@ -88,12 +93,16 @@ export const getSkillQuery = gql`
           icon
           backgroundColor
         }
+        parentId
       }
       activities {
         title
         description
         id
       }
+      startDate
+      endDate
+      extraActivity
       competences {
         _id {
           title
@@ -119,6 +128,7 @@ export const getSkillQuery = gql`
         startDate
         endDate
         activity
+        organization
         options {
           option {
             id
@@ -147,8 +157,8 @@ export const useLazySkill = (options: LazyQueryHookOptions<SkillData, SkillArgum
   useLocalLazyQuery(getSkillQuery, options);
 
 export const addSkillMutation = gql`
-  mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput) {
-    addSkill(theme: $theme, activities: $activities, competences: $competences , engagement:$engagement) {
+  mutation AddSkill($theme: ID!, $activities: [ID], $competences: [skillCompetenceType]! , $engagement:skillEngagementInput, $startDate: String, $endDate:String, $extraActivity:String) {
+    addSkill(theme: $theme, activities: $activities, competences: $competences , engagement: $engagement, startDate: $startDate, endDate: $endDate, extraActivity:$extraActivity) {
       ${parcourResult}
     }
   }
@@ -161,12 +171,16 @@ export interface addSkillArguments {
     _id: string;
     value: number;
   }[];
+  startDate?: string;
+  endDate?: string;
+  extraActivity?: string;
   engagement?: {
     startDate: string;
-    endDate: string;
+    endDate?: string;
     context: string;
     options: string[][];
     activity: string;
+    organization: string;
   };
 }
 
@@ -191,18 +205,22 @@ export interface updateSkillArguments {
     _id: string;
     value: number;
   }[];
+  startDate?: string;
+  endDate?: string;
+  extraActivity?: string;
   engagement?: {
     startDate: string;
-    endDate: string;
+    endDate?: string;
     context: string;
     options: string[][];
     activity: string;
+    organization: string;
   };
 }
 
 export const updateSkillMutation = gql`
-  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType] , $engagement: skillEngagementInput) {
-    updateSkill(id: $id, activities: $activities, competences: $competences , engagement : $engagement) {
+  mutation UpdateSkill($id: ID!, $activities: [ID], $competences: [skillCompetenceType] , $engagement: skillEngagementInput,$startDate: String, $endDate:String, $extraActivity:String ) {
+    updateSkill(id: $id, activities: $activities, competences: $competences , engagement : $engagement,startDate: $startDate, endDate: $endDate, extraActivity:$extraActivity) {
       ${parcourResult}
     }
   }
@@ -219,6 +237,7 @@ export const getPublicSkillQuery = gql`
         id
         firstName
         lastName
+        isCampus
       }
       theme {
         id

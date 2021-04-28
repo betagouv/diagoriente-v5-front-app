@@ -189,7 +189,8 @@ export default makeStyles((theme: Theme) =>
       position: 'relative',
     },
     rowActivityWidth: {
-      width: WIDTH,
+      maxWidth: WIDTH,
+      width: '100%',
     },
     rowActivity: {
       display: 'flex',
@@ -199,15 +200,14 @@ export default makeStyles((theme: Theme) =>
       opacity: 0,
     },
     activityTitle: {
-      border: '1px solid #00CFFF',
-      background: 'rgba(122, 230, 255, 0.2)',
-      borderRadius: 30,
-      color: '#00B2DB',
-      WebkitTextStroke: '#00B2DB',
-      WebkitTextStrokeWidth: '0.1px',
-      fontWeight: 'bold',
-      padding: '9px 15px',
+      width: '100%',
       marginTop: 45,
+      maxWidth: WIDTH,
+    },
+    'MuiTextField-root': {
+      '& fieldset': {
+        display: 'none',
+      },
     },
 
     textArea: {
@@ -216,6 +216,7 @@ export default makeStyles((theme: Theme) =>
       resize: 'none',
       width: '100%',
       maxWidth: WIDTH,
+      border: '1px solid #00CFFF',
     },
 
     defaultValue: {
@@ -226,8 +227,10 @@ export default makeStyles((theme: Theme) =>
     activityCaracter: {
       margin: 2,
       color: theme.palette.error.main,
-      width: WIDTH,
+      maxWidth: WIDTH,
+      width: '100%',
       display: 'flex',
       justifyContent: 'flex-end',
     },
-  }));
+  }),
+);

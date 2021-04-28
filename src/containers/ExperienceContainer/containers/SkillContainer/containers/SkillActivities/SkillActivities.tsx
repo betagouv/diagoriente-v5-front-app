@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField/TextField';
 
 import { useTheme } from 'requests/themes';
 import { Theme } from 'requests/types';
@@ -30,19 +31,31 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   activities: Activity[];
   setActivities: (activities: Activity[]) => void;
   isCreate?: boolean;
+  setExtraActivity: (e: string) => void;
+  extraActivity: string;
 }
 
 const ExperienceActivity = ({
- match, activities, setActivities, history, theme, isCreate, location,
+  match,
+  activities,
+  setActivities,
+  history,
+  theme,
+  isCreate,
+  location,
+  setExtraActivity,
+  extraActivity,
 }: Props) => {
   const classes = useStyles();
   const { redirect } = decodeUri(location.search);
   const addActivity = (activite: Activity) => {
     setActivities([...activities, activite]);
   };
-
   const deleteActivity = (id: string) => {
     setActivities(activities.filter((act) => act.id !== id));
+  };
+  const onExtraActivity = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setExtraActivity(e.target.value);
   };
 
   const { data, loading } = useTheme({ variables: { id: match.params.themeId } });
@@ -52,14 +65,20 @@ const ExperienceActivity = ({
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
-            title={theme.type === 'professional' ? 'MES EXPERIENCES PROFESSIONNELLES' : 'MES EXPERIENCES PERSONNELLES'}
+            title={
+              theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : 'MES EXPERIENCES PERSONNELLES'
+            }
             color="#223A7A"
             size={26}
           />
           <RestLogo
             onClick={() => {
               let path = '/experience';
-              if (!isCreate) path = `/profil/experience?type=${data && data.theme.type}`;
+              if (!isCreate) path = `/profile/experience?type=${data && data.theme.type}`;
               else if (redirect) path = redirect;
               history.replace(path);
             }}
@@ -109,16 +128,38 @@ const ExperienceActivity = ({
                 );
               })}
           </div>
+          <div className={classes.extraActivityContainer}>
+            <p className={classes.labelExtraActivity}>Ou décris toi-même une activité:</p>
+            <TextField
+              name="activity"
+              value={extraActivity}
+              placeholder="Ecrivez ici votre activité (140 caractères max)"
+              onChange={onExtraActivity}
+              InputProps={{
+                classes: {
+                  input: classes.defaultValue,
+                },
+              }}
+              classes={{ root: classes['MuiTextField-root'] }}
+              rows={3}
+              multiline
+              className={classes.textArea}
+              variant="outlined"
+            />
+            <p className={classes.activityCaracter}>{140 - extraActivity.length} caractères restant</p>
+          </div>
           <Link
             to={`/experience/skill/${match.params.themeId}/competences${location.search}`}
             className={classes.hideLine}
           >
-            <NextButton disabled={!activities.length} />
+            <NextButton disabled={extraActivity.length === 0 && activities.length === 0} />
           </Link>
         </div>
         {isCreate && (
           <Link
-            to={`/experience/${theme.type === 'professional' ? 'theme-pro' : 'theme'}${location.search}`}
+            to={`/experience/${
+              theme.type === 'professional' ? 'theme-pro' : theme.type === 'sport' ? 'theme?type=sport' : 'theme'
+            }${location.search}`}
             className={classes.btnpreced}
           >
             <CancelButton />

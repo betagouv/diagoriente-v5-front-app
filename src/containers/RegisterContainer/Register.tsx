@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Input from 'components/inputs/Input/Input';
-import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+// import AutoComplete from 'components/inputs/AutoComplete/AutoComplete';
+import AutoComplete from 'containers/JobsContainer/components/Autocomplete/AutoCompleteJob';
 import Button from 'components/button/Button';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Spinner from 'components/Spinner/Spinner';
@@ -29,6 +30,13 @@ const Register = () => {
   const { user } = useContext(UserContext);
   const [errorCondition, setErrorCondition] = useState('');
   const [showPasswordState, setShowPasswoed] = useState(false);
+  const [openLocation, setOpenLocation] = useState(false);
+  const [coordinates, setCoordinates] = useState<Number[]>([]);
+  const [codeAddresses, setCodeAddresses] = useState<{ postCode: string; cityCode: string }>({
+    postCode: '',
+    cityCode: '',
+  });
+
   const [registerCall, registerState] = useAuth(useRegister);
   const [search, setSearch] = useState('');
 
@@ -60,17 +68,30 @@ const Register = () => {
     required: ['firstName', 'lastName', 'email', 'password', 'logo', 'location'],
   });
   const { values, errors, touched } = state;
-  const [locationCall, { data, loading }] = useLocation({ variables: { search } });
+  const [locationCall, { data }] = useLocation({ variables: { search } });
 
   const { loading: loadingAvatar, data: avatarData } = useAvatars();
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (actions.validateForm()) {
       if (values.acceptCondition) {
-        const res = { ...values };
-        registerCall({
-          variables: res,
-        });
+        const hasGoodGPS = coordinates[0] && coordinates[1];
+
+        if (values.location.length !== 0 && hasGoodGPS) {
+          const res = {
+            ...values,
+            codeGroupe: values.codeGroupe.trim(),
+            coordinates: { lattitude: coordinates[1], longitude: coordinates[0] },
+            addressCodes: codeAddresses,
+            validateCampus: false,
+          };
+
+          registerCall({
+            variables: res,
+          });
+        } else {
+          setErrorCondition('Saisie ta localisation');
+        }
       } else {
         setErrorCondition("Veuillez accepter les conditions générales d'utilisation");
       }
@@ -133,8 +154,11 @@ const Register = () => {
     return <Redirect to={registerState.called ? '/confirmation' : '/'} />;
   }
 
-  const onSelect = (location: string | null) => {
-    if (location) actions.setValues({ location });
+  const onSelect = (location: any | undefined) => {
+    if (location) actions.setValues({ location: location.label });
+    const codes = { postCode: location.value.postcode, cityCode: location.value.citycode };
+    setCodeAddresses(codes);
+    setOpenLocation(false);
   };
   return (
     <div className={classes.root}>
@@ -266,31 +290,43 @@ const Register = () => {
                 </Grid>
               </Grid>
             </div>
-            <AutoComplete
-              label="Ta ville de résidence"
-              onChange={(e) => {
-                setSearch(e.target.value);
-                actions.handleChange(e);
-              }}
-              onSelectText={onSelect}
-              value={values.location}
-              name="location"
-              placeholder="paris"
-              options={!loading && data ? data.location : []}
-              error={touched.location && errors.location !== ''}
-              errorText={touched.location ? errors.location : ''}
-              errorForm={errorFormObject.key === 'location' ? errorFormObject.value : ''}
-              icon={LogoLocation}
-            />
+            <div className={classes.avatarsWrapper}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={4} md={5} lg={5}>
+                  <div className={classes.labelContainer}>
+                    <div className={classes.label}>
+                      Ta ville de résidence <span className={classes.requiredInput}>*</span>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8} md={7} lg={7}>
+                  <AutoComplete
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      actions.handleChange(e);
+                      setOpenLocation(true);
+                    }}
+                    onSelectText={onSelect}
+                    value={values.location}
+                    name="location"
+                    placeholder="paris"
+                    options={data?.location}
+                    icon={LogoLocation}
+                    type="location"
+                    open={openLocation}
+                    setOpen={setOpenLocation}
+                    setCoordinates={setCoordinates}
+                  />
+                </Grid>
+              </Grid>
+            </div>
             <Input
               label="Code groupe"
               onChange={actions.handleChange}
               value={values.codeGroupe}
               name="codeGroupe"
               placeholder="ex: codeGroupe1"
-              error={touched.codeGroupe && (errors.codeGroupe !== '' || errorFormObject.key === 'codeGroupe')}
-              errorText={touched.codeGroupe ? errors.codeGroupe : ''}
-              errorForm={errorFormObject.key === 'codeGroupe' ? errorFormObject.value : ''}
+              error={touched.codeGroupe && errors.codeGroupe !== '' && errorFormObject.key === 'codeGroupe'}
             />
             <div className={classes.groupTextContainer}>
               <Grid container spacing={0}>
@@ -339,7 +375,12 @@ const Register = () => {
                   <div className={classes.emptyDiv} />
                 </Grid>
                 <Grid item xs={12} sm={8} md={7} lg={7}>
-                  <Button className={classes.btn} type="submit" disabled={registerState.loading}>
+                  <Button
+                    className={classes.btn}
+                    type="submit"
+                    disabled={registerState.loading}
+                    fetching={registerState.loading}
+                  >
                     <div className={classes.btnLabel}>Je m’inscris</div>
                   </Button>
                 </Grid>

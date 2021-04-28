@@ -59,5 +59,8 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
     cursor: 'pointer',
+    '&:hover': {
+      color: '#00CFFF',
+    },
   },
 }));

@@ -16,25 +16,34 @@ interface CardSkillsProps {
   path: string;
   showBtn?: boolean;
   skills: SkillType[];
+  show?: boolean;
 }
 
-const CardSkills = ({
- title, path, emptyButton, emptyMessage, showBtn, skills,
-}: CardSkillsProps) => {
+const CardSkills = ({ title, path, emptyButton, emptyMessage, showBtn, show, skills }: CardSkillsProps) => {
   const classes = useStyles();
-
   return (
     <CardPart title={title}>
       {skills.length ? (
-        <Grid className={classes.skillsContainer} container spacing={3}>
-          {skills.map((skill) => (
-            <CardSkill key={skill.id} {...skill} />
-          ))}
-        </Grid>
+        <>
+          <div>
+            <Grid className={classes.skillsContainer} container spacing={3}>
+              {skills.map((skill) => (
+                <CardSkill key={skill.id} {...skill} />
+              ))}
+            </Grid>
+          </div>
+          {show && (
+            <Link to={path}>
+              <Button className={classes.emptyButton} variant="contained">
+                {emptyButton}
+              </Button>
+            </Link>
+          )}
+        </>
       ) : (
         <>
           <div className={classes.emptyMessage}>{emptyMessage}</div>
-          {!showBtn && (
+          {show && !showBtn && (
             <Link to={path}>
               <Button className={classes.emptyButton} variant="contained">
                 {emptyButton}

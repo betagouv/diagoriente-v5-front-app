@@ -14,20 +14,20 @@ interface Props extends CommentType {
 }
 
 const Comment = forwardRef(
-  ({
- firstName, lastName, location, commentText, className, children,
-}: Props, ref: Ref<HTMLDivElement>) => {
+  (
+    { firstName, lastName, location, commentText, institution, className, children }: Props,
+    ref: Ref<HTMLDivElement>,
+  ) => {
     const classes = useStyles();
     return (
       <div ref={ref} className={classNames(classes.container, className)}>
         <div className={classes.title}>
-          Expérience validée par
-          {' '}
+          Expérience validée par{' '}
           <span className={classes.user}>
-            {firstName}
-            {' '}
-            {lastName}
+            {firstName} {lastName}
           </span>
+          <br />
+          {institution && <span> {institution}</span>}
           {location && (
             <>
               <br />

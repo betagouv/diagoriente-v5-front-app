@@ -116,6 +116,13 @@ export default makeStyles((theme) =>
         textAlign: 'center',
       },
     },
+    link: {
+      alignSelf: 'flex-start',
+      color: '#F3F2F4',
+      fontSize: 14,
+      lineHeight: '201%',
+      margin: 0,
+    },
 
     textBottom: {
       color: 'rgba(255,255,255,0.7)',
@@ -184,7 +191,9 @@ export default makeStyles((theme) =>
         borderRadius: 10,
       },
     },
-
+    textLinkBtn: {
+      color: '#FFFFFF',
+    },
     contact: {
       backgroundColor: '#FF0060',
       height: 50,
@@ -222,4 +231,5 @@ export default makeStyles((theme) =>
         justifyContent: 'center',
       },
     },
-  }));
+  }),
+);

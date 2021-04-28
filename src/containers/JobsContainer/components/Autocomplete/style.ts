@@ -1,21 +1,23 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
+export default makeStyles<Theme, { error: boolean; isfull?: boolean }>((theme: Theme) => ({
   root: {
     height: 35,
     position: 'relative',
-    width: 222,
+    width: (props) => (props.isfull ? '100%' : 222),
   },
   inputBase: {
     height: 36,
     background: '#FFFFFF',
-    width: 228,
+    width: (props) => (props.isfull ? '100%' : 228),
   },
   inputRoot: {
     width: 'fit-content',
     flex: 1,
     fontFamily: 'Andika New Basic',
     fontWeight: 'bold',
+    fontSize: 14,
+    color: '#424242',
   },
   containerAutoComp: {
     '& .MuiOutlinedInput-adornedStart': {
@@ -71,17 +73,17 @@ export default makeStyles<Theme, { error: boolean }>((theme: Theme) => ({
     },
   },
   optionsContainer: {
-    width: 222,
+    width: (props) => (props.isfull ? '100%' : 222),
     background: '#FFFFFF',
     border: '1px solid #C9C9C7',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',
     borderRadius: 5,
     position: 'absolute',
     padding: 9,
-    top: 37,
+    top: (props) => (props.isfull ? 36 : 37),
     zIndex: 1300,
     maxHeight: 300,
-    overflow: 'scroll',
+    overflow: 'auto',
     '&::-webkit-scrollbar': {
       display: 'none',
     },

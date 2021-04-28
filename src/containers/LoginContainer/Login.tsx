@@ -1,15 +1,16 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Input from 'components/inputs/Input/Input';
 import CheckBox from 'components/inputs/CheckBox/CheckBox';
 import Button from 'components/button/Button';
 import Grid from '@material-ui/core/Grid';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
+import { setAuthorizationBearer, client } from 'requests/client';
+import parcoursContext from 'contexts/ParcourContext';
+
+import localforage from 'localforage';
 import UserContext from 'contexts/UserContext';
 import { decodeUri } from 'utils/url';
 import { validateEmail } from 'utils/validation';
-
 import { useForm } from 'hooks/useInputs';
 
 import { useLogin } from 'requests/auth';
@@ -20,39 +21,51 @@ import useStyles from './styles';
 const Login = ({ location }: RouteComponentProps) => {
   const classes = useStyles();
   const [showPasswordState, setShowPassword] = useState(false);
+  const { setParcours } = useContext(parcoursContext);
+  const { user, setUser } = useContext(UserContext);
+
   const [state, actions] = useForm({
-    initialValues: { email: '', password: '', stayConnected: false },
+    initialValues: { email: '', password: '', stayConnected: false, isCampus: true },
     validation: {
       email: validateEmail,
     },
   });
+  const logout = () => {
+    localforage.removeItem('auth');
+    setAuthorizationBearer('');
+    setParcours(null);
+    setUser(null);
+    localStorage.clear();
+    client.clearStore();
+  };
 
   const [loginCall, loginState] = useAuth(useLogin, state.values.stayConnected);
+  const [errorCount, setErrorCount] = useState(0);
 
   const [errorForm, setErrorForm] = useState<string>('');
   const checkBoxRef = useRef(null);
 
-  const { user } = useContext(UserContext);
-
   useEffect(() => {
     if (loginState.error?.graphQLErrors.length !== 0) {
       if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'object'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'object'
       ) {
         setErrorForm((loginState.error?.graphQLErrors[0].message as any).message);
       } else if (
-        loginState.error?.graphQLErrors[0].message
-        && typeof loginState.error?.graphQLErrors[0].message === 'string'
+        loginState.error?.graphQLErrors[0].message &&
+        typeof loginState.error?.graphQLErrors[0].message === 'string'
       ) {
+        setErrorCount(errorCount + 1);
+
         setErrorForm(loginState.error?.graphQLErrors[0].message);
       }
     }
     if (loginState.error?.message && loginState.error?.graphQLErrors.length === 0) {
       setErrorForm(loginState.error?.message);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginState.error]);
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (actions.validateForm()) {
@@ -62,12 +75,6 @@ const Login = ({ location }: RouteComponentProps) => {
     }
   };
 
-  if (user) {
-    const { from } = decodeUri(location.search);
-
-    return <Redirect to={from || '/'} />;
-  }
-
   const onClickCondition = () => {
     if (checkBoxRef.current) {
       // (checkBoxRef.current as any)?.onclick();
@@ -76,6 +83,14 @@ const Login = ({ location }: RouteComponentProps) => {
   const onShowPassword = () => {
     setShowPassword(!showPasswordState);
   };
+  if (user) {
+    const { from } = decodeUri(location.search);
+    if (user.role === 'advisor' && !user.isCampus) {
+      logout();
+    }
+    return <Redirect to={from || '/'} />;
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
@@ -114,6 +129,11 @@ const Login = ({ location }: RouteComponentProps) => {
               </Grid>
             </Grid>
           </div>
+          {/* {openVerif && (
+            <div className={classes.groupTextContainer}>
+              <Recaptcha />
+            </div>
+          )} */}
           <div className={classes.groupTextContainer}>
             <Grid container spacing={0}>
               <Grid item xs={12} sm={4} md={5} lg={5}>

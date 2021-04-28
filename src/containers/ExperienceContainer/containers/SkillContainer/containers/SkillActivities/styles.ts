@@ -1,5 +1,8 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
 import { SKILL_CONTAINER_PADDING } from 'utils/generic';
+
+export const WIDTH = 1000;
 
 export default makeStyles((theme: Theme) =>
   createStyles({
@@ -157,4 +160,36 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       margin: '0px 10px',
     },
-  }));
+    extraActivityContainer: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '0px 74px 40px 70px;',
+    },
+    'MuiTextField-root': {
+      '& fieldset': {
+        display: 'none',
+      },
+    },
+    labelExtraActivity: {},
+    textArea: {
+      background: '#FFFF',
+      borderRadius: 5,
+      resize: 'none',
+      width: '90%',
+      border: '1px solid #00CFFF',
+    },
+
+    defaultValue: {
+      fontSize: 14,
+      color: '#6B6B6A',
+    },
+    activityCaracter: {
+      margin: 2,
+      color: theme.palette.error.main,
+      width: '90%',
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+  }),
+);

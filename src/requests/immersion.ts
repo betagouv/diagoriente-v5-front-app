@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 import { LazyQueryHookOptions } from '@apollo/react-hooks';
 import { useLocalLazyQuery } from 'hooks/apollo';
-import { Company } from './types';
+import { Company, Formation } from './types';
 
 export const GetImmersion = gql`
   query immersions(
@@ -12,12 +12,16 @@ export const GetImmersion = gql`
     $distance: Int!
     $page_size: Int
     $page: Int
+    $headcount: String
+    $sort: String
   ) {
     immersions(
       rome_codes: $rome_codes
       latitude: $latitude
       longitude: $longitude
       distance: $distance
+      headcount: $headcount
+      sort: $sort
       page_size: $page_size
       page: $page
     ) {
@@ -51,4 +55,70 @@ export interface ImmersionResponseType {
   };
 }
 
-export const useImmersion = (options: LazyQueryHookOptions = {}) => useLocalLazyQuery(GetImmersion, options);
+export const useImmersion = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(GetImmersion, options);
+
+export const GetFormation = gql`
+  query formation(
+    $romes: String!
+    $latitude: Float!
+    $longitude: Float!
+    $radius: Int!
+    $diploma: String
+    $filter: String
+    $caller: String!
+    $insee: Int!
+  ) {
+    formation(
+      romes: $romes
+      latitude: $latitude
+      longitude: $longitude
+      radius: $radius
+      diploma: $diploma
+      caller: $caller
+      insee: $insee
+      filter: $filter
+    ) {
+      title
+      longTitle
+      contact {
+        email
+      }
+      ideaType
+      place {
+        fullAddress
+        city
+        latitude
+        longitude
+      }
+      diplomaLevel
+      company {
+        name
+        headquarter {
+          place {
+            address
+            city
+          }
+        }
+      }
+    }
+  }
+`;
+export interface FormationResponseType {
+  formation: Formation[];
+}
+export const useFormation = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(GetFormation, options);
+
+const customForamtionLabels = gql`
+  query formationLabel($search: String!) {
+    formationLabel(search: $search) {
+      labelsAndRomes {
+        label
+        romes
+      }
+    }
+  }
+`;
+export const useFormationLabels = (options: LazyQueryHookOptions = { fetchPolicy: 'network-only' }) =>
+  useLocalLazyQuery(customForamtionLabels, options);

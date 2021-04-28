@@ -3,6 +3,7 @@ import { useJob } from 'requests/jobs';
 import Title from 'components/common/Title/Title';
 import { useDidMount, useWillUnmount } from 'hooks/useLifeCycle';
 import { RouteComponentProps, Link } from 'react-router-dom';
+import { useFormationLabels } from 'requests/immersion';
 import Arrow from 'assets/svg/arrow';
 import TestImage from 'assets/svg/test.svg';
 import LogoLocation from 'assets/form/location.png';
@@ -15,6 +16,7 @@ import parcoursContext from 'contexts/ParcourContext';
 import ModalContainer from 'components/common/Modal/ModalContainer';
 import defaultAvatar from 'assets/svg/defaultAvatar.svg';
 import { Jobs } from 'requests/types';
+import { useFamilies } from 'requests/familles';
 import { useAddFavoris, useDeleteFavoris, useListFavoris } from 'requests/favoris';
 import ImmersionForm from '../../components/Immersion/ImmersionForm';
 import ModalContainerInfo from '../Modals/JobInfo';
@@ -25,7 +27,7 @@ import useStyles from './styles';
 interface IProps extends RouteComponentProps<{ id: string }> {
   jobs?: Jobs[];
   locationCall: (i: any) => any;
-  listLocation?: { label: string; coordinates: string[] }[];
+  listLocation?: { label: string; coordinates: string[]; postcode: number }[];
   setSelectedLocation: (i: string) => void;
   selectedLocation: string;
 }
@@ -45,17 +47,22 @@ const JobContainer = ({
   const [openInfo, setInfo] = useState(false);
   const [selectedImmersion, setSelectedImmersion] = useState<string | undefined>('');
   const [selectedImmersionCode, setSelectedImmersionCode] = useState('');
-  const [coordinates, setCoordinates] = useState([]);
+  const [coordinates, setCoordinates] = useState<string[]>([]);
+  const [insee, setInsee] = useState(0);
   const [openImmersion, setOpenImmersion] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
   const [filteredArray, setFiltredArray] = useState<Jobs[] | undefined>([]);
   const [errorLocation, setErrorLocation] = useState(false);
+  const [typeApi, setTypeApi] = useState('entreprise');
   const [isFav, setIsFav] = useState('');
   const param = location.pathname.substr(10);
   const [addFavCall, addFavState] = useAddFavoris();
   const [deleteFavCall, deleteFavState] = useDeleteFavoris();
   const [loadFav, { data: FavData, loading: loadingFav }] = useListFavoris();
+  const [labelsCall, labelsStats] = useFormationLabels();
   const [loadJob, { data, loading, refetch }] = useJob({ variables: { id: param } });
+  const { data: loadFamille } = useFamilies();
+
   useDidMount(() => {
     loadJob();
     loadFav();
@@ -67,7 +74,7 @@ const JobContainer = ({
   }, [selectedLocation, locationCall]);
 
   useEffect(() => {
-    if (!loadingFav && FavData) {
+    if (FavData) {
       const fav = FavData?.favorites.data.find((el) => el.job === param);
       if (fav?.id) {
         setIsFav(fav.id);
@@ -80,7 +87,7 @@ const JobContainer = ({
       setSelectedImmersion(data?.job.title);
       setSelectedImmersionCode(data.job.rome_codes);
     }
-  }, [data]);
+  }, [data, loadFamille]);
 
   useEffect(() => {
     if (addFavState.data) {
@@ -88,25 +95,46 @@ const JobContainer = ({
       fn();
     }
   }, [addFavState.data, loadJob, data, refetch]);
-
+  useEffect(() => {
+    if (labelsStats.data) {
+      const ae = labelsStats.data.formationLabel.labelsAndRomes
+        .filter((item: any) => Boolean(item.label))
+        .map((e: any) => ({
+          label: e.label,
+          rome_codes: e.romes,
+        }));
+      setFiltredArray(ae);
+    }
+  }, [labelsStats.data]);
   useEffect(() => {
     if (deleteFavState.data) {
       const fn = FavData ? refetch : loadJob;
       fn();
     }
   }, [deleteFavState.data, loadJob, FavData, refetch]);
-
   useEffect(() => {
     if (!addFavState.loading && addFavState.data) {
       setIsFav(addFavState.data.createFavorite.id);
       loadFav();
     }
   }, [addFavState, loadFav]);
+  useEffect(() => {
+    if (listLocation) {
+      const t = listLocation.find((el) => el.label === selectedLocation);
+      if (t) {
+        setCoordinates(t.coordinates);
+        setInsee(t.postcode);
+      }
+    }
+  }, [listLocation, selectedLocation]);
 
   const onChangeImmersion = (e: any) => {
     const { value } = e.target;
     setSelectedImmersion(value);
     setOpenImmersion(true);
+    if (typeApi === 'formation' && value.length > 1) {
+      labelsCall({ variables: { search: value } });
+    }
     setFiltredArray(jobs?.filter((el: any) => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1));
   };
 
@@ -114,18 +142,21 @@ const JobContainer = ({
     const { value } = e.target;
     setOpenLocation(true);
     setSelectedLocation(value);
+    if (!value) {
+      setOpenLocation(false);
+    }
   };
 
   const { user } = useContext(userContext);
   const { parcours } = useContext(parcoursContext);
   const competences = parcours?.globalCompetences;
-  const d: any = [];
+  const matchedInterest: any = [];
   useOnclickOutside(divRef, () => {});
 
   parcours?.families.forEach((item) => {
     data?.job.interests.forEach((el) => {
       if (el._id.nom === item.nom) {
-        d.push(item);
+        matchedInterest.push(item);
       }
     });
   });
@@ -137,7 +168,6 @@ const JobContainer = ({
   const onSelect = (e: any | undefined) => {
     if (e) {
       setSelectedLocation(e.label);
-      setCoordinates(e.value.coordinates);
       setOpenLocation(false);
     }
   };
@@ -163,13 +193,21 @@ const JobContainer = ({
   };
   const onClickImmersion = () => {
     setErrorLocation(true);
-    if (selectedLocation) {
+    if (selectedLocation && coordinates[0] && coordinates[1]) {
       history.push({
         pathname: `/jobs/immersion/${param}`,
         search: `?romeCodes=${selectedImmersionCode}&latitude=${coordinates[1]}&longitude=${
           coordinates[0]
-        }&pageSize=${6}&distances=${5}&selectedLoc=${selectedLocation}`,
+        }&pageSize=${6}&distances=${30}&selectedLoc=${selectedLocation}&typeApi=${typeApi}&caller=${user?.profile
+          .institution || 'test'}&codePost=${insee}`,
       });
+    }
+  };
+  const onTypeFilter = (el: { label: string }) => {
+    if (typeApi === el.label) {
+      setTypeApi('');
+    } else {
+      setTypeApi(el.label);
     }
   };
   useWillUnmount(() => {
@@ -212,6 +250,7 @@ const JobContainer = ({
             </div>
             <div className={classes.immersionFormContainer}>
               <ImmersionForm
+                coordinates={coordinates.map((c) => Number(c))}
                 filteredArray={filteredArray}
                 onChangeImmersion={onChangeImmersion}
                 onSelectImmersion={onSelectImmersion}
@@ -219,6 +258,8 @@ const JobContainer = ({
                 openImmersion={openImmersion}
                 onChangeLocation={onChangeLocation}
                 onSelect={onSelect}
+                onChangeTypeApi={onTypeFilter}
+                typeApi={typeApi}
                 selectedLocation={selectedLocation}
                 listLocation={listLocation}
                 LogoLocation={LogoLocation}
@@ -226,11 +267,15 @@ const JobContainer = ({
                 onClickImmersion={onClickImmersion}
                 setOpenLocation={setOpenLocation}
                 errorLocation={errorLocation}
+                setCoordinates={setCoordinates}
+                setInsee={setInsee}
+                disableFirstInput
               />
             </div>
           </div>
         </div>
       </div>
+
       <div className={classes.interestInfo}>
         <div className={classes.wrapInterest}>
           <div className={classes.interestTitleContainer}>
@@ -242,9 +287,12 @@ const JobContainer = ({
               {data?.job.interests.map((el) => {
                 const { nom } = el._id;
                 const res = nom && nom.replace(/\//g, '');
+                const f = loadFamille?.families.data.find((fm) => fm.nom === el._id.nom);
                 return (
                   <div className={classes.infoInterstDescription} key={el._id.id}>
-                    <div className={classes.gifInterest} />
+                    <div className={classes.gifInterest}>
+                      <img src={f?.resources[2]} alt="" />
+                    </div>
                     <div className={classes.titleInterest}>{res}</div>
                   </div>
                 );
@@ -256,15 +304,21 @@ const JobContainer = ({
               </div>
               <div>
                 <span className={classes.infoInterestPurpleText}>
-                  {`${d.length} intérêts sur ${data?.job.interests.length}`}
+                  {`${matchedInterest.length} centre(s) d’intérêt(s) sur ${data?.job.interests.length}`}
                 </span>{' '}
                 en commun avec les tiens.
               </div>
-              <div> Ce métier semble plutôt bien te correspondre ! </div>
+              <div>
+                {' '}
+                {matchedInterest.length <= 2
+                  ? 'Ce métier ne semble pas correspondre à tes interêts'
+                  : 'Ce métier semble plutôt bien te correspondre !'}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className={classes.competenceInfo}>
         <div className={classes.competenceContainer}>
           <div className={classes.interestTitleContainer}>
@@ -282,6 +336,7 @@ const JobContainer = ({
           </div>
         </div>
       </div>
+
       <ModalContainer
         open={openTest || openInfo}
         handleClose={handleClose}

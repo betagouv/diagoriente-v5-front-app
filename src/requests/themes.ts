@@ -6,8 +6,8 @@ import { useLocalQuery, useLocalMutation, useLocalLazyQuery } from 'hooks/apollo
 import { Theme } from './types';
 
 export const themesQuery = gql`
-  query Themes($type: String, $search: String, $page: Int, $perPage: Int) {
-    themes(type: $type, search: $search, page: $page, perPage: $perPage) {
+  query Themes($type: String, $search: String, $secteur: String, $page: Int, $perPage: Int) {
+    themes(type: $type, search: $search, page: $page, perPage: $perPage, secteur: $secteur) {
       perPage
       page
       totalPages
@@ -27,13 +27,14 @@ export const themesQuery = gql`
           title
           description
         }
+        parentId
       }
     }
   }
 `;
 
 export interface ThemesArguments {
-  type?: 'professional' | 'personal' | 'engagement';
+  type?: 'professional' | 'personal' | 'engagement' | 'secteur' | 'sport';
   search?: string;
   page?: number;
   perPage?: number;
@@ -117,7 +118,7 @@ export interface SectureResponse {
 }
 
 export const useSecteurs = (options: QueryHookOptions<SectureResponse, SecteurArguments> = {}) =>
-  useLocalQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
+  useLocalLazyQuery<SectureResponse, SecteurArguments>(secteurQuery, options);
 
 export const createThemeMutation = gql`
   mutation AddTheme(
@@ -129,6 +130,7 @@ export const createThemeMutation = gql`
     $verified: Boolean!
     $activities: [String]
     $icon: Upload
+    $parentId: ID
   ) {
     addTheme(
       title: $title
@@ -139,6 +141,7 @@ export const createThemeMutation = gql`
       verified: $verified
       activities: $activities
       icon: $icon
+      parentId: $parentId
     ) {
       id
       title
@@ -167,6 +170,7 @@ interface AddThemeParams {
   verified: boolean;
   activities?: string[];
   icon?: File;
+  parentId?: string;
 }
 
 export const useAddTheme = (options?: MutationHookOptions<{ addTheme: Theme }, AddThemeParams>) =>
@@ -193,6 +197,7 @@ export const updateThemeMutation = gql`
     $verified: Boolean
     $activities: [String]
     $icon: Upload
+    $parentId: ID
   ) {
     updateTheme(
       id: $id
@@ -204,6 +209,7 @@ export const updateThemeMutation = gql`
       verified: $verified
       activities: $activities
       icon: $icon
+      parentId: $parentId
     ) {
       id
       title

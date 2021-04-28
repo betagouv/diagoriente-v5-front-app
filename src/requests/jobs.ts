@@ -5,8 +5,20 @@ import { useLocalLazyQuery, useLocalMutation } from 'hooks/apollo';
 import { Jobs } from 'requests/types';
 
 export const jobsQuery = gql`
-  query myJobs($environments: [String], $niveau: [String], $secteur: [String], $accessibility: [String]) {
-    myJobs(environments: $environments, niveau: $niveau, secteur: $secteur, accessibility: $accessibility) {
+  query myJobs(
+    $environments: [String]
+    $niveau: [String]
+    $secteur: [String]
+    $accessibility: [String]
+    $search: String
+  ) {
+    myJobs(
+      environments: $environments
+      niveau: $niveau
+      secteur: $secteur
+      accessibility: $accessibility
+      search: $search
+    ) {
       id
       title
       description
@@ -51,7 +63,6 @@ export const jobQuery = gql`
           nom
           id
         }
-        __typename
       }
       favorite {
         id
@@ -89,7 +100,7 @@ export interface JobResponse {
     rome_codes: string;
     secteur: string[];
     niveau: string[];
-    interests: { _id: { nom: string; id: string; }; __typename: string }[];
+    interests: { _id: { nom: string; id: string; resources: any }; __typename: string }[];
     competences: { _id: { id: string; title: string }; weight: number }[];
     formations: string[];
     environments: string[];
@@ -165,3 +176,56 @@ export const updateResponseJob = gql`
 
 export const useUpdateResponseJob = (options: MutationHookOptions<ResponseJobArgument> = {}) =>
   useLocalMutation<ResponseJobArgument>(updateResponseJob, options);
+
+export const jobsListQuery = gql`
+  {
+    jobs {
+      data {
+        title
+        id
+        description
+        rome_codes
+      }
+    }
+  }
+`;
+export interface AllJobsResponse {
+  jobs: { data: Jobs[] };
+}
+export const useJobsList = (options: LazyQueryHookOptions<AllJobsResponse> = {}) =>
+  useLocalLazyQuery<AllJobsResponse>(jobsListQuery, options);
+
+export const InfoJob = gql`
+  query referentiel($code: String) {
+    referentiel(code: $code) {
+      resultOffre {
+        success
+        result {
+          records {
+            NB_APPLICATION_END_MONTH
+            NB_OFFER_END_MONTH
+            NB_APPLICATION_LAST_WEEK
+            NB_OFFER_LAST_WEEK
+          }
+        }
+      }
+    }
+  }
+`;
+export interface ResponseInfoJobType {
+  referentiel: {
+    resultOffre: {
+      success: boolean;
+      result: {
+        records: {
+          NB_APPLICATION_END_MONTH: string;
+          NB_OFFER_END_MONTH: string;
+          NB_APPLICATION_LAST_WEEK: string;
+          NB_OFFER_LAST_WEEK: string;
+        }[];
+      };
+    };
+  };
+}
+export const useInfoJob = (options: LazyQueryHookOptions<ResponseInfoJobType> = {}) =>
+  useLocalLazyQuery<ResponseInfoJobType>(InfoJob, options);

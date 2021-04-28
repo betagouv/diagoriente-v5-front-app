@@ -57,6 +57,7 @@ export interface CompetencesArguments {
   search?: string;
   page?: number;
   perPage?: number;
+  type?: string;
 }
 
 export interface CompetencesLazyResponse {

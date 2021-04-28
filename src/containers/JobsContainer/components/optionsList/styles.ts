@@ -1,8 +1,8 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export default makeStyles<Theme>(() => ({
+export default makeStyles<Theme, { isCampus?: boolean }>(() => ({
   root: {
-    width: 235,
+    width:(props)=> props.isCampus ? 'max-content' : 235,
     background: '#FFFFFF',
     border: '1px solid #C9C9C7',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.15)',

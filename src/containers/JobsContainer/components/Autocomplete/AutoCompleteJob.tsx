@@ -6,13 +6,14 @@ import LogoLoupeComponent from 'assets/svg/loupe';
 import LogoLoupeOrange from 'assets/svg/loupeOrange.svg';
 import classNames from 'utils/classNames';
 import useOnclickOutside from 'hooks/useOnclickOutside';
+import LogoLocation from 'assets/form/location.png';
 
 import useStyles from './style';
 
 interface IProps {
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onSelectText: (e: string | undefined) => void;
+  onSelectText: (e: any | undefined) => void;
   value: string | undefined;
   name: string;
   placeholder?: string;
@@ -24,7 +25,12 @@ interface IProps {
   errorForm?: string;
   open?: boolean;
   type?: string;
+  isfull?: boolean;
   setOpen?: (open: boolean) => void;
+  setCoordinates?: (e: any) => void;
+  setInsee?: (e: number) => void;
+  disable?: boolean;
+  heightOption?: string;
 }
 
 const AutoCompleteJob = ({
@@ -39,14 +45,22 @@ const AutoCompleteJob = ({
   open,
   type,
   error,
+  className,
   onSelectText,
   setOpen,
+  setCoordinates,
+  setInsee,
+  isfull,
+  disable,
+  heightOption,
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm) });
-  const data = options?.map((el: any) => ({
-    label: el.title || el.label,
-    value: type === 'immersion' ? el.rome_codes : el,
-  }));
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull });
+  const data = options?.map((el: any) => {
+    return {
+      label: el.title || el.label,
+      value: type === 'immersion' ? el.rome_codes : el,
+    };
+  });
   const inputRef = useRef<HTMLDivElement>(null);
 
   useOnclickOutside(inputRef, () => {
@@ -54,7 +68,7 @@ const AutoCompleteJob = ({
   });
 
   return (
-    <div className={classes.root} ref={inputRef}>
+    <div className={classNames(classes.root, className)} ref={inputRef}>
       <TextField
         autoComplete="off"
         autoCorrect="off"
@@ -64,13 +78,20 @@ const AutoCompleteJob = ({
         placeholder={placeholder}
         label={label}
         name={name}
+        disabled={disable}
         withOutIcons
+        type="location_admin"
+        isfull
         InputProps={{
-          classes: { input: classNames(classes.inputRoot), root: classes.inputBase },
+          classes: { input: classNames(classes.inputRoot, className), root: classNames(classes.inputBase, className) },
           startAdornment:
-            type === 'location' || type === 'jobs' ? (
+            type === 'location' || type === 'jobs' || type === 'location_admin' ? (
               <InputAdornment position="start">
-                <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
+                {setCoordinates ? (
+                  <img src={LogoLocation} width="13" height="19" alt="" />
+                ) : (
+                  <img src={open ? LogoLoupeOrange : LogoLoupe} width="19" height="19" alt="" />
+                )}
               </InputAdornment>
             ) : (
               <div />
@@ -78,7 +99,7 @@ const AutoCompleteJob = ({
         }}
       />
       {open && (
-        <div className={classes.optionsContainer}>
+        <div className={classNames(classes.optionsContainer, heightOption)}>
           {data?.map((el: any) => {
             const t = el.label.toLowerCase().split(value?.toLowerCase());
             for (let i = 0; i < t.length; i += 1) {
@@ -87,6 +108,10 @@ const AutoCompleteJob = ({
                   key={el.label}
                   onClick={() => {
                     onSelectText(el);
+                    if (setCoordinates) {
+                      setCoordinates([el.value.coordinates[0], el.value.coordinates[1]]);
+                    }
+                    if (setInsee) setInsee(el.value.postcode);
                   }}
                   className={classes.item}
                 >

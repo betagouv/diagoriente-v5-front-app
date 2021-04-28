@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {
- Switch, Route as BaseRoute, RouteComponentProps, Redirect,
-} from 'react-router-dom';
+import { Switch, Route as BaseRoute, RouteComponentProps, Redirect } from 'react-router-dom';
 import UserContext from 'contexts/UserContext';
 
 import Route from 'components/ui/Route/Route';
@@ -10,10 +8,14 @@ import Route from 'components/ui/Route/Route';
 import NotFoundPage from 'components/layout/NotFoundPage/NotFoundPage';
 import ThemeContainer from './containers/ThemeContainer';
 import ActivityContainer from './containers/ActivityContainer';
-import ContextContainer from './containers/ContextContainer/ContextContainer';
+import ContextContainer from './containers/ContextContainer';
 import CompetenceContainer from './containers/CompetenceContainer';
 import QuestionContainer from './containers/QuestionContainer';
 import OptionContainer from './containers/OptionContainer';
+import InstitutionContainer from './containers/InstitutionContainer';
+import UserContainer from './containers/UserContainer';
+import ParamContainer from './containers/ParamContainer';
+import ScopesContainer from './containers/ScopeContainer';
 
 import useStyles from './styles';
 
@@ -45,6 +47,11 @@ const AdminContainer = ({ match }: RouteComponentProps) => {
               <BaseRoute path="/admin/competences" component={CompetenceContainer} />
               <BaseRoute path="/admin/questions" component={QuestionContainer} />
               <BaseRoute path="/admin/options" component={OptionContainer} />
+              <BaseRoute path="/admin/institution" component={InstitutionContainer} />
+              <BaseRoute path="/admin/users" component={UserContainer} />
+              <BaseRoute path="/admin/parametre" component={ParamContainer} />
+              <BaseRoute path="/admin/scopes" component={ScopesContainer} />
+
               <NotFoundPage />
             </Switch>
           </div>

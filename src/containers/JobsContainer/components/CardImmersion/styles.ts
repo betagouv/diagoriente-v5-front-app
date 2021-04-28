@@ -13,7 +13,7 @@ export default makeStyles<Theme>((theme) => ({
     padding: 25,
   },
   height2: {
-    height: 520,
+    height: 'auto',
     transition: '1s ease-in-out',
   },
   titleCard: {
@@ -21,7 +21,9 @@ export default makeStyles<Theme>((theme) => ({
     fontSize: 18,
     color: theme.palette.success.main,
     marginBottom: 6,
+    width: '100%',
   },
+  WrapperTitle: { display: 'flex', alignItems: 'flex-start' },
   description: {
     fontWeight: 'bold',
   },
@@ -32,6 +34,7 @@ export default makeStyles<Theme>((theme) => ({
   logoItemDescription: {
     display: 'flex',
     paddingRight: 10,
+    alignItems: 'center',
   },
   textLogo: {
     paddingLeft: 10,
@@ -51,6 +54,7 @@ export default makeStyles<Theme>((theme) => ({
     fontWeight: 14,
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
   heartLogo: {
     paddingLeft: 4,
@@ -68,12 +72,12 @@ export default makeStyles<Theme>((theme) => ({
   },
   extends: {
     width: '100%',
-    height: 356,
+    height: 'auto',
   },
   headerInfo: {
     backgroundColor: '#ffe9c3',
-    height: 159,
-    padding: 23,
+    height: 182,
+    padding: '23px 23px 0px 23px',
     position: 'relative',
   },
   arrow: {
@@ -108,5 +112,10 @@ export default makeStyles<Theme>((theme) => ({
     fontSize: 14,
     color: theme.palette.primary.main,
     paddingLeft: 15,
+  },
+  logoTitle: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
   },
 }));

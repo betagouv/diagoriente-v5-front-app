@@ -1,7 +1,10 @@
 import React, { useContext, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useJobs } from 'requests/jobs';
 import { useDidMount } from 'hooks/useLifeCycle';
 import { Families, Jobs } from 'requests/types';
+import Button from 'components/button/Button';
 
 import Carousel from 'nuka-carousel';
 
@@ -27,13 +30,15 @@ import location from 'assets/svg/localisation.svg';
 import heart from 'assets/svg/heart.svg';
 import littleheart from 'assets/svg/littleheart.svg';
 
+import SecteurContext from 'contexts/SecteurContext';
 import useStyles from './styles';
 
 const ProfilComponent = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
   const { parcours } = useContext(parcoursContext);
-  const [callJobs, stateJobs] = useJobs();
+  const { data: secteurs } = useContext(SecteurContext);
+  const [callJobs, stateJobs] = useJobs({ fetchPolicy: 'network-only' });
 
   useDidMount(() => {
     callJobs();
@@ -41,7 +46,7 @@ const ProfilComponent = () => {
 
   const persoSkills = parcours?.skills.filter((p) => p.theme?.type === 'personal') || [];
   const engagementSkills = parcours?.skills.filter((p) => p.theme?.type === 'engagement') || [];
-
+  const sportSkills = parcours?.skills.filter((p) => p.theme?.type === 'sport') || [];
   const proSkills = parcours?.skills.filter((p) => p.theme?.type === 'professional') || [];
 
   const topJobs: Jobs[] = [];
@@ -57,9 +62,9 @@ const ProfilComponent = () => {
   const renderTopJobs = useMemo(() => {
     if (topJobs.length) {
       return topJobs.map((j) => (
-        <div key={j.id} className={classes.favoriContainer}>
+        <div key={j?.id} className={classes.favoriContainer}>
           <img src={littlestar} alt="" height={20} />
-          <div className={classes.job}>{j.title}</div>
+          <div className={classes.job}>{j?.title}</div>
         </div>
       ));
     }
@@ -166,10 +171,9 @@ const ProfilComponent = () => {
             .map((families, index) => (
               <Grid key={index} container className={classes.interestItem}>
                 {families.map((family) => (
-                  <Grid item key={family.id} xs={4} sm={4} className={classes.themeSelection}>
+                  <Grid item key={family.id} xs={4} sm={4} md={6} className={classes.themeSelection}>
                     <div className={classes.imageContainer}>
-                      <img src={family.resources[0]} alt="" />
-                      <img src={family.resources[1]} alt="" className={classes.testImg} />
+                      <img src={family.resources[2]} alt="" />
                     </div>
 
                     <p className={classes.themeTile}>{family.nom.replace(new RegExp('[//,]', 'g'), '\n')}</p>
@@ -188,16 +192,21 @@ const ProfilComponent = () => {
       children: (
         <>
           <img src={carte} alt="" height={90} />
-          <span className={classes.txtCarte}>
-            Toutes tes expériences et compétences
-            <br />
-            au même endroit pour partager à tes
-            <br />
-            futurs employeurs
-          </span>
+          {user?.isCampus ? (
+            <span className={classes.txtCarte}>
+              Toutes tes expériences, compétences et recommandations au même endroit pour partager à ton conseiller Pôle
+              Emploi et valider ta candidature
+            </span>
+          ) : (
+            <span className={classes.txtCarte}>
+              Toutes tes expériences et compétences au même endroit pour partager à tes futurs employeurs
+            </span>
+          )}
         </>
       ),
     },
+  ];
+  const cardExp = [
     {
       titleCard: <Title title="MES EXPÉRIENCES" color="#424242" size={18} font="42" className={classes.title} />,
       title: 'MES EXPÉRIENCES PERSONNELLES',
@@ -208,7 +217,7 @@ const ProfilComponent = () => {
       children: persoSkills.length ? (
         <Grid container spacing={1}>
           {persoSkills.map((theme) => (
-            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
                 <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
@@ -220,11 +229,16 @@ const ProfilComponent = () => {
             </Grid>
           ))}
         </Grid>
-      ) : null,
+      ) : (
+        <Link to="/experience/theme">
+          <Button className={classes.btn}>
+            <span className={classes.textButton}>J’ajoute une expérience personnelle</span>
+          </Button>
+        </Link>
+      ),
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
-
       title: 'MES EXPÉRIENCES PROFESSIONNELLES',
       background: '#4D6EC5',
       color: '#fff',
@@ -232,15 +246,27 @@ const ProfilComponent = () => {
       className: classes.experienceCard,
       children: proSkills.length ? (
         <Grid container spacing={1}>
-          {proSkills.map((theme) => (
-            <Grid item xs={4} sm={12} key={theme.id}>
-              <li className={classNames(classes.themeTile, classes.alignThemeTitle)}>
-                {theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}
-              </li>
-            </Grid>
-          ))}
+          {proSkills.map((theme) => {
+            const icon = secteurs?.themes.data.find((secteur) => theme.theme.parentId === secteur.id)?.resources?.icon;
+            return (
+              <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
+                <div className={classes.themeSelection}>
+                  <Circle avatarCircleBackground="transparent" size={100}>
+                    {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
+                  </Circle>
+                  <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+                </div>
+              </Grid>
+            );
+          })}
         </Grid>
-      ) : null,
+      ) : (
+        <Link to="/experience/theme-pro">
+          <Button className={classes.btn}>
+            <span className={classes.textButton}>J’ajoute une expérience professionnelle</span>
+          </Button>
+        </Link>
+      ),
     },
     {
       titleCard: <div className={classes.emptyDiv} />,
@@ -252,7 +278,7 @@ const ProfilComponent = () => {
       children: engagementSkills.length ? (
         <Grid container spacing={1}>
           {engagementSkills.map((theme) => (
-            <Grid item xs={4} sm={4} key={theme.id} className={classes.itemContainer}>
+            <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
               <div className={classes.themeSelection}>
                 <Circle avatarCircleBackground="transparent" size={100}>
                   {theme.theme.resources && theme.theme.resources.icon && (
@@ -264,8 +290,47 @@ const ProfilComponent = () => {
             </Grid>
           ))}
         </Grid>
-      ) : null,
+      ) : (
+        <Link to="/experience/theme?type=engagement">
+          <Button className={classes.btn}>
+            <span className={classes.textButton}>J’ajoute une expérience d&apos;engagement</span>
+          </Button>
+        </Link>
+      ),
     },
+    {
+      titleCard: <div className={classes.emptyDiv} />,
+      title: 'MES EXPÉRIENCES SPORTIVES',
+      background: '#4D6EC5',
+      color: '#fff',
+      path: '/profile/experience?type=sport',
+      className: classes.experienceCard,
+      children: sportSkills.length ? (
+        <Grid container spacing={1}>
+          {sportSkills.map((theme) => {
+            const icon = theme?.theme.resources?.icon;
+            return (
+              <Grid item xs={8} sm={8} md={6} key={theme.id} className={classes.itemContainer}>
+                <div className={classes.themeSelection}>
+                  <Circle avatarCircleBackground="transparent" size={100}>
+                    {icon && <img className={classes.themeImage} src={icon} alt="theme" />}
+                  </Circle>
+                  <div className={classes.themeTile}>{theme.theme.title.replace(new RegExp('[//,]', 'g'), '\n')}</div>
+                </div>
+              </Grid>
+            );
+          })}
+        </Grid>
+      ) : (
+        <Link to="/experience/theme?type=sport">
+          <Button className={classes.btn}>
+            <span className={classes.textButton}>J’ajoute une expérience sportive</span>
+          </Button>
+        </Link>
+      ),
+    },
+  ];
+  const cardJobs = [
     {
       titleCard: <Title title="MES DÉMARCHES" color="#424242" size={18} font="42" className={classes.title} />,
 
@@ -282,7 +347,6 @@ const ProfilComponent = () => {
       background: '#FFD382',
       color: '#424242',
       logo: heart,
-
       children: favoriteJobs.length
         ? favoriteJobs.map((j) => (
             <div key={j.id} className={classes.favoriContainer}>
@@ -292,33 +356,28 @@ const ProfilComponent = () => {
           ))
         : null,
     },
-    /*  {
-      titleCard: <div className={classes.emptyDiv} />,
-
-      title: 'MES ENTREPRISES ENREGISTREES',
-      background: '#FFD382',
-      color: '#424242',
-      children: <div>hello</div>,
-    }, */
   ];
+  function createMarkup() {
+    return {
+      __html: `<div style="position:fixed;top:calc(50% - 250px);right:0;transition:width 300ms ease-out;width:0;" data-qa="side_panel"> <a class="typeform-share button" href="https://form.typeform.com/to/Ogshf7wm?typeform-medium=embed-snippet" data-mode="side_panel" style="box-sizing:border-box;position:absolute;top:300px;width:200px;height:48px;padding:0 20px;margin:0;cursor:pointer;background:#10255E;border-radius:4px 4px 0px 0px;box-shadow:0px 2px 12px rgba(0, 0, 0, 0.06), 0px 2px 4px rgba(0, 0, 0, 0.08);display:flex;align-items:center;justify-content:flex-start;transform:rotate(-90deg);transform-origin:bottom left;color:white;text-decoration:none;z-index:9999;" data-width="320" data-height="500" target="_blank"> <span class="icon" style="width:32px;position:relative;text-align:center;transform:rotate(90deg) scale(0.85);left:-8px;"> <img alt="" src="https://images.typeform.com/images/rFLYYTQuQf5G" style="max-width:24px;max-height:24px;margin-top:10px;" /> </span> <span style="text-decoration:none;font-size:18px;font-family:Helvetica,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;"> Faisons le point </span> </a> </div> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>`,
+    };
+  }
   return (
     <div className={classes.profilContainer}>
+      <div dangerouslySetInnerHTML={createMarkup()} />
       <Title title="MON PROFIL" color="#424242" size={18} font="42" className={classes.title} />
       <div className={classes.cardGridContainer}>
         <Grid container spacing={3}>
           {allCard.map((e, index) => (
             // eslint-disable-next-line
-            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid, e.className)}>
+            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
               {e.title && e.background && e.children && (
                 <Card
                   className={classes.cardClassName}
-                  titleCard={e.titleCard}
                   title={e.title}
                   background={e.background}
                   color={e.color}
-                  logo={e.logo}
                   path={e.path}
-                  childrenCardClassName={e.childrenCardClassName}
                 >
                   {e.children}
                 </Card>
@@ -326,6 +385,58 @@ const ProfilComponent = () => {
             </Grid>
           ))}
         </Grid>
+        <Grid container spacing={3}>
+          {cardExp.map((e, index) => (
+            // eslint-disable-next-line
+            <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
+              {e.title && e.background && e.children && (
+                <Card
+                  className={classes.cardClassName}
+                  title={e.title}
+                  background={e.background}
+                  color={e.color}
+                  path={e.path}
+                >
+                  {e.children}
+                </Card>
+              )}
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={3}>
+          {!user?.isCampus &&
+            cardJobs.map((e, index) => (
+              // eslint-disable-next-line
+              <Grid key={index} item xs={4} sm={4} className={classNames(classes.cardGrid)}>
+                {e.title && e.background && e.children && (
+                  <Card
+                    className={classes.cardClassName}
+                    titleCard={e.titleCard}
+                    title={e.title}
+                    background={e.background}
+                    color={e.color}
+                    path={e.path}
+                  >
+                    {e.children}
+                  </Card>
+                )}
+              </Grid>
+            ))}
+        </Grid>
+      </div>
+      <div className={classes.avis}>
+        <a
+          href="https://voxusagers.numerique.gouv.fr/Demarches/2453?&view-mode=formulaire-avis&nd_mode=en-ligne-enti%C3%A8rement&nd_source=button&key=74fff875f8b11d24367e9267b73ed92c"
+          target="_blank"
+        >
+          <img
+            src="https://voxusagers.numerique.gouv.fr/static/bouton-bleu.svg"
+            alt="Je donne mon avis"
+            title="Je donne mon avis sur cette démarche"
+            width="100%"
+            height="50px"
+          />
+        </a>
       </div>
     </div>
   );

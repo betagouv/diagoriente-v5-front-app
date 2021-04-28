@@ -28,19 +28,20 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     outline: 0,
     position: 'relative',
     fontWeight: 'bold',
+    color: '#424242',
     fontSize: 14,
     '&:focus-within': {
       borderColor: theme.palette.success.main,
     },
     '&::placeholder': {
-      color: (props) => (props.open ? theme.palette.success.main : '#424242'),
+      color: '#424242',
       fontSize: 14,
       fontWeight: 'bold',
     },
   },
   logoContainer: {
     position: 'absolute',
-    right: 12,
+    right: 1,
     top: 14,
     backgroundColor: '#fff',
   },
@@ -70,25 +71,29 @@ export default makeStyles<Theme, { fullSelect?: boolean; open?: boolean }>((them
     position: 'absolute',
     top: 46,
     width: 633,
+    [theme.breakpoints.down('md')]: {
+      width: 570,
+    },
     height: 448,
     display: 'flex',
     flexWrap: 'wrap',
     padding: '20px 25px',
-    overflow: 'scroll',
+    overflow: 'auto',
     zIndex: 5,
   },
   itemSecteur: {
     margin: 2,
     width: 284,
+    [theme.breakpoints.down('md')]: {
+      width: 250,
+    },
     cursor: 'pointer',
     '&:hover': {
       color: theme.palette.primary.main,
     },
     padding: '3px 0px',
-
   },
   itemSecteurSelected: {
- 
     '&:hover': {
       color: '#424242',
     },

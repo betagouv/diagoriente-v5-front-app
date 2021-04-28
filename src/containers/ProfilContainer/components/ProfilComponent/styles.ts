@@ -279,14 +279,54 @@ export default makeStyles((theme) =>
     },
     interestItem: {
       padding: 40,
+      [theme.breakpoints.down('md')]: {
+        padding: '40px 0px',
+      },
       '&:focus': {
         outline: 'none',
         border: 'none',
       },
     },
     themeImage: {
-      maxHeight: '100%',
-      maxWidth: '100%',
+      maxHeight: '70px',
+      maxWidth: '70px',
     },
+
+    textButton: {
+      color: '#fff',
+      fontSize: 18,
+      width: 262,
+    },
+    btn: {
+      backgroundColor: '#011A5E',
+      [theme.breakpoints.down('md')]: {
+        width: 230,
+      },
+      '&:hover': {
+        backgroundColor: '#223A7A',
+      },
+    },
+
+    btnLink: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      marginTop: 40,
+      maxWidth: '100%',
+      background: 'transparent',
+    },
+
+    link: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'rgba(77, 110, 197, 0.1)',
+      margin: 16,
+      borderRadius: 10,
+      flex: 1,
+      maxWidth: 'calc(33.333333% - 32px)',
+    },
+    avis: { position: 'fixed', bottom: 0, right: 30 },
   }),
 );

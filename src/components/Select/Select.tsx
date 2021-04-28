@@ -9,7 +9,6 @@ import useOnclickOutside from 'hooks/useOnclickOutside';
 import arrow from 'assets/svg/arrowblue.svg';
 import darkarrow from 'assets/svg/darkarrowblue.svg';
 
-import add from 'assets/svg/pictoadd.svg';
 import check from 'assets/svg/pictocheck.svg';
 
 import useStyles from './styles';
@@ -31,6 +30,9 @@ interface Props extends Omit<SelectProps, 'variant'> {
   styleSelectClassName?: string;
   disabledClassName?: string;
   value?: string | number;
+  index?: number;
+  largeOptions?: boolean;
+  renderOption: (option: { label: string | number; value: string | number }, openSelect: boolean) => JSX.Element;
 }
 
 const Select = ({
@@ -50,6 +52,10 @@ const Select = ({
   menuItemClassName,
   styleSelectClassName,
   disabledClassName,
+  tabIndex,
+  index,
+  largeOptions,
+  renderOption,
   ...rest
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
@@ -59,7 +65,17 @@ const Select = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState('auto' as number | string);
-  const classes = useStyles({ left: dimension[0], top: dimension[1], width });
+
+  const changeWidth = () => {
+    if (typeof width === 'number') {
+      if (index === 0) return width - 20;
+      if (index === 1) return width + 60;
+      if (index === 2) return width + 80;
+    }
+    return width;
+  };
+  const classes = useStyles({ left: dimension[0], top: dimension[1], width: changeWidth() });
+
   useOnclickOutside(menuRef, () => {
     if (setOpenSelect) setOpenSelect(false);
   });
@@ -84,9 +100,7 @@ const Select = ({
 
   useListener('resize', () => {
     if (selectRef.current && openSelect) {
-      const {
- top, left, height, width: w,
-} = selectRef.current?.getBoundingClientRect();
+      const { top, left, height, width: w } = selectRef.current?.getBoundingClientRect();
       setDimension([left, top + height + 8]);
       setWidth(w);
     }
@@ -106,7 +120,7 @@ const Select = ({
   return (
     <div className={classNames(classes.root, rootClassName)}>
       <SelectBase
-        style={{ width }}
+        style={{ width: changeWidth() }}
         value={getValue()}
         ref={selectRef}
         MenuProps={{
@@ -125,7 +139,7 @@ const Select = ({
           value && styleSelectClassName,
         )}
         IconComponent={() =>
-          (!arrowDate ? (
+          !arrowDate ? (
             <div
               className={classNames(classes.circle, openSelect && classes.darkcircle)}
               onClick={() => {
@@ -143,7 +157,8 @@ const Select = ({
             >
               <img src={arrowDate} alt="" />
             </div>
-          ))}
+          )
+        }
         inputProps={{
           classes: {
             root: classes.select,
@@ -175,29 +190,32 @@ const Select = ({
                 option.value === value ? classes.backgroundRow : '',
               )}
             >
-              {option.label}
+              {renderOption(option, openSelect)}
             </MenuItem>
           ))}
         {!arrowDate && labelPlus ? (
           <MenuItem className={classNames(classes.menuItem, classes.menuItemChild)}>
-            {!open ? (
-              <div onClick={openActivity} className={classes.addContainer}>
-                <span className={classes.add}>Ajouter</span>
-                <img src={add} alt="" height={28} />
-              </div>
-            ) : (
-              <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
-                <Input
-                  placeholder="Écris ici ton activité"
-                  onChange={onChangeValue}
-                  variant="outlined"
-                  inputProps={{ className: classes.input }}
-                  className={classes.inputRoot}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-                <img src={check} alt="" onClick={handleClose} height={25} />
-              </div>
-            )}
+            <div className={classNames(classes.addContainerInput, classes.menuItemBackground)}>
+              <Input
+                placeholder="Écris ici ton activité"
+                onChange={onChangeValue}
+                variant="outlined"
+                inputProps={{ className: classes.input }}
+                className={classes.inputRoot}
+                onKeyDown={(e) => e.stopPropagation()}
+              />
+              <img
+                src={check}
+                alt=""
+                onClick={() => {
+                  if (handleClose) {
+                    handleClose();
+                    setOpenSelect(false);
+                  }
+                }}
+                height={25}
+              />
+            </div>
           </MenuItem>
         ) : (
           undefined
@@ -205,6 +223,10 @@ const Select = ({
       </SelectBase>
     </div>
   );
+};
+
+Select.defaultProps = {
+  renderOption: (option: { label: string | number; value: string | number; user: string }) => option.label,
 };
 
 export default Select;

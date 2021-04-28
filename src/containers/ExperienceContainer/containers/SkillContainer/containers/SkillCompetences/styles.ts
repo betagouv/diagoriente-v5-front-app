@@ -110,6 +110,9 @@ export default makeStyles((theme: Theme) =>
         backgroundColor: ' rgba(77, 110, 197, 0.2)',
       },
     },
+    FavCompetence: {
+      backgroundColor: '#7AE6FF',
+    },
 
     themeRoot: {
       padding: '0 40px',
@@ -187,4 +190,5 @@ export default makeStyles((theme: Theme) =>
     popupDescription: {
       textAlign: 'center',
     },
-  }));
+  }),
+);

@@ -54,7 +54,7 @@ export default makeStyles((theme: Theme) =>
       width: '100%',
       minWidth: 130,
       padding: 10,
-
+      cursor: 'pointer',
       '&:hover': {
         background: 'rgba(122, 230, 255, 0.2)',
       },

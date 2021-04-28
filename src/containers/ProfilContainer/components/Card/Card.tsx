@@ -5,6 +5,8 @@ import Button from 'components/actionsButton/ActionsButton';
 import editIcon from 'assets/svg/editblue.svg';
 import recoIcon from 'assets/svg/pmedaille.svg';
 import removeIcon from 'assets/svg/delete.svg';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 import { Competence } from 'requests/types';
 import useStyles from './styles';
@@ -21,10 +23,24 @@ interface Props {
   src?: string;
   type?: string;
   icon?: string;
+  endDate?: string;
+  startDate?: string;
 }
+moment.locale('fr');
 
 const Card = ({
- title, src, className, competence, id, edit, remove, recommendation, type, icon,
+  title,
+  src,
+  className,
+  competence,
+  id,
+  edit,
+  remove,
+  recommendation,
+  endDate,
+  startDate,
+  type,
+  icon,
 }: Props) => {
   const classes = useStyles();
   const Tab = [
@@ -50,18 +66,23 @@ const Card = ({
       },
     },
   ];
+
   return (
     <div className={classNames(classes.cardContainer, className)}>
       <div className={classes.root}>
-        {type === 'professional' ? (
-          <li className={classNames(classes.title, classes.themeTitle)}>{title}</li>
-        ) : (
-          <div className={classes.titleContainer}>
-            {src && <img src={src} alt="" className={classes.image} height={65} width={65} />}
-            <span className={classes.title}>{title}</span>
-            {icon && <img src={icon} alt="" className={classes.icon} height={44} width={44} />}
-          </div>
-        )}
+        <div className={classes.titleContainer}>
+          {src && <img src={src} alt="" className={classes.image} height={65} width={65} />}
+          <span className={classes.title}>
+            {title}
+            <br />
+            <span className={classes.date}>
+              {startDate && `${moment(startDate).format('MMMM - YYYY')}`}
+              {endDate && ` / ${moment(endDate).format('MMMM - YYYY')}`}
+            </span>
+          </span>
+          {icon && <img src={icon} alt="" className={classes.icon} height={44} width={44} />}
+        </div>
+
         {competence.map((comp) => (
           <div key={comp._id.id} className={classes.childrenCardContainer}>
             <div className={classes.childrenCard}>{comp._id.title}</div>

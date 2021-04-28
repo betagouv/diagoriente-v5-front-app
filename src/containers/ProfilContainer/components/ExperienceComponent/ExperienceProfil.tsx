@@ -16,6 +16,7 @@ import NotFoundPage from 'components/layout/NotFoundPage';
 import Title from 'components/common/Title/Title';
 import Button from 'components/button/Button';
 import Spinner from 'components/SpinnerXp/Spinner';
+import SecteurContext from 'contexts/SecteurContext';
 import Card from '../Card/Card';
 import Arrow from '../Arrow/Arrow';
 
@@ -23,12 +24,12 @@ import useStyles from './styles';
 
 const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
   const type = decodeUri(location.search).type || 'personal';
-
   const classes = useStyles();
   const skillState = useParcourSkills(type);
   const [open, setOpen] = useState(false);
   const [skill, setSkill] = useState(null as Unpacked<UserParcour['skills']> | null);
   const [deleteId, setDeleteId] = useState('');
+  const { data: secteurs } = useContext(SecteurContext);
 
   const { setParcours } = useContext(parcoursContext);
   const [rowSize, setRowSize] = useState(window.innerWidth < 1280 ? 2 : 3);
@@ -48,7 +49,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
 
   const onEdit = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id);
-    if (selectedSkill) history.push(`/experience/skill/${selectedSkill.theme.id}`);
+    if (selectedSkill)
+      history.push({ pathname: `/experience/skill/${selectedSkill.theme.id}`, search: encodeUri({ skill: id }) });
   };
   const handleRecommendation = (id: string) => {
     const selectedSkill = skills?.find((s) => s.id === id) || null;
@@ -75,7 +77,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
     window.removeEventListener('resize', onWindowResize);
   });
 
-  if (type !== 'personal' && type !== 'professional' && type !== 'engagement') {
+  if (type !== 'personal' && type !== 'professional' && type !== 'engagement' && type !== 'sport') {
     return <NotFoundPage />;
   }
 
@@ -85,6 +87,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         return 'MES EXPÉRIENCES PROFESSIONNELLES';
       case 'engagement':
         return 'MES EXPÉRIENCES D’ENGAGEMENT';
+      case 'sport':
+        return 'MES EXPÉRIENCES SPORTIVES';
       default:
         return 'MES EXPÉRIENCES PERSONNELLES';
     }
@@ -96,6 +100,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         return 'pro';
       case 'engagement':
         return 'd’engagement';
+      case 'sport':
+        return 'sport';
       default:
         return 'perso';
     }
@@ -109,6 +115,8 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         })}`;
       case 'engagement':
         return `/experience/theme${encodeUri({ redirect: '/profile/experience?type=engagement', type: 'engagement' })}`;
+      case 'sport':
+        return `/experience/theme${encodeUri({ redirect: '/profile/experience?type=sport', type: 'sport' })}`;
       default:
         return `/experience/theme${encodeUri({ redirect: '/profile/experience' })}`;
     }
@@ -121,13 +129,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
         <Title title={getTitle()} color="#4D6EC5" size={42} className={classes.title} />
         <div className={classes.empty} />
       </div>
-      <span className={classes.text}>
-        Liste des expériences
-        {' '}
-        {getSubTitle()}
-        {' '}
-        que tu as renseignées
-      </span>
+      <span className={classes.text}>Liste des expériences {getSubTitle()} que tu as renseignées</span>
       {skillState.loading ? (
         <div className={classes.spinner}>
           <Spinner />
@@ -146,7 +148,13 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
                     id={s.id}
                     competence={s.competences}
                     title={s.theme.title}
-                    src={s.theme.resources?.icon}
+                    endDate={s.theme.type !== 'engagement' ? s.endDate : s.engagement?.endDate}
+                    startDate={s.theme.type !== 'engagement' ? s.startDate : s.engagement?.startDate}
+                    src={
+                      type === 'professional'
+                        ? secteurs?.themes.data.find((secteur) => secteur.id === s.theme.parentId)?.resources?.icon
+                        : s.theme.resources?.icon
+                    }
                     type={type}
                     icon={s?.engagement?.context?.icon}
                   />
@@ -155,11 +163,7 @@ const ExperienceComponent = ({ location, history }: RouteComponentProps) => {
 
             <Link to={getUrl()} className={classNames(!showAddCard ? classes.btnLink : classes.link)}>
               <Button className={classes.btn}>
-                <span className={classes.textButton}>
-                  J’ajoute une expérience
-                  {' '}
-                  {getSubTitle()}
-                </span>
+                <span className={classes.textButton}>J’ajoute une expérience {getSubTitle()}</span>
               </Button>
             </Link>
           </Grid>

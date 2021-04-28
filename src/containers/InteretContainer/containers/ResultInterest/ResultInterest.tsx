@@ -23,7 +23,7 @@ const ResultInterest = () => {
         </div>
         <div className={classes.description}>
           <div className={classes.text}>
-            <b>Tu as sélectionné et classé 5 familles d&lsquo;intérêts.</b>
+            <b>Tu as sélectionné et classé les familles d&lsquo;intérêts.</b>
           </div>
           <div className={classes.text}>En fonction de tes expériences et de tes centres d&lsquo;intérêt, nous</div>
           <div className={classes.text}>allons maintenant te proposer des métiers qui peuvent te plaire.</div>

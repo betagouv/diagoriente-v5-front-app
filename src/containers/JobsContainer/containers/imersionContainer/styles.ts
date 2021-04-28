@@ -7,10 +7,10 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
   },
   content: {
-    maxWidth: '1080px',
+    // maxWidth: '1080px',
     width: '100%',
     marginTop: 30,
-    padding: 4,
+    padding: '4px 10%',
   },
   titleContainer: {
     display: 'flex',
@@ -85,7 +85,7 @@ export default makeStyles<Theme>((theme) => ({
   },
   boxSearch: {
     width: 286,
-    height: 207,
+    height: 'auto',
     borderRadius: 10,
     backgroundColor: '#ffe9c3',
     display: 'flex',
@@ -116,6 +116,9 @@ export default makeStyles<Theme>((theme) => ({
   results: {
     flex: 1,
     paddingLeft: 30,
+  },
+  loadingContainer: {
+    paddingBottom: 300,
   },
   resultTitle: {
     color: theme.palette.success.main,
@@ -202,6 +205,23 @@ export default makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     marginBottom: 40,
   },
+  orangeText: {
+    color: '#FFA600',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  blueText: {
+    color: '#4D6EC5',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
+  grayText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: '26px',
+  },
 
   okButton: {
     display: 'flex',
@@ -210,5 +230,22 @@ export default makeStyles<Theme>((theme) => ({
   },
   okText: {
     marginRight: 10,
+  },
+  loadinContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  descriptionAide: {
+    height: 60,
+  },
+  mapFormation: {
+    height: '491px !important',
+    marginTop: 20,
+  },
+  wrapperSwitchMap: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 }));

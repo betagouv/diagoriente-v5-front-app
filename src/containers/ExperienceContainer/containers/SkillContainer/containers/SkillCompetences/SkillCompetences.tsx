@@ -31,18 +31,24 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   isCreate?: boolean;
 }
 
-const ExperienceCompetence = ({
- match, competences, setCompetences, theme, history, isCreate, location,
-}: Props) => {
+const ExperienceCompetence = ({ match, competences, setCompetences, theme, history, isCreate, location }: Props) => {
   const classes = useStyles();
+  const favComp = [
+    'Mobiliser son engagement dans les principes de l’intérêt général',
+    'Valoriser l’expérience de service civique dans son parcours',
+    'Construire son parcours',
+  ];
+
   const { data, loading } = useCompetences({ variables: theme?.type === 'engagement' ? { type: 'engagement' } : {} });
   const [open, setOpen] = React.useState(false);
+  const [text, setText] = React.useState('');
   const { redirect } = decodeUri(location.search);
 
   const addCompetence = (competence: Competence) => {
     if (competences.length < 4) {
       setCompetences([...competences, competence]);
-    } else {
+    } else if (competences.length === 4) {
+      setText('Tu as déjà choisi 4 compétences');
       setOpen(true);
     }
   };
@@ -53,13 +59,29 @@ const ExperienceCompetence = ({
   const handleClose = () => {
     setOpen(false);
   };
+  const isExist = (comp: string) => {
+    const res = favComp.includes(comp);
+    return res;
+  };
+  const onclickBtn = () => {
+    if (competences.length === 0) {
+      setText('Tu as déjà choisi 4 compétences');
+      setOpen(true);
+    }
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.header}>
           <Title
             title={
-              theme && theme.type === 'engagement' ? 'MES EXPERIENCES D’ENGAGEMENT' : 'MES EXPERIENCES PERSONNELLES'
+              theme && theme.type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : theme && theme.type === 'professional'
+                ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
             size={26}
@@ -67,7 +89,7 @@ const ExperienceCompetence = ({
           <RestLogo
             onClick={() => {
               let path = '/experience';
-              if (!isCreate) path = `/profil/experience?type=${theme && theme.type}`;
+              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
               else if (redirect) path = redirect;
               history.replace(path);
             }}
@@ -96,7 +118,6 @@ const ExperienceCompetence = ({
             {data?.competences.data.map((comp, index) => {
               const selected = competences.find((e) => e.id === comp.id);
               const tooltip = theme?.tooltips.find((e) => e.competenceId === comp.id);
-
               return (
                 <Grid key={comp.id} item xs={12} md={6}>
                   <Tooltip
@@ -107,7 +128,11 @@ const ExperienceCompetence = ({
                   >
                     <Button
                       childrenClassName={classes.margin}
-                      className={classNames(classes.competences, selected && classes.selectedCompetence)}
+                      className={classNames(
+                        classes.competences,
+                        selected && classes.selectedCompetence,
+                        isExist(comp.title) && classes.FavCompetence,
+                      )}
                       onClick={() => (!selected ? addCompetence(comp as any) : deleteCompetence(comp.id))}
                     >
                       {comp.title}
@@ -135,11 +160,7 @@ const ExperienceCompetence = ({
       </div>
       <Popup open={open} handleClose={handleClose} iconClassName={classes.iconClassName}>
         <div className={classes.popupContainer}>
-          <p className={classes.popupDescription}>
-            Tu dois choisir au minimum une compétence !
-            <br />
-            /Tu as déjà choisi 4 compétences
-          </p>
+          <p className={classes.popupDescription}>{text}</p>
           <Button className={classes.incluse} onClick={handleClose}>
             compris
           </Button>

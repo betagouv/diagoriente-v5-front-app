@@ -1,12 +1,11 @@
-import React, {
- useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useWillUnmount } from 'hooks/useLifeCycle';
 import SelectionContext from 'contexts/SelectionContext';
 import { matchPath, useLocation } from 'react-router-dom';
 import { Theme } from 'requests/types';
 import Avatar from 'components/common/Avatar/Avatar';
 import Button from 'components/button/Button';
+import userContext from 'contexts/UserContext';
 
 import arrow from 'assets/svg/arrw.svg';
 import classNames from 'utils/classNames';
@@ -19,48 +18,24 @@ interface Props {
 }
 
 const PrivateHeader = ({ theme, activities }: Props) => {
-  const classes = useStyles({ theme });
+  const { user } = useContext(userContext);
+  const { open, setOpen } = useContext(SelectionContext);
+
+  const classes = useStyles({ theme, isCampus: user?.isCampus });
   const location = useLocation();
   const isTheme = Boolean(matchPath(location.pathname, { path: '/experience/theme', exact: true }));
   const isAct = Boolean(matchPath(location.pathname, { path: '/experience/skill/:id/activities', exact: true }));
   const [isFirstTheme, setIsFirstTheme] = useState(false);
-  const [isFirst, setIsFirst] = useState(false);
-  const actRef = useRef(activities.length);
   const [EffectState, setEffectState] = useState(false);
-  const { open, setOpen } = useContext(SelectionContext);
   const toggle = () => {
     setOpen(!open);
   };
-
   useEffect(() => {
     if (theme && isTheme && !isFirstTheme) {
       setOpen(true);
       setIsFirstTheme(true);
     }
-    /*  if (isTheme && isFirstTheme) {
-      setOpen(false);
-    } */
   }, [theme, isTheme, isFirstTheme, setOpen]);
-
-  /* useEffect(() => {
-    if (!theme && isTheme) {
-      console.log('here 2')
-      setOpen(SelectionContext);
-    }
-  }, [theme, isTheme, setOpen]); */
-
-  useEffect(() => {
-    if (isAct && activities.length === 0) setOpen(false);
-    if (!isFirst && activities.length === 1) {
-      // eslint-disable-next-line
-      setIsFirst(true);
-      setOpen(true);
-    }
-  }, [activities, setOpen, isAct, isFirst]);
-
-  useEffect(() => {
-    if (activities.length !== actRef.current) setEffectState(true);
-  }, [activities.length]);
 
   useEffect(() => {
     if (EffectState) {
@@ -69,9 +44,6 @@ const PrivateHeader = ({ theme, activities }: Props) => {
       }, 500);
     }
   }, [EffectState]);
-  useWillUnmount(() => {
-    setOpen(false);
-  });
   return (
     <div className={classes.appBar}>
       <div onClick={toggle} className={classes.container}>
@@ -117,7 +89,7 @@ const PrivateHeader = ({ theme, activities }: Props) => {
             ) : (
               <div className={classes.emptyChildren}>
                 Tu n’as pas encore choisi
-                <span className={classes.boldText}>d’expérience pro/perso</span>
+                <span className={classes.boldText}> d’expérience pro/perso</span>
               </div>
             )}
             {activities.length ? (

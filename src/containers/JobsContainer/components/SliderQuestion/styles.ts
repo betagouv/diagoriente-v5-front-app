@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     outline: 0,
   },
   content: {
-    height: 250,
+    height: 275,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -18,11 +18,12 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
     width: 344,
-    height: 145,
+    height: 148,
   },
   btnContainer: {
     display: 'flex',
-    paddingTop: 25,
+    paddingTop: 20,
+    paddingBottom: 25,
   },
   btnTrue: {
     backgroundColor: '#4d6dc6',

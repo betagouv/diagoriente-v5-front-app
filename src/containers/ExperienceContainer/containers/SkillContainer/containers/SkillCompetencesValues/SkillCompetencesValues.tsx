@@ -10,7 +10,7 @@ import { echelon, echelonValue } from 'utils/generic';
 import TitleImage from 'components/common/TitleImage/TitleImage';
 import Title from 'components/common/Title/Title';
 import RestLogo from 'components/common/Rest/Rest';
-import Button from 'components/nextButton/nextButton';
+import NextButton from 'components/nextButton/nextButton';
 import CancelButton from 'components/cancelButton/CancelButton';
 import Avatar from 'components/common/AvatarTheme/AvatarTheme';
 
@@ -27,8 +27,6 @@ interface Props extends RouteComponentProps<{ themeId: string }> {
   competencesValues: CompetenceValues[];
   setCompetencesValues: (CompetencesValues: CompetenceValues[]) => void;
   competences: Competence[];
-  addSkill: () => void;
-  addSkillState: boolean;
   theme: Theme | null;
   isCreate?: boolean;
   activities: string[];
@@ -39,8 +37,6 @@ const SkillCompetencesValues = ({
   competencesValues,
   setCompetencesValues,
   competences,
-  addSkill,
-  addSkillState,
   history,
   theme,
   isCreate,
@@ -85,6 +81,10 @@ const SkillCompetencesValues = ({
             title={
               theme && theme.type === 'professional'
                 ? 'MES EXPERIENCES PROFESSIONNELLES'
+                : theme && theme.type === 'sport'
+                ? 'MES EXPERIENCES SPORTIVES'
+                : theme && theme.type === 'engagement'
+                ? 'MES EXPERIENCES D’ENGAGEMENT'
                 : 'MES EXPERIENCES PERSONNELLES'
             }
             color="#223A7A"
@@ -93,7 +93,7 @@ const SkillCompetencesValues = ({
           <RestLogo
             onClick={() => {
               let path = '/experience';
-              if (!isCreate) path = `/profil/experience?type=${theme && theme.type}`;
+              if (!isCreate) path = `/profile/experience?type=${theme && theme.type}`;
               else if (redirect) path = redirect;
               history.replace(path);
             }}
@@ -103,7 +103,7 @@ const SkillCompetencesValues = ({
         </div>
         <div className={classes.themeContainer}>
           <TitleImage title="4." image={blueline} color="#223A7A" width={180} />
-          <p className={classes.title}>Pour chacune de ces compétences que tu as choisies, comment te sens-tu ?</p>
+          <p className={classes.title}>En rapport avec les compétences que tu as choisies, comment te sens-tu ?</p>
 
           <div className={classes.echelonBackground}>
             <Avatar
@@ -117,7 +117,7 @@ const SkillCompetencesValues = ({
             </Avatar>
             <div className={classes.dataOptions}>
               {activities.slice(0, 4).map((activity) => (
-                <div>{activity}</div>
+                <div key={activity}>{activity}</div>
               ))}
             </div>
           </div>
@@ -156,7 +156,7 @@ const SkillCompetencesValues = ({
                       {echelonValue.map((value, index) => (
                         <Tooltip
                           key={value}
-                          title={(
+                          title={
                             <Child className={classes.tooltipContainer}>
                               <strong>{echelon[index]}</strong>
 
@@ -173,7 +173,7 @@ const SkillCompetencesValues = ({
                               <strong>{competence.niveau[index].title}</strong>
                               {competence.niveau[index].sub_title}
                             </Child>
-                          )}
+                          }
                           arrow
                           placement="right"
                         >
@@ -200,11 +200,14 @@ const SkillCompetencesValues = ({
               })}
             </div>
           </div>
-          <Button
-            fetching={addSkillState}
-            disabled={!(competencesValues.length === competences.length)}
-            onClick={addSkill}
-          />
+          <Link
+            to={`/experience/skill/${match.params.themeId}${theme?.type !== 'engagement' ? '/SkillDate' : '/context'}${
+              location.search
+            }`}
+            className={classes.hideLine}
+          >
+            <NextButton disabled={!competences.length || competences.length > 4} />
+          </Link>
         </div>
 
         <Link

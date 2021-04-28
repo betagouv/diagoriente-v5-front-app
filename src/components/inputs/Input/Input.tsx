@@ -15,12 +15,16 @@ interface IProps extends Omit<OutlinedTextFieldProps, 'variant'> {
   errorText?: string | boolean;
   subTitle?: string;
   errorForm?: string;
+  type?: string;
   showPassword?: () => void;
   className?: string;
   inputClassName?: string;
   inputBaseClassName?: string;
   withOutIcons?: boolean;
   icon?: any;
+  isfull?: boolean;
+  step?: number;
+  min?: number;
 }
 
 const Input = ({
@@ -38,15 +42,19 @@ const Input = ({
   icon,
   inputClassName,
   inputBaseClassName,
+  type,
+  isfull,
+  step,
+  min,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm) });
+  const classes = useStyles({ error: !!(errorText || errorForm), isfull, required });
 
   return (
     <div className={classNames(classes.root, className)}>
       <Grid container spacing={0}>
         {label && (
-          <Grid item xs={12} sm={4} md={5} lg={5}>
+          <Grid item xs={12} sm={isfull ? 12 : 4} md={isfull ? 12 : 5} lg={isfull ? 12 : 5}>
             <div className={classes.labelContainer}>
               <div className={classes.label}>
                 {label}
@@ -61,13 +69,16 @@ const Input = ({
             </div>
           </Grid>
         )}
-        <Grid item xs={12} sm={8} md={7} lg={7}>
+        <Grid item xs={12} sm={isfull ? 12 : 8} md={isfull ? 12 : 7} lg={isfull ? 12 : 7}>
           <div className={classes.wrapperInput}>
             <TextField
               value={value}
               className={classes.inputRoot}
               name={name}
+              type={type}
               error={!!(errorText || errorForm)}
+              inputProps={{ step, min }}
+              // TODO: unused prop
               InputProps={{
                 classes: {
                   inputAdornedStart: classes.adornedPositionStart,
@@ -91,10 +102,10 @@ const Input = ({
               {...rest}
               variant="outlined"
             />
-            {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-            {value && !errorText && !errorForm && !withOutIcons && (
+            {/* {(errorText || errorForm) && required && <img src={LogoRose} className={classes.logo} alt="check" />}
+            {value && !errorText && !errorForm && required && !withOutIcons && (
               <img src={LogoCheked} className={classes.logo} alt="check" />
-            )}
+            )} */}
           </div>
           {/* <div className={classes.errorCondition}>{errorForm}</div> */}
         </Grid>

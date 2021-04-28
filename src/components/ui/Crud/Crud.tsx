@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, Ref } from 'react';
 import { MutationTuple, QueryTuple, QueryOptions } from '@apollo/react-hooks';
 import { ApolloError } from 'apollo-boost';
 import { QueryResult } from '@apollo/react-common';
-import {
- Route, matchPath, RouteComponentProps, match as Match, Link, Switch,
-} from 'react-router-dom';
+import { Route, matchPath, RouteComponentProps, match as Match, Link, Switch } from 'react-router-dom';
 import path from 'path';
 import { decodeUri, encodeUri } from 'utils/url';
 import { graphQLResult } from 'utils/graphql';
@@ -20,12 +18,19 @@ import Popup from 'components/common/Popup/Popup';
 import KeyboardBack from '@material-ui/icons/KeyboardBackspace';
 
 import classNames from 'utils/classNames';
+import { isEmpty } from 'lodash';
+import useCaptureRef from 'hooks/useCaptureRef';
 import useStyle from './styles';
 
 export const PER_PAGE = 10;
 
 type MutationParams<T> = T extends MutationTuple<any, infer R> ? R : never;
 type LazyQueryReturnType<T> = T extends QueryTuple<infer R, any> ? R : never;
+
+export interface ApisRef<T extends { id: string }> {
+  data: T[];
+  list: QueryResult<any, any>;
+}
 
 interface Props<
   K extends string,
@@ -57,6 +62,7 @@ interface Props<
   headers: Header<T>[];
   title: string;
   formTitles: { create?: string; update?: string };
+  apisRef?: Ref<ApisRef<T> | null>;
 }
 
 const Crud = <
@@ -87,6 +93,7 @@ const Crud = <
   history,
   handleUri,
   formTitles,
+  apisRef,
 }: Props<K, T, L, C, U, G, P>) => {
   const classes = useStyle();
 
@@ -96,7 +103,10 @@ const Crud = <
   const uri = decodeUri(location.search);
 
   /* ----- Requests handlers ----- */
-  const list = useList({ variables: { perPage: PER_PAGE, ...(handleUri(uri) as any), page: Number(uri.page) || 1 } });
+  const list = useList({
+    variables: { perPage: PER_PAGE, ...(handleUri(uri) as any), page: Number(uri.page) || 1 },
+    fetchPolicy: 'network-only',
+  });
 
   // eslint-disable-next-line
   const [getCall, getState] = useGet ? useGet({ fetchPolicy: 'network-only' } as any) : getQueryPlaceholder();
@@ -105,18 +115,16 @@ const Crud = <
   const [deleteCall, deleteState] = remove || mutationPlaceholder();
   const [error, setError] = useState('');
 
-  const {
- data, page: currentPage, totalPages, count,
-} = useMemo(
+  const { data, page: currentPage, totalPages, count } = useMemo(
     () =>
-      (list.data
+      list.data
         ? graphQLResult(list.data)
         : {
             data: [] as T[],
             page: 1,
             totalPages: 0,
             count: 0,
-          }),
+          },
     [list.data],
   );
   const fetching = list.loading || createState.loading || updateState.loading || deleteState.loading;
@@ -144,6 +152,8 @@ const Crud = <
     };
   }
 
+  useCaptureRef({ data, list }, apisRef);
+
   let [improvedHeaders] = useActionsHeader(headers, data, options);
 
   if (!(update || remove)) {
@@ -168,7 +178,11 @@ const Crud = <
   useEffect(() => {
     if (updateState.data && !updateState.loading && !updateState.error) {
       list.refetch();
-      history.replace(match.url);
+      const { page, ...rest } = uri;
+      let search = '';
+      if (!isEmpty(rest)) search = encodeUri(rest);
+
+      history.replace({ pathname: match.url, search });
     }
     // eslint-disable-next-line
   }, [updateState.data, updateState.loading]);
@@ -281,11 +295,11 @@ const Crud = <
                     Êtes-vous sûr ?
                     <br />
                     Souhaitez-vous vraiment supprimer
-                    {' '}
+{' '}
                     {isDelete && isDelete.params.id.split(',').length > 1 ? 'ces documents' : 'ce document'}
-                    {' '}
-                    ?
-                    <br />
+{' '}
+?
+<br />
                     Ce processus est irréversible !
                   </p>
                   <Button

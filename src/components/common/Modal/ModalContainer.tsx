@@ -5,12 +5,13 @@ import useStyles from './styles';
 
 interface IProps extends ModalProps {
   open: boolean;
-  handleClose: () => void;
+  handleClose?: () => void;
   onReset?: () => void;
   children: React.ReactElement;
   backdropColor: string;
   colorIcon: string;
   size?: number;
+  height?: number;
   title?: string;
 }
 
@@ -21,13 +22,15 @@ const ModalContainer = ({
   colorIcon,
   children,
   size,
+  height,
   onReset,
   title,
   ...rest
 }: IProps) => {
-  const classes = useStyles({ backdropColor, size });
+  const classes = useStyles({ backdropColor, size, height });
   return (
     <Modal
+      style={{ zIndex: 1300 }}
       open={open}
       onClose={handleClose}
       disablePortal
@@ -38,10 +41,12 @@ const ModalContainer = ({
     >
       <div className={classes.modalContainer}>
         <div className={classes.modal}>
-          <div className={classes.header}>
-            {title}
-            <Reset className={classes.reset} color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
-          </div>
+          {handleClose && (
+            <div className={classes.header}>
+              {title}
+              <Reset className={classes.reset} color={colorIcon} label="Fermer" onClick={onReset || handleClose} />
+            </div>
+          )}
           <div className={classes.modalContainerBody}>{children}</div>
         </div>
       </div>

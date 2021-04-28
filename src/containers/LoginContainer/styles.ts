@@ -94,6 +94,9 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 40,
+    '&:hover': {
+      color: '#00CFFF',
+    },
   },
   errorCondition: {
     textAlign: 'center',
@@ -106,5 +109,11 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold',
     fontSize: 14,
     textDecoration: 'underline',
+    '&:hover': {
+      color: '#00CFFF',
+    },
+  },
+  input: {
+    width: 300,
   },
 }));

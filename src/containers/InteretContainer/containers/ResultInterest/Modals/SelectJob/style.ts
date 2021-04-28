@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles<Theme>((theme) => ({
   modalBody: {
-    overflow: 'scroll',
+    overflow: 'auto',
   },
   titleModal: {
     fontFamily: 'ocean',
@@ -12,12 +12,13 @@ export default makeStyles<Theme>((theme) => ({
     textTransform: 'uppercase',
   },
   descriptionModal: {
-    fontSize: 18,
+    fontSize: 14,
     textAlign: 'center',
     marginTop: 40,
   },
   subTitle: {
     fontSize: 14,
+    marginTop: 15,
   },
 
   experienceContainer: {
@@ -52,12 +53,26 @@ export default makeStyles<Theme>((theme) => ({
     justifyContent: 'space-evenly',
   },
   themeContainer: {
-    width: 100,
+    width: 'content-fit',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     margin: 10,
+    padding: 10,
+    cursor: 'pointer',
   },
+  themeContainerPro: {
+    border: '1px solid #00B2DB',
+    borderRadius: 30,
+  },
+  themeContainerProSelected: {
+    backgroundColor: '#00CFFF',
+  },
+  themeContainerPersoSelected: {
+    backgroundColor: 'rgba(122, 230, 255, 0.5)',
+    borderRadius: 10,
+  },
+
   themeTitle: {
     textAlign: 'center',
     fontSize: 14,
@@ -106,5 +121,11 @@ export default makeStyles<Theme>((theme) => ({
     color: '#FFFFFF',
     paddingTop: 5,
     cursor: 'pointer',
+  },
+  accessibility: {
+    paddingTop: 80,
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBottom: 150,
   },
 }));

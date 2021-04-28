@@ -11,7 +11,7 @@ export default makeStyles((theme: Theme) =>
       background: theme.palette.background.default,
       display: 'flex',
       justifyContent: 'center',
-      overflow: 'auto',
+      overflow: 'visible',
       [theme.breakpoints.down('md')]: {
         height: HEADER_SMALL_HEIGHT,
       },

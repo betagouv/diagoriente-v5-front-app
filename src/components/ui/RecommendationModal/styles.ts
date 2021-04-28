@@ -35,7 +35,11 @@ export default makeStyles((theme) => ({
     fontWeight: 900,
     color: '#FF0060',
   },
-
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+  },
   titleClassName: {
     whiteSpace: 'nowrap',
     fontSize: 14,
@@ -308,5 +312,31 @@ export default makeStyles((theme) => ({
   errorName: {
     color: theme.palette.error.main,
     opacity: '1',
+  },
+  marginText: {
+    marginLeft: '28%',
+  },
+  start: {
+    color: '#00CFFF',
+    fontWeight: 'bold',
+  },
+  required: {
+    fontSize: 14,
+    marginTop: 15,
+    textAlign: 'center',
+    paddingLeft: 20,
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: 20,
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: 15,
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: 0,
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 9,
+      width: '95%',
+    },
   },
 }));

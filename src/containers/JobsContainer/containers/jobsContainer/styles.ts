@@ -1,12 +1,17 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles<Theme>((theme) => ({
+export default makeStyles((theme) => ({
   root: {
     width: '100%',
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     paddingTop: 30,
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '1 1 auto',
   },
   content: {
     maxWidth: 1080,
@@ -18,7 +23,8 @@ export default makeStyles<Theme>((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    height: 92,
+    height: 'auto',
+    flexWrap: 'wrap',
     padding: 20,
   },
   titleContainer: {
@@ -65,14 +71,14 @@ export default makeStyles<Theme>((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 40,
-    minHeight: 550,
+    flex: '1 1 auto',
   },
   spinnerContainer: {
-    minHeight: 550,
     display: 'flex',
     justifyContent: 'center',
     marginTop: 30,
     width: '100%',
+    flex: '1 1 auto',
   },
   messages: {
     backgroundColor: '#fff1f6',
@@ -111,4 +117,30 @@ export default makeStyles<Theme>((theme) => ({
     color: '#D60051',
     textDecorationLine: 'underline',
   },
+  moreButton: {
+    backgroundColor: theme.palette.primary.main,
+    alignSelf: 'center',
+    margin: '50px 0',
+    '&:hover': {
+      backgroundColor: '#DB8F00',
+    },
+  },
+  textSelect: {
+    padding: '0px 10px',
+  },
+  footerContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  footerContent: {
+    maxWidth: '1080px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemFooter: { width: '33%' },
+  centerItem: { display: 'flex', justifyContent: 'center' },
+  rightItem: { display: 'flex', justifyContent: 'flex-end', alignItems: 'center' },
 }));

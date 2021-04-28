@@ -25,6 +25,7 @@ export const optionsQuery = gql`
             title
           }
         }
+        user
         verified
       }
     }
@@ -70,6 +71,7 @@ export const optionQuery = gql`
           title
         }
       }
+      user
       verified
     }
   }

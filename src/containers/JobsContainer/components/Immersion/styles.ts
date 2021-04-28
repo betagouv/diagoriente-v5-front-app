@@ -3,7 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   immersion: {
     width: 285,
-    height: 243,
+    height: 280,
     background: '#ffe9c3',
     borderRadius: 15,
     position: 'relative',
@@ -30,5 +30,8 @@ export default makeStyles<Theme>((theme) => ({
 
   autocompleteContainer: {
     margin: '10px 0px',
+  },
+  extraMargin: {
+    marginTop: 25,
   },
 }));

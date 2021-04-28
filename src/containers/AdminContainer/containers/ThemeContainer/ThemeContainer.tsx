@@ -2,9 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Header } from 'components/ui/Table/Table';
-import {
- useThemes, useLazyTheme, useAddTheme, useDeleteTheme, useUpdateTheme,
-} from 'requests/themes';
+import { useThemes, useLazyTheme, useAddTheme, useDeleteTheme, useUpdateTheme } from 'requests/themes';
 import { Theme } from 'requests/types';
 
 import { formatType } from 'utils/generic';

@@ -3,10 +3,11 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export default makeStyles<Theme>((theme) => ({
   container: {
     width: '100%',
-    height: '100%',
+    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: 31,
     paddingBottom: 20,
     backgroundColor: '#f3f2f4',

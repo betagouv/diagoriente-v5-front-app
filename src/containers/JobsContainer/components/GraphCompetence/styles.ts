@@ -1,10 +1,10 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Yellowarrow from 'assets/svg/fleche_jaune-claire.svg';
 import darkYellowrrow from 'assets/svg/fleche_jaune.svg';
-import bluearrow from 'assets/svg/bluearrow.svg';
+import yellowArrowPng from 'assets/images/fleche_yellow.png';
 import darkbluearrow from 'assets/svg/darkbluearrow.svg';
+import blueArrowPng from 'assets/images/fleche_bleue.png';
 
-export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
+export default makeStyles<Theme, { select: string }>(() => ({
   root: {
     border: '1px solid #C9C9C7',
     boxSizing: 'border-box',
@@ -106,7 +106,7 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
   arrowEchelon: {
     position: 'relative',
     display: 'flex',
-    backgroundImage: `url(${Yellowarrow})`,
+    backgroundImage: `url(${yellowArrowPng})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     alignItems: 'center',
@@ -132,7 +132,7 @@ export default makeStyles<Theme, { select: string }>((theme: Theme) => ({
   arrowEchelonBlue: {
     position: 'relative',
     display: 'flex',
-    backgroundImage: `url(${bluearrow})`,
+    backgroundImage: `url(${blueArrowPng})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     alignItems: 'center',

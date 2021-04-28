@@ -7,14 +7,22 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import medaille from 'assets/svg/picto_medaille.svg';
+import moment from 'moment';
 import Comment from '../Comment/Comment';
-
 import useStyles from './styles';
+import 'moment/locale/fr';
 
 interface CardSkill extends SkillType {}
+moment.locale('fr');
 
 const CardSkill = ({
- comment: allComments, theme, activities, engagement,
+  comment: allComments,
+  theme,
+  activities,
+  engagement,
+  startDate,
+  endDate,
+  extraActivity,
 }: CardSkill) => {
   const comment = allComments.filter((c) => c.status === 'accepted');
   const classes = useStyles({ recommended: comment.length !== 0 });
@@ -31,6 +39,10 @@ const CardSkill = ({
         <div className={classes.skillHeader}>
           <div className={classes.themeTitle}>
             {theme.title}
+            <span className={classes.date}>
+              {startDate && `${moment(startDate).format('MMMM - YYYY')}`}
+              {endDate && ` / ${moment(endDate).format('MMMM - YYYY')}`}
+            </span>
             {comment.length ? <img className={classes.commentIcon} src={medaille} alt="" /> : null}
           </div>
         </div>
@@ -46,7 +58,10 @@ const CardSkill = ({
               )}
             </li>
           ))}
-          {theme.type === 'engagement' && <div className={classes.activity}>{engagement?.activity}</div>}
+          {extraActivity ? <li className={classes.activity}>{extraActivity}</li> : null}
+          {theme.type === 'engagement' && engagement?.activity && (
+            <div className={classes.activity}>{engagement?.activity}</div>
+          )}
         </ul>
       </Grid>
     </Tooltip>

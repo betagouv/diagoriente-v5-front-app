@@ -24,6 +24,9 @@ interface IProps {
   errorForm?: string;
   containerClassName?: string;
   freeSolo: boolean;
+  isCampus?: boolean;
+  required?: boolean;
+  setCoordinates?: (e: any) => void;
 }
 
 const AutoComplete = ({
@@ -39,36 +42,39 @@ const AutoComplete = ({
   className,
   errorForm,
   containerClassName,
+  isCampus,
   onSelectText,
+  setCoordinates,
   freeSolo,
+  required,
 }: IProps) => {
-  const classes = useStyles({ error: !!(errorText || errorForm) });
-
+  const classes = useStyles({ isCampus, error: !!(errorText || errorForm) });
+  const Component = isCampus ? 'label' : 'div';
   return (
     <div className={classNames(classes.container, containerClassName)}>
       <Grid container spacing={0}>
         {label && (
           <Grid item xs={12} sm={4} md={5} lg={5}>
             <div className={classes.labelContainer}>
-              <div className={classes.label}>
+              <Component className={classes.label}>
                 {label}
-                <span className={classes.requiredInput}>*</span>
-              </div>
+                {!required && <span className={classes.requiredInput}>*</span>}
+              </Component>
             </div>
           </Grid>
         )}
         <Grid item xs={12} sm={8} md={7} lg={7}>
-          <div style={{ width: 229 }}>
+          <div style={{ width: isCampus ? 240 : 229 }}>
             <Autocomplete
-              freeSolo={freeSolo}
-              openOnFocus={false}
               disableClearable
-              options={options.map((option) => option.label)}
-              onChange={(event: any, v: string | null) => onSelectText(v)}
+              options={options.map((option) => ({ label: option.label, coordinates: option.coordinates }))}
+              onChange={(event: any, v: any) => {
+                if (setCoordinates) setCoordinates(v);
+                onSelectText(v.label);
+              }}
               fullWidth={false}
               className={className}
               autoComplete={false}
-              value={value}
               classes={{ inputRoot: classes.inputRoot }}
               closeIcon={<div />}
               renderInput={(params) => (
@@ -94,8 +100,10 @@ const AutoComplete = ({
                       autoComplete: 'off',
                     }}
                   />
-                  {(errorText || errorForm) && <img src={LogoRose} className={classes.logo} alt="check" />}
-                  {value && !errorText && !errorForm && <img src={LogoCheked} className={classes.logo} alt="check" />}
+                  {(errorText || errorForm) && !isCampus && <img src={LogoRose} className={classes.logo} alt="check" />}
+                  {value && !errorText && !errorForm && !isCampus && (
+                    <img src={LogoCheked} className={classes.logo} alt="check" />
+                  )}
                 </div>
               )}
             />
